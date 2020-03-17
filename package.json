@@ -21,6 +21,7 @@
     "@angular/router": "~8.0.3",
     "@coreui/angular": "^2.9.1",
     "@coreui/coreui": "^3.0.0",
+    "ngx-perfect-scrollbar": "^9.0.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"

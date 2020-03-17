@@ -17,7 +17,6 @@ import {AuthModule} from './auth/auth.module';
     BrowserModule,
     // import HttpClientModule after BrowserModule.
     HttpClientModule,
-
     AppRoutingModule,
     AuthModule,
     MantenimientoModule
