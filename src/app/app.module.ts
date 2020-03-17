@@ -8,6 +8,7 @@ import {MantenimientoModule} from './mantenimiento/mantenimiento.module';
 import {HttpClientModule} from '@angular/common/http';
 import {AuthModule} from './auth/auth.module';
 
+
 @NgModule({
   declarations: [
     AppComponent
@@ -16,6 +17,7 @@ import {AuthModule} from './auth/auth.module';
     BrowserModule,
     // import HttpClientModule after BrowserModule.
     HttpClientModule,
+
     AppRoutingModule,
     AuthModule,
     MantenimientoModule

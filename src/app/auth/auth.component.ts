@@ -6,6 +6,9 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
+  username: any;
+  sidebarMinimized: any;
+  navItems: any;
 
   constructor() {
   }
@@ -13,4 +16,7 @@ export class AuthComponent implements OnInit {
   ngOnInit() {
   }
 
+  logout() {
+
+  }
 }
