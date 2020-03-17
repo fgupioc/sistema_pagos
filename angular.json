@@ -24,9 +24,19 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/@coreui/icons/css/coreui-icons.css",
+              "node_modules/flag-icon-css/css/flag-icon.css",
+              "node_modules/font-awesome/css/font-awesome.css",
+              "node_modules/simple-line-icons/css/simple-line-icons.css",
+              "src/scss/style.scss"
             ],
-            "scripts": []
+            "stylePreprocessorOptions": {
+              "includePaths": ["./node_modules"]
+            },
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -115,6 +125,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "icollect"
 }

@@ -4,13 +4,18 @@ import {UsuarioComponent} from './mantenimiento/usuario/usuario.component';
 import {AuthComponent} from './auth/auth.component';
 
 const routes: Routes = [
-  {path: 'auth', component: AuthComponent},
   {
-    path: 'mantenimiento',
+    path: 'auth', component: AuthComponent,
     children: [
-      {path: 'usuario', component: UsuarioComponent},
+      {
+        path: 'mantenimiento',
+        children: [
+          {path: 'usuario', component: UsuarioComponent},
+        ]
+      }
     ]
-  }
+  },
+
 ];
 
 @NgModule({

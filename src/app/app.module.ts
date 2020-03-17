@@ -7,6 +7,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {MantenimientoModule} from './mantenimiento/mantenimiento.module';
 import {HttpClientModule} from '@angular/common/http';
 import {AuthModule} from './auth/auth.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import {AuthModule} from './auth/auth.module';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     // import HttpClientModule after BrowserModule.
     HttpClientModule,
     AppRoutingModule,

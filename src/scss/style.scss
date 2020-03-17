@@ -1,0 +1,89 @@
+// If you want to override variables do it here
+// Import styles
+@import "~@coreui/coreui/scss/coreui";
+// If you want to add something do it here
+
+
+@font-face {
+  font-family: "abacashFont";
+  src: url(../assets/fuente-abacash/WorkSans-Regular.ttf) format("truetype");
+}
+
+body {
+  font-family: "abacashFont", Arial, serif;
+}
+
+.mr-5px {
+  margin-right: 5px;
+}
+
+.mb-5px {
+  margin-bottom: 5px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.loading{
+  color: white;
+  padding-top: 50px;
+}
+
+.d-flex {
+  display: -ms-flexbox !important;
+  display: flex !important;
+}
+
+.justify-content-end {
+  -ms-flex-pack: end !important;
+  justify-content: flex-end !important;
+}
+
+.font-size-10 {
+  font-size: 10px;
+}
+
+.font-size-11 {
+  font-size: 11px;
+}
+
+.font-size-12 {
+  font-size: 12px;
+}
+
+.font-size-13 {
+  font-size: 13px;
+}
+
+.font-size-14 {
+  font-size: 14px;
+}
+
+.font-size-15 {
+  font-size: 15px;
+}
+
+.font-size-16 {
+  font-size: 16px;
+}
+
+.font-size-17 {
+  font-size: 17px;
+}
+
+.font-size-18 {
+  font-size: 18px;
+}
+
+.font-size-19 {
+  font-size: 19px;
+}
+
+.font-size-20 {
+  font-size: 20px;
+}
+
+table.dataTable tbody td {
+  vertical-align:middle;
+}
