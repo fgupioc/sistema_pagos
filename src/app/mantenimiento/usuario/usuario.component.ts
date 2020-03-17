@@ -12,7 +12,6 @@ export class UsuarioComponent implements OnInit {
   }
 
   ngOnInit() {
-    alert();
     this.encuentraTodos();
   }
 

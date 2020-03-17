@@ -4,6 +4,7 @@ import {AuthComponent} from './auth.component';
 import {AppBreadcrumbModule, AppFooterModule, AppHeaderModule, AppSidebarModule} from '@coreui/angular';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {BsDropdownModule, TabsModule} from 'ngx-bootstrap';
+import {AppRoutingModule} from '../app-routing.module';
 
 @NgModule({
   declarations: [AuthComponent],
@@ -16,6 +17,7 @@ import {BsDropdownModule, TabsModule} from 'ngx-bootstrap';
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
+    AppRoutingModule,
   ]
 })
 export class AuthModule {
