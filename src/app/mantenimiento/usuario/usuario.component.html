@@ -10,7 +10,36 @@
         </button>
       </div>
       <div class="card-body">
+        <table class="table table-responsive-sm table-bordered table-striped table-sm">
+          <thead>
+          <tr class="text-center">
+            <th>#</th>
+            <th>N° Doc.</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>T. Usuario</th>
+            <th>Estado</th>
+            <th>Opciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let usuario of usuarios; index as i; ">
+            <td class="text-center">{{ i + 1 }}</td>
 
+            <td class="text-center">
+              {{ usuario.usuario}}
+            </td>
+
+            <td class="text-center">
+              <button (click)="modalUserEdit(usuario.id)" class="btn btn-brand btn-sm btn-primary mr-5px" type="button"
+                      style="margin-bottom: 4px"
+                      placement="bottom" ngbTooltip="Editar Usario">
+                <i class="fa fa-pencil"></i>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
