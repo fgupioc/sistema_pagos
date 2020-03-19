@@ -64,7 +64,6 @@ export class UsuarioEditarComponent implements OnInit {
   }
 
   saveUsuario() {
-
     const usuario = {
       id: this.usuarioId,
       usuario: this.formGroup.get('usuario').value,
@@ -77,13 +76,12 @@ export class UsuarioEditarComponent implements OnInit {
     const usuarioActualizar = {
       usuario,
     };
-
+    this.spinner.show();
     this.usuarioService.actualizar(usuarioActualizar).subscribe(
       respuesta => {
-
         if (respuesta.exito) {
           this.toastr.success(respuesta.mensaje, '');
-          // this.successFulSaveUsuario(responseStatus);
+          this.activeModal.close(true);
         } else {
           Swal.fire('', respuesta.mensaje, 'error');
         }

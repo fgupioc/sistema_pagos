@@ -38,6 +38,9 @@ export class UsuarioComponent implements OnInit {
   }
 
   modalClose(response) {
+    if (response) {
+      this.encuentraTodos();
+    }
     /*
     if (response !== undefined && response === Object(response)) {
       this.usuarios = [];
