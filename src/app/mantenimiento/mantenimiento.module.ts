@@ -8,6 +8,8 @@ import {ComunModule} from '../comun/comun.module';
 import {NgbModalModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {UsuarioEditarComponent} from './usuario/editar/editar.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {ToastrModule} from 'ngx-toastr';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [UsuarioComponent, UsuarioEditarComponent],
@@ -18,7 +20,10 @@ import {ReactiveFormsModule} from '@angular/forms';
     NgbModalModule,
     NgbNavModule,
     ReactiveFormsModule,
-    // MantenimientoRoutingModule
+
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot() // ToastrModule added
+
   ],
   entryComponents: [UsuarioEditarComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

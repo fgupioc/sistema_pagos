@@ -9,62 +9,94 @@
     <li ngbNavItem>
       <a ngbNavLink>General</a>
       <ng-template ngbNavContent>
-        <form [formGroup]="userForm" (ngSubmit)="saveUsuario()">
+        <form [formGroup]="formGroup" (ngSubmit)="saveUsuario()">
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="usuario">Uusario *</label>
-                <input Uppercase type="text" id="usuario" placeholder="Usario" class="form-control"
-                       formControlName="usuario"
+                <label for="usuario">Usario *</label>
+                <input type="text" id="usuario" placeholder="Usario" class="form-control" formControlName="usuario"
+                       autocomplete="off"
                        [ngClass]="
                     {
-                    'is-invalid': userForm.controls['usuario'].touched && userForm.controls['usuario'].errors,
-                    'is-valid': userForm.controls['usuario'].touched && !userForm.controls['usuario'].errors
+                    'is-invalid': formGroup.controls['usuario'].touched && formGroup.controls['usuario'].errors,
+                    'is-valid': formGroup.controls['usuario'].touched && !formGroup.controls['usuario'].errors
                      }">
                 <div class="invalid-feedback">
-                  <span *ngIf="userForm.get('usuario').hasError('required')"> Número de documento de identidad es obligatorio</span>
-                  <span *ngIf="userForm.get('usuario').hasError('minlength')"> {{messageDocIdInvalid}}</span>
-                  <span
-                    *ngIf="userForm.get('usuario').hasError('pattern')"> Ingrese caracteres alfanuméricos</span>
+                  <span *ngIf="formGroup.get('usuario').hasError('required')">Obligatorio</span>
                 </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="fechaInicio">Desde el *</label>
-                <input type="date" formControlName="fechaInicio" id="fechaInicio" class="form-control"
+                <label for="fechaInicioSesion">Desde el *</label>
+                <input type="date" formControlName="fechaInicioSesion" id="fechaInicioSesion" class="form-control"
                        [ngClass]="
                       {
-                      'is-invalid': userForm.controls['fechaInicio'].touched && userForm.controls['fechaInicio'].errors,
-                      'is-valid': userForm.controls['fechaInicio'].touched && !userForm.controls['fechaInicio'].errors
+                      'is-invalid': formGroup.controls['fechaInicioSesion'].touched && formGroup.controls['fechaInicioSesion'].errors,
+                      'is-valid': formGroup.controls['fechaInicioSesion'].touched && !formGroup.controls['fechaInicioSesion'].errors
                        }">
                 <div class="invalid-feedback">
-                  <span *ngIf="userForm.get('fechaInicio').hasError('required')"> El campo fecha de nacimiento es obligatorio.</span>
-                  <span *ngIf="userForm.get('fechaInicio').hasError('validarEdad')"> Su edad no cumple con lo requerido(18 - 75).</span>
+                  <span *ngIf="formGroup.get('fechaInicioSesion').hasError('required')">Obligatorio.</span>
                 </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="fechaFin">Hasta el *</label>
-                <input type="date" formControlName="fechaFin" id="fechaFin" class="form-control"
+                <label for="fechaFinSesion">Hasta el *</label>
+                <input type="date" formControlName="fechaFinSesion" id="fechaFinSesion" class="form-control"
                        [ngClass]="
                       {
-                      'is-invalid': userForm.controls['fechaFin'].touched && userForm.controls['fechaFin'].errors,
-                      'is-valid': userForm.controls['fechaFin'].touched && !userForm.controls['fechaFin'].errors
+                      'is-invalid': formGroup.controls['fechaFinSesion'].touched && formGroup.controls['fechaFinSesion'].errors,
+                      'is-valid': formGroup.controls['fechaFinSesion'].touched && !formGroup.controls['fechaFinSesion'].errors
                        }">
                 <div class="invalid-feedback">
-                  <span *ngIf="userForm.get('fechaFin').hasError('required')"> El campo fecha de nacimiento es obligatorio.</span>
-                  <span *ngIf="userForm.get('fechaFin').hasError('validarEdad')"> Su edad no cumple con lo requerido(18 - 75).</span>
+                  <span *ngIf="formGroup.get('fechaFinSesion').hasError('required')">Obligatorio.</span>
                 </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="tipoUsuario">Tipo de Usuario *</label>
-                <select id="tipoUsuario" class="form-control" formControlName="tipoUsuario">
-                  <option *ngFor="let tu of tiposUsuarios" [value]="tu.codigoItem">{{tu.descripcion}}</option>
+                <label for="codTipoUsuario">Tipo de Usuario *</label>
+                <select id="codTipoUsuario" class="form-control" formControlName="codTipoUsuario"
+                        [ngClass]="
+                      {
+                      'is-invalid': formGroup.controls['codTipoUsuario'].touched && formGroup.controls['codTipoUsuario'].errors,
+                      'is-valid': formGroup.controls['codTipoUsuario'].touched && !formGroup.controls['codTipoUsuario'].errors
+                       }"
+                >
+                  <option *ngFor="let tu of tiposUsuarios" [value]="tu.codItem">{{tu.descripcion}}</option>
                 </select>
+                <div class="invalid-feedback">
+                  <span *ngIf="formGroup.get('codTipoUsuario').hasError('required')">Obligatorio.</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="codEstado">Estado *</label>
+                <select id="codEstado" class="form-control" formControlName="codEstado"
+                        [ngClass]="
+                      {
+                      'is-invalid': formGroup.controls['codEstado'].touched && formGroup.controls['codEstado'].errors,
+                      'is-valid': formGroup.controls['codEstado'].touched && !formGroup.controls['codEstado'].errors
+                       }"
+                >
+                  <option *ngFor="let o of estados" [value]="o.codItem">{{o.descripcion}}</option>
+                </select>
+                <div class="invalid-feedback">
+                  <span *ngIf="formGroup.get('codEstado').hasError('required')">Obligatorio.</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>&nbsp;</label>
+                <div class="form-group form-check">
+                  <label>
+                    <input type="checkbox" name="check" formControlName="inicioCierre">
+                    Habilitado para cierre/inicio de día
+                  </label>
+                </div>
               </div>
             </div>
           </div>
@@ -84,6 +116,5 @@
 </div>
 <div class="modal-footer d-flex justify-content-center">
   <button type="button" class="btn btn-danger" (click)="activeModal.close()">Cancelar</button>
-  <button class="btn btn-primary" (click)="saveUsuario()" [disabled]="false">Aceptar</button>
+  <button class="btn btn-primary" (click)="saveUsuario()" [disabled]="formGroup.invalid">Aceptar</button>
 </div>
-<app-loading></app-loading>

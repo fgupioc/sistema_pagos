@@ -8,6 +8,10 @@ import {MantenimientoModule} from './mantenimiento/mantenimiento.module';
 import {HttpClientModule} from '@angular/common/http';
 import {AuthModule} from './auth/auth.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {registerLocaleData} from '@angular/common';
+import localePE from '@angular/common/locales/es-PE';
+
+registerLocaleData(localePE, 'es-PE');
 
 @NgModule({
   declarations: [

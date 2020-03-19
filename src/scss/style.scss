@@ -1,4 +1,5 @@
 // If you want to override variables do it here
+@import "variables";
 // Import styles
 @import "~@coreui/coreui/scss/coreui";
 // If you want to add something do it here
@@ -25,7 +26,7 @@ body {
   cursor: pointer;
 }
 
-.loading{
+.loading {
   color: white;
   padding-top: 50px;
 }
@@ -85,5 +86,5 @@ body {
 }
 
 table.dataTable tbody td {
-  vertical-align:middle;
+  vertical-align: middle;
 }
