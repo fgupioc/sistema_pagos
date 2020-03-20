@@ -15,7 +15,11 @@ export class MenuService {
     this.apiUrl = `${environment.serverUrl}menu/`;
   }
 
-  encuentraTodosArbol(usuarioId: number): Observable<any[]> {
+  encuentraTodosArbol(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}encuentraTodosArbol`);
+  }
+
+  encuentraTodosArbolPorUsuario(usuarioId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}encuentraTodosArbol/${usuarioId}`);
   }
 }

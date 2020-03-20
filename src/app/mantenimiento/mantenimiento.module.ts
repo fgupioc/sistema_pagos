@@ -1,7 +1,6 @@
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-// import {MantenimientoRoutingModule} from './mantenimiento-routing.module';
 import {UsuarioComponent} from './usuario/usuario.component';
 import {UsuarioService} from '../servicios/sistema/usuario.service';
 import {ComunModule} from '../comun/comun.module';
@@ -11,9 +10,10 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TreeviewModule} from 'ngx-treeview';
+import {UsuarioCrearComponent} from './usuario/crear/crear.component';
 
 @NgModule({
-  declarations: [UsuarioComponent, UsuarioEditarComponent],
+  declarations: [UsuarioComponent, UsuarioEditarComponent, UsuarioCrearComponent],
   imports: [
     CommonModule,
     ComunModule,
@@ -27,7 +27,7 @@ import {TreeviewModule} from 'ngx-treeview';
 
     TreeviewModule.forRoot()
   ],
-  entryComponents: [UsuarioEditarComponent],
+  entryComponents: [UsuarioCrearComponent, UsuarioEditarComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     UsuarioService

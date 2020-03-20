@@ -3,14 +3,14 @@
     <div class="card">
       <div class="card-header">
         <i class="fa fa-align-justify"></i>
-        <span class="card-title text-uppercase font-weight-bold">Editar Usuario </span>
+        <span class="card-title text-uppercase font-weight-bold">Crear Usuario </span>
       </div>
       <div class="card-body">
         <ul ngbNav #nav="ngbNav" class="nav-tabs">
           <li ngbNavItem>
             <a ngbNavLink>General</a>
             <ng-template ngbNavContent>
-              <form [formGroup]="formGroup" (ngSubmit)="actualizarUsuario()">
+              <form [formGroup]="formGroup" (ngSubmit)="crearUsuario()">
                 <label><strong>DATOS DE ACCESO</strong></label>
                 <div class="row">
                   <div class="col-md-4">
@@ -18,11 +18,10 @@
                       <label for="usuario">Usario *</label>
                       <input type="text" id="usuario" placeholder="Usario" class="form-control"
                              formControlName="usuario" autocomplete="off" maxlength="20"
-                             [ngClass]="
-                      {
-                      'is-invalid': formGroup.controls['usuario'].touched && formGroup.controls['usuario'].errors,
-                      'is-valid': formGroup.controls['usuario'].touched && !formGroup.controls['usuario'].errors && !formGroup.controls['usuario'].pending,
-                      'is-warning': formGroup.controls['usuario'].pending
+                             [ngClass]="{
+                    'is-invalid': formGroup.controls['usuario'].touched && formGroup.controls['usuario'].errors,
+                    'is-valid': formGroup.controls['usuario'].touched && !formGroup.controls['usuario'].errors && !formGroup.controls['usuario'].pending,
+                    'is-warning': formGroup.controls['usuario'].pending
                      }">
                       <small *ngIf="formGroup.get('usuario').pending" class="form-text color-is-warning">Buscando
                         usuario...</small>
@@ -134,12 +133,11 @@
         <div [ngbNavOutlet]="nav"></div>
       </div>
       <div class="card-footer">
-        <button type="button" class="btn btn-primary mr-5px" (click)="regresar()">
-          <i class="fa fa-hand-o-left"></i> Regresar
+        <button type="button" class="btn btn-primary mr-5px" (click)="regresar()"><i class="fa fa-hand-o-left"></i>
+          Regresar
         </button>
-        <button class="btn btn-instagram" (click)="actualizarUsuario()"
-                [disabled]="formGroup.invalid || formGroup.pending">
-          <i class="fa fa-save"></i> Actualizar
+        <button class="btn btn-instagram" (click)="crearUsuario()" [disabled]="formGroup.invalid || formGroup.pending">
+          <i class="fa fa-save"></i> Guardar
         </button>
       </div>
     </div>

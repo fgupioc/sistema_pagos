@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UsuarioService} from '../../servicios/sistema/usuario.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {UsuarioEditarComponent} from './editar/editar.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-usuario',
@@ -12,7 +12,8 @@ import {UsuarioEditarComponent} from './editar/editar.component';
 export class UsuarioComponent implements OnInit {
   usuarios: any[] = [];
 
-  constructor(private usuarioService: UsuarioService, private spinner: NgxSpinnerService, private modalService: NgbModal,) {
+  constructor(private usuarioService: UsuarioService, private spinner: NgxSpinnerService, private modalService: NgbModal,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -28,18 +29,13 @@ export class UsuarioComponent implements OnInit {
       });
   }
 
-  modalUserEdit(usuarioId: number) {
-    const modal = this.modalService.open(UsuarioEditarComponent, {centered: true});
-    modal.result.then(
-      this.modalClose.bind(this),
-      this.modalClose.bind(this)
-    );
-    modal.componentInstance.usuarioId = usuarioId;
+  crear() {
+    this.router.navigate(['/auth/mantenimiento/usuario/crear']);
   }
 
-  modalClose(response) {
-    if (response) {
-      this.encuentraTodos();
-    }
+  editar(usuarioId: number) {
+    this.router.navigate(['/auth/mantenimiento/usuario/editar', usuarioId]);
   }
+
+
 }

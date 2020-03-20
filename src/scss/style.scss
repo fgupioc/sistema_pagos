@@ -88,3 +88,16 @@ body {
 table.dataTable tbody td {
   vertical-align: middle;
 }
+
+.form-control.is-warning {
+  border-color: #ffc107;
+}
+
+.form-control.is-warning:focus {
+  border-color: #ffc107;
+  box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.25);
+}
+
+.color-is-warning {
+  color: #ffc107;
+}
