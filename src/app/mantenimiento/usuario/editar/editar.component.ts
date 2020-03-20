@@ -7,11 +7,17 @@ import {UsuarioService} from '../../../servicios/sistema/usuario.service';
 import {DatePipe} from '@angular/common';
 import {ToastrService} from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import {TreeviewConfig, TreeviewI18n, TreeviewItem} from 'ngx-treeview';
+import {MenuService} from '../../../servicios/sistema/menu.service';
+import {DefaultTreeviewI18n} from '../../../../lib/default-treeview-i18n';
 
 @Component({
   selector: 'app-usuario-editar',
   templateUrl: './editar.component.html',
-  styleUrls: ['./editar.component.css']
+  styleUrls: ['./editar.component.css'],
+  providers: [
+    {provide: TreeviewI18n, useClass: DefaultTreeviewI18n}
+  ]
 })
 export class UsuarioEditarComponent implements OnInit {
   usuarioId = 0;
@@ -20,8 +26,20 @@ export class UsuarioEditarComponent implements OnInit {
   estados = [];
   datePipe = new DatePipe('es-PE');
 
-  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private usuarioService: UsuarioService,
-              private maestroService: MaestroService, private spinner: NgxSpinnerService, private toastr: ToastrService) {
+  loading = false;
+  items: TreeviewItem[];
+  valoresMenus: number[];
+  config = TreeviewConfig.create({
+    hasAllCheckBox: true,
+    hasFilter: true,
+    hasCollapseExpand: true,
+    decoupleChildFromParent: false,
+    maxHeight: 400
+  });
+
+  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private spinner: NgxSpinnerService,
+              private toastr: ToastrService,
+              private usuarioService: UsuarioService, private maestroService: MaestroService, private menuService: MenuService) {
   }
 
   ngOnInit() {
@@ -32,26 +50,37 @@ export class UsuarioEditarComponent implements OnInit {
       codTipoUsuario: ['', [Validators.required]],
       codEstado: ['', [Validators.required]],
       inicioCierre: ['', [Validators.required]],
-      /*
-      administraUsuario: ['', [Validators.required]],
-      usuarioActivo: ['', [Validators.required]],
-      cierreIniDia: ['', [Validators.required]],*/
     });
     this.listarTiposDeUsuarios();
     this.listarEstadosDeRegistro();
+    this.encuentraTodosArbol();
     this.obtenerUsuario();
   }
 
-  obtenerUsuario() {
-    this.usuarioService.obtenerUsuario(this.usuarioId).subscribe(usuario => {
+  onFilterChange(value: string) {
+    console.log('filter:', value);
+  }
 
+  obtenerUsuario() {
+    setTimeout(() => this.spinner.show());
+    this.usuarioService.obtenerUsuario(this.usuarioId).subscribe(usuario => {
+      this.spinner.hide();
       this.formGroup.get('usuario').setValue(usuario.usuario);
       this.formGroup.get('fechaInicioSesion').setValue(this.datePipe.transform(usuario.fechaFinSesion, 'yyyy-MM-dd'));
       this.formGroup.get('fechaFinSesion').setValue(this.datePipe.transform(usuario.fechaFinSesion, 'yyyy-MM-dd'));
       this.formGroup.get('codTipoUsuario').setValue(usuario.codTipoUsuario);
       this.formGroup.get('codEstado').setValue(usuario.codEstado);
       this.formGroup.get('inicioCierre').setValue(usuario.inicioCierre);
+    });
+  }
 
+  encuentraTodosArbol() {
+    this.loading = true;
+    this.menuService.encuentraTodosArbol(this.usuarioId).subscribe(usuario => {
+      this.loading = false;
+      this.items = usuario.map(value => {
+        return new TreeviewItem(value);
+      });
     });
   }
 
@@ -75,6 +104,7 @@ export class UsuarioEditarComponent implements OnInit {
     };
     const usuarioActualizar = {
       usuario,
+      valoresMenus: this.valoresMenus
     };
     this.spinner.show();
     this.usuarioService.actualizar(usuarioActualizar).subscribe(

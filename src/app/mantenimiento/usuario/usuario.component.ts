@@ -41,20 +41,5 @@ export class UsuarioComponent implements OnInit {
     if (response) {
       this.encuentraTodos();
     }
-    /*
-    if (response !== undefined && response === Object(response)) {
-      this.usuarios = [];
-      const createMode: boolean = response.createMode;
-      const responseStatus: ResponseStatus = response.responseStatus;
-      if (responseStatus.descripcion == AppConstante.C_STR_ERROR_DESCRIPCION_EXITO) {
-        if (createMode) {
-          this.toastr.success('El usuario fue registrado con éxito');
-        } else {
-          this.toastr.success('El usuario fue actualizado con éxito');
-        }
-        this.loadData();
-      }
-    }
-    */
   }
 }

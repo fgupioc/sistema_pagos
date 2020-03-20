@@ -10,6 +10,7 @@ import {AuthModule} from './auth/auth.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {registerLocaleData} from '@angular/common';
 import localePE from '@angular/common/locales/es-PE';
+import {I18n} from './i18n';
 
 registerLocaleData(localePE, 'es-PE');
 
@@ -26,7 +27,7 @@ registerLocaleData(localePE, 'es-PE');
     AuthModule,
     MantenimientoModule
   ],
-  providers: [],
+  providers: [I18n],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -10,6 +10,7 @@ import {UsuarioEditarComponent} from './usuario/editar/editar.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {TreeviewModule} from 'ngx-treeview';
 
 @NgModule({
   declarations: [UsuarioComponent, UsuarioEditarComponent],
@@ -22,8 +23,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     ReactiveFormsModule,
 
     BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot() // ToastrModule added
+    ToastrModule.forRoot(), // ToastrModule added
 
+    TreeviewModule.forRoot()
   ],
   entryComponents: [UsuarioEditarComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

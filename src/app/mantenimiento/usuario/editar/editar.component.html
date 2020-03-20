@@ -109,7 +109,22 @@
     </li>
     <li ngbNavItem>
       <a ngbNavLink>Permisos</a>
-      <ng-template ngbNavContent>3 content</ng-template>
+      <ng-template ngbNavContent>
+        <div class="col-lg-12 col-sm-12">
+          <div class="form-group">
+            <label>
+              <strong>Menu de acceso</strong>
+            </label>
+            <ngx-treeview [config]="config" [items]="items" (filterChange)="onFilterChange($event)" *ngIf="!loading"
+                          (selectedChange)="valoresMenus = $event">
+            </ngx-treeview>
+            <br *ngIf="loading">
+            <label *ngIf="loading">
+              <em>Cargando..., porfavor espere...</em>
+            </label>
+          </div>
+        </div>
+      </ng-template>
     </li>
   </ul>
   <div [ngbNavOutlet]="nav"></div>
@@ -118,3 +133,4 @@
   <button type="button" class="btn btn-danger" (click)="activeModal.close()">Cancelar</button>
   <button class="btn btn-primary" (click)="saveUsuario()" [disabled]="formGroup.invalid">Aceptar</button>
 </div>
+<app-loading></app-loading>
