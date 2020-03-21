@@ -3,6 +3,7 @@ import {UsuarioService} from '../../servicios/sistema/usuario.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Router} from '@angular/router';
+import {CONST} from '../../comun/CONST';
 
 @Component({
   selector: 'app-usuario',
@@ -38,4 +39,7 @@ export class UsuarioComponent implements OnInit {
   }
 
 
+  estaActivo(codEstado: string) {
+    return codEstado === CONST.S_ESTADO_REG_ACTIVO;
+  }
 }

@@ -24,7 +24,11 @@
             <td class="text-center">{{ i + 1 }}</td>
             <td class="text-center">{{ usuario.usuario}}</td>
             <td class="text-center">{{ usuario.desTipoUsuario}}</td>
-            <td class="text-center">{{ usuario.desEstado}}</td>
+            <td class="text-center">
+              <span class="badge" [ngClass]="estaActivo(usuario.codEstado) ? 'badge-success' : 'badge-danger'">
+                {{ usuario.desEstado}}
+              </span>
+            </td>
             <td class="text-center">
               <button (click)="editar(usuario.id)" class="btn btn-instagram btn-sm mr-5px" type="button"
                       style="margin-bottom: 4px"
