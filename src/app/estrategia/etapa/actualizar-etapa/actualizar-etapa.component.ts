@@ -8,7 +8,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./actualizar-etapa.component.css']
 })
 export class ActualizarEtapaComponent implements OnInit {
-  tareas: any[] = [];
+  etapas: any[] = [];
   formEtapa: FormGroup;
 
   constructor(
@@ -35,7 +35,7 @@ export class ActualizarEtapaComponent implements OnInit {
 
   guardar() {
     const data: any = this.formEtapa.getRawValue();
-    this.tareas.push(data);
-    this.activeModal.dismiss(this.tareas);
+    this.etapas.push(data);
+    this.activeModal.dismiss(this.etapas);
   }
 }
