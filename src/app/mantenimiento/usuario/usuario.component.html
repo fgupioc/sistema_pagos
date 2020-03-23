@@ -33,8 +33,13 @@
             <td class="text-center">
               <button (click)="editar(usuario.id)" class="btn btn-instagram btn-sm mr-5px" type="button"
                       style="margin-bottom: 4px"
-                      placement="bottom" ngbTooltip="Editar Usario">
+                      placement="bottom" ngbTooltip="Actualizar Usuario">
                 <i class="fa fa-pencil"></i>
+              </button>
+              <button (click)="actualizarContrasenha(usuario)" class="btn btn-warning btn-sm mr-5px" type="button"
+                      style="margin-bottom: 4px"
+                      placement="bottom" ngbTooltip="Actualizar Contraseña">
+                <i class="fa fa-key text-white"></i>
               </button>
             </td>
           </tr>

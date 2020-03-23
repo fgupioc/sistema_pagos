@@ -65,4 +65,8 @@ export class UsuarioComponent implements OnInit {
   estaActivo(codEstado: string) {
     return codEstado === CONST.S_ESTADO_REG_ACTIVO;
   }
+
+  actualizarContrasenha(usuario: any) {
+    this.router.navigate(['/auth/mantenimiento/usuario/contrasenha', usuario.id, usuario.usuario]);
+  }
 }

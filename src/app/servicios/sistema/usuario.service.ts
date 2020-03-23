@@ -29,11 +29,16 @@ export class UsuarioService {
     return this.http.get<any>(`${this.apiUrl}obtenerUsuario/${usuarioId}`);
   }
 
+  guardar(usuario: any): Observable<Respuesta> {
+    return this.http.post<Respuesta>(`${this.apiUrl}guardar`, usuario);
+  }
+
   actualizar(usuario: any): Observable<Respuesta> {
     return this.http.put<Respuesta>(`${this.apiUrl}actualizar`, usuario);
   }
 
-  guardar(usuario: any): Observable<Respuesta> {
-    return this.http.post<Respuesta>(`${this.apiUrl}guardar`, usuario);
+  actualizarContrasenha(usuario: any): Observable<Respuesta> {
+    return this.http.put<Respuesta>(`${this.apiUrl}actualizarContrasenha`, usuario);
   }
+
 }

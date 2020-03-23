@@ -12,9 +12,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TreeviewModule} from 'ngx-treeview';
 import {UsuarioCrearComponent} from './usuario/crear/crear.component';
 import {DataTablesModule} from 'angular-datatables';
+import {UsuarioContrasenhaComponent} from './usuario/contrasenha/contrasenha.component';
 
 @NgModule({
-  declarations: [UsuarioComponent, UsuarioEditarComponent, UsuarioCrearComponent],
+  declarations: [UsuarioComponent, UsuarioEditarComponent, UsuarioCrearComponent, UsuarioContrasenhaComponent],
   imports: [
     CommonModule,
     ComunModule,
