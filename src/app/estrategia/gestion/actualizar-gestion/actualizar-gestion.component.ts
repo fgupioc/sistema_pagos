@@ -98,12 +98,25 @@ export class ActualizarGestionComponent implements OnInit {
 
   actualizar() {
     const data: any = this.formGestion.getRawValue();
-    if (this.etapas.length === 0) {
+    const c = this.etapas.filter(value => value.estado == '1');
+    if (c.length === 0) {
       alert('Se necesita registrar etapas');
       return;
     }
     data.etapas = this.etapas;
     console.log(data);
+
+    this.carteraService.actualizarGestion(data).subscribe(
+      response => {
+        if (response.exito) {
+          this.campos = response.objeto;
+          this.toastr.success('Se actualizo con exito.');
+          this.router.navigate(['/auth/estrategia/cartera']);
+        } else {
+          Swal.fire('Registro', response.mensaje, 'error');
+        }
+      }
+    );
   }
 
   nuevaEtapa() {
@@ -115,8 +128,18 @@ export class ActualizarGestionComponent implements OnInit {
     modal.componentInstance.etapas = this.etapas;
   }
 
+  actualzarEtapa(i) {
+    const modal = this.modalService.open(ActualizarEtapaComponent, { size: 'lg' });
+    modal.result.then(
+      this.closeModal.bind(this),
+      this.closeModal.bind(this)
+    );
+    modal.componentInstance.etapas = this.etapas;
+    modal.componentInstance.index = i;
+    modal.componentInstance.create = false;
+  }
+
   closeModal(data) {
-    console.log(this.etapas)
   }
 
   eliminar(item, i) {
@@ -139,8 +162,8 @@ export class ActualizarGestionComponent implements OnInit {
           'Deleted!',
           'Your imaginary file has been deleted.',
           'success'
-        ) 
-      } 
+        )
+      }
     })
   }
 }

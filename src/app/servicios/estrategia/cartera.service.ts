@@ -29,4 +29,8 @@ export class CarteraService {
   crearGestion(data: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}guardar-gestion`, data);
   }
+
+  actualizarGestion(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}actualizar-gestion`, data);
+  }
 }
