@@ -23,21 +23,22 @@ export class CrearCarteraComponent implements OnInit {
   ngOnInit() {
     this.getCartera();
     this.formulario = this.formBuilder.group({
-      codigo: [''],
-      nombre: [''],
-      nombreExterno: [''],
-      diasDeudaSinVencer: [''],
-      horaInicio: [''],
-      horaFin: [''],
-      compromisoDesde: [''],
-      compromisoHasta: [''],
-      diasGestion: [''],
-      codMoneda: [''],
-      fechaCreacion: [''],
-      fechaActualizacion: [''],
-      userCreate: [''],
-      userUpdate: [''],
-      estado: [''],
+      codCartera: [''],
+      codigo: [{value: '', disabled: true}],
+      nombre: [{value: '', disabled: true}],
+      nombreExterno: [{value: '', disabled: true}],
+      diasDeudaSinVencer: [{value: '', disabled: true}],
+      horaInicio: [{value: '', disabled: true}],
+      horaFin: [{value: '', disabled: true}],
+      compromisoDesde: [{value: '', disabled: true}],
+      compromisoHasta: [{value: '', disabled: true}],
+      diasGestion: [{value: '', disabled: true}],
+      codMoneda: [{value: '', disabled: true}],
+      fechaCreacion: [{value: '', disabled: true}],
+      fechaActualizacion: [{value: '', disabled: true}],
+      userCreate: [{value: '', disabled: true}],
+      userUpdate: [{value: '', disabled: true}],
+      estado: [{value: '', disabled: true}],
     });
   }
 
@@ -47,9 +48,7 @@ export class CrearCarteraComponent implements OnInit {
         if (response.exito) {
           console.log(response.objeto)
           this.cartera = response.objeto;
-          this.formulario.controls.codigo.setValue(this.cartera.codigo);
-          this.formulario.controls.nombre.setValue(this.cartera.nombre);
-          this.formulario.controls.nombreExterno.setValue(this.cartera.nombreExterno);
+          this.formulario.setValue(this.cartera)
         }
       }
     );
