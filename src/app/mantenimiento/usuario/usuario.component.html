@@ -9,7 +9,8 @@
         </button>
       </div>
       <div class="card-body">
-        <table class="table table-responsive-sm table-bordered table-striped table-sm">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+               class="table table-responsive-sm table-bordered table-striped table-sm">
           <thead>
           <tr class="text-center">
             <th>#</th>

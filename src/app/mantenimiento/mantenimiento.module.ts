@@ -11,6 +11,7 @@ import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TreeviewModule} from 'ngx-treeview';
 import {UsuarioCrearComponent} from './usuario/crear/crear.component';
+import {DataTablesModule} from 'angular-datatables';
 
 @NgModule({
   declarations: [UsuarioComponent, UsuarioEditarComponent, UsuarioCrearComponent],
@@ -25,7 +26,8 @@ import {UsuarioCrearComponent} from './usuario/crear/crear.component';
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
 
-    TreeviewModule.forRoot()
+    TreeviewModule.forRoot(),
+    DataTablesModule
   ],
   entryComponents: [UsuarioCrearComponent, UsuarioEditarComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
