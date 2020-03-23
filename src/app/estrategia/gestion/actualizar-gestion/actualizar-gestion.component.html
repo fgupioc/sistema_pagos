@@ -77,7 +77,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button class="btn btn-lg btn-outline-info" (click)="guardar()">Guardar</button>
+                                        <button *ngIf="create" class="btn btn-lg btn-outline-info" (click)="guardar()">Guardar</button>
+                                        <button *ngIf="!create" class="btn btn-lg btn-outline-info" (click)="actualizar()">Actualizar</button>
                                     </div>
                                 </div>
                             </div>
@@ -104,16 +105,19 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr *ngFor="let item of etapas; let i = index" class="text-center">
-                                                    <th scope="row"> {{ i+1 }}</th>
-                                                    <td>{{ item.nombre }}</td>
-                                                    <td>{{ item.desde }} a {{ item.hasta }}</td>
-                                                    <td class="text-center">
-                                                        <button class="btn btn-sm btn-info mr-2"><i class="fa fa-edit"></i></button>
-                                                        <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
-                                                    </td>
-                                                </tr>
-
+                                                <ng-container *ngFor="let item of etapas; let i = index">
+                                                    <ng-container *ngIf="item.estado == '1'">
+                                                        <tr class="text-center">
+                                                            <th scope="row"> {{ i+1 }}</th>
+                                                            <td>{{ item.nombre }}</td>
+                                                            <td>{{ item.desde }} a {{ item.hasta }}</td>
+                                                            <td class="text-center">
+                                                                <button class="btn btn-sm btn-info mr-2"><i class="fa fa-edit"></i></button>
+                                                                <button class="btn btn-sm btn-danger" (click)="eliminar(item, i)"><i class="fa fa-trash"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    </ng-container>
+                                                </ng-container>
                                             </tbody>
                                         </table>
                                     </div>

@@ -29,7 +29,7 @@ export class ActualizarEtapaComponent implements OnInit {
       fechaActualizacion: [{value: '', disabled: true}],
       userCreate: [{value: '', disabled: true}],
       userUpdate: [{value: '', disabled: true}],
-      estado: [''],
+      estado: [1],
     });
   }
 

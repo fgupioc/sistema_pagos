@@ -28,7 +28,8 @@ const routes: Routes = [
             path: 'cartera',
             children: [
               {path: '', component: CrearCarteraComponent},
-              {path: 'crear-gestion', component: ActualizarGestionComponent}
+              {path: 'crear-gestion', component: ActualizarGestionComponent},
+              {path: 'editar-gestion', component: ActualizarGestionComponent}
             ]
           },
         ]
