@@ -1,8 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {UsuarioService} from '../../servicios/sistema/usuario.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {UsuarioEditarComponent} from './editar/editar.component';
+import {Router} from '@angular/router';
+import {CONST} from '../../comun/CONST';
+import {HttpClient} from '@angular/common/http';
+import {DataTableDirective} from 'angular-datatables';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-usuario',
@@ -10,48 +14,92 @@ import {UsuarioEditarComponent} from './editar/editar.component';
   styleUrls: ['./usuario.component.css']
 })
 export class UsuarioComponent implements OnInit {
+
   usuarios: any[] = [];
 
-  constructor(private usuarioService: UsuarioService, private spinner: NgxSpinnerService, private modalService: NgbModal,) {
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
+  isDtInitialized = false;
+  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
+
+  constructor(private usuarioService: UsuarioService, private spinner: NgxSpinnerService, private modalService: NgbModal,
+              private router: Router) {
   }
 
   ngOnInit() {
+    this.dtOptions = CONST.DATATABLE_ES();
     this.encuentraTodos();
   }
 
   encuentraTodos() {
+    /*
+    const that = this;
+    this.dtOptions = {
+      // ajax: 'data/data.json',
+      pagingType: 'full_numbers',
+      serverSide: true,
+      processing: true,
+      ajax: (dataTablesParameters: any, callback) => {
+        that.http
+          .post<any[]>(this.usuarioService.encuentraTodosUrl(), dataTablesParameters, {})
+          .subscribe(resp => {
+            console.log(resp);
+            //that.persons = resp.data;
+/*
+            callback({
+              recordsTotal: resp.recordsTotal,
+              recordsFiltered: resp.recordsFiltered,
+              data: [],
+            });
+
+          });
+      },
+      // ajax: this.usuarioService.encuentraTodosUrl,
+      /*
+      columns: [{
+        title: '#',
+        data: 'id'
+      }, {
+        title: 'Usuario',
+        data: 'firstName'
+      }, {
+        title: 'T. Usuario',
+        data: 'lastName'
+      }]
+    };
+*/
     this.spinner.show();
     this.usuarioService.encuentraTodos().subscribe(
       res => {
         this.spinner.hide();
         this.usuarios = res;
+        this.refreshDatatable();
       });
+
   }
 
-  modalUserEdit(usuarioId: number) {
-    const modal = this.modalService.open(UsuarioEditarComponent, {centered: true});
-    modal.result.then(
-      this.modalClose.bind(this),
-      this.modalClose.bind(this)
-    );
-    modal.componentInstance.usuarioId = usuarioId;
-  }
-
-  modalClose(response) {
-    /*
-    if (response !== undefined && response === Object(response)) {
-      this.usuarios = [];
-      const createMode: boolean = response.createMode;
-      const responseStatus: ResponseStatus = response.responseStatus;
-      if (responseStatus.descripcion == AppConstante.C_STR_ERROR_DESCRIPCION_EXITO) {
-        if (createMode) {
-          this.toastr.success('El usuario fue registrado con éxito');
-        } else {
-          this.toastr.success('El usuario fue actualizado con éxito');
-        }
-        this.loadData();
-      }
+  refreshDatatable() {
+    if (this.isDtInitialized) {
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    } else {
+      this.isDtInitialized = true;
+      this.dtTrigger.next();
     }
-    */
+  }
+
+  crear() {
+    this.router.navigate(['/auth/mantenimiento/usuario/crear']);
+  }
+
+  editar(usuarioId: number) {
+    this.router.navigate(['/auth/mantenimiento/usuario/editar', usuarioId]);
+  }
+
+
+  estaActivo(codEstado: string) {
+    return codEstado === CONST.S_ESTADO_REG_ACTIVO;
   }
 }

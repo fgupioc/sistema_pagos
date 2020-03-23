@@ -4,19 +4,17 @@
       <div class="card-header">
         <i class="fa fa-align-justify"></i>
         <span class="card-title text-uppercase font-weight-bold">Lista de usuarios </span>
-        <button class="btn btn-brand btn-sm btn-success pull-right" type="button" style="margin-bottom: 4px"
-                (click)="modalUserCreate()">
-          <span>Nuevo Usuario</span>
+        <button class="btn btn-success btn-sm pull-right" style="margin-bottom: 4px"
+                (click)="crear()"><i class="fa fa-plus"></i> Nuevo Usuario
         </button>
       </div>
       <div class="card-body">
-        <table class="table table-responsive-sm table-bordered table-striped table-sm">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+               class="table table-responsive-sm table-bordered table-striped table-sm">
           <thead>
           <tr class="text-center">
             <th>#</th>
-            <th>N° Doc.</th>
-            <th>Nombres</th>
-            <th>Apellidos</th>
+            <th>Usuario</th>
             <th>T. Usuario</th>
             <th>Estado</th>
             <th>Opciones</th>
@@ -25,13 +23,15 @@
           <tbody>
           <tr *ngFor="let usuario of usuarios; index as i; ">
             <td class="text-center">{{ i + 1 }}</td>
-
+            <td class="text-center">{{ usuario.usuario}}</td>
+            <td class="text-center">{{ usuario.desTipoUsuario}}</td>
             <td class="text-center">
-              {{ usuario.usuario}}
+              <span class="badge" [ngClass]="estaActivo(usuario.codEstado) ? 'badge-success' : 'badge-danger'">
+                {{ usuario.desEstado}}
+              </span>
             </td>
-
             <td class="text-center">
-              <button (click)="modalUserEdit(usuario.id)" class="btn btn-brand btn-sm btn-primary mr-5px" type="button"
+              <button (click)="editar(usuario.id)" class="btn btn-instagram btn-sm mr-5px" type="button"
                       style="margin-bottom: 4px"
                       placement="bottom" ngbTooltip="Editar Usario">
                 <i class="fa fa-pencil"></i>

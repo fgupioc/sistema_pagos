@@ -9,6 +9,11 @@ import {HttpClientModule} from '@angular/common/http';
 import {AuthModule} from './auth/auth.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { EstrategiaModule } from './estrategia/estrategia.module';
+import {registerLocaleData} from '@angular/common';
+import localePE from '@angular/common/locales/es-PE';
+import {I18n} from './i18n';
+
+registerLocaleData(localePE, 'es-PE');
 
 @NgModule({
   declarations: [
@@ -24,7 +29,7 @@ import { EstrategiaModule } from './estrategia/estrategia.module';
     MantenimientoModule,
     EstrategiaModule
   ],
-  providers: [],
+  providers: [I18n],
   bootstrap: [AppComponent]
 })
 export class AppModule {
