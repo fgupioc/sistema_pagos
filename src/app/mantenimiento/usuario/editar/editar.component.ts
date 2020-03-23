@@ -49,7 +49,8 @@ export class UsuarioEditarComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       usuario: ['', {
         validators: [Validators.required, Validators.pattern(CONST.REG_EXP_USUARIO)],
-        asyncValidators: [this.usuarioUnicoService.validate.bind(this.usuarioUnicoService, this.usuarioId)]
+        asyncValidators: [this.usuarioUnicoService.validate.bind(this.usuarioUnicoService, this.usuarioId)],
+        updateOn: 'blur'
       }],
       fechaInicioSesion: ['', [Validators.required]],
       fechaFinSesion: ['', [Validators.required]],

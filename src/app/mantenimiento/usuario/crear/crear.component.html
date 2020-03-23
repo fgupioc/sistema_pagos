@@ -69,6 +69,45 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
+                      <label for="contrasenha">Contraseña *</label>
+                      <input type="password" id="contrasenha" placeholder="Ingresar contraseña"
+                             class="form-control" (keyup)="verificarContrasenhasIguales()"
+                             formControlName="contrasenha" autocomplete="off"
+                             [ngClass]="
+                    {
+                    'is-invalid': formGroup.controls['contrasenha'].touched && formGroup.controls['contrasenha'].errors,
+                    'is-valid': formGroup.controls['contrasenha'].touched && !formGroup.controls['contrasenha'].errors
+                     }
+                    ">
+                      <div class="invalid-feedback">
+                        <span *ngIf="formGroup.get('contrasenha').hasError('required')"> Obligatorio</span>
+                        <span *ngIf="formGroup.get('contrasenha').hasError('minlength')">
+                            Mínimo {{contrasenhaLongitudMinima()}} caracteres
+                          </span>
+                        <span *ngIf="formGroup.get('contrasenha').hasError('pattern')"> Al menos una mayúscula, una minúscula, un número y un caracter especiales (#?!@$%^&*-.,)</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="confirmarContrasenha">Confirmar Contraseña*</label>
+                      <input type="password" id="confirmarContrasenha" placeholder="Confirmar contraseña"
+                             class="form-control" (keyup)="verificarContrasenhasIguales()"
+                             formControlName="confirmarContrasenha" autocomplete="off"
+                             [ngClass]="
+                    {
+                    'is-invalid': formGroup.controls['confirmarContrasenha'].touched && formGroup.controls['confirmarContrasenha'].errors,
+                    'is-valid': formGroup.controls['confirmarContrasenha'].touched && !formGroup.controls['confirmarContrasenha'].errors
+                     }
+                    ">
+                      <div class="invalid-feedback">
+                        <span *ngIf="formGroup.get('confirmarContrasenha').hasError('required')"> Obligatorio </span>
+                        <span *ngIf="formGroup.get('confirmarContrasenha').hasError('diferente')">Las contraseñas no coinciden </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
                       <label>
                         <input type="checkbox" name="check" formControlName="inicioCierre">
                         Habilitado para cierre/inicio de día

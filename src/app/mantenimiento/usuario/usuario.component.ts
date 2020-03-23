@@ -4,7 +4,6 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Router} from '@angular/router';
 import {CONST} from '../../comun/CONST';
-import {HttpClient} from '@angular/common/http';
 import {DataTableDirective} from 'angular-datatables';
 import {Subject} from 'rxjs';
 
@@ -32,42 +31,6 @@ export class UsuarioComponent implements OnInit {
   }
 
   encuentraTodos() {
-    /*
-    const that = this;
-    this.dtOptions = {
-      // ajax: 'data/data.json',
-      pagingType: 'full_numbers',
-      serverSide: true,
-      processing: true,
-      ajax: (dataTablesParameters: any, callback) => {
-        that.http
-          .post<any[]>(this.usuarioService.encuentraTodosUrl(), dataTablesParameters, {})
-          .subscribe(resp => {
-            console.log(resp);
-            //that.persons = resp.data;
-/*
-            callback({
-              recordsTotal: resp.recordsTotal,
-              recordsFiltered: resp.recordsFiltered,
-              data: [],
-            });
-
-          });
-      },
-      // ajax: this.usuarioService.encuentraTodosUrl,
-      /*
-      columns: [{
-        title: '#',
-        data: 'id'
-      }, {
-        title: 'Usuario',
-        data: 'firstName'
-      }, {
-        title: 'T. Usuario',
-        data: 'lastName'
-      }]
-    };
-*/
     this.spinner.show();
     this.usuarioService.encuentraTodos().subscribe(
       res => {
