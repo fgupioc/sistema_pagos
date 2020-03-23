@@ -7,6 +7,7 @@ import {Observable, of} from 'rxjs';
   providedIn: 'root'
 })
 export class CarteraService {
+  
   apiUrl: string;
 
   constructor(private http: HttpClient) {
@@ -22,6 +23,10 @@ export class CarteraService {
   }
 
   listarCampos(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}obtener-gestiones`);
+    return this.http.get<any>(`${this.apiUrl}obtener-campo-gestiones`);
+  }
+
+  crearGestion(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}guardar-gestion`, data);
   }
 }

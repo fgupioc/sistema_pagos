@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { CarteraService } from '../../../servicios/estrategia/cartera.service';
+import { ActualizarEtapaComponent } from '../../etapa/actualizar-etapa/actualizar-etapa.component';
 
 @Component({
   selector: 'app-actualizar-gestion',
@@ -10,30 +11,64 @@ import { CarteraService } from '../../../servicios/estrategia/cartera.service';
 })
 export class ActualizarGestionComponent implements OnInit {
   formGestion: FormGroup;
-  campos: any[];
+  campos: any[] = [];
+  tareas: any[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
-    private carteraService: CarteraService
+    private carteraService: CarteraService,
+    public modalService: NgbModal
   ) { }
 
   ngOnInit() {
+    this.getCampos();
     this.formGestion = this.formBuilder.group({
       codGestion: [''],
-      codCartera: [''],
+      codCartera: [1],
       codCampoCartera: [''],
       nombre: [''],
       grupo: [''],
       desde: [''],
       hasta: [''],
-      fechaCreacion: [''],
-      fechaActualizacion: [''],
-      userCreate: [''],
-      userUpdate: [''],
+      fechaCreacion: [{value: '', disabled: true}],
+      fechaActualizacion: [{value: '', disabled: true}],
+      userCreate: [{value: '', disabled: true}],
+      userUpdate: [{value: '', disabled: true}],
       estado: [''],
     });
   }
 
-  getCampos() { 
+  getCampos() {
+    this.carteraService.listarCampos().subscribe(
+      response => {
+        if (response.exito) {
+          this.campos = response.objeto;
+        }
+      }
+    );
+  }
+
+  guardar() {
+    const data: any = this.formGestion.getRawValue();
+    this.carteraService.crearGestion(data).subscribe(
+      response => {
+        if (response.exito) {
+          this.campos = response.objeto;
+        }
+      }
+    );
+  }
+
+  nuevaEtapa() {
+    const modal = this.modalService.open(ActualizarEtapaComponent, { size: 'lg' });
+    modal.result.then(
+      this.closeModal.bind(this),
+      this.closeModal.bind(this)
+    );
+    modal.componentInstance.tareas = this.tareas;
+  }
+
+  closeModal(data) {
+    console.log(this.tareas)
   }
 }

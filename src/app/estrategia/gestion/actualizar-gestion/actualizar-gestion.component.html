@@ -8,85 +8,88 @@
                 <ngb-tabset [destroyOnHide]="false">
                     <ngb-tab title="Información">
                         <ng-template ngbTabContent>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Nombre</label>
-                                        <input type="text" class="form-control">
+                            <div class="div" [formGroup]="formGestion">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Nombre</label>
+                                            <input type="text" class="form-control" formControlName="nombre">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Grupo</label>
+                                            <input type="text" class="form-control" formControlName="grupo">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Campo</label>
+                                            <select class="form-control" formControlName="codCampoCartera">
+                                            <option value="">Seleccionar</option>
+                                            <option *ngFor="let item of campos" [value]="item.codCampoCartera">{{ item.nombre }}</option>
+                                        </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Desde</label>
+                                            <input type="text" class="form-control" formControlName="desde">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Hasta</label>
+                                            <input type="text" class="form-control" formControlName="hasta">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Grupo</label>
-                                        <input type="text" class="form-control">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Auditoria</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Fecha Creación:</label>
+                                            <input type="text" class="form-control" formControlName="fechaCreacion">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Usuario Creador:</label>
+                                            <input type="text" class="form-control" formControlName="userCreate">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Fecha Actualización:</label>
+                                            <input type="text" class="form-control" formControlName="fechaActualizacion">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Usuario Actualiza:</label>
+                                            <input type="text" class="form-control" formControlName="userUpdate">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Campo</label>
-                                        <select class="form-control">
-                                <option>Seleccionar</option>
-                            </select>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button class="btn btn-lg btn-outline-info" (click)="guardar()">Guardar</button>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Desde</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Hasta</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Auditoria</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Fecha Creación:</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Usuario Creador:</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Fecha Actualización:</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Usuario Actualiza:</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <button class="btn btn-lg btn-outline-info">Guardar</button>
                                 </div>
                             </div>
                         </ng-template>
                     </ngb-tab>
                     <ngb-tab>
-                        <ng-template ngbTabTitle>Tareas</ng-template>
+                        <ng-template ngbTabTitle>Etapas</ng-template>
                         <ng-template ngbTabContent>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <button class="btn btn-outline-info btn-sm">Nuevo</button>
+                                        <button class="btn btn-outline-info btn-sm" (click)="nuevaEtapa()">Nuevo</button>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -96,20 +99,19 @@
                                                 <tr class="text-center">
                                                     <th scope="col">#</th>
                                                     <th scope="col">Nombre</th>
-                                                    <th scope="col">Grupo</th>
-                                                    <th scope="col">Campo</th>
                                                     <th scope="col">Parametros</th>
                                                     <th scope="col">Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <th scope="row">1</th>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td>@mdo</td>
-                                                    <td>Otto</td>
-                                                    <td>@mdo</td>
+                                                <tr *ngFor="let item of tareas; let i = index" class="text-center">
+                                                    <th scope="row"> {{ i+1 }}</th>
+                                                    <td>{{ item.nombre }}</td>
+                                                    <td>{{ item.desde }} a {{ item.hasta }}</td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-sm btn-info mr-2"><i class="fa fa-edit"></i></button>
+                                                        <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                                    </td>
                                                 </tr>
 
                                             </tbody>
