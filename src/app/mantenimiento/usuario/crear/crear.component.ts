@@ -25,7 +25,7 @@ export class UsuarioCrearComponent implements OnInit {
 
   cargandoMenu = false;
   items: TreeviewItem[];
-  valoresMenus: number[];
+  valoresMenus: number[] = [];
   config = TreeviewConfig.create({
     hasAllCheckBox: true,
     hasFilter: true,
@@ -43,18 +43,34 @@ export class UsuarioCrearComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       usuario: ['', {
         validators: [Validators.required, Validators.pattern(CONST.REG_EXP_USUARIO)],
-        asyncValidators: [this.usuarioUnicoService.validate.bind(this.usuarioUnicoService, 0)]
+        asyncValidators: [this.usuarioUnicoService.validate.bind(this.usuarioUnicoService, 0)],
+        updateOn: 'blur'
       }],
       fechaInicioSesion: ['', [Validators.required]],
       fechaFinSesion: ['', [Validators.required]],
       codTipoUsuario: ['', [Validators.required]],
       codEstado: ['', [Validators.required]],
       inicioCierre: [false],
+      contrasenha: ['', [Validators.required, Validators.minLength(this.contrasenhaLongitudMinima()),
+        Validators.pattern(CONST.REG_EXP_CONTRASENHA)]],
+      confirmarContrasenha: ['', [Validators.required]],
     });
     this.formGroup.get('fechaInicioSesion').setValue(this.datePipe.transform(new Date(), 'yyyy-MM-dd'));
     this.listarTiposDeUsuarios();
     this.listarEstadosDeRegistro();
     this.encuentraTodosArbol();
+  }
+
+  verificarContrasenhasIguales() {
+    if (this.formGroup.get('contrasenha').value !== this.formGroup.get('confirmarContrasenha').value) {
+      this.formGroup.get('confirmarContrasenha').setErrors({diferente: true}); // Error temporal
+    } else {
+      this.formGroup.get('confirmarContrasenha').updateValueAndValidity();
+    }
+  }
+
+  contrasenhaLongitudMinima() {
+    return CONST.N_CONTRASENHA_LONGITUD_MINIMA;
   }
 
   encuentraTodosArbol() {
@@ -87,6 +103,7 @@ export class UsuarioCrearComponent implements OnInit {
     if (this.formGroup.valid) {
       const usuario = {
         usuario: this.formGroup.get('usuario').value,
+        contrasenha: this.formGroup.get('contrasenha').value,
         fechaInicioSesion: this.formGroup.get('fechaInicioSesion').value,
         fechaFinSesion: this.formGroup.get('fechaFinSesion').value,
         codTipoUsuario: this.formGroup.get('codTipoUsuario').value,
@@ -112,4 +129,6 @@ export class UsuarioCrearComponent implements OnInit {
       );
     }
   }
+
+
 }

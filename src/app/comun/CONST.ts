@@ -1,5 +1,11 @@
 export class CONST {
+
   public static REG_EXP_USUARIO = new RegExp('^[a-z0-9]*$', 'i');
+
+  public static REG_EXP_CONTRASENHA = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.,]).{0,}$');
+
+  public static N_CONTRASENHA_LONGITUD_MINIMA = 8;
+
 
   public static S_ESTADO_REG_ACTIVO = '1';
   public static S_ESTADO_REG_INACTIVO = '2';
