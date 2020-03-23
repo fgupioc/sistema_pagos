@@ -13,6 +13,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 export class CrearCarteraComponent implements OnInit {
   formulario: FormGroup;
   cartera: any;
+  gestiones: any[];
 
   constructor(
     private router: Router,
@@ -22,6 +23,7 @@ export class CrearCarteraComponent implements OnInit {
 
   ngOnInit() {
     this.getCartera();
+    this.getGestiones();
     this.formulario = this.formBuilder.group({
       codCartera: [''],
       codigo: [{value: '', disabled: true}],
@@ -45,10 +47,20 @@ export class CrearCarteraComponent implements OnInit {
   getCartera() {
     this.carteraService.carteraAbaco().subscribe(
       response => {
-        if (response.exito) {
-          console.log(response.objeto)
+        if (response.exito) { 
           this.cartera = response.objeto;
           this.formulario.setValue(this.cartera)
+        }
+      }
+    );
+  }
+
+  getGestiones() {
+    this.carteraService.getGestiones('1').subscribe(
+      response => {
+        if (response.exito) {
+          console.log(response.objeto)
+          this.gestiones = response.objeto;
         }
       }
     );
