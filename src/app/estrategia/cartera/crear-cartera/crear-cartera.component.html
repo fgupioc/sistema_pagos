@@ -4,7 +4,7 @@
             <div class="card-header">
                 <h6 class="p-0 m-0">Cartera</h6>
             </div>
-            <div class="card-body">
+            <div class="card-body" [formGroup]="formulario">
                 <div class="row">
                     <div class="col-md-12">
                         <ngb-tabset [destroyOnHide]="false">
@@ -16,19 +16,19 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Código:</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" formControlName="codigo">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Nombre:</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" formControlName="nombre">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Nombre Externo:</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" formControlName="nombreExterno">
                                                     </div>
                                                 </div>
                                             </div>
