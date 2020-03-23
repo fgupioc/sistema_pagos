@@ -8,6 +8,7 @@ import {MantenimientoModule} from './mantenimiento/mantenimiento.module';
 import {HttpClientModule} from '@angular/common/http';
 import {AuthModule} from './auth/auth.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { EstrategiaModule } from './estrategia/estrategia.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     HttpClientModule,
     AppRoutingModule,
     AuthModule,
-    MantenimientoModule
+    MantenimientoModule,
+    EstrategiaModule
   ],
   providers: [],
   bootstrap: [AppComponent]
