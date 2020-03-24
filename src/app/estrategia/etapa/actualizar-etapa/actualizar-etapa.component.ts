@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-actualizar-etapa',
@@ -23,11 +24,26 @@ export class ActualizarEtapaComponent implements OnInit {
     this.formEtapa = this.formBuilder.group({
       codEtapa: [''],
       codGestion: [''],
-      nombre: [''],
-      codigo: [''],
-      desde: [''],
-      hasta: [''],
-      color: [''],
+      nombre: ['', [
+        Validators.required,
+        Validators.maxLength(100)
+      ]],
+      codigo: ['', [
+        Validators.required,
+        Validators.maxLength(100)
+      ]],
+      desde: ['', [
+        Validators.required,
+        Validators.maxLength(100)
+      ]],
+      hasta: ['', [
+        Validators.required,
+        Validators.maxLength(100)
+      ]],
+      color: ['', [
+        Validators.required,
+        Validators.maxLength(100)
+      ]],
       fechaCreacion: [{value: '', disabled: true}],
       fechaActualizacion: [{value: '', disabled: true}],
       userCreate: [{value: '', disabled: true}],
@@ -43,12 +59,20 @@ export class ActualizarEtapaComponent implements OnInit {
   }
 
   guardar() {
+    if (this.formEtapa.invalid) {
+      Swal.fire('Registrar Etapa', 'Debe ingresar los datos necesarios.', 'error');
+      return;
+    }
     const data: any = this.formEtapa.getRawValue();
     this.etapas.push(data);
     this.activeModal.dismiss(this.etapas);
   }
 
   actualzar() {
+    if (this.formEtapa.invalid) {
+      Swal.fire('Actualizar Etapa', 'Debe ingresar los datos necesarios.', 'error');
+      return;
+    }
     const data: any = this.formEtapa.getRawValue();
     this.etapas[this.index] = data;
     this.activeModal.dismiss(this.etapas);

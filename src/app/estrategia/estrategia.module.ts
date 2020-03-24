@@ -11,6 +11,7 @@ import { MyPipesModule } from '../pipes/my-pipes.module';
 import {CarteraCargarCreditoComponent} from './cartera/cargar-credito/cargar-credito.component';
 import {CarteraCargarCreditoFileComponent} from './cartera/cargar-credito/file/file.component';
 import { ComunModule } from '../comun/comun.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ComunModule } from '../comun/comun.module';
     NgbModule,
     CommonModule,
     ReactiveFormsModule,
-    MyPipesModule 
+    MyPipesModule,
+    RouterModule
   ],
   exports: [
     CrearCarteraComponent,
