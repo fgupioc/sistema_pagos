@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CarteraService } from '../../../servicios/estrategia/cartera.service';
 import { ActualizarEtapaComponent } from '../../etapa/actualizar-etapa/actualizar-etapa.component';
 import { Router } from '@angular/router';
@@ -50,11 +50,14 @@ export class ActualizarGestionComponent implements OnInit {
     this.formGestion = this.formBuilder.group({
       codGestion: [''],
       codCartera: [this.codCartera],
-      codCampoCartera: [''],
-      nombre: [''],
+      codCampoCartera: ['', [Validators.required]],
+      nombre: ['', [
+        Validators.required,
+        Validators.maxLength(100)
+      ]],
       grupo: [''],
-      desde: [''],
-      hasta: [''],
+      desde: ['',  [Validators.required]],
+      hasta: ['',  [Validators.required]],
       fechaCreacion: [{ value: '', disabled: true }],
       fechaActualizacion: [{ value: '', disabled: true }],
       userCreate: [{ value: '', disabled: true }],
@@ -85,7 +88,7 @@ export class ActualizarGestionComponent implements OnInit {
   guardar() {
     const data: any = this.formGestion.getRawValue();
     if (this.etapas.length === 0) {
-      alert('Se necesita registrar etapas');
+      Swal.fire('Nueva Gestion', 'Se necesita registrar etapas', 'error');
       return;
     }
     data.etapas = this.etapas;
@@ -134,6 +137,7 @@ export class ActualizarGestionComponent implements OnInit {
       this.closeModal.bind(this)
     );
     modal.componentInstance.etapas = this.etapas;
+    modal.componentInstance.gestion = this.formGestion.getRawValue();
   }
 
   actualzarEtapa(i) {
@@ -145,6 +149,7 @@ export class ActualizarGestionComponent implements OnInit {
     modal.componentInstance.etapas = this.etapas;
     modal.componentInstance.index = i;
     modal.componentInstance.create = false;
+    modal.componentInstance.gestion = this.formGestion.getRawValue();
   }
 
   closeModal(data) {

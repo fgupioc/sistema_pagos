@@ -12,6 +12,7 @@ export class ActualizarEtapaComponent implements OnInit {
   formEtapa: FormGroup;
   index: any;
   create = true;
+  gestion: any;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -37,6 +38,8 @@ export class ActualizarEtapaComponent implements OnInit {
     if (!this.create) {
         this.formEtapa.setValue(this.etapas[this.index]);
     }
+
+    console.log(this.gestion);
   }
 
   guardar() {
