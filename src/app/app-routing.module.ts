@@ -7,6 +7,7 @@ import {UsuarioCrearComponent} from './mantenimiento/usuario/crear/crear.compone
 import {UsuarioContrasenhaComponent} from './mantenimiento/usuario/contrasenha/contrasenha.component';
 import {CrearCarteraComponent} from './estrategia/cartera/crear-cartera/crear-cartera.component';
 import {ActualizarGestionComponent} from './estrategia/gestion/actualizar-gestion/actualizar-gestion.component';
+import {CarteraCargarCreditoComponent} from './estrategia/cartera/cargar-credito/cargar-credito.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,7 @@ const routes: Routes = [
           {
             path: 'cartera',
             children: [
+              {path: 'cargar-credito', component: CarteraCargarCreditoComponent},
               {path: '', component: CrearCarteraComponent},
               {path: 'crear-gestion', component: ActualizarGestionComponent},
               {path: 'editar-gestion', component: ActualizarGestionComponent}

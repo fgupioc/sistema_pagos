@@ -1,22 +1,26 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CrearCarteraComponent } from './cartera/crear-cartera/crear-cartera.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ActualizarGestionComponent } from './gestion/actualizar-gestion/actualizar-gestion.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ActualizarEtapaComponent } from './etapa/actualizar-etapa/actualizar-etapa.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {CrearCarteraComponent} from './cartera/crear-cartera/crear-cartera.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {ActualizarGestionComponent} from './gestion/actualizar-gestion/actualizar-gestion.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {ActualizarEtapaComponent} from './etapa/actualizar-etapa/actualizar-etapa.component';
+import {CarteraCargarCreditoComponent} from './cartera/cargar-credito/cargar-credito.component';
+import {ComunModule} from '../comun/comun.module';
 
 @NgModule({
   declarations: [
     CrearCarteraComponent,
     ActualizarGestionComponent,
-    ActualizarEtapaComponent
+    ActualizarEtapaComponent,
+    CarteraCargarCreditoComponent
   ],
   imports: [
     CommonModule,
     NgbModule,
-    CommonModule, 
+    CommonModule,
     ReactiveFormsModule,
+    ComunModule,
   ],
   exports: [
     CrearCarteraComponent,
@@ -28,4 +32,5 @@ import { ActualizarEtapaComponent } from './etapa/actualizar-etapa/actualizar-et
     ActualizarEtapaComponent
   ]
 })
-export class EstrategiaModule { }
+export class EstrategiaModule {
+}
