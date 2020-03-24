@@ -42,6 +42,11 @@ export class AuthComponent implements OnInit {
           icon: 'icon-bulb'
         },
       ]
+    },
+    {
+      name: 'Cartera',
+      url: '/auth/estrategia/cartera',
+      icon: 'icon-puzzle',
     }];
   }
 
