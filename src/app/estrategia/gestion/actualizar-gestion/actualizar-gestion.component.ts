@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { isNullOrUndefined } from 'util';
 import { CONST } from '../../../comun/CONST';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-actualizar-gestion',
@@ -26,7 +27,8 @@ export class ActualizarGestionComponent implements OnInit {
     private carteraService: CarteraService,
     public modalService: NgbModal,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
   ) {
     if (this.router.getCurrentNavigation().extras.state !== undefined) {
       if (this.router.getCurrentNavigation().extras.state.create) {
@@ -66,11 +68,13 @@ export class ActualizarGestionComponent implements OnInit {
   }
 
   getCampos() {
+    this.spinner.show();
     this.carteraService.listarCampos().subscribe(
       response => {
         if (response.exito) {
           this.campos = response.objeto;
         }
+        this.spinner.hide();
       }
     );
   }
@@ -82,7 +86,7 @@ export class ActualizarGestionComponent implements OnInit {
       return;
     }
     data.etapas = this.etapas;
-
+    this.spinner.show();
     this.carteraService.crearGestion(data).subscribe(
       response => {
         if (response.exito) {
@@ -92,6 +96,7 @@ export class ActualizarGestionComponent implements OnInit {
         } else {
           Swal.fire('Registro', response.mensaje, 'error');
         }
+        this.spinner.hide();
       }
     );
   }
@@ -104,8 +109,7 @@ export class ActualizarGestionComponent implements OnInit {
       return;
     }
     data.etapas = this.etapas;
-    console.log(data);
-
+    this.spinner.show();
     this.carteraService.actualizarGestion(data).subscribe(
       response => {
         if (response.exito) {
@@ -115,6 +119,7 @@ export class ActualizarGestionComponent implements OnInit {
         } else {
           Swal.fire('Registro', response.mensaje, 'error');
         }
+        this.spinner.hide();
       }
     );
   }

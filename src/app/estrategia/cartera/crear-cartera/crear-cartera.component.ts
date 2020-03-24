@@ -4,6 +4,7 @@ import { ActualizarGestionComponent } from '../../gestion/actualizar-gestion/act
 import { Router } from '@angular/router';
 import { CarteraService } from '../../../servicios/estrategia/cartera.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-crear-cartera',
@@ -18,7 +19,8 @@ export class CrearCarteraComponent implements OnInit {
   constructor(
     private router: Router,
     private carteraService: CarteraService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -56,12 +58,14 @@ export class CrearCarteraComponent implements OnInit {
   }
 
   getGestiones() {
+    this.spinner.show();
     this.carteraService.getGestiones('1').subscribe(
       response => {
         if (response.exito) {
           console.log(response.objeto)
           this.gestiones = response.objeto;
         }
+        this.spinner.hide();
       }
     );
   }
