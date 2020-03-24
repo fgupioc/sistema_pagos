@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MaestroService} from '../../../servicios/sistema/maestro.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {UsuarioService} from '../../../servicios/sistema/usuario.service';

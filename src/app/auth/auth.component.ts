@@ -1,5 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
+import {MenuService} from '../servicios/sistema/menu.service';
+import {TreeviewItem} from 'ngx-treeview';
+import {Menu} from '../interfaces/Menu';
 
 @Component({
   selector: 'app-auth',
@@ -7,47 +10,33 @@ import {DOCUMENT} from '@angular/common';
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
-  username: any;
+  username: Menu[] = [];
   sidebarMinimized: any;
-  navItems: any;
+  navItems = [];
+  usuarioId = 1;
 
   private changes: MutationObserver;
   public element: HTMLElement;
 
-  constructor(@Inject(DOCUMENT) _document?: any) {
+  constructor(
+    private menuService: MenuService,
+    @Inject(DOCUMENT) _document?: any) {
     this.changes = new MutationObserver((mutations) => {
       this.sidebarMinimized = _document.body.classList.contains('sidebar-minimized');
     });
     this.element = _document.body;
-    this.changes.observe(<Element>this.element, {
+    this.changes.observe(<Element> this.element, {
       attributes: true,
       attributeFilter: ['class']
     });
   }
 
   ngOnInit() {
-    this.navItems = [{
-      name: 'Parent',
-      url: '',
-      icon: 'icon-puzzle',
-      children: [
-        {
-          name: 'Child Menu',
-          url: '/url-to-child',
-          icon: 'icon-flag'
-        },
-        {
-          name: 'Another Child',
-          url: '/url-to-another-child',
-          icon: 'icon-bulb'
-        },
-      ]
-    },
-    {
-      name: 'Cartera',
-      url: '/auth/estrategia/cartera',
-      icon: 'icon-puzzle',
-    }];
+    this.encuentraTodossNavItemPorUsuario();
+  }
+
+  encuentraTodossNavItemPorUsuario() {
+    this.menuService.encuentraTodossNavItemPorUsuario(this.usuarioId).subscribe(navItems => this.navItems = navItems);
   }
 
   logout() {
