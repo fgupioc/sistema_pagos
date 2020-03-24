@@ -7,13 +7,15 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {ActualizarEtapaComponent} from './etapa/actualizar-etapa/actualizar-etapa.component';
 import {ComunModule} from '../comun/comun.module';
 import {CarteraCargarCreditoComponent} from './cartera/cargar-credito/cargar-credito.component';
+import {CarteraCargarCreditoFileComponent} from './cartera/cargar-credito/file/file.component';
 
 @NgModule({
   declarations: [
     CrearCarteraComponent,
     ActualizarGestionComponent,
     ActualizarEtapaComponent,
-    CarteraCargarCreditoComponent
+    CarteraCargarCreditoComponent,
+    CarteraCargarCreditoFileComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,8 @@ import {CarteraCargarCreditoComponent} from './cartera/cargar-credito/cargar-cre
   ],
   entryComponents: [
     ActualizarGestionComponent,
-    ActualizarEtapaComponent
+    ActualizarEtapaComponent,
+    CarteraCargarCreditoFileComponent
   ]
 })
 export class EstrategiaModule {

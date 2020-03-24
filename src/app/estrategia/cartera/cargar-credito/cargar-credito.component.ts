@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CarteraCargarCreditoFileComponent} from './file/file.component';
 
 @Component({
   selector: 'app-cargar-credito',
@@ -7,7 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CarteraCargarCreditoComponent implements OnInit {
 
-  constructor() { }
+  constructor(private modalService: NgbModal) {
+  }
 
   ngOnInit() {
   }
@@ -17,6 +20,21 @@ export class CarteraCargarCreditoComponent implements OnInit {
   }
 
   cargarArchivo() {
+    const modal = this.modalService.open(CarteraCargarCreditoFileComponent, {centered: true});
+    modal.result.then(
+      this.modalClose.bind(this),
+      this.modalClose.bind(this)
+    );
+    // modal.componentInstance.usuario = usuario;
+  }
+
+  modalClose(response) {
+    if (response) {
+      // reloadlist
+    }
+  }
+
+  ejecutarCarga() {
 
   }
 }

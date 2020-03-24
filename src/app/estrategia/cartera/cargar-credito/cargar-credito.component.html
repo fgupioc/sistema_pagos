@@ -6,14 +6,37 @@
         <span class="card-title text-uppercase font-weight-bold">Importación de cartera</span>
       </div>
       <div class="card-body">
-
+        <table class="table table-responsive-sm table-bordered table-striped table-sm">
+          <thead>
+          <tr class="text-center">
+            <th>#</th>
+            <th>Fecha de Carga</th>
+            <th>Registros</th>
+            <th>Clientes</th>
+            <th>Deuda Capital</th>
+            <th>Intereses</th>
+            <th>Deuda Actualizada</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!--
+          <tr  *ngFor="let usuario of usuarios; index as i; ">
+            <td class="text-center">{{ i + 1 }}</td>
+            <td class="text-center">{{ usuario.usuario}}</td>
+            <td class="text-center">{{ usuario.desTipoUsuario}}</td>
+          </tr> -->
+          </tbody>
+        </table>
       </div>
       <div class="card-footer">
-        <button type="button" class="btn btn-primary mr-5px" (click)="resetear()">
+        <button type="button" class="btn btn-danger mr-5px" (click)="resetear()">
           Resetear
         </button>
-        <button class="btn btn-instagram" (click)="cargarArchivo()">
+        <button class="btn btn-instagram mr-5px" (click)="cargarArchivo()">
           Cargar Archivo
+        </button>
+        <button class="btn btn-success mr-5px" (click)="ejecutarCarga()">
+          Ejecutar Carga
         </button>
       </div>
     </div>
