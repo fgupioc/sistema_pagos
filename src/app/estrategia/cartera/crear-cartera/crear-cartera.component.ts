@@ -69,7 +69,7 @@ export class CrearCarteraComponent implements OnInit {
       fechaActualizacion: [{value: '', disabled: true}],
       userCreate: [{value: '', disabled: true}],
       userUpdate: [{value: '', disabled: true}],
-      estado: [{value: '', disabled: true}],
+      estado: [{value: '', disabled: true}]
     });
   }
 

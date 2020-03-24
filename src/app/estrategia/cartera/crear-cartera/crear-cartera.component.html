@@ -228,10 +228,10 @@
                                                             <td>{{ item.nombre }}</td>
                                                             <td>{{ item.grupo }}</td>
                                                             <td>{{ item.campo.nombre }}</td>
-                                                            <td></td>
+                                                            <td>{{ item.desde }} a {{ item.hasta }}</td>
                                                             <td class="text-center">
                                                                 <button class="btn btn-sm btn-info mr-2" (click)="router.navigate([ '/auth/estrategia/cartera/editar-gestion'], { state: {create: false, gestion: item} })"><i class="fa fa-edit"></i></button>
-                                                                <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                                                <!--button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button-->
                                                             </td>
                                                         </tr>
                                                     </tbody>

@@ -63,8 +63,8 @@ export class ActualizarGestionComponent implements OnInit {
       userCreate: [{ value: '', disabled: true }],
       userUpdate: [{ value: '', disabled: true }],
       estado: [''],
-      campo: [''],
-      etapas: ['']
+      campo: [null],
+      etapas: [null]
     });
 
     if (!this.create) {

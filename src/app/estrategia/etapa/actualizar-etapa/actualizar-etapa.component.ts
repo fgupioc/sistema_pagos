@@ -40,10 +40,7 @@ export class ActualizarEtapaComponent implements OnInit {
         Validators.required,
         Validators.maxLength(100)
       ]],
-      color: ['', [
-        Validators.required,
-        Validators.maxLength(100)
-      ]],
+      color: [''],
       fechaCreacion: [{value: '', disabled: true}],
       fechaActualizacion: [{value: '', disabled: true}],
       userCreate: [{value: '', disabled: true}],
