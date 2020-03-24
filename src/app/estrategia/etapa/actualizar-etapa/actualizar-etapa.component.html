@@ -1,0 +1,72 @@
+<div class="modal-content" [formGroup]="formEtapa">
+    <div class="modal-header">
+        <h4 class="modal-title">{{ create ? 'Nuevo' : 'Editar' }} Etapa</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Código:</label>
+                    <input type="text" class="form-control" formControlName="codigo">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Nombre:</label>
+                    <input type="text" class="form-control" formControlName="nombre">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Desde:</label>
+                    <input type="text" class="form-control" formControlName="desde">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Haste:</label>
+                    <input type="text" class="form-control" formControlName="hasta">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Auditoria</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Fecha Creación:</label>
+                    <input type="text" class="form-control" formControlName="fechaCreacion">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Usuario Creador:</label>
+                    <input type="text" class="form-control" formControlName="userCreate">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Fecha Actualización:</label>
+                    <input type="text" class="form-control" formControlName="fechaActualizacion">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Usuario Actualiza:</label>
+                    <input type="text" class="form-control" formControlName="userUpdate">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer d-flex justify-content-center">
+        <button *ngIf="create" type="button" class="btn btn-outline-info mr-2" (click)="guardar()">Guardar</button>
+        <button *ngIf="!create" type="button" class="btn btn-outline-info mr-2" (click)="actualzar()">Actualizar</button>
+        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cerrar</button>
+    </div>
+</div>

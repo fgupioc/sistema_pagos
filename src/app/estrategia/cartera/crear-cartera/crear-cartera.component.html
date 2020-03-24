@@ -4,7 +4,7 @@
             <div class="card-header">
                 <h6 class="p-0 m-0">Cartera</h6>
             </div>
-            <div class="card-body">
+            <div class="card-body" [formGroup]="formulario">
                 <div class="row">
                     <div class="col-md-12">
                         <ngb-tabset [destroyOnHide]="false">
@@ -16,19 +16,19 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Código:</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" formControlName="codigo">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Nombre:</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" formControlName="nombre">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Nombre Externo:</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" formControlName="nombreExterno">
                                                     </div>
                                                 </div>
                                             </div>
@@ -41,43 +41,43 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Días Deudas Monto sin vencer:</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" formControlName="diasDeudaSinVencer">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Hora inicio:</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" formControlName="horaInicio">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Hora fin:</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" formControlName="horaFin">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>compromiso desde:</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" formControlName="compromisoDesde">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>compromiso hasta:</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" formControlName="compromisoHasta">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Días de Gestión:</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" formControlName="diasGestion">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Moneda:</label>
-                                                        <select class="form-control">
+                                                        <select class="form-control" formControlName="codMoneda">
                                                        <option value="PEN">Soles</option>
                                                        <option value="USD">Dolar</option>
                                                    </select>
@@ -93,25 +93,25 @@
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>Fecha Creación:</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" formControlName="fechaCreacion">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>Usuario Creador:</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" formControlName="userCreate">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>Fecha Actualización:</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" formControlName="fechaActualizacion">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>Usuario Actualiza:</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" formControlName="userUpdate">
                                                     </div>
                                                 </div>
                                             </div>
@@ -125,7 +125,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <button class="btn btn-outline-info btn-sm" (click)="router.navigate(['/auth/estrategia/cartera/crear-gestion'])">Nuevo</button>
+                                                <button class="btn btn-outline-info btn-sm" (click)="router.navigate(['/auth/estrategia/cartera/crear-gestion'], { state: {create: true} })">Nuevo</button>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -142,15 +142,17 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <th scope="row">1</th>
-                                                            <td>Mark</td>
-                                                            <td>Otto</td>
-                                                            <td>@mdo</td>
-                                                            <td>Otto</td>
-                                                            <td>@mdo</td>
+                                                        <tr *ngFor="let item of gestiones; let i = index;" class="text-center">
+                                                            <th scope="row">{{ i+1 }}</th>
+                                                            <td>{{ item.nombre }}</td>
+                                                            <td>{{ item.grupo }}</td>
+                                                            <td>{{ item.campo.nombre }}</td>
+                                                            <td></td>
+                                                            <td class="text-center">
+                                                                <button class="btn btn-sm btn-info mr-2" (click)="router.navigate([ '/auth/estrategia/cartera/editar-gestion'], { state: {create: false, gestion: item} })"><i class="fa fa-edit"></i></button>
+                                                                <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                                            </td>
                                                         </tr>
-
                                                     </tbody>
                                                 </table>
                                             </div>
