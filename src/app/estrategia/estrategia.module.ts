@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActualizarEtapaComponent } from './etapa/actualizar-etapa/actualizar-etapa.component';
 import { LoadingComponent } from '../comun/loading/loading.component';
 import { ComunModule } from '../comun/comun.module';
+import { MyPipesModule } from '../pipes/my-pipes.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { ComunModule } from '../comun/comun.module';
     ComunModule,
     NgbModule,
     ReactiveFormsModule,
+    MyPipesModule
   ],
   exports: [
     CrearCarteraComponent,

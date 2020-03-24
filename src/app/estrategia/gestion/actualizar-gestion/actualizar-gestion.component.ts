@@ -21,6 +21,7 @@ export class ActualizarGestionComponent implements OnInit {
   etapas: any[] = [];
   gestion: any;
   create: boolean;
+  codCartera: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -33,8 +34,10 @@ export class ActualizarGestionComponent implements OnInit {
     if (this.router.getCurrentNavigation().extras.state !== undefined) {
       if (this.router.getCurrentNavigation().extras.state.create) {
         this.create = true;
+        this.codCartera = this.router.getCurrentNavigation().extras.state.codCartera;
       } else {
         this.gestion = this.router.getCurrentNavigation().extras.state.gestion;
+        this.codCartera = this.router.getCurrentNavigation().extras.state.gestion.codCartera;
         this.create = false;
       }
     } else {
@@ -42,11 +45,11 @@ export class ActualizarGestionComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnInit() { 
     this.getCampos();
     this.formGestion = this.formBuilder.group({
       codGestion: [''],
-      codCartera: [1],
+      codCartera: [this.codCartera],
       codCampoCartera: [''],
       nombre: [''],
       grupo: [''],
