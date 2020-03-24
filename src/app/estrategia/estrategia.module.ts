@@ -5,8 +5,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ActualizarGestionComponent} from './gestion/actualizar-gestion/actualizar-gestion.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ActualizarEtapaComponent} from './etapa/actualizar-etapa/actualizar-etapa.component';
-import {CarteraCargarCreditoComponent} from './cartera/cargar-credito/cargar-credito.component';
 import {ComunModule} from '../comun/comun.module';
+import {CarteraCargarCreditoComponent} from './cartera/cargar-credito/cargar-credito.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +17,7 @@ import {ComunModule} from '../comun/comun.module';
   ],
   imports: [
     CommonModule,
+    ComunModule,
     NgbModule,
     CommonModule,
     ReactiveFormsModule,
