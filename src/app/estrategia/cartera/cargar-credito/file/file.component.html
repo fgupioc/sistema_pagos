@@ -1,0 +1,40 @@
+<div class="modal-header">
+  <h4 class="modal-title">Cargar archivo</h4>
+  <button type="button" class="close" aria-label="Cerrar" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="formGroup" (ngSubmit)="cargarArchivo()">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="cartera">Cartera *</label>
+          <select id="cartera" class="form-control" formControlName="cartera">
+            <!-- <option *ngFor="let doi of listaDoi" [value]="doi.codigoItem">{{doi.valorAlfanum}}</option> -->
+          </select>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="archivo">Archivo (Microsoft Excel Worksheet (.xlsx))</label>
+          <input type="file" id="archivo" placeholder="Número documento" class="form-control"
+                 formControlName="archivo"
+                 [ngClass]="
+                    {
+                    'is-invalid': formGroup.controls['archivo'].touched && formGroup.controls['archivo'].errors,
+                    'is-valid': formGroup.controls['archivo'].touched && !formGroup.controls['archivo'].errors
+                     }">
+          <div class="invalid-feedback">
+            <span *ngIf="formGroup.get('archivo').hasError('required')"> Requerido </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer d-flex justify-content-center">
+  <button class="btn btn-primary" (click)="cargarArchivo()" [disabled]="!formGroup.valid">Cargar Archivo</button>
+  <button type="button" class="btn btn-danger" (click)="activeModal.close()">Cancelar</button>
+</div>
+<app-loading></app-loading>
