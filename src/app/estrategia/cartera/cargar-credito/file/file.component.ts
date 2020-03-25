@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CarteraService} from '../../../../servicios/estrategia/cartera.service';
 import Swal from 'sweetalert2';
 import {NgxSpinnerService} from 'ngx-spinner';
@@ -48,13 +48,6 @@ export class CarteraCargarCreditoFileComponent implements OnInit {
           }
         }
       );
-      /*
-      this.http.post('http://localhost:8001/upload.php', formData)
-        .subscribe(res => {
-          console.log(res);
-          alert('Uploaded Successfully.');
-        })}
-    */
     }
   }
 

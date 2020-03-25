@@ -38,7 +38,6 @@ export class UsuarioComponent implements OnInit {
         this.usuarios = res;
         this.refreshDatatable();
       });
-
   }
 
   refreshDatatable() {
