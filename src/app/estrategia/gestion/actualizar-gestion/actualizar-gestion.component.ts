@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CarteraService } from '../../../servicios/estrategia/cartera.service';
 import { ActualizarEtapaComponent } from '../../etapa/actualizar-etapa/actualizar-etapa.component';
 import { Router } from '@angular/router';
@@ -21,6 +21,7 @@ export class ActualizarGestionComponent implements OnInit {
   etapas: any[] = [];
   gestion: any;
   create: boolean;
+  codCartera: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -33,8 +34,10 @@ export class ActualizarGestionComponent implements OnInit {
     if (this.router.getCurrentNavigation().extras.state !== undefined) {
       if (this.router.getCurrentNavigation().extras.state.create) {
         this.create = true;
+        this.codCartera = this.router.getCurrentNavigation().extras.state.codCartera;
       } else {
         this.gestion = this.router.getCurrentNavigation().extras.state.gestion;
+        this.codCartera = this.router.getCurrentNavigation().extras.state.gestion.codCartera;
         this.create = false;
       }
     } else {
@@ -42,23 +45,26 @@ export class ActualizarGestionComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnInit() { 
     this.getCampos();
     this.formGestion = this.formBuilder.group({
       codGestion: [''],
-      codCartera: [1],
-      codCampoCartera: [''],
-      nombre: [''],
+      codCartera: [this.codCartera],
+      codCampoCartera: ['', [Validators.required]],
+      nombre: ['', [
+        Validators.required,
+        Validators.maxLength(100)
+      ]],
       grupo: [''],
-      desde: [''],
-      hasta: [''],
+      desde: ['',  [Validators.required]],
+      hasta: ['',  [Validators.required]],
       fechaCreacion: [{ value: '', disabled: true }],
       fechaActualizacion: [{ value: '', disabled: true }],
       userCreate: [{ value: '', disabled: true }],
       userUpdate: [{ value: '', disabled: true }],
       estado: [''],
-      campo: [''],
-      etapas: ['']
+      campo: [null],
+      etapas: [null]
     });
 
     if (!this.create) {
@@ -82,7 +88,7 @@ export class ActualizarGestionComponent implements OnInit {
   guardar() {
     const data: any = this.formGestion.getRawValue();
     if (this.etapas.length === 0) {
-      alert('Se necesita registrar etapas');
+      Swal.fire('Nueva Gestion', 'Se necesita registrar etapas', 'error');
       return;
     }
     data.etapas = this.etapas;
@@ -131,6 +137,7 @@ export class ActualizarGestionComponent implements OnInit {
       this.closeModal.bind(this)
     );
     modal.componentInstance.etapas = this.etapas;
+    modal.componentInstance.gestion = this.formGestion.getRawValue();
   }
 
   actualzarEtapa(i) {
@@ -142,6 +149,7 @@ export class ActualizarGestionComponent implements OnInit {
     modal.componentInstance.etapas = this.etapas;
     modal.componentInstance.index = i;
     modal.componentInstance.create = false;
+    modal.componentInstance.gestion = this.formGestion.getRawValue();
   }
 
   closeModal(data) {

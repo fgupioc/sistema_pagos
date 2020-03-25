@@ -37,4 +37,8 @@ export class CarteraService {
   actualizarGestion(data: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}actualizar-gestion`, data);
   }
+
+  actualizarCartera(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}actualizar`, data);
+  }
 }

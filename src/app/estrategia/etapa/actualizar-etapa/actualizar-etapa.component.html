@@ -10,25 +10,61 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Código:</label>
-                    <input type="text" class="form-control" formControlName="codigo">
+                    <input Uppercase type="text" class="form-control" formControlName="codigo" [ngClass]="
+                    {
+                    'is-invalid': formEtapa.controls['codigo'].touched && formEtapa.controls['codigo'].errors,
+                    'is-valid': formEtapa.controls['codigo'].touched && !formEtapa.controls['codigo'].errors
+                    }
+                    ">
+                    <div class="invalid-feedback">
+                        <span class="d-block" *ngIf="formEtapa.get('codigo').hasError('required')"> El campo código es obligatorio.</span>
+                        <span class="d-block" *ngIf="formEtapa.get('codigo').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Nombre:</label>
-                    <input type="text" class="form-control" formControlName="nombre">
+                    <input Uppercase type="text" class="form-control" formControlName="nombre" [ngClass]="
+                    {
+                    'is-invalid': formEtapa.controls['nombre'].touched && formEtapa.controls['nombre'].errors,
+                    'is-valid': formEtapa.controls['nombre'].touched && !formEtapa.controls['nombre'].errors
+                    }
+                    ">
+                    <div class="invalid-feedback">
+                        <span class="d-block" *ngIf="formEtapa.get('nombre').hasError('required')"> El campo nombre es obligatorio.</span>
+                        <span class="d-block" *ngIf="formEtapa.get('nombre').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Desde:</label>
-                    <input type="text" class="form-control" formControlName="desde">
+                    <input CustomizeInteger type="text" class="form-control" formControlName="desde" [ngClass]="
+                    {
+                    'is-invalid': formEtapa.controls['desde'].touched && formEtapa.controls['desde'].errors,
+                    'is-valid': formEtapa.controls['desde'].touched && !formEtapa.controls['desde'].errors
+                    }
+                    ">
+                    <div class="invalid-feedback">
+                        <span class="d-block" *ngIf="formEtapa.get('desde').hasError('required')"> El campo desde es obligatorio.</span>
+                        <span class="d-block" *ngIf="formEtapa.get('desde').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Haste:</label>
-                    <input type="text" class="form-control" formControlName="hasta">
+                    <input CustomizeInteger type="text" class="form-control" formControlName="hasta" [ngClass]="
+                    {
+                    'is-invalid': formEtapa.controls['hasta'].touched && formEtapa.controls['hasta'].errors,
+                    'is-valid': formEtapa.controls['hasta'].touched && !formEtapa.controls['hasta'].errors
+                    }
+                    ">
+                    <div class="invalid-feedback">
+                        <span class="d-block" *ngIf="formEtapa.get('hasta').hasError('required')"> El campo hasta es obligatorio.</span>
+                        <span class="d-block" *ngIf="formEtapa.get('hasta').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -65,8 +101,8 @@
         </div>
     </div>
     <div class="modal-footer d-flex justify-content-center">
-        <button *ngIf="create" type="button" class="btn btn-outline-info mr-2" (click)="guardar()">Guardar</button>
-        <button *ngIf="!create" type="button" class="btn btn-outline-info mr-2" (click)="actualzar()">Actualizar</button>
+        <button [disabled]="formEtapa.invalid" *ngIf="create" type="button" class="btn btn-outline-info mr-2" (click)="guardar()">Guardar</button>
+        <button [disabled]="formEtapa.invalid" *ngIf="!create" type="button" class="btn btn-outline-info mr-2" (click)="actualzar()">Actualizar</button>
         <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cerrar</button>
     </div>
 </div>

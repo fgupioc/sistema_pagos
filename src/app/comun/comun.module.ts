@@ -7,8 +7,7 @@ import {NgxSpinnerModule} from 'ngx-spinner';
   declarations: [LoadingComponent],
   imports: [
     CommonModule,
-    NgxSpinnerModule,
-
+    NgxSpinnerModule, 
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [
