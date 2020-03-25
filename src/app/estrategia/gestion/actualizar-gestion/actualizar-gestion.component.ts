@@ -17,11 +17,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class ActualizarGestionComponent implements OnInit {
   formGestion: FormGroup;
-  campos: any[] = [];
   etapas: any[] = [];
   gestion: any;
   create: boolean;
   codCartera: any;
+  gestiones: any[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,22 +40,20 @@ export class ActualizarGestionComponent implements OnInit {
         this.codCartera = this.router.getCurrentNavigation().extras.state.gestion.codCartera;
         this.create = false;
       }
+      this.gestiones = this.router.getCurrentNavigation().extras.state.gestiones;
     } else {
       this.router.navigate(['/auth/estrategia/cartera']);
     }
   }
 
-  ngOnInit() { 
-    this.getCampos();
+  ngOnInit() {
     this.formGestion = this.formBuilder.group({
       codGestion: [''],
       codCartera: [this.codCartera],
-      codCampoCartera: ['', [Validators.required]],
       nombre: ['', [
         Validators.required,
         Validators.maxLength(100)
       ]],
-      grupo: [''],
       desde: ['',  [Validators.required]],
       hasta: ['',  [Validators.required]],
       fechaCreacion: [{ value: '', disabled: true }],
@@ -63,26 +61,14 @@ export class ActualizarGestionComponent implements OnInit {
       userCreate: [{ value: '', disabled: true }],
       userUpdate: [{ value: '', disabled: true }],
       estado: [''],
-      campo: [null],
-      etapas: [null]
+      etapas: [null],
+      color: []
     });
-
+    console.log(this.gestiones);
     if (!this.create) {
       this.formGestion.setValue(this.gestion);
       this.etapas = this.gestion.etapas;
     }
-  }
-
-  getCampos() {
-    this.spinner.show();
-    this.carteraService.listarCampos().subscribe(
-      response => {
-        if (response.exito) {
-          this.campos = response.objeto;
-        }
-        this.spinner.hide();
-      }
-    );
   }
 
   guardar() {
@@ -91,12 +77,17 @@ export class ActualizarGestionComponent implements OnInit {
       Swal.fire('Nueva Gestion', 'Se necesita registrar etapas', 'error');
       return;
     }
+    const hasta = Number(this.formGestion.controls.hasta.value);
+    if (Number(this.etapas[this.etapas.length - 1].hasta) !== hasta ) {
+      Swal.fire('Nueva Gestion', 'La estapas deben de cubrir todo el rango de los campos desde y hasta.', 'error');
+      return;
+    }
+
     data.etapas = this.etapas;
     this.spinner.show();
     this.carteraService.crearGestion(data).subscribe(
       response => {
         if (response.exito) {
-          this.campos = response.objeto;
           this.toastr.success('Se registro con exito.')
           this.router.navigate(['/auth/estrategia/cartera']);
         } else {
@@ -114,12 +105,17 @@ export class ActualizarGestionComponent implements OnInit {
       alert('Se necesita registrar etapas');
       return;
     }
+    
+    const hasta = Number(this.formGestion.controls.hasta.value);
+    if (Number(c[c.length - 1].hasta) !== hasta ) {
+      Swal.fire('Nueva Gestion', 'La estapas deben de cubrir todo el rango de los campos desde y hasta.', 'error');
+      return;
+    }
     data.etapas = this.etapas;
     this.spinner.show();
     this.carteraService.actualizarGestion(data).subscribe(
       response => {
         if (response.exito) {
-          this.campos = response.objeto;
           this.toastr.success('Se actualizo con exito.');
           this.router.navigate(['/auth/estrategia/cartera']);
         } else {
@@ -175,8 +171,61 @@ export class ActualizarGestionComponent implements OnInit {
           'Deleted!',
           'Your imaginary file has been deleted.',
           'success'
-        )
+        );
       }
-    })
+    });
+  }
+
+  validarDesde() {
+    this.formGestion.controls.hasta.setValue(0);
+    const desde = Number(this.formGestion.controls.desde.value);
+    if (this.create) {
+      if (this.gestiones.length > 0) {
+        let flag = true;
+        this.gestiones.forEach(v => {
+          if (desde <= v.hasta) {
+            flag = false;
+          }
+        });
+        if (!flag) {
+          Swal.fire('Crear Gestion', 'La cantidad del campo desde no es valido.', 'error');
+          this.formGestion.controls.desde.setValue(0);
+          return;
+        }
+      }
+    } else {
+      const gestiones = this.gestiones.filter( v =>  v.codGestion < this.gestion.codGestion);
+      if (gestiones.length > 0) {
+        let flag = true;
+        gestiones.forEach(v => {
+          if (desde <= v.hasta) {
+            flag = false;
+          }
+        });
+        if (!flag) {
+          Swal.fire('Crear Gestion', 'La cantidad del campo desde no es valido.', 'error');
+          this.formGestion.controls.desde.setValue(this.gestion.desde);
+          return;
+        }
+      }
+    }
+  }
+
+  validarHasta() {
+    const hasta = Number(this.formGestion.controls.hasta.value);
+    const desde = Number(this.formGestion.controls.desde.value);
+    if (this.create) {
+      if (hasta <= desde) {
+        Swal.fire('Crear Gestion', 'La cantidad del campo hasta no es valido.', 'error');
+        this.formGestion.controls.hasta.setValue(0);
+        return;
+      }
+    } else {
+      if (hasta <= desde) {
+        Swal.fire('Crear Gestion', 'La cantidad del campo hasta no es valido.', 'error');
+        this.formGestion.controls.hasta.setValue(this.gestion.hasta);
+        return;
+      }
+    }
   }
 }
