@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { isNullOrUndefined } from 'util';
 import { CONST } from '../../../comun/CONST';
 import { NgxSpinnerService } from 'ngx-spinner';
+declare var $: any;
 
 @Component({
   selector: 'app-actualizar-gestion',
@@ -226,6 +227,20 @@ export class ActualizarGestionComponent implements OnInit {
         this.formGestion.controls.hasta.setValue(this.gestion.hasta);
         return;
       }
+    }
+  }
+
+  cambio(tipo: any) {
+    if (tipo == '1') {
+      $('.etapas').removeClass('active');
+      $('.gestion').addClass('active');
+      $('#etapas').removeClass('show active');
+      $('#gestion').addClass('show active');
+    } else {
+      $('.gestion').removeClass('active');
+      $('.etapas').addClass('active');
+      $('#etapas').addClass('show active');
+      $('#gestion').removeClass('show active');
     }
   }
 }
