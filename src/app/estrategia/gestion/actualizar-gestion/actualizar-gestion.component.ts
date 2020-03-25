@@ -77,6 +77,12 @@ export class ActualizarGestionComponent implements OnInit {
       Swal.fire('Nueva Gestion', 'Se necesita registrar etapas', 'error');
       return;
     }
+    const hasta = Number(this.formGestion.controls.hasta.value);
+    if (Number(this.etapas[this.etapas.length - 1].hasta) !== hasta ) {
+      Swal.fire('Nueva Gestion', 'La estapas deben de cubrir todo el rango de los campos desde y hasta.', 'error');
+      return;
+    }
+
     data.etapas = this.etapas;
     this.spinner.show();
     this.carteraService.crearGestion(data).subscribe(
@@ -97,6 +103,12 @@ export class ActualizarGestionComponent implements OnInit {
     const c = this.etapas.filter(value => value.estado == '1');
     if (c.length === 0) {
       alert('Se necesita registrar etapas');
+      return;
+    }
+    
+    const hasta = Number(this.formGestion.controls.hasta.value);
+    if (Number(c[c.length - 1].hasta) !== hasta ) {
+      Swal.fire('Nueva Gestion', 'La estapas deben de cubrir todo el rango de los campos desde y hasta.', 'error');
       return;
     }
     data.etapas = this.etapas;
@@ -183,7 +195,6 @@ export class ActualizarGestionComponent implements OnInit {
       }
     } else {
       const gestiones = this.gestiones.filter( v =>  v.codGestion < this.gestion.codGestion);
-      console.log(gestiones)
       if (gestiones.length > 0) {
         let flag = true;
         gestiones.forEach(v => {
