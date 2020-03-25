@@ -40,7 +40,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Desde:</label>
-                    <input CustomizeInteger type="text" class="form-control" formControlName="desde" [ngClass]="
+                    <input CustomizeInteger type="text" class="form-control" formControlName="desde" (change)="validarDesde()" [ngClass]="
                     {
                     'is-invalid': formEtapa.controls['desde'].touched && formEtapa.controls['desde'].errors,
                     'is-valid': formEtapa.controls['desde'].touched && !formEtapa.controls['desde'].errors
@@ -55,7 +55,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Haste:</label>
-                    <input CustomizeInteger type="text" class="form-control" formControlName="hasta" [ngClass]="
+                    <input CustomizeInteger type="text" class="form-control" formControlName="hasta" (change)="validarHasta()" [ngClass]="
                     {
                     'is-invalid': formEtapa.controls['hasta'].touched && formEtapa.controls['hasta'].errors,
                     'is-valid': formEtapa.controls['hasta'].touched && !formEtapa.controls['hasta'].errors
