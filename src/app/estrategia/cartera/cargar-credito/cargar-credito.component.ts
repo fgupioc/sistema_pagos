@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CarteraCargarCreditoFileComponent} from './file/file.component';
+import {CreditoService} from '../../../servicios/estrategia/credito.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-cargar-credito',
@@ -8,11 +10,22 @@ import {CarteraCargarCreditoFileComponent} from './file/file.component';
   styleUrls: ['./cargar-credito.component.css']
 })
 export class CarteraCargarCreditoComponent implements OnInit {
+  cargas = [];
 
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: NgbModal, private creditoService: CreditoService, private spinner: NgxSpinnerService) {
   }
 
   ngOnInit() {
+    this.listarCargas();
+  }
+
+  listarCargas() {
+    this.spinner.show();
+    this.creditoService.listarCargas().subscribe(
+      res => {
+        this.spinner.hide();
+        this.cargas = res;
+      });
   }
 
   resetear() {

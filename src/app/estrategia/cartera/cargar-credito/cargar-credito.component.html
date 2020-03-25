@@ -19,12 +19,15 @@
           </tr>
           </thead>
           <tbody>
-          <!--
-          <tr  *ngFor="let usuario of usuarios; index as i; ">
+          <tr *ngFor="let o of cargas; index as i; ">
             <td class="text-center">{{ i + 1 }}</td>
-            <td class="text-center">{{ usuario.usuario}}</td>
-            <td class="text-center">{{ usuario.desTipoUsuario}}</td>
-          </tr> -->
+            <td class="text-center">{{ o.fechaCarga | date: 'dd/MM/yyyy hh:mm a' | lowercase}}</td>
+            <td class="text-center">{{ o.nroRegistros}}</td>
+            <td class="text-center">{{ o.nroClientes}}</td>
+            <td class="text-center">{{ o.deudaCapital}}</td>
+            <td class="text-center">{{ o.intereses}}</td>
+            <td class="text-center">{{ o.deudaActualizada}}</td>
+          </tr>
           </tbody>
         </table>
       </div>
