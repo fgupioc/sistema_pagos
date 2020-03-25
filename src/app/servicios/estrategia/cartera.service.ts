@@ -7,11 +7,15 @@ import {Observable, of} from 'rxjs';
   providedIn: 'root'
 })
 export class CarteraService {
-  
+
   apiUrl: string;
 
   constructor(private http: HttpClient) {
     this.apiUrl = `${environment.serverUrl}cartera/`;
+  }
+
+  activas(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}activas`);
   }
 
   carteraAbaco(): Observable<any> {

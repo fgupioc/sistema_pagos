@@ -5,20 +5,30 @@
   </button>
 </div>
 <div class="modal-body">
-  <form [formGroup]="formGroup" (ngSubmit)="cargarArchivo()">
+  <form [formGroup]="formGroup" (ngSubmit)="cargarCreditos()">
     <div class="row">
       <div class="col-md-12">
         <div class="form-group">
           <label for="cartera">Cartera *</label>
-          <select id="cartera" class="form-control" formControlName="cartera">
-            <!-- <option *ngFor="let doi of listaDoi" [value]="doi.codigoItem">{{doi.valorAlfanum}}</option> -->
+          <select id="cartera" class="form-control" formControlName="cartera"
+                  [ngClass]="
+                    {
+                    'is-invalid': formGroup.controls['cartera'].touched && formGroup.controls['cartera'].errors,
+                    'is-valid': formGroup.controls['cartera'].touched && !formGroup.controls['cartera'].errors
+                     }"
+          >
+            <option *ngFor="let o of carterasActivas" [value]="o.codCartera">{{o.nombre}}</option>
           </select>
+          <div class="invalid-feedback">
+            <span *ngIf="formGroup.get('cartera').hasError('required')"> Requerido </span>
+          </div>
         </div>
       </div>
       <div class="col-md-12">
         <div class="form-group">
           <label for="archivo">Archivo (Microsoft Excel Worksheet (.xlsx))</label>
           <input type="file" id="archivo" placeholder="Número documento" class="form-control"
+                 accept=".xlsx" (change)="onFileChange($event)"
                  formControlName="archivo"
                  [ngClass]="
                     {
@@ -34,7 +44,7 @@
   </form>
 </div>
 <div class="modal-footer d-flex justify-content-center">
-  <button class="btn btn-primary" (click)="cargarArchivo()" [disabled]="!formGroup.valid">Cargar Archivo</button>
+  <button class="btn btn-primary" (click)="cargarCreditos()" [disabled]="!formGroup.valid">Cargar Archivo</button>
   <button type="button" class="btn btn-danger" (click)="activeModal.close()">Cancelar</button>
 </div>
 <app-loading></app-loading>

@@ -21,11 +21,7 @@ export class CarteraCargarCreditoComponent implements OnInit {
 
   cargarArchivo() {
     const modal = this.modalService.open(CarteraCargarCreditoFileComponent, {centered: true});
-    modal.result.then(
-      this.modalClose.bind(this),
-      this.modalClose.bind(this)
-    );
-    // modal.componentInstance.usuario = usuario;
+    modal.result.then(this.modalClose.bind(this), this.modalClose.bind(this));
   }
 
   modalClose(response) {
