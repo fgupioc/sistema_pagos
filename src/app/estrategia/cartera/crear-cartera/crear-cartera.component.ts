@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
+import { MaestroService } from '../../../servicios/sistema/maestro.service';
 
 @Component({
   selector: 'app-crear-cartera',
@@ -16,19 +17,24 @@ import { ToastrService } from 'ngx-toastr';
 export class CrearCarteraComponent implements OnInit {
   formulario: FormGroup;
   cartera: any;
-  gestiones: any[];
+  gestiones: any[] = [];
+  monedas: any[] = [];
+  monedasSeleccionadas: any[] = [];
 
   constructor(
     private router: Router,
     private carteraService: CarteraService,
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private maestroService: MaestroService
   ) { }
 
   ngOnInit() {
+    this.listarMondas();
     this.getCartera();
     this.getGestiones();
+
     this.formulario = this.formBuilder.group({
       codCartera: [''],
       codigo: [{value: '', disabled: true}],
@@ -64,7 +70,7 @@ export class CrearCarteraComponent implements OnInit {
         Validators.required,
         Validators.maxLength(100)
       ]],
-      codMoneda: [{value: ''}, [Validators.required]],
+      monedas: [],
       fechaCreacion: [{value: '', disabled: true}],
       fechaActualizacion: [{value: '', disabled: true}],
       userCreate: [{value: '', disabled: true}],
@@ -72,13 +78,33 @@ export class CrearCarteraComponent implements OnInit {
       estado: [{value: '', disabled: true}]
     });
   }
+  listarMondas() {
+    this.maestroService.listarMondas().subscribe(
+      response => {
+        this.monedas = response;
+      }
+    );
+  }
 
   getCartera() {
     this.carteraService.carteraAbaco().subscribe(
       response => {
         if (response.exito) {
           this.cartera = response.objeto;
+          console.log(this.cartera.monedas);
           this.formulario.setValue(this.cartera);
+          if (this.cartera.monedas.length > 0) {
+            this.cartera.monedas.forEach(e => {
+              this.monedasSeleccionadas.push({
+                codTabla: null,
+                codItem: e.codMoneda,
+                descripcion: null ,
+                strValor: null,
+                intValor: null,
+                codEstado: null,
+              });
+            });
+          }
         }
       }
     );
@@ -89,7 +115,6 @@ export class CrearCarteraComponent implements OnInit {
     this.carteraService.getGestiones('1').subscribe(
       response => {
         if (response.exito) {
-          console.log(response.objeto)
           this.gestiones = response.objeto;
         }
         this.spinner.hide();
@@ -97,13 +122,18 @@ export class CrearCarteraComponent implements OnInit {
     );
   }
 
-  guardar() {
+  guardar() { 
     if (this.formulario.invalid) {
       Swal.fire('Cartera', 'Debe ingresar los datos necesario.', 'error');
       return;
     }
+
+    if (this.monedasSeleccionadas.length == 0) {
+      Swal.fire('Cartera', 'Debe seleccionar un tipo de monesa.', 'error');
+      return;
+    }
     const data = this.formulario.getRawValue();
-    console.log(data);
+    data.monedas = this.convert();
     this.spinner.show();
     this.carteraService.actualizarCartera(data).subscribe(
       response => {
@@ -116,6 +146,39 @@ export class CrearCarteraComponent implements OnInit {
         this.spinner.hide();
       }
     );
+  }
 
+  convert() {
+    const array = [];
+    if (this.monedasSeleccionadas.length > 0) {
+      this.monedasSeleccionadas.forEach(e => {
+        array.push({
+          codCartera: this.cartera.codCartera,
+          codMoneda: e.codItem
+        });
+      });
+    }
+    return array;
+  }
+
+  cambioMoneda(event: any, item: any) {
+    const index = this.monedasSeleccionadas.findIndex(v => v.codItem == item.codItem);
+    
+    if (event.target.checked) {
+      if (index == -1) {
+        this.monedasSeleccionadas.push(item);
+      }
+    } else {
+      console.log(index)
+      if (index >= 0) {
+        this.monedasSeleccionadas.splice( index, 1 );
+      } 
+    }
+    console.log(this.monedasSeleccionadas);
+  }
+
+  selecciodano(item: any) {
+    const obj = this.monedasSeleccionadas.find(v => v.codItem == item.codItem);
+    return obj ? true : false;
   }
 }

@@ -21,4 +21,8 @@ export class MaestroService {
     // return of([{codItem: 'AD', descripcion: 'Administrador'}, {codItem: 'SU', descripcion: 'Supervisor'}]);
     return this.http.get<any[]>(`${this.apiUrl}listarTiposDeUsuarios`);
   }
+
+  listarMondas(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}listarMondas`);
+  }
 }

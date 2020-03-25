@@ -150,20 +150,28 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label>Moneda:</label>
+                                                </div>
+                                                <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label>Moneda:</label>
-                                                        <select class="form-control" formControlName="codMoneda">
-                                                       <option value="PEN">Soles</option>
-                                                       <option value="USD">Dolar</option>
-                                                   </select>
+                                                        <ul class="list-group">
+                                                            <li class="list-group-item p-2" *ngFor="let item of monedas" style="border: none;">
+                                                                <label class="m-0 cursor-pointer">
+                                                                    <input type="checkbox" [value]="item.codItem" (change)="cambioMoneda($event, item)" [checked]="selecciodano(item)">
+                                                                    {{ item.descripcion }}
+                                                                 </label>
+                                                            </li>
+                                                        </ul>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label>Auditoria</label>
+                                                        <label>Pistas de Auditoria</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
