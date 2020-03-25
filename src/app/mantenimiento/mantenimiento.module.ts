@@ -13,23 +13,25 @@ import {TreeviewModule} from 'ngx-treeview';
 import {UsuarioCrearComponent} from './usuario/crear/crear.component';
 import {DataTablesModule} from 'angular-datatables';
 import {UsuarioContrasenhaComponent} from './usuario/contrasenha/contrasenha.component';
+import {MyPipesModule} from '../pipes/my-pipes.module';
 
 @NgModule({
   declarations: [UsuarioComponent, UsuarioEditarComponent, UsuarioCrearComponent, UsuarioContrasenhaComponent],
-  imports: [
-    CommonModule,
-    ComunModule,
-    NgbTooltipModule,
-    NgbModalModule,
-    NgbNavModule,
-    ReactiveFormsModule,
+    imports: [
+        CommonModule,
+        ComunModule,
+        NgbTooltipModule,
+        NgbModalModule,
+        NgbNavModule,
+        ReactiveFormsModule,
 
-    BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot(), // ToastrModule added
+        BrowserAnimationsModule, // required animations module
+        ToastrModule.forRoot(), // ToastrModule added
 
-    TreeviewModule.forRoot(),
-    DataTablesModule
-  ],
+        TreeviewModule.forRoot(),
+        DataTablesModule,
+        MyPipesModule
+    ],
   entryComponents: [UsuarioCrearComponent, UsuarioEditarComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
