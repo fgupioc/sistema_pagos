@@ -13,6 +13,7 @@ import {CarteraCargarCreditoFileComponent} from './cartera/cargar-credito/file/f
 import { ComunModule } from '../comun/comun.module';
 import { RouterModule } from '@angular/router';
 import { ConfigurarNotificionComponent } from './configuracion/configurar-notificion/configurar-notificion.component';
+import { CrearEtapaNotificionComponent } from './configuracion/crear-etapa-notificion/crear-etapa-notificion.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ConfigurarNotificionComponent } from './configuracion/configurar-notifi
     ActualizarEtapaComponent,
     CarteraCargarCreditoComponent,
     CarteraCargarCreditoFileComponent,
-    ConfigurarNotificionComponent
+    ConfigurarNotificionComponent,
+    CrearEtapaNotificionComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +43,8 @@ import { ConfigurarNotificionComponent } from './configuracion/configurar-notifi
   entryComponents: [
     ActualizarGestionComponent,
     ActualizarEtapaComponent,
-    CarteraCargarCreditoFileComponent
+    CarteraCargarCreditoFileComponent,
+    CrearEtapaNotificionComponent
   ]
 })
 export class EstrategiaModule {

@@ -3,6 +3,8 @@ import { NotificacionService } from '../../../servicios/estrategia/notificacion.
 import { CarteraService } from '../../../servicios/estrategia/cartera.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { CrearEtapaNotificionComponent } from '../crear-etapa-notificion/crear-etapa-notificion.component';
 
 @Component({
   selector: 'app-configurar-notificion',
@@ -16,13 +18,19 @@ export class ConfigurarNotificionComponent implements OnInit {
   gestiones: any[] = [];
   etapas: any[] = [];
   notificaciones: any[] = [];
+  mensajes: any[] = [];
 
   constructor(
+    config: NgbModalConfig,
     private carteraService: CarteraService,
     private notificacionService: NotificacionService,
     private formBuilder: FormBuilder,
-    private spinner: NgxSpinnerService
-  ) { }
+    private spinner: NgxSpinnerService,
+    public modalService: NgbModal
+  ) { 
+    config.backdrop = 'static';
+    config.keyboard = false;
+  }
 
   ngOnInit() {
     this.listarCartera();
@@ -30,8 +38,7 @@ export class ConfigurarNotificionComponent implements OnInit {
     this.formulario = this.formBuilder.group({
       codCartera: ['', Validators.required],
       codGestion: ['', Validators.required],
-      codEtapa: ['', Validators.required],
-      codNotificacion: ['', Validators.required],
+      codEtapa: ['', Validators.required]
     });
   }
 
@@ -53,8 +60,8 @@ export class ConfigurarNotificionComponent implements OnInit {
     );
   }
 
-
   cambioCartera() {
+    this.mensajes = [];
     this.spinner.show();
     const codCartera = this.formulario.controls.codCartera.value;
     this.carteraService.getGestiones(codCartera).subscribe(
@@ -69,8 +76,51 @@ export class ConfigurarNotificionComponent implements OnInit {
   }
 
   cambioGestion() {
+    this.mensajes = [];
     const codGestion = this.formulario.controls.codGestion.value;
     const gestion = this.gestiones.find(v => v.codGestion == codGestion);
     this.etapas = gestion.etapas ? gestion.etapas : [];
+  }
+
+  cambioEtapa() {
+    this.spinner.show();
+    this.mensajes = [];
+    const codEtapa = this.formulario.controls.codEtapa.value;
+    this.notificacionService.getNotificacionesPorEtapa(codEtapa).subscribe(
+      response => {
+        this.mensajes = response;
+        this.spinner.hide();
+      }
+    );
+  }
+
+  getNameTypeNotifi(code: any) {
+    const noti = this.notificaciones.find(v => v.codTipoNotificacion == code);
+    return noti ? noti.nombre : '';
+  }
+
+  nuevaNotificacion() {
+    const modal = this.modalService.open(CrearEtapaNotificionComponent, {size: 'lg', scrollable: true});
+    modal.result.then(
+      this.closeModal.bind(this),
+      this.closeModal.bind(this)
+    );
+    modal.componentInstance.notificaciones = this.notificaciones;
+    modal.componentInstance.obj = this.formulario.getRawValue();
+  }
+
+  actualizarNotificacion(item) {
+    const modal = this.modalService.open(CrearEtapaNotificionComponent, {size: 'lg', scrollable: true});
+    modal.result.then(
+      this.closeModal.bind(this),
+      this.closeModal.bind(this)
+    );
+    modal.componentInstance.notificaciones = this.notificaciones;
+    modal.componentInstance.obj = item;
+    modal.componentInstance.create = false;
+  }
+
+  closeModal() {
+    this.cambioEtapa();
   }
 }

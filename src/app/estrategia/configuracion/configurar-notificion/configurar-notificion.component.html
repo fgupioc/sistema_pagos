@@ -7,7 +7,7 @@
             </div>
             <div class="card-body" [formGroup]="formulario">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Seleccionar Cartera</label>
                             <select class="form-control" (change)="cambioCartera()" formControlName="codCartera">
@@ -16,7 +16,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Seleccionar Gestion</label>
                             <select class="form-control" (change)="cambioGestion()" formControlName="codGestion">
@@ -25,28 +25,52 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Seleccionar Etapa</label>
-                            <select class="form-control" formControlName="codEtapa">
+                            <select class="form-control" (change)="cambioEtapa()" formControlName="codEtapa">
                                 <option value="">Seleccione</option>
                                 <option *ngFor="let item of etapas" [value]="item.codEtapa">{{ item.nombre }}</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Seleccionar Notificación</label>
-                            <select class="form-control">
-                                <option value="">Seleccione</option>
-                                <option *ngFor="let item of notificaciones" [value]="item.codTipoNotificacion">{{ item.nombre }}</option>
-                            </select>
-                        </div>
-                    </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>Ingrese el mensaje</label>
-                            <textarea class="form-control"></textarea>
+                            <button class="btn btn-sm btn-outline-info" (click)="nuevaNotificacion()" [disabled]="formulario.invalid">Nuevo</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12" *ngIf="mensajes.length > 0">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th scope="col">#</th>
+                                        <th scope="col">T. Mensaje</th>
+                                        <th scope="col">User Create</th>
+                                        <th scope="col">F. Creación</th>
+                                        <th scope="col">User Edit</th>
+                                        <th scope="col">F. Actualización</th>
+                                        <th scope="col">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngFor="let item of mensajes">
+                                        <ng-container *ngIf="item.estado == '1'">
+                                            <tr class="text-center">
+                                                <th scope="row">1</th>
+                                                <td>{{ getNameTypeNotifi(item.codTipoNotificacion) }}</td>
+                                                <td>{{ item.userCreate }}</td>
+                                                <td>{{ item.fechaCreacion}}</td>
+                                                <td>{{ item.userUpdate }}</td>
+                                                <td>{{ item.fechaActualizacion }}</td>
+                                                <td>
+                                                    <button class="btn btn-primary btn-sm" (click)="actualizarNotificacion(item)"><i class="fa fa-edit"></i></button>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </ng-container>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
