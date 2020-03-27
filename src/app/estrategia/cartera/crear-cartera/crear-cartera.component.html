@@ -9,243 +9,239 @@
                 </ol>
             </div>
             <div class="card-body" [formGroup]="formulario">
-                <div class="row">
-                    <div class="col-md-12">
-                        <ngb-tabset [destroyOnHide]="false">
-                            <ngb-tab title="Información">
-                                <ng-template ngbTabContent>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Código:</label>
-                                                        <input type="text" class="form-control" formControlName="codigo">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Nombre:</label>
-                                                        <input Uppercase type="text" class="form-control" formControlName="nombre" [ngClass]="
-                                                        {
-                                                        'is-invalid': formulario.controls['nombre'].touched && formulario.controls['nombre'].errors,
-                                                        'is-valid': formulario.controls['nombre'].touched && !formulario.controls['nombre'].errors
-                                                        }
-                                                        ">
-                                                        <div class="invalid-feedback">
-                                                            <span class="d-block" *ngIf="formulario.get('nombre').hasError('required')"> El nombre es obligatorio.</span>
-                                                            <span class="d-block" *ngIf="formulario.get('nombre').hasError('maxlength')">El número máximo de caracteres es 100.</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Nombre Externo:</label>
-                                                        <input Uppercase type="text" class="form-control" formControlName="nombreExterno" [ngClass]="
-                                                        {
-                                                        'is-invalid': formulario.controls['nombreExterno'].touched && formulario.controls['nombreExterno'].errors,
-                                                        'is-valid': formulario.controls['nombreExterno'].touched && !formulario.controls['nombreExterno'].errors
-                                                        }
-                                                        ">
-                                                        <div class="invalid-feedback">
-                                                            <span class="d-block" *ngIf="formulario.get('nombreExterno').hasError('required')"> El nombre externo es obligatorio.</span>
-                                                            <span class="d-block" *ngIf="formulario.get('nombreExterno').hasError('maxlength')">El número máximo de caracteres es 100.</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <h6>Parametros</h6>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Días Deudas Monto sin vencer:</label>
-                                                        <input CustomizeInteger type="text" class="form-control" formControlName="diasDeudaSinVencer" [ngClass]="
-                                                        {
-                                                        'is-invalid': formulario.controls['diasDeudaSinVencer'].touched && formulario.controls['diasDeudaSinVencer'].errors,
-                                                        'is-valid': formulario.controls['diasDeudaSinVencer'].touched && !formulario.controls['diasDeudaSinVencer'].errors
-                                                        }
-                                                        ">
-                                                        <div class="invalid-feedback">
-                                                            <span class="d-block" *ngIf="formulario.get('diasDeudaSinVencer').hasError('required')"> El Días Deudas Monto sin venceres es obligatorio.</span>
-                                                            <span class="d-block" *ngIf="formulario.get('diasDeudaSinVencer').hasError('maxlength')">El número máximo de caracteres es 100.</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Hora inicio:</label>
-                                                        <input CustomizeInteger type="text" class="form-control" formControlName="horaInicio" [ngClass]="
-                                                        {
-                                                        'is-invalid': formulario.controls['horaInicio'].touched && formulario.controls['horaInicio'].errors,
-                                                        'is-valid': formulario.controls['horaInicio'].touched && !formulario.controls['horaInicio'].errors
-                                                        }
-                                                        ">
-                                                        <div class="invalid-feedback">
-                                                            <span class="d-block" *ngIf="formulario.get('horaInicio').hasError('required')"> La Hora inicio es obligatorio.</span>
-                                                            <span class="d-block" *ngIf="formulario.get('horaInicio').hasError('maxlength')">El número máximo de caracteres es 100.</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Hora fin:</label>
-                                                        <input CustomizeInteger type="text" class="form-control" formControlName="horaFin" [ngClass]="
-                                                        {
-                                                        'is-invalid': formulario.controls['horaFin'].touched && formulario.controls['horaFin'].errors,
-                                                        'is-valid': formulario.controls['horaFin'].touched && !formulario.controls['horaFin'].errors
-                                                        }
-                                                        ">
-                                                        <div class="invalid-feedback">
-                                                            <span class="d-block" *ngIf="formulario.get('horaFin').hasError('required')"> La Hora fin es obligatorio.</span>
-                                                            <span class="d-block" *ngIf="formulario.get('horaFin').hasError('maxlength')">El número máximo de caracteres es 100.</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>compromiso desde:</label>
-                                                        <input CustomizeInteger type="text" class="form-control" formControlName="compromisoDesde" [ngClass]="
-                                                        {
-                                                        'is-invalid': formulario.controls['compromisoDesde'].touched && formulario.controls['compromisoDesde'].errors,
-                                                        'is-valid': formulario.controls['compromisoDesde'].touched && !formulario.controls['compromisoDesde'].errors
-                                                        }
-                                                        ">
-                                                        <div class="invalid-feedback">
-                                                            <span class="d-block" *ngIf="formulario.get('compromisoDesde').hasError('required')"> El compromiso desde es obligatorio.</span>
-                                                            <span class="d-block" *ngIf="formulario.get('compromisoDesde').hasError('maxlength')">El número máximo de caracteres es 100.</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>compromiso hasta:</label>
-                                                        <input CustomizeInteger type="text" class="form-control" formControlName="compromisoHasta" [ngClass]="
-                                                        {
-                                                        'is-invalid': formulario.controls['compromisoHasta'].touched && formulario.controls['compromisoHasta'].errors,
-                                                        'is-valid': formulario.controls['compromisoHasta'].touched && !formulario.controls['compromisoHasta'].errors
-                                                        }
-                                                        ">
-                                                        <div class="invalid-feedback">
-                                                            <span class="d-block" *ngIf="formulario.get('compromisoHasta').hasError('required')"> El compromiso hasta es obligatorio.</span>
-                                                            <span class="d-block" *ngIf="formulario.get('compromisoHasta').hasError('maxlength')">El número máximo de caracteres es 100.</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Días de Gestión:</label>
-                                                        <input CustomizeInteger type="text" class="form-control" formControlName="diasGestion" [ngClass]="
-                                                        {
-                                                        'is-invalid': formulario.controls['diasGestion'].touched && formulario.controls['diasGestion'].errors,
-                                                        'is-valid': formulario.controls['diasGestion'].touched && !formulario.controls['diasGestion'].errors
-                                                        }
-                                                        ">
-                                                        <div class="invalid-feedback">
-                                                            <span class="d-block" *ngIf="formulario.get('diasGestion').hasError('required')"> Los Días de Gestión es obligatorio.</span>
-                                                            <span class="d-block" *ngIf="formulario.get('diasGestion').hasError('maxlength')">El número máximo de caracteres es 100.</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <label>Moneda:</label>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <ul class="list-group">
-                                                            <li class="list-group-item p-2" *ngFor="let item of monedas" style="border: none;">
-                                                                <label class="m-0 cursor-pointer">
-                                                                    <input type="checkbox" [value]="item.codItem" (change)="cambioMoneda($event, item)" [checked]="selecciodano(item)">
-                                                                    {{ item.descripcion }}
-                                                                 </label>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label>Pistas de Auditoria</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label>Fecha Creación:</label>
-                                                        <input type="text" class="form-control" formControlName="fechaCreacion">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label>Usuario Creador:</label>
-                                                        <input type="text" class="form-control" formControlName="userCreate">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label>Fecha Actualización:</label>
-                                                        <input type="text" class="form-control" formControlName="fechaActualizacion">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label>Usuario Actualiza:</label>
-                                                        <input type="text" class="form-control" formControlName="userUpdate">
-                                                    </div>
-                                                </div>
-                                            </div>
+                <ul id="tabs" class="nav nav-tabs nav-fill" role="tablist">
+                    <li class="nav-item"><a (click)="cambio(1)" data-target="#cartera" data-toggle="tab" class="cartera nav-link small text-uppercase active">CARTERA</a></li>
+                    <li class="nav-item"><a (click)="cambio(2)" data-target="#gestion" data-toggle="tab" class="gestion nav-link small text-uppercase">GESTION</a></li>
+                </ul>
+                <br>
+                <div id="tabsContent" class="tab-content">
+                    <div id="cartera" class="tab-pane fade show active">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Código:</label>
+                                            <input type="text" class="form-control" formControlName="codigo">
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <button class="btn btn-lg btn-outline-info" [disabled]="formulario.invalid" (click)="guardar()">Guardar</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Nombre:</label>
+                                            <input Uppercase type="text" class="form-control" formControlName="nombre" [ngClass]="
+                                            {
+                                            'is-invalid': formulario.controls['nombre'].touched && formulario.controls['nombre'].errors,
+                                            'is-valid': formulario.controls['nombre'].touched && !formulario.controls['nombre'].errors
+                                            }
+                                            ">
+                                            <div class="invalid-feedback">
+                                                <span class="d-block" *ngIf="formulario.get('nombre').hasError('required')"> El nombre es obligatorio.</span>
+                                                <span class="d-block" *ngIf="formulario.get('nombre').hasError('maxlength')">El número máximo de caracteres es 100.</span>
                                             </div>
                                         </div>
                                     </div>
-                                </ng-template>
-                            </ngb-tab>
-                            <ngb-tab>
-                                <ng-template ngbTabTitle>Gestión</ng-template>
-                                <ng-template ngbTabContent>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <button class="btn btn-outline-info btn-sm" (click)="router.navigate(['/auth/estrategia/cartera/crear-gestion'], { state: {create: true, codCartera: cartera.codCartera, gestiones: gestiones} })">Nuevo</button>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered">
-                                                    <thead>
-                                                        <tr class="text-center">
-                                                            <th scope="col">#</th>
-                                                            <th scope="col">Nombre</th>
-                                                            <th scope="col">Parametros</th>
-                                                            <th scope="col">Acciones</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr *ngFor="let item of gestiones; let i = index;" class="text-center">
-                                                            <th scope="row">{{ i+1 }}</th>
-                                                            <td>{{ item.nombre }}</td>
-                                                            <td>{{ item.desde }} a {{ item.hasta }}</td>
-                                                            <td class="text-center">
-                                                                <button class="btn btn-sm btn-info mr-2" (click)="router.navigate([ '/auth/estrategia/cartera/editar-gestion'], { state: {create: false, gestion: item, gestiones: gestiones} })"><i class="fa fa-edit"></i></button>
-                                                                <!--button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button-->
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Nombre Externo:</label>
+                                            <input Uppercase type="text" class="form-control" formControlName="nombreExterno" [ngClass]="
+                                            {
+                                            'is-invalid': formulario.controls['nombreExterno'].touched && formulario.controls['nombreExterno'].errors,
+                                            'is-valid': formulario.controls['nombreExterno'].touched && !formulario.controls['nombreExterno'].errors
+                                            }
+                                            ">
+                                            <div class="invalid-feedback">
+                                                <span class="d-block" *ngIf="formulario.get('nombreExterno').hasError('required')"> El nombre externo es obligatorio.</span>
+                                                <span class="d-block" *ngIf="formulario.get('nombreExterno').hasError('maxlength')">El número máximo de caracteres es 100.</span>
                                             </div>
                                         </div>
                                     </div>
-                                </ng-template>
-                            </ngb-tab>
-                        </ngb-tabset>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <h6>Parametros</h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Días Deudas Monto sin vencer:</label>
+                                            <input CustomizeInteger type="text" class="form-control" formControlName="diasDeudaSinVencer" [ngClass]="
+                                            {
+                                            'is-invalid': formulario.controls['diasDeudaSinVencer'].touched && formulario.controls['diasDeudaSinVencer'].errors,
+                                            'is-valid': formulario.controls['diasDeudaSinVencer'].touched && !formulario.controls['diasDeudaSinVencer'].errors
+                                            }
+                                            ">
+                                            <div class="invalid-feedback">
+                                                <span class="d-block" *ngIf="formulario.get('diasDeudaSinVencer').hasError('required')"> El Días Deudas Monto sin venceres es obligatorio.</span>
+                                                <span class="d-block" *ngIf="formulario.get('diasDeudaSinVencer').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Hora inicio:</label>
+                                            <input CustomizeInteger type="text" class="form-control" formControlName="horaInicio" [ngClass]="
+                                            {
+                                            'is-invalid': formulario.controls['horaInicio'].touched && formulario.controls['horaInicio'].errors,
+                                            'is-valid': formulario.controls['horaInicio'].touched && !formulario.controls['horaInicio'].errors
+                                            }
+                                            ">
+                                            <div class="invalid-feedback">
+                                                <span class="d-block" *ngIf="formulario.get('horaInicio').hasError('required')"> La Hora inicio es obligatorio.</span>
+                                                <span class="d-block" *ngIf="formulario.get('horaInicio').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Hora fin:</label>
+                                            <input CustomizeInteger type="text" class="form-control" formControlName="horaFin" [ngClass]="
+                                            {
+                                            'is-invalid': formulario.controls['horaFin'].touched && formulario.controls['horaFin'].errors,
+                                            'is-valid': formulario.controls['horaFin'].touched && !formulario.controls['horaFin'].errors
+                                            }
+                                            ">
+                                            <div class="invalid-feedback">
+                                                <span class="d-block" *ngIf="formulario.get('horaFin').hasError('required')"> La Hora fin es obligatorio.</span>
+                                                <span class="d-block" *ngIf="formulario.get('horaFin').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>compromiso desde:</label>
+                                            <input CustomizeInteger type="text" class="form-control" formControlName="compromisoDesde" [ngClass]="
+                                            {
+                                            'is-invalid': formulario.controls['compromisoDesde'].touched && formulario.controls['compromisoDesde'].errors,
+                                            'is-valid': formulario.controls['compromisoDesde'].touched && !formulario.controls['compromisoDesde'].errors
+                                            }
+                                            ">
+                                            <div class="invalid-feedback">
+                                                <span class="d-block" *ngIf="formulario.get('compromisoDesde').hasError('required')"> El compromiso desde es obligatorio.</span>
+                                                <span class="d-block" *ngIf="formulario.get('compromisoDesde').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>compromiso hasta:</label>
+                                            <input CustomizeInteger type="text" class="form-control" formControlName="compromisoHasta" [ngClass]="
+                                            {
+                                            'is-invalid': formulario.controls['compromisoHasta'].touched && formulario.controls['compromisoHasta'].errors,
+                                            'is-valid': formulario.controls['compromisoHasta'].touched && !formulario.controls['compromisoHasta'].errors
+                                            }
+                                            ">
+                                            <div class="invalid-feedback">
+                                                <span class="d-block" *ngIf="formulario.get('compromisoHasta').hasError('required')"> El compromiso hasta es obligatorio.</span>
+                                                <span class="d-block" *ngIf="formulario.get('compromisoHasta').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Días de Gestión:</label>
+                                            <input CustomizeInteger type="text" class="form-control" formControlName="diasGestion" [ngClass]="
+                                            {
+                                            'is-invalid': formulario.controls['diasGestion'].touched && formulario.controls['diasGestion'].errors,
+                                            'is-valid': formulario.controls['diasGestion'].touched && !formulario.controls['diasGestion'].errors
+                                            }
+                                            ">
+                                            <div class="invalid-feedback">
+                                                <span class="d-block" *ngIf="formulario.get('diasGestion').hasError('required')"> Los Días de Gestión es obligatorio.</span>
+                                                <span class="d-block" *ngIf="formulario.get('diasGestion').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Moneda:</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <ul class="list-group">
+                                                <li class="list-group-item p-2" *ngFor="let item of monedas" style="border: none;">
+                                                    <label class="m-0 cursor-pointer">
+                                                        <input type="checkbox" [value]="item.codItem" (change)="cambioMoneda($event, item)" [checked]="selecciodano(item)">
+                                                        {{ item.descripcion }}
+                                                     </label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Pistas de Auditoria</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Fecha Creación:</label>
+                                            <input type="text" class="form-control" formControlName="fechaCreacion">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Usuario Creador:</label>
+                                            <input type="text" class="form-control" formControlName="userCreate">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Fecha Actualización:</label>
+                                            <input type="text" class="form-control" formControlName="fechaActualizacion">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Usuario Actualiza:</label>
+                                            <input type="text" class="form-control" formControlName="userUpdate">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <button class="btn btn-lg btn-outline-info" [disabled]="formulario.invalid" (click)="guardar()">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="gestion" class="tab-pane fade">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <button class="btn btn-outline-info btn-sm" (click)="router.navigate(['/auth/estrategia/cartera/crear-gestion'], { state: {create: true, codCartera: cartera.codCartera, gestiones: gestiones} })">Nuevo</button>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th scope="col">#</th>
+                                                <th scope="col">Nombre</th>
+                                                <th scope="col">Parametros</th>
+                                                <th scope="col">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of gestiones; let i = index;" class="text-center">
+                                                <th scope="row">{{ i+1 }}</th>
+                                                <td>{{ item.nombre }}</td>
+                                                <td>{{ item.desde }} a {{ item.hasta }}</td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-sm btn-info mr-2" (click)="router.navigate([ '/auth/estrategia/cartera/editar-gestion'], { state: {create: false, gestion: item, gestiones: gestiones} })"><i class="fa fa-edit"></i></button>
+                                                    <!--button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button-->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

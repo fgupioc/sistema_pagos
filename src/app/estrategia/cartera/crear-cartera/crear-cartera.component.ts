@@ -8,6 +8,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { MaestroService } from '../../../servicios/sistema/maestro.service';
+declare var $: any;
+
 
 @Component({
   selector: 'app-crear-cartera',
@@ -180,5 +182,19 @@ export class CrearCarteraComponent implements OnInit {
   selecciodano(item: any) {
     const obj = this.monedasSeleccionadas.find(v => v.codItem == item.codItem);
     return obj ? true : false;
+  }
+
+  cambio(tipo: any) {
+    if (tipo == '1') {
+      $('.gestion').removeClass('active');
+      $('.cartera').addClass('active');
+      $('#gestion').removeClass('show active');
+      $('#cartera').addClass('show active');
+    } else {
+      $('.cartera').removeClass('active');
+      $('.gestion').addClass('active');
+      $('#gestion').addClass('show active');
+      $('#cartera').removeClass('show active');
+    }
   }
 }
