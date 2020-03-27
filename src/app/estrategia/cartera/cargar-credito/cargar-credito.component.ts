@@ -39,7 +39,7 @@ export class CarteraCargarCreditoComponent implements OnInit {
 
   modalClose(response) {
     if (response) {
-      // reloadlist
+      this.listarCargas();
     }
   }
 
