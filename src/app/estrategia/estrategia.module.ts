@@ -12,6 +12,7 @@ import {CarteraCargarCreditoComponent} from './cartera/cargar-credito/cargar-cre
 import {CarteraCargarCreditoFileComponent} from './cartera/cargar-credito/file/file.component';
 import { ComunModule } from '../comun/comun.module';
 import { RouterModule } from '@angular/router';
+import { ConfigurarNotificionComponent } from './configuracion/configurar-notificion/configurar-notificion.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { RouterModule } from '@angular/router';
     ActualizarGestionComponent,
     ActualizarEtapaComponent,
     CarteraCargarCreditoComponent,
-    CarteraCargarCreditoFileComponent
+    CarteraCargarCreditoFileComponent,
+    ConfigurarNotificionComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +35,8 @@ import { RouterModule } from '@angular/router';
   exports: [
     CrearCarteraComponent,
     ActualizarGestionComponent,
-    ActualizarEtapaComponent
+    ActualizarEtapaComponent,
+    ConfigurarNotificionComponent
   ],
   entryComponents: [
     ActualizarGestionComponent,

@@ -8,6 +8,7 @@ import {UsuarioContrasenhaComponent} from './mantenimiento/usuario/contrasenha/c
 import {CrearCarteraComponent} from './estrategia/cartera/crear-cartera/crear-cartera.component';
 import {ActualizarGestionComponent} from './estrategia/gestion/actualizar-gestion/actualizar-gestion.component';
 import {CarteraCargarCreditoComponent} from './estrategia/cartera/cargar-credito/cargar-credito.component';
+import { ConfigurarNotificionComponent } from './estrategia/configuracion/configurar-notificion/configurar-notificion.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,17 @@ const routes: Routes = [
               {path: '', component: CrearCarteraComponent},
               {path: 'crear-gestion', component: ActualizarGestionComponent},
               {path: 'editar-gestion', component: ActualizarGestionComponent}
+            ]
+          },
+        ]
+      },
+      {
+        path: 'configuracion',
+        children: [
+          {
+            path: 'notificacion',
+            children: [
+              {path: '', component: ConfigurarNotificionComponent}
             ]
           },
         ]
