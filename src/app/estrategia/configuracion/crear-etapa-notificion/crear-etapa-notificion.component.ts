@@ -26,12 +26,14 @@ export class CrearEtapaNotificionComponent implements OnInit {
   ngOnInit() {
     this.form = this.formBuilder.group({
       codTipoNotificacion: ['', Validators.required],
-      mensaje: ['', Validators.required]
+      mensaje: ['', Validators.required],
+      dias: ['', Validators.required],
     });
 
     if (!this.create) {
       this.form.controls.codTipoNotificacion.setValue(this.obj.codTipoNotificacion);
       this.form.controls.mensaje.setValue(this.obj.mensaje);
+      this.form.controls.dias.setValue(this.obj.dias);
     }
   }
 
@@ -39,6 +41,7 @@ export class CrearEtapaNotificionComponent implements OnInit {
    if (this.create) {
     this.obj.codTipoNotificacion = this.form.controls.codTipoNotificacion.value;
     this.obj.mensaje = this.form.controls.mensaje.value;
+    this.obj.dias = this.form.controls.dias.value;
     this.spinner.show();
     this.notificacionService.guardarNotificacionEtapa(this.obj).subscribe(
       response => {
@@ -51,6 +54,7 @@ export class CrearEtapaNotificionComponent implements OnInit {
    } else {
     this.obj.codTipoNotificacion = this.form.controls.codTipoNotificacion.value;
     this.obj.mensaje = this.form.controls.mensaje.value;
+    this.obj.dias = this.form.controls.dias.value;
     this.spinner.show();
     this.notificacionService.actualizarNotificacionEtapa(this.obj).subscribe(
       response => {

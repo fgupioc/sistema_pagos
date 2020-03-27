@@ -14,6 +14,7 @@ import { ComunModule } from '../comun/comun.module';
 import { RouterModule } from '@angular/router';
 import { ConfigurarNotificionComponent } from './configuracion/configurar-notificion/configurar-notificion.component';
 import { CrearEtapaNotificionComponent } from './configuracion/crear-etapa-notificion/crear-etapa-notificion.component';
+import { EnviarNotificionComponent } from './configuracion/enviar-notificion/enviar-notificion.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { CrearEtapaNotificionComponent } from './configuracion/crear-etapa-notif
     CarteraCargarCreditoComponent,
     CarteraCargarCreditoFileComponent,
     ConfigurarNotificionComponent,
-    CrearEtapaNotificionComponent
+    CrearEtapaNotificionComponent,
+    EnviarNotificionComponent
   ],
   imports: [
     CommonModule,

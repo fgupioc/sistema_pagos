@@ -9,6 +9,7 @@ import {CrearCarteraComponent} from './estrategia/cartera/crear-cartera/crear-ca
 import {ActualizarGestionComponent} from './estrategia/gestion/actualizar-gestion/actualizar-gestion.component';
 import {CarteraCargarCreditoComponent} from './estrategia/cartera/cargar-credito/cargar-credito.component';
 import { ConfigurarNotificionComponent } from './estrategia/configuracion/configurar-notificion/configurar-notificion.component';
+import { EnviarNotificionComponent } from './estrategia/configuracion/enviar-notificion/enviar-notificion.component';
 
 const routes: Routes = [
   {
@@ -43,7 +44,8 @@ const routes: Routes = [
           {
             path: 'notificacion',
             children: [
-              {path: '', component: ConfigurarNotificionComponent}
+              {path: '', component: ConfigurarNotificionComponent},
+              {path: 'enviar', component: EnviarNotificionComponent}
             ]
           },
         ]

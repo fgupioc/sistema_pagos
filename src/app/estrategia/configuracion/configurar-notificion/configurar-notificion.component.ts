@@ -42,7 +42,7 @@ export class ConfigurarNotificionComponent implements OnInit {
     });
   }
 
-  listarNotificaciones() {
+ listarNotificaciones() {
     this.notificacionService.listar().subscribe(
       response => {
         this.notificaciones = response;
@@ -53,7 +53,7 @@ export class ConfigurarNotificionComponent implements OnInit {
   listarCartera() {
     this.spinner.show();
     this.carteraService.activas().subscribe(
-      response => {
+      response => { 
         this.carteras = response;
         this.spinner.hide();
       }
