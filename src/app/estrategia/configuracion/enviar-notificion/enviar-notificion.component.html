@@ -1,0 +1,157 @@
+<div class="row" [formGroup]="formulario">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-align-justify"></i>
+                <span class="card-title text-uppercase font-weight-bold">Envio de Notificaciones</span>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Seleccionar Cartera</label>
+                            <select class="form-control" (change)="cambioCartera()" formControlName="codCartera">
+                                <option value="">Seleccione</option>
+                                <option *ngFor="let item of carteras" [value]="item.codCartera">{{ item.nombre }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12" *ngIf="gestiones.length > 0">
+                        <div class="table-responsive">
+                            <table id="table" data-detail-view="true" class="table table-bordered">
+
+                                <tbody>
+                                    <ng-container *ngFor="let gestion of gestiones; let i = index;">
+                                        <tr width="10px" [attr.data-index]="i" data-has-detail-view="true" style="background: #d6d8db;">
+                                            <td class="text-center">
+                                                <button *ngIf="gestion.etapas.length > 0" (click)="showDetalle(i)" [class]="'btnShow_'+i +' detail-icon btn-info'"><i class="fa fa-plus"></i></button>
+                                            </td>
+                                            <td width="90%">Gestion: {{ gestion.nombre }}</td>
+                                        </tr>
+                                        <tr [class]="'detail-view item_'+i +' item-detalle hidden'">
+                                            <td colspan="7">
+                                                <div class="bootstrap-table bootstrap4">
+                                                    <div class="fixed-table-container" style="padding-bottom: 0px;">
+                                                        <div class="fixed-table-body">
+                                                            <table class="table table-bordered table-hover">
+                                                                <tbody>
+                                                                    <ng-container *ngFor="let item of gestion.etapas; let c = index;">
+                                                                        <tr [attr.data-index]="c" class="text-center">
+                                                                            <td width="10px">
+                                                                                <button *ngIf="gestion.etapas.length > 0" (click)="showEtapaDetalle(c)" [class]="'btnShowEtapa_'+c +' detail-etapa-icon btn-success'"><i class="fa fa-plus"></i></button>
+                                                                            </td>
+                                                                            <td width="90%" class="text-left">Etapa: {{ item.nombre }}</td>
+                                                                        </tr>
+                                                                        <tr [class]="'detail-view itemEtapa_'+c +' item-etapa-detalle hidden'">
+                                                                            <td colspan="7">
+                                                                                <div class="bootstrap-table bootstrap4">
+                                                                                    <div class="fixed-table-container" style="padding-bottom: 0px;">
+                                                                                        <div class="fixed-table-body">
+                                                                                            <table class="table table-bordered table-hover">
+                                                                                                <thead>
+                                                                                                    <tr class="text-center">
+                                                                                                        <th data-field="field0">
+                                                                                                            <div class="th-inner sortable both">Dias</div>
+                                                                                                            <div class="fht-cell"></div>
+                                                                                                        </th>
+                                                                                                        <th data-field="field1">
+                                                                                                            <div class="th-inner sortable both">PUSH</div>
+                                                                                                            <div class="fht-cell"></div>
+                                                                                                        </th>
+                                                                                                        <th data-field="field1">
+                                                                                                            <div class="th-inner sortable both">SMS</div>
+                                                                                                            <div class="fht-cell"></div>
+                                                                                                        </th>
+                                                                                                        <th data-field="field1">
+                                                                                                            <div class="th-inner sortable both">WHATSAPP</div>
+                                                                                                            <div class="fht-cell"></div>
+                                                                                                        </th>
+                                                                                                        <th data-field="field1">
+                                                                                                            <div class="th-inner sortable both">TELEGRAM</div>
+                                                                                                            <div class="fht-cell"></div>
+                                                                                                        </th>
+                                                                                                        <th data-field="field1">
+                                                                                                            <div class="th-inner sortable both">MESSENGER</div>
+                                                                                                            <div class="fht-cell"></div>
+                                                                                                        </th>
+                                                                                                        <th data-field="field1">
+                                                                                                            <div class="th-inner sortable both">EMAIL</div>
+                                                                                                            <div class="fht-cell"></div>
+                                                                                                        </th>
+                                                                                                        <th data-field="field1">
+                                                                                                            <div class="th-inner sortable both">LLAMADAS</div>
+                                                                                                            <div class="fht-cell"></div>
+                                                                                                        </th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    <tr *ngFor="let item of getDias(item.notificacionEtapas); let x = index;" [attr.data-index]="x" class="text-center">
+                                                                                                        <td>
+                                                                                                            {{ item.dia }}
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <span *ngIf="item.uno != null" class="badge badge-info">envia mensaje</span>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <span *ngIf="item.dos != null" class="badge badge-info">envia mensaje</span>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <span *ngIf="item.tres != null" class="badge badge-info">envia mensaje</span>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <span *ngIf="item.cuatro != null" class="badge badge-info">envia mensaje</span>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <span *ngIf="item.cinco != null" class="badge badge-info">envia mensaje</span>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <span *ngIf="item.seis != null" class="badge badge-info">envia mensaje</span>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <span *ngIf="item.siete != null" class="badge badge-info">envia mensaje</span>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
+                                                                                        <div class="fixed-table-footer">
+                                                                                            <table>
+                                                                                                <thead>
+                                                                                                    <tr></tr>
+                                                                                                </thead>
+                                                                                            </table>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="fixed-table-pagination" style="display: none;"></div>
+                                                                                </div>
+                                                                                <div class="clearfix"></div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </ng-container>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="fixed-table-footer">
+                                                            <table>
+                                                                <thead>
+                                                                    <tr></tr>
+                                                                </thead>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <div class="fixed-table-pagination" style="display: none;"></div>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-loading></app-loading>

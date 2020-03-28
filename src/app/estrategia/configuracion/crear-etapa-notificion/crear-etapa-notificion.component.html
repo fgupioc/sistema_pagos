@@ -1,0 +1,37 @@
+<div class="modal-content" [formGroup]="form">
+    <div class="modal-header">
+        <h4 class="modal-title">Hi there!</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Seleccionar Notificación</label>
+                    <select class="form-control" formControlName="codTipoNotificacion">
+                        <option value="">Seleccione</option>
+                        <option *ngFor="let item of notificaciones" [value]="item.codTipoNotificacion">{{ item.nombre }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Dias para enviar</label>
+                    <input class="form-control" formControlName="dias">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Ingrese el mensaje</label>
+                    <textarea class="form-control" formControlName="mensaje"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-outline-info mr-4" (click)="guardar()" [disabled]="form.invalid">Guardar</button>
+        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancelar</button>
+    </div>
+</div>
