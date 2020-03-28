@@ -21,4 +21,12 @@ export class CreditoService {
   cargarManualmente(formData: FormData) {
     return this.http.post<Respuesta>(`${this.apiUrl}cargarManualmente`, formData);
   }
+
+  resetear(): Observable<Respuesta> {
+    return this.http.delete<Respuesta>(`${this.apiUrl}resetear`);
+  }
+
+  ejecutarCargas() {
+    return this.http.post<Respuesta>(`${this.apiUrl}ejecutarCargas`, null);
+  }
 }
