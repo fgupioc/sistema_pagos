@@ -105,12 +105,52 @@ export class EnviarNotificionComponent implements OnInit {
       const res = v.dias.split(',');
       res.forEach(c => {
         const item = dias.find(i => i.dia == c);
-        dias.push({
-          dia: Number(c),
-          codTipoNotificacion: v.codTipoNotificacion
-        });
+        if (!item) {
+          dias.push({
+            dia: Number(c),
+            uno: v.codTipoNotificacion == '1' ? v.codTipoNotificacion : null,
+            dos: v.codTipoNotificacion == '2' ? v.codTipoNotificacion : null,
+            tres: v.codTipoNotificacion == '3' ? v.codTipoNotificacion : null,
+            cuatro: v.codTipoNotificacion == '4' ? v.codTipoNotificacion : null,
+            cinco: v.codTipoNotificacion == '5' ? v.codTipoNotificacion : null,
+            seis: v.codTipoNotificacion == '6' ? v.codTipoNotificacion : null,
+            siete: v.codTipoNotificacion == '7' ? v.codTipoNotificacion : null,
+          });
+        } else {
+          item[this.getIndex(v.codTipoNotificacion)] = v.codTipoNotificacion;
+        }
       });
     });
-    return dias;
+    return dias.sort( (a, b) => {
+      return (a.dia - b.dia)
+    });
+  }
+
+  getIndex(index) {
+    let i;
+    switch (index) {
+      case 1 :
+        i = 'uno';
+        break;
+        case 2 :
+        i = 'dos';
+        break;
+        case 3 :
+        i = 'tres';
+        break;
+        case 4 :
+        i = 'cuatro';
+        break;
+        case 5 :
+        i = 'cinco';
+        break;
+        case 6 :
+        i = 'seis';
+        break;
+        case 7 :
+        i = 'siete';
+        break;
+    }
+    return i;
   }
 }
