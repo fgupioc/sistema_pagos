@@ -20,7 +20,7 @@ export class CrearEtapaNotificionComponent implements OnInit {
   create = true;
   rangos = [];
   dias: any[] = [];
-  max: number = 0;
+  max = 0;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -62,10 +62,10 @@ export class CrearEtapaNotificionComponent implements OnInit {
       this.spinner.show();
       this.notificacionService.guardarNotificacionEtapa(this.obj).subscribe(
         response => {
-          if (response.exito) {
-            this.activeModal.close();
+          if (response.exito) { 
+            this.activeModal.dismiss({flag: true});
+            return;
           }
-          this.spinner.hide();
         }
       );
     } else {
@@ -76,9 +76,9 @@ export class CrearEtapaNotificionComponent implements OnInit {
       this.notificacionService.actualizarNotificacionEtapa(this.obj).subscribe(
         response => {
           if (response.exito) {
-            this.activeModal.close();
+            this.activeModal.dismiss({flag: true});
+            return;
           }
-          this.spinner.hide();
         }
       );
     }
