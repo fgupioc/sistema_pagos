@@ -59,8 +59,6 @@ export class EnviarNotificionComponent implements OnInit {
       response => {
         if (response.exito) {
           this.gestiones = response.objeto;
-           
-          console.log( this.gestiones);
         }
         this.spinner.hide();
       }

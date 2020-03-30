@@ -26,7 +26,7 @@
                                             <td class="text-center">
                                                 <button *ngIf="gestion.etapas.length > 0" (click)="showDetalle(i)" [class]="'btnShow_'+i +' detail-icon btn-info'"><i class="fa fa-plus"></i></button>
                                             </td>
-                                            <td width="90%">Gestion: {{ gestion.nombre }}</td>
+                                            <td width="90%">Gestion: {{ gestion.nombre }} - desde: {{gestion.desde}} a {{gestion.hasta}}</td>
                                         </tr>
                                         <tr [class]="'detail-view item_'+i +' item-detalle hidden'">
                                             <td colspan="7">
@@ -40,7 +40,7 @@
                                                                             <td width="10px">
                                                                                 <button *ngIf="gestion.etapas.length > 0" (click)="showEtapaDetalle(c)" [class]="'btnShowEtapa_'+c +' detail-etapa-icon btn-success'"><i class="fa fa-plus"></i></button>
                                                                             </td>
-                                                                            <td width="90%" class="text-left">Etapa: {{ item.nombre }}</td>
+                                                                            <td width="90%" class="text-left">Etapa: {{ item.nombre }} - desde: {{item.desde}} a {{item.hasta}}</td>
                                                                         </tr>
                                                                         <tr [class]="'detail-view itemEtapa_'+c +' item-etapa-detalle hidden'">
                                                                             <td colspan="7">
