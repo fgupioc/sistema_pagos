@@ -21,6 +21,7 @@ export class CrearEtapaNotificionComponent implements OnInit {
   rangos = [];
   dias: any[] = [];
   max = 0;
+  horas: any[] = [];
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -31,22 +32,40 @@ export class CrearEtapaNotificionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    for (let i = 7; i <= 20 ; i++) {
+      this.horas.push(i);
+    }
     this.form = this.formBuilder.group({
       codTipoNotificacion: ['', Validators.required],
+      codEnvio: [''],
+      codDia: [''],
+      hora: ['', Validators.required],
       mensaje: ['', Validators.required],
       dias: [''],
+      nombre: ['', Validators.required],
+      titulo: [''],
     });
 
     if (!this.create) {
       this.form.controls.codTipoNotificacion.setValue(this.obj.codTipoNotificacion);
       this.form.controls.mensaje.setValue(this.obj.mensaje);
       this.form.controls.dias.setValue(this.obj.dias);
+      this.form.controls.nombre.setValue(this.obj.nombre);
+      this.form.controls.hora.setValue(this.obj.hora);
       const dias = this.obj.dias.split(',');
       dias.forEach( v => {
         if (!isNaN(v)) {
           this.dias.push(Number(v));
         }
       });
+      const item = this.notificaciones.find(v => v.codTipoNotificacion == this.obj.codTipoNotificacion);
+      if (item) {
+        this.max = item.limiteCaracteres;
+      } else {
+        this.max = 0;
+      }
+      this.form.get('mensaje').setValidators([Validators.required, Validators.maxLength(this.max)]);
+      this.form.get('mensaje').updateValueAndValidity();
     }
   }
 
@@ -55,10 +74,12 @@ export class CrearEtapaNotificionComponent implements OnInit {
       this.toastr.error('Debe seleccionar los dias para enviar la notifiación.');
       return;
     }
+    this.obj.codTipoNotificacion = this.form.controls.codTipoNotificacion.value;
+    this.obj.mensaje = this.form.controls.mensaje.value;
+    this.obj.nombre = this.form.controls.nombre.value;
+    this.obj.hora = this.form.controls.hora.value;
+    this.obj.dias = this.dias.toString();
     if (this.create) {
-      this.obj.codTipoNotificacion = this.form.controls.codTipoNotificacion.value;
-      this.obj.mensaje = this.form.controls.mensaje.value;
-      this.obj.dias = this.dias.toString();
       this.spinner.show();
       this.notificacionService.guardarNotificacionEtapa(this.obj).subscribe(
         response => {
@@ -69,9 +90,6 @@ export class CrearEtapaNotificionComponent implements OnInit {
         }
       );
     } else {
-      this.obj.codTipoNotificacion = this.form.controls.codTipoNotificacion.value;
-      this.obj.mensaje = this.form.controls.mensaje.value;
-      this.obj.dias = this.dias.toString();
       this.spinner.show();
       this.notificacionService.actualizarNotificacionEtapa(this.obj).subscribe(
         response => {

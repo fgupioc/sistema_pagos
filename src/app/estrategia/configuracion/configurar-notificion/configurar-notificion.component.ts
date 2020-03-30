@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CrearEtapaNotificionComponent } from '../crear-etapa-notificion/crear-etapa-notificion.component';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-configurar-notificion',
@@ -125,8 +126,10 @@ export class ConfigurarNotificionComponent implements OnInit {
     modal.componentInstance.rangos = this.rangos;
   }
 
-  closeModal() {
-    this.cambioEtapa();
+  closeModal(data) {
+    if (!isNullOrUndefined(data)) {
+      this.cambioEtapa();
+    }
   }
 
   generarRango() {

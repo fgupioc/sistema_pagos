@@ -86,6 +86,9 @@ export class EnviarNotificionComponent implements OnInit {
       $(`.btnShow_${i} i`).removeClass('fa-minus');
       $(`.detail-icon i`).addClass('fa-plus');
     }
+    $(`.item-etapa-detalle`).addClass('hidden');
+    $(`.detail-etapa-icon i`).removeClass('fa-minus');
+    $(`.detail-etapa-icon i`).addClass('fa-plus');
   }
 
   showEtapaDetalle(i) {

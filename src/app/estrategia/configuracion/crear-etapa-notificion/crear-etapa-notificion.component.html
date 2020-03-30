@@ -48,10 +48,25 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>hora:</label>
+                    <select class="form-control" formControlName="hora">
+                        <option value="">Seleccione</option> 
+                        <option *ngFor="let item of horas" [value]="item">{{item}}:00</option> 
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input SoloLetras class="form-control" formControlName="nombre">
+                </div>
+            </div>
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Ingrese el mensaje</label>
-                    <textarea class="form-control" formControlName="mensaje" [maxlength]="max" [ngClass]="
+                    <textarea class="form-control" formControlName="mensaje" [maxlength]="max" rows="10" [ngClass]="
                     {
                     'is-invalid': form.controls['mensaje'].touched && form.controls['mensaje'].errors,
                     'is-valid': form.controls['mensaje'].touched && !form.controls['mensaje'].errors
