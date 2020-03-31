@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-header">
         <i class="fa fa-align-justify"></i>
-        <span class="card-title text-uppercase font-weight-bold">Clientes</span>
+        <span class="card-title text-uppercase font-weight-bold">Socios</span>
       </div>
       <div class="card-body">
         <table class="table table-responsive-sm table-bordered table-striped table-sm">
@@ -11,16 +11,16 @@
 
           <tr class="text-center">
             <th>#</th>
-            <th>ID Cliente</th>
+            <th>ID Socio</th>
             <th>Cod Socio</th>
             <th>Alias</th>
             <th>Dirección</th>
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let o of clientes; index as i; ">
+          <tr *ngFor="let o of socios; index as i; ">
             <td class="text-center">{{ i + 1 }}</td>
-            <td class="text-center">{{ o.clienteId}}</td>
+            <td class="text-center">{{ o.socioId}}</td>
             <td class="text-center">{{ o.codSocio}}</td>
             <td class="text-center">{{ o.alias}}</td>
             <td class="text-center">{{ o.direccion}}</td>

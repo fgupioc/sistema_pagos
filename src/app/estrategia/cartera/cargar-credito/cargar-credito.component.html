@@ -6,16 +6,27 @@
         <span class="card-title text-uppercase font-weight-bold">Importación de cartera</span>
       </div>
       <div class="card-body">
+        <form action="" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label" style="text-align: right" for="cartera">Cartera *</label>
+            <div class="col-md-10">
+              <select id="cartera" class="form-control">
+                <option *ngFor="let o of carterasActivas" [value]="o.codCartera">{{o.nombre}}</option>
+              </select>
+            </div>
+          </div>
+        </form>
         <table class="table table-responsive-sm table-bordered table-striped table-sm">
           <thead>
           <tr class="text-center">
             <th>#</th>
             <th>Fecha de Carga</th>
             <th>Registros</th>
-            <th>Clientes</th>
+            <th>Socios</th>
+            <!--
             <th>Deuda Capital</th>
             <th>Intereses</th>
-            <th>Deuda Actualizada</th>
+            <th>Deuda Actualizada</th> -->
             <th>Cargado</th>
           </tr>
           </thead>
@@ -29,15 +40,18 @@
               </a>
             </td>
             <td class="text-center">
-              <a [routerLink]="['./clientes',o.id]" class="text-info" ngbTooltip="Clientes">
-                {{ o.nroClientes }}
+              <a [routerLink]="['./socios',o.id]" class="text-info" ngbTooltip="Socios">
+                {{ o.nroSocios }}
               </a>
             </td>
+            <!--
             <td class="text-center">{{ o.deudaCapital}}</td>
             <td class="text-center">{{ o.intereses}}</td>
-            <td class="text-center">{{ o.deudaActualizada}}</td>
+            <td class="text-center">{{ o.deudaActualizada}}</td> -->
             <td class="text-center">
-              <i class="fa " [ngClass]="o.cargado ? 'fa-check-square-o' : 'fa-square-o'" aria-hidden="true"></i>
+              <span class="badge" [ngClass]="o.cargado ? 'badge-success' : 'badge-danger'">
+                {{ o.cargado ? 'Si' : 'No' }}
+              </span>
             </td>
           </tr>
           </tbody>
