@@ -1,7 +1,7 @@
 <div class="modal-content" [formGroup]="form">
     <div class="modal-header">
-        <h4 class="modal-title">Hi there!</h4>
-        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <h4 class="modal-title">Configurar Notificación</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
           <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -10,28 +10,89 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label>Seleccionar Notificación</label>
-                    <select class="form-control" formControlName="codTipoNotificacion">
+                    <select class="form-control" formControlName="codTipoNotificacion" (change)="cambiar()" [ngClass]="
+                    {
+                    'is-invalid': form.controls['codTipoNotificacion'].touched && form.controls['codTipoNotificacion'].errors,
+                    'is-valid': form.controls['codTipoNotificacion'].touched && !form.controls['codTipoNotificacion'].errors
+                    }
+                    ">
                         <option value="">Seleccione</option>
                         <option *ngFor="let item of notificaciones" [value]="item.codTipoNotificacion">{{ item.nombre }}</option>
                     </select>
+                    <div class="invalid-feedback">
+                        <span class="d-block" *ngIf="form.get('codTipoNotificacion').hasError('required')"> El tipo de notificacion es obligatorio.</span>
+                    </div>
+                </div>
+            </div>
+            <!-- div class="col-md-3">
+                <div class="form-group">
+                    <label>Dias para enviar</label>
+                    <input ArrayDias class="form-control" formControlName="dias" (change)="validarDias()">
+                </div>
+            </div -->
+            <div class="col-md-9">
+                <div class="form-group">
+                    <label>Dias Disponibles</label> <br>
+                    <div class="w-100 d-flex justify-content-between">
+                        <span *ngFor="let item of rangos">
+                            <span (click)="seleccionarDia(item)" class="badge badge-info position-relative d-flex justify-content-center cursor-pointer" style="font-size: 20px; color: white;">
+                                {{ item }}
+                                <ng-template [ngIf]="dias.includes(item)" [ngIfElse]="noesta">
+                                    <i [id]="'rango-'+item" class="fa fa-check position-absolute" style="color: #28a745; left: 5px;"></i>
+                                </ng-template>
+                                <ng-template #noesta>
+                                    <i [id]="'rango-'+item" class="fa fa-check position-absolute hidden" style="color: #28a745; left: 5px;"></i>
+                                </ng-template>
+                            </span>
+                        </span>
+                    </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label>Dias para enviar</label>
-                    <input class="form-control" formControlName="dias">
+                    <label>hora:</label>
+                    <select class="form-control" formControlName="hora">
+                        <option value="">Seleccione</option> 
+                        <option *ngFor="let item of horas" [value]="item">{{item}}:00</option> 
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input SoloLetras class="form-control" formControlName="nombre">
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Ingrese el mensaje</label>
-                    <textarea class="form-control" formControlName="mensaje"></textarea>
+                    <textarea class="form-control" formControlName="mensaje" [maxlength]="max" rows="10" [ngClass]="
+                    {
+                    'is-invalid': form.controls['mensaje'].touched && form.controls['mensaje'].errors,
+                    'is-valid': form.controls['mensaje'].touched && !form.controls['mensaje'].errors
+                    }
+                    "></textarea>
+                    <div class="invalid-feedback">
+                        <span class="d-block" *ngIf="form.get('mensaje').hasError('required')"> El mensaje es obligatorio.</span>
+                        <span class="d-block" *ngIf="form.get('mensaje').hasError('maxlength')">El número máximo de caracteres es {{max}}.</span>
+                    </div>
+                    <small class="form-text text-muted" style="font-size: 14px; line-height: 24px; text-align: justify;"><b>Leyenda: </b> <br>
+                        <span class="badge badge-info text-white" style="font-size: 14px;">#external#</span> Nombre Externo. 
+                        <span class="badge badge-info text-white" style="font-size: 14px;">#phone#</span> Teléfono.
+                        <span class="badge badge-info text-white" style="font-size: 14px;">#clienteId#</span> Identificador del Cliente.
+                        <span class="badge badge-info text-white" style="font-size: 14px;">#doi#</span> Número de Documento.
+                        <span class="badge badge-info text-white" style="font-size: 14px;">#customerName#</span> Nombre del Cliente.
+                        <span class="badge badge-info text-white" style="font-size: 14px;">#dueDate#</span> Fecha de Vencimiento.
+                        <span class="badge badge-info text-white" style="font-size: 14px;">#debt#</span> Deuda Capital.
+                        <span class="badge badge-info text-white" style="font-size: 14px;">#totalDebt#</span> Deuda Total.
+                        <span class="badge badge-info text-white" style="font-size: 14px;">#landingUrl#</span> Url.
+                    </small>
                 </div>
             </div>
         </div>
     </div>
     <div class="modal-footer d-flex justify-content-center">
         <button type="button" class="btn btn-outline-info mr-4" (click)="guardar()" [disabled]="form.invalid">Guardar</button>
-        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancelar</button>
+        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Cancelar</button>
     </div>
 </div>

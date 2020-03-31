@@ -46,6 +46,7 @@ export class ActualizarEtapaComponent implements OnInit {
       userCreate: [{value: '', disabled: true}],
       userUpdate: [{value: '', disabled: true}],
       estado: [1],
+      notificacionEtapas: []
     });
 
     if (!this.create) {

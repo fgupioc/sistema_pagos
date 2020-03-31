@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CrearEtapaNotificionComponent } from '../crear-etapa-notificion/crear-etapa-notificion.component';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-configurar-notificion',
@@ -19,6 +20,7 @@ export class ConfigurarNotificionComponent implements OnInit {
   etapas: any[] = [];
   notificaciones: any[] = [];
   mensajes: any[] = [];
+  rangos: any[] = [];
 
   constructor(
     config: NgbModalConfig,
@@ -92,6 +94,8 @@ export class ConfigurarNotificionComponent implements OnInit {
         this.spinner.hide();
       }
     );
+
+    this.generarRango();
   }
 
   getNameTypeNotifi(code: any) {
@@ -107,6 +111,7 @@ export class ConfigurarNotificionComponent implements OnInit {
     );
     modal.componentInstance.notificaciones = this.notificaciones;
     modal.componentInstance.obj = this.formulario.getRawValue();
+    modal.componentInstance.rangos = this.rangos;
   }
 
   actualizarNotificacion(item) {
@@ -118,9 +123,23 @@ export class ConfigurarNotificionComponent implements OnInit {
     modal.componentInstance.notificaciones = this.notificaciones;
     modal.componentInstance.obj = item;
     modal.componentInstance.create = false;
+    modal.componentInstance.rangos = this.rangos;
   }
 
-  closeModal() {
-    this.cambioEtapa();
+  closeModal(data) {
+    if (!isNullOrUndefined(data)) {
+      this.cambioEtapa();
+    }
+  }
+
+  generarRango() {
+    this.rangos = [];
+    const codEtapa = this.formulario.controls.codEtapa.value;
+    const etapaSelect: any = this.etapas.find(i => i.codEtapa == codEtapa);
+    let c = 0;
+    for (let i = etapaSelect.desde; i <= etapaSelect.hasta ; i++) {
+        c++;
+        this.rangos.push(c);
+    }
   }
 }

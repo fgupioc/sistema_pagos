@@ -4,6 +4,8 @@ import { CarteraService } from '../../../servicios/estrategia/cartera.service';
 import { NotificacionService } from '../../../servicios/estrategia/notificacion.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CrearEtapaNotificionComponent } from '../crear-etapa-notificion/crear-etapa-notificion.component';
+import { isNullOrUndefined } from 'util';
 declare var $: any;
 
 @Component({
@@ -18,6 +20,7 @@ export class EnviarNotificionComponent implements OnInit {
   etapas: any[] = [];
   notificaciones: any[] = [];
   etapaDias: any[] = [];
+  rangos: any[] = [];
 
   constructor(
     config: NgbModalConfig,
@@ -26,10 +29,14 @@ export class EnviarNotificionComponent implements OnInit {
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
     public modalService: NgbModal
-  ) { }
+  ) {
+    config.backdrop = 'static',
+    config.keyboard = false;
+   }
 
   ngOnInit() {
     this.listarCartera();
+    this.listarNotificaciones();
     this.formulario = this.formBuilder.group({
       codCartera: ['', Validators.required]
     });
@@ -59,8 +66,6 @@ export class EnviarNotificionComponent implements OnInit {
       response => {
         if (response.exito) {
           this.gestiones = response.objeto;
-           
-          console.log( this.gestiones);
         }
         this.spinner.hide();
       }
@@ -81,6 +86,9 @@ export class EnviarNotificionComponent implements OnInit {
       $(`.btnShow_${i} i`).removeClass('fa-minus');
       $(`.detail-icon i`).addClass('fa-plus');
     }
+    $(`.item-etapa-detalle`).addClass('hidden');
+    $(`.detail-etapa-icon i`).removeClass('fa-minus');
+    $(`.detail-etapa-icon i`).addClass('fa-plus');
   }
 
   showEtapaDetalle(i) {
@@ -152,5 +160,36 @@ export class EnviarNotificionComponent implements OnInit {
         break;
     }
     return i;
+  }
+
+  nuevoMensaje(etapa) {
+    const modal = this.modalService.open(CrearEtapaNotificionComponent, {size: 'lg', scrollable: true});
+    modal.result.then(
+      this.closeModal.bind(this),
+      this.closeModal.bind(this)
+    );
+    this.generarRango(etapa);
+    modal.componentInstance.notificaciones = this.notificaciones;
+    modal.componentInstance.obj = {
+      codCartera: this.formulario.controls.codCartera.value,
+      codGestion: etapa.codGestion,
+      codEtapa: etapa.codEtapa,
+    };
+    modal.componentInstance.rangos = this.rangos;
+  }
+
+  closeModal(data) {
+    if (!isNullOrUndefined(data)) {
+      this.cambioCartera();
+    }
+  }
+
+  generarRango(etapa) {
+    this.rangos = [];
+    let c = 0;
+    for (let i = etapa.desde; i <= etapa.hasta ; i++) {
+        c++;
+        this.rangos.push(c);
+    }
   }
 }
