@@ -130,7 +130,7 @@ export class EnviarNotificionComponent implements OnInit {
       });
     });
     return dias.sort( (a, b) => {
-      return (a.dia - b.dia)
+      return (a.dia - b.dia);
     });
   }
 

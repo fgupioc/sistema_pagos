@@ -41,8 +41,7 @@
                                                                                 <button *ngIf="gestion.etapas.length > 0" (click)="showEtapaDetalle(c)" [class]="'btnShowEtapa_'+c +' detail-etapa-icon btn btn-sm btn-success'"><i class="fa fa-plus"></i></button>
                                                                             </td>
                                                                             <td width="90%" class="text-left">
-                                                                                <button class="btn btn-sm btn-outline-primary" (click)="nuevoMensaje(item)"><i class="fa fa-mail-forward"></i></button> Etapa: {{ item.nombre }} - desde: {{item.desde}} a
-                                                                                {{item.hasta}}
+                                                                                <button class="btn btn-sm btn-outline-primary" (click)="nuevoMensaje(item)"><i class="fa fa-envelope-o"></i></button> Etapa: {{ item.nombre }} - desde: {{item.desde}} a {{item.hasta}}
                                                                             </td>
                                                                         </tr>
                                                                         <tr [class]="'detail-view itemEtapa_'+c +' item-etapa-detalle hidden'">
@@ -93,25 +92,25 @@
                                                                                                             {{ day.dia }}
                                                                                                         </td>
                                                                                                         <td>
-                                                                                                            <span *ngIf="day.uno != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 1, day)"> envia mensaje</span>
+                                                                                                            <span *ngIf="day.uno != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 1, day)"> Envio de Mensaje</span>
                                                                                                         </td>
                                                                                                         <td>
-                                                                                                            <span *ngIf="day.dos != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 2, day)"> envia mensaje</span>
+                                                                                                            <span *ngIf="day.dos != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 2, day)"> Envio de Mensaje</span>
                                                                                                         </td>
                                                                                                         <td>
-                                                                                                            <span *ngIf="day.tres != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 3, day)"> envia mensaje</span>
+                                                                                                            <span *ngIf="day.tres != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 3, day)"> Envio de Mensaje</span>
                                                                                                         </td>
                                                                                                         <td>
-                                                                                                            <span *ngIf="day.cuatro != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 4, day)"> envia mensaje</span>
+                                                                                                            <span *ngIf="day.cuatro != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 4, day)"> Envio de Mensaje</span>
                                                                                                         </td>
                                                                                                         <td>
-                                                                                                            <span *ngIf="day.cinco != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 5, day)"> envia mensaje</span>
+                                                                                                            <span *ngIf="day.cinco != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 5, day)"> Envio de Mensaje</span>
                                                                                                         </td>
                                                                                                         <td>
-                                                                                                            <span *ngIf="day.seis != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 6, day)"> envia mensaje</span>
+                                                                                                            <span *ngIf="day.seis != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 6, day)"> Envio de Mensaje</span>
                                                                                                         </td>
                                                                                                         <td>
-                                                                                                            <span *ngIf="day.siete != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 7, day)"> envia mensaje</span>
+                                                                                                            <span *ngIf="day.siete != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 7, day)"> Envio de Mensaje</span>
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                 </tbody>
