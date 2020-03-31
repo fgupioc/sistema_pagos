@@ -12,6 +12,7 @@ import { EstrategiaModule } from './estrategia/estrategia.module';
 import {registerLocaleData} from '@angular/common';
 import localePE from '@angular/common/locales/es-PE';
 import {I18n} from './i18n';
+import { ComponentesModule } from './componentes/componentes.module';
 
 registerLocaleData(localePE, 'es-PE');
 
@@ -27,7 +28,8 @@ registerLocaleData(localePE, 'es-PE');
     AppRoutingModule,
     AuthModule,
     MantenimientoModule,
-    EstrategiaModule
+    EstrategiaModule,
+    ComponentesModule
   ],
   providers: [I18n],
   bootstrap: [AppComponent]

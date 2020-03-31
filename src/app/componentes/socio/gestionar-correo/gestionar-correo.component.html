@@ -1,0 +1,63 @@
+<div class="modal-content" [formGroup]="formulario">
+    <div class="modal-header">
+        <h4 class="modal-title">{{ (accion == '1') ? 'Nueva' : 'Editar' }} Correo</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Tipo Uso</label>
+                    <select class="form-control" formControlName="codigoItem">
+                    <option value="">Seleccione</option>
+                </select>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Correo:</label>
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="w-100 mr-2">
+                            <input Number #inputDescripcion class="form-control" formControlName="correo" placeholder="Ingrese el número." [ngClass]="
+                            {
+                            'is-invalid': formulario.controls['correo'].touched && formulario.controls['correo'].errors,
+                            'is-valid': formulario.controls['correo'].touched && !formulario.controls['correo'].errors && !formulario.controls['correo'].pending,
+                            'is-warning': formulario.controls['correo'].pending
+                            }
+                            ">
+                            <small *ngIf="formulario.get('correo').pending" class="form-text text-muted">Buscando ...</small>
+                            <div class="invalid-feedback">
+                                <span class="d-block" *ngIf="formulario.get('correo').hasError('required')"> El es obligatorio</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Canales</label>
+                    <ul class="list-group">
+                        <li class="list-group-item p-2" style="border: none;">
+                            <label class="m-0 cursor-pointer">
+                                <input type="checkbox">
+                                MESSENGER
+                            </label>
+                        </li>
+                        <li class="list-group-item p-2" style="border: none;">
+                            <label class="m-0 cursor-pointer">
+                                <input type="checkbox">
+                                EMAIL
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+    </div>
+</div>

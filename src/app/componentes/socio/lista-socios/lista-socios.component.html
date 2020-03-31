@@ -1,0 +1,55 @@
+<div class="row" [formGroup]="formulario">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-align-justify"></i>
+                <span class="card-title text-uppercase font-weight-bold">Lista de socios</span>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Seleccionar Cartera</label>
+                            <select class="form-control" (change)="cambioCartera()" formControlName="codCartera">
+                                <option value="">Seleccione</option>
+                                <option *ngFor="let item of carteras" [value]="item.codCartera">{{ item.nombre }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th scope="col" width="10%">#</th>
+                                            <th scope="col">Socio</th>
+                                            <th scope="col" width="20%">Accion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngIf="socios.length > 0">
+                                            <tr class="text-center">
+                                                <th scope="row">1</th>
+                                                <td class="text-left">Mark</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-info" routerLink="/auth/socio/detalle"><i class="fa fa-eye"></i></button>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                        <ng-container *ngIf="socios.length == 0">
+                                            <tr class="text-center">
+                                                <th scope="row" colspan="3"><small>No hay Datos</small></th>
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-loading></app-loading>

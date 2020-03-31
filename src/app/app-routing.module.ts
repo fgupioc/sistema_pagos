@@ -12,6 +12,8 @@ import {ConfigurarNotificionComponent} from './estrategia/configuracion/configur
 import {EnviarNotificionComponent} from './estrategia/configuracion/enviar-notificion/enviar-notificion.component';
 import {CarteraCargarCreditoCreditosComponent} from './estrategia/cartera/cargar-credito/creditos/creditos.component';
 import {CarteraCargarCreditoClientesComponent} from './estrategia/cartera/cargar-credito/clientes/clientes.component';
+import { ListaSociosComponent } from './componentes/socio/lista-socios/lista-socios.component';
+import { EditarSociosComponent } from './componentes/socio/editar-socios/editar-socios.component';
 
 const routes: Routes = [
   {
@@ -52,6 +54,13 @@ const routes: Routes = [
               {path: 'enviar', component: EnviarNotificionComponent}
             ]
           },
+        ]
+      },
+      {
+        path: 'socio',
+        children: [
+          {path: 'lista-socios', component: ListaSociosComponent},
+          {path: 'detalle', component: EditarSociosComponent}
         ]
       }
     ]

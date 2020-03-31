@@ -41,4 +41,8 @@ export class CarteraService {
   actualizarCartera(data: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}actualizar`, data);
   }
+
+  listarSocioPorCartera(codCartera: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}listar-socio-cartera`, {params: new HttpParams().set('codCartera', codCartera)});
+  }
 }
