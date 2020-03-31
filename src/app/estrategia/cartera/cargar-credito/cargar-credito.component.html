@@ -16,6 +16,7 @@
             <th>Deuda Capital</th>
             <th>Intereses</th>
             <th>Deuda Actualizada</th>
+            <th>Cargado</th>
           </tr>
           </thead>
           <tbody>
@@ -35,6 +36,9 @@
             <td class="text-center">{{ o.deudaCapital}}</td>
             <td class="text-center">{{ o.intereses}}</td>
             <td class="text-center">{{ o.deudaActualizada}}</td>
+            <td class="text-center">
+              <i class="fa " [ngClass]="o.cargado ? 'fa-check-square-o' : 'fa-square-o'" aria-hidden="true"></i>
+            </td>
           </tr>
           </tbody>
         </table>

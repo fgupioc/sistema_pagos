@@ -11,14 +11,20 @@
           <tr class="text-center">
             <th>#</th>
             <th>Nro Crédito</th>
+            <th>Cliente</th>
             <th>Moneda</th>
+            <th>Monto Crédito</th>
+            <th>Tipo Tasa</th>
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let o of cretidosTemps; index as i; ">
             <td class="text-center">{{ i + 1 }}</td>
-            <td class="text-center">{{ o.nroCredito}}</td>
-            <td class="text-center">{{ o.codMoneda}}</td>
+            <td class="text-center">{{ o.nroCredito }}</td>
+            <td class="text-center">{{ o.clienteAlias }}</td>
+            <td class="text-center">{{ o.desMoneda }}</td>
+            <td class="text-center">{{ o.montoCredito }}</td>
+            <td class="text-center">{{ o.desTipoTasa }}</td>
           </tr>
           </tbody>
         </table>
