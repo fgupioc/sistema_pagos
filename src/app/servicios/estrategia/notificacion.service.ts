@@ -29,4 +29,9 @@ export class NotificacionService {
   getNotificacionesPorEtapa(codEtapa: any): Observable<any[]> {
     return this.http.post<any[]>(`${this.apiUrl}getNotificacionesPorEtapa`, {}, {params: new HttpParams().set('codEtapa', codEtapa)});
   }
+
+  buscarNotificacionEtapa(codGestion: string, codEtapa: string, codTipoNotificacion: string, dia: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}buscar-notificacion-etapa`, {}, {
+      params: new HttpParams().set('codGestion', codGestion).set('codEtapa', codEtapa).set('codTipoNotificacion', codTipoNotificacion).set('dia', dia)});
+  }
 }

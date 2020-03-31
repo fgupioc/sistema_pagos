@@ -192,4 +192,32 @@ export class EnviarNotificionComponent implements OnInit {
         this.rangos.push(c);
     }
   }
+  generateRange(etapa) {
+    const rangos = [];
+    let c = 0;
+    for (let i = etapa.desde; i <= etapa.hasta ; i++) {
+        c++;
+        rangos.push(c);
+    }
+    return rangos;
+  }
+
+  showMensaje(gestion, item, noti, day) {
+    this.spinner.show();
+    this.notificacionService.buscarNotificacionEtapa( gestion.codGestion, item.codEtapa, noti, day.dia).subscribe(
+      response => {
+        console.log(response);
+        const modal = this.modalService.open(CrearEtapaNotificionComponent, {size: 'lg', scrollable: true});
+        modal.result.then(
+          this.closeModal.bind(this),
+          this.closeModal.bind(this)
+        );
+        modal.componentInstance.notificaciones = this.notificaciones;
+        modal.componentInstance.obj = response;
+        modal.componentInstance.create = false;
+        modal.componentInstance.rangos = this.generateRange(item);
+        this.spinner.hide();
+      }
+    );
+  }
 }

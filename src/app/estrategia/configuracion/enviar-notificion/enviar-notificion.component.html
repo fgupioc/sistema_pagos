@@ -88,30 +88,30 @@
                                                                                                     </tr>
                                                                                                 </thead>
                                                                                                 <tbody>
-                                                                                                    <tr *ngFor="let item of getDias(item.notificacionEtapas); let x = index;" [attr.data-index]="x" class="text-center">
+                                                                                                    <tr *ngFor="let day of getDias(item.notificacionEtapas); let x = index;" [attr.data-index]="x" class="text-center">
                                                                                                         <td>
-                                                                                                            {{ item.dia }}
+                                                                                                            {{ day.dia }}
                                                                                                         </td>
                                                                                                         <td>
-                                                                                                            <span *ngIf="item.uno != null" class="badge badge-info">envia mensaje</span>
+                                                                                                            <span *ngIf="day.uno != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 1, day)"> envia mensaje</span>
                                                                                                         </td>
                                                                                                         <td>
-                                                                                                            <span *ngIf="item.dos != null" class="badge badge-info">envia mensaje</span>
+                                                                                                            <span *ngIf="day.dos != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 2, day)"> envia mensaje</span>
                                                                                                         </td>
                                                                                                         <td>
-                                                                                                            <span *ngIf="item.tres != null" class="badge badge-info">envia mensaje</span>
+                                                                                                            <span *ngIf="day.tres != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 3, day)"> envia mensaje</span>
                                                                                                         </td>
                                                                                                         <td>
-                                                                                                            <span *ngIf="item.cuatro != null" class="badge badge-info">envia mensaje</span>
+                                                                                                            <span *ngIf="day.cuatro != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 4, day)"> envia mensaje</span>
                                                                                                         </td>
                                                                                                         <td>
-                                                                                                            <span *ngIf="item.cinco != null" class="badge badge-info">envia mensaje</span>
+                                                                                                            <span *ngIf="day.cinco != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 5, day)"> envia mensaje</span>
                                                                                                         </td>
                                                                                                         <td>
-                                                                                                            <span *ngIf="item.seis != null" class="badge badge-info">envia mensaje</span>
+                                                                                                            <span *ngIf="day.seis != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 6, day)"> envia mensaje</span>
                                                                                                         </td>
                                                                                                         <td>
-                                                                                                            <span *ngIf="item.siete != null" class="badge badge-info">envia mensaje</span>
+                                                                                                            <span *ngIf="day.siete != null" class="badge badge-info cursor-pointer" style="font-size: 14px;" (click)="showMensaje(gestion, item, 7, day)"> envia mensaje</span>
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                 </tbody>
