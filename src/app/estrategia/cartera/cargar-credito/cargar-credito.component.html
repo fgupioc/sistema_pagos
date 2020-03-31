@@ -22,8 +22,16 @@
           <tr *ngFor="let o of cargas; index as i; ">
             <td class="text-center">{{ i + 1 }}</td>
             <td class="text-center">{{ o.fechaCarga | date: 'dd/MM/yyyy hh:mm a' | lowercase}}</td>
-            <td class="text-center">{{ o.nroRegistros}}</td>
-            <td class="text-center">{{ o.nroClientes}}</td>
+            <td class="text-center">
+              <a [routerLink]="['./creditos',o.id]" class="text-info" ngbTooltip="Créditos">
+                {{ o.nroRegistros }}
+              </a>
+            </td>
+            <td class="text-center">
+              <a [routerLink]="['./clientes',o.id]" class="text-info" ngbTooltip="Clientes">
+                {{ o.nroClientes }}
+              </a>
+            </td>
             <td class="text-center">{{ o.deudaCapital}}</td>
             <td class="text-center">{{ o.intereses}}</td>
             <td class="text-center">{{ o.deudaActualizada}}</td>

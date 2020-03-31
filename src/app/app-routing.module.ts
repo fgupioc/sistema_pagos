@@ -8,8 +8,10 @@ import {UsuarioContrasenhaComponent} from './mantenimiento/usuario/contrasenha/c
 import {CrearCarteraComponent} from './estrategia/cartera/crear-cartera/crear-cartera.component';
 import {ActualizarGestionComponent} from './estrategia/gestion/actualizar-gestion/actualizar-gestion.component';
 import {CarteraCargarCreditoComponent} from './estrategia/cartera/cargar-credito/cargar-credito.component';
-import { ConfigurarNotificionComponent } from './estrategia/configuracion/configurar-notificion/configurar-notificion.component';
-import { EnviarNotificionComponent } from './estrategia/configuracion/enviar-notificion/enviar-notificion.component';
+import {ConfigurarNotificionComponent} from './estrategia/configuracion/configurar-notificion/configurar-notificion.component';
+import {EnviarNotificionComponent} from './estrategia/configuracion/enviar-notificion/enviar-notificion.component';
+import {CarteraCargarCreditoCreditosComponent} from './estrategia/cartera/cargar-credito/creditos/creditos.component';
+import {CarteraCargarCreditoClientesComponent} from './estrategia/cartera/cargar-credito/clientes/clientes.component';
 
 const routes: Routes = [
   {
@@ -31,6 +33,8 @@ const routes: Routes = [
             path: 'cartera',
             children: [
               {path: 'cargar-credito', component: CarteraCargarCreditoComponent},
+              {path: 'cargar-credito/clientes/:cargaCreditoId', component: CarteraCargarCreditoClientesComponent},
+              {path: 'cargar-credito/creditos/:cargaCreditoId', component: CarteraCargarCreditoCreditosComponent},
               {path: '', component: CrearCarteraComponent},
               {path: 'crear-gestion', component: ActualizarGestionComponent},
               {path: 'editar-gestion', component: ActualizarGestionComponent}

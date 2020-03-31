@@ -14,6 +14,14 @@ export class CreditoService {
     this.apiUrl = `${environment.serverUrl}credito/`;
   }
 
+  clientesPorCargaCredito(cargaCreditoId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}listarClientesCreditosTemp/${cargaCreditoId}`);
+  }
+
+  listarCreditoTemps(cargaCreditoId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}listarCreditoTemps/${cargaCreditoId}`);
+  }
+
   listarCargas(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}listarCargas`);
   }
