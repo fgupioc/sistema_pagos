@@ -10,17 +10,33 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Tipo</label>
-                    <select class="form-control" formControlName="typePhone" (change)="cambioTypePhone()">
-                      <option *ngFor="let item of tipoTelefonos" [value]="item.codItem">{{ item.descripcion }}</option>
-                  </select>
+                    <select class="form-control" formControlName="typePhone" (change)="cambioTypePhone()" [ngClass]="
+                    {
+                    'is-invalid': formulario.controls['typePhone'].touched && formulario.controls['typePhone'].errors,
+                    'is-valid': formulario.controls['typePhone'].touched && !formulario.controls['typePhone'].errors
+                    }
+                    ">
+                        <option *ngFor="let item of tipoTelefonos" [value]="item.codItem">{{ item.descripcion }}</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        <span class="d-block" *ngIf="formulario.get('typePhone').hasError('required')"> El tipo de uso es obligatorio.</span>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Tipo Uso</label>
-                    <select class="form-control" formControlName="codigoItem">
-                        <option *ngFor="let item of tipoUsos" [value]="item.codItem">{{ item.descripcion }}</option>
-                </select>
+                    <select class="form-control" formControlName="codItem" [ngClass]="
+                        {
+                        'is-invalid': formulario.controls['codItem'].touched && formulario.controls['codItem'].errors,
+                        'is-valid': formulario.controls['codItem'].touched && !formulario.controls['codItem'].errors
+                        }
+                        ">
+                            <option *ngFor="let item of tipoUsos" [value]="item.codItem">{{ item.descripcion }}</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        <span class="d-block" *ngIf="formulario.get('codItem').hasError('required')"> El tipo de uso es obligatorio.</span>
+                    </div>
                 </div>
             </div>
             <div class="col-md-2" *ngIf="!cell">
@@ -66,7 +82,7 @@
                             <option *ngFor="let item of tipoOperadores" [value]="item.codItem">{{ item.descripcion }}</option>
                     </select>
                     <div class="invalid-feedback">
-                        <span class="d-block" *ngIf="formulario.get('operador').hasError('required')"> El número es obligatorio</span>
+                        <span class="d-block" *ngIf="formulario.get('operador').hasError('required')"> El operador es obligatorio</span>
                     </div>
                 </div>
             </div>

@@ -33,8 +33,8 @@ export class GestionarTelefonoComponent implements OnInit {
     this.listarTipoOperador();
 
     this.formulario = this.formBuilder.group({
-      typePhone:  ['c', Validators.required],
-      codigoItem: ['', Validators.required],
+      typePhone:  ['', Validators.required],
+      codItem: ['', Validators.required],
       descripcion: [null, Validators.required],
       codCiudad: [null],
       operador: [null, Validators.required],

@@ -1,7 +1,7 @@
 <div class="modal-content" [formGroup]="formulario">
     <div class="modal-header">
         <h4 class="modal-title">{{ (accion == '1') ? 'Nueva' : 'Editar' }} Correo</h4>
-        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
           <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -10,9 +10,17 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Tipo Uso</label>
-                    <select class="form-control" formControlName="codigoItem">
-                    <option value="">Seleccione</option>
-                </select>
+                    <select class="form-control" formControlName="tipo" [ngClass]="
+                        {
+                        'is-invalid': formulario.controls['tipo'].touched && formulario.controls['tipo'].errors,
+                        'is-valid': formulario.controls['tipo'].touched && !formulario.controls['tipo'].errors
+                        }
+                        ">
+                            <option *ngFor="let item of tipoUsos" [value]="item.codItem">{{ item.descripcion }}</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        <span class="d-block" *ngIf="formulario.get('tipo').hasError('required')"> El es obligatorio.</span>
+                    </div>
                 </div>
             </div>
 
@@ -21,16 +29,17 @@
                     <label>Correo:</label>
                     <div class="d-flex justify-content-between align-items-start">
                         <div class="w-100 mr-2">
-                            <input Number #inputDescripcion class="form-control" formControlName="correo" placeholder="Ingrese el número." [ngClass]="
+                            <input class="form-control" formControlName="email" placeholder="Ingrese el correo." [ngClass]="
                             {
-                            'is-invalid': formulario.controls['correo'].touched && formulario.controls['correo'].errors,
-                            'is-valid': formulario.controls['correo'].touched && !formulario.controls['correo'].errors && !formulario.controls['correo'].pending,
-                            'is-warning': formulario.controls['correo'].pending
+                            'is-invalid': formulario.controls['email'].touched && formulario.controls['email'].errors,
+                            'is-valid': formulario.controls['email'].touched && !formulario.controls['email'].errors && !formulario.controls['email'].pending,
+                            'is-warning': formulario.controls['email'].pending
                             }
                             ">
-                            <small *ngIf="formulario.get('correo').pending" class="form-text text-muted">Buscando ...</small>
+                            <small *ngIf="formulario.get('email').pending" class="form-text text-muted">Buscando ...</small>
                             <div class="invalid-feedback">
-                                <span class="d-block" *ngIf="formulario.get('correo').hasError('required')"> El es obligatorio</span>
+                                <span class="d-block" *ngIf="formulario.get('email').hasError('required')"> El es obligatorio.</span>
+                                <span class="d-block" *ngIf="formulario.get('email').hasError('email')"> El correo no es valido.</span>
                             </div>
                         </div>
                     </div>
@@ -42,13 +51,13 @@
                     <ul class="list-group">
                         <li class="list-group-item p-2" style="border: none;">
                             <label class="m-0 cursor-pointer">
-                                <input type="checkbox">
+                                <input type="checkbox" (change)="cambiarCanal($event, 1)">
                                 MESSENGER
                             </label>
                         </li>
                         <li class="list-group-item p-2" style="border: none;">
                             <label class="m-0 cursor-pointer">
-                                <input type="checkbox">
+                                <input type="checkbox"  (change)="cambiarCanal($event, 2)">
                                 EMAIL
                             </label>
                         </li>
@@ -57,7 +66,8 @@
             </div>
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+    <div class="modal-footer d-flex justify-content-center">
+        <button type="button" [disabled]="formulario.invalid" class="btn btn-outline-info m-4" (click)="guardar()">Guardar</button>
+        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Cerrar</button>
     </div>
 </div>
