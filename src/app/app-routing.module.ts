@@ -11,9 +11,9 @@ import {CarteraCargarCreditoComponent} from './estrategia/cartera/cargar-credito
 import {ConfigurarNotificionComponent} from './estrategia/configuracion/configurar-notificion/configurar-notificion.component';
 import {EnviarNotificionComponent} from './estrategia/configuracion/enviar-notificion/enviar-notificion.component';
 import {CarteraCargarCreditoCreditosComponent} from './estrategia/cartera/cargar-credito/creditos/creditos.component';
-import {CarteraCargarCreditoClientesComponent} from './estrategia/cartera/cargar-credito/clientes/clientes.component';
 import { ListaSociosComponent } from './componentes/socio/lista-socios/lista-socios.component';
-import { EditarSociosComponent } from './componentes/socio/editar-socios/editar-socios.component';
+import { EditarSociosComponent } from './componentes/socio/editar-socios/editar-socios.component'; 
+import {CarteraCargarCreditoSociosComponent} from './estrategia/cartera/cargar-credito/socios/socios.component'; 
 
 const routes: Routes = [
   {
@@ -35,7 +35,7 @@ const routes: Routes = [
             path: 'cartera',
             children: [
               {path: 'cargar-credito', component: CarteraCargarCreditoComponent},
-              {path: 'cargar-credito/clientes/:cargaCreditoId', component: CarteraCargarCreditoClientesComponent},
+              {path: 'cargar-credito/socios/:cargaCreditoId', component: CarteraCargarCreditoSociosComponent},
               {path: 'cargar-credito/creditos/:cargaCreditoId', component: CarteraCargarCreditoCreditosComponent},
               {path: '', component: CrearCarteraComponent},
               {path: 'crear-gestion', component: ActualizarGestionComponent},

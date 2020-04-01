@@ -5,6 +5,7 @@ import {CreditoService} from '../../../servicios/estrategia/credito.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import Swal from 'sweetalert2';
 import {ToastrService} from 'ngx-toastr';
+import {CarteraService} from '../../../servicios/estrategia/cartera.service';
 
 @Component({
   selector: 'app-cargar-credito',
@@ -13,18 +14,19 @@ import {ToastrService} from 'ngx-toastr';
 })
 export class CarteraCargarCreditoComponent implements OnInit {
   cargas = [];
+  carterasActivas = [];
 
   constructor(private modalService: NgbModal, private creditoService: CreditoService, private spinner: NgxSpinnerService,
-              private toastr: ToastrService) {
+              private toastr: ToastrService, private carteraService: CarteraService) {
   }
 
   ngOnInit() {
-    this.listarCargas();
+    this.listarCarterasActivas();
   }
 
-  listarCargas() {
+  listarCargas(carteraId: number) {
     this.spinner.show();
-    this.creditoService.listarCargas().subscribe(
+    this.creditoService.listarCargas(carteraId).subscribe(
       res => {
         this.spinner.hide();
         this.cargas = res;
@@ -46,6 +48,14 @@ export class CarteraCargarCreditoComponent implements OnInit {
     });
   }
 
+  private listarCarterasActivas() {
+    this.spinner.show();
+    this.carteraService.activas().subscribe(res => {
+      this.carterasActivas = res;
+      this.listarCargas(this.carterasActivas[0].codCartera);
+    });
+  }
+
   resetear() {
     this.spinner.show();
     this.creditoService.resetear().subscribe(
@@ -53,7 +63,7 @@ export class CarteraCargarCreditoComponent implements OnInit {
         this.spinner.hide();
         if (result.exito) {
           this.toastr.success(result.mensaje);
-          this.listarCargas();
+          this.listarCargas(this.carterasActivas[0].codCartera);
         } else {
           Swal.fire('', result.mensaje, 'error');
         }
@@ -67,7 +77,7 @@ export class CarteraCargarCreditoComponent implements OnInit {
 
   modalClose(response) {
     if (response) {
-      this.listarCargas();
+      this.listarCargas(this.carterasActivas[0].codCartera);
     }
   }
 

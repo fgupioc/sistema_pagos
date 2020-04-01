@@ -4,9 +4,8 @@ import { CommonModule } from '@angular/common';
 import { CrearCarteraComponent } from './cartera/crear-cartera/crear-cartera.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActualizarGestionComponent } from './gestion/actualizar-gestion/actualizar-gestion.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ActualizarEtapaComponent } from './etapa/actualizar-etapa/actualizar-etapa.component';
-import { LoadingComponent } from '../comun/loading/loading.component';
 import { MyPipesModule } from '../pipes/my-pipes.module';
 import {CarteraCargarCreditoComponent} from './cartera/cargar-credito/cargar-credito.component';
 import {CarteraCargarCreditoFileComponent} from './cartera/cargar-credito/file/file.component';
@@ -15,8 +14,8 @@ import { RouterModule } from '@angular/router';
 import { ConfigurarNotificionComponent } from './configuracion/configurar-notificion/configurar-notificion.component';
 import { CrearEtapaNotificionComponent } from './configuracion/crear-etapa-notificion/crear-etapa-notificion.component';
 import { EnviarNotificionComponent } from './configuracion/enviar-notificion/enviar-notificion.component';
-import {CarteraCargarCreditoClientesComponent} from './cartera/cargar-credito/clientes/clientes.component';
 import {CarteraCargarCreditoCreditosComponent} from './cartera/cargar-credito/creditos/creditos.component';
+import {CarteraCargarCreditoSociosComponent} from './cartera/cargar-credito/socios/socios.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +27,7 @@ import {CarteraCargarCreditoCreditosComponent} from './cartera/cargar-credito/cr
     ConfigurarNotificionComponent,
     CrearEtapaNotificionComponent,
     EnviarNotificionComponent,
-    CarteraCargarCreditoClientesComponent,
+    CarteraCargarCreditoSociosComponent,
     CarteraCargarCreditoCreditosComponent
   ],
   imports: [
@@ -37,6 +36,7 @@ import {CarteraCargarCreditoCreditosComponent} from './cartera/cargar-credito/cr
     NgbModule,
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     MyPipesModule,
     RouterModule
   ],
