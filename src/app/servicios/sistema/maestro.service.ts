@@ -25,4 +25,28 @@ export class MaestroService {
   listarMondas(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}listarMondas`);
   }
+
+  listarTipoDirecciones(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}listarTipoDirecciones`);
+  }
+
+  listarTipoViviendas(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}listarTipoViviendas`);
+  }
+
+  listarTipoVias(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}listarTipoVias`);
+  }
+
+  listarTipoSecciones(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}listarTipoSecciones`);
+  }
+
+  listarTipoZonas(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}listarTipoZonas`);
+  }
+
+  listarTipoSectores(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}listarTipoSectores`);
+  }
 }

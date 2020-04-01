@@ -14,7 +14,7 @@
                             'is-invalid': form.controls['tipoDireccion'].touched && form.controls['tipoDireccion'].errors,
                             'is-valid': form.controls['tipoDireccion'].touched && !form.controls['tipoDireccion'].errors
                              }">
-            <option *ngFor="let item of tipoDirecciones" [value]="item.codigoItem">{{ item.nombre }}</option>
+            <option *ngFor="let item of tipoDirecciones" [value]="item.codItem">{{ item.descripcion }}</option>
           </select>
                     <div class="invalid-feedback">
                         <span *ngIf="form.get('tipoDireccion').hasError('required')">El campo tipo de dirección es obligatorio.</span>
@@ -28,7 +28,7 @@
                             'is-invalid': form.controls['tipoVivienda'].touched && form.controls['tipoVivienda'].errors,
                             'is-valid': form.controls['tipoVivienda'].touched && !form.controls['tipoVivienda'].errors
                              }">
-            <option *ngFor="let item of tipoViviendas" [value]="item.codigoItem">{{ item.nombre }}</option>
+            <option *ngFor="let item of tipoViviendas" [value]="item.codItem">{{ item.descripcion }}</option>
           </select>
                     <div class="invalid-feedback">
                         <span *ngIf="form.get('tipoVivienda').hasError('required')">El campo tipo vivienda es obligatorio.</span>
@@ -42,7 +42,7 @@
                             'is-invalid': form.controls['tipoVia'].touched && form.controls['tipoVia'].errors,
                             'is-valid': form.controls['tipoVia'].touched && !form.controls['tipoVia'].errors
                              }">
-            <option *ngFor="let item of tipoVias" [value]="item.codigoItem">{{ item.nombre }}</option>
+            <option *ngFor="let item of tipoVias" [value]="item.codItem">{{ item.descripcion }}</option>
           </select>
                     <div class="invalid-feedback">
                         <span *ngIf="form.get('tipoVia').hasError('required')">El campo tipo de via es obligatorio.</span>
@@ -105,7 +105,7 @@
                             'is-valid': form.controls['tipoSeccion'].touched && !form.controls['tipoSeccion'].errors
                              }">
                         <option [value]="0">&nbsp;</option>
-                        <option *ngFor="let item of tipoSecciones" [value]="item.codigoItem">{{ item.nombre }}</option>
+                        <option *ngFor="let item of tipoSecciones" [value]="item.codItem">{{ item.descripcion }}</option>
                     </select>
                     <div class="invalid-feedback">
                         <span *ngIf="form.get('tipoSeccion').hasError('required')">El campo tipo de sección es obligatorio.</span>
@@ -132,7 +132,7 @@
                             'is-invalid': form.controls['tipoZona'].touched && form.controls['tipoZona'].errors,
                             'is-valid': form.controls['tipoZona'].touched && !form.controls['tipoZona'].errors
                              }">
-                        <option *ngFor="let item of tipoZonas" [value]="item.codigoItem">{{ item.nombre }}</option>
+                        <option *ngFor="let item of tipoZonas" [value]="item.codItem">{{ item.descripcion }}</option>
                     </select>
                     <div class="invalid-feedback">
                         <span *ngIf="form.get('tipoZona').hasError('required')">El campo tipo de zona es obligatorio.</span>
@@ -159,7 +159,7 @@
                             'is-valid': form.controls['tipoSector'].touched && !form.controls['tipoSector'].errors
                              }">
             <option [value]="0">&nbsp;</option>
-            <option *ngFor="let item of tiposSectores" [value]="item.codigoItem">{{ item.nombre }}</option>
+            <option *ngFor="let item of tiposSectores" [value]="item.codItem">{{ item.descripcion }}</option>
           </select>
                     <div class="invalid-feedback">
                         <span *ngIf="form.get('tipoSector').hasError('required')">El campo tipo de sector es obligatorio.</span>

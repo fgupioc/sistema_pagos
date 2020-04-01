@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { CONST } from '../../../comun/CONST';
 import Swal from 'sweetalert2';
+import { MaestroService } from '../../../servicios/sistema/maestro.service';
 
 @Component({
   selector: 'app-gestionar-direccion',
@@ -27,17 +28,19 @@ export class GestionarDireccionComponent implements OnInit {
   provincias: any[] = [];
   distritos: any[] = [];
 
-  $sectionName = 'Sección';
-  $zoneName = 'Zona';
-  $sectorName = 'Sector';
+  $sectionName = 'SECCIÓN';
+  $zoneName = 'ZONA';
+  $sectorName = 'SECTOR';
   constructor(
     public activeModal: NgbActiveModal,
     private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
+    private maestroService: MaestroService
   ) { }
 
   ngOnInit() {
+    setTimeout(() => this.spinner.show(), 1);
     this.listarTipoDirecciones();
     this.listarTipoviviendas();
     this.listarTipoVias();
@@ -45,6 +48,7 @@ export class GestionarDireccionComponent implements OnInit {
     this.listarTipoZonas();
     this.listarTipoSectores();
     this.listarDepartamentos();
+
     this.form = this.formBuilder.group({
       tipoDireccion: ['', Validators.required],
       tipoVivienda: ['', Validators.required],
@@ -64,6 +68,62 @@ export class GestionarDireccionComponent implements OnInit {
       distrito: ['', Validators.required],
     });
   }
+
+  listarTipoDirecciones() {
+    this.maestroService.listarTipoDirecciones().subscribe(
+      response => {
+        this.tipoDirecciones = response;
+      },
+      error => console.log(error)
+    );
+  }
+
+  listarTipoviviendas() {
+    this.maestroService.listarTipoViviendas().subscribe(
+      response => {
+        this.tipoViviendas = response;
+      },
+      error => console.log(error)
+    );
+  }
+
+  listarTipoVias() {
+      this.maestroService.listarTipoVias().subscribe(
+          response => {
+              this.tipoVias = response;
+          },
+          error => console.log(error)
+      );
+  }
+
+  listarTipoSecciones() {
+      this.maestroService.listarTipoSecciones().subscribe(
+          response => {
+              this.tipoSecciones = response;
+          },
+          error => console.log(error)
+      );
+  }
+
+  listarTipoZonas() {
+      this.maestroService.listarTipoZonas().subscribe(
+          response => {
+              this.tipoZonas = response;
+          },
+          error => console.log(error)
+      );
+  }
+
+  listarTipoSectores() {
+    
+    this.maestroService.listarTipoSectores().subscribe(
+        response => {
+            this.tiposSectores = response;
+            this.spinner.hide();
+        },
+        error => console.log(error)
+    );
+}
 
   listarDepartamentos() {
     /*
@@ -96,7 +156,6 @@ export class GestionarDireccionComponent implements OnInit {
   }
 
   listarDistritos() {
-
     this.distritos = [];
     this.form.controls.distrito.setValue(null);
 
@@ -112,72 +171,6 @@ export class GestionarDireccionComponent implements OnInit {
         );
     }
     */
-  }
-
-  listarTipoDirecciones() {
-    /*
-      this.tablaMaestraService.listarTipoDirecciones().subscribe(
-          response => {
-              this.tipoDirecciones = response;
-          },
-          error => console.log(error)
-      );
-      */
-  }
-
-  listarTipoviviendas() {
-    /*
-      this.tablaMaestraService.listarTipoViviendas().subscribe(
-          response => {
-              this.tipoViviendas = response;
-          },
-          error => console.log(error)
-      );
-      */
-  }
-
-  listarTipoVias() {
-    /*
-      this.tablaMaestraService.listarTipoVias().subscribe(
-          response => {
-              this.tipoVias = response;
-          },
-          error => console.log(error)
-      );
-      */
-  }
-
-  listarTipoSecciones() {
-    /*
-      this.tablaMaestraService.listarTipoSecciones().subscribe(
-          response => {
-              this.tipoSecciones = response;
-          },
-          error => console.log(error)
-      );
-      */
-  }
-
-  listarTipoZonas() {
-    /*
-      this.tablaMaestraService.listarTipoZonas().subscribe(
-          response => {
-              this.tipoZonas = response;
-          },
-          error => console.log(error)
-      );
-      */
-  }
-
-  listarTipoSectores() {
-    /*
-      this.tablaMaestraService.listarTipoSectores().subscribe(
-          response => {
-              this.tiposSectores = response;
-          },
-          error => console.log(error)
-      );
-      */
   }
 
   cambioManzana(value: any) {
@@ -204,8 +197,8 @@ export class GestionarDireccionComponent implements OnInit {
         ]),
       );
       this.form.controls.numeroSeccion.updateValueAndValidity();
-      const item = this.tipoSecciones.find(v => v.codigoItem == value);
-      this.$sectionName = item ? item.nombre : 'Sección';
+      const item = this.tipoSecciones.find(v => v.codItem == value);
+      this.$sectionName = item ? item.descripcion : 'Sección';
     } else {
       this.form.controls.numeroSeccion.clearValidators();
       this.form.controls.numeroSeccion.updateValueAndValidity();
@@ -216,8 +209,8 @@ export class GestionarDireccionComponent implements OnInit {
 
   cambioTipoZona(value) {
     if (Number(value) !== 0) {
-      const item = this.tipoZonas.find(v => v.codigoItem == value);
-      this.$zoneName = item ? item.nombre : 'Zona';
+      const item = this.tipoZonas.find(v => v.codItem == value);
+      this.$zoneName = item ? item.descripcion : 'Zona';
     } else {
       this.$zoneName = 'Zona';
     }
@@ -231,8 +224,8 @@ export class GestionarDireccionComponent implements OnInit {
         ]),
       );
       this.form.controls.nombreSector.updateValueAndValidity();
-      const item = this.tiposSectores.find(v => v.codigoItem == value);
-      this.$sectorName = item ? item.nombre : 'Sector';
+      const item = this.tiposSectores.find(v => v.codItem == value);
+      this.$sectorName = item ? item.descripcion : 'Sector';
     } else {
       this.form.controls.nombreSector.clearValidators();
       this.form.controls.nombreSector.updateValueAndValidity();
@@ -243,14 +236,14 @@ export class GestionarDireccionComponent implements OnInit {
 
   agregar() {
     if (this.form.invalid) {
-        Swal.fire('Dirección', 'Debe ingresar los datos obligatorios', 'error');
-        return;
+      Swal.fire('Dirección', 'Debe ingresar los datos obligatorios', 'error');
+      return;
     }
 
     if (this.form.controls.numero.value.length === 0 && this.form.controls.manzana.value.length === 0
-        && this.form.controls.lote.value.length === 0) {
-        this.toastr.error('Es necesario ingresar un número o Manzana y lote.', 'Registrar Dirección');
-        return;
+      && this.form.controls.lote.value.length === 0) {
+      this.toastr.error('Es necesario ingresar un número o Manzana y lote.', 'Registrar Dirección');
+      return;
     }
     let address: any;
     address.tipoDireccion = this.form.controls.tipoDireccion.value.toUpperCase();
@@ -275,9 +268,9 @@ export class GestionarDireccionComponent implements OnInit {
     address.provincia = this.provincias.find(value => value.codProvincia == this.form.controls.provincia.value).descripcion;
     address.distrito = this.distritos.find(value => value.codDistrito == this.form.controls.distrito.value).descripcion;
     // ------------------------------------------
-   
+
     this.direcciones.push(address);
     this.toastr.success('Se agrego a la lista.', 'Dirección');
     this.activeModal.dismiss({ direcciones: this.direcciones, tipoDirecciones: this.tipoDirecciones });
-}
+  }
 }
