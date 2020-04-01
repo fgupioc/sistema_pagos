@@ -10,39 +10,39 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Tipo</label>
-                    <select class="form-control" formControlName="typePhone" (change)="cambioTypePhone()" [ngClass]="
+                    <select class="form-control" formControlName="tipo" (change)="cambioTypePhone()" [ngClass]="
                     {
-                    'is-invalid': formulario.controls['typePhone'].touched && formulario.controls['typePhone'].errors,
-                    'is-valid': formulario.controls['typePhone'].touched && !formulario.controls['typePhone'].errors
+                    'is-invalid': formulario.controls['tipo'].touched && formulario.controls['tipo'].errors,
+                    'is-valid': formulario.controls['tipo'].touched && !formulario.controls['tipo'].errors
                     }
                     ">
                         <option *ngFor="let item of tipoTelefonos" [value]="item.codItem">{{ item.descripcion }}</option>
                     </select>
                     <div class="invalid-feedback">
-                        <span class="d-block" *ngIf="formulario.get('typePhone').hasError('required')"> El tipo de uso es obligatorio.</span>
+                        <span class="d-block" *ngIf="formulario.get('tipo').hasError('required')"> El tipo de uso es obligatorio.</span>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Tipo Uso</label>
-                    <select class="form-control" formControlName="codItem" [ngClass]="
+                    <select class="form-control" formControlName="codUso" [ngClass]="
                         {
-                        'is-invalid': formulario.controls['codItem'].touched && formulario.controls['codItem'].errors,
-                        'is-valid': formulario.controls['codItem'].touched && !formulario.controls['codItem'].errors
+                        'is-invalid': formulario.controls['codUso'].touched && formulario.controls['codUso'].errors,
+                        'is-valid': formulario.controls['codUso'].touched && !formulario.controls['codUso'].errors
                         }
                         ">
                             <option *ngFor="let item of tipoUsos" [value]="item.codItem">{{ item.descripcion }}</option>
                     </select>
                     <div class="invalid-feedback">
-                        <span class="d-block" *ngIf="formulario.get('codItem').hasError('required')"> El tipo de uso es obligatorio.</span>
+                        <span class="d-block" *ngIf="formulario.get('codUso').hasError('required')"> El tipo de uso es obligatorio.</span>
                     </div>
                 </div>
             </div>
             <div class="col-md-2" *ngIf="!cell">
                 <div class="form-group">
                     <label>C. Ciudad</label>
-                    <input Number #inputCodCiudad class="form-control" [maxLength]="3" formControlName="codCiudad" placeholder="C. Ciudad" [ngClass]="
+                    <input Number class="form-control" [maxLength]="3" (change)="cambioCodigoCiudad()" formControlName="codCiudad" placeholder="C. Ciudad" [ngClass]="
                             {
                             'is-invalid': formulario.controls['codCiudad'].touched && formulario.controls['codCiudad'].errors,
                             'is-valid': formulario.controls['codCiudad'].touched && !formulario.controls['codCiudad'].errors
@@ -50,7 +50,7 @@
                             ">
                     <div class="invalid-feedback">
                         <span class="d-block" *ngIf="formulario.get('codCiudad').hasError('required')"> El código de ciudad es obligatorio.</span>
-                        <span class="d-block" *ngIf="formulario.get('codCiudad').hasError('minlength')"> El código de ciudad solo acepta 3 números.</span>
+                        <span class="d-block" *ngIf="formulario.get('codCiudad').hasError('maxlength')"> El código de ciudad solo acepta hasta 3 números.</span>
                     </div>
                 </div>
             </div>
@@ -91,20 +91,19 @@
                     <label>Número:</label>
                     <div class="d-flex justify-content-between align-items-start">
                         <div class="w-100 mr-2">
-                            <input Number #inputDescripcion class="form-control" formControlName="descripcion" placeholder="Ingrese el número." [ngClass]="
+                            <input Number class="form-control" formControlName="numero" placeholder="Ingrese el número." [maxlength]="max" [ngClass]="
                             {
-                            'is-invalid': formulario.controls['descripcion'].touched && formulario.controls['descripcion'].errors,
-                            'is-valid': formulario.controls['descripcion'].touched && !formulario.controls['descripcion'].errors && !formulario.controls['descripcion'].pending,
-                            'is-warning': formulario.controls['descripcion'].pending
+                            'is-invalid': formulario.controls['numero'].touched && formulario.controls['numero'].errors,
+                            'is-valid': formulario.controls['numero'].touched && !formulario.controls['numero'].errors && !formulario.controls['numero'].pending,
+                            'is-warning': formulario.controls['numero'].pending
                             }
                             ">
-                            <small *ngIf="formulario.get('descripcion').pending" class="form-text text-muted">Buscando ...</small>
+                            <small *ngIf="formulario.get('numero').pending" class="form-text text-muted">Buscando ...</small>
                             <div class="invalid-feedback">
-                                <span class="d-block" *ngIf="formulario.get('descripcion').hasError('numCelularTaken')"> El número ha sido tomado</span>
-                                <span class="d-block" *ngIf="formulario.get('descripcion').hasError('required')"> El es obligatorio</span>
-                                <span class="d-block" *ngIf="formulario.get('descripcion').hasError('minlength')"></span>
-                                <span class="d-block" *ngIf="formulario.get('descripcion').hasError('pattern')"> </span>
-                                <span class="d-block" *ngIf="formulario.get('descripcion').hasError('email')">El correo electrónico no es valido.</span>
+                                <span class="d-block" *ngIf="formulario.get('numero').hasError('numCelularTaken')"> El número ha sido tomado.</span>
+                                <span class="d-block" *ngIf="formulario.get('numero').hasError('required')"> El es obligatorio.</span>
+                                <span class="d-block" *ngIf="formulario.get('numero').hasError('minlength')">El número de digitos es {{max}}.</span>
+                                <span class="d-block" *ngIf="formulario.get('numero').hasError('pattern')"> </span>
                             </div>
                         </div>
                     </div>
@@ -116,31 +115,31 @@
                     <ul class="list-group">
                         <li class="list-group-item p-2" style="border: none;">
                             <label class="m-0 cursor-pointer">
-                                <input type="checkbox">
+                                <input type="checkbox" (change)="cambiarCanal($event, 1)">
                                  PUSH
                             </label>
                         </li>
                         <li class="list-group-item p-2" style="border: none;">
                             <label class="m-0 cursor-pointer">
-                                <input type="checkbox">
+                                <input type="checkbox" (change)="cambiarCanal($event, 2)">
                                  SMS
                             </label>
                         </li>
                         <li class="list-group-item p-2" style="border: none;">
                             <label class="m-0 cursor-pointer">
-                                <input type="checkbox">
+                                <input type="checkbox" (change)="cambiarCanal($event, 3)">
                                 WHATSAPP
                             </label>
                         </li>
                         <li class="list-group-item p-2" style="border: none;">
                             <label class="m-0 cursor-pointer">
-                                <input type="checkbox">
+                                <input type="checkbox" (change)="cambiarCanal($event, 4)">
                                 TELEGRAM
                             </label>
                         </li>
                         <li class="list-group-item p-2" style="border: none;">
                             <label class="m-0 cursor-pointer">
-                                <input type="checkbox">
+                                <input type="checkbox" (change)="cambiarCanal($event, 5)">
                                 LLAMADAS
                             </label>
                         </li>
@@ -149,7 +148,8 @@
             </div>
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Close</button>
+    <div class="modal-footer d-flex justify-content-center">
+        <button type="button" [disabled]="formulario.invalid" class="btn btn-outline-info m-4" (click)="guardar()">Guardar</button>
+        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Cerrar</button>
     </div>
 </div>
