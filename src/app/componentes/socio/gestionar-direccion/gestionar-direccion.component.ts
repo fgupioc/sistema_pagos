@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CONST } from '../../../comun/CONST';
 import Swal from 'sweetalert2';
 import { MaestroService } from '../../../servicios/sistema/maestro.service';
+import { UbigeoService } from '../../../servicios/sistema/ubigeo.service';
 
 @Component({
   selector: 'app-gestionar-direccion',
@@ -36,7 +37,8 @@ export class GestionarDireccionComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private maestroService: MaestroService
+    private maestroService: MaestroService,
+    private ubigeoService: UbigeoService
   ) { }
 
   ngOnInit() {
@@ -115,62 +117,58 @@ export class GestionarDireccionComponent implements OnInit {
   }
 
   listarTipoSectores() {
-    
     this.maestroService.listarTipoSectores().subscribe(
         response => {
             this.tiposSectores = response;
-            this.spinner.hide();
         },
         error => console.log(error)
     );
 }
 
   listarDepartamentos() {
-    /*
     this.ubigeoService.listarDepartamentos().subscribe(
         response => {
             this.departamentos = response;
+            this.spinner.hide();
         },
         error => console.log(error)
     );
-    */
   }
 
   listarProvincias() {
-
+    this.spinner.show();
     this.provincias = [];
     this.distritos = [];
     this.form.controls.provincia.setValue(null);
     this.form.controls.distrito.setValue(null);
-    /*
     const codDepartamento = this.form.controls.departamento.value;
     if (codDepartamento) {
         this.ubigeoService.listarProvincias(codDepartamento).subscribe(
             response => {
                 this.provincias = response;
+                this.spinner.hide();
             },
             error => console.log(error)
         );
     }
-    */
   }
 
   listarDistritos() {
+    this.spinner.show();
     this.distritos = [];
     this.form.controls.distrito.setValue(null);
 
     const codDepartamento = this.form.controls.departamento.value;
     const codProvincia = this.form.controls.provincia.value;
-    /*
     if (codDepartamento && codProvincia) {
         this.ubigeoService.listarDistritos(codDepartamento, codProvincia).subscribe(
             response => {
                 this.distritos = response;
+                this.spinner.hide();
             },
             error => console.log(error)
         );
     }
-    */
   }
 
   cambioManzana(value: any) {
