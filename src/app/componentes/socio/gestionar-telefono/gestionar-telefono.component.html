@@ -11,8 +11,7 @@
                 <div class="form-group">
                     <label>Tipo</label>
                     <select class="form-control" formControlName="typePhone" (change)="cambioTypePhone()">
-                      <option value="c">Celular</option>
-                      <option value="f">Fijo</option>
+                      <option *ngFor="let item of tipoTelefonos" [value]="item.codItem">{{ item.descripcion }}</option>
                   </select>
                 </div>
             </div>
@@ -20,7 +19,7 @@
                 <div class="form-group">
                     <label>Tipo Uso</label>
                     <select class="form-control" formControlName="codigoItem">
-                    <option value="">Seleccione</option>
+                        <option *ngFor="let item of tipoUsos" [value]="item.codItem">{{ item.descripcion }}</option>
                 </select>
                 </div>
             </div>
@@ -64,7 +63,7 @@
                             'is-valid': formulario.controls['operador'].touched && !formulario.controls['operador'].errors
                             }
                             ">
-                        <option>Selecciones</option>
+                            <option *ngFor="let item of tipoOperadores" [value]="item.codItem">{{ item.descripcion }}</option>
                     </select>
                     <div class="invalid-feedback">
                         <span class="d-block" *ngIf="formulario.get('operador').hasError('required')"> El número es obligatorio</span>

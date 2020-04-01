@@ -49,4 +49,16 @@ export class MaestroService {
   listarTipoSectores(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}listarTipoSectores`);
   }
+
+  listarTipoUso(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}listarTipoUso`);
+  }
+
+  listarTipoOperador(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}listarTipoOperador`);
+  }
+
+  listarTipoTelefonos(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}listarTipoTelefonos`);
+  }
 }
