@@ -15,6 +15,7 @@ export class GestionarCorreoComponent implements OnInit {
   formulario: FormGroup;
   accion: any;
   tipoUsos: any[] = [];
+  correos: any[] = [];
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -34,7 +35,7 @@ export class GestionarCorreoComponent implements OnInit {
         Validators.required,
         Validators.email
       ]],
-      codEstado: [],
+      codEstado: ['1'],
       canales: []
     });
     if (this.accion == '1') {
@@ -60,7 +61,8 @@ export class GestionarCorreoComponent implements OnInit {
       Swal.fire('Correo', 'Debe seleccionar un canal.', 'error');
       return;
     }
-    console.log(data);
+    this.correos.push(data);
+    this.activeModal.dismiss(this.correos);
   }
 
   cambiarCanal(event: any, codItem) {

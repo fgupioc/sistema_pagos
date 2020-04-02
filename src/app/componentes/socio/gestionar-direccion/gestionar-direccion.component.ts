@@ -52,7 +52,9 @@ export class GestionarDireccionComponent implements OnInit {
     this.listarDepartamentos();
 
     this.form = this.formBuilder.group({
-      tipoDireccion: ['', Validators.required],
+      direccionId: [],
+      ubigeo: [],
+      personaId: [],
       tipoVivienda: ['', Validators.required],
       tipoVia: ['', Validators.required],
       nombreVia: ['', Validators.required],
@@ -65,9 +67,12 @@ export class GestionarDireccionComponent implements OnInit {
       nombreZona: ['', Validators.required],
       tipoSector: [''],
       nombreSector: [''],
+      tipoDireccion: ['', Validators.required],
+      codEstado: [],
+      correspondencia: [],
       departamento: ['', Validators.required],
       provincia: ['', Validators.required],
-      distrito: ['', Validators.required],
+      distrito: ['', Validators.required]
     });
   }
 
@@ -243,32 +248,12 @@ export class GestionarDireccionComponent implements OnInit {
       this.toastr.error('Es necesario ingresar un número o Manzana y lote.', 'Registrar Dirección');
       return;
     }
-    let address: any;
-    address.tipoDireccion = this.form.controls.tipoDireccion.value.toUpperCase();
-    address.tipoVivienda = this.form.controls.tipoVivienda.value.toUpperCase();
-    address.tipoVia = this.form.controls.tipoVia.value.toUpperCase();
-    address.nombreVia = this.form.controls.nombreVia.value.toUpperCase();
-    address.numero = this.form.controls.numero.value.toUpperCase();
-    address.manzana = this.form.controls.manzana.value.toUpperCase();
-    address.lote = this.form.controls.lote.value.toUpperCase();
-    address.tipoSeccion = this.form.controls.tipoSeccion.value.toUpperCase();
-    address.numeroSeccion = this.form.controls.numeroSeccion.value.toUpperCase();
-    address.tipoZona = this.form.controls.tipoZona.value.toUpperCase();
-    address.nombreZona = this.form.controls.nombreZona.value.toUpperCase();
-    address.tipoSector = this.form.controls.tipoSector.value.toUpperCase();
-    address.nombreSector = this.form.controls.nombreSector.value.toUpperCase();
+    const address = this.form.getRawValue();
     address.ubigeo = this.form.controls.departamento.value + this.form.controls.provincia.value + this.form.controls.distrito.value;
-    address.estado = CONST.S_ESTADO_REG_ACTIVO;
-
-
-
+    address.codEstado = CONST.S_ESTADO_REG_ACTIVO;
     address.departamento = this.departamentos.find(value => value.codDepartamento == this.form.controls.departamento.value).descripcion;
     address.provincia = this.provincias.find(value => value.codProvincia == this.form.controls.provincia.value).descripcion;
     address.distrito = this.distritos.find(value => value.codDistrito == this.form.controls.distrito.value).descripcion;
-    // ------------------------------------------
-
-    this.direcciones.push(address);
-    this.toastr.success('Se agrego a la lista.', 'Dirección');
-    this.activeModal.dismiss({ direcciones: this.direcciones, tipoDirecciones: this.tipoDirecciones });
+    console.log(address);
   }
 }
