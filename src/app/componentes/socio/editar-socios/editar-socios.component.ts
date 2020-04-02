@@ -7,6 +7,7 @@ import { GestionarDireccionComponent } from '../gestionar-direccion/gestionar-di
 import { GestionarTelefonoComponent } from '../gestionar-telefono/gestionar-telefono.component';
 import { GestionarCorreoComponent } from '../gestionar-correo/gestionar-correo.component';
 import { PerosonaService } from '../../../servicios/perosona.service';
+import { MaestroService } from '../../../servicios/sistema/maestro.service';
 
 @Component({
   selector: 'app-editar-socios',
@@ -20,8 +21,11 @@ export class EditarSociosComponent implements OnInit {
   telefonos: any[] = [];
   correos: any[] = [];
   documentosIdentidad: any[] = [];
-
+  tipoUsos: any[] = [];
   formSocio: FormGroup;
+  tipoOperadores: any[] = [];
+  tipoDirecciones: any[] = [];
+  tipoDocumentos: any[] = [];
 
   constructor(
     config: NgbModalConfig,
@@ -30,6 +34,7 @@ export class EditarSociosComponent implements OnInit {
     private spinner: NgxSpinnerService,
     public modalService: NgbModal,
     private perosonaService: PerosonaService,
+    private maestroService: MaestroService
   ) {
     config.backdrop = 'static',
     config.keyboard = false;
@@ -37,6 +42,10 @@ export class EditarSociosComponent implements OnInit {
 
   ngOnInit() {
     setTimeout(() => this.spinner.show(), 1);
+    this.listarTipoUso();
+    this.listarTipoOperador();
+    this.listarTipoDirecciones();
+    this.listarTipoDocumentos();
     this.obtenerInfomacion();
     this.formSocio = this.formBuilder.group({
       codPersona: [],
@@ -46,6 +55,50 @@ export class EditarSociosComponent implements OnInit {
       segundoNombre: [{value: '', disabled: true}],
     });
   }
+
+  listarTipoDocumentos() {
+     this.maestroService.listarTipoDocumentos().subscribe(
+      response => {
+        this.tipoDocumentos = response;
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  listarTipoUso() {
+    this.maestroService.listarTipoUso().subscribe(
+      response => {
+        this.tipoUsos = response;
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  listarTipoOperador() {
+    this.maestroService.listarTipoOperador().subscribe(
+      response => {
+        this.tipoOperadores = response;
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  listarTipoDirecciones() {
+    this.maestroService.listarTipoDirecciones().subscribe(
+      response => {
+        this.tipoDirecciones = response;
+      },
+      error => console.log(error)
+    );
+  }
+
+
   obtenerInfomacion() {
     this.perosonaService.buscarSocioPorId('3').subscribe(
       response => {
@@ -68,32 +121,34 @@ export class EditarSociosComponent implements OnInit {
     );
   }
 
-  modalDireccion(accion) {
+  modalDireccion(accion, item) {
     const modal = this.modalService.open(GestionarDireccionComponent, {size: 'lg', scrollable: true});
     modal.result.then(
       this.closeModalDireccion.bind(this),
       this.closeModalDireccion.bind(this)
     );
     modal.componentInstance.accion = accion;
+    modal.componentInstance.direccion = item;
   }
 
   closeModalDireccion() {
 
   }
 
-  modalTelefono(accion) {
+  modalTelefono(accion, item) {
     const modal = this.modalService.open(GestionarTelefonoComponent, {size: 'lg', scrollable: true, centered: true});
     modal.result.then(
       this.closeModalTelefono.bind(this),
       this.closeModalTelefono.bind(this)
     );
     modal.componentInstance.accion = accion;
+    modal.componentInstance.telefono = item;
   }
 
   closeModalTelefono() {
   }
 
-  modalCorreo(accion) {
+  modalCorreo(accion, item) {
     const modal = this.modalService.open(GestionarCorreoComponent, {size: 'lg', scrollable: true, centered: true});
     modal.result.then(
       this.closeModalCorreo.bind(this),
@@ -101,9 +156,30 @@ export class EditarSociosComponent implements OnInit {
     );
     modal.componentInstance.accion = accion;
     modal.componentInstance.correos = this.correos;
+    modal.componentInstance.correo = item;
   }
 
   closeModalCorreo() {
   }
 
+
+  getNameTypeUse(item) {
+    const obj = this.tipoUsos.find( v => v.codItem == item.tipo);
+    return obj ? obj.descripcion : '';
+  }
+
+  getNameTypeOperator(item) {
+    const obj = this.tipoOperadores.find( v => v.codItem == item.tipo);
+    return obj ? obj.descripcion : '';
+  }
+
+  getNameTypeAddress(item) {
+    const obj = this.tipoDirecciones.find( v => v.codItem == item.tipoDireccion);
+    return obj ? obj.descripcion : '';
+  }
+
+  getNameTypeDocumets(item) {
+    const obj = this.tipoDocumentos.find( v => v.codItem == item.tipoDocumento);
+    return obj ? obj.descripcion : '';
+  }
 }

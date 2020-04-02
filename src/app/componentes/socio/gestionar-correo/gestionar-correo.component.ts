@@ -16,6 +16,7 @@ export class GestionarCorreoComponent implements OnInit {
   accion: any;
   tipoUsos: any[] = [];
   correos: any[] = [];
+  correo: any;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -40,8 +41,14 @@ export class GestionarCorreoComponent implements OnInit {
     });
     if (this.accion == '1') {
       this.formulario.controls.canales.setValue([]);
+    } else {
+      this.correo.canales = [];
+      this.formulario.setValue(this.correo);
+      this.formulario.controls.tipo.disable();
+      this.formulario.controls.email.disable();
     }
   }
+  
   listarTipoUso() {
     this.maestroService.listarTipoUso().subscribe(
       response => {

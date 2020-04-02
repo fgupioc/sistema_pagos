@@ -49,9 +49,8 @@
                                                         <thead>
                                                             <tr class="text-center">
                                                                 <th scope="col" width="10%">#</th>
-                                                                <th scope="col">Tipo</th>
-                                                                <th scope="col">Número</th>
-                                                                <th scope="col" width="20%">Accion</th>
+                                                                <th scope="col" width="30%">Tipo</th>
+                                                                <th scope="col" width="60%">Número</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -60,11 +59,8 @@
                                                                     <ng-container *ngIf="item.estado == '1'">
                                                                         <tr class="text-center">
                                                                             <th scope="row">{{ i+1 }}</th>
-                                                                            <td class="text-left">{{ item.tipoDocumento }}</td>
-                                                                            <td class="text-left">{{ item.numeroDocumento }}</td>
-                                                                            <td>
-                                                                                <button class="btn btn-sm btn-outline-info"><i class="fa fa-eye"></i></button>
-                                                                            </td>
+                                                                            <td>{{ getNameTypeDocumets(item) }}</td>
+                                                                            <td>{{ item.numeroDocumento }}</td>
                                                                         </tr>
                                                                     </ng-container>
                                                                 </ng-container>
@@ -108,10 +104,10 @@
                                                                     <ng-container *ngIf="item.codEstado == '1'">
                                                                         <tr class="text-center">
                                                                             <th scope="row">{{ i+1 }}</th>
-                                                                            <td class="text-left">{{ item.tipoDireccion }}</td>
+                                                                            <td>{{ getNameTypeAddress(item) }}</td>
                                                                             <td class="text-left">{{ item.nombreVia }}</td>
                                                                             <td>
-                                                                                <button class="btn btn-sm btn-outline-info" (click)="modalDireccion(0)"><i class="fa fa-eye"></i></button>
+                                                                                <button class="btn btn-sm btn-outline-info" (click)="modalDireccion(0, item)"><i class="fa fa-eye"></i></button>
                                                                             </td>
                                                                         </tr>
                                                                     </ng-container>
@@ -145,8 +141,9 @@
                                                         <thead>
                                                             <tr class="text-center">
                                                                 <th scope="col" width="10%">#</th>
-                                                                <th scope="col">Número</th>
+                                                                <th scope="col">Uso</th>
                                                                 <th scope="col">Operador</th>
+                                                                <th scope="col">Número</th>
                                                                 <th scope="col" width="20%">Accion</th>
                                                             </tr>
                                                         </thead>
@@ -156,10 +153,11 @@
                                                                     <ng-container *ngIf="item.codEstado == '1'">
                                                                         <tr class="text-center">
                                                                             <th scope="row">{{ i+1 }}</th>
-                                                                            <td class="text-left">{{ item.numero }}</td>
-                                                                            <td class="text-left">{{ item.operador }}</td>
+                                                                            <td>{{ getNameTypeUse(item) }}</td>
+                                                                            <td>{{ getNameTypeOperator(item) }}</td>
+                                                                            <td>{{ item.numero }}</td>
                                                                             <td>
-                                                                                <button class="btn btn-sm btn-outline-info" (click)="modalTelefono(0)"><i class="fa fa-eye"></i></button>
+                                                                                <button class="btn btn-sm btn-outline-info" (click)="modalTelefono(0, item)"><i class="fa fa-eye"></i></button>
                                                                             </td>
                                                                         </tr>
                                                                     </ng-container>
@@ -193,6 +191,7 @@
                                                         <thead>
                                                             <tr class="text-center">
                                                                 <th scope="col" width="10%">#</th>
+                                                                <th scope="col">Uso</th>
                                                                 <th scope="col">Correo</th>
                                                                 <th scope="col" width="20%">Accion</th>
                                                             </tr>
@@ -203,9 +202,10 @@
                                                                     <ng-container *ngIf="item.codEstado == '1'">
                                                                         <tr class="text-center">
                                                                             <th scope="row">{{ i+1 }}</th>
-                                                                            <td class="text-left">{{ item.email }}</td>
+                                                                            <td>{{ getNameTypeUse(item) }}</td>
+                                                                            <td>{{ item.email }}</td>
                                                                             <td>
-                                                                                <button class="btn btn-sm btn-outline-info" (click)="modalCorreo(0)"><i class="fa fa-eye"></i></button>
+                                                                                <button class="btn btn-sm btn-outline-info" (click)="modalCorreo(0, item)"><i class="fa fa-eye"></i></button>
                                                                             </td>
                                                                         </tr>
                                                                     </ng-container>

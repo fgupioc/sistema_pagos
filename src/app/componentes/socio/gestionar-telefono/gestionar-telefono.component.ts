@@ -18,6 +18,7 @@ export class GestionarTelefonoComponent implements OnInit {
   tipoTelefonos: any[] = [];
   tipoUsos: any[] = [];
   tipoOperadores: any[] = [];
+  telefono: any;
   max = 9;
 
   constructor(
@@ -47,11 +48,19 @@ export class GestionarTelefonoComponent implements OnInit {
       codUso: ['', Validators.required],
       operador: ['', Validators.required],
       codEstado: [],
-      canales: []
+      canales: [],
+      pais: []
     });
 
     if (this.accion == '1') {
       this.formulario.controls.canales.setValue([]);
+    } else {
+      this.telefono.canales = [];
+      this.formulario.setValue(this.telefono);
+      this.formulario.disable();
+      if (this.telefono.tipo != '1') {
+        this.cell = false;
+      }
     }
   }
   listarTipoOperador() {

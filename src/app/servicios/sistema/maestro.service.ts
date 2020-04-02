@@ -61,4 +61,8 @@ export class MaestroService {
   listarTipoTelefonos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}listarTipoTelefonos`);
   }
+
+  listarTipoDocumentos(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}listarTipoDocumentos`);
+  }
 }

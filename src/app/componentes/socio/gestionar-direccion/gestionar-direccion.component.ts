@@ -32,6 +32,7 @@ export class GestionarDireccionComponent implements OnInit {
   $sectionName = 'SECCIÓN';
   $zoneName = 'ZONA';
   $sectorName = 'SECTOR';
+  direccion: any;
   constructor(
     public activeModal: NgbActiveModal,
     private spinner: NgxSpinnerService,
@@ -74,6 +75,20 @@ export class GestionarDireccionComponent implements OnInit {
       provincia: ['', Validators.required],
       distrito: ['', Validators.required]
     });
+
+    if (this.accion == '0') {
+      this.form.disable();
+      const array = this.direccion.ubigeo.split('');
+      const dep = array[0] + array[1];
+      const pro = array[2] + array[3];
+      const dis = array[4] + array[5];
+      this.listProvincia(dep);
+      this.listDistrito(dep, pro);
+      this.direccion.departamento = dep;
+      this.direccion.provincia = pro;
+      this.direccion.distrito = dis;
+      this.form.setValue(this.direccion);
+    }
   }
 
   listarTipoDirecciones() {
@@ -174,6 +189,25 @@ export class GestionarDireccionComponent implements OnInit {
             error => console.log(error)
         );
     }
+  }
+
+  listProvincia(codDepartamento) {
+    this.ubigeoService.listarProvincias(codDepartamento).subscribe(
+      response => {
+          this.provincias = response;
+      },
+      error => console.log(error)
+  );
+  }
+
+  listDistrito(codDepartamento, codProvincia) {
+    this.ubigeoService.listarDistritos(codDepartamento, codProvincia).subscribe(
+      response => {
+          this.distritos = response;
+          this.spinner.hide();
+      },
+      error => console.log(error)
+  );
   }
 
   cambioManzana(value: any) {

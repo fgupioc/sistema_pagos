@@ -67,7 +67,7 @@
         </div>
     </div>
     <div class="modal-footer d-flex justify-content-center">
-        <button type="button" [disabled]="formulario.invalid" class="btn btn-outline-info m-4" (click)="guardar()">Guardar</button>
+        <button *ngIf="false" type="button" [disabled]="formulario.invalid" class="btn btn-outline-info m-4" (click)="guardar()">Guardar</button>
         <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Cerrar</button>
     </div>
 </div>
