@@ -14,7 +14,7 @@
           <thead>
           <tr class="text-center">
             <th>#</th>
-            <th>Usuario</th>
+            <th>Email</th>
             <th>T. Usuario</th>
             <th>Estado</th>
             <th>Opciones</th>
@@ -23,7 +23,7 @@
           <tbody>
           <tr *ngFor="let usuario of usuarios; index as i; ">
             <td class="text-center">{{ i + 1 }}</td>
-            <td class="text-center">{{ usuario.usuario}}</td>
+            <td class="text-center">{{ usuario.email}}</td>
             <td class="text-center">{{ usuario.desTipoUsuario}}</td>
             <td class="text-center">
               <span class="badge" [ngClass]="estaActivo(usuario.codEstado) ? 'badge-success' : 'badge-danger'">

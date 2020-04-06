@@ -3,6 +3,8 @@ import {DOCUMENT} from '@angular/common';
 import {MenuService} from '../servicios/sistema/menu.service';
 import {TreeviewItem} from 'ngx-treeview';
 import {Menu} from '../interfaces/Menu';
+import {AutenticacionService} from '../servicios/seguridad/autenticacion.service';
+import {type} from 'os';
 
 @Component({
   selector: 'app-auth',
@@ -10,15 +12,15 @@ import {Menu} from '../interfaces/Menu';
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
-  username: Menu[] = [];
+  username: any;
   sidebarMinimized: any;
   navItems = [];
-  usuarioId = 1;
 
   private changes: MutationObserver;
   public element: HTMLElement;
 
   constructor(
+    private authService: AutenticacionService,
     private menuService: MenuService,
     @Inject(DOCUMENT) _document?: any) {
     this.changes = new MutationObserver((mutations) => {
@@ -29,17 +31,20 @@ export class AuthComponent implements OnInit {
       attributes: true,
       attributeFilter: ['class']
     });
+    console.log(this.authService.loggedUser);
+    // this.username = this.authService.loggedUser.persona.primerApellido + ' ' + this.authService.loggedUser.persona.segundoApellido;
+    this.username = this.authService.loggedUser.email;
   }
 
   ngOnInit() {
-    this.encuentraTodossNavItemPorUsuario();
+    this.encuentraTodossNavItemPorUsuario(this.authService.loggedUser.id);
   }
 
-  encuentraTodossNavItemPorUsuario() {
-    this.menuService.encuentraTodossNavItemPorUsuario(this.usuarioId).subscribe(navItems => this.navItems = navItems);
+  encuentraTodossNavItemPorUsuario(usuarioId: number) {
+    this.menuService.encuentraTodossNavItemPorUsuario(usuarioId).subscribe(navItems => this.navItems = navItems);
   }
 
   logout() {
-
+    this.authService.logout('Session completed');
   }
 }

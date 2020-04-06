@@ -2,9 +2,21 @@
   <h4 class="modal-title">Direcciones </h4>
 </div>
 <div class="modal-body">
-
+  <table class="table table-responsive-sm table-bordered table-striped table-sm">
+    <thead>
+    <tr class="text-center">
+      <th>#</th>
+      <th>Nombre de Vía</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let o of direcciones; index as i; ">
+      <td class="text-center">{{ i + 1 }}</td>
+      <td class="text-center">{{ o.nombreVia }}</td>
+    </tr>
+    </tbody>
+  </table>
 </div>
 <div class="modal-footer d-flex justify-content-center">
   <button type="button" class="btn btn-default" (click)="activeModal.close()">Cerrar</button>
 </div>
-<app-loading></app-loading>

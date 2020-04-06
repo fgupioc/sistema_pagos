@@ -41,8 +41,8 @@ export class UsuarioCrearComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = this.formBuilder.group({
-      usuario: ['', {
-        validators: [Validators.required, Validators.pattern(CONST.REG_EXP_USUARIO)],
+      email: ['', {
+        validators: [Validators.required, Validators.email],
         asyncValidators: [this.usuarioUnicoService.validate.bind(this.usuarioUnicoService, 0)],
         updateOn: 'blur'
       }],
@@ -102,7 +102,7 @@ export class UsuarioCrearComponent implements OnInit {
   crearUsuario() {
     if (this.formGroup.valid) {
       const usuario = {
-        usuario: this.formGroup.get('usuario').value,
+        email: this.formGroup.get('email').value,
         contrasenha: this.formGroup.get('contrasenha').value,
         fechaInicioSesion: this.formGroup.get('fechaInicioSesion').value,
         fechaFinSesion: this.formGroup.get('fechaFinSesion').value,

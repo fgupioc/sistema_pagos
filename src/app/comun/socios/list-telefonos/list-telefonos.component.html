@@ -1,1 +1,22 @@
-<p>socio-list-telefonos works!</p>
+<div class="modal-header">
+  <h4 class="modal-title">Teléfonos </h4>
+</div>
+<div class="modal-body">
+  <table class="table table-responsive-sm table-bordered table-striped table-sm">
+    <thead>
+    <tr class="text-center">
+      <th>#</th>
+      <th>Número</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let o of telefonos; index as i; ">
+      <td class="text-center">{{ i + 1 }}</td>
+      <td class="text-center">{{ o.numero }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="modal-footer d-flex justify-content-center">
+  <button type="button" class="btn btn-default" (click)="activeModal.close()">Cerrar</button>
+</div>

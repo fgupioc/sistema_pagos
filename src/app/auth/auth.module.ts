@@ -5,9 +5,11 @@ import {AppBreadcrumbModule, AppFooterModule, AppHeaderModule, AppSidebarModule}
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {BsDropdownModule, TabsModule} from 'ngx-bootstrap';
 import {AppRoutingModule} from '../app-routing.module';
+import {DashboardComponent} from '../dashboard/dashboard.component';
+import {MantenimientoModule} from '../mantenimiento/mantenimiento.module';
 
 @NgModule({
-  declarations: [AuthComponent],
+  declarations: [AuthComponent, DashboardComponent,],
   imports: [
     CommonModule,
     AppHeaderModule,
@@ -18,6 +20,7 @@ import {AppRoutingModule} from '../app-routing.module';
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     AppRoutingModule,
+    MantenimientoModule,
   ]
 })
 export class AuthModule {

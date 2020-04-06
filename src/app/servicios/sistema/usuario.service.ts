@@ -3,6 +3,7 @@ import {environment} from '../../../environments/environment';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Respuesta} from '../../interfaces/Respuesta';
+import {Usuario} from '../../interfaces/Usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -39,4 +40,7 @@ export class UsuarioService {
     return this.http.put<Respuesta>(`${this.apiUrl}actualizarContrasenha`, usuario);
   }
 
+  findByEmail(email: string): Observable<Usuario> {
+    return this.http.get<Usuario>(this.apiUrl + 'findByEmail', {params: new HttpParams().set('email', email)});
+  }
 }

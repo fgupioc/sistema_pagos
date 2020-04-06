@@ -11,14 +11,32 @@ import {CarteraCargarCreditoComponent} from './estrategia/cartera/cargar-credito
 import {ConfigurarNotificionComponent} from './estrategia/configuracion/configurar-notificion/configurar-notificion.component';
 import {EnviarNotificionComponent} from './estrategia/configuracion/enviar-notificion/enviar-notificion.component';
 import {CarteraCargarCreditoCreditosComponent} from './estrategia/cartera/cargar-credito/creditos/creditos.component';
-import { ListaSociosComponent } from './componentes/socio/lista-socios/lista-socios.component';
-import { EditarSociosComponent } from './componentes/socio/editar-socios/editar-socios.component';
+import {ListaSociosComponent} from './componentes/socio/lista-socios/lista-socios.component';
+import {EditarSociosComponent} from './componentes/socio/editar-socios/editar-socios.component';
 import {CarteraCargarCreditoSociosComponent} from './estrategia/cartera/cargar-credito/socios/socios.component';
+import {LoginComponent} from './publico/login/login.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
+import {GuestGuard} from './guard/guest.guard';
+import {AuthGuard} from './guard/auth.guard';
+
+
+/*
+export const appRoutes: Routes = [{
+  path: '', component: AuthComponent, children: [
+    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+    { path: 'financiera', loadChildren: '../financiera/financiera.module#FinancieraModule', canActivate: [AuthGuard, FinancieraGuard] },
+    { path: 'empresa', loadChildren: '../empresa/empresa.module#EmpresaModule', canActivate: [AuthGuard, EmpresaGuard] },
+  ]
+}];
+ */
 
 const routes: Routes = [
+  {path: '', redirectTo: 'login', pathMatch: 'full'},
+  {path: 'login', component: LoginComponent, canActivate: [GuestGuard]},
   {
-    path: 'auth', component: AuthComponent,
+    path: '', component: AuthComponent,
     children: [
+      {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
       {
         path: 'mantenimiento',
         children: [
@@ -37,7 +55,7 @@ const routes: Routes = [
               {path: 'cargar-credito', component: CarteraCargarCreditoComponent},
               {path: 'cargar-credito/socios/:cargaCreditoId', component: CarteraCargarCreditoSociosComponent},
               {path: 'cargar-credito/creditos/:cargaCreditoId', component: CarteraCargarCreditoCreditosComponent},
-              {path: '', component: CrearCarteraComponent},
+              // {path: '', component: CrearCarteraComponent},
               {path: 'crear-gestion', component: ActualizarGestionComponent},
               {path: 'editar-gestion', component: ActualizarGestionComponent}
             ]
@@ -50,7 +68,7 @@ const routes: Routes = [
           {
             path: 'notificacion',
             children: [
-              {path: '', component: ConfigurarNotificionComponent},
+              // {path: '', component: ConfigurarNotificionComponent},
               {path: 'enviar', component: EnviarNotificionComponent}
             ]
           },

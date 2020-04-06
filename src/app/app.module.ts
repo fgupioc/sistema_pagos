@@ -1,24 +1,25 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 
-import {MantenimientoModule} from './mantenimiento/mantenimiento.module';
 import {HttpClientModule} from '@angular/common/http';
 import {AuthModule} from './auth/auth.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { EstrategiaModule } from './estrategia/estrategia.module';
+import {EstrategiaModule} from './estrategia/estrategia.module';
 import {registerLocaleData} from '@angular/common';
 import localePE from '@angular/common/locales/es-PE';
 import {I18n} from './i18n';
-import { ComponentesModule } from './componentes/componentes.module';
+import {ComponentesModule} from './componentes/componentes.module';
+import {PublicoModule} from './publico/publico.module';
+import {ConfigService, configServiceInitializerFactory} from './servicios/seguridad/config.service';
 
 registerLocaleData(localePE, 'es-PE');
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,11 +28,18 @@ registerLocaleData(localePE, 'es-PE');
     HttpClientModule,
     AppRoutingModule,
     AuthModule,
-    MantenimientoModule,
+    PublicoModule,
     EstrategiaModule,
     ComponentesModule
   ],
-  providers: [I18n],
+  providers: [I18n,
+    ConfigService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: configServiceInitializerFactory,
+      deps: [ConfigService],
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
