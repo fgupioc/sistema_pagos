@@ -5,6 +5,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { CONST } from '../../../comun/CONST';
 import Swal from 'sweetalert2';
+import { MaestroService } from '../../../servicios/sistema/maestro.service';
+import { UbigeoService } from '../../../servicios/sistema/ubigeo.service';
 
 @Component({
   selector: 'app-gestionar-direccion',
@@ -27,17 +29,21 @@ export class GestionarDireccionComponent implements OnInit {
   provincias: any[] = [];
   distritos: any[] = [];
 
-  $sectionName = 'Sección';
-  $zoneName = 'Zona';
-  $sectorName = 'Sector';
+  $sectionName = 'SECCIÓN';
+  $zoneName = 'ZONA';
+  $sectorName = 'SECTOR';
+  direccion: any;
   constructor(
     public activeModal: NgbActiveModal,
     private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
+    private maestroService: MaestroService,
+    private ubigeoService: UbigeoService
   ) { }
 
   ngOnInit() {
+    setTimeout(() => this.spinner.show(), 1);
     this.listarTipoDirecciones();
     this.listarTipoviviendas();
     this.listarTipoVias();
@@ -45,8 +51,11 @@ export class GestionarDireccionComponent implements OnInit {
     this.listarTipoZonas();
     this.listarTipoSectores();
     this.listarDepartamentos();
+
     this.form = this.formBuilder.group({
-      tipoDireccion: ['', Validators.required],
+      direccionId: [],
+      ubigeo: [],
+      personaId: [],
       tipoVivienda: ['', Validators.required],
       tipoVia: ['', Validators.required],
       nombreVia: ['', Validators.required],
@@ -59,125 +68,146 @@ export class GestionarDireccionComponent implements OnInit {
       nombreZona: ['', Validators.required],
       tipoSector: [''],
       nombreSector: [''],
+      tipoDireccion: ['', Validators.required],
+      codEstado: [],
+      correspondencia: [],
       departamento: ['', Validators.required],
       provincia: ['', Validators.required],
-      distrito: ['', Validators.required],
+      distrito: ['', Validators.required]
     });
-  }
 
-  listarDepartamentos() {
-    /*
-    this.ubigeoService.listarDepartamentos().subscribe(
-        response => {
-            this.departamentos = response;
-        },
-        error => console.log(error)
-    );
-    */
-  }
-
-  listarProvincias() {
-
-    this.provincias = [];
-    this.distritos = [];
-    this.form.controls.provincia.setValue(null);
-    this.form.controls.distrito.setValue(null);
-    /*
-    const codDepartamento = this.form.controls.departamento.value;
-    if (codDepartamento) {
-        this.ubigeoService.listarProvincias(codDepartamento).subscribe(
-            response => {
-                this.provincias = response;
-            },
-            error => console.log(error)
-        );
+    if (this.accion == '0') {
+      this.form.disable();
+      const array = this.direccion.ubigeo.split('');
+      const dep = array[0] + array[1];
+      const pro = array[2] + array[3];
+      const dis = array[4] + array[5];
+      this.listProvincia(dep);
+      this.listDistrito(dep, pro);
+      this.direccion.departamento = dep;
+      this.direccion.provincia = pro;
+      this.direccion.distrito = dis;
+      this.form.setValue(this.direccion);
     }
-    */
-  }
-
-  listarDistritos() {
-
-    this.distritos = [];
-    this.form.controls.distrito.setValue(null);
-
-    const codDepartamento = this.form.controls.departamento.value;
-    const codProvincia = this.form.controls.provincia.value;
-    /*
-    if (codDepartamento && codProvincia) {
-        this.ubigeoService.listarDistritos(codDepartamento, codProvincia).subscribe(
-            response => {
-                this.distritos = response;
-            },
-            error => console.log(error)
-        );
-    }
-    */
   }
 
   listarTipoDirecciones() {
-    /*
-      this.tablaMaestraService.listarTipoDirecciones().subscribe(
-          response => {
-              this.tipoDirecciones = response;
-          },
-          error => console.log(error)
-      );
-      */
+    this.maestroService.listarTipoDirecciones().subscribe(
+      response => {
+        this.tipoDirecciones = response;
+      },
+      error => console.log(error)
+    );
   }
 
   listarTipoviviendas() {
-    /*
-      this.tablaMaestraService.listarTipoViviendas().subscribe(
-          response => {
-              this.tipoViviendas = response;
-          },
-          error => console.log(error)
-      );
-      */
+    this.maestroService.listarTipoViviendas().subscribe(
+      response => {
+        this.tipoViviendas = response;
+      },
+      error => console.log(error)
+    );
   }
 
   listarTipoVias() {
-    /*
-      this.tablaMaestraService.listarTipoVias().subscribe(
+      this.maestroService.listarTipoVias().subscribe(
           response => {
               this.tipoVias = response;
           },
           error => console.log(error)
       );
-      */
   }
 
   listarTipoSecciones() {
-    /*
-      this.tablaMaestraService.listarTipoSecciones().subscribe(
+      this.maestroService.listarTipoSecciones().subscribe(
           response => {
               this.tipoSecciones = response;
           },
           error => console.log(error)
       );
-      */
   }
 
   listarTipoZonas() {
-    /*
-      this.tablaMaestraService.listarTipoZonas().subscribe(
+      this.maestroService.listarTipoZonas().subscribe(
           response => {
               this.tipoZonas = response;
           },
           error => console.log(error)
       );
-      */
   }
 
   listarTipoSectores() {
-    /*
-      this.tablaMaestraService.listarTipoSectores().subscribe(
-          response => {
-              this.tiposSectores = response;
-          },
-          error => console.log(error)
-      );
-      */
+    this.maestroService.listarTipoSectores().subscribe(
+        response => {
+            this.tiposSectores = response;
+        },
+        error => console.log(error)
+    );
+}
+
+  listarDepartamentos() {
+    this.ubigeoService.listarDepartamentos().subscribe(
+        response => {
+            this.departamentos = response;
+            this.spinner.hide();
+        },
+        error => console.log(error)
+    );
+  }
+
+  listarProvincias() {
+    this.spinner.show();
+    this.provincias = [];
+    this.distritos = [];
+    this.form.controls.provincia.setValue(null);
+    this.form.controls.distrito.setValue(null);
+    const codDepartamento = this.form.controls.departamento.value;
+    if (codDepartamento) {
+        this.ubigeoService.listarProvincias(codDepartamento).subscribe(
+            response => {
+                this.provincias = response;
+                this.spinner.hide();
+            },
+            error => console.log(error)
+        );
+    }
+  }
+
+  listarDistritos() {
+    this.spinner.show();
+    this.distritos = [];
+    this.form.controls.distrito.setValue(null);
+
+    const codDepartamento = this.form.controls.departamento.value;
+    const codProvincia = this.form.controls.provincia.value;
+    if (codDepartamento && codProvincia) {
+        this.ubigeoService.listarDistritos(codDepartamento, codProvincia).subscribe(
+            response => {
+                this.distritos = response;
+                this.spinner.hide();
+            },
+            error => console.log(error)
+        );
+    }
+  }
+
+  listProvincia(codDepartamento) {
+    this.ubigeoService.listarProvincias(codDepartamento).subscribe(
+      response => {
+          this.provincias = response;
+      },
+      error => console.log(error)
+  );
+  }
+
+  listDistrito(codDepartamento, codProvincia) {
+    this.ubigeoService.listarDistritos(codDepartamento, codProvincia).subscribe(
+      response => {
+          this.distritos = response;
+          this.spinner.hide();
+      },
+      error => console.log(error)
+  );
   }
 
   cambioManzana(value: any) {
@@ -204,8 +234,8 @@ export class GestionarDireccionComponent implements OnInit {
         ]),
       );
       this.form.controls.numeroSeccion.updateValueAndValidity();
-      const item = this.tipoSecciones.find(v => v.codigoItem == value);
-      this.$sectionName = item ? item.nombre : 'Sección';
+      const item = this.tipoSecciones.find(v => v.codItem == value);
+      this.$sectionName = item ? item.descripcion : 'Sección';
     } else {
       this.form.controls.numeroSeccion.clearValidators();
       this.form.controls.numeroSeccion.updateValueAndValidity();
@@ -216,8 +246,8 @@ export class GestionarDireccionComponent implements OnInit {
 
   cambioTipoZona(value) {
     if (Number(value) !== 0) {
-      const item = this.tipoZonas.find(v => v.codigoItem == value);
-      this.$zoneName = item ? item.nombre : 'Zona';
+      const item = this.tipoZonas.find(v => v.codItem == value);
+      this.$zoneName = item ? item.descripcion : 'Zona';
     } else {
       this.$zoneName = 'Zona';
     }
@@ -231,8 +261,8 @@ export class GestionarDireccionComponent implements OnInit {
         ]),
       );
       this.form.controls.nombreSector.updateValueAndValidity();
-      const item = this.tiposSectores.find(v => v.codigoItem == value);
-      this.$sectorName = item ? item.nombre : 'Sector';
+      const item = this.tiposSectores.find(v => v.codItem == value);
+      this.$sectorName = item ? item.descripcion : 'Sector';
     } else {
       this.form.controls.nombreSector.clearValidators();
       this.form.controls.nombreSector.updateValueAndValidity();
@@ -243,41 +273,21 @@ export class GestionarDireccionComponent implements OnInit {
 
   agregar() {
     if (this.form.invalid) {
-        Swal.fire('Dirección', 'Debe ingresar los datos obligatorios', 'error');
-        return;
+      Swal.fire('Dirección', 'Debe ingresar los datos obligatorios', 'error');
+      return;
     }
 
     if (this.form.controls.numero.value.length === 0 && this.form.controls.manzana.value.length === 0
-        && this.form.controls.lote.value.length === 0) {
-        this.toastr.error('Es necesario ingresar un número o Manzana y lote.', 'Registrar Dirección');
-        return;
+      && this.form.controls.lote.value.length === 0) {
+      this.toastr.error('Es necesario ingresar un número o Manzana y lote.', 'Registrar Dirección');
+      return;
     }
-    let address: any;
-    address.tipoDireccion = this.form.controls.tipoDireccion.value.toUpperCase();
-    address.tipoVivienda = this.form.controls.tipoVivienda.value.toUpperCase();
-    address.tipoVia = this.form.controls.tipoVia.value.toUpperCase();
-    address.nombreVia = this.form.controls.nombreVia.value.toUpperCase();
-    address.numero = this.form.controls.numero.value.toUpperCase();
-    address.manzana = this.form.controls.manzana.value.toUpperCase();
-    address.lote = this.form.controls.lote.value.toUpperCase();
-    address.tipoSeccion = this.form.controls.tipoSeccion.value.toUpperCase();
-    address.numeroSeccion = this.form.controls.numeroSeccion.value.toUpperCase();
-    address.tipoZona = this.form.controls.tipoZona.value.toUpperCase();
-    address.nombreZona = this.form.controls.nombreZona.value.toUpperCase();
-    address.tipoSector = this.form.controls.tipoSector.value.toUpperCase();
-    address.nombreSector = this.form.controls.nombreSector.value.toUpperCase();
+    const address = this.form.getRawValue();
     address.ubigeo = this.form.controls.departamento.value + this.form.controls.provincia.value + this.form.controls.distrito.value;
-    address.estado = CONST.S_ESTADO_REG_ACTIVO;
-
-
-
+    address.codEstado = CONST.S_ESTADO_REG_ACTIVO;
     address.departamento = this.departamentos.find(value => value.codDepartamento == this.form.controls.departamento.value).descripcion;
     address.provincia = this.provincias.find(value => value.codProvincia == this.form.controls.provincia.value).descripcion;
     address.distrito = this.distritos.find(value => value.codDistrito == this.form.controls.distrito.value).descripcion;
-    // ------------------------------------------
-   
-    this.direcciones.push(address);
-    this.toastr.success('Se agrego a la lista.', 'Dirección');
-    this.activeModal.dismiss({ direcciones: this.direcciones, tipoDirecciones: this.tipoDirecciones });
-}
+    console.log(address);
+  }
 }

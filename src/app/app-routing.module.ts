@@ -12,8 +12,8 @@ import {ConfigurarNotificionComponent} from './estrategia/configuracion/configur
 import {EnviarNotificionComponent} from './estrategia/configuracion/enviar-notificion/enviar-notificion.component';
 import {CarteraCargarCreditoCreditosComponent} from './estrategia/cartera/cargar-credito/creditos/creditos.component';
 import { ListaSociosComponent } from './componentes/socio/lista-socios/lista-socios.component';
-import { EditarSociosComponent } from './componentes/socio/editar-socios/editar-socios.component'; 
-import {CarteraCargarCreditoSociosComponent} from './estrategia/cartera/cargar-credito/socios/socios.component'; 
+import { EditarSociosComponent } from './componentes/socio/editar-socios/editar-socios.component';
+import {CarteraCargarCreditoSociosComponent} from './estrategia/cartera/cargar-credito/socios/socios.component';
 
 const routes: Routes = [
   {
