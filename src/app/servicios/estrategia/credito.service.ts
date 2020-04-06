@@ -22,8 +22,8 @@ export class CreditoService {
     return this.http.get<any[]>(`${this.apiUrl}listarCreditoTemps/${cargaCreditoId}`);
   }
 
-  listarCargas(carteraId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}listarCargas/${carteraId}`);
+  listarCargas(carteraId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}listarCargas/${carteraId}`);
   }
 
   cargarManualmente(formData: FormData) {

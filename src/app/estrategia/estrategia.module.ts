@@ -1,21 +1,23 @@
-
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CrearCarteraComponent } from './cartera/crear-cartera/crear-cartera.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ActualizarGestionComponent } from './gestion/actualizar-gestion/actualizar-gestion.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {CrearCarteraComponent} from './cartera/crear-cartera/crear-cartera.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {ActualizarGestionComponent} from './gestion/actualizar-gestion/actualizar-gestion.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { ActualizarEtapaComponent } from './etapa/actualizar-etapa/actualizar-etapa.component';
-import { MyPipesModule } from '../pipes/my-pipes.module';
+import {ActualizarEtapaComponent} from './etapa/actualizar-etapa/actualizar-etapa.component';
+import {MyPipesModule} from '../pipes/my-pipes.module';
 import {CarteraCargarCreditoComponent} from './cartera/cargar-credito/cargar-credito.component';
 import {CarteraCargarCreditoFileComponent} from './cartera/cargar-credito/file/file.component';
-import { ComunModule } from '../comun/comun.module';
-import { RouterModule } from '@angular/router';
-import { ConfigurarNotificionComponent } from './configuracion/configurar-notificion/configurar-notificion.component';
-import { CrearEtapaNotificionComponent } from './configuracion/crear-etapa-notificion/crear-etapa-notificion.component';
-import { EnviarNotificionComponent } from './configuracion/enviar-notificion/enviar-notificion.component';
+import {ComunModule} from '../comun/comun.module';
+import {RouterModule} from '@angular/router';
+import {ConfigurarNotificionComponent} from './configuracion/configurar-notificion/configurar-notificion.component';
+import {CrearEtapaNotificionComponent} from './configuracion/crear-etapa-notificion/crear-etapa-notificion.component';
+import {EnviarNotificionComponent} from './configuracion/enviar-notificion/enviar-notificion.component';
 import {CarteraCargarCreditoCreditosComponent} from './cartera/cargar-credito/creditos/creditos.component';
 import {CarteraCargarCreditoSociosComponent} from './cartera/cargar-credito/socios/socios.component';
+import {SocioListDireccionesComponent} from '../comun/socios/list-direcciones/list-direcciones.component';
+import {SocioListTelefonosComponent} from '../comun/socios/list-telefonos/list-telefonos.component';
+import {SocioListEmailsComponent} from '../comun/socios/list-emails/list-emails.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,10 @@ import {CarteraCargarCreditoSociosComponent} from './cartera/cargar-credito/soci
     ActualizarGestionComponent,
     ActualizarEtapaComponent,
     CarteraCargarCreditoFileComponent,
-    CrearEtapaNotificionComponent
+    CrearEtapaNotificionComponent,
+    SocioListDireccionesComponent,
+    SocioListTelefonosComponent,
+    SocioListEmailsComponent
   ]
 })
 export class EstrategiaModule {

@@ -15,6 +15,7 @@
             <th>Cod Socio</th>
             <th>Alias</th>
             <th>Dirección</th>
+            <th>Más</th>
           </tr>
           </thead>
           <tbody>
@@ -24,6 +25,23 @@
             <td class="text-center">{{ o.codSocio}}</td>
             <td class="text-center">{{ o.alias}}</td>
             <td class="text-center">{{ o.direccion}}</td>
+            <td class="text-center">
+              <button (click)="direcciones(o.socioId)" class="btn btn-instagram btn-sm mr-5px" type="button"
+                      style="margin-bottom: 4px"
+                      placement="bottom" ngbTooltip="Direcciónes">
+                <i class="fa fa-location-arrow"></i>
+              </button>
+              <button (click)="telefonos(o.socioId)" class="btn btn-instagram btn-sm mr-5px" type="button"
+                      style="margin-bottom: 4px"
+                      placement="bottom" ngbTooltip="Teléfonos">
+                <i class="fa fa-phone text-white"></i>
+              </button>
+              <button (click)="emails(o.socioId)" class="btn btn-instagram btn-sm mr-5px" type="button"
+                      style="margin-bottom: 4px"
+                      placement="bottom" ngbTooltip="Emails">
+                <i class="fa fa-at text-white"></i>
+              </button>
+            </td>
           </tr>
           </tbody>
         </table>

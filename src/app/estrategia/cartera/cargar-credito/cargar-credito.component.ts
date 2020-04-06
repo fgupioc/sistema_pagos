@@ -14,6 +14,7 @@ import {CarteraService} from '../../../servicios/estrategia/cartera.service';
 })
 export class CarteraCargarCreditoComponent implements OnInit {
   cargas = [];
+  monedas = [];
   carterasActivas = [];
 
   constructor(private modalService: NgbModal, private creditoService: CreditoService, private spinner: NgxSpinnerService,
@@ -29,7 +30,8 @@ export class CarteraCargarCreditoComponent implements OnInit {
     this.creditoService.listarCargas(carteraId).subscribe(
       res => {
         this.spinner.hide();
-        this.cargas = res;
+        this.cargas = res.cargas;
+        this.monedas = res.monedas;
       });
   }
 

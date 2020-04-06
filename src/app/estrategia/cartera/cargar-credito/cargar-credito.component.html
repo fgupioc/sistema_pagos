@@ -23,6 +23,7 @@
             <th>Fecha de Carga</th>
             <th>Registros</th>
             <th>Socios</th>
+            <th *ngFor="let o of monedas;">{{ o.descripcion }}</th>
             <!--
             <th>Deuda Capital</th>
             <th>Intereses</th>
@@ -44,6 +45,7 @@
                 {{ o.nroSocios }}
               </a>
             </td>
+            <td *ngFor="let o of o.sumatorias;">{{ o.monto }}</td>
             <!--
             <td class="text-center">{{ o.deudaCapital}}</td>
             <td class="text-center">{{ o.intereses}}</td>
