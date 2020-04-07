@@ -1,10 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {MenuService} from '../servicios/sistema/menu.service';
-import {TreeviewItem} from 'ngx-treeview';
-import {Menu} from '../interfaces/Menu';
 import {AutenticacionService} from '../servicios/seguridad/autenticacion.service';
-import {type} from 'os';
 
 @Component({
   selector: 'app-auth',
