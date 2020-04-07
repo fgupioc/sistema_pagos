@@ -6,11 +6,12 @@
         <span class="card-title text-uppercase font-weight-bold">Importación de cartera</span>
       </div>
       <div class="card-body">
-        <form action="" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
+        <form class="form-horizontal ng-untouched ng-pristine ng-valid">
           <div class="form-group row">
-            <label class="col-md-2 col-form-label" style="text-align: right" for="cartera">Cartera *</label>
+            <label class="col-md-2 col-form-label" style="text-align: right" for="carteraId">Cartera *</label>
             <div class="col-md-10">
-              <select id="cartera" class="form-control">
+              <select id="carteraId" class="form-control" (change)="actualizar()" [(ngModel)]="carteraId"
+                      name="carteraId">
                 <option *ngFor="let o of carterasActivas" [value]="o.codCartera">{{o.nombre}}</option>
               </select>
             </div>
@@ -20,21 +21,17 @@
           <thead>
           <tr class="text-center">
             <th>#</th>
-            <th>Fecha de Carga</th>
-            <th>Registros</th>
+            <th>F. Carga</th>
+            <th>Créditos</th>
             <th>Socios</th>
-            <th *ngFor="let o of monedas;">{{ o.descripcion }}</th>
-            <!--
-            <th>Deuda Capital</th>
-            <th>Intereses</th>
-            <th>Deuda Actualizada</th> -->
+            <th *ngFor="let o of cabeceras;">{{ o.nombre }}</th>
             <th>Cargado</th>
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let o of cargas; index as i; ">
             <td class="text-center">{{ i + 1 }}</td>
-            <td class="text-center">{{ o.fechaCarga | date: 'dd/MM/yyyy hh:mm a' | lowercase}}</td>
+            <td class="text-center">{{ o.fechaCarga | date: 'dd/MM/yyyy' | lowercase}}</td>
             <td class="text-center">
               <a [routerLink]="['./creditos',o.id]" class="text-info" ngbTooltip="Créditos">
                 {{ o.nroRegistros }}
@@ -45,11 +42,7 @@
                 {{ o.nroSocios }}
               </a>
             </td>
-            <td *ngFor="let o of o.sumatorias;">{{ o.monto }}</td>
-            <!--
-            <td class="text-center">{{ o.deudaCapital}}</td>
-            <td class="text-center">{{ o.intereses}}</td>
-            <td class="text-center">{{ o.deudaActualizada}}</td> -->
+            <td class="text-center" *ngFor="let o of o.sumatorias;">{{ o.monto }}</td>
             <td class="text-center">
               <span class="badge" [ngClass]="o.cargado ? 'badge-success' : 'badge-danger'">
                 {{ o.cargado ? 'Si' : 'No' }}
@@ -68,6 +61,9 @@
         </button>
         <button class="btn btn-success mr-5px" (click)="quieresEjecutarCarga()">
           Ejecutar Carga
+        </button>
+        <button class="btn btn-default mr-5px" (click)="actualizar()">
+          Actualizar
         </button>
       </div>
     </div>

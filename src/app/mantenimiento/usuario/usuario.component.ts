@@ -66,6 +66,6 @@ export class UsuarioComponent implements OnInit {
   }
 
   actualizarContrasenha(usuario: any) {
-    this.router.navigate(['/auth/mantenimiento/usuario/contrasenha', usuario.id, usuario.usuario]);
+    this.router.navigate(['/auth/mantenimiento/usuario/contrasenha', usuario.id, usuario.alias]);
   }
 }

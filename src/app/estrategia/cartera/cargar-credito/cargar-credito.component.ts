@@ -14,8 +14,9 @@ import {CarteraService} from '../../../servicios/estrategia/cartera.service';
 })
 export class CarteraCargarCreditoComponent implements OnInit {
   cargas = [];
-  monedas = [];
+  cabeceras = [];
   carterasActivas = [];
+  carteraId = 0;
 
   constructor(private modalService: NgbModal, private creditoService: CreditoService, private spinner: NgxSpinnerService,
               private toastr: ToastrService, private carteraService: CarteraService) {
@@ -25,13 +26,26 @@ export class CarteraCargarCreditoComponent implements OnInit {
     this.listarCarterasActivas();
   }
 
-  listarCargas(carteraId: number) {
+  listarCargas() {
     this.spinner.show();
-    this.creditoService.listarCargas(carteraId).subscribe(
+    this.creditoService.listarCargas(this.carteraId).subscribe(
       res => {
         this.spinner.hide();
+        this.cabeceras = [];
+        res.cargas.forEach((element, i) => {
+          element.sumatorias.forEach((sum, j) => {
+            const property = sum.codIndicadorCargaCredito + '-' + sum.codMoneda;
+            if (i === 0) {
+              const moneda = res.monedas.find(x => x.codItem === sum.codMoneda);
+              const indicador = res.indicadores.find(x => x.codItem === sum.codIndicadorCargaCredito);
+              this.cabeceras.push({nombre: indicador.descripcion + ' (' + moneda.strValor + ')', cod: property});
+            }
+            element[property] = sum.monto;
+          });
+        });
+        // console.log(res.cargas);
+        // console.log(this.cabeceras);
         this.cargas = res.cargas;
-        this.monedas = res.monedas;
       });
   }
 
@@ -53,9 +67,18 @@ export class CarteraCargarCreditoComponent implements OnInit {
   private listarCarterasActivas() {
     this.spinner.show();
     this.carteraService.activas().subscribe(res => {
+      this.spinner.hide();
       this.carterasActivas = res;
-      this.listarCargas(this.carterasActivas[0].codCartera);
+      this.actualizar();
     });
+  }
+
+  actualizar() {
+    if (this.carterasActivas.length == 0) {
+      Swal.fire('', 'No se ha registrado ninguna cartera', 'error');
+    } else {
+      this.listarCargas();
+    }
   }
 
   resetear() {
@@ -65,7 +88,7 @@ export class CarteraCargarCreditoComponent implements OnInit {
         this.spinner.hide();
         if (result.exito) {
           this.toastr.success(result.mensaje);
-          this.listarCargas(this.carterasActivas[0].codCartera);
+          this.listarCargas();
         } else {
           Swal.fire('', result.mensaje, 'error');
         }
@@ -79,7 +102,7 @@ export class CarteraCargarCreditoComponent implements OnInit {
 
   modalClose(response) {
     if (response) {
-      this.listarCargas(this.carterasActivas[0].codCartera);
+      this.listarCargas();
     }
   }
 
@@ -111,4 +134,5 @@ export class CarteraCargarCreditoComponent implements OnInit {
         }
       });
   }
+
 }

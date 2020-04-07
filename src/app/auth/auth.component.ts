@@ -30,7 +30,7 @@ export class AuthComponent implements OnInit {
     });
     console.log(this.authService.loggedUser);
     // this.username = this.authService.loggedUser.persona.primerApellido + ' ' + this.authService.loggedUser.persona.segundoApellido;
-    this.username = this.authService.loggedUser.email;
+    this.username = this.authService.loggedUser.alias;
   }
 
   ngOnInit() {

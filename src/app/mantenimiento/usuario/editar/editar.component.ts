@@ -47,6 +47,8 @@ export class UsuarioEditarComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = this.formBuilder.group({
+      alias: ['', [Validators.required, Validators.pattern(CONST.REG_EXP_SOLO_LETRAS)]],
+      fechaNacimiento: ['', [Validators.required]],
       email: ['', {
         validators: [Validators.required, Validators.email],
         asyncValidators: [this.usuarioUnicoService.validate.bind(this.usuarioUnicoService, this.usuarioId)],
@@ -72,6 +74,8 @@ export class UsuarioEditarComponent implements OnInit {
     setTimeout(() => this.spinner.show());
     this.usuarioService.obtenerUsuario(this.usuarioId).subscribe(usuario => {
       this.spinner.hide();
+      this.formGroup.get('alias').setValue(usuario.alias);
+      this.formGroup.get('fechaNacimiento').setValue(this.datePipe.transform(usuario.fechaNacimiento, 'yyyy-MM-dd'));
       this.formGroup.get('email').setValue(usuario.email);
       this.formGroup.get('fechaInicioSesion').setValue(this.datePipe.transform(usuario.fechaInicioSesion, 'yyyy-MM-dd'));
       this.formGroup.get('fechaFinSesion').setValue(this.datePipe.transform(usuario.fechaFinSesion, 'yyyy-MM-dd'));
@@ -105,6 +109,10 @@ export class UsuarioEditarComponent implements OnInit {
 
   actualizarUsuario() {
     if (this.formGroup.valid) {
+      const persona = {
+        alias: this.formGroup.get('alias').value,
+        fechaNacimiento: this.formGroup.get('fechaNacimiento').value
+      };
       const usuario = {
         id: this.usuarioId,
         email: this.formGroup.get('email').value,
@@ -114,7 +122,9 @@ export class UsuarioEditarComponent implements OnInit {
         codEstado: this.formGroup.get('codEstado').value,
         inicioCierre: this.formGroup.get('inicioCierre').value,
       };
+
       const usuarioActualizar = {
+        persona,
         usuario,
         valoresMenus: this.valoresMenus,
         guardarConMenu: !this.cargandoMenu

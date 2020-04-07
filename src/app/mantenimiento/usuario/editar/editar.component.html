@@ -13,11 +13,40 @@
               <form [formGroup]="formGroup" (ngSubmit)="actualizarUsuario()">
                 <label><strong>DATOS DE ACCESO</strong></label>
                 <div class="row">
+                  <div class="col-md-8">
+                    <div class="form-group">
+                      <label for="email">Alias *</label>
+                      <input type="text" id="alias" placeholder="Alias" class="form-control" Uppercase
+                             formControlName="alias" autocomplete="off" maxlength="100"
+                             [ngClass]="{
+                    'is-invalid': formGroup.controls['alias'].touched && formGroup.controls['alias'].errors,
+                    'is-valid': formGroup.controls['alias'].touched && !formGroup.controls['alias'].errors
+                     }">
+                      <div class="invalid-feedback">
+                        <span *ngIf="formGroup.get('email').hasError('alias')">Obligatorio</span>
+                        <span *ngIf="formGroup.get('alias').hasError('pattern')">Solo letras</span>
+                      </div>
+                    </div>
+                  </div>
                   <div class="col-md-4">
                     <div class="form-group">
-                      <label for="email">Usario *</label>
-                      <input Uppercase type="email" id="email" placeholder="Email" class="form-control"
-                             formControlName="email" autocomplete="off" maxlength="20"
+                      <label for="fechaNacimiento">Fecha de Nacimiento *</label>
+                      <input type="date" formControlName="fechaNacimiento" id="fechaNacimiento" class="form-control"
+                             [ngClass]="
+                      {
+                      'is-invalid': formGroup.controls['fechaNacimiento'].touched && formGroup.controls['fechaNacimiento'].errors,
+                      'is-valid': formGroup.controls['fechaNacimiento'].touched && !formGroup.controls['fechaNacimiento'].errors
+                       }">
+                      <div class="invalid-feedback">
+                        <span *ngIf="formGroup.get('fechaNacimiento').hasError('required')">Obligatorio.</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="email">Email *</label>
+                      <input type="email" id="email" placeholder="Email" class="form-control"
+                             formControlName="email" autocomplete="off" maxlength="30"
                              [ngClass]="
                       {
                       'is-invalid': formGroup.controls['email'].touched && formGroup.controls['email'].errors,
