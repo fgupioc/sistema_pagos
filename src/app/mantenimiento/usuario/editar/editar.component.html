@@ -17,7 +17,7 @@
                     <div class="form-group">
                       <label for="email">Alias *</label>
                       <input type="text" id="alias" placeholder="Alias" class="form-control" Uppercase
-                             formControlName="alias" autocomplete="off" maxlength="30"
+                             formControlName="alias" autocomplete="off" maxlength="100"
                              [ngClass]="{
                     'is-invalid': formGroup.controls['alias'].touched && formGroup.controls['alias'].errors,
                     'is-valid': formGroup.controls['alias'].touched && !formGroup.controls['alias'].errors
