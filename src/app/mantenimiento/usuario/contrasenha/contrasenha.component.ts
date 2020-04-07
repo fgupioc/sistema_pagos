@@ -15,12 +15,13 @@ import {ToastrService} from 'ngx-toastr';
 export class UsuarioContrasenhaComponent implements OnInit {
   public formGroup: FormGroup;
   usuarioId = 0;
-  usuario = '';
+  alias = '';
 
   constructor(private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService,
               private usuarioService: UsuarioService, private toastr: ToastrService, private rutaActiva: ActivatedRoute) {
     this.usuarioId = this.rutaActiva.snapshot.params.id;
-    this.usuario = this.rutaActiva.snapshot.params.usuario;
+    this.alias = this.rutaActiva.snapshot.params.alias;
+    console.log(this.alias);
   }
 
   ngOnInit() {

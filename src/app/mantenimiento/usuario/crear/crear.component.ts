@@ -41,6 +41,8 @@ export class UsuarioCrearComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = this.formBuilder.group({
+      alias: ['', [Validators.required, Validators.pattern(CONST.REG_EXP_SOLO_LETRAS)]],
+      fechaNacimiento: ['', [Validators.required]],
       email: ['', {
         validators: [Validators.required, Validators.email],
         asyncValidators: [this.usuarioUnicoService.validate.bind(this.usuarioUnicoService, 0)],
@@ -101,6 +103,10 @@ export class UsuarioCrearComponent implements OnInit {
 
   crearUsuario() {
     if (this.formGroup.valid) {
+      const persona = {
+        alias: this.formGroup.get('alias').value,
+        fechaNacimiento: this.formGroup.get('fechaNacimiento').value
+      };
       const usuario = {
         email: this.formGroup.get('email').value,
         contrasenha: this.formGroup.get('contrasenha').value,
@@ -111,6 +117,7 @@ export class UsuarioCrearComponent implements OnInit {
         inicioCierre: this.formGroup.get('inicioCierre').value,
       };
       const usuarioNuevo = {
+        persona,
         usuario,
         valoresMenus: this.valoresMenus,
         guardarConMenu: !this.cargandoMenu

@@ -34,7 +34,7 @@ const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent, canActivate: [GuestGuard]},
   {
-    path: '', component: AuthComponent,
+    path: 'auth', component: AuthComponent,
     children: [
       {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
       {
@@ -43,7 +43,7 @@ const routes: Routes = [
           {path: 'usuario', component: UsuarioComponent},
           {path: 'usuario/crear', component: UsuarioCrearComponent},
           {path: 'usuario/editar/:id', component: UsuarioEditarComponent},
-          {path: 'usuario/contrasenha/:id/:usuario', component: UsuarioContrasenhaComponent},
+          {path: 'usuario/contrasenha/:id/:alias', component: UsuarioContrasenhaComponent},
         ]
       },
       {
