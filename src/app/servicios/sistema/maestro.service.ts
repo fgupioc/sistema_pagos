@@ -65,4 +65,12 @@ export class MaestroService {
   listarTipoDocumentos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}listarTipoDocumentos`);
   }
+
+  listarTipoSexos(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}listarTipoSexo`);
+  }
+
+  listarTipoEstadosCivil(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}listarEstadoCivil`);
+  }
 }

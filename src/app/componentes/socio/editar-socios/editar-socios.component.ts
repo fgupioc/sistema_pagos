@@ -6,7 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { GestionarDireccionComponent } from '../gestionar-direccion/gestionar-direccion.component';
 import { GestionarTelefonoComponent } from '../gestionar-telefono/gestionar-telefono.component';
 import { GestionarCorreoComponent } from '../gestionar-correo/gestionar-correo.component';
-import { PerosonaService } from '../../../servicios/perosona.service';
+import { PersonaService } from '../../../servicios/persona.service';
 import { MaestroService } from '../../../servicios/sistema/maestro.service';
 
 @Component({
@@ -33,7 +33,7 @@ export class EditarSociosComponent implements OnInit {
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
     public modalService: NgbModal,
-    private perosonaService: PerosonaService,
+    private perosonaService: PersonaService,
     private maestroService: MaestroService
   ) {
     config.backdrop = 'static',

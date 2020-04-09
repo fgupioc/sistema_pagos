@@ -18,21 +18,12 @@ import {LoginComponent} from './publico/login/login.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {GuestGuard} from './guard/guest.guard';
 import {AuthGuard} from './guard/auth.guard';
-
-
-/*
-export const appRoutes: Routes = [{
-  path: '', component: AuthComponent, children: [
-    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-    { path: 'financiera', loadChildren: '../financiera/financiera.module#FinancieraModule', canActivate: [AuthGuard, FinancieraGuard] },
-    { path: 'empresa', loadChildren: '../empresa/empresa.module#EmpresaModule', canActivate: [AuthGuard, EmpresaGuard] },
-  ]
-}];
- */
+import {ValidarPinComponent} from './publico/validar-pin/validar-pin.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent, canActivate: [GuestGuard]},
+  {path: 'restablecimiento-credenciales', component: ValidarPinComponent, canActivate: [GuestGuard]},
   {
     path: 'auth', component: AuthComponent,
     children: [
@@ -52,10 +43,10 @@ const routes: Routes = [
           {
             path: 'cartera',
             children: [
+              {path: '', component: CrearCarteraComponent},
               {path: 'cargar-credito', component: CarteraCargarCreditoComponent},
               {path: 'cargar-credito/socios/:cargaCreditoId', component: CarteraCargarCreditoSociosComponent},
               {path: 'cargar-credito/creditos/:cargaCreditoId', component: CarteraCargarCreditoCreditosComponent},
-              // {path: '', component: CrearCarteraComponent},
               {path: 'crear-gestion', component: ActualizarGestionComponent},
               {path: 'editar-gestion', component: ActualizarGestionComponent}
             ]
@@ -68,7 +59,7 @@ const routes: Routes = [
           {
             path: 'notificacion',
             children: [
-              // {path: '', component: ConfigurarNotificionComponent},
+              {path: '', component: ConfigurarNotificionComponent},
               {path: 'enviar', component: EnviarNotificionComponent}
             ]
           },

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MaestroService} from '../../../servicios/sistema/maestro.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {UsuarioService} from '../../../servicios/sistema/usuario.service';
@@ -22,12 +22,13 @@ import {UsuarioUnicoService} from '../../../validaciones/usuario-unico.directive
   ]
 })
 export class UsuarioEditarComponent implements OnInit {
+  tiposUsuarios = [];
+  listaSexo = [];
+  listaDoi = [];
   usuarioId = 0;
   public formGroup: FormGroup;
-  tiposUsuarios = [];
   estados = [];
   datePipe = new DatePipe('es-PE');
-
   cargandoMenu = false;
   items: TreeviewItem[];
   valoresMenus: number[];
@@ -47,8 +48,17 @@ export class UsuarioEditarComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = this.formBuilder.group({
-      alias: ['', [Validators.required, Validators.pattern(CONST.REG_EXP_SOLO_LETRAS)]],
-      fechaNacimiento: ['', [Validators.required]],
+      tipoDocIdentidad: [{value: '', disabled: true}, false],
+      numDocIdentidad: [{value: '', disabled: true}, false],
+      primerNombre: [{value: '', disabled: true}, false],
+      segundoNombre: [{value: '', disabled: true}, false],
+      primerApellido: [{value: '', disabled: true}, false],
+      segundoApellido: [{value: '', disabled: true}, false],
+      estadoCivil: [{value: '', disabled: true}, false],
+      sexo: [{value: '', disabled: true}, false],
+      fechaNacimiento: [{value: '', disabled: true}, false],
+
+      numeroCelular: ['', [Validators.required, Validators.pattern('^\\d+$'), Validators.maxLength(9)]],
       email: ['', {
         validators: [Validators.required, Validators.email],
         asyncValidators: [this.usuarioUnicoService.validate.bind(this.usuarioUnicoService, this.usuarioId)],
@@ -74,8 +84,18 @@ export class UsuarioEditarComponent implements OnInit {
     setTimeout(() => this.spinner.show());
     this.usuarioService.obtenerUsuario(this.usuarioId).subscribe(usuario => {
       this.spinner.hide();
-      this.formGroup.get('alias').setValue(usuario.alias);
-      this.formGroup.get('fechaNacimiento').setValue(this.datePipe.transform(usuario.fechaNacimiento, 'yyyy-MM-dd'));
+
+      this.formGroup.get('tipoDocIdentidad').setValue(usuario.desTipoDocIdentificacion);
+      this.formGroup.get('numDocIdentidad').setValue(usuario.numeroDocumentoIdentificacion);
+      this.formGroup.get('primerNombre').setValue(usuario.primerNombre);
+      this.formGroup.get('segundoNombre').setValue(usuario.segundoNombre);
+      this.formGroup.get('primerApellido').setValue(usuario.primerApellido);
+      this.formGroup.get('segundoApellido').setValue(usuario.segundoApellido);
+      this.formGroup.get('estadoCivil').setValue(usuario.desEstadoCivil);
+      this.formGroup.get('sexo').setValue(usuario.desSexo);
+      this.formGroup.get('fechaNacimiento').setValue(this.datePipe.transform(usuario.fechaNacimiento, 'dd/MM/yyyy'));
+
+      this.formGroup.get('numeroCelular').setValue(usuario.numeroCelular);
       this.formGroup.get('email').setValue(usuario.email);
       this.formGroup.get('fechaInicioSesion').setValue(this.datePipe.transform(usuario.fechaInicioSesion, 'yyyy-MM-dd'));
       this.formGroup.get('fechaFinSesion').setValue(this.datePipe.transform(usuario.fechaFinSesion, 'yyyy-MM-dd'));
@@ -109,22 +129,18 @@ export class UsuarioEditarComponent implements OnInit {
 
   actualizarUsuario() {
     if (this.formGroup.valid) {
-      const persona = {
-        alias: this.formGroup.get('alias').value,
-        fechaNacimiento: this.formGroup.get('fechaNacimiento').value
-      };
       const usuario = {
         id: this.usuarioId,
+        codTipoUsuario: this.formGroup.get('codTipoUsuario').value,
         email: this.formGroup.get('email').value,
+        numeroCelular: this.formGroup.get('numeroCelular').value,
         fechaInicioSesion: this.formGroup.get('fechaInicioSesion').value,
         fechaFinSesion: this.formGroup.get('fechaFinSesion').value,
-        codTipoUsuario: this.formGroup.get('codTipoUsuario').value,
-        codEstado: this.formGroup.get('codEstado').value,
         inicioCierre: this.formGroup.get('inicioCierre').value,
+        codEstado: this.formGroup.get('codEstado').value,
       };
 
       const usuarioActualizar = {
-        persona,
         usuario,
         valoresMenus: this.valoresMenus,
         guardarConMenu: !this.cargandoMenu

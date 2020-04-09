@@ -11,20 +11,134 @@
             <a ngbNavLink>General</a>
             <ng-template ngbNavContent>
               <form [formGroup]="formGroup" (ngSubmit)="crearUsuario()">
-                <label><strong>DATOS DE ACCESO</strong></label>
+                <label><strong>DATOS GENERALES</strong></label>
                 <div class="row">
-                  <div class="col-md-8">
+                  <div class="col-md-4">
                     <div class="form-group">
-                      <label for="email">Alias *</label>
-                      <input type="text" id="alias" placeholder="Alias" class="form-control" Uppercase
-                             formControlName="alias" autocomplete="off" maxlength="30"
-                             [ngClass]="{
-                    'is-invalid': formGroup.controls['alias'].touched && formGroup.controls['alias'].errors,
-                    'is-valid': formGroup.controls['alias'].touched && !formGroup.controls['alias'].errors
-                     }">
+                      <label for="tipoDocIdentidad">Tipo Documento *</label>
+                      <select id="tipoDocIdentidad" class="form-control" formControlName="tipoDocIdentidad"
+                              (change)="onChangeTypeDocument()" [ngClass]="{
+                            'is-invalid': formGroup.controls['tipoDocIdentidad'].touched && formGroup.controls['tipoDocIdentidad'].errors,
+                            'is-valid': formGroup.controls['tipoDocIdentidad'].touched && !formGroup.controls['tipoDocIdentidad'].errors
+                             }">
+                        <option *ngFor="let doi of listaDoi" [value]="doi.codItem">{{doi.descripcion}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="numDocIdentidad">Número de Documento *</label>
+                      <input Uppercase type="text" id="numDocIdentidad" placeholder="Número documento"
+                             class="form-control" autocomplete="off"
+                             formControlName="numDocIdentidad" [maxLength]="maximoValor"
+                             (blur)="buscarPersonaPorDocId()"
+                             [ngClass]="
+                    {
+                    'is-invalid': formGroup.controls['numDocIdentidad'].touched && formGroup.controls['numDocIdentidad'].errors,
+                    'is-valid': formGroup.controls['numDocIdentidad'].touched && !formGroup.controls['numDocIdentidad'].errors
+                     }
+                    ">
                       <div class="invalid-feedback">
-                        <span *ngIf="formGroup.get('email').hasError('alias')">Obligatorio</span>
-                        <span *ngIf="formGroup.get('alias').hasError('pattern')">Solo letras</span>
+                        <span *ngIf="formGroup.get('numDocIdentidad').hasError('required')"> Número de documento de identidad es obligatorio</span>
+                        <span
+                          *ngIf="formGroup.get('numDocIdentidad').hasError('minlength')"> {{messageDocIdInvalid}}</span>
+                        <span *ngIf="formGroup.get('numDocIdentidad').hasError('pattern')"> Ingrese caracteres alfanuméricos</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="primerNombre">Primer Nombre *</label>
+                      <input Uppercase type="text" id="primerNombre" placeholder="Primer nombre" class="form-control"
+                             formControlName="primerNombre" autocomplete="off"
+                             [ngClass]="
+                    {
+                    'is-invalid': formGroup.controls['primerNombre'].touched && formGroup.controls['primerNombre'].errors,
+                    'is-valid': formGroup.controls['primerNombre'].touched && !formGroup.controls['primerNombre'].errors
+                     }
+                    ">
+                      <div class="invalid-feedback">
+                        <span *ngIf="formGroup.get('primerNombre').hasError('required')"> El campo primer nombre es obligatorio. <br></span>
+                        <span
+                          *ngIf="formGroup.get('primerNombre').hasError('pattern')"> El campo primer nombre solo acepta leras.<br></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="segundoNombre">Segundo Nombre</label>
+                      <input Uppercase type="text" id="segundoNombre" placeholder="Segundo nombre" class="form-control"
+                             autocomplete="off" formControlName="segundoNombre" [ngClass]="
+                    {
+                    'is-invalid': formGroup.controls['segundoNombre'].touched && formGroup.controls['segundoNombre'].errors
+                     }
+                    ">
+                      <div class="invalid-feedback">
+            <span
+              *ngIf="formGroup.get('segundoNombre').hasError('pattern')"> El campo primer nombre solo acepta leras.<br></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="primerApellido">Apellido Paterno *</label>
+                      <input Uppercase type="text" id="primerApellido" placeholder="Apellido paterno"
+                             class="form-control" autocomplete="off"
+                             formControlName="primerApellido"
+                             [ngClass]="
+                    {
+                    'is-invalid': formGroup.controls['primerApellido'].touched && formGroup.controls['primerApellido'].errors,
+                    'is-valid': formGroup.controls['primerApellido'].touched && !formGroup.controls['primerApellido'].errors
+                     }
+                    ">
+                      <div class="invalid-feedback">
+                        <span *ngIf="formGroup.get('primerApellido').hasError('required')"> El campo apellido paterno es obligatorio. <br></span>
+                        <span
+                          *ngIf="formGroup.get('primerApellido').hasError('pattern')"> El campo  apellido paterno solo acepta leras.<br></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="segundoApellido">Apellido Materno </label>
+                      <input Uppercase type="text" id="segundoApellido" placeholder="Apellido materno"
+                             class="form-control" autocomplete="off"
+                             formControlName="segundoApellido" [ngClass]="
+                    {
+                    'is-invalid': formGroup.controls['segundoApellido'].touched && formGroup.controls['segundoApellido'].errors
+                     }
+                    ">
+                      <div class="invalid-feedback">
+                        <span *ngIf="formGroup.get('segundoApellido').hasError('pattern')"> El campo apellido materno solo acepta leras.<br></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="sexo">Sexo *</label>
+                      <select id="sexo" class="form-control" formControlName="sexo" [ngClass]="{
+                            'is-invalid': formGroup.controls['sexo'].touched && formGroup.controls['sexo'].errors,
+                            'is-valid': formGroup.controls['sexo'].touched && !formGroup.controls['sexo'].errors
+                             }">
+                        <option *ngFor="let sex of listaSexo" [value]="sex.codItem">{{sex.descripcion}}</option>
+                      </select>
+                      <div class="invalid-feedback">
+                        <span *ngIf="formGroup.get('sexo').hasError('required')">Obligatorio.</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="estadoCivil">Estado Civil: </label>
+                      <select class="form-control" id="estadoCivil" formControlName="estadoCivil" [ngClass]="{
+                            'is-invalid': formGroup.controls['estadoCivil'].touched && formGroup.controls['estadoCivil'].errors,
+                            'is-valid': formGroup.controls['estadoCivil'].touched && !formGroup.controls['estadoCivil'].errors
+                             }">
+                        <option *ngFor="let item of tipoEstadosCivil"
+                                [value]="item.codItem">{{item.descripcion}}</option>
+                      </select>
+                      <div class="invalid-feedback">
+                        <span *ngIf="formGroup.get('estadoCivil').hasError('required')">Obligatorio.</span>
                       </div>
                     </div>
                   </div>
@@ -42,11 +156,14 @@
                       </div>
                     </div>
                   </div>
+                </div>
+                <label><strong>DATOS DE ACCESO</strong></label>
+                <div class="row">
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="email">Email *</label>
                       <input type="email" id="email" placeholder="Email" class="form-control"
-                             formControlName="email" autocomplete="off" maxlength="100"
+                             formControlName="email" autocomplete="off" maxlength="300"
                              [ngClass]="{
                     'is-invalid': formGroup.controls['email'].touched && formGroup.controls['email'].errors,
                     'is-valid': formGroup.controls['email'].touched && !formGroup.controls['email'].errors && !formGroup.controls['email'].pending,
@@ -59,6 +176,24 @@
                         <span *ngIf="formGroup.get('email').hasError('email')">Inválido</span>
                         <span
                           *ngIf="formGroup.get('email').hasError('emailTomado')">El email ha sido tomado</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="numeroCelular">Teléfono*</label>
+                      <input type="text" Number id="numeroCelular" placeholder="Teléfono" class="form-control" maxlength="9"
+                             formControlName="numeroCelular"
+                             [ngClass]="
+                    {
+                    'is-invalid': formGroup.controls['numeroCelular'].touched && formGroup.controls['numeroCelular'].errors,
+                    'is-valid': formGroup.controls['numeroCelular'].touched && !formGroup.controls['numeroCelular'].errors
+                     }
+                    ">
+                      <div class="invalid-feedback">
+                        <span *ngIf="formGroup.get('numeroCelular').hasError('required')"> Obligatorio.</span>
+                        <span *ngIf="formGroup.get('numeroCelular').hasError('pattern')"> Solo acepta números.</span>
+                        <span *ngIf="formGroup.get('numeroCelular').hasError('maxlength')"> Solo acepta 9 caracteres.</span>
                       </div>
                     </div>
                   </div>
@@ -96,7 +231,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label for="contrasenha">Contraseña *</label>
                       <input type="password" id="contrasenha" placeholder="Ingresar contraseña"
@@ -117,7 +252,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label for="confirmarContrasenha">Confirmar Contraseña *</label>
                       <input type="password" id="confirmarContrasenha" placeholder="Confirmar contraseña"

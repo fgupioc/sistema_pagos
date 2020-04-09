@@ -4,15 +4,18 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Respuesta} from '../../interfaces/Respuesta';
 import {Usuario} from '../../interfaces/Usuario';
+import {ConfigService} from '../seguridad/config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
   apiUrl: string;
+  signinUrl: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, config: ConfigService) {
     this.apiUrl = `${environment.serverUrl}usuario/`;
+    this.signinUrl = config.config.signinUrl;
   }
 
   validarUsuarioUnico(usuarioId: number, usuario: string): Observable<Respuesta> {
@@ -42,5 +45,17 @@ export class UsuarioService {
 
   findByEmail(email: string): Observable<Usuario> {
     return this.http.get<Usuario>(this.apiUrl + 'findByEmail', {params: new HttpParams().set('email', email)});
+  }
+
+  codigoRestaurarPassword(email: string, from: string): Observable<any> {
+    return this.http.post<any>(this.signinUrl + '/codigoRestaurarPassword', new HttpParams().set('email', email).set('from', from));
+  }
+
+  verificarCodigoRestauracion(email: string, code: string): Observable<any> {
+    return this.http.post<any>(this.signinUrl + '/verificarCodigoRestauracion', new HttpParams().set('email', email).set('code', code));
+  }
+
+  cambiarPassword(email: string, code: string, password: string): Observable<any> {
+    return this.http.post<any>(this.signinUrl + '/cambiarPassword', new HttpParams().set('email', email).set('code', code).set('password', password));
   }
 }

@@ -1,8 +1,9 @@
 export class CONST {
 
   public static REG_EXP_USUARIO = new RegExp('^[a-z0-9]*$', 'i');
-  public static REG_EXP_SOLO_LETRAS = new RegExp('^[a-z ]*$', 'i');
+  public static REG_EXP_SOLO_LETRAS = new RegExp('^[a-z ?]*$', 'i');
   public static REG_EXP_CONTRASENHA = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.,]).{0,}$');
+  public static C_STR_EXP_REGULAR_EMAIL = new RegExp('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$');
 
   public static N_CONTRASENHA_LONGITUD_MINIMA = 8;
 
@@ -38,13 +39,4 @@ export class CONST {
       responsive: true,
     };
   }
-
-  public static C_STR_EXP_REGULAR_CLAVE_USUARIO = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$';
-  public static C_STR_EXP_REGULAR_EMAIL = '^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
-  public static C_STR_EXP_REGULAR_NUMERO = '^\\d+$';
-  public static C_STR_EXP_REGULAR_NUMERO_LETRAS = '^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$';
-  public static C_STR_EXP_REGULAR_NUMERO_DECIMAL = '^[0-9]+([.][0-9]+)?$';
-  public static C_STR_PATTERN_ELECTRONIC_BILL_SERIE = new RegExp('^([FE])...$', 'i');
-  public static C_INT_CANTIDAD_NUMEROS_DECIMALES = 2;
-  public static C_INT_CANTIDAD_NUMEROS_DECIMALES_MONEDA = 6;
 }
