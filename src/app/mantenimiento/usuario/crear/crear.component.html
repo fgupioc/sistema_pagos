@@ -39,10 +39,18 @@
                      }
                     ">
                       <div class="invalid-feedback">
-                        <span *ngIf="formGroup.get('numDocIdentidad').hasError('required')"> Número de documento de identidad es obligatorio</span>
-                        <span
-                          *ngIf="formGroup.get('numDocIdentidad').hasError('minlength')"> {{messageDocIdInvalid}}</span>
-                        <span *ngIf="formGroup.get('numDocIdentidad').hasError('pattern')"> Ingrese caracteres alfanuméricos</span>
+                        <span *ngIf="formGroup.get('numDocIdentidad').hasError('required')">
+                          Número de documento de identidad es obligatorio
+                        </span>
+                        <span *ngIf="formGroup.get('numDocIdentidad').hasError('minlength')">
+                          {{messageDocIdInvalid}}
+                        </span>
+                        <span *ngIf="formGroup.get('numDocIdentidad').hasError('personaConUsuario')">
+                          {{errorPersonaConUsuario}}
+                        </span>
+                        <span *ngIf="formGroup.get('numDocIdentidad').hasError('pattern')">
+                          Ingrese caracteres alfanuméricos
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -182,7 +190,8 @@
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="numeroCelular">Teléfono*</label>
-                      <input type="text" Number id="numeroCelular" placeholder="Teléfono" class="form-control" maxlength="9"
+                      <input type="text" Number id="numeroCelular" placeholder="Teléfono" class="form-control"
+                             maxlength="9"
                              formControlName="numeroCelular"
                              [ngClass]="
                     {
@@ -193,7 +202,8 @@
                       <div class="invalid-feedback">
                         <span *ngIf="formGroup.get('numeroCelular').hasError('required')"> Obligatorio.</span>
                         <span *ngIf="formGroup.get('numeroCelular').hasError('pattern')"> Solo acepta números.</span>
-                        <span *ngIf="formGroup.get('numeroCelular').hasError('maxlength')"> Solo acepta 9 caracteres.</span>
+                        <span
+                          *ngIf="formGroup.get('numeroCelular').hasError('maxlength')"> Solo acepta 9 caracteres.</span>
                       </div>
                     </div>
                   </div>

@@ -29,6 +29,7 @@ export class UsuarioCrearComponent implements OnInit {
   maximoValor = 8;
   personaId = 0;
   cargandoMenu = false;
+  errorPersonaConUsuario = '';
   items: TreeviewItem[];
   valoresMenus: number[] = [];
   private messageDocIdInvalid = '';
@@ -240,7 +241,9 @@ export class UsuarioCrearComponent implements OnInit {
 
   crearUsuario() {
     if (this.formGroup.valid) {
-      const persona = {fechaNacimiento: this.formGroup.get('fechaNacimiento').value};
+      const persona = {
+        id: this.personaId, fechaNacimiento: this.formGroup.get('fechaNacimiento').value
+      };
       const personaNatural = {
         primerNombre: this.formGroup.get('primerNombre').value,
         segundoNombre: this.formGroup.get('segundoNombre').value,
@@ -254,7 +257,6 @@ export class UsuarioCrearComponent implements OnInit {
         numeroDocumentoIdentificacion: this.formGroup.get('numDocIdentidad').value,
       };
       const usuario = {
-        personaId: this.personaId,
         codTipoUsuario: this.formGroup.get('codTipoUsuario').value,
         email: this.formGroup.get('email').value,
         contrasenha: this.formGroup.get('contrasenha').value,
@@ -297,28 +299,36 @@ export class UsuarioCrearComponent implements OnInit {
       this.personaService.buscarPersonaPorDocId(tipDoi, numDoi).subscribe(
         result => {
           if (result != null) {
-            this.personaId = result.personaId;
-            this.formGroup.get('primerNombre').disable();
-            this.formGroup.get('primerNombre').setValue(result.primerNombre);
-            this.formGroup.get('segundoNombre').disable();
-            this.formGroup.get('segundoNombre').setValue(result.segundoNombre);
-            this.formGroup.get('primerApellido').disable();
-            this.formGroup.get('primerApellido').setValue(result.primerApellido);
-            this.formGroup.get('segundoApellido').disable();
-            this.formGroup.get('segundoApellido').setValue(result.segundoApellido);
-            this.formGroup.get('sexo').disable();
-            this.formGroup.get('sexo').setValue(result.codSexo);
-            this.formGroup.get('estadoCivil').disable();
-            this.formGroup.get('estadoCivil').setValue(result.estadoCivil);
-            this.formGroup.get('fechaNacimiento').disable();
-            this.formGroup.get('fechaNacimiento').setValue(this.datePipe.transform(result.fechaNacimiento, 'yyyy-MM-dd'));
-            if (result.correo != null) {
-              this.formGroup.get('email').setValue(result.correo);
-              this.formGroup.get('email').disable();
-            }
-            if (result.telefonoMovil != null) {
-              this.formGroup.get('numeroCelular').setValue(result.telefonoMovil);
-              this.formGroup.get('numeroCelular').disable();
+            if (!result.exito) {
+              this.errorPersonaConUsuario = result.mensaje;
+              this.formGroup.get('numDocIdentidad').setErrors({personaConUsuario: true}); // Error temporal
+            } else {
+              if (result.objeto != null) {
+                const objeto = result.objeto;
+                this.personaId = objeto.personaId;
+                this.formGroup.get('primerNombre').disable();
+                this.formGroup.get('primerNombre').setValue(objeto.primerNombre);
+                this.formGroup.get('segundoNombre').disable();
+                this.formGroup.get('segundoNombre').setValue(objeto.segundoNombre);
+                this.formGroup.get('primerApellido').disable();
+                this.formGroup.get('primerApellido').setValue(objeto.primerApellido);
+                this.formGroup.get('segundoApellido').disable();
+                this.formGroup.get('segundoApellido').setValue(objeto.segundoApellido);
+                this.formGroup.get('sexo').disable();
+                this.formGroup.get('sexo').setValue(objeto.codSexo);
+                this.formGroup.get('estadoCivil').disable();
+                this.formGroup.get('estadoCivil').setValue(objeto.estadoCivil);
+                this.formGroup.get('fechaNacimiento').disable();
+                this.formGroup.get('fechaNacimiento').setValue(this.datePipe.transform(objeto.fechaNacimiento, 'yyyy-MM-dd'));
+                if (objeto.correo != null) {
+                  this.formGroup.get('email').setValue(objeto.correo);
+                  this.formGroup.get('email').disable();
+                }
+                if (objeto.telefonoMovil != null) {
+                  this.formGroup.get('numeroCelular').setValue(objeto.telefonoMovil);
+                  this.formGroup.get('numeroCelular').disable();
+                }
+              }
             }
           } else {
             this.formGroup.get('primerNombre').enable();
