@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {AutenticacionService} from '../../servicios/seguridad/autenticacion.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
   private loadingSubject: BehaviorSubject<boolean>;
   loading$: Observable<boolean>;
 
-  constructor(private formBuilder: FormBuilder, private autenticacionService: AutenticacionService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private autenticacionService: AutenticacionService, private router: Router,
+              private spinner: NgxSpinnerService) {
     this.formGroup = this.formBuilder.group({
       email: ['', {
         validators: [
@@ -44,13 +46,16 @@ export class LoginComponent implements OnInit {
     const correo = this.formGroup.get('email').value;
     const clave = this.formGroup.get('password').value;
     this.loadingSubject.next(true);
+    this.spinner.show();
     this.autenticacionService.login(correo, clave)
       .then(
         () => {
+          this.spinner.hide();
           this.loadingSubject.next(false);
-          this.router.navigate(['/auth/dashboard']);
+          this.router.navigate(['auth/dashboard']);
         },
         error => {
+          this.spinner.hide();
           if (error.error.error === 'invalid_grant' || error.error.error === 'unauthorized') {
             this.formGroup.get('email').setErrors({
               incorrect: true,

@@ -25,56 +25,57 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent, canActivate: [GuestGuard]},
   {path: 'restablecimiento-credenciales', component: ValidarPinComponent, canActivate: [GuestGuard]},
   {
-    path: 'auth', component: AuthComponent,
-    children: [
-      {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
-      {
-        path: 'mantenimiento',
-        children: [
-          {path: 'usuario', component: UsuarioComponent},
-          {path: 'usuario/crear', component: UsuarioCrearComponent},
-          {path: 'usuario/editar/:id', component: UsuarioEditarComponent},
-          {path: 'usuario/contrasenha/:id/:alias', component: UsuarioContrasenhaComponent},
-        ]
-      },
-      {
-        path: 'estrategia',
-        children: [
-          {
-            path: 'cartera',
-            children: [
-              {path: '', component: CrearCarteraComponent},
-              {path: 'cargar-credito', component: CarteraCargarCreditoComponent},
-              {path: 'cargar-credito/socios/:cargaCreditoId', component: CarteraCargarCreditoSociosComponent},
-              {path: 'cargar-credito/creditos/:cargaCreditoId', component: CarteraCargarCreditoCreditosComponent},
-              {path: 'crear-gestion', component: ActualizarGestionComponent},
-              {path: 'editar-gestion', component: ActualizarGestionComponent}
-            ]
-          },
-        ]
-      },
-      {
-        path: 'configuracion',
-        children: [
-          {
-            path: 'notificacion',
-            children: [
-              {path: '', component: ConfigurarNotificionComponent},
-              {path: 'enviar', component: EnviarNotificionComponent}
-            ]
-          },
-        ]
-      },
-      {
-        path: 'socio',
-        children: [
-          {path: 'lista-socios', component: ListaSociosComponent},
-          {path: 'detalle', component: EditarSociosComponent}
-        ]
-      }
-    ]
+    path: 'auth', children: [{
+      path: '', component: AuthComponent, children: [
+        {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+        {
+          path: 'mantenimiento',
+          children: [
+            {path: 'usuario', component: UsuarioComponent},
+            {path: 'usuario/crear', component: UsuarioCrearComponent},
+            {path: 'usuario/editar/:id', component: UsuarioEditarComponent},
+            {path: 'usuario/contrasenha/:id/:alias', component: UsuarioContrasenhaComponent},
+          ]
+        },
+        {
+          path: 'estrategia',
+          children: [
+            {
+              path: 'cartera',
+              children: [
+                {path: '', component: CrearCarteraComponent},
+                {path: 'cargar-credito', component: CarteraCargarCreditoComponent},
+                {path: 'cargar-credito/socios/:cargaCreditoId', component: CarteraCargarCreditoSociosComponent},
+                {path: 'cargar-credito/creditos/:cargaCreditoId', component: CarteraCargarCreditoCreditosComponent},
+                {path: 'crear-gestion', component: ActualizarGestionComponent},
+                {path: 'editar-gestion', component: ActualizarGestionComponent}
+              ]
+            },
+          ]
+        },
+        {
+          path: 'configuracion',
+          children: [
+            {
+              path: 'notificacion',
+              children: [
+                {path: '', component: ConfigurarNotificionComponent},
+                {path: 'enviar', component: EnviarNotificionComponent}
+              ]
+            },
+          ]
+        },
+        {
+          path: 'socio',
+          children: [
+            {path: 'lista-socios', component: ListaSociosComponent},
+            {path: 'detalle', component: EditarSociosComponent}
+          ]
+        }
+      ]
+    }], canActivate: [AuthGuard]
   },
-
+  {path: '**', redirectTo: 'login'},
 ];
 
 @NgModule({

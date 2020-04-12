@@ -19,7 +19,7 @@ export class GuestGuard implements CanActivate {
     this.auth.loggedUser$.subscribe(
       result => {
         if (result !== null) {
-          this.router.navigate(['/auth/dashboard']);
+          this.router.navigate(['auth/dashboard']);
           return false;
         }
       }

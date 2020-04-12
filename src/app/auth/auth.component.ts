@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {MenuService} from '../servicios/sistema/menu.service';
 import {AutenticacionService} from '../servicios/seguridad/autenticacion.service';
@@ -8,7 +8,7 @@ import {AutenticacionService} from '../servicios/seguridad/autenticacion.service
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
   username: any;
   sidebarMinimized: any;
   navItems = [];
@@ -19,7 +19,8 @@ export class AuthComponent implements OnInit {
   constructor(
     private authService: AutenticacionService,
     private menuService: MenuService,
-    @Inject(DOCUMENT) _document?: any) {
+    @Inject(DOCUMENT) _document?: any
+  ) {
     this.changes = new MutationObserver((mutations) => {
       this.sidebarMinimized = _document.body.classList.contains('sidebar-minimized');
     });
@@ -31,6 +32,10 @@ export class AuthComponent implements OnInit {
     console.log(this.authService.loggedUser);
     // this.username = this.authService.loggedUser.persona.primerApellido + ' ' + this.authService.loggedUser.persona.segundoApellido;
     this.username = this.authService.loggedUser.alias;
+  }
+
+  ngOnDestroy(): void {
+    this.changes.disconnect();
   }
 
   ngOnInit() {

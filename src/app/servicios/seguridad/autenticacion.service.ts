@@ -1,21 +1,20 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, EMPTY, Observable, of, Subject} from 'rxjs';
-import {Usuario} from '../../interfaces/Usuario';
 import {HttpClient, HttpHeaders, HttpParams, HttpRequest} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {UsuarioService} from '../sistema/usuario.service';
-import {catchError, map, skipWhile, switchMap, tap} from 'rxjs/operators';
 import {JwtHelperService} from '@auth0/angular-jwt';
-import {TokenInterceptor} from './token.interceptor';
+import {BehaviorSubject, empty, Observable, of, Subject, EMPTY, throwError} from 'rxjs';
+import {catchError, filter, map, skipWhile, switchMap, tap} from 'rxjs/operators';
 import {ConfigService} from './config.service';
+import {TokenInterceptor} from './token.interceptor';
+import {UsuarioService} from '../sistema/usuario.service';
+import {Usuario} from '../../interfaces/Usuario';
 
 const accessTokenKey = 'access_token';
 const refreshTokenKey = 'refresh_token';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class AutenticacionService {
+
   private jwtHelper: JwtHelperService;
   private accessTokenSubject: BehaviorSubject<string>;
   accessToken$: Observable<string>;
@@ -80,8 +79,7 @@ export class AutenticacionService {
       });
   }
 
-// get loggedUser(): Usuario {
-  get loggedUser(): any {
+  get loggedUser(): Usuario {
     return this.loggedUserSubject.value;
   }
 
@@ -104,20 +102,21 @@ export class AutenticacionService {
   }
 
   /*
-    currentUserUpdateForceLogout(user: Usuario): boolean {
-      // console.log(`force update of logged user ${user.email}`);
-      if (user.email !== this.loggedUserSubject.value.email || user.role !== this.loggedUserSubject.value.role) {
-        this.logout('Changed email or role of the current user: forced logout');
-        return true;
-      }
-      this.accessTokenSubject.next(this.accessTokenSubject.value);
-      return false;
+  currentUserUpdateForceLogout(user: Usuario): boolean {
+    // console.log(`force update of logged user ${user.email}`);
+    if (user.email !== this.loggedUserSubject.value.email || user.role !== this.loggedUserSubject.value.role) {
+      this.logout('Changed email or role of the current user: forced logout');
+      return true;
     }
+    this.accessTokenSubject.next(this.accessTokenSubject.value);
+    return false;
+  }
 
-    hasRole(role: string): Observable<boolean> {
-      return this.loggedUser$.pipe(map(loggedUser => loggedUser && loggedUser.role === Role[role]));
-    }
-*/
+  hasRole(role: string): Observable<boolean> {
+    return this.loggedUser$.pipe(map(loggedUser => loggedUser && loggedUser.role === Role[role]));
+  }
+ */
+
   private extractLoggedUser(accessToken): Observable<Usuario> {
     if (accessToken) {
       const data = this.jwtHelper.decodeToken(accessToken);
@@ -143,7 +142,6 @@ export class AutenticacionService {
     }
     return this.loadAccessToken(false, token);
   }
-
 
   private loadAccessToken(retrieveAccessToken: boolean, refreshToken?: string, username?: string, password?: string):
     Observable<string> {
@@ -206,4 +204,5 @@ export class AutenticacionService {
     // console.log('token invalid');
     return null;
   }
+
 }

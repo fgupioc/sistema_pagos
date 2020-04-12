@@ -7,6 +7,7 @@ import {TokenInterceptor} from '../servicios/seguridad/token.interceptor';
 import {RouterModule} from '@angular/router';
 import { ValidarPinComponent } from './validar-pin/validar-pin.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
+import {ComunModule} from '../comun/comun.module';
 
 @NgModule({
   declarations: [LoginComponent, ValidarPinComponent],
@@ -15,6 +16,7 @@ import {NgxSpinnerModule} from 'ngx-spinner';
         ReactiveFormsModule,
         RouterModule,
         NgxSpinnerModule,
+        ComunModule,
     ],
   providers: [
     {
