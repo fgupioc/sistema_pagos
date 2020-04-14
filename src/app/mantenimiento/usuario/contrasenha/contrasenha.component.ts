@@ -18,10 +18,13 @@ export class UsuarioContrasenhaComponent implements OnInit {
   alias = '';
 
   constructor(private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService,
-              private usuarioService: UsuarioService, private toastr: ToastrService, private rutaActiva: ActivatedRoute) {
-    this.usuarioId = this.rutaActiva.snapshot.params.id;
-    this.alias = this.rutaActiva.snapshot.params.alias;
-    console.log(this.alias);
+              private usuarioService: UsuarioService, private toastr: ToastrService) {
+    const state = this.router.getCurrentNavigation().extras.state;
+    if (state === undefined || state.usuarioId === undefined || state.alias === undefined) {
+      this.regresar();
+    }
+    this.usuarioId = state.usuarioId;
+    this.alias = state.alias;
   }
 
   ngOnInit() {

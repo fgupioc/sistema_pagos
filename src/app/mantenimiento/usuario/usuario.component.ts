@@ -57,7 +57,7 @@ export class UsuarioComponent implements OnInit {
   }
 
   editar(usuarioId: number) {
-    this.router.navigate(['/auth/mantenimiento/usuario/editar', usuarioId]);
+    this.router.navigateByUrl('/auth/mantenimiento/usuario/editar', {state: {usuarioId: usuarioId}});
   }
 
 
@@ -66,6 +66,6 @@ export class UsuarioComponent implements OnInit {
   }
 
   actualizarContrasenha(usuario: any) {
-    this.router.navigate(['/auth/mantenimiento/usuario/contrasenha', usuario.id, usuario.alias]);
+    this.router.navigateByUrl('/auth/mantenimiento/usuario/contrasenha', {state: {usuarioId: usuario.id, alias: usuario.alias}});
   }
 }

@@ -40,10 +40,16 @@ export class UsuarioEditarComponent implements OnInit {
     maxHeight: 400
   });
 
-  constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private usuarioUnicoService: UsuarioUnicoService,
-              private toastr: ToastrService, private router: Router, private rutaActiva: ActivatedRoute,
-              private usuarioService: UsuarioService, private maestroService: MaestroService, private menuService: MenuService) {
-    this.usuarioId = this.rutaActiva.snapshot.params.id;
+  constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService,
+              private usuarioUnicoService: UsuarioUnicoService,
+              private toastr: ToastrService, private router: Router,
+              private usuarioService: UsuarioService, private maestroService: MaestroService,
+              private menuService: MenuService) {
+    const state = this.router.getCurrentNavigation().extras.state;
+    if (state === undefined || state.usuarioId === undefined) {
+      this.regresar();
+    }
+    this.usuarioId = state.usuarioId;
   }
 
   ngOnInit() {

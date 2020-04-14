@@ -33,8 +33,8 @@ const routes: Routes = [
           children: [
             {path: 'usuario', component: UsuarioComponent},
             {path: 'usuario/crear', component: UsuarioCrearComponent},
-            {path: 'usuario/editar/:id', component: UsuarioEditarComponent},
-            {path: 'usuario/contrasenha/:id/:alias', component: UsuarioContrasenhaComponent},
+            {path: 'usuario/editar', component: UsuarioEditarComponent},
+            {path: 'usuario/contrasenha', component: UsuarioContrasenhaComponent},
           ]
         },
         {
