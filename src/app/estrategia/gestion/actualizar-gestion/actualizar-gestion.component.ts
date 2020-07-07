@@ -106,7 +106,7 @@ export class ActualizarGestionComponent implements OnInit {
       alert('Se necesita registrar etapas');
       return;
     }
-    
+
     const hasta = Number(this.formGestion.controls.hasta.value);
     if (Number(c[c.length - 1].hasta) !== hasta ) {
       Swal.fire('Nueva Gestion', 'La estapas deben de cubrir todo el rango de los campos desde y hasta.', 'error');
@@ -118,7 +118,7 @@ export class ActualizarGestionComponent implements OnInit {
       response => {
         if (response.exito) {
           this.toastr.success('Se actualizo con exito.');
-          this.router.navigate(['/auth/estrategia/cartera']);
+          this.router.navigate(['/auth/estrategia/carteras']);
         } else {
           Swal.fire('Registro', response.mensaje, 'error');
         }

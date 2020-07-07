@@ -19,6 +19,8 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {GuestGuard} from './guard/guest.guard';
 import {AuthGuard} from './guard/auth.guard';
 import {ValidarPinComponent} from './publico/validar-pin/validar-pin.component';
+import {DetalleCarteraComponent} from './estrategia/cartera/detalle-cartera/detalle-cartera.component';
+import {ListarCarteraComponent} from './estrategia/cartera/listar-cartera/listar-cartera.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -41,9 +43,11 @@ const routes: Routes = [
           path: 'estrategia',
           children: [
             {
-              path: 'cartera',
+              path: 'carteras',
               children: [
-                {path: '', component: CrearCarteraComponent},
+                {path: '', component: ListarCarteraComponent},
+                {path: 'crear', component: CrearCarteraComponent},
+                {path: 'detalle', component: DetalleCarteraComponent},
                 {path: 'cargar-credito', component: CarteraCargarCreditoComponent},
                 {path: 'cargar-credito/socios/:cargaCreditoId', component: CarteraCargarCreditoSociosComponent},
                 {path: 'cargar-credito/creditos/:cargaCreditoId', component: CarteraCargarCreditoCreditosComponent},

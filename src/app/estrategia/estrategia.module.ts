@@ -18,6 +18,8 @@ import {CarteraCargarCreditoSociosComponent} from './cartera/cargar-credito/soci
 import {SocioListDireccionesComponent} from '../comun/socios/list-direcciones/list-direcciones.component';
 import {SocioListTelefonosComponent} from '../comun/socios/list-telefonos/list-telefonos.component';
 import {SocioListEmailsComponent} from '../comun/socios/list-emails/list-emails.component';
+import { ListarCarteraComponent } from './cartera/listar-cartera/listar-cartera.component';
+import { DetalleCarteraComponent } from './cartera/detalle-cartera/detalle-cartera.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import {SocioListEmailsComponent} from '../comun/socios/list-emails/list-emails.
     CrearEtapaNotificionComponent,
     EnviarNotificionComponent,
     CarteraCargarCreditoSociosComponent,
-    CarteraCargarCreditoCreditosComponent
+    CarteraCargarCreditoCreditosComponent,
+    ListarCarteraComponent,
+    DetalleCarteraComponent
   ],
   imports: [
     CommonModule,

@@ -4,8 +4,8 @@
             <div class="card-header d-flex justify-content-lg-between">
                 <h6 class="p-0 m-0">Cartera</h6>
                 <ol class="breadcrumb float-sm-right m-0 p-0 bg-transparent">
-                    <li class="breadcrumb-item"><a href="#" routerLink="/auth">Home</a></li>
-                    <li class="breadcrumb-item active">Cartera</li>
+                    <li class="breadcrumb-item"><a href="#" routerLink="/auth/estrategia/carteras">Carteras</a></li>
+                    <li class="breadcrumb-item active">Nueva</li>
                 </ol>
             </div>
             <div class="card-body" [formGroup]="formulario">
@@ -170,7 +170,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" *ngIf="false">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Pistas de Auditoria</label>

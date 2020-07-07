@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs';
+import {Cartera} from '../../interfaces/cartera';
+import {Respuesta} from '../../interfaces/Respuesta';
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +46,9 @@ export class CarteraService {
 
   listarSocioPorCartera(codCartera: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}listar-socio-cartera`, {params: new HttpParams().set('codCartera', codCartera)});
+  }
+
+  getCarteras(): Observable<Respuesta> {
+    return this.http.get<Respuesta>(`${this.apiUrl}listar`);
   }
 }

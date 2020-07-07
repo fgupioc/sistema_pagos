@@ -1,22 +1,21 @@
 import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {CarteraService} from '../../../servicios/estrategia/cartera.service';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {NgxSpinnerService} from 'ngx-spinner';
-import Swal from 'sweetalert2';
 import {ToastrService} from 'ngx-toastr';
 import {MaestroService} from '../../../servicios/sistema/maestro.service';
+import Swal from 'sweetalert2';
+import {isNullOrUndefined} from 'util';
 import {Cartera} from '../../../interfaces/cartera';
 
-declare var $: any;
-
-
 @Component({
-  selector: 'app-crear-cartera',
-  templateUrl: './crear-cartera.component.html',
-  styleUrls: ['./crear-cartera.component.css']
+  selector: 'app-detalle-cartera',
+  templateUrl: './detalle-cartera.component.html',
+  styleUrls: ['./detalle-cartera.component.css']
 })
-export class CrearCarteraComponent implements OnInit {
+export class DetalleCarteraComponent implements OnInit {
+
   formulario: FormGroup;
   cartera: Cartera;
   gestiones: any[] = [];
@@ -31,19 +30,27 @@ export class CrearCarteraComponent implements OnInit {
     private toastr: ToastrService,
     private maestroService: MaestroService
   ) {
+    const state = this.router.getCurrentNavigation().extras.state;
+    if (!isNullOrUndefined(state)) {
+      this.cartera = state.cartera;
+    } else {
+      this.router.navigateByUrl('/auth/estrategia/carteras');
+    }
   }
 
   ngOnInit() {
     this.listarMondas();
+    // this.getCartera();
+    this.getGestiones();
 
     this.formulario = this.formBuilder.group({
       codCartera: [''],
-      codigo: [''],
-      nombre: ['', [
+      codigo: [{value: '', disabled: true}],
+      nombre: [{value: ''}, [
         Validators.required,
         Validators.maxLength(100)
       ]],
-      nombreExterno: ['', [
+      nombreExterno: [{value: ''}, [
         Validators.required,
         Validators.maxLength(100)
       ]],
@@ -78,12 +85,64 @@ export class CrearCarteraComponent implements OnInit {
       userUpdate: [{value: '', disabled: true}],
       estado: [{value: '', disabled: true}]
     });
+
+    if (this.cartera) {
+      this.formulario.setValue(this.cartera);
+      if (this.cartera.monedas.length > 0) {
+        this.cartera.monedas.forEach(e => {
+          this.monedasSeleccionadas.push({
+            codTabla: null,
+            codItem: e.codMoneda,
+            descripcion: null,
+            strValor: null,
+            intValor: null,
+            codEstado: null,
+          });
+        });
+      }
+    }
   }
 
   listarMondas() {
     this.maestroService.listarMondas().subscribe(
       response => {
         this.monedas = response;
+      }
+    );
+  }
+
+  getCartera() {
+    this.carteraService.carteraAbaco().subscribe(
+      response => {
+        if (response.exito) {
+          this.cartera = response.objeto;
+          console.log(this.cartera.monedas);
+          this.formulario.setValue(this.cartera);
+          if (this.cartera.monedas.length > 0) {
+            this.cartera.monedas.forEach(e => {
+              this.monedasSeleccionadas.push({
+                codTabla: null,
+                codItem: e.codMoneda,
+                descripcion: null,
+                strValor: null,
+                intValor: null,
+                codEstado: null,
+              });
+            });
+          }
+        }
+      }
+    );
+  }
+
+  getGestiones() {
+    this.spinner.show();
+    this.carteraService.getGestiones(String(this.cartera.codCartera)).subscribe(
+      response => {
+        if (response.exito) {
+          this.gestiones = response.objeto;
+        }
+        this.spinner.hide();
       }
     );
   }
@@ -104,6 +163,7 @@ export class CrearCarteraComponent implements OnInit {
     this.carteraService.actualizarCartera(data).subscribe(
       response => {
         if (response.exito) {
+          this.getCartera();
           Swal.fire('Actualizar Cartera', 'Se actualizó la cartera correctamente.', 'success');
         } else {
           this.toastr.error('Ocurrio un error.', 'Actualizar Cartera');
