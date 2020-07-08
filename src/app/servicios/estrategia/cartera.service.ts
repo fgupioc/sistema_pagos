@@ -51,4 +51,8 @@ export class CarteraService {
   getCarteras(): Observable<Respuesta> {
     return this.http.get<Respuesta>(`${this.apiUrl}listar`);
   }
+
+  crearCartera(data: any): Observable<Respuesta> {
+    return this.http.post<Respuesta>(`${this.apiUrl}guardar`, data);
+  }
 }

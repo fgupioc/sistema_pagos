@@ -34,7 +34,6 @@ export class ListarCarteraComponent implements OnInit {
       res => {
         if (res.exito) {
           this.carteras = res.objeto as Cartera[];
-          console.log(this.carteras);
         }
         this.spinner.hide();
       },

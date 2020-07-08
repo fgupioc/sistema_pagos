@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CarteraService } from '../../../servicios/estrategia/cartera.service';
-import { ActualizarEtapaComponent } from '../../etapa/actualizar-etapa/actualizar-etapa.component';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {CarteraService} from '../../../servicios/estrategia/cartera.service';
+import {ActualizarEtapaComponent} from '../../etapa/actualizar-etapa/actualizar-etapa.component';
+import {Router} from '@angular/router';
 import Swal from 'sweetalert2';
-import { ToastrService } from 'ngx-toastr';
-import { isNullOrUndefined } from 'util';
-import { CONST } from '../../../comun/CONST';
-import { NgxSpinnerService } from 'ngx-spinner';
+import {ToastrService} from 'ngx-toastr';
+import {isNullOrUndefined} from 'util';
+import {CONST} from '../../../comun/CONST';
+import {NgxSpinnerService} from 'ngx-spinner';
+import {Cartera} from '../../../interfaces/cartera';
+
 declare var $: any;
 
 @Component({
@@ -21,8 +23,8 @@ export class ActualizarGestionComponent implements OnInit {
   etapas: any[] = [];
   gestion: any;
   create: boolean;
-  codCartera: any;
   gestiones: any[] = [];
+  cartera: Cartera;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,10 +37,10 @@ export class ActualizarGestionComponent implements OnInit {
     if (this.router.getCurrentNavigation().extras.state !== undefined) {
       if (this.router.getCurrentNavigation().extras.state.create) {
         this.create = true;
-        this.codCartera = this.router.getCurrentNavigation().extras.state.codCartera;
+        this.cartera = this.router.getCurrentNavigation().extras.state.cartera;
       } else {
         this.gestion = this.router.getCurrentNavigation().extras.state.gestion;
-        this.codCartera = this.router.getCurrentNavigation().extras.state.gestion.codCartera;
+        this.cartera = this.router.getCurrentNavigation().extras.state.cartera;
         this.create = false;
       }
       this.gestiones = this.router.getCurrentNavigation().extras.state.gestiones;
@@ -50,25 +52,28 @@ export class ActualizarGestionComponent implements OnInit {
   ngOnInit() {
     this.formGestion = this.formBuilder.group({
       codGestion: [''],
-      codCartera: [this.codCartera],
+      codCartera: [''],
       nombre: ['', [
         Validators.required,
         Validators.maxLength(100)
       ]],
-      desde: ['',  [Validators.required]],
-      hasta: ['',  [Validators.required]],
-      fechaCreacion: [{ value: '', disabled: true }],
-      fechaActualizacion: [{ value: '', disabled: true }],
-      userCreate: [{ value: '', disabled: true }],
-      userUpdate: [{ value: '', disabled: true }],
+      desde: ['', [Validators.required]],
+      hasta: ['', [Validators.required]],
+      fechaCreacion: [{value: '', disabled: true}],
+      fechaActualizacion: [{value: '', disabled: true}],
+      userCreate: [{value: '', disabled: true}],
+      userUpdate: [{value: '', disabled: true}],
       estado: [''],
       etapas: [null],
       color: []
     });
-    console.log(this.gestiones);
+
     if (!this.create) {
       this.formGestion.setValue(this.gestion);
       this.etapas = this.gestion.etapas;
+    }
+    if (this.cartera) {
+      this.formGestion.controls.codCartera.setValue(this.cartera.codCartera);
     }
   }
 
@@ -79,7 +84,7 @@ export class ActualizarGestionComponent implements OnInit {
       return;
     }
     const hasta = Number(this.formGestion.controls.hasta.value);
-    if (Number(this.etapas[this.etapas.length - 1].hasta) !== hasta ) {
+    if (Number(this.etapas[this.etapas.length - 1].hasta) !== hasta) {
       Swal.fire('Nueva Gestion', 'La estapas deben de cubrir todo el rango de los campos desde y hasta.', 'error');
       return;
     }
@@ -89,8 +94,8 @@ export class ActualizarGestionComponent implements OnInit {
     this.carteraService.crearGestion(data).subscribe(
       response => {
         if (response.exito) {
-          this.toastr.success('Se registro con exito.')
-          this.router.navigate(['/auth/estrategia/cartera']);
+          this.toastr.success('Se registro con exito.');
+          this.router.navigateByUrl('/auth/estrategia/carteras/detalle', {state: {cartera: this.cartera}});
         } else {
           Swal.fire('Registro', response.mensaje, 'error');
         }
@@ -108,7 +113,7 @@ export class ActualizarGestionComponent implements OnInit {
     }
 
     const hasta = Number(this.formGestion.controls.hasta.value);
-    if (Number(c[c.length - 1].hasta) !== hasta ) {
+    if (Number(c[c.length - 1].hasta) !== hasta) {
       Swal.fire('Nueva Gestion', 'La estapas deben de cubrir todo el rango de los campos desde y hasta.', 'error');
       return;
     }
@@ -128,7 +133,7 @@ export class ActualizarGestionComponent implements OnInit {
   }
 
   nuevaEtapa() {
-    const modal = this.modalService.open(ActualizarEtapaComponent, { size: 'lg' });
+    const modal = this.modalService.open(ActualizarEtapaComponent, {size: 'lg'});
     modal.result.then(
       this.closeModal.bind(this),
       this.closeModal.bind(this)
@@ -138,7 +143,7 @@ export class ActualizarGestionComponent implements OnInit {
   }
 
   actualzarEtapa(i) {
-    const modal = this.modalService.open(ActualizarEtapaComponent, { size: 'lg' });
+    const modal = this.modalService.open(ActualizarEtapaComponent, {size: 'lg'});
     modal.result.then(
       this.closeModal.bind(this),
       this.closeModal.bind(this)
@@ -195,7 +200,7 @@ export class ActualizarGestionComponent implements OnInit {
         }
       }
     } else {
-      const gestiones = this.gestiones.filter( v =>  v.codGestion < this.gestion.codGestion);
+      const gestiones = this.gestiones.filter(v => v.codGestion < this.gestion.codGestion);
       if (gestiones.length > 0) {
         let flag = true;
         gestiones.forEach(v => {

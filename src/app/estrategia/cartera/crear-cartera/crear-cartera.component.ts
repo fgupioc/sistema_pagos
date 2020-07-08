@@ -7,6 +7,8 @@ import Swal from 'sweetalert2';
 import {ToastrService} from 'ngx-toastr';
 import {MaestroService} from '../../../servicios/sistema/maestro.service';
 import {Cartera} from '../../../interfaces/cartera';
+import {isNullOrUndefined} from 'util';
+import {FUNC} from '../../../comun/FUNC';
 
 declare var $: any;
 
@@ -18,7 +20,7 @@ declare var $: any;
 })
 export class CrearCarteraComponent implements OnInit {
   formulario: FormGroup;
-  cartera: Cartera;
+  // cartera: Cartera;
   gestiones: any[] = [];
   monedas: any[] = [];
   monedasSeleccionadas: any[] = [];
@@ -38,12 +40,11 @@ export class CrearCarteraComponent implements OnInit {
 
     this.formulario = this.formBuilder.group({
       codCartera: [''],
-      codigo: [''],
       nombre: ['', [
         Validators.required,
         Validators.maxLength(100)
       ]],
-      nombreExterno: ['', [
+      nombreExterno: [{value: '', disabled: true}, [
         Validators.required,
         Validators.maxLength(100)
       ]],
@@ -81,9 +82,14 @@ export class CrearCarteraComponent implements OnInit {
   }
 
   listarMondas() {
+    this.spinner.show();
     this.maestroService.listarMondas().subscribe(
-      response => {
-        this.monedas = response;
+      res => {
+        this.monedas = res;
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
       }
     );
   }
@@ -100,11 +106,14 @@ export class CrearCarteraComponent implements OnInit {
     }
     const data = this.formulario.getRawValue();
     data.monedas = this.convert();
+    data.nombreExterno = FUNC.generateSlug(data.nombre);
     this.spinner.show();
-    this.carteraService.actualizarCartera(data).subscribe(
-      response => {
-        if (response.exito) {
+    this.carteraService.crearCartera(data).subscribe(
+      res => {
+        if (res.exito) {
           Swal.fire('Actualizar Cartera', 'Se actualizó la cartera correctamente.', 'success');
+          const cart: Cartera = res.objeto as Cartera;
+          this.router.navigate(['/auth/estrategia/carteras/crear-gestion'], {state: {create: true, cartera: cart, gestiones: []}});
         } else {
           this.toastr.error('Ocurrio un error.', 'Actualizar Cartera');
         }
@@ -118,7 +127,7 @@ export class CrearCarteraComponent implements OnInit {
     if (this.monedasSeleccionadas.length > 0) {
       this.monedasSeleccionadas.forEach(e => {
         array.push({
-          codCartera: this.cartera.codCartera,
+          codCartera: null,
           codMoneda: e.codItem
         });
       });
@@ -139,12 +148,11 @@ export class CrearCarteraComponent implements OnInit {
         this.monedasSeleccionadas.splice(index, 1);
       }
     }
-    console.log(this.monedasSeleccionadas);
   }
 
   selecciodano(item: any) {
     const obj = this.monedasSeleccionadas.find(v => v.codItem == item.codItem);
-    return obj ? true : false;
+    return !!obj;
   }
 
   cambio(tipo: any) {
@@ -159,5 +167,10 @@ export class CrearCarteraComponent implements OnInit {
       $('#gestion').addClass('show active');
       $('#cartera').removeClass('show active');
     }
+  }
+
+  generateCode(event: any) {
+    const value = event.target.value;
+    this.formulario.controls.nombreExterno.setValue(FUNC.generateSlug(value));
   }
 }

@@ -46,11 +46,11 @@ export class DetalleCarteraComponent implements OnInit {
     this.formulario = this.formBuilder.group({
       codCartera: [''],
       codigo: [{value: '', disabled: true}],
-      nombre: [{value: ''}, [
+      nombre: ['', [
         Validators.required,
         Validators.maxLength(100)
       ]],
-      nombreExterno: [{value: ''}, [
+      nombreExterno: [{value: '', disabled: true}, [
         Validators.required,
         Validators.maxLength(100)
       ]],
