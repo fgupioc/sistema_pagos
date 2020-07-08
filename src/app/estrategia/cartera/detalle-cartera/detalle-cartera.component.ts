@@ -8,6 +8,7 @@ import {MaestroService} from '../../../servicios/sistema/maestro.service';
 import Swal from 'sweetalert2';
 import {isNullOrUndefined} from 'util';
 import {Cartera} from '../../../interfaces/cartera';
+import {FUNC} from '../../../comun/FUNC';
 
 @Component({
   selector: 'app-detalle-cartera',
@@ -88,6 +89,8 @@ export class DetalleCarteraComponent implements OnInit {
 
     if (this.cartera) {
       this.formulario.setValue(this.cartera);
+      this.formulario.controls.fechaCreacion.setValue(FUNC.formatDate(this.cartera.fechaCreacion, 'd MMMM yy h:mm a'));
+      this.formulario.controls.fechaActualizacion.setValue(FUNC.formatDate(this.cartera.fechaActualizacion, 'd MMMM yy h:mm a'));
       if (this.cartera.monedas.length > 0) {
         this.cartera.monedas.forEach(e => {
           this.monedasSeleccionadas.push({
