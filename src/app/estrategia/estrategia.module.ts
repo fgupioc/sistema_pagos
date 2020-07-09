@@ -20,6 +20,7 @@ import {SocioListTelefonosComponent} from '../comun/socios/list-telefonos/list-t
 import {SocioListEmailsComponent} from '../comun/socios/list-emails/list-emails.component';
 import { ListarCarteraComponent } from './cartera/listar-cartera/listar-cartera.component';
 import { DetalleCarteraComponent } from './cartera/detalle-cartera/detalle-cartera.component';
+import {NgSelectModule} from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { DetalleCarteraComponent } from './cartera/detalle-cartera/detalle-carte
     ReactiveFormsModule,
     FormsModule,
     MyPipesModule,
-    RouterModule
+    RouterModule,
+    NgSelectModule
   ],
   exports: [
     CrearCarteraComponent,

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {CarteraService} from '../../../servicios/estrategia/cartera.service';
 import {NgxSpinnerService} from 'ngx-spinner';
@@ -9,6 +9,13 @@ import Swal from 'sweetalert2';
 import {isNullOrUndefined} from 'util';
 import {Cartera} from '../../../interfaces/cartera';
 import {FUNC} from '../../../comun/FUNC';
+import {TablaMaestra} from '../../../interfaces/tabla-maestra';
+
+export interface MultiSelect {
+  id: string;
+  name: string;
+}
+
 
 @Component({
   selector: 'app-detalle-cartera',
@@ -23,6 +30,12 @@ export class DetalleCarteraComponent implements OnInit {
   monedas: any[] = [];
   monedasSeleccionadas: any[] = [];
 
+  tipoCreditos: MultiSelect[] = [];
+  sedes: MultiSelect[] = [];
+
+  heroForm: FormGroup;
+  itemsSelecteds: MultiSelect[] = [];
+  placeholderSelect: '';
   constructor(
     private router: Router,
     private carteraService: CarteraService,
@@ -40,6 +53,8 @@ export class DetalleCarteraComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.listaTipoCreditos();
+    this.listaSedes();
     this.listarMondas();
     // this.getCartera();
     this.getGestiones();
@@ -84,9 +99,11 @@ export class DetalleCarteraComponent implements OnInit {
       fechaActualizacion: [{value: '', disabled: true}],
       userCreate: [{value: '', disabled: true}],
       userUpdate: [{value: '', disabled: true}],
-      estado: [{value: '', disabled: true}]
+      estado: [{value: '', disabled: true}],
     });
-
+    this.heroForm = this.formBuilder.group({
+      selectedCitiesIds: []
+    });
     if (this.cartera) {
       this.formulario.setValue(this.cartera);
       this.formulario.controls.fechaCreacion.setValue(FUNC.formatDate(this.cartera.fechaCreacion, 'd MMMM yy h:mm a'));
@@ -162,6 +179,8 @@ export class DetalleCarteraComponent implements OnInit {
     }
     const data = this.formulario.getRawValue();
     data.monedas = this.convert();
+    data.fechaCreacion =  this.cartera.fechaCreacion;
+    data.fechaActualizacion =  this.cartera.fechaActualizacion;
     this.spinner.show();
     this.carteraService.actualizarCartera(data).subscribe(
       response => {
@@ -221,6 +240,37 @@ export class DetalleCarteraComponent implements OnInit {
       $('.gestion').addClass('active');
       $('#gestion').addClass('show active');
       $('#cartera').removeClass('show active');
+    }
+  }
+
+  public listaTipoCreditos() {
+    this.maestroService.listaTipoCreditos().subscribe(
+      res => res.forEach(item => this.tipoCreditos.push({id: item.codItem, name: item.descripcion})),
+      err => console.log(err)
+    );
+  }
+
+  public listaSedes() {
+    this.maestroService.listaSedes().subscribe(
+      res => res.forEach(item => this.sedes.push({id: item.codItem, name: item.descripcion})),
+      err => console.log(err)
+    );
+  }
+
+  seleccionarTipo(event: any) {
+    this.placeholderSelect = event.target.options[event.target.options.selectedIndex].text;
+    switch (event.target.value) {
+      case '001' :
+        this.itemsSelecteds = this.tipoCreditos;
+        this.heroForm.controls.selectedCitiesIds.setValue([]);
+        break;
+      case '002' :
+        this.itemsSelecteds = this.sedes;
+        this.heroForm.controls.selectedCitiesIds.setValue([]);
+        break;
+      default:
+        this.itemsSelecteds = [];
+        this.heroForm.controls.selectedCitiesIds.setValue([]);
     }
   }
 }

@@ -8,14 +8,14 @@
           <li class="breadcrumb-item active">Detalle</li>
         </ol>
       </div>
-      <div class="card-body" [formGroup]="formulario">
+      <div class="card-body">
         <ul id="tabs" class="nav nav-tabs nav-fill" role="tablist">
           <li class="nav-item"><a (click)="cambio(1)" data-target="#cartera" data-toggle="tab" class="cartera nav-link small text-uppercase active">CARTERA</a></li>
           <li class="nav-item"><a (click)="cambio(2)" data-target="#gestion" data-toggle="tab" class="gestion nav-link small text-uppercase">GESTION</a></li>
         </ul>
         <br>
         <div id="tabsContent" class="tab-content">
-          <div id="cartera" class="tab-pane fade show active">
+          <div id="cartera" class="tab-pane fade show active" >
             <div class="row">
               <div class="col-md-12">
                 <ngb-accordion [closeOthers]="true" activeIds="static-1">
@@ -24,6 +24,7 @@
                       <span>Datos Generales</span>
                     </ng-template>
                     <ng-template ngbPanelContent>
+                      <div [formGroup]="formulario">
                       <div class="row">
                         <div class="col-md-4">
                           <div class="form-group">
@@ -176,21 +177,36 @@
                           </div>
                         </div>
                       </div>
+                      </div>
                     </ng-template>
                   </ngb-panel>
                   <ngb-panel id="static-2">
                     <ng-template ngbPanelTitle>
                       <span>Configuración Adicional</span>
                     </ng-template>
-                    <ng-template ngbPanelContent>
-                     <div class="row">
+                    <ng-template ngbPanelContent >
+                     <div class="row" [formGroup]="heroForm">
                        <div class="col-6">
-                         <select class="form-control">
+                         <select #selected class="form-control" (change)="seleccionarTipo($event)">
                            <option>Seleccione</option>
-                           <option value="001">Defecto</option>
+                           <option value="001">tipo Créditos</option>
                            <option value="002">Sedes</option>
                            <option value="003">Montos</option>
                          </select>
+                       </div>
+                       <div class="col-6" *ngIf="itemsSelecteds.length > 0">
+                         <div class="form-group">
+                             <ng-select
+                                        [items]="itemsSelecteds"
+                                        bindLabel="name"
+                                        bindValue="id"
+                                        labelForId="state"
+                                        [multiple]="true"
+                                        [placeholder]="placeholderSelect"
+                                        clearAllText="Clear"
+                                        formControlName="selectedCitiesIds">
+                             </ng-select>
+                         </div>
                        </div>
                      </div>
                     </ng-template>
@@ -200,7 +216,7 @@
                       <span>Pistas de Auditoria</span>
                     </ng-template>
                     <ng-template ngbPanelContent>
-                      <div class="row">
+                      <div [formGroup]="formulario" class="row">
                         <div class="col-md-3">
                           <div class="form-group">
                             <label>Fecha Creación:</label>
@@ -276,4 +292,5 @@
     </div>
   </div>
 </div>
+
 <app-loading></app-loading>

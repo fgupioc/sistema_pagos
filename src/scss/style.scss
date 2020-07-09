@@ -8,6 +8,8 @@
     src: url(../assets/fuente-abacash/WorkSans-Regular.ttf) format("truetype");
 }
 
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
 body {
     font-family: "abacashFont", Arial, serif;
 }
