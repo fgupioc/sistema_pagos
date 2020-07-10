@@ -1,3 +1,5 @@
+import {GrupoCampo} from './grupo-campo';
+
 export interface Cartera {
   codCartera: number;
   codigo: number;
@@ -15,6 +17,7 @@ export interface Cartera {
   nombreExterno: string;
   userCreate: number;
   userUpdate: number;
+  campos: GrupoCampo[];
 }
 
 export interface Moneda {

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {CarteraService} from '../../../servicios/estrategia/cartera.service';
 import {NgxSpinnerService} from 'ngx-spinner';
@@ -10,12 +10,19 @@ import {isNullOrUndefined} from 'util';
 import {Cartera} from '../../../interfaces/cartera';
 import {FUNC} from '../../../comun/FUNC';
 import {TablaMaestra} from '../../../interfaces/tabla-maestra';
+import {GrupoCampo} from '../../../interfaces/grupo-campo';
 
 export interface MultiSelect {
   id: string;
   name: string;
 }
 
+export interface Seleccionado {
+  listaCampos?: string;
+  valorFinal?: number;
+  valorInicial?: number;
+  selectedOptionsIds?: any[];
+}
 
 @Component({
   selector: 'app-detalle-cartera',
@@ -33,9 +40,11 @@ export class DetalleCarteraComponent implements OnInit {
   tipoCreditos: MultiSelect[] = [];
   sedes: MultiSelect[] = [];
 
-  heroForm: FormGroup;
-  itemsSelecteds: MultiSelect[] = [];
+  formAdicional: FormGroup;
+  itemsSelected: MultiSelect[] = [];
   placeholderSelect: '';
+  number = false;
+
   constructor(
     private router: Router,
     private carteraService: CarteraService,
@@ -57,8 +66,6 @@ export class DetalleCarteraComponent implements OnInit {
     this.listaSedes();
     this.listarMondas();
     // this.getCartera();
-    this.getGestiones();
-
     this.formulario = this.formBuilder.group({
       codCartera: [''],
       codigo: [{value: '', disabled: true}],
@@ -100,11 +107,29 @@ export class DetalleCarteraComponent implements OnInit {
       userCreate: [{value: '', disabled: true}],
       userUpdate: [{value: '', disabled: true}],
       estado: [{value: '', disabled: true}],
+      campos: [],
     });
-    this.heroForm = this.formBuilder.group({
-      selectedCitiesIds: []
+    this.formAdicional = this.formBuilder.group({
+      listaCampos: ['', [Validators.required]],
+      selectedOptionsIds: [],
+      valorInicial: [''],
+      valorFinal: [''],
     });
     if (this.cartera) {
+      console.log(this.cartera);
+      if (this.cartera.campos.length > 0) {
+        const items = this.convertObject(this.cartera.campos);
+        this.formAdicional.controls.listaCampos.setValue(items.listaCampos);
+        if (items.selectedOptionsIds.length > 0) {
+          this.cargarItems(items.listaCampos);
+          this.formAdicional.controls.selectedOptionsIds.setValue(items.selectedOptionsIds);
+        } else {
+          this.formAdicional.controls.valorInicial.setValue(items.valorInicial);
+          this.formAdicional.controls.valorFinal.setValue(items.valorFinal);
+          this.formAdicional.controls.selectedOptionsIds.setValue([]);
+          this.number = true;
+        }
+      }
       this.formulario.setValue(this.cartera);
       this.formulario.controls.fechaCreacion.setValue(FUNC.formatDate(this.cartera.fechaCreacion, 'd MMMM yy h:mm a'));
       this.formulario.controls.fechaActualizacion.setValue(FUNC.formatDate(this.cartera.fechaActualizacion, 'd MMMM yy h:mm a'));
@@ -121,6 +146,7 @@ export class DetalleCarteraComponent implements OnInit {
         });
       }
     }
+    this.getGestiones();
   }
 
   listarMondas() {
@@ -136,7 +162,6 @@ export class DetalleCarteraComponent implements OnInit {
       response => {
         if (response.exito) {
           this.cartera = response.objeto;
-          console.log(this.cartera.monedas);
           this.formulario.setValue(this.cartera);
           if (this.cartera.monedas.length > 0) {
             this.cartera.monedas.forEach(e => {
@@ -178,9 +203,11 @@ export class DetalleCarteraComponent implements OnInit {
       return;
     }
     const data = this.formulario.getRawValue();
+    const obj = this.formAdicional.getRawValue();
     data.monedas = this.convert();
-    data.fechaCreacion =  this.cartera.fechaCreacion;
-    data.fechaActualizacion =  this.cartera.fechaActualizacion;
+    data.fechaCreacion = this.cartera.fechaCreacion;
+    data.fechaActualizacion = this.cartera.fechaActualizacion;
+    data.campos = this.reverseConvertObject(obj);
     this.spinner.show();
     this.carteraService.actualizarCartera(data).subscribe(
       response => {
@@ -226,7 +253,7 @@ export class DetalleCarteraComponent implements OnInit {
 
   selecciodano(item: any) {
     const obj = this.monedasSeleccionadas.find(v => v.codItem == item.codItem);
-    return obj ? true : false;
+    return !!obj;
   }
 
   cambio(tipo: any) {
@@ -258,19 +285,104 @@ export class DetalleCarteraComponent implements OnInit {
   }
 
   seleccionarTipo(event: any) {
+    this.number = false;
+    this.itemsSelected = [];
+    this.formAdicional.controls.selectedOptionsIds.setValue([]);
+    this.formAdicional.controls.valorInicial.setValue('');
+    this.formAdicional.controls.valorFinal.setValue('');
+    this.formAdicional.get('selectedOptionsIds').setValidators([]);
+    this.formAdicional.get('selectedOptionsIds').updateValueAndValidity();
+    this.formAdicional.get('valorInicial').setValidators([]);
+    this.formAdicional.get('valorInicial').updateValueAndValidity();
+    this.formAdicional.get('listaCampos').setValidators([]);
+    this.formAdicional.get('listaCampos').updateValueAndValidity();
+
     this.placeholderSelect = event.target.options[event.target.options.selectedIndex].text;
+
     switch (event.target.value) {
       case '001' :
-        this.itemsSelecteds = this.tipoCreditos;
-        this.heroForm.controls.selectedCitiesIds.setValue([]);
+        this.itemsSelected = this.tipoCreditos;
+        this.formAdicional.get('selectedOptionsIds').setValidators([Validators.required]);
+        this.formAdicional.get('selectedOptionsIds').updateValueAndValidity();
         break;
       case '002' :
-        this.itemsSelecteds = this.sedes;
-        this.heroForm.controls.selectedCitiesIds.setValue([]);
+        this.itemsSelected = this.sedes;
+        this.formAdicional.get('selectedOptionsIds').setValidators([Validators.required]);
+        this.formAdicional.get('selectedOptionsIds').updateValueAndValidity();
+        break;
+      case '003' :
+        this.number = true;
+        this.formAdicional.get('valorInicial').setValidators([Validators.required]);
+        this.formAdicional.get('valorInicial').updateValueAndValidity();
         break;
       default:
-        this.itemsSelecteds = [];
-        this.heroForm.controls.selectedCitiesIds.setValue([]);
+        this.itemsSelected = [];
+        this.number = false;
+        this.formAdicional.controls.selectedOptionsIds.setValue([]);
+        this.formAdicional.get('listaCampos').setValidators([Validators.required]);
+        this.formAdicional.get('listaCampos').updateValueAndValidity();
     }
   }
+
+  cargarItems(event: any) {
+    this.number = false;
+    switch (event) {
+      case '001' :
+        this.itemsSelected = this.tipoCreditos;
+        break;
+      case '002' :
+        this.itemsSelected = this.sedes;
+        break;
+      case '003' :
+        this.number = true;
+        break;
+    }
+  }
+
+  convertObject(items: GrupoCampo[]) {
+    const seleced: Seleccionado = {};
+    seleced.selectedOptionsIds = [];
+    if (items.length == 1) {
+      items.forEach(v => {
+        seleced.listaCampos = v.codCampo;
+        seleced.valorInicial = v.desde;
+        seleced.valorFinal = v.hasta;
+      });
+    } else {
+      items.forEach(v => {
+        seleced.listaCampos = v.codCampo;
+        seleced.selectedOptionsIds.push(v.valor);
+      });
+    }
+    return seleced;
+  }
+
+  reverseConvertObject(seleccionado: Seleccionado) {
+    const items: GrupoCampo[] = [];
+    if (seleccionado.selectedOptionsIds.length > 0) {
+
+      seleccionado.selectedOptionsIds.forEach(v => {
+        items.push({
+          codCartera: this.cartera.codCartera,
+          codCampo: seleccionado.listaCampos,
+          valor: v,
+          desde: null,
+          hasta: null,
+          codGrupCampo: null
+        });
+      });
+    } else {
+      items.push({
+        codCartera: this.cartera.codCartera,
+        codCampo: seleccionado.listaCampos,
+        desde: seleccionado.valorInicial,
+        hasta: seleccionado.valorFinal,
+        codGrupCampo: null,
+        valor: null
+      });
+    }
+
+    return items;
+  }
 }
+

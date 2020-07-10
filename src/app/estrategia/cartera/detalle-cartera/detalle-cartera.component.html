@@ -182,30 +182,46 @@
                   </ngb-panel>
                   <ngb-panel id="static-2">
                     <ng-template ngbPanelTitle>
-                      <span>Configuración Adicional</span>
+                      <span>Agrupar por campo</span>
                     </ng-template>
                     <ng-template ngbPanelContent >
-                     <div class="row" [formGroup]="heroForm">
-                       <div class="col-6">
-                         <select #selected class="form-control" (change)="seleccionarTipo($event)">
-                           <option>Seleccione</option>
-                           <option value="001">tipo Créditos</option>
-                           <option value="002">Sedes</option>
-                           <option value="003">Montos</option>
-                         </select>
+                     <div class="row" [formGroup]="formAdicional">
+                       <div class="col-12 col-md-6">
+                         <div class="form-group">
+                           <select formControlName="listaCampos" class="form-control" (change)="seleccionarTipo($event)">
+                             <option value="">Seleccione</option>
+                             <option value="001">tipo Créditos</option>
+                             <option value="002">Sedes</option>
+                             <option value="003">Montos</option>
+                           </select>
+                         </div>
                        </div>
-                       <div class="col-6" *ngIf="itemsSelecteds.length > 0">
+                       <div class="col-12 col-md-6" *ngIf="itemsSelected.length > 0">
                          <div class="form-group">
                              <ng-select
-                                        [items]="itemsSelecteds"
+                                        [items]="itemsSelected"
                                         bindLabel="name"
                                         bindValue="id"
                                         labelForId="state"
                                         [multiple]="true"
                                         [placeholder]="placeholderSelect"
                                         clearAllText="Clear"
-                                        formControlName="selectedCitiesIds">
+                                        formControlName="selectedOptionsIds">
                              </ng-select>
+                         </div>
+                       </div>
+                       <div class="col-12 col-md-6" *ngIf="number">
+                         <div class="row">
+                           <div class="col-12 col-md-6">
+                             <div class="form-group">
+                               <input CustomizeCurrency type="text" class="form-control" placeholder="00000" formControlName="valorInicial">
+                             </div>
+                           </div>
+                           <div class="col-12 col-md-6">
+                             <div class="form-group">
+                               <input CustomizeCurrency type="text" class="form-control" placeholder="00000" formControlName="valorFinal">
+                             </div>
+                           </div>
                          </div>
                        </div>
                      </div>
@@ -248,7 +264,7 @@
               </div>
               <div class="col-md-12 mt-4">
                 <div class="form-group">
-                  <button class="btn btn-lg btn-outline-info" [disabled]="formulario.invalid" (click)="guardar()">Guardar</button>
+                  <button class="btn btn-lg btn-outline-info" [disabled]="formulario.invalid || formAdicional.invalid" (click)="guardar()">Guardar</button>
                 </div>
               </div>
             </div>
