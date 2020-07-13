@@ -55,4 +55,12 @@ export class CarteraService {
   crearCartera(data: any): Observable<Respuesta> {
     return this.http.post<Respuesta>(`${this.apiUrl}guardar`, data);
   }
+
+  cambiarEstado(codCartera: string, estado: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}cambiarEstado`, {}, {params: new HttpParams().set('codCartera', codCartera).set('estado', estado)});
+  }
+
+  getCarterasActivas(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}getCarterasActivas`);
+  }
 }

@@ -29,7 +29,9 @@
                 <td>{{ item.estado == '1' ? 'Activo' : 'Inactivo' }}</td>
                 <td>
                   <div class="btn-group">
-                    <button class="btn btn-sm btn-primary" (click)="showDetails(item)"><i class="fa fa-eye"></i></button>
+                    <button class="btn btn-sm btn-primary mr-2" (click)="showDetails(item)"><i class="fa fa-eye"></i></button>
+                    <button *ngIf="item.estado == '1'" class="btn btn-sm btn-danger" (click)="cambiarEstado(item, '1')"><i class="fa fa-trash"></i></button>
+                    <button *ngIf="item.estado == '0'" class="btn btn-sm btn-success" (click)="cambiarEstado(item, '0')"><i class="fa fa-check"></i></button>
                   </div>
                 </td>
               </tr>

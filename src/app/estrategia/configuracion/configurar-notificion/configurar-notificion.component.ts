@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core'; 
-import { NotificacionService } from '../../../servicios/estrategia/notificacion.service';
-import { CarteraService } from '../../../servicios/estrategia/cartera.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-import { CrearEtapaNotificionComponent } from '../crear-etapa-notificion/crear-etapa-notificion.component';
-import { isNullOrUndefined } from 'util';
+import {Component, OnInit} from '@angular/core';
+import {NotificacionService} from '../../../servicios/estrategia/notificacion.service';
+import {CarteraService} from '../../../servicios/estrategia/cartera.service';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {NgxSpinnerService} from 'ngx-spinner';
+import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
+import {CrearEtapaNotificionComponent} from '../crear-etapa-notificion/crear-etapa-notificion.component';
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-configurar-notificion',
@@ -29,7 +29,7 @@ export class ConfigurarNotificionComponent implements OnInit {
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
     public modalService: NgbModal
-  ) { 
+  ) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -44,7 +44,7 @@ export class ConfigurarNotificionComponent implements OnInit {
     });
   }
 
- listarNotificaciones() {
+  listarNotificaciones() {
     this.notificacionService.listar().subscribe(
       response => {
         this.notificaciones = response;
@@ -54,9 +54,9 @@ export class ConfigurarNotificionComponent implements OnInit {
 
   listarCartera() {
     this.spinner.show();
-    this.carteraService.activas().subscribe(
-      response => { 
-        this.carteras = response;
+    this.carteraService.getCarterasActivas().subscribe(
+      response => {
+        this.carteras = response.objeto;
         this.spinner.hide();
       }
     );
@@ -137,9 +137,9 @@ export class ConfigurarNotificionComponent implements OnInit {
     const codEtapa = this.formulario.controls.codEtapa.value;
     const etapaSelect: any = this.etapas.find(i => i.codEtapa == codEtapa);
     let c = 0;
-    for (let i = etapaSelect.desde; i <= etapaSelect.hasta ; i++) {
-        c++;
-        this.rangos.push(c);
+    for (let i = etapaSelect.desde; i <= etapaSelect.hasta; i++) {
+      c++;
+      this.rangos.push(c);
     }
   }
 }

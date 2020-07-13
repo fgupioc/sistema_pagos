@@ -6,6 +6,7 @@ import {ToastrService} from 'ngx-toastr';
 import {MaestroService} from '../../../servicios/sistema/maestro.service';
 import {Cartera} from '../../../interfaces/cartera';
 import {isNullOrUndefined} from 'util';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-listar-cartera',
@@ -48,5 +49,39 @@ export class ListarCarteraComponent implements OnInit {
     if (!isNullOrUndefined(item)) {
       this.router.navigateByUrl('/auth/estrategia/carteras/detalle', {state: {cartera: item}});
     }
+  }
+
+  cambiarEstado(item: Cartera, estado: string) {
+    const text = (estado == '1') ? 'Desactiv' : 'Activ';
+    Swal.fire({
+      title: text + 'ar Cartera?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, ' + text + 'ar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        this.spinner.show();
+        this.carteraService.cambiarEstado(String(item.codCartera),  (estado == '1') ? '0' : '1').subscribe(
+          res => {
+            if (res.exito) {
+              item.estado = (estado == '1') ? '0' : '1';
+              Swal.fire(
+                '',
+                'La Cartera se ' + text + 'ó con exito.',
+                'success'
+              );
+            } else {
+              Swal.fire(
+                '',
+                res.mensaje,
+                'error'
+              );
+            }
+            this.spinner.hide();
+          }
+        );
+      }
+    });
   }
 }
