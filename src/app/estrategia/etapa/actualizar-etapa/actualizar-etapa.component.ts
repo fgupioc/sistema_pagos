@@ -52,9 +52,6 @@ export class ActualizarEtapaComponent implements OnInit {
     if (!this.create) {
         this.formEtapa.setValue(this.etapas[this.index]);
     }
-
-    console.log(this.gestion);
-    console.log(this.etapas);
   }
 
   guardar() {

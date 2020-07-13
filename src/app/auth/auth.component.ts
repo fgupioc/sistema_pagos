@@ -29,7 +29,6 @@ export class AuthComponent implements OnInit, OnDestroy {
       attributes: true,
       attributeFilter: ['class']
     });
-    console.log(this.authService.loggedUser);
     // this.username = this.authService.loggedUser.persona.primerApellido + ' ' + this.authService.loggedUser.persona.segundoApellido;
     this.username = this.authService.loggedUser.alias;
   }

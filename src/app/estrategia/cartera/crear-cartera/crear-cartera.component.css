@@ -811,3 +811,7 @@ h5+.btn-round {
         margin: 1rem 0;
     }
 }
+
+.accordion > .card {
+  overflow: inherit;
+}

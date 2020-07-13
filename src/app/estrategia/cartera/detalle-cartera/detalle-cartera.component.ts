@@ -116,7 +116,6 @@ export class DetalleCarteraComponent implements OnInit {
       valorFinal: [''],
     });
     if (this.cartera) {
-      console.log(this.cartera);
       if (this.cartera.campos.length > 0) {
         const items = this.convertObject(this.cartera.campos);
         this.formAdicional.controls.listaCampos.setValue(items.listaCampos);
@@ -193,7 +192,8 @@ export class DetalleCarteraComponent implements OnInit {
   }
 
   guardar() {
-    if (this.formulario.invalid) {
+
+    if (this.formulario.invalid || this.formAdicional.invalid) {
       Swal.fire('Cartera', 'Debe ingresar los datos necesario.', 'error');
       return;
     }
