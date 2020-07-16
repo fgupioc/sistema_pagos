@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NotificacionService } from '../../../servicios/estrategia/notificacion.service';
-import { NgxSpinnerService } from 'ngx-spinner';
+import {Component, OnInit} from '@angular/core';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {NotificacionService} from '../../../servicios/estrategia/notificacion.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 import Swal from 'sweetalert2';
-import { ToastrService } from 'ngx-toastr';
-import { ReturnStatement } from '@angular/compiler';
+import {ToastrService} from 'ngx-toastr';
+import {ReturnStatement} from '@angular/compiler';
+import {Cartera} from '../../../interfaces/cartera';
+
 declare const $: any;
 
 @Component({
@@ -14,6 +16,7 @@ declare const $: any;
   styleUrls: ['./crear-etapa-notificion.component.css']
 })
 export class CrearEtapaNotificionComponent implements OnInit {
+  cartera: Cartera;
   form: FormGroup;
   notificaciones: any[] = [];
   obj: any;
@@ -29,12 +32,10 @@ export class CrearEtapaNotificionComponent implements OnInit {
     private notificacionService: NotificacionService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
-    for (let i = 7; i <= 20 ; i++) {
-      this.horas.push(i);
-    }
     this.form = this.formBuilder.group({
       codTipoNotificacion: ['', Validators.required],
       codEnvio: [''],
@@ -46,26 +47,33 @@ export class CrearEtapaNotificionComponent implements OnInit {
       titulo: [''],
     });
 
-    if (!this.create) {
-      this.form.controls.codTipoNotificacion.setValue(this.obj.codTipoNotificacion);
-      this.form.controls.mensaje.setValue(this.obj.mensaje);
-      this.form.controls.dias.setValue(this.obj.dias);
-      this.form.controls.nombre.setValue(this.obj.nombre);
-      this.form.controls.hora.setValue(this.obj.hora);
-      const dias = this.obj.dias.split(',');
-      dias.forEach( v => {
-        if (!isNaN(v)) {
-          this.dias.push(Number(v));
-        }
-      });
-      const item = this.notificaciones.find(v => v.codTipoNotificacion == this.obj.codTipoNotificacion);
-      if (item) {
-        this.max = item.limiteCaracteres;
-      } else {
-        this.max = 0;
+    if (this.cartera) {
+
+      for (let i = this.cartera.horaInicio; i <= this.cartera.horaFin; i++) {
+        this.horas.push(i);
       }
-      this.form.get('mensaje').setValidators([Validators.required, Validators.maxLength(this.max)]);
-      this.form.get('mensaje').updateValueAndValidity();
+
+      if (!this.create) {
+        this.form.controls.codTipoNotificacion.setValue(this.obj.codTipoNotificacion);
+        this.form.controls.mensaje.setValue(this.obj.mensaje);
+        this.form.controls.dias.setValue(this.obj.dias);
+        this.form.controls.nombre.setValue(this.obj.nombre);
+        this.form.controls.hora.setValue(this.obj.hora);
+        const dias = this.obj.dias.split(',');
+        dias.forEach(v => {
+          if (!isNaN(v)) {
+            this.dias.push(Number(v));
+          }
+        });
+        const item = this.notificaciones.find(v => v.codTipoNotificacion == this.obj.codTipoNotificacion);
+        if (item) {
+          this.max = item.limiteCaracteres;
+        } else {
+          this.max = 0;
+        }
+        this.form.get('mensaje').setValidators([Validators.required, Validators.maxLength(this.max)]);
+        this.form.get('mensaje').updateValueAndValidity();
+      }
     }
   }
 
@@ -83,7 +91,7 @@ export class CrearEtapaNotificionComponent implements OnInit {
       this.spinner.show();
       this.notificacionService.guardarNotificacionEtapa(this.obj).subscribe(
         response => {
-          if (response.exito) { 
+          if (response.exito) {
             this.activeModal.dismiss({flag: true});
             return;
           }

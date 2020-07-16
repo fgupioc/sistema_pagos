@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CarteraService } from '../../../servicios/estrategia/cartera.service';
-import { NotificacionService } from '../../../servicios/estrategia/notificacion.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { CrearEtapaNotificionComponent } from '../crear-etapa-notificion/crear-etapa-notificion.component';
-import { isNullOrUndefined } from 'util';
+import {Component, OnInit} from '@angular/core';
+import {NgbModalConfig, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CarteraService} from '../../../servicios/estrategia/cartera.service';
+import {NotificacionService} from '../../../servicios/estrategia/notificacion.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {NgxSpinnerService} from 'ngx-spinner';
+import {CrearEtapaNotificionComponent} from '../crear-etapa-notificion/crear-etapa-notificion.component';
+import {isNullOrUndefined} from 'util';
+
 declare var $: any;
 
 @Component({
@@ -31,8 +32,8 @@ export class EnviarNotificionComponent implements OnInit {
     public modalService: NgbModal
   ) {
     config.backdrop = 'static',
-    config.keyboard = false;
-   }
+      config.keyboard = false;
+  }
 
   ngOnInit() {
     this.listarCartera();
@@ -41,6 +42,7 @@ export class EnviarNotificionComponent implements OnInit {
       codCartera: ['', Validators.required]
     });
   }
+
   listarNotificaciones() {
     this.notificacionService.listar().subscribe(
       response => {
@@ -129,7 +131,7 @@ export class EnviarNotificionComponent implements OnInit {
         }
       });
     });
-    return dias.sort( (a, b) => {
+    return dias.sort((a, b) => {
       return (a.dia - b.dia);
     });
   }
@@ -140,22 +142,22 @@ export class EnviarNotificionComponent implements OnInit {
       case 1 :
         i = 'uno';
         break;
-        case 2 :
+      case 2 :
         i = 'dos';
         break;
-        case 3 :
+      case 3 :
         i = 'tres';
         break;
-        case 4 :
+      case 4 :
         i = 'cuatro';
         break;
-        case 5 :
+      case 5 :
         i = 'cinco';
         break;
-        case 6 :
+      case 6 :
         i = 'seis';
         break;
-        case 7 :
+      case 7 :
         i = 'siete';
         break;
     }
@@ -187,26 +189,26 @@ export class EnviarNotificionComponent implements OnInit {
   generarRango(etapa) {
     this.rangos = [];
     let c = 0;
-    for (let i = etapa.desde; i <= etapa.hasta ; i++) {
-        c++;
-        this.rangos.push(c);
+    for (let i = etapa.desde; i <= etapa.hasta; i++) {
+      c++;
+      this.rangos.push(c);
     }
   }
+
   generateRange(etapa) {
     const rangos = [];
     let c = 0;
-    for (let i = etapa.desde; i <= etapa.hasta ; i++) {
-        c++;
-        rangos.push(c);
+    for (let i = etapa.desde; i <= etapa.hasta; i++) {
+      c++;
+      rangos.push(c);
     }
     return rangos;
   }
 
   showMensaje(gestion, item, noti, day) {
     this.spinner.show();
-    this.notificacionService.buscarNotificacionEtapa( gestion.codGestion, item.codEtapa, noti, day.dia).subscribe(
+    this.notificacionService.buscarNotificacionEtapa(gestion.codGestion, item.codEtapa, noti, day.dia).subscribe(
       response => {
-        console.log(response);
         const modal = this.modalService.open(CrearEtapaNotificionComponent, {size: 'lg', scrollable: true});
         modal.result.then(
           this.closeModal.bind(this),

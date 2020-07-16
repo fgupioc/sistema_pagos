@@ -6,6 +6,7 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
 import {CrearEtapaNotificionComponent} from '../crear-etapa-notificion/crear-etapa-notificion.component';
 import {isNullOrUndefined} from 'util';
+import {Cartera} from '../../../interfaces/cartera';
 
 @Component({
   selector: 'app-configurar-notificion',
@@ -14,7 +15,7 @@ import {isNullOrUndefined} from 'util';
 })
 export class ConfigurarNotificionComponent implements OnInit {
   formulario: FormGroup;
-
+  cartera: Cartera;
   carteras: any[] = [];
   gestiones: any[] = [];
   etapas: any[] = [];
@@ -64,13 +65,15 @@ export class ConfigurarNotificionComponent implements OnInit {
 
   cambioCartera() {
     this.mensajes = [];
+    this.formulario.controls.codEtapa.setValue('');
+    this.formulario.controls.codGestion.setValue('');
     this.spinner.show();
     const codCartera = this.formulario.controls.codCartera.value;
+    this.cartera = this.carteras.find(v => v.codCartera == codCartera);
     this.carteraService.getGestiones(codCartera).subscribe(
       response => {
         if (response.exito) {
           this.gestiones = response.objeto;
-          console.log(response.objeto);
         }
         this.spinner.hide();
       }
@@ -81,7 +84,10 @@ export class ConfigurarNotificionComponent implements OnInit {
     this.mensajes = [];
     const codGestion = this.formulario.controls.codGestion.value;
     const gestion = this.gestiones.find(v => v.codGestion == codGestion);
-    this.etapas = gestion.etapas ? gestion.etapas : [];
+    if (gestion) {
+      this.etapas = gestion.etapas ? gestion.etapas : [];
+    }
+    this.formulario.controls.codEtapa.setValue('');
   }
 
   cambioEtapa() {
@@ -109,6 +115,7 @@ export class ConfigurarNotificionComponent implements OnInit {
       this.closeModal.bind(this),
       this.closeModal.bind(this)
     );
+    modal.componentInstance.cartera = this.cartera;
     modal.componentInstance.notificaciones = this.notificaciones;
     modal.componentInstance.obj = this.formulario.getRawValue();
     modal.componentInstance.rangos = this.rangos;
@@ -136,10 +143,12 @@ export class ConfigurarNotificionComponent implements OnInit {
     this.rangos = [];
     const codEtapa = this.formulario.controls.codEtapa.value;
     const etapaSelect: any = this.etapas.find(i => i.codEtapa == codEtapa);
-    let c = 0;
-    for (let i = etapaSelect.desde; i <= etapaSelect.hasta; i++) {
-      c++;
-      this.rangos.push(c);
+    if (etapaSelect) {
+      let c = 0;
+      for (let i = etapaSelect.desde; i <= etapaSelect.hasta; i++) {
+        c++;
+        this.rangos.push(c);
+      }
     }
   }
 }
