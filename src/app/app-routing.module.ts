@@ -56,6 +56,7 @@ const routes: Routes = [
                 {path: 'editar-gestion', component: ActualizarGestionComponent}
               ]
             },
+            {path: 'notificaciones', component: EnviarNotificionComponent}
           ]
         },
         {
@@ -65,7 +66,7 @@ const routes: Routes = [
               path: 'notificacion',
               children: [
                 {path: '', component: ConfigurarNotificionComponent},
-                {path: 'enviar', component: EnviarNotificionComponent}
+                {path: 'enviar', component: EnviarNotificionComponent, data: {send: true}}
               ]
             },
           ]

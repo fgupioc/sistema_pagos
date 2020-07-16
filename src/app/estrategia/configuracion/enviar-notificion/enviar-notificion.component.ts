@@ -6,6 +6,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {CrearEtapaNotificionComponent} from '../crear-etapa-notificion/crear-etapa-notificion.component';
 import {isNullOrUndefined} from 'util';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Cartera} from '../../../interfaces/cartera';
 
 declare var $: any;
 
@@ -15,8 +17,10 @@ declare var $: any;
   styleUrls: ['./enviar-notificion.component.css']
 })
 export class EnviarNotificionComponent implements OnInit {
+  send = false;
+  cartera: Cartera;
   formulario: FormGroup;
-  carteras: any[] = [];
+  carteras: Cartera[] = [];
   gestiones: any[] = [];
   etapas: any[] = [];
   notificaciones: any[] = [];
@@ -29,10 +33,12 @@ export class EnviarNotificionComponent implements OnInit {
     private notificacionService: NotificacionService,
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
-    public modalService: NgbModal
+    public modalService: NgbModal,
+    public route: ActivatedRoute
   ) {
-    config.backdrop = 'static',
-      config.keyboard = false;
+    config.backdrop = 'static';
+    config.keyboard = false;
+    this.send = route.snapshot.data.send || false;
   }
 
   ngOnInit() {
@@ -53,9 +59,9 @@ export class EnviarNotificionComponent implements OnInit {
 
   listarCartera() {
     this.spinner.show();
-    this.carteraService.activas().subscribe(
-      response => {
-        this.carteras = response;
+    this.carteraService.getCarterasActivas().subscribe(
+      ({objeto}) => {
+        this.carteras = objeto;
         this.spinner.hide();
       }
     );
@@ -64,6 +70,7 @@ export class EnviarNotificionComponent implements OnInit {
   cambioCartera() {
     this.spinner.show();
     const codCartera = this.formulario.controls.codCartera.value;
+    this.cartera = this.carteras.find(v => v.codCartera == codCartera);
     this.carteraService.getGestiones(codCartera).subscribe(
       response => {
         if (response.exito) {
@@ -178,6 +185,8 @@ export class EnviarNotificionComponent implements OnInit {
       codEtapa: etapa.codEtapa,
     };
     modal.componentInstance.rangos = this.rangos;
+    modal.componentInstance.send = this.send;
+    modal.componentInstance.cartera = this.cartera;
   }
 
   closeModal(data) {
@@ -208,16 +217,19 @@ export class EnviarNotificionComponent implements OnInit {
   showMensaje(gestion, item, noti, day) {
     this.spinner.show();
     this.notificacionService.buscarNotificacionEtapa(gestion.codGestion, item.codEtapa, noti, day.dia).subscribe(
-      response => {
+      res => {
         const modal = this.modalService.open(CrearEtapaNotificionComponent, {size: 'lg', scrollable: true});
         modal.result.then(
           this.closeModal.bind(this),
           this.closeModal.bind(this)
         );
+        console.log(res);
         modal.componentInstance.notificaciones = this.notificaciones;
-        modal.componentInstance.obj = response;
+        modal.componentInstance.obj = res;
         modal.componentInstance.create = false;
         modal.componentInstance.rangos = this.generateRange(item);
+        modal.componentInstance.send = this.send;
+        modal.componentInstance.cartera = this.cartera;
         this.spinner.hide();
       }
     );

@@ -25,6 +25,7 @@ export class CrearEtapaNotificionComponent implements OnInit {
   dias: any[] = [];
   max = 0;
   horas: any[] = [];
+  send: boolean;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -46,9 +47,8 @@ export class CrearEtapaNotificionComponent implements OnInit {
       nombre: ['', Validators.required],
       titulo: [''],
     });
-
+    
     if (this.cartera) {
-
       for (let i = this.cartera.horaInicio; i <= this.cartera.horaFin; i++) {
         this.horas.push(i);
       }
@@ -89,7 +89,7 @@ export class CrearEtapaNotificionComponent implements OnInit {
     this.obj.dias = this.dias.toString();
     if (this.create) {
       this.spinner.show();
-      this.notificacionService.guardarNotificacionEtapa(this.obj).subscribe(
+      this.notificacionService.guardarNotificacionEtapa(this.obj, this.send).subscribe(
         response => {
           if (response.exito) {
             this.activeModal.dismiss({flag: true});
@@ -99,7 +99,7 @@ export class CrearEtapaNotificionComponent implements OnInit {
       );
     } else {
       this.spinner.show();
-      this.notificacionService.actualizarNotificacionEtapa(this.obj).subscribe(
+      this.notificacionService.actualizarNotificacionEtapa(this.obj, this.send).subscribe(
         response => {
           if (response.exito) {
             this.activeModal.dismiss({flag: true});

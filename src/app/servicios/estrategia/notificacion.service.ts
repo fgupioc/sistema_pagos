@@ -18,12 +18,12 @@ export class NotificacionService {
     return this.http.get<any[]>(`${this.apiUrl}listar`);
   }
 
-  guardarNotificacionEtapa(data: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}crear-notificacion-etapa`, data);
+  guardarNotificacionEtapa(data: any, send: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}crear-notificacion-etapa`, data, {params: new HttpParams().set('send', send)});
   }
 
-  actualizarNotificacionEtapa(data: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}actualizar-notificacion-etapa`, data);
+  actualizarNotificacionEtapa(data: any, send: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}actualizar-notificacion-etapa`, data, {params: new HttpParams().set('send', send)});
   }
 
   getNotificacionesPorEtapa(codEtapa: any): Observable<any[]> {
