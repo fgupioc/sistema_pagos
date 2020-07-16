@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
         () => {
           this.spinner.hide();
           this.loadingSubject.next(false);
-          this.router.navigate(['auth/dashboard']);
+          this.router.navigateByUrl('auth/dashboard');
         },
         error => {
           this.spinner.hide();
