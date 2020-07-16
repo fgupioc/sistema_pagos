@@ -28,7 +28,8 @@ const routes: Routes = [
   {path: 'restablecimiento-credenciales', component: ValidarPinComponent, canActivate: [GuestGuard]},
   {
     path: 'auth', children: [{
-      path: '', component: AuthComponent, children: [
+      path: '', component: AuthComponent,
+      children: [
         {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
         {
           path: 'mantenimiento',

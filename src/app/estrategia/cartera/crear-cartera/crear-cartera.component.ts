@@ -23,8 +23,6 @@ declare var $: any;
 export class CrearCarteraComponent implements OnInit {
   formulario: FormGroup;
   formAdicional: FormGroup;
-  // cartera: Cartera;
-  gestiones: any[] = [];
   monedas: any[] = [];
   monedasSeleccionadas: any[] = [];
 
@@ -33,6 +31,7 @@ export class CrearCarteraComponent implements OnInit {
   number = false;
   tipoCreditos: MultiSelect[] = [];
   sedes: MultiSelect[] = [];
+  mgsError: any;
 
   constructor(
     private router: Router,
@@ -307,5 +306,73 @@ export class CrearCarteraComponent implements OnInit {
     }
 
     return items;
+  }
+
+  changeInitHour(init: number, input: any) {
+    const end = Number(input.value || 0);
+    init = Number(init);
+    if (init < 0 || init > 24) {
+      this.formulario.controls.horaInicio.setErrors({incorrect: true});
+      this.mgsError = 'La hora de inicio no es una hora válida.';
+    }
+
+    if (end > 0 && init > end) {
+      this.formulario.controls.horaInicio.setErrors({incorrect: true});
+      this.mgsError = 'La hora de inicio no puede ser mayor a la hora fin.';
+    }
+
+    if (init == end) {
+      this.formulario.controls.horaInicio.setErrors({incorrect: true});
+      this.mgsError = 'La hora de inicio no puede ser igual a la hora fin.';
+    }
+  }
+
+  changeEndHour(end: number, input: any) {
+    const init = Number(input.value || 0);
+    end = Number(end);
+
+    if (end < 0 || end > 24) {
+      this.formulario.controls.horaFin.setErrors({incorrect: true});
+      this.mgsError = 'La hora fin no es una hora válida.';
+    }
+    if (init > 0 && end < init) {
+      this.formulario.controls.horaFin.setErrors({incorrect: true});
+      this.mgsError = 'La hora fin no puede ser menor a la hora de inicio.';
+    }
+
+    if (init == end) {
+      this.formulario.controls.horaFin.setErrors({incorrect: true});
+      this.mgsError = 'La hora fin no puede ser igual a la hora inicio.';
+    }
+  }
+
+  changeDesde(init: number, input: any) {
+    const end = Number(input.value || 0);
+    init = Number(init);
+
+    if (end > 0 && init > end) {
+      this.formulario.controls.compromisoDesde.setErrors({incorrect: true});
+      this.mgsError = 'La campo desde no puede ser mayor al campo hasta.';
+    }
+
+    if (init == end) {
+      this.formulario.controls.compromisoDesde.setErrors({incorrect: true});
+      this.mgsError = 'La campo desde no puede ser igual al campo hasta';
+    }
+  }
+
+  changeHasta(end: any, input: HTMLInputElement) {
+    const init = Number(input.value || 0);
+    end = Number(end);
+
+    if (init > 0 && end < init) {
+      this.formulario.controls.compromisoHasta.setErrors({incorrect: true});
+      this.mgsError = 'La campo hasta no puede ser mayor al campo desde';
+    }
+
+    if (init == end) {
+      this.formulario.controls.compromisoHasta.setErrors({incorrect: true});
+      this.mgsError = 'La campo hasta no puede ser igual al campo desde';
+    }
   }
 }
