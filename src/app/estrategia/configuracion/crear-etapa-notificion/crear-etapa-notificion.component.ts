@@ -47,7 +47,7 @@ export class CrearEtapaNotificionComponent implements OnInit {
       nombre: ['', Validators.required],
       titulo: [''],
     });
-    
+
     if (this.cartera) {
       for (let i = this.cartera.horaInicio; i <= this.cartera.horaFin; i++) {
         this.horas.push(i);
