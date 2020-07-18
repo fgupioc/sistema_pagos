@@ -47,6 +47,7 @@ export class CarteraCargarCreditoSociosComponent implements OnInit {
   }
 
   emails(socioId: number) {
+    this.spinner.show();
     const modal = this.modalService.open(SocioListEmailsComponent, {centered: true});
     modal.componentInstance.socioId = socioId;
   }

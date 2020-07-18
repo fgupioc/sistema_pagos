@@ -5,12 +5,15 @@ import {NgxSpinnerModule} from 'ngx-spinner';
 import {SocioListDireccionesComponent} from './socios/list-direcciones/list-direcciones.component';
 import {SocioListTelefonosComponent} from './socios/list-telefonos/list-telefonos.component';
 import {SocioListEmailsComponent} from './socios/list-emails/list-emails.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [LoadingComponent, SocioListDireccionesComponent, SocioListTelefonosComponent, SocioListEmailsComponent],
   imports: [
     CommonModule,
     NgxSpinnerModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [
