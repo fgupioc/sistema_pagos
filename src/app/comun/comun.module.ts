@@ -6,6 +6,7 @@ import {SocioListDireccionesComponent} from './socios/list-direcciones/list-dire
 import {SocioListTelefonosComponent} from './socios/list-telefonos/list-telefonos.component';
 import {SocioListEmailsComponent} from './socios/list-emails/list-emails.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MyPipesModule} from '../pipes/my-pipes.module';
 
 @NgModule({
   declarations: [LoadingComponent, SocioListDireccionesComponent, SocioListTelefonosComponent, SocioListEmailsComponent],
@@ -14,6 +15,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     NgxSpinnerModule,
     FormsModule,
     ReactiveFormsModule,
+    MyPipesModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [

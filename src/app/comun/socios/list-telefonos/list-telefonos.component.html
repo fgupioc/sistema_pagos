@@ -1,21 +1,108 @@
 <div class="modal-header">
   <h4 class="modal-title">Teléfonos </h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
 <div class="modal-body">
-  <table class="table table-responsive-sm table-bordered table-striped table-sm">
-    <thead>
-    <tr class="text-center">
-      <th>#</th>
-      <th>Número</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let o of telefonos; index as i; ">
-      <td class="text-center">{{ i + 1 }}</td>
-      <td class="text-center">{{ o.numero }}</td>
-    </tr>
-    </tbody>
-  </table>
+  <div class="row" [formGroup]="formulario">
+    <div class="col-12">
+      <div class="form-group">
+        <select class="form-control" formControlName="codTipoNotificacion" (ngModelChange)="cambioSelect()" [ngClass]="
+            {
+            'is-invalid': formulario.controls['codTipoNotificacion'].touched && formulario.controls['codTipoNotificacion'].errors
+            }
+            ">
+          <option value="">Seleccione Tipo Notificacion</option>
+          <option *ngFor="let item of notificaciones" [value]="item.codTipoNotificacion">{{ item.nombre }}</option>
+        </select>
+        <div class="invalid-feedback">
+          <span class="d-block" *ngIf="formulario.get('codTipoNotificacion').hasError('required')"> El tipo de notificacion es obligatorio.</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+     <div class="form-group">
+       <select class="form-control" formControlName="tipo" (ngModelChange)="changeType($event)">
+         <option [value]="$movil">Celular</option>
+         <option [value]="$fijo">Fijo</option>
+       </select>
+     </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group">
+        <select class="form-control" formControlName="operador" [ngClass]="
+            {
+            'is-invalid': formulario.controls['operador'].touched && formulario.controls['operador'].errors
+            }
+            ">
+          <option value="">Seleccionar</option>
+          <option value="1">Claro</option>
+          <option value="2">Movistar</option>
+          <option value="3">Entel</option>
+          <option value="4">Bitel</option>
+        </select>
+        <div class="invalid-feedback">
+          <span class="d-block" *ngIf="formulario.get('operador').hasError('required')"> El operador es obligatorio.</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-2" *ngIf="typePhone == $fijo">
+      <div class="form-group">
+        <input Number type="text" class="form-control" placeholder="codCiudad" formControlName="codCiudad" maxlength="3" [ngClass]="
+            {
+            'is-invalid': formulario.controls['codCiudad'].touched && formulario.controls['codCiudad'].errors
+            }
+            ">
+        <div class="invalid-feedback">
+          <span class="d-block" *ngIf="formulario.get('codCiudad').hasError('required')"> El código ciudad es obligatorio.</span>
+        </div>
+      </div>
+    </div>
+    <div [class]="typePhone == $movil ? 'col-6' : 'col-4'">
+      <div class="input-group mb-3">
+        <input Number type="text" class="form-control" placeholder="Número Telefóno" [maxlength]="max" formControlName="numero" [ngClass]="
+            {
+            'is-invalid': formulario.controls['numero'].touched && formulario.controls['numero'].errors
+            }
+            ">
+        <div class="input-group-prepend">
+          <button *ngIf="create" type="button" class="btn btn-success" [disabled]="formulario.invalid" (click)="guardar()"><i class="fa fa-plus"></i></button>
+          <button *ngIf="!create" type="button" class="btn btn-primary" [disabled]="formulario.invalid" (click)="actualizar()"><i class="fa fa-edit"></i></button>
+        </div>
+        <div class="invalid-feedback">
+          <span class="d-block" *ngIf="formulario.get('numero').hasError('required')"> El número de telefono es obligatorio.</span>
+          <span class="d-block" *ngIf="formulario.get('numero').hasError('minlength')"> El número solo acepta {{ max }} caracteres.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="form-group">
+        <table class="table table-responsive-sm table-bordered table-striped table-sm">
+          <thead>
+          <tr class="text-center">
+            <th>#</th>
+            <th>Notificación</th>
+            <th>Operador</th>
+            <th>Número</th>
+            <th>Opción</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of telefonos; index as i; ">
+            <td class="text-center">{{ i + 1 }}</td>
+            <td class="text-center">{{ item.tipoNotificacion }}</td>
+            <td class="text-center">{{ item.operadorDescripcion }}</td>
+            <td class="text-center">{{ item.codCiudad || '' }} {{ item.numero }}</td>
+            <td class="text-center"><button class="btn btn-sm btn-primary" (click)="update(item)"><i class="fa fa-edit"></i></button></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="modal-footer d-flex justify-content-center">
   <button type="button" class="btn btn-default" (click)="activeModal.close()">Cerrar</button>

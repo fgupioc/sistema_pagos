@@ -42,7 +42,8 @@ export class CarteraCargarCreditoSociosComponent implements OnInit {
   }
 
   telefonos(socioId: number) {
-    const modal = this.modalService.open(SocioListTelefonosComponent, {centered: true});
+    this.spinner.show();
+    const modal = this.modalService.open(SocioListTelefonosComponent, {centered: true, size: 'lg'});
     modal.componentInstance.socioId = socioId;
   }
 
