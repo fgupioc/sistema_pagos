@@ -78,6 +78,8 @@ export class SocioListTelefonosComponent implements OnInit {
       res => {
         if (res.exito) {
           this.toastr.success(res.mensaje);
+          this.formulario.reset();
+          this.formulario.controls.tipo.setValue(this.$movil);
           this.create = true;
         } else {
           this.toastr.error('Ocurrio un error.');
