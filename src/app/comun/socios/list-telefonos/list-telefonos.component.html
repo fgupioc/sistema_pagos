@@ -93,7 +93,7 @@
           <tbody>
           <tr *ngFor="let item of telefonos; index as i; ">
             <td class="text-center">{{ i + 1 }}</td>
-            <td class="text-center">{{ item.tipoNotificacion }}</td>
+            <td class="text-center"> {{ item.codTipoNotificacion }} {{ item.tipoNotificacion }}</td>
             <td class="text-center">{{ item.operadorDescripcion }}</td>
             <td class="text-center">{{ item.codCiudad || '' }} {{ item.numero }}</td>
             <td class="text-center"><button class="btn btn-sm btn-primary" (click)="update(item)"><i class="fa fa-edit"></i></button></td>

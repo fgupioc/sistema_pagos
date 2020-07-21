@@ -26,6 +26,7 @@ export class CrearEtapaNotificionComponent implements OnInit {
   max = 0;
   horas: any[] = [];
   send: boolean;
+  day: string;
 
   constructor(
     public activeModal: NgbActiveModal,

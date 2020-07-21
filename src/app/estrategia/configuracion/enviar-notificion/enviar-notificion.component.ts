@@ -230,6 +230,7 @@ export class EnviarNotificionComponent implements OnInit {
         modal.componentInstance.rangos = this.generateRange(item);
         modal.componentInstance.send = this.send;
         modal.componentInstance.cartera = this.cartera;
+        modal.componentInstance.day = day;
         this.spinner.hide();
       }
     );
