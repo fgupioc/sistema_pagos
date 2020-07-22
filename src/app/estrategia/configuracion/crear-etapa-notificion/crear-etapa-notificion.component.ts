@@ -25,7 +25,7 @@ export class CrearEtapaNotificionComponent implements OnInit {
   dias: any[] = [];
   max = 0;
   horas: any[] = [];
-  send: boolean;
+  send = false;
   day: string;
 
   constructor(

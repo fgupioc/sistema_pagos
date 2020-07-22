@@ -119,6 +119,7 @@ export class ConfigurarNotificionComponent implements OnInit {
     modal.componentInstance.notificaciones = this.notificaciones;
     modal.componentInstance.obj = this.formulario.getRawValue();
     modal.componentInstance.rangos = this.rangos;
+    modal.componentInstance.send = false;
   }
 
   actualizarNotificacion(item) {
@@ -127,10 +128,12 @@ export class ConfigurarNotificionComponent implements OnInit {
       this.closeModal.bind(this),
       this.closeModal.bind(this)
     );
+    modal.componentInstance.cartera = this.cartera;
     modal.componentInstance.notificaciones = this.notificaciones;
     modal.componentInstance.obj = item;
     modal.componentInstance.create = false;
     modal.componentInstance.rangos = this.rangos;
+    modal.componentInstance.send = false;
   }
 
   closeModal(data) {
