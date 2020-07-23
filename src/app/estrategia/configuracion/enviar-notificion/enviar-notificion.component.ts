@@ -117,6 +117,7 @@ export class EnviarNotificionComponent implements OnInit {
   }
 
   getDias(items: any[]) {
+    const array = ['uno', 'dos', 'tres', 'cuatro', 'cinco', ' seis', 'siete'];
     const dias: any[] = [];
     items.forEach(v => {
       const res = v.dias.split(',');
@@ -134,43 +135,43 @@ export class EnviarNotificionComponent implements OnInit {
             siete: v.codTipoNotificacion == '7' ? v.codTipoNotificacion : null,
           });
         } else {
-          item[this.getIndex(v.codTipoNotificacion)] = v.codTipoNotificacion;
+          item[array[v.codTipoNotificacion - 1]] = v.codTipoNotificacion;
         }
       });
     });
-    return dias.sort((a, b) => {
-      return (a.dia - b.dia);
-    });
+    return dias.sort((a, b) => (a.dia - b.dia));
   }
 
-  getIndex(index) {
-    let i;
-    switch (index) {
-      case 1 :
-        i = 'uno';
-        break;
-      case 2 :
-        i = 'dos';
-        break;
-      case 3 :
-        i = 'tres';
-        break;
-      case 4 :
-        i = 'cuatro';
-        break;
-      case 5 :
-        i = 'cinco';
-        break;
-      case 6 :
-        i = 'seis';
-        break;
-      case 7 :
-        i = 'siete';
-        break;
+  /*
+    getIndex(index) {
+
+      let i;
+      switch (index) {
+        case 1 :
+          i = 'uno';
+          break;
+        case 2 :
+          i = 'dos';
+          break;
+        case 3 :
+          i = 'tres';
+          break;
+        case 4 :
+          i = 'cuatro';
+          break;
+        case 5 :
+          i = 'cinco';
+          break;
+        case 6 :
+          i = 'seis';
+          break;
+        case 7 :
+          i = 'siete';
+          break;
+      }
+      return i;
     }
-    return i;
-  }
-
+  */
   nuevoMensaje(etapa) {
     const modal = this.modalService.open(CrearEtapaNotificionComponent, {size: 'lg', scrollable: true});
     modal.result.then(
