@@ -116,62 +116,15 @@ export class EnviarNotificionComponent implements OnInit {
     }
   }
 
-  getDias(items: any[]) {
-    const array = ['uno', 'dos', 'tres', 'cuatro', 'cinco', ' seis', 'siete'];
+  getDias(item: any) {
     const dias: any[] = [];
-    items.forEach(v => {
-      const res = v.dias.split(',');
-      res.forEach(c => {
-        const item = dias.find(i => i.dia == c);
-        if (!item) {
-          dias.push({
-            dia: Number(c),
-            uno: v.codTipoNotificacion == '1' ? v.codTipoNotificacion : null,
-            dos: v.codTipoNotificacion == '2' ? v.codTipoNotificacion : null,
-            tres: v.codTipoNotificacion == '3' ? v.codTipoNotificacion : null,
-            cuatro: v.codTipoNotificacion == '4' ? v.codTipoNotificacion : null,
-            cinco: v.codTipoNotificacion == '5' ? v.codTipoNotificacion : null,
-            seis: v.codTipoNotificacion == '6' ? v.codTipoNotificacion : null,
-            siete: v.codTipoNotificacion == '7' ? v.codTipoNotificacion : null,
-          });
-        } else {
-          item[array[v.codTipoNotificacion - 1]] = v.codTipoNotificacion;
-        }
-      });
-    });
-    return dias.sort((a, b) => (a.dia - b.dia));
+    let c = 1;
+    for (let i = item.desde; i <= item.hasta; i++) {
+      dias.push(c++);
+    }
+    return dias.sort((a, b) => (a - b));
   }
 
-  /*
-    getIndex(index) {
-
-      let i;
-      switch (index) {
-        case 1 :
-          i = 'uno';
-          break;
-        case 2 :
-          i = 'dos';
-          break;
-        case 3 :
-          i = 'tres';
-          break;
-        case 4 :
-          i = 'cuatro';
-          break;
-        case 5 :
-          i = 'cinco';
-          break;
-        case 6 :
-          i = 'seis';
-          break;
-        case 7 :
-          i = 'siete';
-          break;
-      }
-      return i;
-    }
-  */
   nuevoMensaje(etapa) {
     const modal = this.modalService.open(CrearEtapaNotificionComponent, {size: 'lg', scrollable: true});
     modal.result.then(
@@ -224,7 +177,6 @@ export class EnviarNotificionComponent implements OnInit {
           this.closeModal.bind(this),
           this.closeModal.bind(this)
         );
-        console.log(res);
         modal.componentInstance.notificaciones = this.notificaciones;
         modal.componentInstance.obj = res;
         modal.componentInstance.create = false;
@@ -235,5 +187,23 @@ export class EnviarNotificionComponent implements OnInit {
         this.spinner.hide();
       }
     );
+  }
+
+  showNotify(item: any, day: any, noty: any) {
+    if (item.codTipoNotificacion == noty.codTipoNotificacion) {
+      return item.dias.includes(day);
+    }
+    return false;
+  }
+
+  showRow(item: any, day: any) {
+    let flag = false;
+    item.notificacionEtapas.forEach(v => {
+      const days = v.dias.split(',').map(x => Number(x));
+      if (days.includes(day) && item.codEtapa == v.codEtapa) {
+        flag = true;
+      }
+    });
+    return flag;
   }
 }
