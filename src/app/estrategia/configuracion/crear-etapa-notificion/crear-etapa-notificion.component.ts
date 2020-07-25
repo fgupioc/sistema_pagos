@@ -100,7 +100,7 @@ export class CrearEtapaNotificionComponent implements OnInit {
       );
     } else {
       this.spinner.show();
-      this.notificacionService.actualizarNotificacionEtapa(this.obj, this.send).subscribe(
+      this.notificacionService.actualizarNotificacionEtapa(this.obj, this.send, this.day).subscribe(
         response => {
           if (response.exito) {
             this.activeModal.dismiss({flag: true});
