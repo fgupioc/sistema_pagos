@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,9 @@ export class NotificacionService {
   }
 
   listar(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}listar`);
+    return this.http.get<any[]>(`${this.apiUrl}listar`).pipe(
+      map(res => res.filter(v => v.estado != '0'))
+    );
   }
 
   guardarNotificacionEtapa(data: any, send: any): Observable<any> {

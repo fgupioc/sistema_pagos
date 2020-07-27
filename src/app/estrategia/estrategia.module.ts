@@ -21,6 +21,8 @@ import {SocioListEmailsComponent} from '../comun/socios/list-emails/list-emails.
 import { ListarCarteraComponent } from './cartera/listar-cartera/listar-cartera.component';
 import { DetalleCarteraComponent } from './cartera/detalle-cartera/detalle-cartera.component';
 import {NgSelectModule} from '@ng-select/ng-select';
+import { TipoNotificacionComponent } from './config/tipo-notificacion/tipo-notificacion.component';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -35,19 +37,21 @@ import {NgSelectModule} from '@ng-select/ng-select';
     CarteraCargarCreditoSociosComponent,
     CarteraCargarCreditoCreditosComponent,
     ListarCarteraComponent,
-    DetalleCarteraComponent
+    DetalleCarteraComponent,
+    TipoNotificacionComponent
   ],
-  imports: [
-    CommonModule,
-    ComunModule,
-    NgbModule,
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MyPipesModule,
-    RouterModule,
-    NgSelectModule
-  ],
+    imports: [
+        CommonModule,
+        ComunModule,
+        NgbModule,
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MyPipesModule,
+        RouterModule,
+        NgSelectModule,
+        NgxSpinnerModule
+    ],
   exports: [
     CrearCarteraComponent,
     ActualizarGestionComponent,

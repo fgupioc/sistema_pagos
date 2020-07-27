@@ -21,6 +21,7 @@ import {AuthGuard} from './guard/auth.guard';
 import {ValidarPinComponent} from './publico/validar-pin/validar-pin.component';
 import {DetalleCarteraComponent} from './estrategia/cartera/detalle-cartera/detalle-cartera.component';
 import {ListarCarteraComponent} from './estrategia/cartera/listar-cartera/listar-cartera.component';
+import {TipoNotificacionComponent} from './estrategia/config/tipo-notificacion/tipo-notificacion.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -69,6 +70,7 @@ const routes: Routes = [
                 {path: 'enviar', component: EnviarNotificionComponent, data: {send: true}}
               ]
             },
+            {path: 'tipo-notificacion', component: TipoNotificacionComponent}
           ]
         },
         {
