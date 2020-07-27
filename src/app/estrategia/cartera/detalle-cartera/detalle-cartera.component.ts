@@ -108,6 +108,7 @@ export class DetalleCarteraComponent implements OnInit {
       userUpdate: [{value: '', disabled: true}],
       estado: [{value: '', disabled: true}],
       campos: [],
+      gestiones: []
     });
     this.formAdicional = this.formBuilder.group({
       listaCampos: ['', [Validators.required]],
