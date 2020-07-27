@@ -1,17 +1,17 @@
 <div class="card">
   <div class="card-body">
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 mb-4">
         <div class="row" [formGroup]="form">
           <div class="col-12">
             <h3>Información de Notificación</h3>
           </div>
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <div class="form-group">
               <input Uppercase type="text" class="form-control" placeholder="nombre de la notificación" formControlName="nombre">
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <div class="input-group">
               <input Number type="text" class="form-control" placeholder="número de caracteres" formControlName="limiteCaracteres">
               <div class="input-group-btn ml-2">
@@ -23,30 +23,32 @@
         </div>
       </div>
       <div class="col-12">
-        <table class="table table-bordered">
-          <thead>
-          <tr class="text-center">
-            <th scope="col" width="50px">#</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Limite</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Opciones</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let item of notificaciones; let i = index" class="text-center">
-            <th scope="row">{{ i + 1 }}</th>
-            <td>{{ item.nombre }}</td>
-            <td>{{ item.limiteCaracteres }}</td>
-            <td>{{ item.estado  == '1' ? 'Activo' : 'Desactivado' }}</td>
-            <td>
-              <button class="btn btn-sm btn-primary mr-2" (click)="edit(item)"><i class="fa fa-edit"></i></button>
-              <button *ngIf="item.estado == '1'" class="btn btn-sm btn-danger" (click)="actualizarEstado(item, 0)"><i class="fa fa-trash"></i></button>
-              <button *ngIf="item.estado == '0'" class="btn btn-sm btn-success" (click)="actualizarEstado(item, 1)"><i class="fa fa-check"></i></button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+            <tr class="text-center">
+              <th scope="col" width="50px">#</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Limite</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Opciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of notificaciones; let i = index" class="text-center">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ item.nombre }}</td>
+              <td>{{ item.limiteCaracteres }}</td>
+              <td>{{ item.estado == '1' ? 'Activo' : 'Desactivado' }}</td>
+              <td>
+                <button class="btn btn-sm btn-primary mr-2" (click)="edit(item)"><i class="fa fa-edit"></i></button>
+                <button *ngIf="item.estado == '1'" class="btn btn-sm btn-danger" (click)="actualizarEstado(item, 0)"><i class="fa fa-trash"></i></button>
+                <button *ngIf="item.estado == '0'" class="btn btn-sm btn-success" (click)="actualizarEstado(item, 1)"><i class="fa fa-check"></i></button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
