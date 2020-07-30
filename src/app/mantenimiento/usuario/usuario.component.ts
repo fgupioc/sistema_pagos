@@ -57,7 +57,7 @@ export class UsuarioComponent implements OnInit {
   }
 
   editar(usuarioId: number) {
-    this.router.navigateByUrl('/auth/mantenimiento/usuario/editar', {state: {usuarioId: usuarioId}});
+    this.router.navigateByUrl('/auth/mantenimiento/usuario/editar', {state: {usuarioId}});
   }
 
 

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -69,8 +69,7 @@ export class ActualizarEtapaComponent implements OnInit {
       Swal.fire('Actualizar Etapa', 'Debe ingresar los datos necesarios.', 'error');
       return;
     }
-    const data: any = this.formEtapa.getRawValue();
-    this.etapas[this.index] = data;
+    this.etapas[this.index] = this.formEtapa.getRawValue();
     this.activeModal.dismiss(this.etapas);
   }
 
@@ -100,7 +99,6 @@ export class ActualizarEtapaComponent implements OnInit {
       }
     }  else {
       const etapas = this.etapas.filter( (v, i) =>  i < this.index);
-      console.log(etapas)
       if (etapas.length > 0) {
         let flag = true;
         etapas.forEach(v => {

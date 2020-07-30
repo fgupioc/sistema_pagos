@@ -79,7 +79,7 @@
                       <div class="col-md-4">
                         <div class="form-group">
                           <label>Hora inicio:</label>
-                          <input CustomizeInteger type="text" class="form-control" formControlName="horaInicio" [ngClass]="
+                          <input #initHour CustomizeInteger type="text" class="form-control" (ngModelChange)="changeInitHour($event, endHour)" formControlName="horaInicio" [ngClass]="
                                             {
                                             'is-invalid': formulario.controls['horaInicio'].touched && formulario.controls['horaInicio'].errors,
                                             'is-valid': formulario.controls['horaInicio'].touched && !formulario.controls['horaInicio'].errors
@@ -88,13 +88,15 @@
                           <div class="invalid-feedback">
                             <span class="d-block" *ngIf="formulario.get('horaInicio').hasError('required')"> La Hora inicio es obligatorio.</span>
                             <span class="d-block" *ngIf="formulario.get('horaInicio').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                            <span class="d-block" *ngIf="formulario.get('horaInicio').hasError('incorrect')">{{ mgsError }}</span>
+
                           </div>
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
                           <label>Hora fin:</label>
-                          <input CustomizeInteger type="text" class="form-control" formControlName="horaFin" [ngClass]="
+                          <input #endHour CustomizeInteger type="text" class="form-control" formControlName="horaFin" (ngModelChange)="changeEndHour($event, initHour)" [ngClass]="
                                             {
                                             'is-invalid': formulario.controls['horaFin'].touched && formulario.controls['horaFin'].errors,
                                             'is-valid': formulario.controls['horaFin'].touched && !formulario.controls['horaFin'].errors
@@ -103,13 +105,14 @@
                           <div class="invalid-feedback">
                             <span class="d-block" *ngIf="formulario.get('horaFin').hasError('required')"> La Hora fin es obligatorio.</span>
                             <span class="d-block" *ngIf="formulario.get('horaFin').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                            <span class="d-block" *ngIf="formulario.get('horaFin').hasError('incorrect')">{{ mgsError }}</span>
                           </div>
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
                           <label>compromiso desde:</label>
-                          <input CustomizeInteger type="text" class="form-control" formControlName="compromisoDesde" [ngClass]="
+                          <input #desde CustomizeInteger type="text" class="form-control" (ngModelChange)="changeDesde($event, hasta)" formControlName="compromisoDesde" [ngClass]="
                                             {
                                             'is-invalid': formulario.controls['compromisoDesde'].touched && formulario.controls['compromisoDesde'].errors,
                                             'is-valid': formulario.controls['compromisoDesde'].touched && !formulario.controls['compromisoDesde'].errors
@@ -118,13 +121,14 @@
                           <div class="invalid-feedback">
                             <span class="d-block" *ngIf="formulario.get('compromisoDesde').hasError('required')"> El compromiso desde es obligatorio.</span>
                             <span class="d-block" *ngIf="formulario.get('compromisoDesde').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                            <span class="d-block" *ngIf="formulario.get('compromisoDesde').hasError('incorrect')">{{ mgsError }}</span>
                           </div>
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
                           <label>compromiso hasta:</label>
-                          <input CustomizeInteger type="text" class="form-control" formControlName="compromisoHasta" [ngClass]="
+                          <input #hasta CustomizeInteger type="text" class="form-control" (ngModelChange)="changeHasta($event, desde)" formControlName="compromisoHasta" [ngClass]="
                                             {
                                             'is-invalid': formulario.controls['compromisoHasta'].touched && formulario.controls['compromisoHasta'].errors,
                                             'is-valid': formulario.controls['compromisoHasta'].touched && !formulario.controls['compromisoHasta'].errors
@@ -133,6 +137,7 @@
                           <div class="invalid-feedback">
                             <span class="d-block" *ngIf="formulario.get('compromisoHasta').hasError('required')"> El compromiso hasta es obligatorio.</span>
                             <span class="d-block" *ngIf="formulario.get('compromisoHasta').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                            <span class="d-block" *ngIf="formulario.get('compromisoHasta').hasError('incorrect')">{{ mgsError }}</span>
                           </div>
                         </div>
                       </div>
