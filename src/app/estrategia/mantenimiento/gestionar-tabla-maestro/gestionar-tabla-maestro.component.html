@@ -6,7 +6,7 @@
           <div class="row">
             <div class="col-md-2">
               <div class="form-group">
-                <input #codigo Uppercase class="form-control" (focusout)="validateCode(codigo)" type="text" formControlName="codItem" placeholder="Código" [ngClass]="
+                <input #codigo Uppercase class="form-control" maxlength="4" (focusout)="validateCode(codigo)" type="text" formControlName="codItem" placeholder="Código" [ngClass]="
                                             {
                                             'is-invalid': form.controls['codItem'].touched && form.controls['codItem'].errors
                                             }
