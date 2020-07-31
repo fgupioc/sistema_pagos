@@ -21,7 +21,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (TokenInterceptor.authService === null || !TokenInterceptor.authService.interceptUrl(req)) {
-      // console.log(`skip token interceptor for ${req.urlWithParams}`);
+     // console.log(`skip token interceptor for ${req.urlWithParams}`);
       return next.handle(req);
     }
     // console.log(`intercept ${req.urlWithParams}`);
@@ -31,13 +31,13 @@ export class TokenInterceptor implements HttpInterceptor {
         return !!token;
       }),
       take(1),
-      // delay(3000),
+      //  delay(3000),
       switchMap(token => {
         // console.log(`add access token to ${req.urlWithParams}`);
         return next.handle(this.addToken(req, token));
       }),
-      // retry 1 time in case of 401 errors, in case the token expires between the expiration check and the http call
-      retryWhen(pipe(switchMap(err => err instanceof HttpErrorResponse && (<HttpErrorResponse> err).status === 401
+      //  retry 1 time in case of 401 errors, in case the token expires between the expiration check and the http call
+      retryWhen(pipe(switchMap(err => err instanceof HttpErrorResponse && err.status === 401
       && retryCount++ < 2 ? of(err) : throwError(err)))),
     );
   }

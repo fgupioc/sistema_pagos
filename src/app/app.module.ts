@@ -1,10 +1,10 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthModule} from './auth/auth.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {EstrategiaModule} from './estrategia/estrategia.module';
@@ -14,6 +14,7 @@ import {I18n} from './i18n';
 import {ComponentesModule} from './componentes/componentes.module';
 import {PublicoModule} from './publico/publico.module';
 import {ConfigService, configServiceInitializerFactory} from './servicios/seguridad/config.service';
+import {TokenInterceptor} from './servicios/seguridad/token.interceptor';
 
 registerLocaleData(localePE, 'es-PE');
 
@@ -24,7 +25,6 @@ registerLocaleData(localePE, 'es-PE');
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    // import HttpClientModule after BrowserModule.
     HttpClientModule,
     AppRoutingModule,
     AuthModule,
@@ -32,6 +32,7 @@ registerLocaleData(localePE, 'es-PE');
     EstrategiaModule,
     ComponentesModule
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [I18n,
     ConfigService,
     {
@@ -39,7 +40,10 @@ registerLocaleData(localePE, 'es-PE');
       useFactory: configServiceInitializerFactory,
       deps: [ConfigService],
       multi: true
-    }],
+    },
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
+    {provide: LOCALE_ID, useValue: 'es-PE'},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
