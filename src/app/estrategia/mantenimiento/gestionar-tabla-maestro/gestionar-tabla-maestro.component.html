@@ -1,0 +1,95 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="form">
+          <div class="row">
+            <div class="col-md-2">
+              <div class="form-group">
+                <input #codigo Uppercase class="form-control" (focusout)="validateCode(codigo)" type="text" formControlName="codItem" placeholder="Código" [ngClass]="
+                                            {
+                                            'is-invalid': form.controls['codItem'].touched && form.controls['codItem'].errors
+                                            }
+                                            ">
+                <div class="invalid-feedback">
+                  <span class="d-block" *ngIf="form.get('codItem').hasError('required')"> Los código es obligatorio.</span>
+                  <span class="d-block" *ngIf="form.get('codItem').hasError('incorrect')">El código ya existe.</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <input class="form-control" type="text" formControlName="descripcion" placeholder="Descripción" [ngClass]="
+                                            {
+                                            'is-invalid': form.controls['descripcion'].touched && form.controls['descripcion'].errors
+                                            }
+                                            ">
+                <div class="invalid-feedback">
+                  <span class="d-block" *ngIf="form.get('descripcion').hasError('required')"> La descripción es obligatorio.</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <input class="form-control" type="text" formControlName="strValor" placeholder="Valor Alfanúmerico">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="input-group">
+                <input Number class="form-control" type="text" formControlName="intValor" placeholder="Valor númerico">
+                <div class="input-group-append ml-4">
+                  <button type="button" *ngIf="create" [disabled]="form.invalid" (click)="guardar()" class="btn btn-primary"><i class="fa fa-plus"></i></button>
+                  <button type="button" *ngIf="!create" [disabled]="form.invalid" (click)="actualizar()" class="btn btn-success"><i class="fa fa-edit"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-12 mt-4">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+            <tr class="text-center">
+              <th style="width: 5%">#</th>
+              <th style="width: 5%">Código</th>
+              <th style="width: 30%">Descripción</th>
+              <th style="width: 25%">Valor</th>
+              <th style="width: 15%">Valor Entero</th>
+              <th style="width: 10%">Estado</th>
+              <th style="width: 10%">Opción</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ng-container *ngIf="items.length > 0">
+              <tr class="text-center" *ngFor="let item of items; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td> {{ item.codItem }} </td>
+                <td style="text-align: left">{{ item.descripcion }}</td>
+                <td>{{ item.strValor }}</td>
+                <td>{{ item.intValor }}</td>
+                <td>
+                  <span *ngIf="item.codEstado == '1'" class="badge bg-success">Activo</span>
+                  <span *ngIf="item.codEstado == '0'" class="badge bg-danger">Inactivo</span>
+                </td>
+                <td>
+                  <button class="btn btn-sm btn-primary mr-2" (click)="edit(item)"><i class="fa fa-edit"></i></button>
+                  <button *ngIf="item.codEstado == '1'" (click)="cambiarEstado(item, 1)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                  <button *ngIf="item.codEstado == '0'" (click)="cambiarEstado(item, 0)" class="btn btn-sm btn-success"><i class="fa fa-check"></i></button>
+                </td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf="items.length == 0">
+              <tr class="text-center">
+                <td colspan="7"><small>No hay Datos</small></td>
+              </tr>
+            </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner></ngx-spinner>

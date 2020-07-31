@@ -23,6 +23,7 @@ import { DetalleCarteraComponent } from './cartera/detalle-cartera/detalle-carte
 import {NgSelectModule} from '@ng-select/ng-select';
 import { TipoNotificacionComponent } from './config/tipo-notificacion/tipo-notificacion.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
+import { GestionarTablaMaestroComponent } from './mantenimiento/gestionar-tabla-maestro/gestionar-tabla-maestro.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import {NgxSpinnerModule} from 'ngx-spinner';
     CarteraCargarCreditoCreditosComponent,
     ListarCarteraComponent,
     DetalleCarteraComponent,
-    TipoNotificacionComponent
+    TipoNotificacionComponent,
+    GestionarTablaMaestroComponent
   ],
     imports: [
         CommonModule,

@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Observable, of} from 'rxjs';
 import {TablaMaestra} from '../../interfaces/tabla-maestra';
+import {Respuesta} from '../../interfaces/Respuesta';
 
 @Injectable({
   providedIn: 'root'
@@ -100,5 +101,21 @@ export class MaestroService {
       {codItem: '0078', descripcion: 'PISCO'},
     ];
     return of(data);
+  }
+
+  listarElementosPorCodTable(id: string): Observable<TablaMaestra[]> {
+    return this.http.get<TablaMaestra[]>(this.apiUrl + 'listarElementosPorCodTable', {params: new HttpParams().set('codTable', id)});
+  }
+
+  crear(data: TablaMaestra): Observable<Respuesta> {
+    return this.http.post<Respuesta>(this.apiUrl, data);
+  }
+
+  actualizar(data: TablaMaestra): Observable<Respuesta> {
+    return this.http.put<Respuesta>(this.apiUrl, data);
+  }
+
+  cambiarEstado(data: TablaMaestra, state: string): Observable<Respuesta> {
+    return this.http.put<Respuesta>(`${this.apiUrl}${data.codTabla}/${data.codItem}`, {}, {params: new HttpParams().set('state', state)});
   }
 }

@@ -22,6 +22,7 @@ import {ValidarPinComponent} from './publico/validar-pin/validar-pin.component';
 import {DetalleCarteraComponent} from './estrategia/cartera/detalle-cartera/detalle-cartera.component';
 import {ListarCarteraComponent} from './estrategia/cartera/listar-cartera/listar-cartera.component';
 import {TipoNotificacionComponent} from './estrategia/config/tipo-notificacion/tipo-notificacion.component';
+import {GestionarTablaMaestroComponent} from './estrategia/mantenimiento/gestionar-tabla-maestro/gestionar-tabla-maestro.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -39,6 +40,28 @@ const routes: Routes = [
             {path: 'usuario/crear', component: UsuarioCrearComponent},
             {path: 'usuario/editar', component: UsuarioEditarComponent},
             {path: 'usuario/contrasenha', component: UsuarioContrasenhaComponent},
+
+            {path: 'tipo-usuario', component: GestionarTablaMaestroComponent, data: {codTable: 1, title: 'TIPOS DE USUARIO'}},
+            {path: 'estado-registro', component: GestionarTablaMaestroComponent, data: {codTable: 2, title: 'ESTADOS DE UN REGISTRO'}},
+            {path: 'tipo-moneda', component: GestionarTablaMaestroComponent, data: {codTable: 3, title: 'TIPOS DE MONEDA'}},
+            {path: 'condicion-solicitud', component: GestionarTablaMaestroComponent, data: {codTable: 4, title: 'CONDICIÓN DE SOLICITUD'}},
+            {path: 'tipo-credito', component: GestionarTablaMaestroComponent, data: {codTable: 5, title: 'TIPO DE CRÉDITO PRE APROBADO'}},
+            {path: 'tipo-cobranza', component: GestionarTablaMaestroComponent, data: {codTable: 6, title: 'TIPO DE COBRANZA'}},
+            {path: 'tipo-interes', component: GestionarTablaMaestroComponent, data: {codTable: 7, title: 'TIPO DE INTERES'}},
+            {path: 'tipo-tasa', component: GestionarTablaMaestroComponent, data: {codTable: 8, title: 'TIPO DE TASA'}},
+            {path: 'tipo-direciones', component: GestionarTablaMaestroComponent, data: {codTable: 9, title: 'TABLA TIPO DE DIRECCIÓN'}},
+            {path: 'tipo-vivienda', component: GestionarTablaMaestroComponent, data: {codTable: 10, title: 'TABLA TIPO VIVIENDA'}},
+            {path: 'tipo-vias', component: GestionarTablaMaestroComponent, data: {codTable: 11, title: 'TABLA TIPO DE VIAS'}},
+            {path: 'tipo-secciones', component: GestionarTablaMaestroComponent, data: {codTable: 12, title: 'TABLA TIPO SECCIÓN'}},
+            {path: 'tipo-zonas', component: GestionarTablaMaestroComponent, data: {codTable: 13, title: 'TABLA TIPO ZONA'}},
+            {path: 'tipo-sectores', component: GestionarTablaMaestroComponent, data: {codTable: 14, title: 'TABLA TIPO SECTOR'}},
+            {path: 'uso-telefono', component: GestionarTablaMaestroComponent, data: {codTable: 15, title: 'TABLA TIPO USO TELÉFONO'}},
+            {path: 'tipo-operador', component: GestionarTablaMaestroComponent, data: {codTable: 16, title: 'TABLA OPERADOR TELÉFONO'}},
+            {path: 'tipo-telefono', component: GestionarTablaMaestroComponent, data: {codTable: 17, title: 'TABLA TIPO DE TELÉFONO'}},
+            {path: 'tipo-indicador', component: GestionarTablaMaestroComponent, data: {codTable: 18, title: 'INDICADORES O SUMATORIAS DE CARGA CRÉDITO MANUAL'}},
+            {path: 'tipo-documentos', component: GestionarTablaMaestroComponent, data: {codTable: 19, title: 'TABLA DOCUMENTO IDENTIDAD'}},
+            {path: 'estados-civil', component: GestionarTablaMaestroComponent, data: {codTable: 21, title: 'TIPO DE GENERO'}},
+            {path: 'tipo-genero', component: GestionarTablaMaestroComponent, data: {codTable: 20, title: 'ESTADO CIVIL'}}
           ]
         },
         {
