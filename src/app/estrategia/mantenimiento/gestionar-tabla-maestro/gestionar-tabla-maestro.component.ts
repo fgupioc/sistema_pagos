@@ -6,6 +6,8 @@ import {TablaMaestra} from '../../../interfaces/tabla-maestra';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import Swal from 'sweetalert2';
+import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
+import {ModalMaestroComponent} from '../modal-maestro/modal-maestro.component';
 
 @Component({
   selector: 'app-gestionar-tabla-maestro',
@@ -16,7 +18,7 @@ export class GestionarTablaMaestroComponent implements OnInit {
   codTable: number;
   title: string;
   items: TablaMaestra[] = [];
-  form: FormGroup;
+
   create = true;
 
   constructor(
@@ -24,8 +26,11 @@ export class GestionarTablaMaestroComponent implements OnInit {
     private route: Router,
     private maestroService: MaestroService,
     private spinner: NgxSpinnerService,
-    private formBuilder: FormBuilder
+    private modalService: NgbModal,
+    config: NgbModalConfig,
   ) {
+    config.backdrop = 'static';
+    config.keyboard = false;
     const {codTable, title} = activatedRoute.snapshot.data;
     if (isNullOrUndefined(codTable)) {
       route.navigateByUrl('/auth/dashboard');
@@ -37,14 +42,6 @@ export class GestionarTablaMaestroComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.form = this.formBuilder.group({
-      codItem: ['', [Validators.required]],
-      descripcion: ['', [Validators.required]],
-      intValor: [''],
-      strValor: [''],
-      codTabla: [this.codTable],
-      codEstado: [''],
-    });
   }
 
   loadElements(id: string) {
@@ -56,75 +53,6 @@ export class GestionarTablaMaestroComponent implements OnInit {
       },
       () => this.spinner.hide()
     );
-  }
-
-  guardar() {
-    if (this.form.invalid) {
-      Swal.fire('Registrar', 'Debe ingresar los datos obligatorios', 'error');
-      return;
-    }
-    const data = this.form.getRawValue();
-    data.codTabla = this.codTable;
-    this.spinner.show();
-    this.maestroService.crear(data).subscribe(
-      res => {
-        console.log(res);
-        if (res.exito) {
-          Swal.fire('Registrar', res.mensaje, 'success');
-          this.loadElements(String(this.codTable));
-          this.form.reset();
-        } else {
-          Swal.fire('Registrar', res.mensaje, 'error');
-        }
-        this.spinner.hide();
-      },
-      err => {
-        this.spinner.hide();
-        console.log(err);
-      }
-    );
-  }
-
-  actualizar() {
-    if (this.form.invalid) {
-      Swal.fire('Actualizar', 'Debe ingresar los datos obligatorios', 'error');
-      return;
-    }
-    const data = this.form.getRawValue();
-
-    this.spinner.show();
-    this.maestroService.actualizar(data).subscribe(
-      res => {
-        console.log(res);
-        if (res.exito) {
-          Swal.fire('Actualizar', res.mensaje, 'success');
-          this.loadElements(String(this.codTable));
-          this.form.reset();
-          this.create = true;
-        } else {
-          Swal.fire('Registrar', res.mensaje, 'error');
-        }
-        this.spinner.hide();
-      },
-      err => {
-        this.spinner.hide();
-        console.log(err);
-      }
-    );
-  }
-
-  edit(item: TablaMaestra) {
-    this.create = false;
-    this.form.setValue(item);
-  }
-
-  validateCode(input: HTMLInputElement) {
-    if (!isNullOrUndefined(input.value)) {
-      const item = this.items.find(v => v.codItem == input.value);
-      if (item) {
-        this.form.controls.codItem.setErrors({incorrect: true});
-      }
-    }
   }
 
   cambiarEstado(item: TablaMaestra, state: number) {
@@ -155,5 +83,33 @@ export class GestionarTablaMaestroComponent implements OnInit {
       }
     });
 
+  }
+
+  showModalCreate() {
+    const modal = this.modalService.open(ModalMaestroComponent, {centered: true});
+    modal.result.then(
+      this.closeModal.bind(this),
+      this.closeModal.bind(this)
+    );
+    modal.componentInstance.items = this.items;
+    modal.componentInstance.codTable = this.codTable;
+  }
+
+  showModalEdit(item: any) {
+    const modal = this.modalService.open(ModalMaestroComponent, {centered: true});
+    modal.result.then(
+      this.closeModal.bind(this),
+      this.closeModal.bind(this)
+    );
+    modal.componentInstance.items = this.items;
+    modal.componentInstance.item = item;
+    modal.componentInstance.create = false;
+    modal.componentInstance.codTable = this.codTable;
+  }
+
+  closeModal(data: any) {
+    if (data) {
+      this.loadElements(String(this.codTable));
+    }
   }
 }

@@ -1,0 +1,57 @@
+
+<div class="modal-header">
+  <h4 class="modal-title">{{ create ? 'Crear' : 'Actualizar' }} elemento</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup]="form">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <input #codigo Uppercase class="form-control" maxlength="4" (focusout)="validateCode(codigo)" type="text" formControlName="codItem" placeholder="Código" [ngClass]="
+                                            {
+                                            'is-invalid': form.controls['codItem'].touched && form.controls['codItem'].errors
+                                            }
+                                            ">
+              <div class="invalid-feedback">
+                <span class="d-block" *ngIf="form.get('codItem').hasError('required')"> Los código es obligatorio.</span>
+                <span class="d-block" *ngIf="form.get('codItem').hasError('incorrect')">El código ya existe.</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <input class="form-control" type="text" formControlName="descripcion" placeholder="Descripción" [ngClass]="
+                                            {
+                                            'is-invalid': form.controls['descripcion'].touched && form.controls['descripcion'].errors
+                                            }
+                                            ">
+              <div class="invalid-feedback">
+                <span class="d-block" *ngIf="form.get('descripcion').hasError('required')"> La descripción es obligatorio.</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <input class="form-control" type="text" formControlName="strValor" placeholder="Valor Alfanúmerico">
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="input-group">
+              <input Number class="form-control" type="text" formControlName="intValor" placeholder="Valor númerico">
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal-footer d-flex justify-content-center">
+  <button type="button" *ngIf="create" [disabled]="form.invalid" (click)="guardar()" class="btn btn-primary">Guardar</button>
+  <button type="button" *ngIf="!create" [disabled]="form.invalid" (click)="actualizar()" class="btn btn-success">Actualizar</button>
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Cerrar</button>
+</div>

@@ -18,12 +18,13 @@ import {CarteraCargarCreditoSociosComponent} from './cartera/cargar-credito/soci
 import {SocioListDireccionesComponent} from '../comun/socios/list-direcciones/list-direcciones.component';
 import {SocioListTelefonosComponent} from '../comun/socios/list-telefonos/list-telefonos.component';
 import {SocioListEmailsComponent} from '../comun/socios/list-emails/list-emails.component';
-import { ListarCarteraComponent } from './cartera/listar-cartera/listar-cartera.component';
-import { DetalleCarteraComponent } from './cartera/detalle-cartera/detalle-cartera.component';
+import {ListarCarteraComponent} from './cartera/listar-cartera/listar-cartera.component';
+import {DetalleCarteraComponent} from './cartera/detalle-cartera/detalle-cartera.component';
 import {NgSelectModule} from '@ng-select/ng-select';
-import { TipoNotificacionComponent } from './config/tipo-notificacion/tipo-notificacion.component';
+import {TipoNotificacionComponent} from './config/tipo-notificacion/tipo-notificacion.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
-import { GestionarTablaMaestroComponent } from './mantenimiento/gestionar-tabla-maestro/gestionar-tabla-maestro.component';
+import {GestionarTablaMaestroComponent} from './mantenimiento/gestionar-tabla-maestro/gestionar-tabla-maestro.component';
+import {ModalMaestroComponent} from './mantenimiento/modal-maestro/modal-maestro.component';
 
 @NgModule({
   declarations: [
@@ -40,20 +41,21 @@ import { GestionarTablaMaestroComponent } from './mantenimiento/gestionar-tabla-
     ListarCarteraComponent,
     DetalleCarteraComponent,
     TipoNotificacionComponent,
-    GestionarTablaMaestroComponent
+    GestionarTablaMaestroComponent,
+    ModalMaestroComponent
   ],
-    imports: [
-        CommonModule,
-        ComunModule,
-        NgbModule,
-        CommonModule,
-        ReactiveFormsModule,
-        FormsModule,
-        MyPipesModule,
-        RouterModule,
-        NgSelectModule,
-        NgxSpinnerModule
-    ],
+  imports: [
+    CommonModule,
+    ComunModule,
+    NgbModule,
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MyPipesModule,
+    RouterModule,
+    NgSelectModule,
+    NgxSpinnerModule
+  ],
   exports: [
     CrearCarteraComponent,
     ActualizarGestionComponent,
@@ -67,7 +69,8 @@ import { GestionarTablaMaestroComponent } from './mantenimiento/gestionar-tabla-
     CrearEtapaNotificionComponent,
     SocioListDireccionesComponent,
     SocioListTelefonosComponent,
-    SocioListEmailsComponent
+    SocioListEmailsComponent,
+    ModalMaestroComponent
   ]
 })
 export class EstrategiaModule {
