@@ -58,4 +58,9 @@ export class UsuarioService {
   cambiarPassword(email: string, code: string, password: string): Observable<any> {
     return this.http.post<any>(this.signinUrl + '/cambiarPassword', new HttpParams().set('email', email).set('code', code).set('password', password));
   }
+
+  buscarParaAgregarAlRol(nombre: string): Observable<Respuesta> {
+    const options = {params: new HttpParams().set('nombre', nombre)};
+    return this.http.post<Respuesta>(`${this.apiUrl}buscarParaAgregarAlRol`, {}, options);
+  }
 }

@@ -48,7 +48,7 @@ export class RolService {
   }
 
   validarRolUnico(rolId: number, rol: string): Observable<Respuesta> {
-    const options = {params: new HttpParams().set('rolId', rolId.toString()).set('rol.ts', rol)};
+    const options = {params: new HttpParams().set('rolId', rolId.toString()).set('rol', rol)};
     return this.http.get<Respuesta>(`${this.apiUrl}validarRolUnico`, options);
   }
 }

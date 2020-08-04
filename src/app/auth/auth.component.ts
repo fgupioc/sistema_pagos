@@ -38,11 +38,11 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.encuentraTodossNavItemPorUsuario(this.authService.loggedUser.id);
+    this.encuentraTodossNavItemPorUsuario();
   }
 
-  encuentraTodossNavItemPorUsuario(usuarioId: number) {
-    this.menuService.encuentraTodossNavItemPorUsuario(usuarioId).subscribe(navItems => this.navItems = navItems);
+  encuentraTodossNavItemPorUsuario() {
+    this.menuService.encuentraTodossNavItemPorUsuario().subscribe(navItems => this.navItems = navItems);
   }
 
   logout() {

@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-body">
         <div class="card">
-          <div class="card-header ui-sortable-handle" style="border: inherit;" *ngIf="AS.has(A.ROL_CREAR)">
+          <div class="card-header ui-sortable-handle" style="border: inherit;">
             <div class="card-tools">
               <ul class="nav nav-pills ml-auto">
                 <li class="nav-item">
@@ -39,10 +39,7 @@
                             </span>
                       </td>
                       <td class="text-center">
-                        <button class="btn btn-sm btn-info mr-2" (click)="editar(obj.id)" title="Editar"
-                                *ngIf="AS.has(A.ROL_ACTUALIZAR)">
-                          <i class="fas fa-edit"></i>
-                        </button>
+                        <button class="btn btn-sm btn-info mr-2" (click)="editar(obj.id)" title="Editar"><i class="fa fa-edit"></i></button>
                       </td>
                     </tr>
                     </tbody>

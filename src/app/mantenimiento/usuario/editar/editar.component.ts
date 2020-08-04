@@ -113,7 +113,7 @@ export class UsuarioEditarComponent implements OnInit {
 
   encuentraTodosArbol() {
     this.cargandoMenu = true;
-    this.menuService.encuentraTodosArbolPorUsuario(this.usuarioId).subscribe(usuario => {
+    this.menuService.encuentraTodosArbolPorUsuario().subscribe(usuario => {
       this.cargandoMenu = false;
       this.items = usuario.map(value => {
         return new TreeviewItem(value);

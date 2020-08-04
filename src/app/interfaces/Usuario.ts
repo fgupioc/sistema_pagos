@@ -5,4 +5,9 @@ export interface Usuario {
   fechaInicioSesion: string;
   fechaFinSesion: string;
   codTipoUsuario: string;
+  email?: string;
+  primerNombre?: string;
+  primerApellido?: string;
+  codEstado?: string;
+  rolNombre?: string;
 }

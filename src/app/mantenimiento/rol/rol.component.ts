@@ -60,11 +60,11 @@ export class RolComponent implements OnInit {
   }
 
   crear() {
-    this.router.navigate(['/auth/mantenimiento/rol/crear']);
+    this.router.navigate(['/auth/seguridad/rol/crear']);
   }
 
   editar(rolId: number) {
-    this.router.navigateByUrl('/auth/mantenimiento/rol/editar', {state: {rolId}});
+    this.router.navigateByUrl('/auth/seguridad/rol/editar', {state: {rolId}});
   }
 
   estaActivo(codEstado: string) {

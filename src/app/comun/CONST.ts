@@ -6,7 +6,15 @@ export class CONST {
   public static C_STR_EXP_REGULAR_EMAIL = new RegExp('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$');
 
   public static N_CONTRASENHA_LONGITUD_MINIMA = 8;
-
+  public static C_INT_EDAD_MIN = 17;
+  public static C_INT_EDAD_MAX = 75;
+  public static C_STR_CODIGO_SUCCESS = '0000';
+  public static C_STR_CODIGO_ERROR = '9999';
+  public static C_STR_CODIGO_WARNING = '204';
+  public static C_STR_NO_SOCIO = '205';
+  public static C_STR_NO_SOLICITUD = '206';
+  public static C_STR_SOCIO = '207';
+  public static C_STR_SOLO_PERSONA = '208';
 
   public static S_ESTADO_REG_ACTIVO = '1';
   public static S_ESTADO_REG_INACTIVO = '2';

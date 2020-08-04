@@ -1,0 +1,110 @@
+<div class="modal-content" [formGroup]="formulario">
+  <div class="modal-header">
+    <h4 class="modal-title">Agregar Usuarios</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div id="documents">
+          <div class="card">
+            <div class="card-header" id="headingUno">
+              <h5 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseUno" aria-expanded="true"
+                        aria-controls="collapseUno">
+                  Filtrar Usuarios
+                </button>
+              </h5>
+            </div>
+            <div id="collapseUno" class="collapse show" aria-labelledby="headingUno" data-parent="#documents">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-4 offset-2">
+                    <div class="form-group">
+                      <label>Nombre:</label>
+                      <input Uppercase SoloLetras type="text" class="form-control" placeholder="Nombre"
+                             maxlength="4" formControlName="nombre" [ngClass]="
+                                                        {
+                                                        'is-invalid': formulario.controls['nombre'].touched && formulario.controls['nombre'].errors,
+                                                        'is-valid': formulario.controls['nombre'].touched && !formulario.controls['nombre'].errors
+                                                        }
+                                                        ">
+                      <div class="invalid-feedback">
+                        <span class="d-block" *ngIf="formulario.get('nombre').hasError('required')"> La nombre es obligatorio.</span>
+                        <span class="d-block" *ngIf="formulario.get('nombre').hasError('minlength')"> La nombre debe tener 4 dígitos.</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 text-center">
+                    <div class="form-group">
+                      <br>
+                      <button class="btn btn-ms btn-primary mt-2" (click)="buscarUsuarios()"><i
+                        class="fas fa-search"></i> Buscar Usuarios
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="container_documents" class="card hidden-i">
+            <div class="card-header" id="headingDos">
+              <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseDos"
+                        aria-expanded="false" aria-controls="collapseDos">
+                  Lista de usuarios
+                </button>
+              </h5>
+            </div>
+            <div id="collapseDos" class="collapse" aria-labelledby="headingDos" data-parent="#documents">
+              <div class="card-body" *ngIf="usuarios.length > 0">
+                <div class="row">
+                  <div class="col-md-12" *ngIf="usuarios.length > 0">
+                    <div class="table-responsive">
+                      <table datatable [dtOptions]="dtOptions" class="table table-hover mt-2">
+                        <thead>
+                        <tr>
+                          <th scope="col">Alias</th>
+                          <th scope="col">Email</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let item of usuarios">
+                          <td>
+                            <div class="form-group clearfix">
+                              <div class="icheck-primary d-inline">
+                                <input type="checkbox" [id]="'check_apro-' + item.id"
+                                       (change)="seleccionarUsuario($event, item)">
+                                <label [attr.for]="'check_apro-' + item.id"><small>{{ item.alias }}</small></label>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <small>{{ item.email }}</small>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="col-md-12 text-center " *ngIf="usuarios.length===0 ">
+                    <small>No hay datos</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer row">
+    <div class=" col-md-12 w-100 d-flex justify-content-center">
+      <button [disabled]="listaUsuarios.length==0" class="btn btn-info mr-4" (click)="aceptar() ">Aceptar</button>
+      <button type="button" class="btn btn-dark" (click)="activeModal.close()">Cerrar</button>
+    </div>
+  </div>
+</div>
+

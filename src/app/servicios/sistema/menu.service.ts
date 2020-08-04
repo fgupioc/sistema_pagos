@@ -20,6 +20,12 @@ export class MenuService {
     return this.http.get<any[]>(`${this.apiUrl}encuentraTodosArbol`);
   }
 
+  accesos(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}accesos`);
+  }
+
+
+  /*
   encuentraTodosArbolPorUsuario(usuarioId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}encuentraTodosArbol/${usuarioId}`);
   }
@@ -27,4 +33,28 @@ export class MenuService {
   encuentraTodossNavItemPorUsuario(usuarioId: number): Observable<Menu[]> {
     return this.http.get<Menu[]>(`${this.apiUrl}encuentraTodosNavItem/${usuarioId}`);
   }
+  */
+
+  encuentraTodosArbolPorUsuario(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}encuentraTodosArbol`);
+  }
+
+  encuentraTodossNavItemPorUsuario(): Observable<Menu[]> {
+    return this.http.get<Menu[]>(`${this.apiUrl}encuentraTodosNavItem`);
+  }
+
+  /*
+  menuDeEscritorio(usuarioId: number): Observable<CardInfo[]> {
+    return this.http.get<CardInfo[]>(`${this.apiUrl}menuDeEscritorio/${usuarioId}`);
+  }
+  */
+
+  menuDeEscritorio(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}menuDeEscritorio`);
+  }
+
+  guardar(accesoUDto: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}guardar`, accesoUDto);
+  }
+
 }
