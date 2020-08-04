@@ -14,24 +14,34 @@ import {UsuarioCrearComponent} from './usuario/crear/crear.component';
 import {DataTablesModule} from 'angular-datatables';
 import {UsuarioContrasenhaComponent} from './usuario/contrasenha/contrasenha.component';
 import {MyPipesModule} from '../pipes/my-pipes.module';
+import {RolComponent} from './rol/rol.component';
+import {RolCrearComponent} from './rol/rol-crear.component';
+import {RolEditarComponent} from './rol/rol-editar.component';
 
 @NgModule({
-  declarations: [UsuarioComponent, UsuarioEditarComponent, UsuarioCrearComponent, UsuarioContrasenhaComponent],
-    imports: [
-        CommonModule,
-        ComunModule,
-        NgbTooltipModule,
-        NgbModalModule,
-        NgbNavModule,
-        ReactiveFormsModule,
+  declarations: [
+    UsuarioComponent,
+    UsuarioEditarComponent,
+    UsuarioCrearComponent,
+    UsuarioContrasenhaComponent,
+    RolComponent,
+    RolCrearComponent,
+    RolEditarComponent],
+  imports: [
+    CommonModule,
+    ComunModule,
+    NgbTooltipModule,
+    NgbModalModule,
+    NgbNavModule,
+    ReactiveFormsModule,
 
-        BrowserAnimationsModule, // required animations module
-        ToastrModule.forRoot(), // ToastrModule added
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(), // ToastrModule added
 
-        TreeviewModule.forRoot(),
-        DataTablesModule,
-        MyPipesModule
-    ],
+    TreeviewModule.forRoot(),
+    DataTablesModule,
+    MyPipesModule
+  ],
   entryComponents: [UsuarioCrearComponent, UsuarioEditarComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

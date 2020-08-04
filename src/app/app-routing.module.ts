@@ -23,7 +23,13 @@ import {DetalleCarteraComponent} from './estrategia/cartera/detalle-cartera/deta
 import {ListarCarteraComponent} from './estrategia/cartera/listar-cartera/listar-cartera.component';
 import {TipoNotificacionComponent} from './estrategia/config/tipo-notificacion/tipo-notificacion.component';
 import {GestionarTablaMaestroComponent} from './estrategia/mantenimiento/gestionar-tabla-maestro/gestionar-tabla-maestro.component';
+import {RolComponent} from './mantenimiento/rol/rol.component';
+import {RolCrearComponent} from './mantenimiento/rol/rol-crear.component';
+import {RolEditarComponent} from './mantenimiento/rol/rol-editar.component';
+import {Autorizacion} from './comun/autorzacion';
 
+
+const A = Autorizacion;
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent, canActivate: [GuestGuard]},
@@ -34,13 +40,21 @@ const routes: Routes = [
       children: [
         {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
         {
-          path: 'mantenimiento',
+          path: 'seguridad',
           children: [
+            {path: 'rol', component: RolComponent },
+            {path: 'rol/crear', component: RolCrearComponent, data: {autorizaciones: [A.ROL_CREAR]}},
+            {path: 'rol/editar', component: RolEditarComponent, data: {autorizaciones: [A.ROL_ACTUALIZAR]}},
+
             {path: 'usuario', component: UsuarioComponent},
             {path: 'usuario/crear', component: UsuarioCrearComponent},
             {path: 'usuario/editar', component: UsuarioEditarComponent},
             {path: 'usuario/contrasenha', component: UsuarioContrasenhaComponent},
-
+          ]
+        },
+        {
+          path: 'mantenimiento',
+          children: [
             {path: 'tipo-usuario', component: GestionarTablaMaestroComponent, data: {codTable: 1, title: 'TIPOS DE USUARIO'}},
             {path: 'estado-registro', component: GestionarTablaMaestroComponent, data: {codTable: 2, title: 'ESTADOS DE UN REGISTRO'}},
             {path: 'tipo-moneda', component: GestionarTablaMaestroComponent, data: {codTable: 3, title: 'TIPOS DE MONEDA'}},

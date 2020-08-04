@@ -205,4 +205,12 @@ export class AutenticacionService {
     return null;
   }
 
+  authorities(): string[] {
+    const data = this.jwtHelper.decodeToken(this.accessToken);
+    if (data) {
+      return data.authorities;
+    }
+    return [];
+  }
+
 }
