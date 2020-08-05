@@ -6,6 +6,7 @@
         <span class="card-title text-uppercase font-weight-bold">Crear Usuario </span>
       </div>
       <div class="card-body">
+        <form [formGroup]="formGroup" (ngSubmit)="crearUsuario()">
         <ul ngbNav #nav="ngbNav" class="nav-tabs">
           <li ngbNavItem>
             <a ngbNavLink>General</a>
@@ -22,7 +23,7 @@
                             'is-valid': formGroup.controls['tipoDocIdentidad'].touched && !formGroup.controls['tipoDocIdentidad'].errors
                              }">
                         <option *ngFor="let doi of listaDoi"
-                                [value]="doi.codigoItem">{{doi.nombre}}</option>
+                                [value]="doi.codItem">{{doi.descripcion}}</option>
                       </select>
                     </div>
                   </div>
@@ -132,7 +133,7 @@
                             'is-valid': formGroup.controls['sexo'].touched && !formGroup.controls['sexo'].errors
                              }">
                         <option *ngFor="let sex of listaSexo"
-                                [value]="sex.codigoItem">{{sex.nombre}}</option>
+                                [value]="sex.codItem">{{sex.descripcion}}</option>
                       </select>
                       <div class="invalid-feedback">
                         <span *ngIf="formGroup.get('sexo').hasError('required')">Obligatorio.</span>
@@ -163,7 +164,7 @@
                             'is-valid': formGroup.controls['estadoCivil'].touched && !formGroup.controls['estadoCivil'].errors
                              }">
                         <option *ngFor="let item of tipoEstadosCivil"
-                                [value]="item.codigoItem">{{item.nombre}}</option>
+                                [value]="item.codItem">{{item.descripcion}}</option>
                       </select>
                       <div class="invalid-feedback">
                         <span *ngIf="formGroup.get('estadoCivil').hasError('required')">Obligatorio.</span>
@@ -251,7 +252,7 @@
                       'is-valid': formGroup.controls['codEstado'].touched && !formGroup.controls['codEstado'].errors
                        }"
                       >
-                        <option *ngFor="let o of estados" [value]="o.codigoItem">{{o.nombre}}</option>
+                        <option *ngFor="let o of estados" [value]="o.codItem">{{o.descripcion}}</option>
                       </select>
                       <div class="invalid-feedback">
                         <span *ngIf="formGroup.get('codEstado').hasError('required')">Obligatorio.</span>
@@ -345,26 +346,90 @@
             </ng-template>
           </li>
           <li ngbNavItem>
-            <a ngbNavLink>Permisos</a>
+            <a ngbNavLink>Accesos</a>
             <ng-template ngbNavContent>
-              <div class="col-lg-12 col-sm-12">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="rolElegidoId">Elija un rol *</label>
+                    <select id="rolElegidoId" class="form-control" formControlName="rolElegidoId"
+                            (change)="onChangeRolFiltradoId()"
+                            [ngClass]="{
+                                    'is-invalid': formGroup.controls['rolElegidoId'].touched && formGroup.controls['rolElegidoId'].errors,
+                                    'is-valid': formGroup.controls['rolElegidoId'].touched && !formGroup.controls['rolElegidoId'].errors
+                                     }">
+                      <option [value]="">Elija un rol</option>
+                      <option *ngFor="let o of rolesElegidos"
+                              [value]="o.id">{{o.nombre}}</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      <span *ngIf="formGroup.get('rolElegidoId').hasError('required')">Obligatorio.</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 offset-4">
+                  <div class="form-group">
+                    <br>
+                    <button class="btn btn-sm btn-warning text-white mr-2"
+                            (click)="resturarAutorizacionesOriginales()">
+                      <i class="fas fa-sync"></i> Restaurar autorizaciones originales
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <ngx-treeview [config]="config" [items]="items" (filterChange)="onFilterChange($event)"
+                              (selectedChange)="onSelectedChange($event)" *ngIf="!cargandoMenu">
+                </ngx-treeview>
+                <br *ngIf="cargandoMenu">
+                <label *ngIf="cargandoMenu">
+                  <em>Cargando..., porfavor espere...</em>
+                </label>
+              </div>
+            </ng-template>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink>Autorizaciones</a>
+            <ng-template ngbNavContent>
+              <div class="col-md-4 offset-8">
                 <div class="form-group">
-                  <label>
-                    <strong>MENU DE ACCESO</strong>
-                  </label>
-                  <ngx-treeview [config]="config" [items]="items" (filterChange)="onFilterChange($event)"
-                                (selectedChange)="valoresMenus = $event" *ngIf="!cargandoMenu">
-                  </ngx-treeview>
-                  <br *ngIf="cargandoMenu">
-                  <label *ngIf="cargandoMenu">
-                    <em>Cargando..., porfavor espere...</em>
-                  </label>
+                  <br>
+                  <button class="btn btn-sm btn-warning text-white mr-2"
+                          (click)="resturarAutorizacionesOriginales()">
+                    <i class="fas fa-sync"></i> Restaurar autorizaciones originales
+                  </button>
+                </div>
+              </div>
+              <em *ngIf="valoresMenus.length==0">Elija una opción del menu</em>
+
+              <div *ngFor="let menu of menus;">
+                <div *ngFor="let menuHijo of menu.children;">
+                  <div class="row" *ngIf="menuHijo.checked">
+                    <div class="col-sm-12">
+                      <strong>{{ menu.text }} | {{ menuHijo.text }}</strong>
+                    </div>
+                    <div class="col-sm-2" *ngFor="let a of menuHijo.autorizaciones">
+                      <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                          <input class="custom-control-input" type="checkbox"
+                                 [checked]=isSelectedAutorizacion(a.id)
+                                 (change)="onChangeCheckAutorizacion(menuHijo,a.id)"
+                                 id="customCheckbox_{{ menuHijo.value }}_{{a.id}}" value="{{ a.id }}">
+                          <label for="customCheckbox_{{ menuHijo.value }}_{{a.id}}"
+                                 class="custom-control-label">
+                            {{ a.titulo }}
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </ng-template>
           </li>
         </ul>
         <div [ngbNavOutlet]="nav"></div>
+        </form>
       </div>
       <div class="card-footer">
         <button type="button" class="btn btn-primary mr-5px" (click)="regresar()"><i class="fa fa-hand-o-left"></i>

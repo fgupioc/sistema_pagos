@@ -520,8 +520,8 @@ export class UsuarioCrearComponent implements OnInit {
         email: this.formGroup.get('email').value,
         contrasenia: this.formGroup.get('contrasenha').value,
         numeroCelular: this.formGroup.get('numeroCelular').value,
-        fechaInicio: this.formGroup.get('fechaInicioSesion').value,
-        fechaFinal: this.formGroup.get('fechaFinSesion').value,
+        fechaInicioSesion: this.formGroup.get('fechaInicioSesion').value,
+        fechaFinSesion: this.formGroup.get('fechaFinSesion').value,
         inicioCierre: this.formGroup.get('inicioCierre').value,
         codEstado: this.formGroup.get('codEstado').value,
       };
@@ -536,7 +536,7 @@ export class UsuarioCrearComponent implements OnInit {
       this.spinner.show();
       this.usuarioService.guardar(usuarioNuevo).subscribe(respuesta => {
         this.spinner.hide();
-        if (respuesta.codigo == CONST.C_STR_CODIGO_SUCCESS) {
+        if (respuesta.exito) {
           this.toastr.success(respuesta.mensaje, '');
           this.regresar();
         } else {
