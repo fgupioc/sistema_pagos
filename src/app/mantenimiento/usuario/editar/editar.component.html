@@ -6,23 +6,26 @@
         <span class="card-title text-uppercase font-weight-bold">Editar Usuario </span>
       </div>
       <div class="card-body">
+        <form [formGroup]="formGroup" (ngSubmit)="actualizarUsuario()">
         <ul ngbNav #nav="ngbNav" class="nav-tabs">
           <li ngbNavItem>
             <a ngbNavLink>General</a>
             <ng-template ngbNavContent>
-              <form [formGroup]="formGroup" (ngSubmit)="actualizarUsuario()">
+
                 <label><strong>DATOS GENERALES</strong></label>
                 <div class="row">
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="tipoDocIdentidad">Tipo Documento</label>
-                      <input type="text" id="tipoDocIdentidad" class="form-control" formControlName="tipoDocIdentidad">
+                      <input type="text" id="tipoDocIdentidad" class="form-control"
+                             formControlName="tipoDocIdentidad">
                     </div>
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="numDocIdentidad">Número de Documento</label>
-                      <input type="text" id="numDocIdentidad" class="form-control" formControlName="numDocIdentidad">
+                      <input type="text" id="numDocIdentidad" class="form-control"
+                             formControlName="numDocIdentidad">
                     </div>
                   </div>
                   <div class="col-md-4">
@@ -40,13 +43,15 @@
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="primerApellido">Apellido Paterno *</label>
-                      <input type="text" id="primerApellido" class="form-control" formControlName="primerApellido">
+                      <input type="text" id="primerApellido" class="form-control"
+                             formControlName="primerApellido">
                     </div>
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="segundoApellido">Apellido Materno </label>
-                      <input type="text" id="segundoApellido" class="form-control" formControlName="segundoApellido">
+                      <input type="text" id="segundoApellido" class="form-control"
+                             formControlName="segundoApellido">
                     </div>
                   </div>
                   <div class="col-md-4">
@@ -57,19 +62,45 @@
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
-                      <label for="estadoCivil">Estado Civil: </label>
-                      <input type="text" id="estadoCivil" class="form-control" formControlName="estadoCivil">
+                      <label for="fechaNacimiento">Fecha de Nacimiento *</label>
+                      <input type="text" id="fechaNacimiento" class="form-control"
+                             formControlName="fechaNacimiento">
                     </div>
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
-                      <label for="fechaNacimiento">Fecha de Nacimiento *</label>
-                      <input type="text" id="fechaNacimiento" class="form-control" formControlName="fechaNacimiento">
+                      <label for="estadoCivil">Estado Civil: </label>
+                      <input type="text" id="estadoCivil" class="form-control" formControlName="estadoCivil">
                     </div>
                   </div>
                 </div>
                 <label><strong>DATOS DE ACCESO</strong></label>
                 <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="rolId">Rol *</label>
+                      <select2 [data]="exampleData"
+                               [options]="options"
+                               [cssImport]="true"
+                               [value]="valoresElegidos"
+                               (valueChanged)="changed($event)"></select2>
+                      <select style="display: none;" multiple="multiple" id="rolId" class="form-control"
+                              formControlName="rolId"
+                              (change)="onChangeRolId()"
+                              [ngClass]="
+                      {
+                      'is-invalid': formGroup.controls['rolId'].touched && formGroup.controls['rolId'].errors,
+                      'is-valid': formGroup.controls['rolId'].touched && !formGroup.controls['rolId'].errors
+                       }"
+                      >
+                        <option *ngFor="let o of roles"
+                                [value]="o.id">{{o.nombre}}</option>
+                      </select>
+                      <div class="invalid-feedback">
+                        <span *ngIf="formGroup.get('rolId').hasError('required')">Obligatorio.</span>
+                      </div>
+                    </div>
+                  </div>
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="email">Email *</label>
@@ -103,26 +134,10 @@
                     ">
                       <div class="invalid-feedback">
                         <span *ngIf="formGroup.get('numeroCelular').hasError('required')"> Obligatorio.</span>
-                        <span *ngIf="formGroup.get('numeroCelular').hasError('pattern')"> Solo acepta números.</span>
+                        <span
+                          *ngIf="formGroup.get('numeroCelular').hasError('pattern')"> Solo acepta números.</span>
                         <span
                           *ngIf="formGroup.get('numeroCelular').hasError('maxlength')"> Solo acepta 9 caracteres.</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="codTipoUsuario">Tipo de Usuario *</label>
-                      <select id="codTipoUsuario" class="form-control" formControlName="codTipoUsuario"
-                              [ngClass]="
-                      {
-                      'is-invalid': formGroup.controls['codTipoUsuario'].touched && formGroup.controls['codTipoUsuario'].errors,
-                      'is-valid': formGroup.controls['codTipoUsuario'].touched && !formGroup.controls['codTipoUsuario'].errors
-                       }"
-                      >
-                        <option *ngFor="let tu of tiposUsuarios" [value]="tu.codItem">{{tu.descripcion}}</option>
-                      </select>
-                      <div class="invalid-feedback">
-                        <span *ngIf="formGroup.get('codTipoUsuario').hasError('required')">Obligatorio.</span>
                       </div>
                     </div>
                   </div>
@@ -157,7 +172,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="fechaInicioSesion">Desde el *</label>
-                      <input type="date" formControlName="fechaInicioSesion" id="fechaInicioSesion" class="form-control"
+                      <input type="date" formControlName="fechaInicioSesion" id="fechaInicioSesion"
+                             class="form-control"
                              [ngClass]="
                       {
                       'is-invalid': formGroup.controls['fechaInicioSesion'].touched && formGroup.controls['fechaInicioSesion'].errors,
@@ -183,30 +199,96 @@
                     </div>
                   </div>
                 </div>
-              </form>
+
             </ng-template>
           </li>
           <li ngbNavItem>
-            <a ngbNavLink>Permisos</a>
+            <a ngbNavLink>Accesos</a>
             <ng-template ngbNavContent>
-              <div class="col-lg-12 col-sm-12">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="rolElegidoId">Elija un rol *</label>
+                    <select id="rolElegidoId" class="form-control" formControlName="rolElegidoId"
+                            (change)="onChangeRolFiltradoId()"
+                            [ngClass]="{
+                                    'is-invalid': formGroup.controls['rolElegidoId'].touched && formGroup.controls['rolElegidoId'].errors,
+                                    'is-valid': formGroup.controls['rolElegidoId'].touched && !formGroup.controls['rolElegidoId'].errors
+                                     }">
+                      <option [value]="">Elija un rol</option>
+                      <option *ngFor="let o of rolesElegidos"
+                              [value]="o.id">{{o.nombre}}</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      <span *ngIf="formGroup.get('rolElegidoId').hasError('required')">Obligatorio.</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 offset-4">
+                  <div class="form-group">
+                    <br>
+                    <button class="btn btn-sm btn-warning text-white mr-2"
+                            (click)="resturarAutorizacionesOriginales()">
+                      <i class="fas fa-sync"></i> Restaurar autorizaciones originales
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <ngx-treeview [config]="config" [items]="items" (filterChange)="onFilterChange($event)"
+                              (selectedChange)="onSelectedChange($event)" *ngIf="!cargandoMenu">
+                </ngx-treeview>
+                <br *ngIf="cargandoMenu">
+                <label *ngIf="cargandoMenu">
+                  <em>Cargando..., porfavor espere...</em>
+                </label>
+              </div>
+            </ng-template>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink>Autorizaciones</a>
+            <ng-template ngbNavContent>
+              <div class="col-md-4 offset-8">
                 <div class="form-group">
-                  <label>
-                    <strong>MENU DE ACCESO</strong>
-                  </label>
-                  <ngx-treeview [config]="config" [items]="items" (filterChange)="onFilterChange($event)"
-                                (selectedChange)="valoresMenus = $event" *ngIf="!cargandoMenu">
-                  </ngx-treeview>
-                  <br *ngIf="cargandoMenu">
-                  <label *ngIf="cargandoMenu">
-                    <em>Cargando..., porfavor espere...</em>
-                  </label>
+                  <br>
+                  <button class="btn btn-sm btn-warning text-white mr-2"
+                          (click)="resturarAutorizacionesOriginales()">
+                    <i class="fas fa-sync"></i> Restaurar autorizaciones originales
+                  </button>
+                </div>
+              </div>
+              <!--<em *ngIf="valoresMenus.length==0">Elija una opción del menu</em> -->
+              <div *ngIf="cargandoMenu">
+                <label><em>Cargando..., porfavor espere...</em></label>
+              </div>
+              <div *ngFor="let menu of menus;">
+                <div *ngFor="let menuHijo of menu.children;">
+                  <div class="row" *ngIf="menuHijo.checked">
+                    <div class="col-sm-12">
+                      <strong>{{ menu.text }} | {{ menuHijo.text }}</strong>
+                    </div>
+                    <div class="col-sm-2" *ngFor="let a of menuHijo.autorizaciones">
+                      <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                          <input class="custom-control-input" type="checkbox"
+                                 [checked]=isSelectedAutorizacion(a.id)
+                                 (change)="onChangeCheckAutorizacion(menuHijo,a.id)"
+                                 id="customCheckbox_{{ menuHijo.value }}_{{a.id}}" value="{{ a.id }}">
+                          <label for="customCheckbox_{{ menuHijo.value }}_{{a.id}}"
+                                 class="custom-control-label">
+                            {{ a.titulo }}
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </ng-template>
           </li>
         </ul>
         <div [ngbNavOutlet]="nav"></div>
+        </form>
       </div>
       <div class="card-footer">
         <button type="button" class="btn btn-primary mr-5px" (click)="regresar()">
