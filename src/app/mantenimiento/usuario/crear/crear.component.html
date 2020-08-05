@@ -21,7 +21,8 @@
                             'is-invalid': formGroup.controls['tipoDocIdentidad'].touched && formGroup.controls['tipoDocIdentidad'].errors,
                             'is-valid': formGroup.controls['tipoDocIdentidad'].touched && !formGroup.controls['tipoDocIdentidad'].errors
                              }">
-                        <option *ngFor="let doi of listaDoi" [value]="doi.codItem">{{doi.descripcion}}</option>
+                        <option *ngFor="let doi of listaDoi"
+                                [value]="doi.codigoItem">{{doi.nombre}}</option>
                       </select>
                     </div>
                   </div>
@@ -39,25 +40,26 @@
                      }
                     ">
                       <div class="invalid-feedback">
-                        <span *ngIf="formGroup.get('numDocIdentidad').hasError('required')">
-                          Número de documento de identidad es obligatorio
-                        </span>
+                              <span *ngIf="formGroup.get('numDocIdentidad').hasError('required')">
+                                Número de documento de identidad es obligatorio
+                              </span>
                         <span *ngIf="formGroup.get('numDocIdentidad').hasError('minlength')">
-                          {{messageDocIdInvalid}}
-                        </span>
+                                {{messageDocIdInvalid}}
+                              </span>
                         <span *ngIf="formGroup.get('numDocIdentidad').hasError('personaConUsuario')">
-                          {{errorPersonaConUsuario}}
-                        </span>
+                                {{errorPersonaConUsuario}}
+                              </span>
                         <span *ngIf="formGroup.get('numDocIdentidad').hasError('pattern')">
-                          Ingrese caracteres alfanuméricos
-                        </span>
+                                {{ messagePattern }}
+                              </span>
                       </div>
                     </div>
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="primerNombre">Primer Nombre *</label>
-                      <input Uppercase type="text" id="primerNombre" placeholder="Primer nombre" class="form-control"
+                      <input Uppercase type="text" id="primerNombre" placeholder="Primer nombre"
+                             class="form-control"
                              formControlName="primerNombre" autocomplete="off"
                              [ngClass]="
                     {
@@ -75,7 +77,8 @@
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="segundoNombre">Segundo Nombre</label>
-                      <input Uppercase type="text" id="segundoNombre" placeholder="Segundo nombre" class="form-control"
+                      <input Uppercase type="text" id="segundoNombre" placeholder="Segundo nombre"
+                             class="form-control"
                              autocomplete="off" formControlName="segundoNombre" [ngClass]="
                     {
                     'is-invalid': formGroup.controls['segundoNombre'].touched && formGroup.controls['segundoNombre'].errors
@@ -128,10 +131,27 @@
                             'is-invalid': formGroup.controls['sexo'].touched && formGroup.controls['sexo'].errors,
                             'is-valid': formGroup.controls['sexo'].touched && !formGroup.controls['sexo'].errors
                              }">
-                        <option *ngFor="let sex of listaSexo" [value]="sex.codItem">{{sex.descripcion}}</option>
+                        <option *ngFor="let sex of listaSexo"
+                                [value]="sex.codigoItem">{{sex.nombre}}</option>
                       </select>
                       <div class="invalid-feedback">
                         <span *ngIf="formGroup.get('sexo').hasError('required')">Obligatorio.</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="fechaNacimiento">Fecha de Nacimiento *</label>
+                      <input type="date" formControlName="fechaNacimiento" id="fechaNacimiento"
+                             class="form-control"
+                             [ngClass]="
+                      {
+                      'is-invalid': formGroup.controls['fechaNacimiento'].touched && formGroup.controls['fechaNacimiento'].errors,
+                      'is-valid': formGroup.controls['fechaNacimiento'].touched && !formGroup.controls['fechaNacimiento'].errors
+                       }">
+                      <div class="invalid-feedback">
+                                  <span
+                                    *ngIf="formGroup.get('fechaNacimiento').hasError('required')">Obligatorio.</span>
                       </div>
                     </div>
                   </div>
@@ -143,30 +163,43 @@
                             'is-valid': formGroup.controls['estadoCivil'].touched && !formGroup.controls['estadoCivil'].errors
                              }">
                         <option *ngFor="let item of tipoEstadosCivil"
-                                [value]="item.codItem">{{item.descripcion}}</option>
+                                [value]="item.codigoItem">{{item.nombre}}</option>
                       </select>
                       <div class="invalid-feedback">
                         <span *ngIf="formGroup.get('estadoCivil').hasError('required')">Obligatorio.</span>
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="fechaNacimiento">Fecha de Nacimiento *</label>
-                      <input type="date" formControlName="fechaNacimiento" id="fechaNacimiento" class="form-control"
-                             [ngClass]="
-                      {
-                      'is-invalid': formGroup.controls['fechaNacimiento'].touched && formGroup.controls['fechaNacimiento'].errors,
-                      'is-valid': formGroup.controls['fechaNacimiento'].touched && !formGroup.controls['fechaNacimiento'].errors
-                       }">
-                      <div class="invalid-feedback">
-                        <span *ngIf="formGroup.get('fechaNacimiento').hasError('required')">Obligatorio.</span>
-                      </div>
-                    </div>
-                  </div>
                 </div>
                 <label><strong>DATOS DE ACCESO</strong></label>
                 <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="rolId">Rol *</label>
+
+                      <select2 [data]="exampleData"
+                               [options]="options"
+                               [cssImport]="true"
+                               (valueChanged)="changed($event)"></select2>
+                      <select style="display: none;" multiple="multiple" id="rolId" class="form-control"
+                              formControlName="rolId"
+                              (change)="onChangeRolId()"
+                              [ngClass]="
+                      {
+                      'is-invalid': formGroup.controls['rolId'].touched && formGroup.controls['rolId'].errors,
+                      'is-valid': formGroup.controls['rolId'].touched && !formGroup.controls['rolId'].errors
+                       }"
+                      >
+
+                        <option *ngFor="let o of roles"
+                                [value]="o.id">{{o.nombre}}</option>
+                      </select>
+
+                      <div class="invalid-feedback">
+                        <span *ngIf="formGroup.get('rolId').hasError('required')">Obligatorio.</span>
+                      </div>
+                    </div>
+                  </div>
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="email">Email *</label>
@@ -191,7 +224,7 @@
                     <div class="form-group">
                       <label for="numeroCelular">Teléfono*</label>
                       <input type="text" Number id="numeroCelular" placeholder="Teléfono" class="form-control"
-                             maxlength="9"
+                             maxlength="9" autocomplete="off"
                              formControlName="numeroCelular"
                              [ngClass]="
                     {
@@ -201,26 +234,10 @@
                     ">
                       <div class="invalid-feedback">
                         <span *ngIf="formGroup.get('numeroCelular').hasError('required')"> Obligatorio.</span>
-                        <span *ngIf="formGroup.get('numeroCelular').hasError('pattern')"> Solo acepta números.</span>
+                        <span
+                          *ngIf="formGroup.get('numeroCelular').hasError('pattern')"> Solo acepta números.</span>
                         <span
                           *ngIf="formGroup.get('numeroCelular').hasError('maxlength')"> Solo acepta 9 caracteres.</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="codTipoUsuario">Tipo de Usuario *</label>
-                      <select id="codTipoUsuario" class="form-control" formControlName="codTipoUsuario"
-                              [ngClass]="
-                      {
-                      'is-invalid': formGroup.controls['codTipoUsuario'].touched && formGroup.controls['codTipoUsuario'].errors,
-                      'is-valid': formGroup.controls['codTipoUsuario'].touched && !formGroup.controls['codTipoUsuario'].errors
-                       }"
-                      >
-                        <option *ngFor="let tu of tiposUsuarios" [value]="tu.codItem">{{tu.descripcion}}</option>
-                      </select>
-                      <div class="invalid-feedback">
-                        <span *ngIf="formGroup.get('codTipoUsuario').hasError('required')">Obligatorio.</span>
                       </div>
                     </div>
                   </div>
@@ -234,7 +251,7 @@
                       'is-valid': formGroup.controls['codEstado'].touched && !formGroup.controls['codEstado'].errors
                        }"
                       >
-                        <option *ngFor="let o of estados" [value]="o.codItem">{{o.descripcion}}</option>
+                        <option *ngFor="let o of estados" [value]="o.codigoItem">{{o.nombre}}</option>
                       </select>
                       <div class="invalid-feedback">
                         <span *ngIf="formGroup.get('codEstado').hasError('required')">Obligatorio.</span>
@@ -275,7 +292,8 @@
                      }
                     ">
                       <div class="invalid-feedback">
-                        <span *ngIf="formGroup.get('confirmarContrasenha').hasError('required')"> Obligatorio </span>
+                                  <span
+                                    *ngIf="formGroup.get('confirmarContrasenha').hasError('required')"> Obligatorio </span>
                         <span *ngIf="formGroup.get('confirmarContrasenha').hasError('diferente')">Las contraseñas no coinciden </span>
                       </div>
                     </div>
@@ -294,21 +312,24 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="fechaInicioSesion">Desde el *</label>
-                      <input type="date" formControlName="fechaInicioSesion" id="fechaInicioSesion" class="form-control"
+                      <input type="date" formControlName="fechaInicioSesion" id="fechaInicioSesion"
+                             class="form-control"
                              [ngClass]="
                       {
                       'is-invalid': formGroup.controls['fechaInicioSesion'].touched && formGroup.controls['fechaInicioSesion'].errors,
                       'is-valid': formGroup.controls['fechaInicioSesion'].touched && !formGroup.controls['fechaInicioSesion'].errors
                        }">
                       <div class="invalid-feedback">
-                        <span *ngIf="formGroup.get('fechaInicioSesion').hasError('required')">Obligatorio.</span>
+                                  <span
+                                    *ngIf="formGroup.get('fechaInicioSesion').hasError('required')">Obligatorio.</span>
                       </div>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="fechaFinSesion">Hasta el *</label>
-                      <input type="date" formControlName="fechaFinSesion" id="fechaFinSesion" class="form-control"
+                      <input type="date" formControlName="fechaFinSesion" id="fechaFinSesion"
+                             class="form-control"
                              [ngClass]="
                       {
                       'is-invalid': formGroup.controls['fechaFinSesion'].touched && formGroup.controls['fechaFinSesion'].errors,

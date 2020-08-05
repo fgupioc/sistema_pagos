@@ -19,6 +19,7 @@ import {RolCrearComponent} from './rol/rol-crear.component';
 import {RolEditarComponent} from './rol/rol-editar.component';
 import {RolBuscarUsuarioComponent} from './rol-buscar-usuario/rol-buscar-usuario.component';
 import {ComponentesModule} from '../componentes/componentes.module';
+import {Select2Module} from 'ng2-select2';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import {ComponentesModule} from '../componentes/componentes.module';
     FormsModule,
     ComponentesModule,
     NgbModule,
+    Select2Module
   ],
   entryComponents: [UsuarioCrearComponent, UsuarioEditarComponent, RolBuscarUsuarioComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
