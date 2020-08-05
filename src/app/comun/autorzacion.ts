@@ -90,14 +90,14 @@ export class Autorizacion {
   public static TIPO_OPERADOR_ELIMINAR = '1010606' + S + 'eliminar';
 
   // SEGURIDAD
-  public static ROL_LISTAR = '1010701' + S + 'listar';
-  public static ROL_CREAR = '1010701' + S + 'crear';
-  public static ROL_ACTUALIZAR = '1010701' + S + 'actualizar';
+  public static ROL_LISTAR = '101061' + S + 'listar';
+  public static ROL_CREAR = '101061' + S + 'crear';
+  public static ROL_ACTUALIZAR = '101061' + S + 'actualizar';
 
-  public static USUARIO_LISTAR = '1010702' + S + 'listar';
-  public static USUARIO_CREAR = '1010702' + S + 'crear';
-  public static USUARIO_ACTUALIZAR = '1010702' + S + 'actualizar';
-  public static USUARIO_ACTUALIZAR_CONTRASENHA = '1010702' + S + 'actualizar.contrasenha';
+  public static USUARIO_LISTAR = '101060' + S + 'listar';
+  public static USUARIO_CREAR = '101060' + S + 'crear';
+  public static USUARIO_ACTUALIZAR = '101060' + S + 'actualizar';
+  public static USUARIO_ACTUALIZAR_CONTRASENHA = '101060' + S + 'actualizar.contrasenha';
 
   public static ACCESO_LISTAR = '1010703' + S + 'listar';
   public static ACCESO_ACTUALIZAR = '1010703' + S + 'actualizar';

@@ -27,6 +27,7 @@ import {RolComponent} from './mantenimiento/rol/rol.component';
 import {RolCrearComponent} from './mantenimiento/rol/rol-crear.component';
 import {RolEditarComponent} from './mantenimiento/rol/rol-editar.component';
 import {Autorizacion} from './comun/autorzacion';
+import {CanAuthorityGuard} from './guard/can-authority.guard';
 
 
 const A = Autorizacion;
@@ -43,13 +44,13 @@ const routes: Routes = [
           path: 'seguridad',
           children: [
             {path: 'rol', component: RolComponent },
-            {path: 'rol/crear', component: RolCrearComponent, data: {autorizaciones: [A.ROL_CREAR]}},
-            {path: 'rol/editar', component: RolEditarComponent, data: {autorizaciones: [A.ROL_ACTUALIZAR]}},
+            {path: 'rol/crear', component: RolCrearComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.ROL_CREAR]}},
+            {path: 'rol/editar', component: RolEditarComponent, canActivate: [CanAuthorityGuard] , data: {autorizaciones: [A.ROL_ACTUALIZAR]}},
 
             {path: 'usuario', component: UsuarioComponent},
-            {path: 'usuario/crear', component: UsuarioCrearComponent},
-            {path: 'usuario/editar', component: UsuarioEditarComponent},
-            {path: 'usuario/contrasenha', component: UsuarioContrasenhaComponent},
+            {path: 'usuario/crear', component: UsuarioCrearComponent,  canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.USUARIO_CREAR]}},
+            {path: 'usuario/editar', component: UsuarioEditarComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.USUARIO_ACTUALIZAR]}},
+            {path: 'usuario/contrasenha', component: UsuarioContrasenhaComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.USUARIO_ACTUALIZAR_CONTRASENHA]}},
           ]
         },
         {

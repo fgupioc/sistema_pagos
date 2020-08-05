@@ -7,7 +7,7 @@
             <div class="card-tools">
               <ul class="nav nav-pills ml-auto">
                 <li class="nav-item">
-                  <button class="btn btn-sm btn-outline-primary" (click)="crear()">
+                  <button class="btn btn-sm btn-outline-primary" (click)="crear()" *ngIf="AS.has(A.ROL_CREAR)">
                     <i class="fa fa-plus"></i> Nuevo Rol
                   </button>
                 </li>

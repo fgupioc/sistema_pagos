@@ -49,10 +49,12 @@ export class RolComponent implements OnInit {
 
   refreshDatatable() {
     if (this.isDtInitialized) {
-      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-        dtInstance.destroy();
-        this.dtTrigger.next();
-      });
+      if (this.dtElement && this.dtElement.dtInstance) {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+          dtInstance.destroy();
+          this.dtTrigger.next();
+        });
+      }
     } else {
       this.isDtInitialized = true;
       this.dtTrigger.next();
@@ -70,5 +72,4 @@ export class RolComponent implements OnInit {
   estaActivo(codEstado: string) {
     return codEstado === CONST.S_ESTADO_REG_ACTIVO;
   }
-
 }

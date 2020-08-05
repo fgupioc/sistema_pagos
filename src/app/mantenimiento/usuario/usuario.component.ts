@@ -6,6 +6,8 @@ import {Router} from '@angular/router';
 import {CONST} from '../../comun/CONST';
 import {DataTableDirective} from 'angular-datatables';
 import {Subject} from 'rxjs';
+import {AuthorityService} from '../../servicios/authority.service';
+import {Autorizacion} from '../../comun/autorzacion';
 
 @Component({
   selector: 'app-usuario',
@@ -13,7 +15,7 @@ import {Subject} from 'rxjs';
   styleUrls: ['./usuario.component.css']
 })
 export class UsuarioComponent implements OnInit {
-
+  public A = Autorizacion;
   usuarios: any[] = [];
 
   dtOptions: DataTables.Settings = {};
@@ -22,12 +24,14 @@ export class UsuarioComponent implements OnInit {
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(private usuarioService: UsuarioService, private spinner: NgxSpinnerService, private modalService: NgbModal,
-              private router: Router) {
+              private router: Router, private AS: AuthorityService) {
   }
 
   ngOnInit() {
     this.dtOptions = CONST.DATATABLE_ES();
-    this.encuentraTodos();
+    if (this.AS.has(this.A.USUARIO_LISTAR)) {
+      this.encuentraTodos();
+    }
   }
 
   encuentraTodos() {
