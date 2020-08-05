@@ -85,9 +85,9 @@ const routes: Routes = [
             {
               path: 'carteras',
               children: [
-                {path: '', component: ListarCarteraComponent},
-                {path: 'crear', component: CrearCarteraComponent},
-                {path: 'detalle', component: DetalleCarteraComponent},
+                {path: '', component: ListarCarteraComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.CARTERA_LISTAR]}},
+                {path: 'crear', component: CrearCarteraComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.CARTERA_CREAR]}},
+                {path: 'detalle', component: DetalleCarteraComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.CARTERA_ACTUALIZAR]}},
                 {path: 'cargar-credito', component: CarteraCargarCreditoComponent},
                 {path: 'cargar-credito/socios/:cargaCreditoId', component: CarteraCargarCreditoSociosComponent},
                 {path: 'cargar-credito/creditos/:cargaCreditoId', component: CarteraCargarCreditoCreditosComponent},
@@ -95,7 +95,7 @@ const routes: Routes = [
                 {path: 'editar-gestion', component: ActualizarGestionComponent}
               ]
             },
-            {path: 'notificaciones', component: EnviarNotificionComponent}
+            {path: 'notificaciones', component: EnviarNotificionComponent,  canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.NOTIFICACION_LISTAR]}}
           ]
         },
         {
@@ -104,11 +104,11 @@ const routes: Routes = [
             {
               path: 'notificacion',
               children: [
-                {path: '', component: ConfigurarNotificionComponent},
-                {path: 'enviar', component: EnviarNotificionComponent, data: {send: true}}
+                {path: '', component: ConfigurarNotificionComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.NOTIFICACION_LISTAR]}},
+                {path: 'enviar', component: EnviarNotificionComponent,  canActivate: [CanAuthorityGuard], data: {send: true, autorizaciones: [A.ENVIAR_NOTIFICACION_LISTAR]}}
               ]
             },
-            {path: 'tipo-notificacion', component: TipoNotificacionComponent}
+            {path: 'tipo-notificacion', component: TipoNotificacionComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.TIPO_NOTIFICACION_LISTAR]} }
           ]
         },
         {

@@ -4,6 +4,8 @@ import {TipoNotificacionService} from '../../../servicios/tipo-notificacion.serv
 import {NgxSpinnerService} from 'ngx-spinner';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import Swal from 'sweetalert2';
+import {Autorizacion} from '../../../comun/autorzacion';
+import {AuthorityService} from '../../../servicios/authority.service';
 
 @Component({
   selector: 'app-tipo-notificacion',
@@ -11,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./tipo-notificacion.component.css']
 })
 export class TipoNotificacionComponent implements OnInit {
-
+  public A = Autorizacion;
   notificaciones: TipoNotificacion[] = [];
   form: FormGroup;
   create = true;
@@ -20,12 +22,16 @@ export class TipoNotificacionComponent implements OnInit {
   constructor(
     private tipoNotificacionService: TipoNotificacionService,
     private spinner: NgxSpinnerService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public AS: AuthorityService
   ) {
   }
 
   ngOnInit() {
-    this.loadNotifications();
+    if(this.AS.has(this.A.TIPO_NOTIFICACION_LISTAR)) {
+      this.loadNotifications();
+    }
+
     this.form = this.formBuilder.group({
       nombre: ['', [Validators.required]],
       limiteCaracteres: ['', [Validators.required]]

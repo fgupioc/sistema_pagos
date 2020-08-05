@@ -7,6 +7,8 @@ import {MaestroService} from '../../../servicios/sistema/maestro.service';
 import {Cartera} from '../../../interfaces/cartera';
 import {isNullOrUndefined} from 'util';
 import Swal from 'sweetalert2';
+import {Autorizacion} from '../../../comun/autorzacion';
+import {AuthorityService} from '../../../servicios/authority.service';
 
 @Component({
   selector: 'app-listar-cartera',
@@ -15,18 +17,22 @@ import Swal from 'sweetalert2';
 })
 export class ListarCarteraComponent implements OnInit {
   carteras: Cartera[] = [];
+  public A = Autorizacion;
 
   constructor(
     private router: Router,
     private carteraService: CarteraService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private maestroService: MaestroService
+    private maestroService: MaestroService,
+    public AS: AuthorityService
   ) {
   }
 
   ngOnInit() {
-    this.getCarteras();
+    if (this.AS.has(this.A.CARTERA_LISTAR)) {
+      this.getCarteras();
+    }
   }
 
   private getCarteras() {
@@ -62,7 +68,7 @@ export class ListarCarteraComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.spinner.show();
-        this.carteraService.cambiarEstado(String(item.codCartera),  (estado == '1') ? '0' : '1').subscribe(
+        this.carteraService.cambiarEstado(String(item.codCartera), (estado == '1') ? '0' : '1').subscribe(
           res => {
             if (res.exito) {
               item.estado = (estado == '1') ? '0' : '1';

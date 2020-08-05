@@ -24,7 +24,7 @@ export class UsuarioComponent implements OnInit {
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(private usuarioService: UsuarioService, private spinner: NgxSpinnerService, private modalService: NgbModal,
-              private router: Router, private AS: AuthorityService) {
+              private router: Router, public AS: AuthorityService) {
   }
 
   ngOnInit() {

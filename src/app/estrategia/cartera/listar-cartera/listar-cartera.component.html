@@ -8,7 +8,7 @@
         </ol>
       </div>
       <div class="card-body">
-        <button class="btn btn-sm btn-outline-primary mb-4" routerLink="/auth/estrategia/carteras/crear">Nuevo</button>
+        <button class="btn btn-sm btn-outline-primary mb-4" *ngIf="AS.has(this.A.CARTERA_CREAR)" routerLink="/auth/estrategia/carteras/crear">Nuevo</button>
         <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
@@ -29,9 +29,9 @@
                 <td>{{ item.estado == '1' ? 'Activo' : 'Inactivo' }}</td>
                 <td>
                   <div class="btn-group">
-                    <button class="btn btn-sm btn-primary mr-2" (click)="showDetails(item)"><i class="fa fa-eye"></i></button>
-                    <button *ngIf="item.estado == '1'" class="btn btn-sm btn-danger" (click)="cambiarEstado(item, '1')"><i class="fa fa-trash"></i></button>
-                    <button *ngIf="item.estado == '0'" class="btn btn-sm btn-success" (click)="cambiarEstado(item, '0')"><i class="fa fa-check"></i></button>
+                    <button class="btn btn-sm btn-primary mr-2" *ngIf="AS.has(this.A.CARTERA_ACTUALIZAR)"  (click)="showDetails(item)"><i class="fa fa-eye"></i></button>
+                    <button  *ngIf="item.estado == '1' && AS.has(this.A.CARTERA_ELIMINAR)" class="btn btn-sm btn-danger" (click)="cambiarEstado(item, '1')"><i class="fa fa-trash"></i></button>
+                    <button *ngIf="item.estado == '0' && AS.has(this.A.CARTERA_ELIMINAR)" class="btn btn-sm btn-success" (click)="cambiarEstado(item, '0')"><i class="fa fa-check"></i></button>
                   </div>
                 </td>
               </tr>

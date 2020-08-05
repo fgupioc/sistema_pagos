@@ -15,8 +15,8 @@
             <div class="input-group">
               <input Number type="text" class="form-control" placeholder="número de caracteres" formControlName="limiteCaracteres">
               <div class="input-group-btn ml-2">
-                <button type="button" *ngIf="create" class="btn btn-info" (click)="created()" [disabled]="form.invalid">Guardar</button>
-                <button type="button" *ngIf="!create" class="btn btn-info" (click)="updated()" [disabled]="form.invalid">Editar</button>
+                <button type="button" *ngIf="create && AS.has(A.TIPO_NOTIFICACION_CREAR)" class="btn btn-info" (click)="created()" [disabled]="form.invalid">Guardar</button>
+                <button type="button" *ngIf="!create && AS.has(A.TIPO_NOTIFICACION_ACTUALIZAR)" class="btn btn-info" (click)="updated()" [disabled]="form.invalid">Editar</button>
               </div>
             </div>
           </div>
@@ -42,8 +42,8 @@
               <td>{{ item.estado == '1' ? 'Activo' : 'Desactivado' }}</td>
               <td>
                 <button class="btn btn-sm btn-primary mr-2" (click)="edit(item)"><i class="fa fa-edit"></i></button>
-                <button *ngIf="item.estado == '1'" class="btn btn-sm btn-danger" (click)="actualizarEstado(item, 0)"><i class="fa fa-trash"></i></button>
-                <button *ngIf="item.estado == '0'" class="btn btn-sm btn-success" (click)="actualizarEstado(item, 1)"><i class="fa fa-check"></i></button>
+                <button *ngIf="item.estado == '1' && AS.has(A.TIPO_NOTIFICACION_ELIMINAR)" class="btn btn-sm btn-danger" (click)="actualizarEstado(item, 0)"><i class="fa fa-trash"></i></button>
+                <button *ngIf="item.estado == '0' && AS.has(A.TIPO_NOTIFICACION_ELIMINAR)" class="btn btn-sm btn-success" (click)="actualizarEstado(item, 1)"><i class="fa fa-check"></i></button>
               </td>
             </tr>
             </tbody>

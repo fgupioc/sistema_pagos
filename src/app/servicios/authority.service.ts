@@ -12,7 +12,6 @@ export class AuthorityService {
   }
 
   has(authority: string): boolean {
-    console.log(authority);
     return this.authorities.findIndex(auto => auto == authority) >= 0;
   }
 }

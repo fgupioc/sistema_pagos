@@ -8,6 +8,8 @@ import {CrearEtapaNotificionComponent} from '../crear-etapa-notificion/crear-eta
 import {isNullOrUndefined} from 'util';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Cartera} from '../../../interfaces/cartera';
+import {Autorizacion} from '../../../comun/autorzacion';
+import {AuthorityService} from '../../../servicios/authority.service';
 
 declare var $: any;
 
@@ -26,6 +28,7 @@ export class EnviarNotificionComponent implements OnInit {
   notificaciones: any[] = [];
   etapaDias: any[] = [];
   rangos: any[] = [];
+  public A = Autorizacion;
 
   constructor(
     config: NgbModalConfig,
@@ -34,7 +37,8 @@ export class EnviarNotificionComponent implements OnInit {
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
     public modalService: NgbModal,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public AS: AuthorityService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -43,7 +47,9 @@ export class EnviarNotificionComponent implements OnInit {
 
   ngOnInit() {
     this.listarCartera();
-    this.listarNotificaciones();
+    if (this.AS.has(this.A.ENVIAR_NOTIFICACION_LISTAR)) {
+      this.listarNotificaciones();
+    }
     this.formulario = this.formBuilder.group({
       codCartera: ['', Validators.required]
     });

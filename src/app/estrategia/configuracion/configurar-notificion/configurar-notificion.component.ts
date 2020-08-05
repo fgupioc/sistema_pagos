@@ -7,6 +7,8 @@ import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
 import {CrearEtapaNotificionComponent} from '../crear-etapa-notificion/crear-etapa-notificion.component';
 import {isNullOrUndefined} from 'util';
 import {Cartera} from '../../../interfaces/cartera';
+import {Autorizacion} from '../../../comun/autorzacion';
+import {AuthorityService} from '../../../servicios/authority.service';
 
 @Component({
   selector: 'app-configurar-notificion',
@@ -14,6 +16,7 @@ import {Cartera} from '../../../interfaces/cartera';
   styleUrls: ['./configurar-notificion.component.css']
 })
 export class ConfigurarNotificionComponent implements OnInit {
+  public A = Autorizacion;
   formulario: FormGroup;
   cartera: Cartera;
   carteras: any[] = [];
@@ -29,7 +32,8 @@ export class ConfigurarNotificionComponent implements OnInit {
     private notificacionService: NotificacionService,
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
-    public modalService: NgbModal
+    public modalService: NgbModal,
+    public AS: AuthorityService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;

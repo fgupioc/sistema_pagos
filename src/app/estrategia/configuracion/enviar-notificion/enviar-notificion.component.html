@@ -41,7 +41,7 @@
                                     <button *ngIf="gestion.etapas.length > 0" (click)="showEtapaDetalle(c)" [class]="'btnShowEtapa_'+ c +' detail-etapa-icon btn btn-sm btn-success'"><i class="fa fa-plus"></i></button>
                                   </td>
                                   <td width="90%" class="text-left">
-                                    <button class="btn btn-sm btn-outline-primary" (click)="nuevoMensaje(item)"><i class="fa fa-envelope-o"></i></button>
+                                    <button class="btn btn-sm btn-outline-primary" *ngIf="AS.has(A.ENVIAR_NOTIFICACION_CREAR)" (click)="nuevoMensaje(item)"><i class="fa fa-envelope-o"></i></button>
                                     Etapa: {{ item.nombre }} - desde: {{item.desde}} a {{item.hasta}}
                                   </td>
                                 </tr>
