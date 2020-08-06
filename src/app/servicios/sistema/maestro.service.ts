@@ -98,7 +98,7 @@ export class MaestroService {
       {codItem: '005', descripcion: 'CAJAMACA'},
       {codItem: '006', descripcion: 'CUZCO'},
       {codItem: '007', descripcion: 'PIURA'},
-      {codItem: '0078', descripcion: 'PISCO'},
+      {codItem: '008', descripcion: 'PISCO'},
     ];
     return of(data);
   }

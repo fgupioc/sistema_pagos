@@ -8,6 +8,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import Swal from 'sweetalert2';
 import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
 import {ModalMaestroComponent} from '../modal-maestro/modal-maestro.component';
+import {AuthorityService} from '../../../servicios/authority.service';
+import {Autorizacion, S} from '../../../comun/autorzacion';
 
 @Component({
   selector: 'app-gestionar-tabla-maestro',
@@ -15,10 +17,11 @@ import {ModalMaestroComponent} from '../modal-maestro/modal-maestro.component';
   styleUrls: ['./gestionar-tabla-maestro.component.css']
 })
 export class GestionarTablaMaestroComponent implements OnInit {
+  public A = Autorizacion;
   codTable: number;
   title: string;
   items: TablaMaestra[] = [];
-
+  code: string;
   create = true;
 
   constructor(
@@ -28,15 +31,17 @@ export class GestionarTablaMaestroComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
     config: NgbModalConfig,
+    public AS: AuthorityService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
-    const {codTable, title} = activatedRoute.snapshot.data;
+    const {codTable, title, code} = activatedRoute.snapshot.data;
     if (isNullOrUndefined(codTable)) {
       route.navigateByUrl('/auth/dashboard');
     } else {
       this.codTable = codTable;
       this.title = title;
+      this.code = code;
       this.loadElements(codTable);
     }
   }
