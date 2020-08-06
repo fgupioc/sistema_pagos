@@ -56,8 +56,8 @@ const routes: Routes = [
         {
           path: 'mantenimiento',
           children: [
-            {path: 'tipo-usuario', component: GestionarTablaMaestroComponent, data: {codTable: 1, title: 'TIPOS DE USUARIO'}},
-            {path: 'estado-registro', component: GestionarTablaMaestroComponent, data: {codTable: 2, title: 'ESTADOS DE UN REGISTRO'}},
+            {path: 'tipo-usuario', component: GestionarTablaMaestroComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.TIPO_USUARIO_LISTAR], codTable: 1, title: 'TIPOS DE USUARIO'}},
+            {path: 'estado-registro', component: GestionarTablaMaestroComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.ESTADO_REGISTRO_LISTAR], codTable: 2, title: 'ESTADOS DE UN REGISTRO'}},
             {path: 'tipo-moneda', component: GestionarTablaMaestroComponent, data: {codTable: 3, title: 'TIPOS DE MONEDA'}},
             {path: 'condicion-solicitud', component: GestionarTablaMaestroComponent, data: {codTable: 4, title: 'CONDICIÓN DE SOLICITUD'}},
             {path: 'tipo-credito', component: GestionarTablaMaestroComponent, data: {codTable: 5, title: 'TIPO DE CRÉDITO PRE APROBADO'}},

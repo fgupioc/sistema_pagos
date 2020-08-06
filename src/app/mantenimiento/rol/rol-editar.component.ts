@@ -197,6 +197,7 @@ export class RolEditarComponent implements OnInit {
     for (const menu of this.menus) {
       for (const menuChildren of menu.children) {
         if (menuChildren.checked) {
+          console.log(menuChildren);
           const item = menuChildren.autorizaciones.find(autori => autori.checked == true);
           if (!item) {
             mensajeError = `${menu.text} | ${menuChildren.text}, no se ha elegido ningúna autorización`;

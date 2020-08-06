@@ -63,4 +63,14 @@ export class Autorizacion {
   public static CARTERA_CREAR = '1010800' + S + 'crear';
   public static CARTERA_ACTUALIZAR = '1010800' + S + 'actualizar';
   public static CARTERA_ELIMINAR = '1010800' + S + 'eliminar';
+
+  public static TIPO_USUARIO_LISTAR = '201051' + S + 'listar';
+  public static TIPO_USUARIO_CREAR = '201051' + S + 'crear';
+  public static TIPO_USUARIO_ACTUALIZAR = '201051' + S + 'actualizar';
+  public static TIPO_USUARIO_ELIMINAR = '201051' + S + 'eliminar';
+
+  public static ESTADO_REGISTRO_LISTAR = '201052' + S + 'listar';
+  public static ESTADO_REGISTRO_CREAR = '201052' + S + 'crear';
+  public static ESTADO_REGISTRO_ACTUALIZAR = '201052' + S + 'actualizar';
+  public static ESTADO_REGISTRO_ELIMINAR = '201052' + S + 'eliminar';
 }
