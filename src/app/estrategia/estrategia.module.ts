@@ -25,6 +25,7 @@ import {TipoNotificacionComponent} from './config/tipo-notificacion/tipo-notific
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {GestionarTablaMaestroComponent} from './mantenimiento/gestionar-tabla-maestro/gestionar-tabla-maestro.component';
 import {ModalMaestroComponent} from './mantenimiento/modal-maestro/modal-maestro.component';
+import { MantenedorTipoNotificacionComponent } from './config/mantenedor-tipo-notificacion/mantenedor-tipo-notificacion.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import {ModalMaestroComponent} from './mantenimiento/modal-maestro/modal-maestro
     DetalleCarteraComponent,
     TipoNotificacionComponent,
     GestionarTablaMaestroComponent,
-    ModalMaestroComponent
+    ModalMaestroComponent,
+    MantenedorTipoNotificacionComponent
   ],
   imports: [
     CommonModule,
@@ -70,7 +72,8 @@ import {ModalMaestroComponent} from './mantenimiento/modal-maestro/modal-maestro
     SocioListDireccionesComponent,
     SocioListTelefonosComponent,
     SocioListEmailsComponent,
-    ModalMaestroComponent
+    ModalMaestroComponent,
+    MantenedorTipoNotificacionComponent
   ]
 })
 export class EstrategiaModule {

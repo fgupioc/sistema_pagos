@@ -6,6 +6,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import Swal from 'sweetalert2';
 import {Autorizacion} from '../../../comun/autorzacion';
 import {AuthorityService} from '../../../servicios/authority.service';
+import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
+import {MantenedorTipoNotificacionComponent} from '../mantenedor-tipo-notificacion/mantenedor-tipo-notificacion.component';
 
 @Component({
   selector: 'app-tipo-notificacion',
@@ -15,27 +17,21 @@ import {AuthorityService} from '../../../servicios/authority.service';
 export class TipoNotificacionComponent implements OnInit {
   public A = Autorizacion;
   notificaciones: TipoNotificacion[] = [];
-  form: FormGroup;
-  create = true;
   notificacion: TipoNotificacion;
 
   constructor(
     private tipoNotificacionService: TipoNotificacionService,
     private spinner: NgxSpinnerService,
-    private formBuilder: FormBuilder,
-    public AS: AuthorityService
-  ) {
+    public AS: AuthorityService,
+    config: NgbModalConfig, private modalService: NgbModal) {
+    config.backdrop = 'static';
+    config.keyboard = false;
   }
 
   ngOnInit() {
-    if(this.AS.has(this.A.TIPO_NOTIFICACION_LISTAR)) {
+    if (this.AS.has(this.A.TIPO_NOTIFICACION_LISTAR)) {
       this.loadNotifications();
     }
-
-    this.form = this.formBuilder.group({
-      nombre: ['', [Validators.required]],
-      limiteCaracteres: ['', [Validators.required]]
-    });
   }
 
   loadNotifications() {
@@ -49,28 +45,19 @@ export class TipoNotificacionComponent implements OnInit {
     );
   }
 
-  created() {
-    if (this.form.invalid) {
-      Swal.fire('Nueva Notificación', 'Debe ingresar los datos obligatorios', 'error');
-      return;
-    }
-    const {nombre, limiteCaracteres} = this.form.getRawValue();
-    const datos: TipoNotificacion = new TipoNotificacion(nombre, limiteCaracteres);
-    this.spinner.show();
-    this.tipoNotificacionService.created(datos).subscribe(
-      res => {
-        if (res.exito) {
-          Swal.fire('Notificación', res.mensaje, 'success');
-          this.create = true;
-          this.form.reset();
-          this.loadNotifications();
-        } else {
-          Swal.fire('Notificación', res.mensaje, 'error');
-        }
-        this.spinner.hide();
-      },
-      () => this.spinner.hide()
+  showModalCreate() {
+    const modal = this.modalService.open(MantenedorTipoNotificacionComponent, {centered: true, size: 'sm'});
+    modal.result.then(
+      this.closeModal.bind(this),
+      this.closeModal.bind(this),
     );
+  }
+
+  closeModal(data) {
+    if (data && data.flag) {
+      this.loadNotifications();
+    }
+
   }
 
   actualizarEstado(item: TipoNotificacion, state: number) {
@@ -88,8 +75,6 @@ export class TipoNotificacionComponent implements OnInit {
           res => {
             if (res.exito) {
               Swal.fire('Notificación', res.mensaje, 'success');
-              this.create = true;
-              this.form.reset();
               this.loadNotifications();
             } else {
               Swal.fire('Notificación', res.mensaje, 'error');
@@ -103,30 +88,13 @@ export class TipoNotificacionComponent implements OnInit {
   }
 
   edit(item: TipoNotificacion) {
-    this.notificacion = item;
-    this.create = false;
-    this.form.controls.nombre.setValue(item.nombre);
-    this.form.controls.limiteCaracteres.setValue(item.limiteCaracteres);
-  }
-
-  updated() {
-    const {nombre, limiteCaracteres} = this.form.getRawValue();
-    this.notificacion.nombre = nombre;
-    this.notificacion.limiteCaracteres = limiteCaracteres;
-    this.spinner.show();
-    this.tipoNotificacionService.updated(this.notificacion).subscribe(
-      res => {
-        if (res.exito) {
-          Swal.fire('Notificación', res.mensaje, 'success');
-          this.create = true;
-          this.form.reset();
-          this.loadNotifications();
-        } else {
-          Swal.fire('Notificación', res.mensaje, 'error');
-        }
-        this.spinner.hide();
-      },
-      () => this.spinner.hide()
+    const modal = this.modalService.open(MantenedorTipoNotificacionComponent, {size: 'sm', centered: true});
+    modal.componentInstance.notificacion = item;
+    modal.componentInstance.create = false;
+    modal.result.then(
+      this.closeModal.bind(this),
+      this.closeModal.bind(this),
     );
   }
+
 }

@@ -8,6 +8,7 @@ import {RouterModule} from '@angular/router';
 import { ValidarPinComponent } from './validar-pin/validar-pin.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {ComunModule} from '../comun/comun.module';
+import {ErrorsInterceptor} from '../servicios/seguridad/errors.interceptor';
 
 @NgModule({
   declarations: [LoginComponent, ValidarPinComponent],
@@ -24,6 +25,7 @@ import {ComunModule} from '../comun/comun.module';
       useClass: TokenInterceptor,
       multi: true
     },
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorsInterceptor, multi: true},
   ],
 })
 export class PublicoModule {

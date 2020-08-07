@@ -15,6 +15,8 @@ import {ComponentesModule} from './componentes/componentes.module';
 import {PublicoModule} from './publico/publico.module';
 import {ConfigService, configServiceInitializerFactory} from './servicios/seguridad/config.service';
 import {TokenInterceptor} from './servicios/seguridad/token.interceptor';
+import {ErrorsInterceptor} from './servicios/seguridad/errors.interceptor';
+import {RouterModule} from '@angular/router';
 
 registerLocaleData(localePE, 'es-PE');
 
@@ -26,6 +28,7 @@ registerLocaleData(localePE, 'es-PE');
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    RouterModule,
     AppRoutingModule,
     AuthModule,
     PublicoModule,
@@ -41,7 +44,6 @@ registerLocaleData(localePE, 'es-PE');
       deps: [ConfigService],
       multi: true
     },
-    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
     {provide: LOCALE_ID, useValue: 'es-PE'},
   ],
   bootstrap: [AppComponent]

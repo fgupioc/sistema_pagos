@@ -1,0 +1,25 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ create ? 'Registrar' : 'Actualizar' }} notificacón</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row" [formGroup]="form">
+    <div class="col-12">
+      <div class="form-group">
+        <input Uppercase type="text" class="form-control" placeholder="nombre de la notificación" formControlName="nombre">
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="input-group">
+        <input Number type="text" class="form-control" placeholder="número de caracteres" formControlName="limiteCaracteres">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer d-flex justify-content-center" >
+  <button type="button" *ngIf="create && AS.has(A.TIPO_NOTIFICACION_CREAR)" class="btn btn-info" (click)="created()" [disabled]="form.invalid">Guardar</button>
+  <button type="button" *ngIf="!create && AS.has(A.TIPO_NOTIFICACION_ACTUALIZAR)" class="btn btn-info" (click)="updated()" [disabled]="form.invalid">Editar</button>
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Cerrar</button>
+</div>
