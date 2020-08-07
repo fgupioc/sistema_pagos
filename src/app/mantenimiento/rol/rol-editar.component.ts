@@ -118,7 +118,6 @@ export class RolEditarComponent implements OnInit {
       this.cargandoMenu = false;
       const rolMenuAutoris = this.rol.rolMenuAutoris;
       this.menus = menus;
-      console.log(menus);
       for (const menu of this.menus) {
         for (const menuChildren of menu.children) {
 
@@ -150,7 +149,6 @@ export class RolEditarComponent implements OnInit {
           */
         }
       }
-      //&&//console.log(menus);
 
       this.items = this.menus.map(value => {
         return new TreeviewItem(value);
@@ -161,8 +159,6 @@ export class RolEditarComponent implements OnInit {
 
   onSelectedChange($event: any[]) {
     this.valoresMenus = $event;
-    //&&//console.log('menus');
-    //&&//console.log(this.valoresMenus);
     this.menus.forEach(menu => menu.children.forEach(hijo => hijo.checked = false));
     if (this.valoresMenus.length > 0) {
       this.valoresMenus.forEach(valor1 => {
@@ -181,16 +177,18 @@ export class RolEditarComponent implements OnInit {
   }
 
   onFilterChange(value: string) {
-    //&&//console.log('filter:', value);
+    // console.log('filter:', value);
   }
 
   regresar() {
     this.router.navigate(['/auth/seguridad/rol']);
   }
 
+  /*
   desactivarGuardar() {
     return this.formGroup.invalid || this.formGroup.pending || this.valoresMenus.length == 0 || this.autorizacionesElegidos.length == 0;
   }
+*/
 
   validarMenusConAlMenosUnRol(): string {
     let mensajeError = '';
@@ -230,39 +228,36 @@ export class RolEditarComponent implements OnInit {
   }
 
   actualizarRol() {
-    if (!this.desactivarGuardar()) {
+    if (this.formGroup.invalid || this.formGroup.pending || this.valoresMenus.length == 0 || this.autorizacionesElegidos.length == 0) {
       const mensajeError = this.validarMenusConAlMenosUnRol();
       if (mensajeError) {
         Swal.fire('', mensajeError, 'error');
         return;
       }
-
-      const rol: Rol = {
-        id: this.rolId,
-        nombre: this.formGroup.get('nombre').value,
-        codEstado: this.formGroup.get('codEstado').value
-      };
-
-      const rolMenuAutoris = this.filtrarMenus();
-
-      const usuariosElegidos = [];
-      this.usuarios.forEach(user => usuariosElegidos.push(user.id));
-
-      const rolActualizar = {rol, rolMenuAutoris, usuarioIds: usuariosElegidos};
-
-      this.spinner.show();
-      this.rolService.actualizar(rolActualizar).subscribe(
-        respuesta => {
-          this.spinner.hide();
-          if (respuesta.codigo == CONST.C_STR_CODIGO_SUCCESS) {
-            this.toastr.success(respuesta.mensaje, '');
-            this.regresar();
-          } else {
-            Swal.fire('', respuesta.mensaje || '', 'error');
-          }
-        }
-      );
     }
+    const rol: Rol = {
+      id: this.rolId,
+      nombre: this.formGroup.get('nombre').value,
+      codEstado: this.formGroup.get('codEstado').value
+    };
+
+    const rolMenuAutoris = this.filtrarMenus();
+    const usuariosElegidos = [];
+    this.usuarios.forEach(user => usuariosElegidos.push(user.id));
+    const rolActualizar = {rol, rolMenuAutoris, usuarioIds: usuariosElegidos};
+    this.spinner.show();
+    this.rolService.actualizar(rolActualizar).subscribe(
+      respuesta => {
+        this.spinner.hide();
+        if (respuesta.codigo == CONST.C_STR_CODIGO_SUCCESS) {
+          this.toastr.success(respuesta.mensaje, '');
+          this.regresar();
+        } else {
+          Swal.fire('', respuesta.mensaje || '', 'error');
+        }
+      }
+    );
+
   }
 
   agregarUsuario() {
