@@ -27,12 +27,11 @@ export class Autorizacion {
   public static TIPO_NOTIFICACION_ACTUALIZAR = '101100' + S + 'actualizar';
   public static TIPO_NOTIFICACION_ELIMINAR = '101100' + S + 'eliminar';
 
-  public static CARTERA_LISTAR = '1010800' + S + 'listar';
-  public static CARTERA_CREAR = '1010800' + S + 'crear';
-  public static CARTERA_ACTUALIZAR = '1010800' + S + 'actualizar';
-  public static CARTERA_ELIMINAR = '1010800' + S + 'eliminar';
-
-
+  public static CARTERA_LISTAR = '101084' + S + 'listar';
+  public static CARTERA_CREAR = '101084' + S + 'crear';
+  public static CARTERA_ACTUALIZAR = '101084' + S + 'actualizar';
+  public static CARTERA_ELIMINAR = '101084' + S + 'eliminar';
+  
   // MANTENIMIENTO
   public static TIPO_USUARIO_CODE = '201051';
   public static TIPO_USUARIO_LISTAR = Autorizacion.TIPO_USUARIO_CODE + S + 'listar';
