@@ -117,7 +117,6 @@ export class RolCrearComponent implements OnInit {
     this.cargandoMenu = true;
     this.menuService.encuentraTodosArbol().subscribe(menus => {
       this.cargandoMenu = false;
-      console.log(menus)
       this.menus = menus;
       this.items = this.menus.map(value => {
         return new TreeviewItem(value);

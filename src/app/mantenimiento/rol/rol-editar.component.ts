@@ -103,6 +103,7 @@ export class RolEditarComponent implements OnInit {
   obtenerRol() {
     setTimeout(() => this.spinner.show());
     this.rolService.obtenerRol(this.rolId).subscribe(rol => {
+      console.log(rol);
       this.spinner.hide();
       this.formGroup.get('nombre').setValue(rol.nombre);
       this.formGroup.get('codEstado').setValue(rol.codEstado);
@@ -118,6 +119,8 @@ export class RolEditarComponent implements OnInit {
       this.cargandoMenu = false;
       const rolMenuAutoris = this.rol.rolMenuAutoris;
       this.menus = menus;
+      console.log(menus);
+      console.log(rolMenuAutoris);
       for (const menu of this.menus) {
         for (const menuChildren of menu.children) {
 

@@ -85,8 +85,8 @@ export class UsuarioEditarComponent implements OnInit {
         asyncValidators: [this.usuarioUnicoService.validate.bind(this.usuarioUnicoService, this.usuarioId)],
         updateOn: 'blur'
       }],
-      fechaInicioSesion: ['', [Validators.required]],
-      fechaFinSesion: ['', [Validators.required]],
+      fechaInicio: ['', [Validators.required]],
+      fechaFinal: ['', [Validators.required]],
       rolId: [''],
       rolElegidoId: [''],
       codEstado: ['', [Validators.required]],
@@ -163,7 +163,7 @@ export class UsuarioEditarComponent implements OnInit {
   }
 
   onFilterChange(value: string) {
-    console.log('filter:', value);
+    // console.log('filter:', value);
   }
 
   isSelectedAutorizacion(autorizacionId) {
@@ -179,7 +179,7 @@ export class UsuarioEditarComponent implements OnInit {
   }
 
   onChangeCheckAutorizacion(menu: any, autorizacionId: number) {
-    console.log(menu, autorizacionId);
+    // console.log(menu, autorizacionId);
     const rolId: number = this.formGroup.get('rolElegidoId').value || 0;
     const rol: any = this.rolesElegidos.find(rolObj => rolObj.id == rolId);
     if (rol) {
@@ -207,7 +207,7 @@ export class UsuarioEditarComponent implements OnInit {
         rol.autorizacionesModificadas.splice(index, 1);
       }
     }
-    console.log('rol', rol);
+    // console.log('rol', rol);
   }
 
   obtenerUsuario() {
@@ -221,10 +221,9 @@ export class UsuarioEditarComponent implements OnInit {
         const valoresTemp: string[] = [];
 
         this.rolesElegidos = [];
-        console.log(usuario.roles);
+        console.log(usuario);
         usuario.roles.forEach(rolUsu => {
           const rol = this.roles.find(rolObj => rolObj.id == rolUsu.id);
-          console.log(rol);
           if (rol) {
             // Asignamos autorizaciones del usuario a los roles activos
             rol.autorizacionesOriginales = JSON.parse(JSON.stringify(rolUsu.usuarioRolMenuAutoris));
@@ -253,8 +252,8 @@ export class UsuarioEditarComponent implements OnInit {
 
         this.formGroup.get('numeroCelular').setValue(usuario.numeroCelular);
         this.formGroup.get('email').setValue(usuario.email);
-        this.formGroup.get('fechaInicioSesion').setValue(this.datePipe.transform(usuario.fechaInicioSesion, 'yyyy-MM-dd'));
-        this.formGroup.get('fechaFinSesion').setValue(this.datePipe.transform(usuario.fechaFinSesion, 'yyyy-MM-dd'));
+        this.formGroup.get('fechaInicio').setValue(this.datePipe.transform(usuario.fechaInicioSesion, 'yyyy-MM-dd'));
+        this.formGroup.get('fechaFinal').setValue(this.datePipe.transform(usuario.fechaFinSesion, 'yyyy-MM-dd'));
 
         this.formGroup.get('rolId').setValue(rolesMarcados);
 
@@ -294,17 +293,17 @@ export class UsuarioEditarComponent implements OnInit {
     // tine vaalor y si este esta en el listado de roles elegidos
 
     if ((!rolElegidoId2 || (this.rolesElegidos.findIndex(obj => obj.id == rolElegidoId2) < 0)) && this.rolesElegidos.length > 0) {
-      console.log('valor inicial ' + rolElegidoId2 + ' valor final ' + this.rolesElegidos[0].id);
+      // console.log('valor inicial ' + rolElegidoId2 + ' valor final ' + this.rolesElegidos[0].id);
       this.formGroup.get('rolElegidoId').setValue(this.rolesElegidos[0].id);
       this.onChangeRolFiltradoId();
     }
-    console.log('roles elegidos', this.rolesElegidos);
+    // console.log('roles elegidos', this.rolesElegidos);
   }
 
   onChangeRolId() {
     /*
     const rolesMarcados: number[] = this.formGroup.get('rolId').value;
-    console.log(rolesMarcados);
+    // console.log(rolesMarcados);
     this.rolesElegidos = [];
 
     rolesMarcados.forEach(item => {
@@ -313,16 +312,16 @@ export class UsuarioEditarComponent implements OnInit {
         this.rolesElegidos.push(rol);
       }
     });
-    console.log(this.rolesElegidos);
+    // console.log(this.rolesElegidos);
     */
   }
 
   onChangeRolFiltradoId() {
-    console.log(this.rolesElegidos);
+    // console.log(this.rolesElegidos);
     const rolId: number = this.formGroup.get('rolElegidoId').value || 0;
     if (rolId > 0) {
       const rol: Rol = this.rolesElegidos.find(rolObj => rolObj.id == rolId);
-      console.log(rol);
+      // console.log(rol);
       if (rol && rol.autorizacionesOriginales.length == 0 && rol.autorizacionesModificadas.length == 0) {
         // Si no tiene autorizaciones del usuario, jalar las autorizaciones del rol
         this.cargandoMenu = true;
@@ -331,7 +330,7 @@ export class UsuarioEditarComponent implements OnInit {
           if (rol.autorizacionesModificadas.length == 0) {
             rol.autorizacionesModificadas = JSON.parse(JSON.stringify(res));
           }
-          console.log(this.rolesElegidos);
+          // console.log(this.rolesElegidos);
           this.encuentraTodosArbol();
         });
         /*
@@ -339,7 +338,7 @@ export class UsuarioEditarComponent implements OnInit {
         if (rol.autorizacionesModificadas == null) {
           rol.autorizacionesModificadas = JSON.parse(JSON.stringify(res));
         }
-        console.log(this.rolesElegidos);
+        // console.log(this.rolesElegidos);
         */
       } else {
         this.encuentraTodosArbol();
@@ -356,7 +355,7 @@ export class UsuarioEditarComponent implements OnInit {
             if (rol.autorizacionesModificadas == null) {
               rol.autorizacionesModificadas = JSON.parse(JSON.stringify(res));
             }
-            console.log(this.rolesElegidos);
+            // console.log(this.rolesElegidos);
           }
           this.encuentraTodosArbol();
         });
@@ -369,12 +368,12 @@ export class UsuarioEditarComponent implements OnInit {
 
   encuentraTodosArbol() {
     this.cargandoMenu = true;
-    console.log('menusInicializacion');
-    console.log(this.menusInicializacion);
+    // console.log('menusInicializacion');
+    // console.log(this.menusInicializacion);
     if (this.menusInicializacion.length == 0) {
       this.menuService.encuentraTodosArbol().subscribe(menus => {
-        console.log('menus');
-        console.log(menus);
+        // console.log('menus');
+        // console.log(menus);
         this.menusInicializacion = JSON.parse(JSON.stringify(menus));
         this.menus = menus;
         this.marcarCheckboxArbol();
@@ -388,11 +387,11 @@ export class UsuarioEditarComponent implements OnInit {
   marcarCheckboxArbol() {
     // alert('menus cargados');
     const rolId: number = this.formGroup.get('rolElegidoId').value || 0;
-    console.log('rolId :' + rolId);
-    // console.log(this.rolesElegidos);
+    // console.log('rolId :' + rolId);
+    // // console.log(this.rolesElegidos);
     if (rolId > 0) {
       const rol: any = this.rolesElegidos.find(rolObj => rolObj.id == rolId);
-      console.log(rol);
+      // console.log(rol);
       const rolMenuAutoris = rol.autorizacionesModificadas;
       const menusTemp = [];
       for (const menu of this.menus) {
@@ -468,12 +467,13 @@ export class UsuarioEditarComponent implements OnInit {
         return;
       }
       const usuario = {
-        personaId: this.usuarioId,
+        codUsuario: this.usuarioId,
+        // tipoUsuario: this.formGroup.get('codTipoUsuario').value,
         // tipoUsuario: this.formGroup.get('codTipoUsuario').value,
         email: this.formGroup.get('email').value,
         numeroCelular: this.formGroup.get('numeroCelular').value,
-        fechaInicioSesion: this.formGroup.get('fechaInicioSesion').value,
-        fechaFinSesion: this.formGroup.get('fechaFinSesion').value,
+        fechaInicio: this.formGroup.get('fechaInicio').value,
+        fechaFinal: this.formGroup.get('fechaFinal').value,
         inicioCierre: this.formGroup.get('inicioCierre').value,
         codEstado: this.formGroup.get('codEstado').value,
       };

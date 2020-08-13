@@ -312,32 +312,32 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="fechaInicioSesion">Desde el *</label>
-                      <input type="date" formControlName="fechaInicioSesion" id="fechaInicioSesion"
+                      <label for="encuentraTodos">Desde el *</label>
+                      <input type="date" formControlName="encuentraTodos" id="encuentraTodos"
                              class="form-control"
                              [ngClass]="
                       {
-                      'is-invalid': formGroup.controls['fechaInicioSesion'].touched && formGroup.controls['fechaInicioSesion'].errors,
-                      'is-valid': formGroup.controls['fechaInicioSesion'].touched && !formGroup.controls['fechaInicioSesion'].errors
+                      'is-invalid': formGroup.controls['encuentraTodos'].touched && formGroup.controls['encuentraTodos'].errors,
+                      'is-valid': formGroup.controls['encuentraTodos'].touched && !formGroup.controls['encuentraTodos'].errors
                        }">
                       <div class="invalid-feedback">
                                   <span
-                                    *ngIf="formGroup.get('fechaInicioSesion').hasError('required')">Obligatorio.</span>
+                                    *ngIf="formGroup.get('encuentraTodos').hasError('required')">Obligatorio.</span>
                       </div>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="fechaFinSesion">Hasta el *</label>
-                      <input type="date" formControlName="fechaFinSesion" id="fechaFinSesion"
+                      <label for="fechaFinal">Hasta el *</label>
+                      <input type="date" formControlName="fechaFinal" id="fechaFinal"
                              class="form-control"
                              [ngClass]="
                       {
-                      'is-invalid': formGroup.controls['fechaFinSesion'].touched && formGroup.controls['fechaFinSesion'].errors,
-                      'is-valid': formGroup.controls['fechaFinSesion'].touched && !formGroup.controls['fechaFinSesion'].errors
+                      'is-invalid': formGroup.controls['fechaFinal'].touched && formGroup.controls['fechaFinal'].errors,
+                      'is-valid': formGroup.controls['fechaFinal'].touched && !formGroup.controls['fechaFinal'].errors
                        }">
                       <div class="invalid-feedback">
-                        <span *ngIf="formGroup.get('fechaFinSesion').hasError('required')">Obligatorio.</span>
+                        <span *ngIf="formGroup.get('fechaFinal').hasError('required')">Obligatorio.</span>
                       </div>
                     </div>
                   </div>
