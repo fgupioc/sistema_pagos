@@ -26,6 +26,9 @@ import {NgxSpinnerModule} from 'ngx-spinner';
 import {GestionarTablaMaestroComponent} from './mantenimiento/gestionar-tabla-maestro/gestionar-tabla-maestro.component';
 import {ModalMaestroComponent} from './mantenimiento/modal-maestro/modal-maestro.component';
 import { MantenedorTipoNotificacionComponent } from './config/mantenedor-tipo-notificacion/mantenedor-tipo-notificacion.component';
+import { AsignacionCarteraComponent } from './asignacion-cartera/asignacion-cartera.component';
+import {TreeviewModule} from 'ngx-treeview';
+import { AsignarEtapasEjecutivoComponent } from './asignacion-cartera/asignar-etapas-ejecutivo/asignar-etapas-ejecutivo.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +47,9 @@ import { MantenedorTipoNotificacionComponent } from './config/mantenedor-tipo-no
     TipoNotificacionComponent,
     GestionarTablaMaestroComponent,
     ModalMaestroComponent,
-    MantenedorTipoNotificacionComponent
+    MantenedorTipoNotificacionComponent,
+    AsignacionCarteraComponent,
+    AsignarEtapasEjecutivoComponent
   ],
   imports: [
     CommonModule,
@@ -56,7 +61,8 @@ import { MantenedorTipoNotificacionComponent } from './config/mantenedor-tipo-no
     MyPipesModule,
     RouterModule,
     NgSelectModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    TreeviewModule.forRoot(),
   ],
   exports: [
     CrearCarteraComponent,

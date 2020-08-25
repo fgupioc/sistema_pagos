@@ -18,10 +18,42 @@ export interface Cartera {
   userCreate: number;
   userUpdate: number;
   campos: GrupoCampo[];
+  gestiones: Gestion[];
 }
 
 export interface Moneda {
   codCarteraMoneda: number;
   codCartera: number;
   codMoneda: string;
+}
+
+export interface Gestion {
+  codCartera: number;
+  codGestion: number;
+  color: string;
+  desde: number;
+  estado: string;
+  etapas: Etapa[];
+  fechaActualizacion: string;
+  fechaCreacion: string;
+  hasta: number;
+  nombre: string;
+  userCreate: number;
+  userUpdate: number;
+}
+
+export interface Etapa {
+  codEtapa: number;
+  codGestion: number;
+  codigo: string;
+  color: string;
+  desde: number;
+  estado: string;
+  fechaActualizacion: string;
+  fechaCreacion: string;
+  hasta: number;
+  nombre: string;
+  notificacionEtapas: any[];
+  userCreate: number;
+  userUpdate: number;
 }

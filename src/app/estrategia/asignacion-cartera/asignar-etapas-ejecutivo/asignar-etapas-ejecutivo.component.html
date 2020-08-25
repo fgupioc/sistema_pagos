@@ -1,0 +1,42 @@
+<div class="card" *ngIf="cartera">
+  <div class="card-header">
+    <i class="fa fa-align-justify"></i>
+    <span class="card-title text-uppercase font-weight-bold">Asignación de Cartera: {{ cartera.nombre }}</span>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="alert alert-success" role="alert">
+          Selected: {{values}}
+        </div>
+        <div class="alert alert-success" role="alert">
+          Selected: {{campoValues}}
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="form-group">
+              <label>
+                <strong>Seleccione las etapas para el ejecutivo.</strong>
+              </label>
+              <ngx-treeview [config]="config" [items]="items" (filterChange)="onFilterChange($event)" (selectedChange)="selectItem($event)">
+              </ngx-treeview>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-group">
+              <label>
+                <strong>Seleccione las campos para el ejecutivo.</strong>
+              </label>
+              <ngx-treeview [config]="config" [items]="campos" (filterChange)="onFilterChangeCampos($event)" (selectedChange)="selectItemCampos($event)">
+              </ngx-treeview>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner></ngx-spinner>
+

@@ -90,4 +90,12 @@ export class ListarCarteraComponent implements OnInit {
       }
     });
   }
+
+  irAsignacioCartea(cartera: Cartera) {
+    if (cartera.estado == '1') {
+      this.router.navigateByUrl('/auth/estrategia/carteras/' + cartera.nombreExterno + '/asignacion', {state: {cartera}});
+    } else {
+      Swal.fire('carteras', 'La cartera esta desactivada.', 'warning');
+    }
+  }
 }

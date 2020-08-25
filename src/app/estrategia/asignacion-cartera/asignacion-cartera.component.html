@@ -1,0 +1,35 @@
+<div class="card" *ngIf="cartera">
+  <div class="card-header">
+    <i class="fa fa-align-justify"></i>
+    <span class="card-title text-uppercase font-weight-bold">Asignación de Cartera: {{ cartera.nombre }}</span>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Ejecutivo</th>
+            <th scope="col">Email</th>
+            <th scope="col">Celular</th>
+            <th scope="col">Opciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of ejecutivos; let i = index">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ item.alias }}</td>
+            <td>{{ item.email }}</td>
+            <td>{{ item.numeroCelular }}</td>
+            <td>
+              <button (click)="irAsignarEtapasEjecutivo(item)" class="btn btn-sm btn-primary mr-2"><i class="fa fa-eye"></i></button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner></ngx-spinner>
