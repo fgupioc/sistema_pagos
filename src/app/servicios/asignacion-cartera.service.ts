@@ -111,4 +111,8 @@ export class AsignacionCarteraService {
     const itCategory = new TreeviewItem(root);
     return [itCategory];
   }
+
+  listarCreditosByCarteraAndEjecutivo(codCartera: any, codUsuario: any): Observable<Respuesta> {
+    return this.http.get<any>(`${urlBase}/cartera/${codCartera}/ejecutivo/${codUsuario}`);
+  }
 }

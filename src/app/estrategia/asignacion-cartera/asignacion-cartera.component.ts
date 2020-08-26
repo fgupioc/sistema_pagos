@@ -88,4 +88,8 @@ export class AsignacionCarteraComponent implements OnInit {
   irAsignarEtapasEjecutivo(item: any) {
     this.router.navigateByUrl('/auth/estrategia/carteras/' + this.cartera.nombreExterno + '/asignacion/' + item.codUsuario + '/etapas', {state: {user: item, cartera: this.cartera}});
   }
+
+  irEjecutivoCreditos(item: any) {
+    this.router.navigateByUrl('/auth/estrategia/carteras/' + this.cartera.nombreExterno + '/asignacion/' + item.codUsuario + '/creditos', {state: {user: item, cartera: this.cartera}});
+  }
 }

@@ -1,0 +1,62 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title">Gestionar Recordatorio</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Actividad</label>
+          <select class="form-control">
+            <option>Selecione</option>
+            <option>Llamadas</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Fecha</label>
+          <input type="date" class="form-control">
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Tipo Contacto</label>
+          <select class="form-control">
+            <option>Selecione</option>
+            <option>Llamadas</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <label>Contacto</label>
+        <div class="form-group">
+          <select class="form-control">
+            <option>Selecione</option>
+            <option>Llamadas</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <label>Escoja el tipo</label>
+        <div class="form-group">
+          <select class="form-control">
+            <option>Selecione</option>
+            <option>CONFIRMACIN</option>
+            <option>CONFIRMACIN EVENTO</option>
+            <option>CONSULTA ETERNA</option>
+            <option>CONSULTA INTERNA</option>
+            <option>GEMERAR ALERTA</option>
+            <option>LLAMADA VIRDUAL</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Close</button>
+  </div>
+</div>

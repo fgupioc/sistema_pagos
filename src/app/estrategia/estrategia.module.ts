@@ -29,6 +29,11 @@ import { MantenedorTipoNotificacionComponent } from './config/mantenedor-tipo-no
 import { AsignacionCarteraComponent } from './asignacion-cartera/asignacion-cartera.component';
 import {TreeviewModule} from 'ngx-treeview';
 import { AsignarEtapasEjecutivoComponent } from './asignacion-cartera/asignar-etapas-ejecutivo/asignar-etapas-ejecutivo.component';
+import { EjecutivoCreditosComponent } from './asignacion-cartera/ejecutivo-creditos/ejecutivo-creditos.component';
+import { ModalGestionarTareaComponent } from './asignacion-cartera/modal-gestionar-tarea/modal-gestionar-tarea.component';
+import { ModalGestionarPromesasPagoComponent } from './asignacion-cartera/modal-gestionar-promesas-pago/modal-gestionar-promesas-pago.component';
+import {modalConfigDefaults} from 'ngx-bootstrap/modal/modal-options.class';
+import { CreditoSocioComponent } from './asignacion-cartera/credito-socio/credito-socio.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +54,11 @@ import { AsignarEtapasEjecutivoComponent } from './asignacion-cartera/asignar-et
     ModalMaestroComponent,
     MantenedorTipoNotificacionComponent,
     AsignacionCarteraComponent,
-    AsignarEtapasEjecutivoComponent
+    AsignarEtapasEjecutivoComponent,
+    EjecutivoCreditosComponent,
+    ModalGestionarTareaComponent,
+    ModalGestionarPromesasPagoComponent,
+    CreditoSocioComponent
   ],
   imports: [
     CommonModule,
@@ -79,7 +88,9 @@ import { AsignarEtapasEjecutivoComponent } from './asignacion-cartera/asignar-et
     SocioListTelefonosComponent,
     SocioListEmailsComponent,
     ModalMaestroComponent,
-    MantenedorTipoNotificacionComponent
+    MantenedorTipoNotificacionComponent,
+    ModalGestionarTareaComponent,
+    ModalGestionarPromesasPagoComponent
   ]
 })
 export class EstrategiaModule {

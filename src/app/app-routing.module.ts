@@ -30,6 +30,8 @@ import {Autorizacion} from './comun/autorzacion';
 import {CanAuthorityGuard} from './guard/can-authority.guard';
 import {AsignacionCarteraComponent} from './estrategia/asignacion-cartera/asignacion-cartera.component';
 import {AsignarEtapasEjecutivoComponent} from './estrategia/asignacion-cartera/asignar-etapas-ejecutivo/asignar-etapas-ejecutivo.component';
+import {EjecutivoCreditosComponent} from './estrategia/asignacion-cartera/ejecutivo-creditos/ejecutivo-creditos.component';
+import {CreditoSocioComponent} from './estrategia/asignacion-cartera/credito-socio/credito-socio.component';
 
 
 const A = Autorizacion;
@@ -98,7 +100,9 @@ const routes: Routes = [
                 {path: 'crear-gestion', component: ActualizarGestionComponent},
                 {path: 'editar-gestion', component: ActualizarGestionComponent},
                 {path: ':nombre/asignacion', component: AsignacionCarteraComponent},
-                {path: ':nombre/asignacion/:ejecutivoId/etapas', component: AsignarEtapasEjecutivoComponent}
+                {path: ':nombre/asignacion/:ejecutivoId/etapas', component: AsignarEtapasEjecutivoComponent},
+                {path: ':nombre/asignacion/:ejecutivoId/creditos', component: EjecutivoCreditosComponent},
+                {path: ':nombre/asignacion/:ejecutivoId/creditos/:codSocio/socio', component: CreditoSocioComponent}
               ]
             },
             {path: 'notificaciones', component: EnviarNotificionComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.NOTIFICACION_LISTAR]}},
