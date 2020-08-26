@@ -30,6 +30,10 @@ export class AsignacionCarteraService {
     return this.http.get<any>(`${urlBase}/${nombre}/cartera`);
   }
 
+  getCarteras(): Observable<Respuesta> {
+    return this.http.get<any>(`${urlBase}/carteras`);
+  }
+
   listarEjecutivos(): Observable<Respuesta> {
     return this.http.get<any>(`${urlBase}/ejecutivos`);
   }

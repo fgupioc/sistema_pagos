@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-header">
     <i class="fa fa-align-justify"></i>
-    <span class="card-title text-uppercase font-weight-bold">Asignación de Cartera</span>
+    <span class="card-title text-uppercase font-weight-bold">Lista de creditos</span>
   </div>
   <div class="card-body">
     <div class="row">
@@ -9,19 +9,21 @@
         <table class="table table-bordered">
           <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Opción</th>
+            <th scope="col" width="5%">#</th>
+            <th scope="col" width="40%">Socio</th>
+            <th scope="col">Fecha Vencimiento</th>
+            <th scope="col">Saldo</th>
+            <th scope="col" width="10%">Opción</th>
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td width="10%" class="text-center">
-              <button class="btn btn-sm btn-primary mr-2" (click)="showSocio()"><i class="fa fa-user"></i></button>
+          <tr *ngFor="let item of creditos; let i = index">
+            <th scope="row">{{ i+1 }}</th>
+            <td>{{ item.socioId }}</td>
+            <td>{{ item.fechaVencimiento | date : 'dd/MM/yyyy' }}</td>
+            <td>{{ item.saldoCapital }}</td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-primary mr-2" (click)="showSocio(item)"><i class="fa fa-user"></i></button>
             </td>
           </tr>
           </tbody>
@@ -30,3 +32,4 @@
     </div>
   </div>
 </div>
+<ngx-spinner></ngx-spinner>

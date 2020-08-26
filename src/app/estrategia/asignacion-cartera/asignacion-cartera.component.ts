@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
   styles: []
 })
 export class AsignacionCarteraComponent implements OnInit {
+  carteras: Cartera[] = [];
   cartera: Cartera;
   nombre: string;
   ejecutivos: any[] = [];
@@ -24,28 +25,11 @@ export class AsignacionCarteraComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
-    activatedRoute.params.subscribe(({nombre}) => {
-      if (nombre) {
-        const state = router.getCurrentNavigation().extras.state;
-        if (state) {
-          this.cartera = state.cartera;
-          this.items = this.asignacion.convertToTreeviewItem(this.cartera);
-
-        } else {
-          this.nombre = nombre;
-        }
-
-      } else {
-        this.router.navigateByUrl('/auth/estrategia/carteras');
-      }
-    });
   }
 
   ngOnInit() {
     this.listarEjecutivos();
-    if (this.nombre) {
-      this.getCartera(this.nombre);
-    }
+    this.listarCarteras();
   }
 
   onFilterChange(value: string): void {
@@ -65,13 +49,13 @@ export class AsignacionCarteraComponent implements OnInit {
     );
   }
 
-  getCartera(nombre) {
+  listarCarteras() {
     this.spinner.show();
-    this.asignacion.getCartera(nombre).subscribe(
+    this.asignacion.getCarteras().subscribe(
       res => {
         if (res.exito &&  res.objeto) {
-          this.cartera = res.objeto as any;
-          this.items = this.asignacion.convertToTreeviewItem(this.cartera);
+          this.carteras = res.objeto as any[];
+          console.log(this.carteras);
         } else {
           Swal.fire('Asignar', 'No se encontro la cartera o esta desactivada.', 'warning');
           this.router.navigateByUrl('/auth/estrategia/carteras');
@@ -92,4 +76,6 @@ export class AsignacionCarteraComponent implements OnInit {
   irEjecutivoCreditos(item: any) {
     this.router.navigateByUrl('/auth/estrategia/carteras/' + this.cartera.nombreExterno + '/asignacion/' + item.codUsuario + '/creditos', {state: {user: item, cartera: this.cartera}});
   }
+
+
 }

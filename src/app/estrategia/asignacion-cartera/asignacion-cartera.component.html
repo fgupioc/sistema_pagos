@@ -1,7 +1,7 @@
-<div class="card" *ngIf="cartera">
+<div class="card" *ngIf="ejecutivos.length > 0">
   <div class="card-header">
     <i class="fa fa-align-justify"></i>
-    <span class="card-title text-uppercase font-weight-bold">Asignación de Cartera: {{ cartera.nombre }}</span>
+    <span class="card-title text-uppercase font-weight-bold">Asignación de Cartera</span>
   </div>
   <div class="card-body">
     <div class="row">
@@ -23,8 +23,8 @@
             <td>{{ item.email }}</td>
             <td>{{ item.numeroCelular }}</td>
             <td>
-              <button (click)="irAsignarEtapasEjecutivo(item)" class="btn btn-sm btn-primary mr-2"><i class="fa fa-eye"></i></button>
-              <button (click)="irEjecutivoCreditos(item)" class="btn btn-sm btn-success mr-2"><i class="fa fa-list"></i></button>
+              <button class="btn btn-sm btn-primary mr-2"><i class="fa fa-eye"></i></button>
+              <button class="btn btn-sm btn-success mr-2"><i class="fa fa-list"></i></button>
             </td>
           </tr>
           </tbody>

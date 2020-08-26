@@ -17,6 +17,7 @@ export class EjecutivoCreditosComponent implements OnInit {
   ejecutivo: any;
   ejecutivoId: any;
   nombre: string;
+  creditos: any[] = [];
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -84,32 +85,21 @@ export class EjecutivoCreditosComponent implements OnInit {
   }
 
   listarCreditosByCarteraAndEjecutivo(codCartera: any, codUsuario: any) {
+    this.spinner.show();
     this.asignacion.listarCreditosByCarteraAndEjecutivo(codCartera, codUsuario).subscribe(
       res => {
         console.log(res);
-      }
+        if (res.exito) {
+          this.creditos = res.objeto as any[];
+        }
+        this.spinner.hide();
+      },
+      err => this.spinner.hide()
     );
   }
 
-  showModalTarea() {
-
-  }
-
-  closeModalTarea() {
-
-  }
-
-  showModalPromesas() {
-    const modal = this.modalService.open(ModalGestionarPromesasPagoComponent, {centered: true});
-    modal.result.then(
-      this.closeModalTarea.bind(this),
-      this.closeModalTarea.bind(this)
-    );
-  }
-
-  showSocio() {
-    const url = '/auth/estrategia/carteras/' + this.cartera.nombreExterno + '/asignacion/' + this.ejecutivo.codUsuario + '/creditos/' + 1 + '/socio';
-    console.log(url);
-    this.router.navigateByUrl( url, {state: {user: this.ejecutivo, cartera: this.cartera}});
+  showSocio(credito: any) {
+    const url = '/auth/estrategia/carteras/' + this.cartera.nombreExterno + '/asignacion/' + this.ejecutivo.codUsuario + '/creditos/socio';
+    this.router.navigateByUrl(url, {state: {user: this.ejecutivo, cartera: this.cartera, credito}});
   }
 }
