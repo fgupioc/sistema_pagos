@@ -30,7 +30,6 @@
                 <td>
                   <div class="btn-group">
                     <button class="btn btn-sm btn-primary mr-2" *ngIf="AS.has(this.A.CARTERA_ACTUALIZAR)"  (click)="showDetails(item)"><i class="fa fa-eye"></i></button>
-                    <button class="btn btn-sm btn-warning mr-2" [disabled]="item.estado != '1'" (click)="irAsignacioCartea(item)"><i class="fa fa-check"></i></button>
                     <button  *ngIf="item.estado == '1' && AS.has(this.A.CARTERA_ELIMINAR)" class="btn btn-sm btn-danger" (click)="cambiarEstado(item, '1')"><i class="fa fa-trash"></i></button>
                     <button *ngIf="item.estado == '0' && AS.has(this.A.CARTERA_ELIMINAR)" class="btn btn-sm btn-success" (click)="cambiarEstado(item, '0')"><i class="fa fa-check"></i></button>
                   </div>

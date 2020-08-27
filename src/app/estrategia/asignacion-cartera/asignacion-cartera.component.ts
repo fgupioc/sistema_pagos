@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import {NgWizardConfig, NgWizardService, StepChangedArgs, THEME} from 'ng-wizard';
 import {MultiSelect} from '../cartera/detalle-cartera/detalle-cartera.component';
 import {TablaMaestra} from '../../interfaces/tabla-maestra';
+import {CONST} from '../../comun/CONST';
 
 @Component({
   selector: 'app-asignacion-carter',
@@ -24,6 +25,7 @@ export class AsignacionCarteraComponent implements OnInit {
   etapas: Etapa[] = [];
   tipoCreditos: MultiSelect[] = [];
   sedes: MultiSelect[] = [];
+  errors: string[] = [];
   /**********/
   ejecutivoSelected: any;
   carteraSelected: Cartera;
@@ -55,6 +57,7 @@ export class AsignacionCarteraComponent implements OnInit {
   showSedes = true;
   showTipoCredito = true;
   showMontos = true;
+  errorMonto: string;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -131,6 +134,8 @@ export class AsignacionCarteraComponent implements OnInit {
     this.selectedTipoCreditos = [];
     this.desde = null;
     this.hasta = null;
+    this.gestiones = [];
+    this.etapas = [];
     this.ngWizardService.next();
   }
 
@@ -144,14 +149,15 @@ export class AsignacionCarteraComponent implements OnInit {
     this.selectedTipoCreditos = [];
     this.desde = null;
     this.hasta = null;
+    this.etapas = [];
     this.gestiones = cartera.gestiones;
     this.carteraSelected = cartera;
 
     if (cartera.campos[0].desde) {
       this.showMontos = false;
-    } else if (cartera.campos[0].codCampo == '001') {
+    } else if (cartera.campos[0].codCampo == CONST.TABLE_INT_LISTA_SEDE) {
       this.showSedes = false;
-    } else if (cartera.campos[0].codCampo == '002') {
+    } else if (cartera.campos[0].codCampo == CONST.TABLE_INT_LISTA_TIPO_CREDITO) {
       this.showTipoCredito = false;
     }
     this.ngWizardService.next();
@@ -173,7 +179,7 @@ export class AsignacionCarteraComponent implements OnInit {
   }
 
   stepChanged(args: StepChangedArgs) {
-    console.log(args);
+    // console.log(args);
   }
 
 
@@ -197,8 +203,56 @@ export class AsignacionCarteraComponent implements OnInit {
     const tipoCreditos = this.selectedTipoCreditos;
     const desde = this.desde;
     const hasta = this.hasta;
+    this.errors = [];
 
+    if (!ejecutivo) {
+      this.errors.push('Debe seleccionar una ejecutivo de negocio.');
+    }
+
+    if (!cartera) {
+      this.errors.push('Debe seleccionar una cartera.');
+    }
+
+    if (!gestion) {
+      this.errors.push('Debe seleccionar una gestión.');
+    }
+
+    if (etapas.length == 0) {
+      this.errors.push('Debe seleccionar almenos una etapa.');
+    }
+
+    if (this.errors.length > 0) {
+      return;
+    }
     console.log([ejecutivo, cartera, gestion, etapas, sedes, tipoCreditos, desde, hasta]);
   }
 
+  validarDesde(event: any, to: HTMLInputElement) {
+    this.errorMonto = null;
+    const desde = Number(event);
+    const hasta = Number(to.value);
+    if (desde < 0) {
+      this.errorMonto = 'El monto desde no es valido.';
+    } else {
+      if (desde > hasta && hasta > 0) {
+        this.errorMonto = 'El monto desde no puede ser inferior al mondo hasta.';
+      }
+    }
+    if (desde == 0 && hasta > 0) {
+      to.value = '';
+    }
+  }
+
+  validarHasta(event: any, from: HTMLInputElement) {
+    this.errorMonto = null;
+    const desde = Number(from.value);
+    const hasta = Number(event);
+    if (hasta < 0) {
+      this.errorMonto = 'El monto desde no es valido.';
+    } else {
+      if (hasta < desde) {
+        this.errorMonto = 'El monto hasta no puede ser inferior al mondo desde.';
+      }
+    }
+  }
 }

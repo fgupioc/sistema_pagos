@@ -85,13 +85,13 @@ export class AsignacionCarteraService {
 
     items.forEach(i => {
       codCampo = i.codCampo;
-      if (i.codCampo != '003') {
+      if (i.codCampo != CONST.TABLE_INT_MONTO) {
         childrens.push({
           text: i.descripcion,
           value: i.codGrupCampo,
           checked: false
         });
-        campoName = i.codCampo == '001' ? 'Tipo Crédito' : 'Sede';
+        campoName = i.codCampo == CONST.TABLE_INT_LISTA_TIPO_CREDITO ? 'Tipo Crédito' : 'Sede';
       } else {
         campoName = 'Monto';
         const hasta = i.hasta ? ' a ' + i.hasta : '';

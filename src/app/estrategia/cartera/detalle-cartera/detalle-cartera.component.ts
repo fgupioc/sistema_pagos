@@ -11,6 +11,7 @@ import {Cartera} from '../../../interfaces/cartera';
 import {FUNC} from '../../../comun/FUNC';
 import {TablaMaestra} from '../../../interfaces/tabla-maestra';
 import {GrupoCampo} from '../../../interfaces/grupo-campo';
+import {CONST} from '../../../comun/CONST';
 
 export interface MultiSelect {
   id: string;
@@ -36,6 +37,9 @@ export class DetalleCarteraComponent implements OnInit {
   gestiones: any[] = [];
   monedas: any[] = [];
   monedasSeleccionadas: any[] = [];
+  codTipoCredito = CONST.TABLE_INT_LISTA_TIPO_CREDITO;
+  codSede = CONST.TABLE_INT_LISTA_SEDE;
+  codMonto = CONST.TABLE_INT_MONTO;
 
   tipoCreditos: MultiSelect[] = [];
   sedes: MultiSelect[] = [];
@@ -302,17 +306,17 @@ export class DetalleCarteraComponent implements OnInit {
     this.placeholderSelect = event.target.options[event.target.options.selectedIndex].text;
 
     switch (event.target.value) {
-      case '001' :
+      case CONST.TABLE_INT_LISTA_TIPO_CREDITO :
         this.itemsSelected = this.tipoCreditos;
         this.formAdicional.get('selectedOptionsIds').setValidators([Validators.required]);
         this.formAdicional.get('selectedOptionsIds').updateValueAndValidity();
         break;
-      case '002' :
+      case CONST.TABLE_INT_LISTA_SEDE :
         this.itemsSelected = this.sedes;
         this.formAdicional.get('selectedOptionsIds').setValidators([Validators.required]);
         this.formAdicional.get('selectedOptionsIds').updateValueAndValidity();
         break;
-      case '003' :
+      case CONST.TABLE_INT_MONTO :
         this.number = true;
         this.formAdicional.get('valorInicial').setValidators([Validators.required]);
         this.formAdicional.get('valorInicial').updateValueAndValidity();
@@ -329,13 +333,13 @@ export class DetalleCarteraComponent implements OnInit {
   cargarItems(event: any) {
     this.number = false;
     switch (event) {
-      case '001' :
+      case CONST.TABLE_INT_LISTA_TIPO_CREDITO :
         this.itemsSelected = this.tipoCreditos;
         break;
-      case '002' :
+      case CONST.TABLE_INT_LISTA_SEDE :
         this.itemsSelected = this.sedes;
         break;
-      case '003' :
+      case CONST.TABLE_INT_MONTO :
         this.number = true;
         break;
     }
@@ -370,7 +374,8 @@ export class DetalleCarteraComponent implements OnInit {
           valor: v,
           desde: null,
           hasta: null,
-          codGrupCampo: null
+          codGrupCampo: null,
+          descripcion: null
         });
       });
     } else {
@@ -380,7 +385,8 @@ export class DetalleCarteraComponent implements OnInit {
         desde: seleccionado.valorInicial,
         hasta: seleccionado.valorFinal,
         codGrupCampo: null,
-        valor: null
+        valor: null,
+        descripcion: null
       });
     }
 

@@ -5,4 +5,5 @@ export interface GrupoCampo {
   desde?: number;
   hasta?: number;
   valor?: string;
+  descripcion?: string;
 }

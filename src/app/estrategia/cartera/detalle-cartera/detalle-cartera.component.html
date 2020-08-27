@@ -187,9 +187,9 @@
                       <div class="form-group">
                         <select formControlName="listaCampos" class="form-control" (change)="seleccionarTipo($event)">
                           <option value="">Seleccione</option>
-                          <option value="001">tipo Créditos</option>
-                          <option value="002">Sedes</option>
-                          <option value="003">Montos</option>
+                          <option [value]="codTipoCredito">tipo Créditos</option>
+                          <option [value]="codSede">Sedes</option>
+                          <option [value]="codMonto">Montos</option>
                         </select>
                       </div>
                     </div>

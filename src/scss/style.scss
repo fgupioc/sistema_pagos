@@ -669,12 +669,14 @@ ng-wizard ul.nav.nav-tabs.step-anchor {
 
 .ng-wizard-theme-circles > ul.step-anchor > li > a {
   padding: 30px 0;
+  color: black;
+  font-weight: bold;
 }
 
 .ng-wizard-theme-circles > ul.step-anchor {
   margin-bottom: 20px;
 }
 
-.ng-wizard-theme-circles > ul.step-anchor > li > a {
-  color: black;
+.todo-list > li .text{
+  font-size: 16px;
 }

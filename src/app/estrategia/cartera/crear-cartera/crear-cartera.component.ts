@@ -11,6 +11,7 @@ import {isNullOrUndefined} from 'util';
 import {FUNC} from '../../../comun/FUNC';
 import {GrupoCampo} from '../../../interfaces/grupo-campo';
 import {MultiSelect, Seleccionado} from '../detalle-cartera/detalle-cartera.component';
+import {CONST} from '../../../comun/CONST';
 
 declare var $: any;
 
@@ -32,6 +33,9 @@ export class CrearCarteraComponent implements OnInit {
   tipoCreditos: MultiSelect[] = [];
   sedes: MultiSelect[] = [];
   mgsError: any;
+  codTipoCredito = CONST.TABLE_INT_LISTA_TIPO_CREDITO;
+  codSede = CONST.TABLE_INT_LISTA_SEDE;
+  codMonto = CONST.TABLE_INT_MONTO;
 
   constructor(
     private router: Router,
@@ -223,17 +227,17 @@ export class CrearCarteraComponent implements OnInit {
     this.placeholderSelect = event.target.options[event.target.options.selectedIndex].text;
 
     switch (event.target.value) {
-      case '001' :
+      case CONST.TABLE_INT_LISTA_TIPO_CREDITO :
         this.itemsSelected = this.tipoCreditos;
         this.formAdicional.get('selectedOptionsIds').setValidators([Validators.required]);
         this.formAdicional.get('selectedOptionsIds').updateValueAndValidity();
         break;
-      case '002' :
+      case  CONST.TABLE_INT_LISTA_SEDE :
         this.itemsSelected = this.sedes;
         this.formAdicional.get('selectedOptionsIds').setValidators([Validators.required]);
         this.formAdicional.get('selectedOptionsIds').updateValueAndValidity();
         break;
-      case '003' :
+      case  CONST.TABLE_INT_MONTO :
         this.number = true;
         this.formAdicional.get('valorInicial').setValidators([Validators.required]);
         this.formAdicional.get('valorInicial').updateValueAndValidity();
@@ -247,39 +251,6 @@ export class CrearCarteraComponent implements OnInit {
     }
   }
 
-  cargarItems(event: any) {
-    this.number = false;
-    switch (event) {
-      case '001' :
-        this.itemsSelected = this.tipoCreditos;
-        break;
-      case '002' :
-        this.itemsSelected = this.sedes;
-        break;
-      case '003' :
-        this.number = true;
-        break;
-    }
-  }
-
-  convertObject(items: GrupoCampo[]) {
-    const seleced: Seleccionado = {};
-    seleced.selectedOptionsIds = [];
-    if (items.length == 1) {
-      items.forEach(v => {
-        seleced.listaCampos = v.codCampo;
-        seleced.valorInicial = v.desde;
-        seleced.valorFinal = v.hasta;
-      });
-    } else {
-      items.forEach(v => {
-        seleced.listaCampos = v.codCampo;
-        seleced.selectedOptionsIds.push(v.valor);
-      });
-    }
-    return seleced;
-  }
-
   reverseConvertObject(seleccionado: Seleccionado) {
     const items: GrupoCampo[] = [];
     if (seleccionado.selectedOptionsIds.length > 0) {
@@ -291,7 +262,8 @@ export class CrearCarteraComponent implements OnInit {
           valor: v,
           desde: null,
           hasta: null,
-          codGrupCampo: null
+          codGrupCampo: null,
+          descripcion: null
         });
       });
     } else {
@@ -301,7 +273,8 @@ export class CrearCarteraComponent implements OnInit {
         desde: seleccionado.valorInicial,
         hasta: seleccionado.valorFinal,
         codGrupCampo: null,
-        valor: null
+        valor: null,
+        descripcion: null
       });
     }
 

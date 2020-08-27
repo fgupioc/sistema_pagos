@@ -90,4 +90,5 @@ export class CONST {
 
   public static  TABLE_INT_LISTA_SEDE = '22';
   public static  TABLE_INT_LISTA_TIPO_CREDITO = '23';
+  public static  TABLE_INT_MONTO = '00';
 }

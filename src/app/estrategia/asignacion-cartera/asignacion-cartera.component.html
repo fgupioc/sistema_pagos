@@ -97,11 +97,11 @@
           </ng-wizard-step>
           <ng-wizard-step [title]="'Fitros'">
             <div class="row">
-             <div class="col-12">
-               <div class="form-group text-center">
-                 <h3>Filtros Adicionales</h3>
-               </div>
-             </div>
+              <div class="col-12">
+                <div class="form-group text-center">
+                  <h3>Filtros Adicionales</h3>
+                </div>
+              </div>
               <ng-container *ngIf="showSedes">
                 <div class="col-12 col-md-6" *ngIf="sedes.length > 0">
                   <div class="form-group">
@@ -142,17 +142,25 @@
                   <div class="row">
                     <div class="col-6">
                       <div class="form-group">
-                        <input class="form-control" type="text" [(ngModel)]="desde" placeholder="Monto desde">
+                        <input #from Number class="form-control" type="text" [(ngModel)]="desde" (ngModelChange)="validarDesde($event, to)" placeholder="Monto desde">
                       </div>
                     </div>
                     <div class="col-6">
                       <div class="form-group">
-                        <input class="form-control" type="text" [(ngModel)]="hasta" placeholder="Monto hasta">
+                        <input #to Number class="form-control" type="text" [(ngModel)]="hasta" (ngModelChange)="validarHasta($event, from)" placeholder="Monto hasta">
                       </div>
                     </div>
                   </div>
                 </div>
               </ng-container>
+              <div class="col-12" *ngIf="errors.length > 0 || errorMonto">
+                  <div role="alert" class="alert alert-danger">
+                    <ul class="mb-0">
+                      <li *ngFor="let error of errors"> <strong>{{ error }}</strong></li>
+                      <li *ngIf="errorMonto"> <strong>{{ errorMonto }}</strong></li>
+                    </ul>
+                  </div>
+              </div>
               <div class="col-12 text-center">
                 <div class="form-group">
                   <button class="btn btn-primary" (click)="nextFinished()">Guardar</button>

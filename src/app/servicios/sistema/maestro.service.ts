@@ -78,29 +78,10 @@ export class MaestroService {
   }
 
   listaTipoCreditos(): Observable<TablaMaestra[]> {
-    const data: TablaMaestra[] = [
-      {codItem: '001', descripcion: 'MICRO'},
-      {codItem: '002', descripcion: 'PEQUEÑA'},
-      {codItem: '003', descripcion: 'CONSUMO'},
-      {codItem: '004', descripcion: 'CORPORATIVA'},
-      {codItem: '005', descripcion: 'GRANDES'},
-      {codItem: '006', descripcion: 'MEDIANAS'},
-      {codItem: '007', descripcion: 'HIPOTECARIA'},
-    ];
     return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_INT_LISTA_TIPO_CREDITO)});
   }
 
   listaSedes(): Observable<TablaMaestra[]> {
-    const data: TablaMaestra[] = [
-      {codItem: '001', descripcion: 'LIMA'},
-      {codItem: '002', descripcion: 'CALLAO'},
-      {codItem: '003', descripcion: 'TRUJILLO'},
-      {codItem: '004', descripcion: 'CHICLAYO'},
-      {codItem: '005', descripcion: 'CAJAMACA'},
-      {codItem: '006', descripcion: 'CUZCO'},
-      {codItem: '007', descripcion: 'PIURA'},
-      {codItem: '008', descripcion: 'PISCO'},
-    ];
     return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_INT_LISTA_SEDE)});
   }
 
