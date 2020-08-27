@@ -6,30 +6,163 @@
   <div class="card-body">
     <div class="row">
       <div class="col-12">
-        <table class="table table-bordered">
-          <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Ejecutivo</th>
-            <th scope="col">Email</th>
-            <th scope="col">Celular</th>
-            <th scope="col">Opciones</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let item of ejecutivos; let i = index">
-            <th scope="row">{{ i + 1 }}</th>
-            <td>{{ item.alias }}</td>
-            <td>{{ item.email }}</td>
-            <td>{{ item.numeroCelular }}</td>
-            <td>
-              <button class="btn btn-sm btn-primary mr-2"><i class="fa fa-eye"></i></button>
-              <button class="btn btn-sm btn-success mr-2"><i class="fa fa-list"></i></button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+        <ng-wizard [config]="config" (stepChanged)="stepChanged($event)">
+
+          <ng-wizard-step [title]="'Asesores'">
+            <div class="col-12">
+              <table class="table table-bordered">
+                <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Ejecutivo</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Celular</th>
+                  <th scope="col">Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of ejecutivos; let i = index">
+                  <th scope="row">{{ i + 1 }}</th>
+                  <td>{{ item.alias }}</td>
+                  <td>{{ item.email }}</td>
+                  <td>{{ item.numeroCelular }}</td>
+                  <td>
+                    <button class="btn btn-sm btn-primary mr-2" (click)="showCarteras(item)"><i class="fa fa-arrow-right"></i></button>
+                    <button class="btn btn-sm btn-success mr-2"><i class="fa fa-list"></i></button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-wizard-step>
+
+          <ng-wizard-step [title]="'Carteras'">
+            <div class="row">
+              <div class="col-12">
+                <ul class="todo-list ui-sortable">
+                  <li *ngFor="let item of carteras">
+                      <span class="handle ui-sortable-handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                      </span>
+                    <!--1<input type="checkbox" value="">-->
+                    <span class="text">{{ item.nombre }}</span>
+                    <div class="tools">
+                      <button class="btn btn-sm btn-primary" (click)="showGestion(item)"><i class="fa fa-arrow-right"></i></button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </ng-wizard-step>
+
+          <ng-wizard-step [title]="'Gestiones'">
+            <div class="row">
+              <div class="col-12">
+                <ul class="todo-list ui-sortable">
+                  <li *ngFor="let item of gestiones">
+                      <span class="handle ui-sortable-handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                      </span>
+                    <!--1<input type="checkbox" value="">-->
+                    <span class="text">{{ item.nombre }}</span>
+                    <div class="tools">
+                      <button class="btn btn-sm btn-primary" (click)="showEtapa(item)"><i class="fa fa-arrow-right"></i></button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </ng-wizard-step>
+
+          <ng-wizard-step [title]="'Etapas'">
+            <div class="row">
+              <div class="col-12">
+                <ul class="todo-list ui-sortable">
+                  <li *ngFor="let item of etapas">
+                      <span class="handle ui-sortable-handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                      </span>
+                    <label class="text cursor-pointer"> <input type="checkbox" value="" (change)="checkSelected($event, item)"> {{ item.nombre }}</label>
+
+                  </li>
+                </ul>
+              </div>
+              <div class="col-12 text-center mt-4">
+                <button class="btn btn-primary" (click)="nextAdicionales()" *ngIf="etapasSelecionadas.length > 0">Continuar <i class="fa fa-arrow-right"></i></button>
+              </div>
+            </div>
+          </ng-wizard-step>
+          <ng-wizard-step [title]="'Fitros'">
+            <div class="row">
+             <div class="col-12">
+               <div class="form-group text-center">
+                 <h3>Filtros Adicionales</h3>
+               </div>
+             </div>
+              <ng-container *ngIf="showSedes">
+                <div class="col-12 col-md-6" *ngIf="sedes.length > 0">
+                  <div class="form-group">
+                    <label>Sedes</label>
+                    <ng-select
+                      [items]="sedes"
+                      bindLabel="name"
+                      bindValue="id"
+                      labelForId="state"
+                      [multiple]="true"
+                      [placeholder]="'Seleccione'"
+                      clearAllText="Clear"
+                      [(ngModel)]="selectedSedes">
+                    </ng-select>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="showTipoCredito">
+                <div class="col-12 col-md-6" *ngIf="tipoCreditos.length > 0">
+                  <div class="form-group">
+                    <label>Tipo Creditos</label>
+                    <ng-select
+                      [items]="tipoCreditos"
+                      bindLabel="name"
+                      bindValue="id"
+                      labelForId="state"
+                      [multiple]="true"
+                      [placeholder]="'Seleccione'"
+                      clearAllText="Clear"
+                      [(ngModel)]="selectedTipoCreditos">
+                    </ng-select>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="showMontos">
+                <div class="col-12 col-md-6">
+                  <label>Montos</label>
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <input class="form-control" type="text" [(ngModel)]="desde" placeholder="Monto desde">
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <input class="form-control" type="text" [(ngModel)]="hasta" placeholder="Monto hasta">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <div class="col-12 text-center">
+                <div class="form-group">
+                  <button class="btn btn-primary" (click)="nextFinished()">Guardar</button>
+                </div>
+              </div>
+            </div>
+          </ng-wizard-step>
+        </ng-wizard>
       </div>
+
     </div>
   </div>
 </div>

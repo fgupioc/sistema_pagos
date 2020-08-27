@@ -2,11 +2,14 @@ import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
 import {Respuesta} from '../interfaces/Respuesta';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {TreeviewItem} from 'ngx-treeview';
 import {Cartera} from '../interfaces/cartera';
+import {TablaMaestra} from '../interfaces/tabla-maestra';
+import {CONST} from '../comun/CONST';
 
 const urlBase = environment.serverUrl + 'asignacio-cartera';
+const urlMaestro = `${environment.serverUrl}maestro/`;
 
 export interface ITreeViewItem {
   text: string;
@@ -94,7 +97,7 @@ export class AsignacionCarteraService {
         const hasta = i.hasta ? ' a ' + i.hasta : '';
         childrens.push({
           text: i.desde + hasta,
-          value:  i.codGrupCampo,
+          value: i.codGrupCampo,
           checked: false
         });
       }
@@ -118,5 +121,13 @@ export class AsignacionCarteraService {
 
   listarCreditosByCarteraAndEjecutivo(codCartera: any, codUsuario: any): Observable<Respuesta> {
     return this.http.get<any>(`${urlBase}/cartera/${codCartera}/ejecutivo/${codUsuario}`);
+  }
+
+  listaTipoCreditos(): Observable<TablaMaestra[]> {
+    return this.http.get<any>(`${urlMaestro}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_INT_LISTA_TIPO_CREDITO)});
+  }
+
+  listaSedes(): Observable<TablaMaestra[]> {
+    return this.http.get<any>(`${urlMaestro}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_INT_LISTA_SEDE)});
   }
 }

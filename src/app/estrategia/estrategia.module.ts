@@ -32,8 +32,11 @@ import { AsignarEtapasEjecutivoComponent } from './asignacion-cartera/asignar-et
 import { EjecutivoCreditosComponent } from './asignacion-cartera/ejecutivo-creditos/ejecutivo-creditos.component';
 import { ModalGestionarTareaComponent } from './asignacion-cartera/modal-gestionar-tarea/modal-gestionar-tarea.component';
 import { ModalGestionarPromesasPagoComponent } from './asignacion-cartera/modal-gestionar-promesas-pago/modal-gestionar-promesas-pago.component';
-import {modalConfigDefaults} from 'ngx-bootstrap/modal/modal-options.class';
 import { CreditoSocioComponent } from './asignacion-cartera/credito-socio/credito-socio.component';
+import {NgWizardConfig, NgWizardModule, THEME} from 'ng-wizard';
+const ngWizardConfig: NgWizardConfig = {
+  theme: THEME.default
+};
 
 @NgModule({
   declarations: [
@@ -72,6 +75,7 @@ import { CreditoSocioComponent } from './asignacion-cartera/credito-socio/credit
     NgSelectModule,
     NgxSpinnerModule,
     TreeviewModule.forRoot(),
+    NgWizardModule.forRoot(ngWizardConfig)
   ],
   exports: [
     CrearCarteraComponent,

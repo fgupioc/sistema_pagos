@@ -87,4 +87,7 @@ export class CONST {
   public static C_INT_CANTIDAD_NUMEROS_DECIMALES_MONEDA = 6;
 
   public static S_SEPARADOR_AUTORIZACIONES = '_';
+
+  public static  TABLE_INT_LISTA_SEDE = '22';
+  public static  TABLE_INT_LISTA_TIPO_CREDITO = '23';
 }

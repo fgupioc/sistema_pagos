@@ -4,6 +4,7 @@ import {environment} from '../../../environments/environment';
 import {Observable, of} from 'rxjs';
 import {TablaMaestra} from '../../interfaces/tabla-maestra';
 import {Respuesta} from '../../interfaces/Respuesta';
+import {CONST} from '../../comun/CONST';
 
 @Injectable({
   providedIn: 'root'
@@ -86,7 +87,7 @@ export class MaestroService {
       {codItem: '006', descripcion: 'MEDIANAS'},
       {codItem: '007', descripcion: 'HIPOTECARIA'},
     ];
-    return of(data);
+    return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_INT_LISTA_TIPO_CREDITO)});
   }
 
   listaSedes(): Observable<TablaMaestra[]> {
@@ -100,7 +101,7 @@ export class MaestroService {
       {codItem: '007', descripcion: 'PIURA'},
       {codItem: '008', descripcion: 'PISCO'},
     ];
-    return of(data);
+    return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_INT_LISTA_SEDE)});
   }
 
   listarElementosPorCodTable(id: string): Observable<TablaMaestra[]> {
