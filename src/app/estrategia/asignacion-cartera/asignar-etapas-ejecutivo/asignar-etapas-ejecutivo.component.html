@@ -129,6 +129,50 @@
                   </div>
                 </div>
               </ng-container>
+              <hr>
+              <div class="col-12">
+                <div class="form-group">
+                  <h3>Agregar socios</h3>
+                  <input class="form-control" type="text">
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                      <thead>
+                      <tr class="text-center">
+                        <th scope="col">#</th>
+                        <th scope="col">Socio</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Documento</th>
+                        <th scope="col">opcion</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr class="text-center">
+                        <th scope="row">1</th>
+                        <td>franz junior gupioc ventura</td>
+                        <td>DNI</td>
+                        <td>46588976</td>
+                        <td>
+                          <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                        </td>
+                      </tr>
+                      <tr class="text-center">
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>DNI</td>
+                        <td>87956124</td>
+                        <td>
+                          <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
               <div class="col-12" *ngIf="errors.length > 0 || errorMonto">
                 <div role="alert" class="alert alert-danger">
                   <ul class="mb-0">
