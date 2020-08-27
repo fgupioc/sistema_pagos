@@ -1,9 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {Cartera} from '../../../interfaces/cartera';
+import {Cartera, Etapa, Gestion} from '../../../interfaces/cartera';
 import {TreeviewConfig, TreeviewItem} from 'ngx-treeview';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AsignacionCarteraService} from '../../../servicios/asignacion-cartera.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {MultiSelect} from '../../cartera/detalle-cartera/detalle-cartera.component';
+import {NgWizardConfig, NgWizardService, StepChangedArgs, THEME} from 'ng-wizard';
+import Swal from 'sweetalert2';
+import {CONST} from '../../../comun/CONST';
 
 @Component({
   selector: 'app-asignar-etapas-ejecutivo',
@@ -11,68 +15,94 @@ import {ActivatedRoute, Router} from '@angular/router';
   styles: []
 })
 export class AsignarEtapasEjecutivoComponent implements OnInit {
-  cartera: Cartera;
-  ejecutivoId: string;
+  carteras: Cartera[] = [];
   nombre: string;
-  ejecutivo: any;
-
-  /*******************/
   items: TreeviewItem[];
-  values: number[];
-  campoValues: string[];
-  config = TreeviewConfig.create({
-    hasAllCheckBox: true,
-    hasFilter: true,
-    hasCollapseExpand: true,
-    decoupleChildFromParent: false,
-    maxHeight: 400
-  });
-  campos: TreeviewItem[];
-  /************************************/
+  gestiones: Gestion[] = [];
+  etapas: Etapa[] = [];
+  tipoCreditos: MultiSelect[] = [];
+  sedes: MultiSelect[] = [];
+  errors: string[] = [];
+  /**********/
+  ejecutivoSelected: any;
+  carteraSelected: Cartera;
+  gestionSelected: Gestion;
+  etapasSelecionadas: Etapa[] = [];
+  selectedSedes: any[] = [];
+  selectedTipoCreditos: any[] = [];
+  desde: any;
+  hasta: any;
+  /**********/
+
+  config: NgWizardConfig = {
+    selected: 0,
+    theme: THEME.circles,
+    toolbarSettings: {
+      showNextButton: false,
+      showPreviousButton: false,
+      toolbarExtraButtons: [
+        // {
+        //   text: 'Finish',
+        //   class: 'btn btn-info', event: () => {
+        //     alert('Finished!!!');
+        //   }
+        // }
+      ]
+    }
+  };
+
+  showSedes = true;
+  showTipoCredito = true;
+  showMontos = true;
+  errorMonto: string;
+
   constructor(
     private spinner: NgxSpinnerService,
-    private asignacion: AsignacionCarteraService,
+    private asignacionService: AsignacionCarteraService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private ngWizardService: NgWizardService
   ) {
-    activatedRoute.params.subscribe(({nombre, ejecutivoId}) => {
-      if (ejecutivoId && nombre) {
-        const state = router.getCurrentNavigation().extras.state;
-        if (state) {
-          this.cartera = state.cartera;
-          this.items = this.asignacion.convertToTreeviewItem(this.cartera);
-          this.listarCamposByCartera(this.cartera.codCartera);
-          this.ejecutivo = state.user;
-        } else {
-          this.ejecutivoId = ejecutivoId;
-          this.nombre = nombre;
-        }
-      } else {
-        this.router.navigateByUrl('/auth/estrategia/carteras');
-      }
-    });
+    activatedRoute.params.subscribe(({ejecutivoId}) => this.buscarEjecutivoByCodUsuario(ejecutivoId));
   }
 
   ngOnInit() {
-    if (this.ejecutivoId && this.nombre) {
-      this.buscarEjecutivoByCodUsuario(this.ejecutivoId);
-      this.getCartera(this.nombre);
-    }
+    this.listaTipoCreditos();
+    this.listaSedes();
+    this.listarCarteras();
   }
 
   onFilterChange(value: string): void {
     console.log('filter:', value);
   }
 
+  buscarEjecutivoByCodUsuario(codUsuario) {
+    this.asignacionService.buscarEjecutivoByCodUsuario(codUsuario).subscribe(
+      res => {
+        if (res.exito) {
+          this.ejecutivoSelected = res.objeto;
+        } else {
+          this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
+          Swal.fire('Asignación de Cartera', 'EL Asesor de negocio no existe.', 'error');
+        }
+      },
+      err => {
+        console.log(err);
+        this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
+        Swal.fire('Asignación de Cartera', 'EL Asesor de negocio no existe.', 'error');
+      }
+    );
+  }
 
-  getCartera(nombre) {
+  listarCarteras() {
     this.spinner.show();
-    this.asignacion.getCartera(nombre).subscribe(
+    this.asignacionService.getCarteras().subscribe(
       res => {
-        if (res.exito) {
-          this.cartera = res.objeto as any;
-          this.listarCamposByCartera(this.cartera.codCartera);
-          this.items = this.asignacion.convertToTreeviewItem(this.cartera);
+        if (res.exito && res.objeto) {
+          this.carteras = res.objeto as any[];
+        } else {
+          Swal.fire('Asignar', 'No se encontro la cartera o esta desactivada.', 'warning');
+          this.router.navigateByUrl('/auth/estrategia/carteras');
         }
         this.spinner.hide();
       },
@@ -83,39 +113,149 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     );
   }
 
-  selectItem(event: any[]) {
-    console.log(event);
-    this.values = event;
-  }
-
-  listarCamposByCartera(codCartera) {
-    this.asignacion.listarCamposByCartera(codCartera).subscribe(
-      res => {
-        const items: any[] = res.objeto as any[];
-        this.campos = this.asignacion.convertCamposToTreeviewItem(items, this.cartera.codCartera);
-      }
+  public listaTipoCreditos() {
+    this.asignacionService.listaTipoCreditos().subscribe(
+      res => res.forEach(item => this.tipoCreditos.push({id: item.codItem, name: item.descripcion})),
+      err => console.log(err)
     );
   }
 
-  private buscarEjecutivoByCodUsuario(ejecutivoId: string) {
-    this.asignacion.buscarEjecutivoByCodUsuario(ejecutivoId).subscribe(
-      res => {
-        if (res.exito) {
-           this.ejecutivo = res.objeto;
-        }
-      },
-      err => {
-        console.log(err);
-      }
+  public listaSedes() {
+    this.asignacionService.listaSedes().subscribe(
+      res => res.forEach(item => this.sedes.push({id: item.codItem, name: item.descripcion})),
+      err => console.log(err)
     );
   }
 
-  onFilterChangeCampos(value: string) {
-    console.log('filter:', value);
+  showCarteras(ejecutivo: any, event?: Event) {
+    this.ejecutivoSelected = ejecutivo;
+    this.carteraSelected = null;
+    this.gestionSelected = null;
+    this.etapasSelecionadas = [];
+    this.selectedSedes = [];
+    this.selectedTipoCreditos = [];
+    this.desde = null;
+    this.hasta = null;
+    this.gestiones = [];
+    this.etapas = [];
+    this.ngWizardService.next();
   }
 
-  selectItemCampos(event: any[]) {
-    console.log(event);
-    this.campoValues = event;
+  showGestion(cartera: Cartera, event?: Event) {
+    this.showSedes = true;
+    this.showTipoCredito = true;
+    this.showMontos = true;
+    this.gestionSelected = null;
+    this.etapasSelecionadas = [];
+    this.selectedSedes = [];
+    this.selectedTipoCreditos = [];
+    this.desde = null;
+    this.hasta = null;
+    this.etapas = [];
+    this.gestiones = cartera.gestiones;
+    this.carteraSelected = cartera;
+
+    if (cartera.campos[0].desde) {
+      this.showMontos = false;
+    } else if (cartera.campos[0].codCampo == CONST.TABLE_INT_LISTA_SEDE) {
+      this.showSedes = false;
+    } else if (cartera.campos[0].codCampo == CONST.TABLE_INT_LISTA_TIPO_CREDITO) {
+      this.showTipoCredito = false;
+    }
+    this.ngWizardService.next();
   }
+
+  showEtapa(gestion: Gestion, event?: Event) {
+    this.etapasSelecionadas = [];
+    this.selectedSedes = [];
+    this.selectedTipoCreditos = [];
+    this.desde = null;
+    this.hasta = null;
+    this.etapas = gestion.etapas;
+    this.gestionSelected = gestion;
+    this.ngWizardService.next();
+  }
+
+  nextAdicionales() {
+    this.ngWizardService.next();
+  }
+
+  stepChanged(args: StepChangedArgs) {
+    // console.log(args);
+  }
+
+
+  checkSelected(event: any, item: Etapa) {
+    const etapa = this.etapasSelecionadas.find(i => i.codEtapa == item.codEtapa);
+    if (event.target.checked) {
+      if (!etapa) {
+        this.etapasSelecionadas.push(item);
+      }
+    } else {
+      this.etapasSelecionadas = this.etapasSelecionadas.filter(i => i.codEtapa != item.codEtapa);
+    }
+  }
+
+  nextFinished() {
+    const ejecutivo = this.ejecutivoSelected;
+    const cartera = this.carteraSelected;
+    const gestion = this.gestionSelected;
+    const etapas = this.etapasSelecionadas;
+    const sedes = this.selectedSedes;
+    const tipoCreditos = this.selectedTipoCreditos;
+    const desde = this.desde;
+    const hasta = this.hasta;
+    this.errors = [];
+
+    if (!ejecutivo) {
+      this.errors.push('Debe seleccionar una ejecutivo de negocio.');
+    }
+
+    if (!cartera) {
+      this.errors.push('Debe seleccionar una cartera.');
+    }
+
+    if (!gestion) {
+      this.errors.push('Debe seleccionar una gestión.');
+    }
+
+    if (etapas.length == 0) {
+      this.errors.push('Debe seleccionar almenos una etapa.');
+    }
+
+    if (this.errors.length > 0) {
+      return;
+    }
+    console.log([ejecutivo, cartera, gestion, etapas, sedes, tipoCreditos, desde, hasta]);
+  }
+
+  validarDesde(event: any, to: HTMLInputElement) {
+    this.errorMonto = null;
+    const desde = Number(event);
+    const hasta = Number(to.value);
+    if (desde < 0) {
+      this.errorMonto = 'El monto desde no es valido.';
+    } else {
+      if (desde > hasta && hasta > 0) {
+        this.errorMonto = 'El monto desde no puede ser inferior al mondo hasta.';
+      }
+    }
+    if (desde == 0 && hasta > 0) {
+      to.value = '';
+    }
+  }
+
+  validarHasta(event: any, from: HTMLInputElement) {
+    this.errorMonto = null;
+    const desde = Number(from.value);
+    const hasta = Number(event);
+    if (hasta < 0) {
+      this.errorMonto = 'El monto desde no es valido.';
+    } else {
+      if (hasta < desde) {
+        this.errorMonto = 'El monto hasta no puede ser inferior al mondo desde.';
+      }
+    }
+  }
+
 }

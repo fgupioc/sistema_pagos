@@ -109,6 +109,7 @@ const routes: Routes = [
             },
             {path: 'notificaciones', component: EnviarNotificionComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.NOTIFICACION_LISTAR]}},
             {path: 'asignacion-cartera', component: AsignacionCarteraComponent},
+            {path: 'asignacion-cartera/:ejecutivoId/configuracion', component: AsignarEtapasEjecutivoComponent}
           ]
         },
         {
