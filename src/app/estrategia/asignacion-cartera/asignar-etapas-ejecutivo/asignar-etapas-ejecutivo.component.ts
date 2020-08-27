@@ -8,6 +8,7 @@ import {MultiSelect} from '../../cartera/detalle-cartera/detalle-cartera.compone
 import {NgWizardConfig, NgWizardService, StepChangedArgs, THEME} from 'ng-wizard';
 import Swal from 'sweetalert2';
 import {CONST} from '../../../comun/CONST';
+import {EjecutivoCartera, EjecutivoCarteraCampo, EjecutivoCarteraEtapa} from '../../../models/ejecutivo-cartera';
 
 @Component({
   selector: 'app-asignar-etapas-ejecutivo',
@@ -226,7 +227,52 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     if (this.errors.length > 0) {
       return;
     }
+
+    const etapaItems: EjecutivoCarteraEtapa[] = [];
+
+    this.etapasSelecionadas.forEach(i => {
+      etapaItems.push({
+        codEtapa: i.codEtapa,
+        codGestion: i.codGestion
+      });
+    });
+
+    const campoItems: EjecutivoCarteraCampo[] = [];
+    this.selectedTipoCreditos.forEach(v => {
+      campoItems.push({
+        codCampo: this.showTipoCredito ? CONST.TABLE_INT_LISTA_TIPO_CREDITO : CONST.TABLE_INT_LISTA_SEDE,
+        valor: v,
+        opciona: 1
+      });
+    });
+
+    this.selectedSedes.forEach(v => {
+      campoItems.push({
+        codCampo: this.showSedes ? CONST.TABLE_INT_LISTA_SEDE : CONST.TABLE_INT_LISTA_TIPO_CREDITO,
+        valor: v,
+        opciona: 1
+      });
+    });
+
+    if (desde) {
+      campoItems.push({
+        codCampo: CONST.TABLE_INT_MONTO,
+        desde,
+        hasta,
+        opciona: 1
+      });
+    }
+
+    const data: EjecutivoCartera = {
+      codUsuario: this.ejecutivoSelected.codUsuario,
+      codCartera: this.carteraSelected.codCartera,
+      etapaItems,
+      campoItems
+    };
+
+
     console.log([ejecutivo, cartera, gestion, etapas, sedes, tipoCreditos, desde, hasta]);
+    console.log(data);
   }
 
   validarDesde(event: any, to: HTMLInputElement) {
