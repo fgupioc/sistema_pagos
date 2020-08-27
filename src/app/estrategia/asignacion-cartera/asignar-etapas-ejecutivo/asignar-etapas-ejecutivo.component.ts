@@ -9,6 +9,9 @@ import {NgWizardConfig, NgWizardService, StepChangedArgs, THEME} from 'ng-wizard
 import Swal from 'sweetalert2';
 import {CONST} from '../../../comun/CONST';
 import {EjecutivoCartera, EjecutivoCarteraCampo, EjecutivoCarteraEtapa} from '../../../models/ejecutivo-cartera';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {NgSelectComponent} from '@ng-select/ng-select';
+import {delay} from 'rxjs/operators';
 
 @Component({
   selector: 'app-asignar-etapas-ejecutivo',
@@ -35,6 +38,10 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   hasta: any;
   /**********/
 
+  heroForm: FormGroup;
+  albums = [];
+  allAlbums = [];
+
   config: NgWizardConfig = {
     selected: 0,
     theme: THEME.circles,
@@ -56,13 +63,15 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   showTipoCredito = true;
   showMontos = true;
   errorMonto: string;
+  album: any;
 
   constructor(
     private spinner: NgxSpinnerService,
     private asignacionService: AsignacionCarteraService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private ngWizardService: NgWizardService
+    private ngWizardService: NgWizardService,
+    private fb: FormBuilder,
   ) {
     activatedRoute.params.subscribe(({ejecutivoId}) => this.buscarEjecutivoByCodUsuario(ejecutivoId));
   }
@@ -71,6 +80,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.listaTipoCreditos();
     this.listaSedes();
     this.listarCarteras();
+    this.loadAlbums();
   }
 
   onFilterChange(value: string): void {
@@ -304,4 +314,13 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     }
   }
 
+  private loadAlbums() {
+    this.asignacionService.getAlbums().pipe(delay(500)).subscribe(albums => {
+      this.albums = [...albums];
+    });
+  }
+
+  selecionarSocio($event: any) {
+    console.log($event);
+  }
 }

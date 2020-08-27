@@ -23,7 +23,6 @@ export interface ITreeViewItem {
   providedIn: 'root'
 })
 export class AsignacionCarteraService {
-
   constructor(
     private http: HttpClient
   ) {
@@ -129,5 +128,10 @@ export class AsignacionCarteraService {
 
   listaSedes(): Observable<TablaMaestra[]> {
     return this.http.get<any>(`${urlMaestro}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_INT_LISTA_SEDE)});
+  }
+
+
+  getAlbums() {
+    return this.http.get<any[]>('https://jsonplaceholder.typicode.com/albums');
   }
 }

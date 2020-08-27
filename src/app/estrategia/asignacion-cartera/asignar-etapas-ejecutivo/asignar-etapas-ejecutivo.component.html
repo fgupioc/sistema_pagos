@@ -132,8 +132,20 @@
               <hr>
               <div class="col-12">
                 <div class="form-group">
-                  <h3>Agregar socios</h3>
-                  <input class="form-control" type="text">
+                  <label>Loading async data</label>
+                  <ng-select [items]="albums"
+                             bindLabel="title"
+                             dropdownPosition="auto"
+                             bindValue="id"
+                             labelForId="album"
+                             placeholder="Select album"
+                             [virtualScroll]="true"
+                             (change)="selecionarSocio($event)">
+                    <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                      <div><span>Title: </span><span>{{item.title}}</span></div>
+                      <small><b>Id:</b> {{item.id}} | <b>UserId:</b> {{item.userId}}</small>
+                    </ng-template>
+                  </ng-select>
                 </div>
               </div>
               <div class="col-12">

@@ -75,7 +75,7 @@ const ngWizardConfig: NgWizardConfig = {
     NgSelectModule,
     NgxSpinnerModule,
     TreeviewModule.forRoot(),
-    NgWizardModule.forRoot(ngWizardConfig)
+    NgWizardModule.forRoot(ngWizardConfig),
   ],
   exports: [
     CrearCarteraComponent,
