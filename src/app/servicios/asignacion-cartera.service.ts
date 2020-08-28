@@ -130,8 +130,11 @@ export class AsignacionCarteraService {
     return this.http.get<any>(`${urlMaestro}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_INT_LISTA_SEDE)});
   }
 
-
   getAlbums() {
     return this.http.get<any[]>('https://jsonplaceholder.typicode.com/albums');
+  }
+
+  listarSociosByCartera(codCartera: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/cartera/${codCartera}/listar-socios`);
   }
 }

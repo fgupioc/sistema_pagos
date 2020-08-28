@@ -12,6 +12,7 @@ import {EjecutivoCartera, EjecutivoCarteraCampo, EjecutivoCarteraEtapa} from '..
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {NgSelectComponent} from '@ng-select/ng-select';
 import {delay} from 'rxjs/operators';
+import {SocioCredito} from '../../../interfaces/socio-credito';
 
 @Component({
   selector: 'app-asignar-etapas-ejecutivo',
@@ -37,10 +38,9 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   desde: any;
   hasta: any;
   /**********/
+  sociosSeleccionados: SocioCredito[] = [];
 
-  heroForm: FormGroup;
-  albums = [];
-  allAlbums = [];
+  sociosCredito: SocioCredito[] = [];
 
   config: NgWizardConfig = {
     selected: 0,
@@ -64,6 +64,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   showMontos = true;
   errorMonto: string;
   album: any;
+  socioModel: any;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -80,7 +81,6 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.listaTipoCreditos();
     this.listaSedes();
     this.listarCarteras();
-    this.loadAlbums();
   }
 
   onFilterChange(value: string): void {
@@ -173,6 +173,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     } else if (cartera.campos[0].codCampo == CONST.TABLE_INT_LISTA_TIPO_CREDITO) {
       this.showTipoCredito = false;
     }
+    this.listarSociosByCartera(cartera.codCartera);
     this.ngWizardService.next();
   }
 
@@ -216,6 +217,8 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     const tipoCreditos = this.selectedTipoCreditos;
     const desde = this.desde;
     const hasta = this.hasta;
+    const sociosOpcional = this.sociosSeleccionados;
+
     this.errors = [];
 
     if (!ejecutivo) {
@@ -277,11 +280,10 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
       codUsuario: this.ejecutivoSelected.codUsuario,
       codCartera: this.carteraSelected.codCartera,
       etapaItems,
-      campoItems
+      campoItems,
+      sociosOpcional,
     };
 
-
-    console.log([ejecutivo, cartera, gestion, etapas, sedes, tipoCreditos, desde, hasta]);
     console.log(data);
   }
 
@@ -314,13 +316,24 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     }
   }
 
-  private loadAlbums() {
-    this.asignacionService.getAlbums().pipe(delay(500)).subscribe(albums => {
-      this.albums = [...albums];
+  private listarSociosByCartera(codCartera) {
+    this.asignacionService.listarSociosByCartera(codCartera).pipe(delay(500)).subscribe(items => {
+      this.sociosCredito = [...items];
     });
   }
 
-  selecionarSocio($event: any) {
-    console.log($event);
+  selecionarSocio(item: SocioCredito, select: NgSelectComponent) {
+    if (item) {
+      const exits = this.sociosSeleccionados.find(v => v.codUsuario == item.codUsuario);
+      if (!exits) {
+        this.sociosSeleccionados.push(item);
+      }
+      select.clearItem(item);
+    }
   }
+
+  eliminarSocioCredito(item: SocioCredito) {
+    this.sociosSeleccionados = this.sociosSeleccionados.filter(v => v.codUsuario != item.codUsuario);
+  }
+
 }

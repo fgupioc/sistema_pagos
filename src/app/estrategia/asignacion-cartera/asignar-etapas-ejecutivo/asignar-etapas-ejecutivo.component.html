@@ -86,7 +86,7 @@
                       [items]="sedes"
                       bindLabel="name"
                       bindValue="id"
-                      labelForId="state"
+                      labelForId="sedes"
                       [multiple]="true"
                       [placeholder]="'Seleccione'"
                       clearAllText="Clear"
@@ -103,7 +103,7 @@
                       [items]="tipoCreditos"
                       bindLabel="name"
                       bindValue="id"
-                      labelForId="state"
+                      labelForId="creditos"
                       [multiple]="true"
                       [placeholder]="'Seleccione'"
                       clearAllText="Clear"
@@ -132,18 +132,20 @@
               <hr>
               <div class="col-12">
                 <div class="form-group">
-                  <label>Loading async data</label>
-                  <ng-select [items]="albums"
+                  <label *ngIf="carteraSelected">Lista de socios de {{ carteraSelected.nombre }}</label>
+                  <ng-select [items]="sociosCredito"
+                             #select
                              bindLabel="title"
                              dropdownPosition="auto"
                              bindValue="id"
                              labelForId="album"
-                             placeholder="Select album"
+                             placeholder="Selecciona socio"
                              [virtualScroll]="true"
-                             (change)="selecionarSocio($event)">
+                             (change)="selecionarSocio($event, select)"
+                            [(ngModel)]="socioModel">
                     <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-                      <div><span>Title: </span><span>{{item.title}}</span></div>
-                      <small><b>Id:</b> {{item.id}} | <b>UserId:</b> {{item.userId}}</small>
+                      <div><span>Socio: </span><span>{{item.alias}}</span></div>
+                      <small><b>Tipo:</b> {{item.tipoDocumento}} | <b>Número:</b> {{item.numeroDocumento}}</small>
                     </ng-template>
                   </ng-select>
                 </div>
@@ -162,22 +164,13 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <tr class="text-center">
-                        <th scope="row">1</th>
-                        <td>franz junior gupioc ventura</td>
-                        <td>DNI</td>
-                        <td>46588976</td>
+                      <tr class="text-center" *ngFor="let socio of sociosSeleccionados; let i = index">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ socio.alias }}</td>
+                        <td>{{ socio.tipoDocumento }}</td>
+                        <td>{{ socio.numeroDocumento }}</td>
                         <td>
-                          <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
-                        </td>
-                      </tr>
-                      <tr class="text-center">
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>DNI</td>
-                        <td>87956124</td>
-                        <td>
-                          <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                          <button class="btn btn-sm btn-danger" (click)="eliminarSocioCredito(socio)"><i class="fa fa-trash"></i></button>
                         </td>
                       </tr>
                       </tbody>
