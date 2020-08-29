@@ -51,7 +51,6 @@
               </div>
             </div>
           </ng-wizard-step>
-
           <ng-wizard-step [title]="'Etapas'">
             <div class="row">
               <div class="col-12">
@@ -62,7 +61,6 @@
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
                     <label class="text cursor-pointer"> <input type="checkbox" value="" (change)="checkSelected($event, item)"> {{ item.nombre }}</label>
-
                   </li>
                 </ul>
               </div>
@@ -135,10 +133,10 @@
                   <label *ngIf="carteraSelected">Lista de socios de {{ carteraSelected.nombre }}</label>
                   <ng-select [items]="sociosCredito"
                              #select
-                             bindLabel="title"
+                             bindLabel="alias"
                              dropdownPosition="auto"
                              bindValue="id"
-                             labelForId="album"
+                             labelForId="clientes"
                              placeholder="Selecciona socio"
                              [virtualScroll]="true"
                              (change)="selecionarSocio($event, select)"
@@ -160,13 +158,13 @@
                         <th scope="col">Socio</th>
                         <th scope="col">Tipo</th>
                         <th scope="col">Documento</th>
-                        <th scope="col">opcion</th>
+                        <th scope="col">opción</th>
                       </tr>
                       </thead>
                       <tbody>
                       <tr class="text-center" *ngFor="let socio of sociosSeleccionados; let i = index">
                         <th scope="row">{{ i + 1 }}</th>
-                        <td>{{ socio.alias }}</td>
+                        <td style="text-align: left">{{ socio.alias }}</td>
                         <td>{{ socio.tipoDocumento }}</td>
                         <td>{{ socio.numeroDocumento }}</td>
                         <td>
@@ -188,8 +186,41 @@
               </div>
               <div class="col-12 text-center">
                 <div class="form-group">
-                  <button class="btn btn-primary" (click)="nextFinished()">Guardar</button>
+                  <button class="btn btn-primary" (click)="nextCoincidencias()" >Continuar <i class="fa fa-arrow-right"></i></button>
                 </div>
+              </div>
+            </div>
+          </ng-wizard-step>
+          <ng-wizard-step [title]="'Coincidencias'">
+            <div class="row">
+              <div class="col-12">
+                 <div class="table-responsive">
+                   <table class="table table-bordered">
+                     <thead>
+                     <tr>
+                       <th scope="col">#</th>
+                       <th scope="col">N° Credito</th>
+                       <th scope="col">F. Dese.</th>
+                       <th scope="col">Monto Dese.</th>
+                       <th scope="col">Saldo.</th>
+                       <th> Socio</th>
+                     </tr>
+                     </thead>
+                     <tbody>
+                     <tr *ngFor="let credito of $creditos; let i = index">
+                       <th scope="row">{{ i + 1 }}</th>
+                       <td>{{ credito.nroCredito }}</td>
+                       <td>{{ credito.fechaVencimiento | date : 'dd-MM-yyyy' }}</td>
+                       <td>{{ credito.montoCredito}}</td>
+                       <td>{{ credito.saldoDeDeuda}}</td>
+                       <td>{{ credito.socioId}}</td>
+                     </tr>
+                     </tbody>
+                   </table>
+                 </div>
+              </div>
+              <div class="col-12 text-center mt-4">
+                <button class="btn btn-primary" (click)="nextFinished()" >Guardad <i class="fa fa-save"></i></button>
               </div>
             </div>
           </ng-wizard-step>

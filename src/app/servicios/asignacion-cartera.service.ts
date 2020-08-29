@@ -137,4 +137,8 @@ export class AsignacionCarteraService {
   listarSociosByCartera(codCartera: any): Observable<any> {
     return this.http.get<any>(`${urlBase}/cartera/${codCartera}/listar-socios`);
   }
+
+  buscarCreditosPorFiltro(codCartera: any, campania: any): Observable<any> {
+    return this.http.post<any>(`${urlBase}/cartera/${codCartera}/buscarCreditosPorFiltro`, campania);
+  }
 }

@@ -65,6 +65,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   errorMonto: string;
   album: any;
   socioModel: any;
+  $creditos: any[] = [];
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -192,6 +193,20 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.ngWizardService.next();
   }
 
+  nextCoincidencias() {
+    const data = this.getData();
+    this.spinner.show();
+    this.asignacionService.buscarCreditosPorFiltro(data.codCartera, data).subscribe(
+      res => {
+        console.log(res);
+        this.$creditos = res;
+        this.ngWizardService.next();
+        this.spinner.hide();
+      },
+      err => this.spinner.hide()
+    );
+  }
+
   stepChanged(args: StepChangedArgs) {
     // console.log(args);
   }
@@ -209,6 +224,11 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   }
 
   nextFinished() {
+    const data = this.getData();
+    console.log(data);
+  }
+
+  private getData() {
     const ejecutivo = this.ejecutivoSelected;
     const cartera = this.carteraSelected;
     const gestion = this.gestionSelected;
@@ -284,7 +304,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
       sociosOpcional,
     };
 
-    console.log(data);
+    return data;
   }
 
   validarDesde(event: any, to: HTMLInputElement) {
