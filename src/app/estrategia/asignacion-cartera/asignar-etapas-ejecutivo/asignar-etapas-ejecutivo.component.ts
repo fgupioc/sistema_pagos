@@ -164,6 +164,8 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.desde = null;
     this.hasta = null;
     this.etapas = [];
+    this.sociosSeleccionados = [];
+    this.$creditos = [];
     this.gestiones = cartera.gestiones;
     this.carteraSelected = cartera;
 
@@ -184,16 +186,21 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.selectedTipoCreditos = [];
     this.desde = null;
     this.hasta = null;
+    this.sociosSeleccionados = [];
+    this.$creditos = [];
     this.etapas = gestion.etapas;
     this.gestionSelected = gestion;
     this.ngWizardService.next();
   }
 
   nextAdicionales() {
+    this.sociosSeleccionados = [];
+    this.$creditos = [];
     this.ngWizardService.next();
   }
 
   nextCoincidencias() {
+    this.$creditos = [];
     const data = this.getData();
     this.spinner.show();
     this.asignacionService.buscarCreditosPorFiltro(data.codCartera, data).subscribe(
