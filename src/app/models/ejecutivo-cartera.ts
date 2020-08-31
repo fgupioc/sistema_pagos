@@ -8,6 +8,9 @@ export class EjecutivoCartera {
   sociosOpcional: SocioCredito [] = [];
   codEjecutivoCartera?: number;
   fechaRegistro?: string;
+  creditosAsignados?: any[];
+  startDate?: string;
+  endDate?: string;
 }
 
 export class EjecutivoCarteraEtapa {

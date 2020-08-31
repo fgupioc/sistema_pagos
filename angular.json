@@ -31,7 +31,8 @@
               "src/scss/style.scss",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/datatables.net-dt/css/jquery.dataTables.css",
-              "node_modules/select2/dist/css/select2.css"
+              "node_modules/select2/dist/css/select2.css",
+              "src/assets/css/daterangepicker.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": ["./node_modules"]
@@ -39,7 +40,9 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/datatables.net/js/jquery.dataTables.js",
-              "node_modules/select2/dist/js/select2.full.js"
+              "node_modules/select2/dist/js/select2.full.js",
+              "src/assets/js/moment.min.js",
+              "src/assets/js/daterangepicker.js"
             ]
           },
           "configurations": {

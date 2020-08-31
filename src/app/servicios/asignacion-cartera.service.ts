@@ -141,4 +141,8 @@ export class AsignacionCarteraService {
   buscarCreditosPorFiltro(codCartera: any, campania: any): Observable<any> {
     return this.http.post<any>(`${urlBase}/cartera/${codCartera}/buscarCreditosPorFiltro`, campania);
   }
+
+  asignarCreditosEjecutivo(codUsuario: any,  campania: any): Observable<any> {
+    return this.http.post<any>(`${urlBase}/${codUsuario}`, campania);
+  }
 }

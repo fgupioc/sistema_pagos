@@ -13,11 +13,14 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {NgSelectComponent} from '@ng-select/ng-select';
 import {delay} from 'rxjs/operators';
 import {SocioCredito} from '../../../interfaces/socio-credito';
+import * as moment from 'moment';
+
+declare const $: any;
 
 @Component({
   selector: 'app-asignar-etapas-ejecutivo',
   templateUrl: './asignar-etapas-ejecutivo.component.html',
-  styles: []
+  styleUrls: ['./asignar-etapas-ejecutivo.component.css']
 })
 export class AsignarEtapasEjecutivoComponent implements OnInit {
   carteras: Cartera[] = [];
@@ -66,14 +69,16 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   album: any;
   socioModel: any;
   $creditos: any[] = [];
+  $startDate: any;
+  $endDate: any;
+  $creditosCheched: any[] = [];
 
   constructor(
     private spinner: NgxSpinnerService,
     private asignacionService: AsignacionCarteraService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private ngWizardService: NgWizardService,
-    private fb: FormBuilder,
+    private ngWizardService: NgWizardService
   ) {
     activatedRoute.params.subscribe(({ejecutivoId}) => this.buscarEjecutivoByCodUsuario(ejecutivoId));
   }
@@ -82,6 +87,59 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.listaTipoCreditos();
     this.listaSedes();
     this.listarCarteras();
+    setTimeout(() => this.initDatepiker(), 3000);
+  }
+
+  initDatepiker() {
+    moment.locale('es');
+    $('#daterange-btn').daterangepicker(
+      {
+        locale: {
+          format: 'YYYY-MM-DD',
+          separator: ' - ',
+          applyLabel: 'Guardar',
+          cancelLabel: 'Cancelar',
+          fromLabel: 'Desde',
+          toLabel: 'Hasta',
+          customRangeLabel: 'Personalizar',
+          daysOfWeek: [
+            'Do',
+            'Lu',
+            'Ma',
+            'Mi',
+            'Ju',
+            'Vi',
+            'Sa'
+          ],
+          monthNames: [
+            'Enero',
+            'Febrero',
+            'Marzo',
+            'Abril',
+            'Mayo',
+            'Junio',
+            'Julio',
+            'Agosto',
+            'Setiembre',
+            'Octubre',
+            'Noviembre',
+            'Diciembre'
+          ],
+          firstDay: 1
+        },
+        ranges: {
+          Diaria: [moment(), moment()],
+          Semana: [moment(), moment().add(6, 'days')],
+          Quincenal: [moment(), moment().add(14, 'days')],
+          Mensual: [moment(), moment().add(1, 'month')]
+        }
+      },
+      (start, end) => {
+        this.$startDate = start.format('YYYY-MM-DD');
+        this.$endDate = end.format('YYYY-MM-DD');
+        $('#daterange-btn .text-title').html(` ${start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY')} `);
+      }
+    );
   }
 
   onFilterChange(value: string): void {
@@ -168,6 +226,10 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.$creditos = [];
     this.gestiones = cartera.gestiones;
     this.carteraSelected = cartera;
+    this.$startDate = null;
+    this.$endDate = null;
+    this.$creditosCheched = [];
+    $('#daterange-btn .text-title').html(` Seleccione rango `);
 
     if (cartera.campos[0].desde) {
       this.showMontos = false;
@@ -188,6 +250,10 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.hasta = null;
     this.sociosSeleccionados = [];
     this.$creditos = [];
+    this.$startDate = null;
+    this.$endDate = null;
+    $('#daterange-btn .text-title').html(` Seleccione rango `);
+    this.$creditosCheched = [];
     this.etapas = gestion.etapas;
     this.gestionSelected = gestion;
     this.ngWizardService.next();
@@ -196,6 +262,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   nextAdicionales() {
     this.sociosSeleccionados = [];
     this.$creditos = [];
+    this.$creditosCheched = [];
     this.ngWizardService.next();
   }
 
@@ -203,9 +270,9 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.$creditos = [];
     const data = this.getData();
     this.spinner.show();
+    console.log(data);
     this.asignacionService.buscarCreditosPorFiltro(data.codCartera, data).subscribe(
       res => {
-        console.log(res);
         this.$creditos = res;
         this.ngWizardService.next();
         this.spinner.hide();
@@ -231,8 +298,19 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   }
 
   nextFinished() {
-    const data = this.getData();
-    console.log(data);
+    if (this.$creditosCheched.length == 0) {
+      Swal.fire('Asignación de credito', 'Debe seleccionar almenos un credito.', 'warning');
+      return;
+    }
+    const data: any = this.getData();
+    this.spinner.show();
+    this.asignacionService.asignarCreditosEjecutivo(this.ejecutivoSelected.codUsuario, data).subscribe(
+      res => {
+        console.log(res.objeto);
+        this.spinner.hide();
+      },
+      err => this.spinner.hide()
+    );
   }
 
   private getData() {
@@ -309,6 +387,9 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
       etapaItems,
       campoItems,
       sociosOpcional,
+      creditosAsignados: this.$creditosCheched,
+      startDate: this.$startDate,
+      endDate: this.$endDate
     };
 
     return data;
@@ -363,4 +444,15 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.sociosSeleccionados = this.sociosSeleccionados.filter(v => v.codUsuario != item.codUsuario);
   }
 
+  changeCheckCreditos(event: any, credito: any) {
+    const exist = this.$creditosCheched.find(i => i.id == credito.id);
+    if (event.target.checked) {
+      if (!exist) {
+        this.$creditosCheched.push(credito);
+      }
+    } else {
+      this.$creditosCheched = this.$creditosCheched.filter(i => i.id != credito.id);
+    }
+    console.log(this.$creditosCheched);
+  }
 }
