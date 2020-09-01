@@ -74,6 +74,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   $endDate: any;
   $creditosCheched: any[] = [];
   nombreCampoTemp: any;
+  frecuencia: any;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -136,9 +137,10 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
           Mensual: [moment(), moment().add(1, 'month')]
         }
       },
-      (start, end) => {
+      (start, end, label) => {
         this.$startDate = start.format('YYYY-MM-DD');
         this.$endDate = end.format('YYYY-MM-DD');
+        this.frecuencia = label;
         $('#daterange-btn .text-title').html(` ${start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY')} `);
       }
     );
@@ -208,6 +210,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.selectedTipoCreditos = [];
     this.desde = null;
     this.hasta = null;
+    this.frecuencia = null;
     this.gestiones = [];
     this.etapas = [];
     this.ngWizardService.next();
@@ -223,6 +226,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.selectedTipoCreditos = [];
     this.desde = null;
     this.hasta = null;
+    this.frecuencia = null;
     this.etapas = [];
     this.sociosSeleccionados = [];
     this.$creditos = [];
@@ -250,6 +254,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.selectedTipoCreditos = [];
     this.desde = null;
     this.hasta = null;
+    this.frecuencia = null;
     this.sociosSeleccionados = [];
     this.$creditos = [];
     this.$startDate = null;
@@ -272,7 +277,6 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.$creditos = [];
     const data = this.getData();
     this.spinner.show();
-    console.log(data);
     this.asignacionService.buscarCreditosPorFiltro(data.codCartera, data).subscribe(
       res => {
         this.$creditos = res;
@@ -309,6 +313,10 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.asignacionService.asignarCreditosEjecutivo(this.ejecutivoSelected.codUsuario, data).subscribe(
       res => {
         console.log(res.objeto);
+        if (res.exito) {
+          Swal.fire('Asignación de credito', res.mensaje, 'success');
+          this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
+        }
         this.spinner.hide();
       },
       err => this.spinner.hide()
@@ -391,7 +399,8 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
       sociosOpcional,
       creditosAsignados: this.$creditosCheched,
       startDate: this.$startDate,
-      endDate: this.$endDate
+      endDate: this.$endDate,
+      frecuencia: this.frecuencia
     };
 
     return data;

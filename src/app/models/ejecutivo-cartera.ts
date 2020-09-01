@@ -11,6 +11,7 @@ export class EjecutivoCartera {
   creditosAsignados?: any[];
   startDate?: string;
   endDate?: string;
+  frecuencia: string;
 }
 
 export class EjecutivoCarteraEtapa {
