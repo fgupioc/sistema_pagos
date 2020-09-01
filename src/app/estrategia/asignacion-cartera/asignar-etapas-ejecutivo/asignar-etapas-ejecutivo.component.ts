@@ -277,7 +277,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.$creditos = [];
     const data = this.getData();
     this.spinner.show();
-    this.asignacionService.buscarCreditosPorFiltro(data.codCartera, data).subscribe(
+    this.asignacionService.buscarCreditosPorFiltro(data.cartera.codCartera, data).subscribe(
       res => {
         this.$creditos = res;
         this.ngWizardService.next();
@@ -393,7 +393,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
 
     const data: EjecutivoCartera = {
       codUsuario: this.ejecutivoSelected.codUsuario,
-      codCartera: this.carteraSelected.codCartera,
+      cartera,
       etapaItems,
       campoItems,
       sociosOpcional,
@@ -402,7 +402,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
       endDate: this.$endDate,
       frecuencia: this.frecuencia
     };
-
+    console.log(data);
     return data;
   }
 

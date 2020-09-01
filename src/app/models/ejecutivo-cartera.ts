@@ -1,8 +1,9 @@
 import {SocioCredito} from '../interfaces/socio-credito';
+import {Cartera} from '../interfaces/cartera';
 
 export class EjecutivoCartera {
   codUsuario: number;
-  codCartera: number;
+  cartera: Cartera;
   etapaItems: EjecutivoCarteraEtapa[] = [];
   campoItems: EjecutivoCarteraCampo[] = [];
   sociosOpcional: SocioCredito [] = [];
