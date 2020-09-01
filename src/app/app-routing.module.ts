@@ -32,6 +32,7 @@ import {AsignacionCarteraComponent} from './estrategia/asignacion-cartera/asigna
 import {AsignarEtapasEjecutivoComponent} from './estrategia/asignacion-cartera/asignar-etapas-ejecutivo/asignar-etapas-ejecutivo.component';
 import {EjecutivoCreditosComponent} from './estrategia/asignacion-cartera/ejecutivo-creditos/ejecutivo-creditos.component';
 import {CreditoSocioComponent} from './estrategia/asignacion-cartera/credito-socio/credito-socio.component';
+import {EjecutivoAsignacionesComponent} from './estrategia/asignacion-cartera/ejecutivo-asignaciones/ejecutivo-asignaciones.component';
 
 
 const A = Autorizacion;
@@ -109,7 +110,8 @@ const routes: Routes = [
             },
             {path: 'notificaciones', component: EnviarNotificionComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.NOTIFICACION_LISTAR]}},
             {path: 'asignacion-cartera', component: AsignacionCarteraComponent},
-            {path: 'asignacion-cartera/:ejecutivoId/configuracion', component: AsignarEtapasEjecutivoComponent}
+            {path: 'asignacion-cartera/:ejecutivoId/configuracion', component: AsignarEtapasEjecutivoComponent},
+            {path: 'asignacion-cartera/:ejecutivoId/listado', component: EjecutivoAsignacionesComponent},
           ]
         },
         {

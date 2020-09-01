@@ -145,4 +145,8 @@ export class AsignacionCarteraService {
   asignarCreditosEjecutivo(codUsuario: any,  campania: any): Observable<any> {
     return this.http.post<any>(`${urlBase}/${codUsuario}`, campania);
   }
+
+  listaAsignacionCreditoPorEjecutivo(ejecutivoId: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/${ejecutivoId}/listaAsignacionCreditoPorEjecutivo`);
+  }
 }
