@@ -76,8 +76,16 @@
                   <h3>Filtros Adicionales</h3>
                 </div>
               </div>
+              <div class="col-12 col-md-4" *ngIf="carteraSelected">
+                <div class="form-group">
+                  <label>{{ nombreCampoTemp }}</label>
+                  <ul>
+                    <li *ngFor="let item of getItemsCampos(carteraSelected.campos)"> {{ item.descripcion }}</li>
+                  </ul>
+                </div>
+              </div>
               <ng-container *ngIf="showSedes">
-                <div class="col-12 col-md-6" *ngIf="sedes.length > 0">
+                <div class="col-12 col-md-4" *ngIf="sedes.length > 0">
                   <div class="form-group">
                     <label>Sedes</label>
                     <ng-select
@@ -94,7 +102,7 @@
                 </div>
               </ng-container>
               <ng-container *ngIf="showTipoCredito">
-                <div class="col-12 col-md-6" *ngIf="tipoCreditos.length > 0">
+                <div class="col-12 col-md-4" *ngIf="tipoCreditos.length > 0">
                   <div class="form-group">
                     <label>Tipo Creditos</label>
                     <ng-select
@@ -111,7 +119,7 @@
                 </div>
               </ng-container>
               <ng-container *ngIf="showMontos">
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-4">
                   <label>Montos</label>
                   <div class="row">
                     <div class="col-6">

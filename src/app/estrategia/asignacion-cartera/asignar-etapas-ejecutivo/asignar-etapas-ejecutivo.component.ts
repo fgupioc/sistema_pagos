@@ -14,6 +14,7 @@ import {NgSelectComponent} from '@ng-select/ng-select';
 import {delay} from 'rxjs/operators';
 import {SocioCredito} from '../../../interfaces/socio-credito';
 import * as moment from 'moment';
+import {GrupoCampo} from '../../../interfaces/grupo-campo';
 
 declare const $: any;
 
@@ -72,6 +73,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   $startDate: any;
   $endDate: any;
   $creditosCheched: any[] = [];
+  nombreCampoTemp: any;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -454,5 +456,46 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
       this.$creditosCheched = this.$creditosCheched.filter(i => i.id != credito.id);
     }
     console.log(this.$creditosCheched);
+  }
+
+  getItemsCampos(campos: GrupoCampo[]) {
+    const tipo = campos[0].codCampo;
+    const items: GrupoCampo[] = [];
+    switch (tipo) {
+      case CONST.TABLE_INT_LISTA_TIPO_CREDITO:
+        campos.forEach(item => {
+          const obj = this.tipoCreditos.find(i => i.id == item.valor);
+          if (obj) {
+            items.push({
+              codCampo: item.codCampo,
+              descripcion: obj.name
+            });
+          }
+        });
+        this.nombreCampoTemp = 'Tipo de Creditos';
+        break;
+      case CONST.TABLE_INT_LISTA_SEDE:
+        campos.forEach(item => {
+          const obj = this.sedes.find(i => i.id == item.valor);
+          if (obj) {
+            items.push({
+              codCampo: item.codCampo,
+              descripcion: obj.name
+            });
+          }
+        });
+        this.nombreCampoTemp = 'Lista de Sedes';
+        break;
+      case CONST.TABLE_INT_MONTO:
+        const hasta = campos[0].hasta ? `- Hasta: ${campos[0].hasta}` : '';
+        items.push({
+          codCampo: campos[0].codCampo,
+          descripcion: `Desde: ${campos[0].desde} ${hasta}`
+        });
+        this.nombreCampoTemp = 'Monto';
+        break;
+    }
+
+    return items;
   }
 }
