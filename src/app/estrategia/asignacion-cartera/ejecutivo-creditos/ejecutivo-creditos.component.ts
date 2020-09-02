@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
 import {EjecutivoCartera} from '../../../models/ejecutivo-cartera';
 import {CONST} from '../../../comun/CONST';
+import Swal from 'sweetalert2';
 
 export interface InfoCampo {
   descripction: string;
@@ -27,7 +28,7 @@ export class EjecutivoCreditosComponent implements OnInit {
 
   constructor(
     private spinner: NgxSpinnerService,
-    private asignacion: AsignacionCarteraService,
+    private asignacionCarteraService: AsignacionCarteraService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     public config: NgbModalConfig,
@@ -53,7 +54,7 @@ export class EjecutivoCreditosComponent implements OnInit {
 
   obtenerAsignnacionPorId(asignacionId: any) {
     this.spinner.show();
-    this.asignacion.obtenerAsignnacionPorId(asignacionId).subscribe(
+    this.asignacionCarteraService.obtenerAsignnacionPorId(asignacionId).subscribe(
       res => {
         if (res.exito) {
           this.campania = res.objeto;
@@ -91,4 +92,30 @@ export class EjecutivoCreditosComponent implements OnInit {
     this.router.navigateByUrl(url, {state: {user: this.ejecutivo, cartera: this.cartera, credito}});
   }
 */
+  eliminarCredito(credito: any) {
+    Swal.fire({
+      title: 'Eliminar crédito de la lista?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, Eliminar!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        this.asignacionCarteraService.eliminarCredito(credito.id, this.campania.id).subscribe(
+          res => {
+            console.log(res);
+            if (res.exito) {
+              Swal.fire('Asignación de Cartera', res.mensaje, 'success');
+              this.obtenerAsignnacionPorId(this.campania.id);
+            } else {
+              Swal.fire('Asignación de Cartera', res.mensaje, 'error');
+            }
+          },
+          err => {
+            Swal.fire('Asignación de Cartera', err, 'error');
+          }
+        );
+      }
+    });
+  }
 }
