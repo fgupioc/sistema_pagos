@@ -19,6 +19,8 @@ export class EjecutivoCarteraEtapa {
   codEjecutivoCartera?: number;
   codGestion: number;
   codEtapa: number;
+  nombreEtapa?: string;
+  nombreGestion?: string;
 }
 
 
@@ -29,4 +31,5 @@ export class EjecutivoCarteraCampo {
   desde?: number;
   hasta?: number;
   opciona?: number;
+  nombreCampo?: string;
 }

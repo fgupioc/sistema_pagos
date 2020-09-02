@@ -1,33 +1,105 @@
 <div class="card">
   <div class="card-header">
     <i class="fa fa-align-justify"></i>
-    <span class="card-title text-uppercase font-weight-bold">Lista de creditos</span>
+    <span class="card-title text-uppercase font-weight-bold">Información de la Asignación</span>
+    <div class="card-tools float-right">
+      <button type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/' + ejecutivoId + '/listado'">
+        <i class="fa fa-arrow-left"></i> Regresar
+      </button>
+    </div>
   </div>
-  <div class="card-body">
+  <div class="card-body" *ngIf="campania">
+    <div class="row">
+      <div class="col-6 col-md-4">
+        <div class="form-group">
+          <label>Ejecutivo</label>
+          <input class="form-control" [value]="ejecutivoId" disabled>
+        </div>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="form-group">
+          <label>Frecuencia</label>
+          <input class="form-control" [value]="campania.frecuencia" disabled>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="form-group">
+          <label>Inicio</label>
+          <input type="date" class="form-control" [value]="campania.startDate| date: 'yyyy-MM-dd'" disabled>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="form-group">
+          <label>Fin</label>
+          <input type="date" class="form-control" [value]="campania.endDate| date: 'yyyy-MM-dd'" disabled>
+        </div>
+      </div>
+      <div class="col-12 col-md-4" *ngIf="campania.etapaItems.length > 0">
+        <div class="form-group">
+          <label>Etapas</label>
+          <ul>
+            <li *ngFor="let item of campania.etapaItems"> {{ item.nombreGestion }} - {{ item.nombreEtapa }} </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-2" *ngIf="tipoCreditos.length > 0">
+        <div class="form-group">
+          <label>Tipo Credito</label>
+          <ul>
+            <li *ngFor="let item of tipoCreditos"> {{ item.descripction }}</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-12 col-md-2" *ngIf="sedes.length > 0">
+        <div class="form-group">
+          <label>Sedes</label>
+          <ul>
+            <li *ngFor="let item of sedes"> {{ item.descripction }}</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-12 col-md-4" *ngIf="montos.length > 0">
+        <div class="form-group">
+          <label>Monto</label>
+          <ul>
+            <li *ngFor="let item of montos"> {{ item.descripction }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <div class="row">
       <div class="col-12">
-        <table class="table table-bordered">
-          <thead>
-          <tr>
-            <th scope="col" width="5%">#</th>
-            <th scope="col" width="40%">Socio</th>
-            <th scope="col">Fecha Vencimiento</th>
-            <th scope="col">Saldo</th>
-            <th scope="col" width="10%">Opción</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let item of creditos; let i = index">
-            <th scope="row">{{ i+1 }}</th>
-            <td>{{ item.socioId }}</td>
-            <td>{{ item.fechaVencimiento | date : 'dd/MM/yyyy' }}</td>
-            <td>{{ item.saldoCapital }}</td>
-            <td class="text-center">
-              <button class="btn btn-sm btn-primary mr-2" (click)="showSocio(item)"><i class="fa fa-user"></i></button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+        <h5>Lista de creditos</h5>
+        <div class="form-group">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+            <tr class="text-center">
+              <th scope="col" width="5%">#</th>
+              <th scope="col">N° Credito</th>
+              <th scope="col">F. Dese.</th>
+              <th scope="col">Monto Dese.</th>
+              <th scope="col">Saldo.</th>
+              <th> Socio</th>
+              <th> Opción</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let credito of creditos; let i = index">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ credito.nroCredito }}</td>
+              <td>{{ credito.fechaVencimiento | date : 'dd-MM-yyyy' }}</td>
+              <td>{{ credito.montoCredito}}</td>
+              <td>{{ credito.saldoDeDeuda}}</td>
+              <td>{{ credito.socioId}}</td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-primary mr-2"><i class="fa fa-user"></i></button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

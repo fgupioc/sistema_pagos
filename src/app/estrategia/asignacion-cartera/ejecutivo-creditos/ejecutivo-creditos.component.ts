@@ -2,22 +2,28 @@ import {Component, OnInit} from '@angular/core';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AsignacionCarteraService} from '../../../servicios/asignacion-cartera.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Cartera} from '../../../interfaces/cartera';
 import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
-import {ModalGestionarTareaComponent} from '../modal-gestionar-tarea/modal-gestionar-tarea.component';
-import {ModalGestionarPromesasPagoComponent} from '../modal-gestionar-promesas-pago/modal-gestionar-promesas-pago.component';
+import {EjecutivoCartera} from '../../../models/ejecutivo-cartera';
+import {CONST} from '../../../comun/CONST';
+
+export interface InfoCampo {
+  descripction: string;
+}
 
 @Component({
   selector: 'app-ejecutivo-creditos',
   templateUrl: './ejecutivo-creditos.component.html',
   styles: []
 })
+
 export class EjecutivoCreditosComponent implements OnInit {
-  cartera: Cartera;
-  ejecutivo: any;
   ejecutivoId: any;
-  nombre: string;
+  asignacionId: string;
   creditos: any[] = [];
+  campania: EjecutivoCartera;
+  tipoCreditos: InfoCampo[] = [];
+  sedes: InfoCampo[] = [];
+  montos: InfoCampo[] = [];
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -29,68 +35,49 @@ export class EjecutivoCreditosComponent implements OnInit {
     config.backdrop = 'static';
     config.keyboard = false;
 
-    activatedRoute.params.subscribe(({nombre, ejecutivoId}) => {
-      if (ejecutivoId && nombre) {
-        const state = router.getCurrentNavigation().extras.state;
-        if (state) {
-          this.cartera = state.cartera;
-          this.ejecutivo = state.user;
-          this.listarCreditosByCarteraAndEjecutivo(this.cartera.codCartera, this.ejecutivo.codUsuario);
-        } else {
-          this.ejecutivoId = ejecutivoId;
-          this.nombre = nombre;
-        }
+    activatedRoute.params.subscribe(({asignacionId, ejecutivoId}) => {
+      if (ejecutivoId && asignacionId) {
+        this.ejecutivoId = ejecutivoId;
+        this.asignacionId = asignacionId;
       } else {
-        this.router.navigateByUrl('/auth/estrategia/carteras');
+        this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/' + ejecutivoId + '/listado');
       }
     });
   }
 
   ngOnInit() {
-    if (this.ejecutivoId && this.nombre) {
-      this.buscarEjecutivoByCodUsuario(this.ejecutivoId);
-      this.getCartera(this.nombre);
+    if (this.ejecutivoId && this.asignacionId) {
+      this.obtenerAsignnacionPorId(this.asignacionId);
     }
   }
 
-  getCartera(nombre) {
+  obtenerAsignnacionPorId(asignacionId: any) {
     this.spinner.show();
-    this.asignacion.getCartera(nombre).subscribe(
+    this.asignacion.obtenerAsignnacionPorId(asignacionId).subscribe(
       res => {
         if (res.exito) {
-          this.cartera = res.objeto as any;
-          this.listarCreditosByCarteraAndEjecutivo(this.cartera.codCartera, this.ejecutivoId);
-        }
-        this.spinner.hide();
-      },
-      err => {
-        console.log(err);
-        this.spinner.hide();
-      }
-    );
-  }
-
-  private buscarEjecutivoByCodUsuario(ejecutivoId: string) {
-    this.asignacion.buscarEjecutivoByCodUsuario(ejecutivoId).subscribe(
-      res => {
-        if (res.exito) {
-          this.ejecutivo = res.objeto;
-          this.ejecutivoId = this.ejecutivo.codUsuario;
-        }
-      },
-      err => {
-        console.log(err);
-      }
-    );
-  }
-
-  listarCreditosByCarteraAndEjecutivo(codCartera: any, codUsuario: any) {
-    this.spinner.show();
-    this.asignacion.listarCreditosByCarteraAndEjecutivo(codCartera, codUsuario).subscribe(
-      res => {
-        console.log(res);
-        if (res.exito) {
-          this.creditos = res.objeto as any[];
+          this.campania = res.objeto;
+          this.creditos = res.objeto.creditosAsignados;
+          this.campania.campoItems.forEach(item => {
+            switch (item.codCampo) {
+              case CONST.TABLE_INT_LISTA_TIPO_CREDITO:
+                this.tipoCreditos.push({
+                  descripction: item.nombreCampo,
+                });
+                break;
+              case CONST.TABLE_INT_LISTA_SEDE:
+                this.sedes.push({
+                  descripction: item.nombreCampo,
+                });
+                break;
+              case CONST.TABLE_INT_MONTO:
+                const hasta = item.hasta ? `- Hasta: ${item.hasta}` : '';
+                this.montos.push({
+                  descripction: `Desde: ${item.desde} ${hasta}`
+                });
+                break;
+            }
+          });
         }
         this.spinner.hide();
       },
@@ -98,8 +85,10 @@ export class EjecutivoCreditosComponent implements OnInit {
     );
   }
 
+  /*
   showSocio(credito: any) {
     const url = '/auth/estrategia/carteras/' + this.cartera.nombreExterno + '/asignacion/' + this.ejecutivo.codUsuario + '/creditos/socio';
     this.router.navigateByUrl(url, {state: {user: this.ejecutivo, cartera: this.cartera, credito}});
   }
+*/
 }

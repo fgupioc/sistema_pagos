@@ -112,6 +112,7 @@ const routes: Routes = [
             {path: 'asignacion-cartera', component: AsignacionCarteraComponent},
             {path: 'asignacion-cartera/:ejecutivoId/configuracion', component: AsignarEtapasEjecutivoComponent},
             {path: 'asignacion-cartera/:ejecutivoId/listado', component: EjecutivoAsignacionesComponent},
+            {path: 'asignacion-cartera/:ejecutivoId/listado/:asignacionId/detalle', component: EjecutivoCreditosComponent},
           ]
         },
         {

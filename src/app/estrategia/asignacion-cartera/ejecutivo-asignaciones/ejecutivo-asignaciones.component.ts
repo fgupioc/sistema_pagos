@@ -45,4 +45,5 @@ export class EjecutivoAsignacionesComponent implements OnInit {
       }
     );
   }
+
 }

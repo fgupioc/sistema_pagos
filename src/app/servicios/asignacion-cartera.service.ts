@@ -149,4 +149,8 @@ export class AsignacionCarteraService {
   listaAsignacionCreditoPorEjecutivo(ejecutivoId: any): Observable<any> {
     return this.http.get<any>(`${urlBase}/${ejecutivoId}/listaAsignacionCreditoPorEjecutivo`);
   }
+  // https://localhost:9443/api/asignacio-cartera/1/obtenerAsignnacionPorId
+  obtenerAsignnacionPorId(codAsignacion: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/${codAsignacion}/obtenerAsignnacionPorId`);
+  }
 }
