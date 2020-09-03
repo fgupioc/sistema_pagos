@@ -20,6 +20,7 @@ export interface InfoCampo {
 
 export class EjecutivoCreditosComponent implements OnInit {
   ejecutivoId: any;
+  ejecutivoNombre: string;
   asignacionId: string;
   creditos: any[] = [];
   campania: EjecutivoCartera;
@@ -64,6 +65,7 @@ export class EjecutivoCreditosComponent implements OnInit {
         if (res.exito) {
           this.campania = res.objeto;
           this.creditos = res.objeto.creditosAsignados;
+          this.ejecutivoNombre = res.ejecutivo.alias || this.ejecutivoId;
           this.campania.campoItems.forEach(item => {
             switch (item.codCampo) {
               case CONST.TABLE_INT_LISTA_TIPO_CREDITO:
