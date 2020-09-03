@@ -6,6 +6,7 @@ import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
 import {EjecutivoCartera} from '../../../models/ejecutivo-cartera';
 import {CONST} from '../../../comun/CONST';
 import Swal from 'sweetalert2';
+import {ModalAgregarCreditoComponent} from '../modal-agregar-credito/modal-agregar-credito.component';
 
 export interface InfoCampo {
   descripction: string;
@@ -103,7 +104,6 @@ export class EjecutivoCreditosComponent implements OnInit {
       if (result.value) {
         this.asignacionCarteraService.eliminarCredito(credito.id, this.campania.id).subscribe(
           res => {
-            console.log(res);
             if (res.exito) {
               Swal.fire('Asignación de Cartera', res.mensaje, 'success');
               this.obtenerAsignnacionPorId(this.campania.id);
@@ -117,5 +117,19 @@ export class EjecutivoCreditosComponent implements OnInit {
         );
       }
     });
+  }
+
+  agregarCredito() {
+    const modal = this.modalService.open(ModalAgregarCreditoComponent, {size: 'lg'});
+    modal.result.then(
+      this.closeModalAgregarCredito.bind(this),
+      this.closeModalAgregarCredito.bind(this)
+    );
+    modal.componentInstance.data = this.campania;
+    modal.componentInstance.creditosAsignacion = this.creditos;
+  }
+
+  closeModalAgregarCredito(data: any) {
+    console.log(data);
   }
 }

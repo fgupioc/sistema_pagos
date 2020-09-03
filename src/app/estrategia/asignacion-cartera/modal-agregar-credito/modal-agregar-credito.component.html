@@ -1,0 +1,54 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title">Lista de Créditos</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+          <label *ngIf="$creditos.length > 0">Se encontro {{ $creditos.length }} creditos.</label>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+              <tr class="text-center">
+                <th scope="col" width="5%">#</th>
+                <th scope="col">N° Credito</th>
+                <th scope="col">F. Dese.</th>
+                <th scope="col">Monto Dese.</th>
+                <th scope="col">Saldo.</th>
+                <th> Socio</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr class="text-center" *ngFor="let credito of $creditos; let i = index">
+                <th scope="row">
+                  <label class="container" *ngIf="existe(credito); else elseBlock">
+                    <span class="checkmark cursor-no-drop"></span>
+                  </label>
+                  <ng-template #elseBlock>
+                    <label class="container">
+                      <input type="checkbox" (change)="changeCheckCreditos($event, credito)">
+                      <span class="checkmark"></span>
+                    </label>
+                  </ng-template>
+                </th>
+                <td>{{ credito.nroCredito }}</td>
+                <td>{{ credito.fechaVencimiento | date : 'dd-MM-yyyy' }}</td>
+                <td>{{ credito.montoCredito}}</td>
+                <td>{{ credito.saldoDeDeuda}}</td>
+                <td style="text-align: left">{{ credito.alias}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Cerrar</button>
+  </div>
+</div>
