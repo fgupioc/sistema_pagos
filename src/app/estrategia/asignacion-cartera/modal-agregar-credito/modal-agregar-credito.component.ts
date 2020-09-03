@@ -4,6 +4,7 @@ import {EjecutivoCartera} from '../../../models/ejecutivo-cartera';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AsignacionCarteraService} from '../../../servicios/asignacion-cartera.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modal-agregar-credito',
@@ -61,10 +62,30 @@ export class ModalAgregarCreditoComponent implements OnInit {
     } else {
       this.$creditosCheched = this.$creditosCheched.filter(i => i.id != credito.id);
     }
-    console.log(this.$creditosCheched);
   }
 
   existe(credito: any) {
     return this.creditosAsignacion.find(i => i.id == credito.id);
+  }
+
+  guardar() {
+    if (this.$creditosCheched.length == 0) {
+      Swal.fire('Agregar Créditos', 'Debe seleccionar almenos un créditos.', 'warning');
+      return;
+    }
+    this.spinner.show();
+    this.asignacionService.agregarCreditosAsignnacionPorId(this.$creditosCheched, this.data.id).subscribe(
+      res => {
+        if (res.exito) {
+          this.activeModal.dismiss(res);
+        } else {
+          this.spinner.hide();
+        }
+      },
+      err => {
+        Swal.fire('Agregar Crédito', err, 'error');
+        this.spinner.hide();
+      }
+    );
   }
 }

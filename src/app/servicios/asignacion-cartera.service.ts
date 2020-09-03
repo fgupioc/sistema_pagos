@@ -150,12 +150,15 @@ export class AsignacionCarteraService {
     return this.http.get<any>(`${urlBase}/${ejecutivoId}/listaAsignacionCreditoPorEjecutivo`);
   }
 
-  // https://localhost:9443/api/asignacio-cartera/1/obtenerAsignnacionPorId
   obtenerAsignnacionPorId(codAsignacion: any): Observable<any> {
     return this.http.get<any>(`${urlBase}/${codAsignacion}/obtenerAsignnacionPorId`);
   }
 
   eliminarCredito(creditoId: any, asignacionId: any): Observable<Respuesta> {
     return this.http.delete<Respuesta>(`${urlBase}/eliminarCredito`, {params: new HttpParams().set('creditoId', creditoId).set('asignacionId', asignacionId)});
+  }
+
+  agregarCreditosAsignnacionPorId(creditos: any[], asignacionId: any): Observable<any> {
+    return this.http.put<any>(`${urlBase}/agregarCreditosAsignnacionPorId`, creditos, {params: new HttpParams().set('asignacionId', asignacionId)});
   }
 }

@@ -68,4 +68,5 @@
 
 .cursor-no-drop {
   cursor: no-drop;
+  background: #63c2de !important;
 }

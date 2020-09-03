@@ -55,6 +55,10 @@ export class EjecutivoCreditosComponent implements OnInit {
 
   obtenerAsignnacionPorId(asignacionId: any) {
     this.spinner.show();
+    this.tipoCreditos = [];
+    this.sedes = [];
+    this.montos = [];
+
     this.asignacionCarteraService.obtenerAsignnacionPorId(asignacionId).subscribe(
       res => {
         if (res.exito) {
@@ -120,7 +124,7 @@ export class EjecutivoCreditosComponent implements OnInit {
   }
 
   agregarCredito() {
-    const modal = this.modalService.open(ModalAgregarCreditoComponent, {size: 'lg'});
+    const modal = this.modalService.open(ModalAgregarCreditoComponent, {size: 'xl'});
     modal.result.then(
       this.closeModalAgregarCredito.bind(this),
       this.closeModalAgregarCredito.bind(this)
@@ -130,6 +134,9 @@ export class EjecutivoCreditosComponent implements OnInit {
   }
 
   closeModalAgregarCredito(data: any) {
-    console.log(data);
+    if (data && data.exito) {
+      this.obtenerAsignnacionPorId(this.asignacionId);
+      Swal.fire('Asignación de cartera', data.mensaje, 'success');
+    }
   }
 }
