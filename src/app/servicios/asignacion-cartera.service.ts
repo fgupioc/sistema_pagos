@@ -161,4 +161,8 @@ export class AsignacionCarteraService {
   agregarCreditosAsignnacionPorId(creditos: any[], asignacionId: any): Observable<any> {
     return this.http.put<any>(`${urlBase}/agregarCreditosAsignnacionPorId`, creditos, {params: new HttpParams().set('asignacionId', asignacionId)});
   }
+
+  buscarSocioByCodUsuario(codUsuario: any): Observable<Respuesta> {
+    return this.http.get<any>(`${urlBase}/${codUsuario}/socio`);
+  }
 }

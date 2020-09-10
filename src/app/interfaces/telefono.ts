@@ -13,4 +13,5 @@ export interface Telefono {
   tipoDescripcion?: string;
   tipoNotificacion?: string;
   operadorDescripcion?: string;
+  tipoUsoDescripcion?: string;
 }

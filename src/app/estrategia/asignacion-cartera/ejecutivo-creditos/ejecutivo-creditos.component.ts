@@ -7,6 +7,7 @@ import {EjecutivoCartera} from '../../../models/ejecutivo-cartera';
 import {CONST} from '../../../comun/CONST';
 import Swal from 'sweetalert2';
 import {ModalAgregarCreditoComponent} from '../modal-agregar-credito/modal-agregar-credito.component';
+import {isNullOrUndefined} from 'util';
 
 export interface InfoCampo {
   descripction: string;
@@ -39,7 +40,10 @@ export class EjecutivoCreditosComponent implements OnInit {
     config.keyboard = false;
 
     activatedRoute.params.subscribe(({asignacionId, ejecutivoId}) => {
-      if (ejecutivoId && asignacionId) {
+      if (asignacionId == undefined || ejecutivoId == undefined || asignacionId == 'undefined' || ejecutivoId == 'undefined') {
+        this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
+      }
+      if (ejecutivoId && ejecutivoId) {
         this.ejecutivoId = ejecutivoId;
         this.asignacionId = asignacionId;
       } else {
@@ -140,5 +144,11 @@ export class EjecutivoCreditosComponent implements OnInit {
       this.obtenerAsignnacionPorId(this.asignacionId);
       Swal.fire('Asignación de cartera', data.mensaje, 'success');
     }
+  }
+
+  irCliente(credito: any) {
+    const url = `/auth/estrategia/asignacion-cartera/${this.ejecutivoId}/listado/${this.asignacionId}/detalle/socio`;
+    this.router.navigateByUrl(url, {state: {credito}});
+
   }
 }

@@ -6,4 +6,5 @@ export interface Email {
   emailId?: number;
   tipo?: string;
   tipoNotificacion?: string;
+  tipoUsoDescripcion?: string;
 }

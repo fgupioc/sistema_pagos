@@ -1,9 +1,55 @@
 <div class="card section-credito-socio">
   <div class="card-header">
     <i class="fa fa-align-justify"></i>
-    <span class="card-title text-uppercase font-weight-bold">Asignación de Cartera</span>
+    <span class="card-title text-uppercase font-weight-bold">Información del socio</span>
+    <div class="card-tools float-right">
+      <button type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/' + ejecutivoId + '/listado/' + asignacionId+'/detalle'">
+        <i class="fa fa-arrow-left"></i> Regresar
+      </button>
+    </div>
   </div>
-  <div class="card-body">
+  <div class="card-body" *ngIf="socio">
+    <div class="row" *ngIf="socio.personaNatural">
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <label>Primer Nombre</label>
+          <input type="text" class="form-control" disabled [value]="socio.personaNatural.primerNombre">
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <label>Segundo Nombre</label>
+          <input type="text" class="form-control" disabled [value]="socio.personaNatural.segundoNombre">
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <label>Primer Apellido</label>
+          <input type="text" class="form-control" disabled [value]="socio.personaNatural.primerApellido">
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <label>Segundo Apellido</label>
+          <input type="text" class="form-control" disabled [value]="socio.personaNatural.segundoApellido">
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group mb-0">
+          <div class="text-center">
+            <a class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearRecordatorio(1, 'Gestionar Eventos Socio')"><i class="fa fa-plus"></i></a>
+            <a class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearRecordatorio(2, '')"><i class="fa fa-clock-o"></i></a>
+            <a class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearRecordatorio(3, '')"><i class="fa fa-id-card"></i></a>
+            <a class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearRecordatorio(4, 'Crear Recordatorio')" placement="top" ngbTooltip="Crear Recordatorio"><i class="fa fa-calendar"></i></a>
+            <a class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearRecordatorio(5, '')"><i class="fa fa-sticky-note"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
     <div class="row">
       <div class="col-12 col-md-8">
         <ngb-tabset [destroyOnHide]="false">
@@ -11,44 +57,23 @@
             <ng-template ngbTabContent>
               <div class="row">
                 <div class="col-12">
-                 <div class="form-group">
-                   <div class="text-center">
-                     <a class="btn btn-sm btn-social-icon btn-linkedin mr-2"><i class="fa fa-plus"></i></a>
-                     <a class="btn btn-sm btn-social-icon btn-linkedin mr-2"><i class="fa fa-clock-o"></i></a>
-                     <a class="btn btn-sm btn-social-icon btn-linkedin mr-2"><i class="fa fa-id-card"></i></a>
-                     <a class="btn btn-sm btn-social-icon btn-linkedin mr-2"><i class="fa fa-calendar"></i></a>
-                     <a class="btn btn-sm btn-social-icon btn-linkedin mr-2"><i class="fa fa-sticky-note"></i></a>
-                   </div>
-                 </div>
-                </div>
-                <div class="col-12">
                   <table class="table table-bordered">
                     <thead>
-                    <tr>
+                    <tr class="text-center">
                       <th scope="col">#</th>
                       <th scope="col">Número</th>
-                      <th scope="col">Relación</th>
+                      <th scope="col">Operador</th>
                       <th scope="col">Tipo</th>
+                      <th scope="col">Notificación</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>950016418</td>
-                      <td>Socio</td>
-                      <td>Celular</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>044541617</td>
-                      <td>Socio</td>
-                      <td>Fijo</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>974621343</td>
-                      <td>Conyugue</td>
-                      <td>Celular</td>
+                    <tr *ngFor="let phone of socio.telefonos; let i = index" class="text-center">
+                      <th scope="row">{{ i + 1 }}</th>
+                      <td>{{ phone.numero }}</td>
+                      <td>{{ phone.operadorDescripcion }}</td>
+                      <td>{{ phone.tipoUsoDescripcion }}</td>
+                      <td>{{ phone.tipoNotificacion }}</td>
                     </tr>
                     </tbody>
                   </table>
@@ -60,38 +85,21 @@
             <ng-template ngbTabContent>
               <div class="row">
                 <div class="col-12">
-                  <div class="form-group">
-                    <div class="text-center">
-                      <a class="btn btn-sm btn-social-icon btn-linkedin mr-2"><i class="fa fa-plus"></i></a>
-                      <a class="btn btn-sm btn-social-icon btn-linkedin mr-2"><i class="fa fa-clock-o"></i></a>
-                      <a class="btn btn-sm btn-social-icon btn-linkedin mr-2"><i class="fa fa-id-card"></i></a>
-                      <a class="btn btn-sm btn-social-icon btn-linkedin mr-2"><i class="fa fa-calendar"></i></a>
-                      <a class="btn btn-sm btn-social-icon btn-linkedin mr-2"><i class="fa fa-sticky-note"></i></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12">
                   <table class="table table-bordered">
                     <thead>
-                    <tr>
+                    <tr class="text-center">
                       <th scope="col">#</th>
-                      <th scope="col">Descripcion</th>
-                      <th scope="col">Relación</th>
+                      <th scope="col">Correo</th>
                       <th scope="col">Tipo</th>
+                      <th scope="col">Notificación</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>franz@gmail.com</td>
-                      <td>Socio</td>
-                      <td>Personal</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>maricarmen@gmail.com</td>
-                      <td>Conyugue</td>
-                      <td>Personal</td>
+                    <tr class="text-center" *ngFor="let email of socio.correos; let i = index">
+                      <th scope="row">{{ i+1 }}</th>
+                      <td>{{ email.email }}</td>
+                      <td>{{ email.tipoUsoDescripcion }}</td>
+                      <td>{{ email.tipoNotificacion }}</td>
                     </tr>
                     </tbody>
                   </table>
@@ -103,37 +111,18 @@
             <ng-template ngbTabContent>
               <div class="row">
                 <div class="col-12">
-                  <div class="form-group">
-                    <div class="text-center">
-                      <a class="btn btn-sm btn-social-icon btn-linkedin mr-2"><i class="fa fa-plus"></i></a>
-                      <a class="btn btn-sm btn-social-icon btn-linkedin mr-2"><i class="fa fa-clock-o"></i></a>
-                      <a class="btn btn-sm btn-social-icon btn-linkedin mr-2"><i class="fa fa-id-card"></i></a>
-                      <a class="btn btn-sm btn-social-icon btn-linkedin mr-2"><i class="fa fa-calendar"></i></a>
-                      <a class="btn btn-sm btn-social-icon btn-linkedin mr-2"><i class="fa fa-sticky-note"></i></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12">
                   <table class="table table-bordered">
                     <thead>
-                    <tr>
+                    <tr class="text-center">
                       <th scope="col">#</th>
                       <th scope="col">Descripcion</th>
-                      <th scope="col">Relación</th>
                       <th scope="col">Tipo</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Av. Húsares de Junín, 690, Urb. La Merced, Trujillo</td>
-                      <td>Socio</td>
-                      <td>Domicilio</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Jr Marcelo Corne Nro 224 Ur San Andres, Trujillo</td>
-                      <td>Conyugue</td>
+                    <tr class="text-center" *ngFor="let direccion of socio.direcciones; let i = index">
+                      <th scope="row">{{ i+1 }}</th>
+                      <td>{{ direccion.nombreVia }}</td>
                       <td>Domicilio</td>
                     </tr>
                     </tbody>
@@ -148,18 +137,75 @@
         <div class="row">
           <div class="col-12">
             <div class="box box-primary">
-              <div class="box-header with-border">
-                <h3 class="box-title">Gestionar Eventos Socio</h3>
+              <div class="box-header with-border text-center">
+                <h3 class="box-title">{{ title }}</h3>
 
                 <div class="box-tools pull-right">
-                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+<!--                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>-->
+<!--                  </button>-->
+<!--                  <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>-->
                 </div>
               </div>
               <!-- /.box-header -->
               <div class="box-body">
-
+                <ng-container *ngIf="typeEvent == 4">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label>Fecha de Recordatorio</label>
+                        <input type="date" class="form-control" [value]="dateDefault">
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label>Seleccione la actividad</label>
+                        <select class="form-control" [(ngModel)]="tipoActividad" (ngModelChange)="showItem = $event">
+                          <option>Selecione</option>
+                          <option value="1">LLAMADAS</option>
+                          <option value="2">CORREO</option>
+                          <option value="3">MENSAJE</option>
+                          <option value="4">VISITA DOMICILIARIA</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-12" *ngIf="showItem == '1'">
+                      <div class="form-group">
+                        <label>Seleccione número</label>
+                        <select class="form-control">
+                          <option>Selecione</option>
+                          <option *ngFor="let item of showPhones" [value]="item.telefonoId">{{ item.numero }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-12" *ngIf="showItem == '2'">
+                      <div class="form-group">
+                        <label>Seleccione Correo</label>
+                        <select class="form-control">
+                          <option>Selecione</option>
+                          <option *ngFor="let item of showEmails" [value]="item.emailId">{{ item.email }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-12" *ngIf="showItem == '3'">
+                      <div class="form-group">
+                        <label>Seleccione número</label>
+                        <select class="form-control">
+                          <option>Selecione</option>
+                          <option *ngFor="let item of showCellphones" [value]="item.telefonoId">{{ item.numero }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-12" *ngIf="showItem == '4'">
+                      <div class="form-group">
+                        <label>Seleccione Dirección</label>
+                        <select class="form-control">
+                          <option>Selecione</option>
+                          <option *ngFor="let item of showAddress" [value]="item.direccionId">{{ item.nombreVia }}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
               </div>
               <!-- /.box-body -->
               <div class="box-footer text-center">
@@ -173,3 +219,4 @@
     </div>
   </div>
 </div>
+<app-loading></app-loading>

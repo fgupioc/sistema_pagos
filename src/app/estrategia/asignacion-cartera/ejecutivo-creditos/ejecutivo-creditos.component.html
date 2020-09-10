@@ -97,7 +97,8 @@
               <td>{{ credito.codMoneda == 'PEN' ? 'S/' : '$'}} {{ credito.saldoDeDeuda | currency: ' '}}</td>
               <td style="text-align: left;">{{ credito.alias}}</td>
               <td class="text-center">
-                <button class="btn btn-sm btn-primary mr-2"><i class="fa fa-user"></i></button>
+                <button class="btn btn-sm btn-success mr-2"><i class="fa fa-eye"></i></button>
+                <button class="btn btn-sm btn-primary mr-2" (click)="irCliente(credito)"><i class="fa fa-user"></i></button>
                 <button class="btn btn-sm btn-danger mr-2" (click)="eliminarCredito(credito)"><i class="fa fa-trash"></i></button>
               </td>
             </tr>
