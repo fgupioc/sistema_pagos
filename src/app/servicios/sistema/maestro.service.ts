@@ -116,10 +116,21 @@ export class MaestroService {
   loadEstadosRecordatorios(): Observable<TablaMaestra[]> {
     // return this.http.get<TablaMaestra[]>(this.apiUrl + 'listarElementosPorCodTable', {params: new HttpParams().set('codTable', CONST.TABLE_INT_LISTA_SEDE)});
     const data: TablaMaestra[] = [
-      {codItem: '1', descripcion: 'PENDIENTE'},
+      {codItem: '1', descripcion: 'VIGENTE'},
       {codItem: '2', descripcion: 'COMPLETADA'},
       {codItem: '3', descripcion: 'CANCELADA'},
       {codItem: '4', descripcion: 'NO COMPLETADA'},
+    ];
+
+    return of(data);
+  }
+
+  loadTipoAcuerdos(): Observable<TablaMaestra[]> {
+    const data: TablaMaestra[] = [
+      {codItem: '1', descripcion: 'AL DÍA'},
+      {codItem: '2', descripcion: 'PLAN DE PAGO'},
+      {codItem: '3', descripcion: 'TOTAL DE LA MORA'},
+      {codItem: '4', descripcion: 'ABONO'},
     ];
 
     return of(data);

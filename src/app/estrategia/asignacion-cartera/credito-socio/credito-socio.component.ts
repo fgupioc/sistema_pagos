@@ -19,13 +19,18 @@ import Swal from 'sweetalert2';
 import {TablaMaestra} from '../../../interfaces/tabla-maestra';
 import {MaestroService} from '../../../servicios/sistema/maestro.service';
 import {ModalAsignarEstadoRecordatorioComponent} from '../modal-asignar-estado-recordatorio/modal-asignar-estado-recordatorio.component';
+import {AcuerdoPago} from '../../../interfaces/acuerdo-pago';
+import {FUNC} from '../../../comun/FUNC';
 
 @Component({
   selector: 'app-credito-socio',
   templateUrl: './credito-socio.component.html',
-  styles: []
+  styleUrls: ['./credito-socio.component.css']
 })
 export class CreditoSocioComponent implements OnInit {
+  formRecordatorio: FormGroup;
+  formPlanPago: FormGroup;
+  formRegistrarAcuerdo: FormGroup;
   credito: Credito;
   ejecutivoId: any;
   asignacionId: any;
@@ -35,11 +40,15 @@ export class CreditoSocioComponent implements OnInit {
   showItem: string;
   tipoNotificaciones: TipoNotificacion[] = [];
   $telefonos: Telefono[] = [];
-  formRecordatorio: FormGroup;
   dateDefault = moment(new Date()).format('YYYY-MM-DD');
   recordatorios: Recordatorio[] = [];
   tipoActividades: TablaMaestra[] = [];
   estadosRecordatorio: TablaMaestra[] = [];
+  typeAcuerdo: number;
+  selectedAcuerdo: number;
+  errors: string[] = [];
+  acuerdosPago: AcuerdoPago[] = [];
+  listaAcuerdos: TablaMaestra[] = [];
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -79,6 +88,7 @@ export class CreditoSocioComponent implements OnInit {
   ngOnInit() {
     this.listarTipoActividades();
     this.loadTipoNotificaciones();
+    this.loadlistaAcuerdos();
     this.loadEstadosRecordatorios();
     if (this.credito) {
       this.formRecordatorio = this.formBuilder.group({
@@ -95,10 +105,36 @@ export class CreditoSocioComponent implements OnInit {
         direccion: [''],
         comentario: [''],
       });
+
+      this.formRegistrarAcuerdo = this.formBuilder.group({
+        asignacionId: [this.asignacionId],
+        ejecutivoId: [this.ejecutivoId],
+        socioId: [this.credito.socioId],
+        creditoId: [this.credito.id],
+        montoAcordado: ['', [Validators.required]],
+        posibilidadPago: ['', [Validators.required]],
+        fechaInicio: [this.dateDefault, [Validators.required]],
+        horaIncio: ['', [Validators.required]],
+      });
+
+      this.formPlanPago = this.formBuilder.group({
+        asignacionId: [this.asignacionId],
+        ejecutivoId: [this.ejecutivoId],
+        socioId: [this.credito.socioId],
+        creditoId: [this.credito.id],
+        descripcion: ['', [Validators.required]],
+        plazo: [null, [Validators.required]],
+        montoAcordado: [null, [Validators.required]],
+        intervalo: [null, [Validators.required]],
+        fechaInicio: [this.dateDefault, [Validators.required]],
+        posibilidadPago: ['', [Validators.required]],
+      });
+
       setTimeout(() => this.spinner.show(), 200);
       this.buscarSocioById(this.credito.socioId);
       if (this.asignacionId && this.ejecutivoId) {
         this.loadRecordatorios(this.asignacionId, this.ejecutivoId, this.credito.socioId, this.credito.id);
+        this.loadAcuerdosPagos(this.asignacionId, this.ejecutivoId, this.credito.socioId, this.credito.id);
       }
     }
   }
@@ -108,6 +144,7 @@ export class CreditoSocioComponent implements OnInit {
       res => this.estadosRecordatorio = res
     );
   }
+
   private buscarSocioById(socioId: number) {
     this.asignacionCarteraService.buscarSocioByCodUsuario(socioId).subscribe(
       res => {
@@ -122,7 +159,7 @@ export class CreditoSocioComponent implements OnInit {
     );
   }
 
-  crearRecordatorio(tipo: number, title: string) {
+  crearEventos(tipo: number, title: string) {
     this.formRecordatorio.controls.fecha.setValue(this.dateDefault);
     this.formRecordatorio.controls.tipoActividad.setValue('');
     this.formRecordatorio.controls.numeroTelefono.setValue('');
@@ -132,6 +169,8 @@ export class CreditoSocioComponent implements OnInit {
     this.formRecordatorio.controls.comentario.setValue('');
     this.title = title;
     this.typeEvent = tipo;
+    this.typeAcuerdo = null;
+    this.selectedAcuerdo = null;
   }
 
   public get showPhones(): Telefono[] {
@@ -191,6 +230,12 @@ export class CreditoSocioComponent implements OnInit {
     );
   }
 
+  loadlistaAcuerdos() {
+    this.tablaMaestraService.loadTipoAcuerdos().subscribe(
+      res => this.listaAcuerdos = res
+    );
+  }
+
   cambioTipoMetodo(event: any) {
     this.socio.telefonos.forEach(item => {
       if (event == item.tipoNotificacion) {
@@ -226,11 +271,21 @@ export class CreditoSocioComponent implements OnInit {
     );
   }
 
-  private loadRecordatorios(asignacionId: any, ejecutivoId: any, socioId: number, creditoId: number) {
+  loadRecordatorios(asignacionId: any, ejecutivoId: any, socioId: number, creditoId: number) {
     this.asignacionCarteraService.listarRecordatorioPorAsignacionYCredito(asignacionId, ejecutivoId, socioId, creditoId).subscribe(
       res => {
         if (res.exito) {
           this.recordatorios = res.objeto as Recordatorio[];
+        }
+      }
+    );
+  }
+
+  loadAcuerdosPagos(asignacionId: any, ejecutivoId: any, socioId: number, creditoId: number) {
+    this.asignacionCarteraService.listarAcuerdosPorAsignacionYCredito(asignacionId, ejecutivoId, socioId, creditoId).subscribe(
+      res => {
+        if (res.exito) {
+          this.acuerdosPago = res.objeto as AcuerdoPago[];
         }
       }
     );
@@ -287,8 +342,119 @@ export class CreditoSocioComponent implements OnInit {
     }
   }
 
-  getNameCondition(condicion: string) {
+  getNameCondition(condicion: any) {
     const item = this.estadosRecordatorio.find(i => i.codItem == condicion);
     return item ? item.descripcion : '';
+  }
+
+  getNameTipoAcuerdo(condicion: any) {
+    const item = this.listaAcuerdos.find(i => i.codItem == condicion);
+    return item ? item.descripcion : '';
+  }
+
+  guardarAcuerdo() {
+    this.errors = [];
+    if (this.formRegistrarAcuerdo.invalid) {
+      this.errors.push('Debe llenar los datos obligatorios.');
+      return;
+    }
+    const data: AcuerdoPago = this.formRegistrarAcuerdo.getRawValue();
+    data.tipoAcuerdo = this.typeAcuerdo;
+    data.descripcion = 'estandar';
+    const list = [data];
+    this.formRegistrarAcuerdo.reset();
+    this.formRegistrarAcuerdo.controls.asignacionId.setValue(this.asignacionId);
+    this.formRegistrarAcuerdo.controls.ejecutivoId.setValue(this.ejecutivoId);
+    this.formRegistrarAcuerdo.controls.socioId.setValue(this.credito.socioId);
+    this.formRegistrarAcuerdo.controls.creditoId.setValue(this.credito.id);
+    this.formRegistrarAcuerdo.controls.fechaInicio.setValue(this.dateDefault);
+    this.spinner.show();
+    this.asignacionCarteraService.crearAcuerdoPorAsignacionYCredito(this.asignacionId, list).subscribe(
+      res => {
+        if (res.exito) {
+          this.typeAcuerdo = null;
+          Swal.fire('Información de Socio', res.mensaje, 'success');
+          this.loadAcuerdosPagos(this.asignacionId, this.ejecutivoId, this.credito.socioId, this.credito.id);
+        } else {
+          Swal.fire('Información de Socio', res.mensaje, 'error');
+        }
+        this.spinner.hide();
+      },
+      err => this.spinner.hide()
+    );
+  }
+
+  guardarPlanPago() {
+    this.errors = [];
+    if (this.formPlanPago.invalid) {
+      this.errors.push('Debe llenar los datos obligatorios.');
+      return;
+    }
+    const data: AcuerdoPago = this.formPlanPago.getRawValue();
+    const list: AcuerdoPago[] = [];
+    let start = data.fechaInicio;
+    for (let i = 1; i <= data.plazo; i++) {
+      const item = {
+        asignacionId: data.asignacionId,
+        creditoId: data.creditoId,
+        cuota: i,
+        descripcion: data.descripcion,
+        ejecutivoId: data.ejecutivoId,
+        fechaInicio: start,
+        intervalo: data.intervalo,
+        montoAcordado: data.montoAcordado,
+        plazo: data.plazo,
+        posibilidadPago: data.posibilidadPago,
+        socioId: data.socioId,
+        tipoAcuerdo: this.typeAcuerdo
+      };
+      list.push(item);
+      start = FUNC.addDays(item.fechaInicio, data.intervalo);
+    }
+    this.formPlanPago.reset();
+    this.formPlanPago.controls.asignacionId.setValue(this.asignacionId);
+    this.formPlanPago.controls.ejecutivoId.setValue(this.ejecutivoId);
+    this.formPlanPago.controls.socioId.setValue(this.credito.socioId);
+    this.formPlanPago.controls.creditoId.setValue(this.credito.id);
+    this.formPlanPago.controls.fechaInicio.setValue(this.dateDefault);
+    this.spinner.show();
+    this.asignacionCarteraService.crearAcuerdoPorAsignacionYCredito(this.asignacionId, list).subscribe(
+      res => {
+        if (res.exito) {
+          this.typeAcuerdo = null;
+          Swal.fire('Información de Socio', res.mensaje, 'success');
+          this.loadAcuerdosPagos(this.asignacionId, this.ejecutivoId, this.credito.socioId, this.credito.id);
+        } else {
+          Swal.fire('Información de Socio', res.mensaje, 'error');
+        }
+        this.spinner.hide();
+      },
+      err => this.spinner.hide()
+    );
+  }
+
+  eliminarAcuerdoPago(id: number) {
+    Swal.fire({
+      title: 'Eliminar Acurdo de pago?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, Eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        this.asignacionCarteraService.eliminarAcuerdoPorAsignacionYCredito(id).subscribe(
+          res => {
+            if (res.exito) {
+              Swal.fire('Información de Socio', res.mensaje, 'success');
+              this.loadAcuerdosPagos(this.asignacionId, this.ejecutivoId, this.credito.socioId, this.credito.id);
+            } else {
+              Swal.fire('Información de Socio', res.mensaje, 'error');
+            }
+            this.spinner.hide();
+          },
+          err => this.spinner.hide()
+        );
+      }
+    });
   }
 }

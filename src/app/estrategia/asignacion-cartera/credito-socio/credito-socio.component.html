@@ -40,11 +40,12 @@
       <div class="col-12">
         <div class="form-group mb-0">
           <div class="text-center">
-            <a class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearRecordatorio(1, 'Gestionar Eventos Socio')"><i class="fa fa-plus"></i></a>
-            <a class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearRecordatorio(2, '')"><i class="fa fa-clock-o"></i></a>
-            <a class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearRecordatorio(3, '')"><i class="fa fa-id-card"></i></a>
-            <a class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearRecordatorio(4, 'Crear Recordatorio')" placement="top" ngbTooltip="Crear Recordatorio"><i class="fa fa-calendar"></i></a>
-            <a class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearRecordatorio(5, '')"><i class="fa fa-sticky-note"></i></a>
+            <a class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearEventos(1, 'Gestionar Eventos Socio')"><i class="fa fa-plus"></i></a>
+            <a class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearEventos(2, '')"><i class="fa fa-clock-o"></i></a>
+            <a class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearEventos(3, '')"><i class="fa fa-id-card"></i></a>
+            <a [ngbTooltip]="'Crear Recordatorio'" class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearEventos(4, 'Crear Recordatorio')" placement="top" ngbTooltip="Crear Recordatorio"><i
+              class="fa fa-calendar"></i></a>
+            <a [ngbTooltip]="'Crear Acuerdo de Pago'" class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearEventos(5, 'Crear Acuerdos de Pago')"><i class="fa fa-handshake-o"></i></a>
           </div>
         </div>
       </div>
@@ -230,12 +231,124 @@
                     </div>
                   </div>
                 </ng-container>
+                <ng-container *ngIf="typeEvent == 5">
+                  <div class="row">
+                    <div class="col-12">
+                      <ul class="list-group list-acuerdos">
+                        <li class="list-group-item" [ngClass]="{'active': typeAcuerdo == 1}" (click)="typeAcuerdo = 1">AL DÍA</li>
+                        <li class="list-group-item" [ngClass]="{'active': typeAcuerdo == 2}" (click)="typeAcuerdo = 2">PLAN DE PAGO</li>
+                        <li class="list-group-item" [ngClass]="{'active': typeAcuerdo == 3}" (click)="typeAcuerdo = 3">TOTAL DE LA MORA</li>
+                        <li class="list-group-item" [ngClass]="{'active': typeAcuerdo == 4}" (click)="typeAcuerdo = 4">ABONO</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <hr>
+                  <ng-container *ngIf="typeAcuerdo == 1  || typeAcuerdo == 3 || typeAcuerdo == 4" [formGroup]="formRegistrarAcuerdo">
+                    <div class="row mt-4">
+                      <div class="col-12 text-center">
+                        <h4>Registrar Acuerdo</h4>
+                      </div>
+                      <div class="col-12" *ngIf="errors.length > 0">
+                        <div class="form-group">
+                          <div class="alert alert-danger" role="alert" *ngFor="let value of errors">
+                            <span><b>.</b> {{ value }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-7">
+                        <div class="form-group">
+                          <label>Monto Acordado</label>
+                          <input CustomizeCurrency type="text" class="form-control" formControlName="montoAcordado">
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-5">
+                        <div class="form-group">
+                          <label>Posibilidad Pagar</label>
+                          <select class="form-control" formControlName="posibilidadPago">
+                            <option value="">Seleccione</option>
+                            <option value="1">Alto</option>
+                            <option value="2">Medio</option>
+                            <option value="3">Bajo</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-7">
+                        <div class="form-group">
+                          <label>Fecha</label>
+                          <input type="date" class="form-control" formControlName="fechaInicio">
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-5">
+                        <div class="form-group">
+                          <label>Hora</label>
+                          <input type="time" class="form-control" min="07:00" max="20:00" formControlName="horaIncio">
+                        </div>
+                      </div>
+                      <div class="col-12 text-center">
+                        <button class="btn btn-sm btn-primary" [disabled]="formRegistrarAcuerdo.invalid" (click)="guardarAcuerdo()">Registrar</button>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="typeAcuerdo == 2" [formGroup]="formPlanPago">
+                    <div class="body-acuerdo row mt-4">
+                      <div class="col-12 text-center">
+                        <h4>Crear plan de pago</h4>
+                      </div>
+                      <div class="col-12" *ngIf="errors.length > 0">
+                        <div class="form-group">
+                          <div class="alert alert-danger" role="alert" *ngFor="let value of errors">
+                            <span><b>.</b> {{ value }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <label>Nombre del plan</label>
+                          <input SoloLetras Uppercase type="text" class="form-control" formControlName="descripcion">
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <label>Número de cuotas</label>
+                          <input Number type="text" class="form-control" formControlName="plazo">
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <label>Valor de cuotas</label>
+                          <input CustomizeCurrency type="text" class="form-control" formControlName="montoAcordado">
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <label>Intervalo cotas (Días)</label>
+                          <input Number type="text" class="form-control" formControlName="intervalo">
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <label>Fecha inicio</label>
+                          <input type="date" class="form-control" formControlName="fechaInicio">
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <label>Posibilidad Pagar</label>
+                          <select class="form-control" formControlName="posibilidadPago">
+                            <option value="">Seleccione</option>
+                            <option value="1">Alto</option>
+                            <option value="2">Medio</option>
+                            <option value="3">Bajo</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-12 text-center">
+                        <button class="btn btn-sm btn-primary" [disabled]="formPlanPago.invalid" (click)="guardarPlanPago()">Registrar</button>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
               </div>
-              <!-- /.box-body -->
-              <div class="box-footer text-center">
-
-              </div>
-              <!-- /.box-footer -->
             </div>
           </div>
         </div>
@@ -251,7 +364,7 @@
             </ng-template>
             <ng-template ngbPanelContent>
               <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-bordered table-hover">
                   <thead>
                   <tr class="text-center">
                     <th>Actividad</th>
@@ -271,7 +384,7 @@
 
                       <ng-template #obsetvation>
                         <ng-template #tipContent><b>{{item.observacion}}</b></ng-template>
-                        <span> <b  triggers="click" [autoClose]="'outside'" [ngbTooltip]="tipContent" class="cursor-pointer" style="font-size: 18px"><i class="fa  fa-question-circle"></i></b> {{ getNameActividad(item.tipoActividad) }} </span>
+                        <span> <b triggers="click" [autoClose]="'outside'" [ngbTooltip]="tipContent" class="cursor-pointer" style="font-size: 18px"><i class="fa  fa-question-circle"></i></b> {{ getNameActividad(item.tipoActividad) }} </span>
                       </ng-template>
                     </td>
                     <td> {{ item.fecha | date: 'dd/MM/yyyy' }} {{ item.hora   }}</td>
@@ -287,7 +400,45 @@
               </div>
             </ng-template>
           </ngb-panel>
-
+          <ngb-panel>
+            <ng-template ngbPanelTitle>
+              <span><b>Acuerdos</b></span>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div class="table-responsive">
+                <table id="tabla-acuerdos" class="table table-bordered table-hover">
+                  <thead>
+                  <tr class="text-center">
+                    <th>Fecha</th>
+                    <th>Monto</th>
+                    <th>T. Acuerdo</th>
+                    <th>Estado</th>
+                    <th>Tipo</th>
+                    <th>Cuota</th>
+                    <th>Plazo</th>
+                    <th>Opcipon</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let item of acuerdosPago" class="text-center" style="font-size: 12px;">
+                    <td>
+                      {{ item.fechaInicio | date: 'dd/MM/yyyy' }}
+                    </td>
+                    <td>{{ item.montoAcordado  | currency: 'S/ ' }} </td>
+                    <td>{{ getNameTipoAcuerdo(item.tipoAcuerdo) }}</td>
+                    <td>{{ getNameCondition(item.condicion) | uppercase}}</td>
+                    <td>{{ item.descripcion | uppercase}}</td>
+                    <td>{{ item.cuota }}</td>
+                    <td>{{ item.plazo }}</td>
+                    <td>
+                      <button class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item.id)"><i class="fa fa-trash"></i></button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ng-template>
+          </ngb-panel>
         </ngb-accordion>
       </div>
     </div>

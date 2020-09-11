@@ -14,4 +14,9 @@ export class FUNC {
     date = date ? date : '';
     return moment(date).format(format);
   }
+
+  static addDays(date: string, days) {
+    const fecha = moment(date).add(days, 'days');
+    return fecha.format('YYYY-MM-DD');
+  }
 }

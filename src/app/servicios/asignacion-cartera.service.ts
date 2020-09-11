@@ -180,4 +180,19 @@ export class AsignacionCarteraService {
   actualizarRecordatorio(data: Recordatorio): Observable<Respuesta> {
     return this.http.put<Respuesta>(`${urlBase}/actualizarRecordatorio`, data);
   }
+
+  /************** ACUERDO DE PAGO **************************************************/
+
+
+  listarAcuerdosPorAsignacionYCredito(asignacionId, ejecutivoId, socioId, creditoId): Observable<Respuesta> {
+    return this.http.get<Respuesta>(`${urlBase}/${asignacionId}/listarAcuerdosPorAsignacionYCredito`, {params: new HttpParams().set('ejecutivoId', ejecutivoId).set('socioId', socioId).set('creditoId', creditoId)});
+  }
+
+  crearAcuerdoPorAsignacionYCredito(asignacionId: any, data: any): Observable<Respuesta> {
+    return this.http.post<Respuesta>(`${urlBase}/${asignacionId}/crearAcuerdoPorAsignacionYCredito`, data);
+  }
+
+  eliminarAcuerdoPorAsignacionYCredito(acuerdoPagoId: any): Observable<Respuesta> {
+    return this.http.delete<Respuesta>(`${urlBase}/eliminarAcuerdoPorAsignacionYCredito`, {params: new HttpParams().set('acuerdoPagoId', acuerdoPagoId)});
+  }
 }

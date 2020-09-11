@@ -1,0 +1,28 @@
+.list-acuerdos .list-group-item {
+  padding: 10px;
+  border: none;
+}
+
+.list-acuerdos .list-group-item:hover, .list-group-item:hover {
+  color: #23282c;
+  background-color: rgba(0, 0, 0, 0.075);
+  cursor: pointer;
+}
+
+.list-group-horizontal li {
+  width: 33.3%;
+}
+
+.list-group-item.active {
+  background-color: #63c2deba;
+  border-color: #63c2deba;
+  color: black;
+}
+
+.body-acuerdo input[type="date"] {
+  padding: 0.375rem 0 0.375rem 0.75rem;
+}
+
+#tabla-acuerdos tbody tr td {
+  padding: 0 0.75rem;
+}
