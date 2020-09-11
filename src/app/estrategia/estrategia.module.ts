@@ -36,6 +36,7 @@ import { CreditoSocioComponent } from './asignacion-cartera/credito-socio/credit
 import {NgWizardConfig, NgWizardModule, THEME} from 'ng-wizard';
 import { EjecutivoAsignacionesComponent } from './asignacion-cartera/ejecutivo-asignaciones/ejecutivo-asignaciones.component';
 import {ModalAgregarCreditoComponent} from './asignacion-cartera/modal-agregar-credito/modal-agregar-credito.component';
+import { ModalAsignarEstadoRecordatorioComponent } from './asignacion-cartera/modal-asignar-estado-recordatorio/modal-asignar-estado-recordatorio.component';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -65,7 +66,8 @@ const ngWizardConfig: NgWizardConfig = {
     ModalGestionarPromesasPagoComponent,
     CreditoSocioComponent,
     EjecutivoAsignacionesComponent,
-    ModalAgregarCreditoComponent
+    ModalAgregarCreditoComponent,
+    ModalAsignarEstadoRecordatorioComponent
   ],
   imports: [
     CommonModule,
@@ -99,7 +101,8 @@ const ngWizardConfig: NgWizardConfig = {
     MantenedorTipoNotificacionComponent,
     ModalGestionarTareaComponent,
     ModalGestionarPromesasPagoComponent,
-    ModalAgregarCreditoComponent
+    ModalAgregarCreditoComponent,
+    ModalAsignarEstadoRecordatorioComponent
   ]
 })
 export class EstrategiaModule {

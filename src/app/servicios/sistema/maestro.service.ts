@@ -100,4 +100,28 @@ export class MaestroService {
   cambiarEstado(data: TablaMaestra, state: string): Observable<Respuesta> {
     return this.http.put<Respuesta>(`${this.apiUrl}${data.codTabla}/${data.codItem}`, {}, {params: new HttpParams().set('state', state)});
   }
+
+  listarTipoActividades(): Observable<TablaMaestra[]> {
+    // return this.http.get<TablaMaestra[]>(this.apiUrl + 'listarElementosPorCodTable', {params: new HttpParams().set('codTable', CONST.TABLE_INT_LISTA_SEDE)});
+    const data: TablaMaestra[] = [
+      {codItem: '1', descripcion: 'LLAMADAS'},
+      {codItem: '2', descripcion: 'CORREO'},
+      {codItem: '3', descripcion: 'MENSAJE'},
+      {codItem: '4', descripcion: 'VISITA DOMICILIARIA'},
+    ];
+
+    return of(data);
+  }
+
+  loadEstadosRecordatorios(): Observable<TablaMaestra[]> {
+    // return this.http.get<TablaMaestra[]>(this.apiUrl + 'listarElementosPorCodTable', {params: new HttpParams().set('codTable', CONST.TABLE_INT_LISTA_SEDE)});
+    const data: TablaMaestra[] = [
+      {codItem: '1', descripcion: 'PENDIENTE'},
+      {codItem: '2', descripcion: 'COMPLETADA'},
+      {codItem: '3', descripcion: 'CANCELADA'},
+      {codItem: '4', descripcion: 'NO COMPLETADA'},
+    ];
+
+    return of(data);
+  }
 }

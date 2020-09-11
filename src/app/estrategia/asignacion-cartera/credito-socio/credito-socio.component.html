@@ -96,7 +96,7 @@
                     </thead>
                     <tbody>
                     <tr class="text-center" *ngFor="let email of socio.correos; let i = index">
-                      <th scope="row">{{ i+1 }}</th>
+                      <th scope="row">{{ i + 1 }}</th>
                       <td>{{ email.email }}</td>
                       <td>{{ email.tipoUsoDescripcion }}</td>
                       <td>{{ email.tipoNotificacion }}</td>
@@ -121,7 +121,7 @@
                     </thead>
                     <tbody>
                     <tr class="text-center" *ngFor="let direccion of socio.direcciones; let i = index">
-                      <th scope="row">{{ i+1 }}</th>
+                      <th scope="row">{{ i + 1 }}</th>
                       <td>{{ direccion.nombreVia }}</td>
                       <td>Domicilio</td>
                     </tr>
@@ -139,69 +139,93 @@
             <div class="box box-primary">
               <div class="box-header with-border text-center">
                 <h3 class="box-title">{{ title }}</h3>
-
                 <div class="box-tools pull-right">
-<!--                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>-->
-<!--                  </button>-->
-<!--                  <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>-->
+                  <!--                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>-->
+                  <!--                  </button>-->
+                  <!--                  <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>-->
                 </div>
               </div>
               <!-- /.box-header -->
               <div class="box-body">
-                <ng-container *ngIf="typeEvent == 4">
+                <ng-container *ngIf="typeEvent == 4" [formGroup]="formRecordatorio">
                   <div class="row">
-                    <div class="col-12">
+                    <div class="col-12 col-md-7">
                       <div class="form-group">
-                        <label>Fecha de Recordatorio</label>
-                        <input type="date" class="form-control" [value]="dateDefault">
+                        <label>Fecha</label>
+                        <input type="date" class="form-control" formControlName="fecha">
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-5">
+                      <div class="form-group">
+                        <label>Hora</label>
+                        <input type="time" class="form-control" formControlName="hora" min="07:00" max="20:00">
                       </div>
                     </div>
                     <div class="col-12">
                       <div class="form-group">
                         <label>Seleccione la actividad</label>
-                        <select class="form-control" [(ngModel)]="tipoActividad" (ngModelChange)="showItem = $event">
-                          <option>Selecione</option>
-                          <option value="1">LLAMADAS</option>
-                          <option value="2">CORREO</option>
-                          <option value="3">MENSAJE</option>
-                          <option value="4">VISITA DOMICILIARIA</option>
+                        <select class="form-control" formControlName="tipoActividad" (ngModelChange)="showItem = $event">
+                          <option value="">Selecione</option>
+                          <option *ngFor="let item of tipoActividades" [value]="item.codItem">{{ item.descripcion }}</option>
                         </select>
                       </div>
                     </div>
                     <div class="col-12" *ngIf="showItem == '1'">
                       <div class="form-group">
                         <label>Seleccione número</label>
-                        <select class="form-control">
+                        <select class="form-control" formControlName="numeroTelefono">
                           <option>Selecione</option>
-                          <option *ngFor="let item of showPhones" [value]="item.telefonoId">{{ item.numero }}</option>
+                          <option *ngFor="let item of showPhones" [value]="item.numero">{{ item.numero }}</option>
                         </select>
                       </div>
                     </div>
                     <div class="col-12" *ngIf="showItem == '2'">
                       <div class="form-group">
                         <label>Seleccione Correo</label>
-                        <select class="form-control">
+                        <select class="form-control" formControlName="correo">
                           <option>Selecione</option>
-                          <option *ngFor="let item of showEmails" [value]="item.emailId">{{ item.email }}</option>
+                          <option *ngFor="let item of showEmails" [value]="item.email">{{ item.email }}</option>
                         </select>
                       </div>
                     </div>
-                    <div class="col-12" *ngIf="showItem == '3'">
-                      <div class="form-group">
-                        <label>Seleccione número</label>
-                        <select class="form-control">
-                          <option>Selecione</option>
-                          <option *ngFor="let item of showCellphones" [value]="item.telefonoId">{{ item.numero }}</option>
-                        </select>
+                    <ng-container *ngIf="showItem == '3'">
+                      <div class="col-12">
+                        <div class="form-group">
+                          <label>Seleccione Metodo</label>
+                          <select #metodo class="form-control" formControlName="tipoMetodo" (ngModelChange)="cambioTipoMetodo($event)">
+                            <option value="">Selecione</option>
+                            <option *ngFor="let item of listadoMensaje" [value]="item.nombre">{{ item.nombre }}</option>
+                          </select>
+                        </div>
                       </div>
-                    </div>
+                      <div class="col-12" *ngIf="showCellphones != ''">
+                        <div class="form-group">
+                          <label>Seleccione número</label>
+                          <select class="form-control" formControlName="numeroTelefono">
+                            <option value="">Selecione</option>
+                            <option *ngFor="let item of $telefonos" [value]="item.numero">{{ item.numero }}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </ng-container>
                     <div class="col-12" *ngIf="showItem == '4'">
                       <div class="form-group">
                         <label>Seleccione Dirección</label>
-                        <select class="form-control">
+                        <select class="form-control" formControlName="direccion">
                           <option>Selecione</option>
-                          <option *ngFor="let item of showAddress" [value]="item.direccionId">{{ item.nombreVia }}</option>
+                          <option *ngFor="let item of showAddress" [value]="item.nombreVia">{{ item.nombreVia }}</option>
                         </select>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label>Comentario</label>
+                        <textarea class="form-control" formControlName="comentario"></textarea>
+                      </div>
+                    </div>
+                    <div class="col-12 text-center">
+                      <div class="btn-group ">
+                        <button class="btn btn-sm btn-primary" [disabled]="formRecordatorio.invalid" (click)="guardarRecordatorio()">Guardar</button>
                       </div>
                     </div>
                   </div>
@@ -215,6 +239,56 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-12">
+        <ngb-accordion [closeOthers]="true">
+          <ngb-panel>
+            <ng-template ngbPanelTitle>
+              <span><b>Recordatorio</b></span>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                  <tr class="text-center">
+                    <th>Actividad</th>
+                    <th>Fecha/hora</th>
+                    <th>Descrpción</th>
+                    <th>Mensaje</th>
+                    <th>Condición</th>
+                    <th>Opcipon</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let item of recordatorios" class="text-center" style="font-size: 12px;">
+                    <td>
+                      <ng-container *ngIf="!item.observacion; else obsetvation">
+                        {{ getNameActividad(item.tipoActividad) }}
+                      </ng-container>
+
+                      <ng-template #obsetvation>
+                        <ng-template #tipContent><b>{{item.observacion}}</b></ng-template>
+                        <span> <b  triggers="click" [autoClose]="'outside'" [ngbTooltip]="tipContent" class="cursor-pointer" style="font-size: 18px"><i class="fa  fa-question-circle"></i></b> {{ getNameActividad(item.tipoActividad) }} </span>
+                      </ng-template>
+                    </td>
+                    <td> {{ item.fecha | date: 'dd/MM/yyyy' }} {{ item.hora   }}</td>
+                    <td> {{ getDescripcion(item) }}</td>
+                    <td style="text-align: left;"> {{ item.comentario }}</td>
+                    <td> {{ getNameCondition(item.condicion) }}</td>
+                    <td>
+                      <button class="btn btn-sm btn-success" (click)="cambiarEstado(item)"><i class="fa fa-check"></i></button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ng-template>
+          </ngb-panel>
+
+        </ngb-accordion>
       </div>
     </div>
   </div>

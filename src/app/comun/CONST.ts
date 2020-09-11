@@ -91,4 +91,12 @@ export class CONST {
   public static  TABLE_INT_LISTA_SEDE = '22';
   public static  TABLE_INT_LISTA_TIPO_CREDITO = '23';
   public static  TABLE_INT_MONTO = '00';
+
+  public static C_INT_PUSH = 1; // "PUSH";
+  public static C_INT_SMS = 2; // "SMS";
+  public static C_INT_WHATSAPP = 3; // "WHATSAPP";
+  public static C_INT_TELEGRAM = 4; // "TELEGRAM";
+  public static C_INT_MESSAGER = 5; // "MESSAGER";
+  public static C_INT_EMAIL = 6; // "EMAIL";
+  public static C_INT_LLAMADAS = 7; // "LLAMADAS",
 }

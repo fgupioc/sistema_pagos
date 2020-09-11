@@ -7,6 +7,7 @@ import {TreeviewItem} from 'ngx-treeview';
 import {Cartera} from '../interfaces/cartera';
 import {TablaMaestra} from '../interfaces/tabla-maestra';
 import {CONST} from '../comun/CONST';
+import {Recordatorio} from '../interfaces/recordatorio';
 
 const urlBase = environment.serverUrl + 'asignacio-cartera';
 const urlMaestro = `${environment.serverUrl}maestro/`;
@@ -164,5 +165,19 @@ export class AsignacionCarteraService {
 
   buscarSocioByCodUsuario(codUsuario: any): Observable<Respuesta> {
     return this.http.get<any>(`${urlBase}/${codUsuario}/socio`);
+  }
+
+  /********************** RECORDATORIO *******************************************/
+
+  listarRecordatorioPorAsignacionYCredito(asignacionId, ejecutivoId, socioId, creditoId): Observable<Respuesta> {
+    return this.http.get<Respuesta>(`${urlBase}/${asignacionId}/listarRecordatorioPorAsignacionYCredito`, {params: new HttpParams().set('ejecutivoId', ejecutivoId).set('socioId', socioId).set('creditoId', creditoId)});
+  }
+
+  crearRecordatorioPorAsignacionYCredito(asignacionId: any, data: any): Observable<Respuesta> {
+    return this.http.post<Respuesta>(`${urlBase}/${asignacionId}/crearRecordatorioPorAsignacionYCredito`, data);
+  }
+
+  actualizarRecordatorio(data: Recordatorio): Observable<Respuesta> {
+    return this.http.put<Respuesta>(`${urlBase}/actualizarRecordatorio`, data);
   }
 }

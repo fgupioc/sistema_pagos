@@ -1,0 +1,34 @@
+<div class="modal-content">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12" *ngIf="erros.length > 0">
+        <div class="form-group">
+          <div class="alert alert-danger" role="alert" *ngFor="let value of erros">
+            <span><b>.</b> {{ value }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group">
+          <label>Estado</label>
+          <select class="form-control" [(ngModel)]="state" [disabled]="recordatorio.condicion != '1'">
+            <option *ngFor="let item of estados" [value]="item.codItem">{{ item.descripcion }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group">
+          <label>Observación</label>
+          <textarea class="form-control" [(ngModel)]="observation" [disabled]="recordatorio.condicion != '1'"></textarea>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-group text-center mb-0 ">
+          <button class="btn btn-sm btn-primary mr-2" [disabled]="state == '1' || recordatorio.condicion != '1'" (click)="guardar()">Guardar</button>
+          <button class="btn btn-sm btn-secondary mr-2" (click)="activeModal.close()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
