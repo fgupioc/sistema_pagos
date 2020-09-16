@@ -79,8 +79,8 @@
     <hr>
     <div class="row">
       <div class="col-12 col-md-8">
-        <ngb-tabset [destroyOnHide]="false">
-          <ngb-tab title="Fijo/Movil">
+        <ngb-tabset [destroyOnHide]="false" [activeId]="1" (tabChange)="tabSeleccionado($event)">
+          <ngb-tab title="Fijo/Movil" id="1">
             <ng-template ngbTabContent>
               <div class="row">
                 <div class="col-12">
@@ -97,7 +97,7 @@
                     <tbody>
                     <tr *ngFor="let phone of socio.telefonos; let i = index" class="text-center">
                       <th scope="row">{{ i + 1 }}</th>
-                      <td>{{ phone.numero }}</td>
+                      <td>{{ (phone.codCiudad ? phone.codCiudad +'-' : '') + phone.numero }}</td>
                       <td>{{ phone.operadorDescripcion }}</td>
                       <td>{{ phone.tipoUsoDescripcion }}</td>
                       <td>{{ phone.tipoNotificacion }}</td>
@@ -108,7 +108,7 @@
               </div>
             </ng-template>
           </ngb-tab>
-          <ngb-tab title="Correo">
+          <ngb-tab title="Correo" id="2">
             <ng-template ngbTabContent>
               <div class="row">
                 <div class="col-12">
@@ -134,7 +134,7 @@
               </div>
             </ng-template>
           </ngb-tab>
-          <ngb-tab title="Dirección">
+          <ngb-tab title="Dirección" id="3">
             <ng-template ngbTabContent>
               <div class="row">
                 <div class="col-12">
@@ -174,6 +174,100 @@
               </div>
               <!-- /.box-header -->
               <div class="box-body">
+                <ng-container *ngIf="typeEvent == 1">
+                  <ng-container *ngIf="seccioSeleccionada == '1'">
+                    <div class="row" [formGroup]="formTelefono">
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <select class="form-control" formControlName="codTipoNotificacion" (ngModelChange)="cambioSelectTelefono()" [ngClass]="
+                              {
+                              'is-invalid': formTelefono.controls['codTipoNotificacion'].touched && formTelefono.controls['codTipoNotificacion'].errors
+                              }
+                              ">
+                            <option value="">Tipo Notificacion</option>
+                            <option *ngFor="let item of tipoNotificacionesTelefono" [value]="item.codTipoNotificacion">{{ item.nombre }}</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            <span class="d-block" *ngIf="formTelefono.get('codTipoNotificacion').hasError('required')"> El tipo de notificacion es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <select class="form-control" formControlName="codUso" (ngModelChange)="cambioSelectTelefono()" [ngClass]="
+                              {
+                              'is-invalid': formTelefono.controls['codUso'].touched && formTelefono.controls['codUso'].errors
+                              }
+                              ">
+                            <option value="">Tipo Uso</option>
+                            <option *ngFor="let item of tiposUsoTelefono" [value]="item.codItem">{{ item.descripcion }}</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            <span class="d-block" *ngIf="formTelefono.get('codUso').hasError('required')"> El tipo de uso es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <select class="form-control" formControlName="tipo" (ngModelChange)="changeTypeTelefono($event)">
+                            <option [value]="$movil">Celular</option>
+                            <option [value]="$fijo">Fijo</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <select class="form-control" formControlName="operador" [ngClass]="
+            {
+            'is-invalid': formTelefono.controls['operador'].touched && formTelefono.controls['operador'].errors
+            }
+            ">
+                            <option value="">Seleccionar</option>
+                            <option value="1">Claro</option>
+                            <option value="2">Movistar</option>
+                            <option value="3">Entel</option>
+                            <option value="4">Bitel</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            <span class="d-block" *ngIf="formTelefono.get('operador').hasError('required')"> El operador es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div  class="col-12 col-md-6" *ngIf="typePhone == $fijo">
+                        <div class="form-group">
+                          <input Number type="text" class="form-control" placeholder="codCiudad" formControlName="codCiudad" maxlength="3" [ngClass]="
+            {
+            'is-invalid': formTelefono.controls['codCiudad'].touched && formTelefono.controls['codCiudad'].errors
+            }
+            ">
+                          <div class="invalid-feedback">
+                            <span class="d-block" *ngIf="formTelefono.get('codCiudad').hasError('required')"> El código ciudad es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div  [class]="typePhone == $movil ? 'col-12' : 'col-12 col-md-6'">
+                        <div class="form-group">
+                          <input Number type="text" class="form-control" placeholder="Número Telefóno" [maxlength]="max" formControlName="numero" [ngClass]="
+            {
+            'is-invalid': formTelefono.controls['numero'].touched && formTelefono.controls['numero'].errors
+            }
+            ">
+
+                          <div class="invalid-feedback">
+                            <span class="d-block" *ngIf="formTelefono.get('numero').hasError('required')"> El número de telefono es obligatorio.</span>
+                            <span class="d-block" *ngIf="formTelefono.get('numero').hasError('minlength')"> El número solo acepta {{ max }} caracteres.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group text-center">
+                          <button *ngIf="create" type="button" class="btn btn-success" [disabled]="formTelefono.invalid" (click)="guardarTetefono()">Guardar</button>
+                          <button *ngIf="!create" type="button" class="btn btn-primary" [disabled]="formTelefono.invalid" (click)="actualizarTelefono()"><i class="fa fa-edit"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
                 <ng-container *ngIf="typeEvent == 4" [formGroup]="formRecordatorio">
                   <div class="row">
                     <div class="col-12 col-md-7">
@@ -202,7 +296,7 @@
                         <label>Seleccione número</label>
                         <select class="form-control" formControlName="numeroTelefono">
                           <option>Selecione</option>
-                          <option *ngFor="let item of showPhones" [value]="item.numero">{{ item.numero }}</option>
+                          <option *ngFor="let item of showPhones" [value]="item.numero">{{ (item.codCiudad ? item.codCiudad +'-' : '') +  item.numero }}</option>
                         </select>
                       </div>
                     </div>

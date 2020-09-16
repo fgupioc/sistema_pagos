@@ -9,7 +9,12 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MyPipesModule} from '../pipes/my-pipes.module';
 
 @NgModule({
-  declarations: [LoadingComponent, SocioListDireccionesComponent, SocioListTelefonosComponent, SocioListEmailsComponent],
+  declarations: [
+    LoadingComponent,
+    SocioListDireccionesComponent,
+    SocioListTelefonosComponent,
+    SocioListEmailsComponent
+  ],
   imports: [
     CommonModule,
     NgxSpinnerModule,

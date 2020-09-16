@@ -3,7 +3,7 @@ import {Cartera} from '../../../interfaces/cartera';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AsignacionCarteraService} from '../../../servicios/asignacion-cartera.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbModalConfig, NgbTabChangeEvent} from '@ng-bootstrap/ng-bootstrap';
 import {Credito} from '../../../interfaces/credito';
 import {Persona} from '../../../interfaces/Persona';
 import * as moment from 'moment';
@@ -21,6 +21,8 @@ import {MaestroService} from '../../../servicios/sistema/maestro.service';
 import {ModalAsignarEstadoRecordatorioComponent} from '../modal-asignar-estado-recordatorio/modal-asignar-estado-recordatorio.component';
 import {AcuerdoPago} from '../../../interfaces/acuerdo-pago';
 import {FUNC} from '../../../comun/FUNC';
+import {isNullOrUndefined} from 'util';
+import {TelefonoService} from '../../../servicios/telefono.service';
 
 @Component({
   selector: 'app-credito-socio',
@@ -31,12 +33,14 @@ export class CreditoSocioComponent implements OnInit {
   formRecordatorio: FormGroup;
   formPlanPago: FormGroup;
   formRegistrarAcuerdo: FormGroup;
+  formTelefono: FormGroup;
+
   credito: Credito;
   ejecutivoId: any;
   asignacionId: any;
   socio: Persona;
-  title = 'Gestionar Eventos Socio';
-  typeEvent = 1;
+  title = 'Gestiónar Eventos Socio';
+  typeEvent: number;
   showItem: string;
   tipoNotificaciones: TipoNotificacion[] = [];
   $telefonos: Telefono[] = [];
@@ -50,6 +54,13 @@ export class CreditoSocioComponent implements OnInit {
   acuerdosPago: AcuerdoPago[] = [];
   listaAcuerdos: TablaMaestra[] = [];
   tipoMonedas: TablaMaestra[] = [];
+  seccioSeleccionada = '1';
+  typePhone = '01';
+  max = 9;
+  $fijo = 2;
+  $movil = 1;
+  create = true;
+  tiposUsoTelefono: TablaMaestra[];
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -60,7 +71,8 @@ export class CreditoSocioComponent implements OnInit {
     private modalService: NgbModal,
     private tipoNotificacionService: TipoNotificacionService,
     private formBuilder: FormBuilder,
-    private tablaMaestraService: MaestroService
+    private tablaMaestraService: MaestroService,
+    private telefonoService: TelefonoService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -92,8 +104,8 @@ export class CreditoSocioComponent implements OnInit {
     this.loadlistaAcuerdos();
     this.loadEstadosRecordatorios();
     this.loadTipoMonedas();
+    this.loadTipoUsoTelefono();
     if (this.credito) {
-      console.log(this.credito);
       this.formRecordatorio = this.formBuilder.group({
         asignacionId: [this.asignacionId],
         ejecutivoId: [this.ejecutivoId],
@@ -133,6 +145,15 @@ export class CreditoSocioComponent implements OnInit {
         posibilidadPago: ['', [Validators.required]],
       });
 
+      this.formTelefono = this.formBuilder.group({
+        tipo: [this.$movil, Validators.required],
+        operador: ['', Validators.required],
+        numero: ['', [Validators.required, Validators.minLength(this.max)]],
+        codCiudad: [''],
+        codTipoNotificacion: ['', [Validators.required]],
+        codUso: ['', [Validators.required]],
+      });
+
       setTimeout(() => this.spinner.show(), 200);
       this.buscarSocioById(this.credito.socioId);
       if (this.asignacionId && this.ejecutivoId) {
@@ -151,6 +172,12 @@ export class CreditoSocioComponent implements OnInit {
   loadTipoMonedas() {
     this.tablaMaestraService.listarMondas().subscribe(
       res => this.tipoMonedas = res
+    );
+  }
+
+  loadTipoUsoTelefono() {
+    this.tablaMaestraService.listarTipoUso().subscribe(
+      res => this.tiposUsoTelefono = res
     );
   }
 
@@ -176,10 +203,12 @@ export class CreditoSocioComponent implements OnInit {
     this.formRecordatorio.controls.tipoMetodo.setValue('');
     this.formRecordatorio.controls.direccion.setValue('');
     this.formRecordatorio.controls.comentario.setValue('');
-    this.title = title;
     this.typeEvent = tipo;
     this.typeAcuerdo = null;
     this.selectedAcuerdo = null;
+    this.title = title;
+    this.resetFormTelefono();
+
   }
 
   public get showPhones(): Telefono[] {
@@ -232,12 +261,12 @@ export class CreditoSocioComponent implements OnInit {
     return this.tipoNotificaciones.filter(item => index.includes(item.codTipoNotificacion));
   }
 
-
   private loadTipoNotificaciones() {
     this.tipoNotificacionService.getAll().subscribe(
       res => this.tipoNotificaciones = res
     );
   }
+
 
   loadlistaAcuerdos() {
     this.tablaMaestraService.loadTipoAcuerdos().subscribe(
@@ -466,9 +495,92 @@ export class CreditoSocioComponent implements OnInit {
       }
     });
   }
-  
+
   get getCodeMoney() {
     const moneda = this.tipoMonedas.find(i => i.codItem == this.credito.codMoneda);
     return moneda.strValor || '';
+  }
+
+  tabSeleccionado(event: NgbTabChangeEvent) {
+    this.seccioSeleccionada = event.nextId;
+    this.resetFormTelefono();
+  }
+
+  cambioSelectTelefono() {
+    const select = this.formTelefono.controls.codTipoNotificacion.value;
+    if (isNullOrUndefined(select) || select == '') {
+      this.formTelefono.controls.numero.reset();
+      this.formTelefono.controls.codCiudad.reset();
+    }
+  }
+
+  changeTypeTelefono(event: any) {
+    this.typePhone = event;
+    this.formTelefono.controls.numero.reset();
+    this.formTelefono.controls.codCiudad.reset();
+    let flag = null;
+    if (event == this.$movil) {
+      this.max = 9;
+    } else {
+      this.max = 6;
+      flag = Validators.required;
+    }
+    this.formTelefono.controls.numero.setValidators([Validators.required, Validators.minLength(this.max)]);
+    this.formTelefono.controls.codCiudad.setValidators(flag);
+    this.formTelefono.controls.numero.updateValueAndValidity();
+    this.formTelefono.controls.codCiudad.updateValueAndValidity();
+  }
+
+  guardarTetefono() {
+    const phone: Telefono = this.formTelefono.getRawValue();
+    phone.personaId = this.socio.id;
+    const tel = this.socio.telefonos.find(v => v.codTipoNotificacion == phone.codTipoNotificacion && v.numero == phone.numero);
+    if (tel) {
+      Swal.fire('Telefono', 'EL teléfono ya esta asociada a una notificación', 'warning');
+      return;
+    }
+    this.spinner.show();
+    this.telefonoService.guardar(phone).subscribe(
+      res => {
+        if (res.exito) {
+          Swal.fire('Telefono', res.mensaje, 'success');
+          this.resetFormTelefono();
+        } else {
+          Swal.fire('Telefono', res.mensaje, 'error');
+        }
+        this.buscarSocioById(this.credito.socioId);
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+  }
+
+  actualizarTelefono() {
+
+  }
+
+  get tipoNotificacionesTelefono() {
+    return this.tipoNotificaciones.filter(v => [1, 2, 3, 4, 7].includes(v.codTipoNotificacion));
+  }
+
+  resetFormTelefono() {
+    if (this.typeEvent == 1 ) {
+      if (this.seccioSeleccionada == '1') {
+        this.title = 'Gestión de telefónos';
+      }
+      if (this.seccioSeleccionada == '2') {
+        this.title = 'Gestión de Correos';
+      }
+      if (this.seccioSeleccionada == '3') {
+        this.title = 'Gestión de Direcciones';
+      }
+    }
+
+    this.formTelefono.reset();
+    this.formTelefono.controls.tipo.setValue(this.$movil);
+    this.formTelefono.controls.codCiudad.setValue('');
+    this.formTelefono.controls.codTipoNotificacion.setValue('');
+    this.formTelefono.controls.codUso.setValue('');
+    this.create = true;
   }
 }
