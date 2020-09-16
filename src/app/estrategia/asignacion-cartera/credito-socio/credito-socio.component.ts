@@ -49,6 +49,7 @@ export class CreditoSocioComponent implements OnInit {
   errors: string[] = [];
   acuerdosPago: AcuerdoPago[] = [];
   listaAcuerdos: TablaMaestra[] = [];
+  tipoMonedas: TablaMaestra[] = [];
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -90,7 +91,9 @@ export class CreditoSocioComponent implements OnInit {
     this.loadTipoNotificaciones();
     this.loadlistaAcuerdos();
     this.loadEstadosRecordatorios();
+    this.loadTipoMonedas();
     if (this.credito) {
+      console.log(this.credito);
       this.formRecordatorio = this.formBuilder.group({
         asignacionId: [this.asignacionId],
         ejecutivoId: [this.ejecutivoId],
@@ -142,6 +145,12 @@ export class CreditoSocioComponent implements OnInit {
   loadEstadosRecordatorios() {
     this.tablaMaestraService.loadEstadosRecordatorios().subscribe(
       res => this.estadosRecordatorio = res
+    );
+  }
+
+  loadTipoMonedas() {
+    this.tablaMaestraService.listarMondas().subscribe(
+      res => this.tipoMonedas = res
     );
   }
 
@@ -456,5 +465,10 @@ export class CreditoSocioComponent implements OnInit {
         );
       }
     });
+  }
+  
+  get getCodeMoney() {
+    const moneda = this.tipoMonedas.find(i => i.codItem == this.credito.codMoneda);
+    return moneda.strValor || '';
   }
 }
