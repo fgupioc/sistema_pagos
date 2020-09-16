@@ -23,6 +23,7 @@ import {AcuerdoPago} from '../../../interfaces/acuerdo-pago';
 import {FUNC} from '../../../comun/FUNC';
 import {isNullOrUndefined} from 'util';
 import {TelefonoService} from '../../../servicios/telefono.service';
+import {EmailService} from '../../../servicios/email.service';
 
 @Component({
   selector: 'app-credito-socio',
@@ -34,6 +35,7 @@ export class CreditoSocioComponent implements OnInit {
   formPlanPago: FormGroup;
   formRegistrarAcuerdo: FormGroup;
   formTelefono: FormGroup;
+  formCorreo: FormGroup;
 
   credito: Credito;
   ejecutivoId: any;
@@ -60,7 +62,8 @@ export class CreditoSocioComponent implements OnInit {
   $fijo = 2;
   $movil = 1;
   create = true;
-  tiposUsoTelefono: TablaMaestra[];
+  tiposUsoTelefono: TablaMaestra[] = [];
+  tipoUsoEmail: TablaMaestra[] = [];
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -72,7 +75,8 @@ export class CreditoSocioComponent implements OnInit {
     private tipoNotificacionService: TipoNotificacionService,
     private formBuilder: FormBuilder,
     private tablaMaestraService: MaestroService,
-    private telefonoService: TelefonoService
+    private telefonoService: TelefonoService,
+    private emailService: EmailService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -105,6 +109,8 @@ export class CreditoSocioComponent implements OnInit {
     this.loadEstadosRecordatorios();
     this.loadTipoMonedas();
     this.loadTipoUsoTelefono();
+    this.loadTipoUsoEmail();
+
     if (this.credito) {
       this.formRecordatorio = this.formBuilder.group({
         asignacionId: [this.asignacionId],
@@ -154,6 +160,15 @@ export class CreditoSocioComponent implements OnInit {
         codUso: ['', [Validators.required]],
       });
 
+      this.formCorreo = this.formBuilder.group({
+        email: ['', [
+          Validators.required,
+          Validators.email
+        ]],
+        codTipoNotificacion: ['', [Validators.required]],
+        codUso: ['', [Validators.required]],
+      });
+
       setTimeout(() => this.spinner.show(), 200);
       this.buscarSocioById(this.credito.socioId);
       if (this.asignacionId && this.ejecutivoId) {
@@ -166,6 +181,12 @@ export class CreditoSocioComponent implements OnInit {
   loadEstadosRecordatorios() {
     this.tablaMaestraService.loadEstadosRecordatorios().subscribe(
       res => this.estadosRecordatorio = res
+    );
+  }
+
+  private loadTipoUsoEmail() {
+    this.tablaMaestraService.loadTipoUsoEmail().subscribe(
+      res => this.tipoUsoEmail = res
     );
   }
 
@@ -563,8 +584,12 @@ export class CreditoSocioComponent implements OnInit {
     return this.tipoNotificaciones.filter(v => [1, 2, 3, 4, 7].includes(v.codTipoNotificacion));
   }
 
+  get tipoNotificacionesEmails() {
+    return this.tipoNotificaciones.filter(v => [5, 6].includes(v.codTipoNotificacion));
+  }
+
   resetFormTelefono() {
-    if (this.typeEvent == 1 ) {
+    if (this.typeEvent == 1) {
       if (this.seccioSeleccionada == '1') {
         this.title = 'Gestión de telefónos';
       }
@@ -582,5 +607,51 @@ export class CreditoSocioComponent implements OnInit {
     this.formTelefono.controls.codTipoNotificacion.setValue('');
     this.formTelefono.controls.codUso.setValue('');
     this.create = true;
+  }
+
+  cambioSelectEmails() {
+    const select = this.formCorreo.controls.codTipoNotificacion.value;
+    if (isNullOrUndefined(select) || select == '') {
+      this.formCorreo.controls.email.setValue('');
+      this.create = true;
+    }
+  }
+
+  guardarEmail() {
+    if (this.formCorreo.invalid) {
+      Swal.fire('Correo', 'Debe ingresar los datos obligatorios', 'warning');
+      return;
+    }
+    const {codTipoNotificacion, email, codUso} = this.formCorreo.getRawValue();
+    const notity = this.tipoNotificaciones.find(v => v.codTipoNotificacion == codTipoNotificacion);
+    const correo = this.socio.correos.find(i => i.email == email && i.codTipoNotificacion == codTipoNotificacion);
+    if (correo) {
+      Swal.fire('Correo', 'El correo ya se encuentra registrado para el tipo de notificación seleccionada.', 'warning');
+      return;
+    }
+    const emailDto: Email = {
+      personaId: this.socio.id,
+      codTipoNotificacion,
+      email,
+      tipoNotificacion: notity.nombre,
+      tipo: codUso
+    };
+    this.spinner.show();
+    this.emailService.crear(emailDto).subscribe(
+      res => {
+        if (res && res.emailId) {
+          Swal.fire('Correo', 'Se registro el correo con éxito.', 'success');
+          this.buscarSocioById(this.credito.socioId);
+          this.formCorreo.reset();
+          this.formCorreo.controls.codTipoNotificacion.setValue('');
+          this.formCorreo.controls.email.setValue('');
+          this.formCorreo.controls.codUso.setValue('');
+        } else {
+          Swal.fire('Correo', 'No se pudo registrar el correo.', 'error');
+        }
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
   }
 }

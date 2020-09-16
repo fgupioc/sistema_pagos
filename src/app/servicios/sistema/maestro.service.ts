@@ -135,4 +135,8 @@ export class MaestroService {
 
     return of(data);
   }
+
+  loadTipoUsoEmail(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}listarTipoUsoEmail`);
+}
 }

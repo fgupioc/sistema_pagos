@@ -267,6 +267,57 @@
                       </div>
                     </div>
                   </ng-container>
+                  <ng-container *ngIf="seccioSeleccionada == '2'">
+                    <div class="row" [formGroup]="formCorreo">
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <select class="form-control" formControlName="codTipoNotificacion" (ngModelChange)="cambioSelectEmails()" [ngClass]="
+            {
+            'is-invalid': formCorreo.controls['codTipoNotificacion'].touched && formCorreo.controls['codTipoNotificacion'].errors
+            }
+            ">
+                            <option value="">Seleccione</option>
+                            <option *ngFor="let item of tipoNotificacionesEmails" [value]="item.codTipoNotificacion">{{ item.nombre }}</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            <span class="d-block" *ngIf="formCorreo.get('codTipoNotificacion').hasError('required')"> El tipo de notificacion es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <select class="form-control" formControlName="codUso" [ngClass]="
+                              {
+                              'is-invalid': formCorreo.controls['codUso'].touched && formCorreo.controls['codUso'].errors
+                              }
+                              ">
+                            <option value="">Tipo Uso</option>
+                            <option *ngFor="let item of tipoUsoEmail" [value]="item.codItem">{{ item.descripcion }}</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            <span class="d-block" *ngIf="formCorreo.get('codUso').hasError('required')"> El tipo de uso es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group mb-3">
+                          <input Uppercase type="email" class="form-control" placeholder="Correo electrónico" formControlName="email" [ngClass]="
+                          {
+                          'is-invalid': formCorreo.controls['email'].touched && formCorreo.controls['email'].errors
+                          }
+                          ">
+
+                          <div class="invalid-feedback">
+                            <span class="d-block" *ngIf="formCorreo.get('email').hasError('required')"> El corre electrónico es obligatorio.</span>
+                            <span class="d-block" *ngIf="formCorreo.get('email').hasError('email')">El correo electrónico no es válido.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 text-center">
+                        <button *ngIf="create" type="button" class="btn btn-success" (click)="guardarEmail()" [disabled]="formCorreo.invalid">Guardar</button>
+                      </div>
+                    </div>
+                  </ng-container>
                 </ng-container>
                 <ng-container *ngIf="typeEvent == 4" [formGroup]="formRecordatorio">
                   <div class="row">
