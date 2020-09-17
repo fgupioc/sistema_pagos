@@ -525,6 +525,7 @@ export class CreditoSocioComponent implements OnInit {
   tabSeleccionado(event: NgbTabChangeEvent) {
     this.seccioSeleccionada = event.nextId;
     this.resetFormTelefono();
+    this.formCorreo.reset();
   }
 
   cambioSelectTelefono() {
