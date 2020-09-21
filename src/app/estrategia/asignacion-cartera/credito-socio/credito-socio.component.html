@@ -152,10 +152,10 @@
                      </tr>
                      </thead>
                      <tbody>
-                     <tr class="text-center" *ngFor="let direccion of socio.direcciones; let i = index">
+                     <tr class="text-center" *ngFor="let direccion of socio.direcciones; let i = index" style="font-size: 12px">
                        <th scope="row">{{ i + 1 }}</th>
-                       <td>{{ direccion.nombreVia }}</td>
-                       <td>Domicilio</td>
+                       <td style="text-align: left">{{ mostrarDireccion(direccion)}}</td>
+                       <td>{{ getNameTipoDireccion(direccion.tipoDireccion) }}</td>
                      </tr>
                      </tbody>
                    </table>
@@ -322,6 +322,233 @@
                       <div class="col-12 text-center">
                         <button *ngIf="create" type="button" class="btn btn-success" (click)="guardarEmail()" [disabled]="formCorreo.invalid">Guardar</button>
                       </div>
+                    </div>
+                  </ng-container>
+                  <ng-container  *ngIf="seccioSeleccionada == '3'">
+                    <div class="row area-direccion" [formGroup]="formDireccion">
+                      <div class="col-12">
+                        <div class="form-group">
+                          <label>Tipo Dirección</label>
+                          <select class="form-control" formControlName="tipoDireccion" [ngClass]="{
+                            'is-invalid': formDireccion.controls['tipoDireccion'].touched && formDireccion.controls['tipoDireccion'].errors,
+                            'is-valid': formDireccion.controls['tipoDireccion'].touched && !formDireccion.controls['tipoDireccion'].errors
+                             }">
+                            <option *ngFor="let item of tipoDirecciones" [value]="item.codItem">{{ item.descripcion }}</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            <span *ngIf="formDireccion.get('tipoDireccion').hasError('required')">El campo tipo de dirección es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <label>Tipo Vivienda</label>
+                          <select class="form-control" formControlName="tipoVivienda" [ngClass]="{
+                            'is-invalid': formDireccion.controls['tipoVivienda'].touched && formDireccion.controls['tipoVivienda'].errors,
+                            'is-valid': formDireccion.controls['tipoVivienda'].touched && !formDireccion.controls['tipoVivienda'].errors
+                             }">
+                            <option *ngFor="let item of tipoViviendas" [value]="item.codItem">{{ item.descripcion }}</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            <span *ngIf="formDireccion.get('tipoVivienda').hasError('required')">El campo tipo vivienda es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <label>Tipo Vía</label>
+                          <select class="form-control" formControlName="tipoVia" [ngClass]="{
+                            'is-invalid': formDireccion.controls['tipoVia'].touched && formDireccion.controls['tipoVia'].errors,
+                            'is-valid': formDireccion.controls['tipoVia'].touched && !formDireccion.controls['tipoVia'].errors
+                             }">
+                            <option *ngFor="let item of tipoVias" [value]="item.codItem">{{ item.descripcion }}</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            <span *ngIf="formDireccion.get('tipoVia').hasError('required')">El campo tipo de via es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <label>Nombre Via</label>
+                          <input Uppercase type="text" class="form-control" formControlName="nombreVia" max="100" [ngClass]="{
+                            'is-invalid': formDireccion.controls['nombreVia'].touched && formDireccion.controls['nombreVia'].errors,
+                            'is-valid': formDireccion.controls['nombreVia'].touched && !formDireccion.controls['nombreVia'].errors
+                             }">
+                          <div class="invalid-feedback">
+                            <span *ngIf="formDireccion.get('nombreVia').hasError('required')">El campo nombre de la via es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>Nro.</label>
+                          <input Number type="text" class="form-control" formControlName="numero" maxlength="4" [ngClass]="{
+                            'is-invalid': formDireccion.controls['numero'].touched && formDireccion.controls['numero'].errors,
+                            'is-valid': formDireccion.controls['numero'].touched && !formDireccion.controls['numero'].errors
+                             }">
+                          <div class="invalid-feedback">
+                            <span *ngIf="formDireccion.get('numero').hasError('required')">El campo número es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <div class="form-group">
+                          <label>Mz.</label>
+                          <input Uppercase type="text" class="form-control" formControlName="manzana" maxlength="4" (change)="cambioManzana($event)" [ngClass]="{
+                            'is-invalid': formDireccion.controls['manzana'].touched && formDireccion.controls['manzana'].errors,
+                            'is-valid': formDireccion.controls['manzana'].touched && !formDireccion.controls['manzana'].errors
+                             }">
+                          <div class="invalid-feedback">
+                            <span *ngIf="formDireccion.get('manzana').hasError('required')">El campo manzána es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <div class="form-group">
+                          <label>Lt.</label>
+                          <input Number type="text" class="form-control" formControlName="lote" maxlength="4" [ngClass]="{
+                            'is-invalid': formDireccion.controls['lote'].touched && formDireccion.controls['lote'].errors,
+                            'is-valid': formDireccion.controls['lote'].touched && !formDireccion.controls['lote'].errors
+                             }">
+                          <div class="invalid-feedback">
+                            <span *ngIf="formDireccion.get('lote').hasError('required')">El campo lóte es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <label>Tipo Sección</label>
+                          <select class="form-control" formControlName="tipoSeccion" (change)="cambioTipoSeccion($event)" [ngClass]="{
+                            'is-invalid': formDireccion.controls['tipoSeccion'].touched && formDireccion.controls['tipoSeccion'].errors,
+                            'is-valid': formDireccion.controls['tipoSeccion'].touched && !formDireccion.controls['tipoSeccion'].errors
+                             }">
+                            <option [value]="0">&nbsp;</option>
+                            <option *ngFor="let item of tipoSecciones" [value]="item.codItem">{{ item.descripcion }}</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            <span *ngIf="formDireccion.get('tipoSeccion').hasError('required')">El campo tipo de sección es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <label>Número <span>{{ $sectionName }}</span></label>
+                          <input Number type="text" class="form-control" formControlName="numeroSeccion" maxlength="4" [ngClass]="{
+                            'is-invalid': formDireccion.controls['numeroSeccion'].touched && formDireccion.controls['numeroSeccion'].errors,
+                            'is-valid': formDireccion.controls['numeroSeccion'].touched && !formDireccion.controls['numeroSeccion'].errors
+                             }">
+                          <div class="invalid-feedback">
+                            <span *ngIf="formDireccion.get('numeroSeccion').hasError('required')">El campo número de sección es obligatorio.</span>
+                            <span *ngIf="formDireccion.get('numeroSeccion').hasError('pattern')">El campo solo acepta números.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <label>Tipo Zona</label>
+                          <select class="form-control" formControlName="tipoZona" (change)="cambioTipoZona($event)" [ngClass]="{
+                            'is-invalid': formDireccion.controls['tipoZona'].touched && formDireccion.controls['tipoZona'].errors,
+                            'is-valid': formDireccion.controls['tipoZona'].touched && !formDireccion.controls['tipoZona'].errors
+                             }">
+                            <option *ngFor="let item of tipoZonas" [value]="item.codItem">{{ item.descripcion }}</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            <span *ngIf="formDireccion.get('tipoZona').hasError('required')">El campo tipo de zona es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <label>Nombre <span>{{ $zoneName }}</span></label>
+                          <input Uppercase type="text" class="form-control" formControlName="nombreZona" max="100" [ngClass]="{
+                            'is-invalid': formDireccion.controls['nombreZona'].touched && formDireccion.controls['nombreZona'].errors,
+                            'is-valid': formDireccion.controls['nombreZona'].touched && !formDireccion.controls['nombreZona'].errors
+                             }">
+                          <div class="invalid-feedback">
+                            <span *ngIf="formDireccion.get('nombreZona').hasError('required')">El campo nombre de zona es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <label>Tipo Sector</label>
+                          <select class="form-control" formControlName="tipoSector" (change)="cambioTipoSector($event)" [ngClass]="{
+                            'is-invalid': formDireccion.controls['tipoSector'].touched && formDireccion.controls['tipoSector'].errors,
+                            'is-valid': formDireccion.controls['tipoSector'].touched && !formDireccion.controls['tipoSector'].errors
+                             }">
+                            <option [value]="0">&nbsp;</option>
+                            <option *ngFor="let item of tiposSectores" [value]="item.codItem">{{ item.descripcion }}</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            <span *ngIf="formDireccion.get('tipoSector').hasError('required')">El campo tipo de sector es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <label>Nombre <span>{{ $sectorName }}</span></label>
+                          <input Uppercase type="text" class="form-control" formControlName="nombreSector" max="100" [ngClass]="{
+                            'is-invalid': formDireccion.controls['nombreSector'].touched && formDireccion.controls['nombreSector'].errors,
+                            'is-valid': formDireccion.controls['nombreSector'].touched && !formDireccion.controls['nombreSector'].errors
+                             }">
+                          <div class="invalid-feedback">
+                            <span *ngIf="formDireccion.get('nombreSector').hasError('required')">El campo nombre de sector es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <label>Departamento</label>
+                          <select class="form-control" formControlName="departamento" (change)="listarProvincias()" [ngClass]="{
+                            'is-invalid': formDireccion.controls['departamento'].touched && formDireccion.controls['departamento'].errors,
+                            'is-valid': formDireccion.controls['departamento'].touched && !formDireccion.controls['departamento'].errors
+                             }">
+                            <option *ngFor="let item of departamentos"
+                                    [value]="item.codDepartamento">{{ item.descripcion.toUpperCase() }}</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            <span *ngIf="formDireccion.get('departamento').hasError('required')">El campo departamento es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <label>Provincia</label>
+                          <select class="form-control" formControlName="provincia" (change)="listarDistritos()" [ngClass]="{
+                            'is-invalid': formDireccion.controls['provincia'].touched && formDireccion.controls['provincia'].errors,
+                            'is-valid': formDireccion.controls['provincia'].touched && !formDireccion.controls['provincia'].errors
+                             }">
+                            <option *ngFor="let item of provincias"
+                                    [value]="item.codProvincia">{{ item.descripcion.toUpperCase() }}</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            <span *ngIf="formDireccion.get('provincia').hasError('required')">El campo provincia es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <label>Distrito</label>
+                          <select class="form-control" formControlName="distrito" [ngClass]="{
+                            'is-invalid': formDireccion.controls['distrito'].touched && formDireccion.controls['distrito'].errors,
+                            'is-valid': formDireccion.controls['distrito'].touched && !formDireccion.controls['distrito'].errors
+                             }">
+                            <option *ngFor="let item of distritos"
+                                    [value]="item.codDistrito">{{ item.descripcion.toUpperCase() }}</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            <span *ngIf="formDireccion.get('distrito').hasError('required')">El campo distrito es obligatorio.</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                     <div class="col-12 text-center">
+                       <div class="form-group m-0 mt-2">
+                         <button class="btn btn-sm btn-primary" [disabled]="formDireccion.invalid" (click)="guardarDireccion()"> guardar</button>
+                       </div>
+                     </div>
                     </div>
                   </ng-container>
                 </ng-container>

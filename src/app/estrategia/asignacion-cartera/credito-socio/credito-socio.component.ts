@@ -24,6 +24,9 @@ import {FUNC} from '../../../comun/FUNC';
 import {isNullOrUndefined} from 'util';
 import {TelefonoService} from '../../../servicios/telefono.service';
 import {EmailService} from '../../../servicios/email.service';
+import {Ubigeo} from '../../../interfaces/ubigeo';
+import {UbigeoService} from '../../../servicios/sistema/ubigeo.service';
+import {DireccionService} from '../../../servicios/direccion.service';
 
 @Component({
   selector: 'app-credito-socio',
@@ -36,6 +39,7 @@ export class CreditoSocioComponent implements OnInit {
   formRegistrarAcuerdo: FormGroup;
   formTelefono: FormGroup;
   formCorreo: FormGroup;
+  formDireccion: FormGroup;
 
   credito: Credito;
   ejecutivoId: any;
@@ -65,6 +69,21 @@ export class CreditoSocioComponent implements OnInit {
   tiposUsoTelefono: TablaMaestra[] = [];
   tipoUsoEmail: TablaMaestra[] = [];
 
+  tipoViviendas: TablaMaestra[] = [];
+  tipoVias: TablaMaestra[] = [];
+  tipoSecciones: TablaMaestra[] = [];
+  tipoZonas: TablaMaestra[] = [];
+  tiposSectores: TablaMaestra[] = [];
+  tipoDirecciones: TablaMaestra[] = [];
+
+  departamentos: Ubigeo[] = [];
+  provincias: Ubigeo[] = [];
+  distritos: Ubigeo[] = [];
+
+  $sectionName = 'Sección';
+  $zoneName = 'Zona';
+  $sectorName = 'Sector';
+
   constructor(
     private spinner: NgxSpinnerService,
     private asignacionCarteraService: AsignacionCarteraService,
@@ -76,7 +95,9 @@ export class CreditoSocioComponent implements OnInit {
     private formBuilder: FormBuilder,
     private tablaMaestraService: MaestroService,
     private telefonoService: TelefonoService,
-    private emailService: EmailService
+    private emailService: EmailService,
+    private ubigeoService: UbigeoService,
+    private direccionService: DireccionService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -103,6 +124,13 @@ export class CreditoSocioComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.listarTipoDirecciones();
+    this.listarTipoviviendas();
+    this.listarTipoVias();
+    this.listarTipoSecciones();
+    this.listarTipoZonas();
+    this.listarTipoSectores();
+    this.listarDepartamentos();
     this.listarTipoActividades();
     this.loadTipoNotificaciones();
     this.loadlistaAcuerdos();
@@ -175,6 +203,24 @@ export class CreditoSocioComponent implements OnInit {
         this.loadRecordatorios(this.asignacionId, this.ejecutivoId, this.credito.socioId, this.credito.id);
         this.loadAcuerdosPagos(this.asignacionId, this.ejecutivoId, this.credito.socioId, this.credito.id);
       }
+      this.formDireccion = this.formBuilder.group({
+        tipoDireccion: ['', Validators.required],
+        tipoVivienda: ['', Validators.required],
+        tipoVia: ['', Validators.required],
+        nombreVia: ['', Validators.required],
+        numero: [''],
+        manzana: [''],
+        lote: [''],
+        tipoSeccion: [''],
+        numeroSeccion: [''],
+        tipoZona: ['', Validators.required],
+        nombreZona: ['', Validators.required],
+        tipoSector: [''],
+        nombreSector: [''],
+        departamento: ['', Validators.required],
+        provincia: ['', Validators.required],
+        distrito: ['', Validators.required],
+      });
     }
   }
 
@@ -654,5 +700,230 @@ export class CreditoSocioComponent implements OnInit {
       },
       () => this.spinner.hide()
     );
+  }
+
+  cambioManzana(event: any) {
+    const value = event.target.value;
+    if (value.length > 0) {
+      this.formDireccion.controls.lote.setValidators(
+        Validators.compose([
+          Validators.required
+        ]),
+      );
+      this.formDireccion.controls.lote.updateValueAndValidity();
+    } else {
+      this.formDireccion.controls.lote.clearValidators();
+      this.formDireccion.controls.lote.updateValueAndValidity();
+      this.formDireccion.controls.lote.setValue('');
+    }
+  }
+
+  cambioTipoSeccion(event: any) {
+    const value = event.target.value;
+    if (Number(value) !== 0) {
+      this.formDireccion.controls.numeroSeccion.setValidators(
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(CONST.C_STR_EXP_REGULAR_NUMERO)
+        ]),
+      );
+      this.formDireccion.controls.numeroSeccion.updateValueAndValidity();
+      const item = this.tipoSecciones.find(v => v.codItem == value);
+      this.$sectionName = item ? item.descripcion : 'Sección';
+    } else {
+      this.formDireccion.controls.numeroSeccion.clearValidators();
+      this.formDireccion.controls.numeroSeccion.updateValueAndValidity();
+      this.formDireccion.controls.numeroSeccion.setValue('');
+      this.$sectionName = 'Sección';
+    }
+  }
+
+  cambioTipoZona(event: any) {
+    const value = event.target.value;
+    if (Number(value) !== 0) {
+      const item = this.tipoZonas.find(v => v.codItem == value);
+      this.$zoneName = item ? item.descripcion : 'Zona';
+    } else {
+      this.$zoneName = 'Zona';
+    }
+  }
+
+  cambioTipoSector(event: any) {
+    const value = event.target.value;
+    if (Number(value) !== 0) {
+      this.formDireccion.controls.nombreSector.setValidators(
+        Validators.compose([
+          Validators.required
+        ]),
+      );
+      this.formDireccion.controls.nombreSector.updateValueAndValidity();
+      const item = this.tiposSectores.find(v => v.codItem == value);
+      this.$sectorName = item ? item.descripcion : 'Sector';
+    } else {
+      this.formDireccion.controls.nombreSector.clearValidators();
+      this.formDireccion.controls.nombreSector.updateValueAndValidity();
+      this.formDireccion.controls.nombreSector.setValue('');
+      this.$sectorName = 'Sector';
+    }
+  }
+
+
+  listarDepartamentos() {
+    this.ubigeoService.listarDepartamentos().subscribe(
+      response => {
+        this.departamentos = response;
+      },
+      error => console.log(error)
+    );
+  }
+
+  listarProvincias() {
+    this.provincias = [];
+    this.distritos = [];
+    this.formDireccion.controls.provincia.setValue(null);
+    this.formDireccion.controls.distrito.setValue(null);
+
+    const codDepartamento = this.formDireccion.controls.departamento.value;
+    if (codDepartamento) {
+      this.ubigeoService.listarProvincias(codDepartamento).subscribe(
+        response => {
+          this.provincias = response;
+        },
+        error => console.log(error)
+      );
+    }
+  }
+
+  listarDistritos() {
+    this.distritos = [];
+    this.formDireccion.controls.distrito.setValue(null);
+    const codDepartamento = this.formDireccion.controls.departamento.value;
+    const codProvincia = this.formDireccion.controls.provincia.value;
+    if (codDepartamento && codProvincia) {
+      this.ubigeoService.listarDistritos(codDepartamento, codProvincia).subscribe(
+        response => {
+          this.distritos = response;
+        },
+        error => console.log(error)
+      );
+    }
+  }
+
+  listarTipoDirecciones() {
+    this.tablaMaestraService.listarTipoDirecciones().subscribe(
+      response => {
+        this.tipoDirecciones = response;
+      },
+      error => console.log(error)
+    );
+  }
+
+  listarTipoviviendas() {
+    this.tablaMaestraService.listarTipoViviendas().subscribe(
+      response => {
+        this.tipoViviendas = response;
+      },
+      error => console.log(error)
+    );
+  }
+
+  listarTipoVias() {
+    this.tablaMaestraService.listarTipoVias().subscribe(
+      response => {
+        this.tipoVias = response;
+      },
+      error => console.log(error)
+    );
+  }
+
+  listarTipoSecciones() {
+    this.tablaMaestraService.listarTipoSecciones().subscribe(
+      response => {
+        this.tipoSecciones = response;
+      },
+      error => console.log(error)
+    );
+  }
+
+  listarTipoZonas() {
+    this.tablaMaestraService.listarTipoZonas().subscribe(
+      response => {
+        this.tipoZonas = response;
+      },
+      error => console.log(error)
+    );
+  }
+
+  listarTipoSectores() {
+    this.tablaMaestraService.listarTipoSectores().subscribe(
+      response => {
+        this.tiposSectores = response;
+      },
+      error => console.log(error)
+    );
+  }
+
+  guardarDireccion() {
+    if (this.formDireccion.invalid) {
+      Swal.fire('Direccion', 'Debe ingresar los datos obligatorios.', 'warning');
+      return;
+    }
+    this.spinner.show();
+    const {departamento, distrito, provincia, ...address} = this.formDireccion.getRawValue();
+    address.personaId = this.socio.id;
+    address.ubigeo = `${departamento}${distrito}${provincia}`;
+    console.log(address);
+    this.$sectionName = 'Sección';
+    this.$zoneName = 'Zona';
+    this.$sectorName = 'Sector';
+    this.formDireccion.reset();
+    this.direccionService.guardar(address).subscribe(
+      res => {
+        if (res.exito) {
+          this.buscarSocioById(this.credito.socioId);
+        } else {
+          Swal.fire('Dirección', res.mensaje, 'error');
+          this.spinner.hide();
+        }
+      },
+      err => {
+        Swal.fire('Dirección', err.mensaje, 'error');
+        this.spinner.hide();
+      }
+    );
+  }
+
+  getNameTipoDireccion(tipoDireccion: string) {
+    const item = this.tipoDirecciones.find(i => i.codItem == tipoDireccion);
+    return item ? item.descripcion : '';
+  }
+
+  mostrarDireccion(dir: Direccion): string {
+    let address = '';
+    if (dir.tipoVia) {
+      address = this.getNombreTipoVia(dir.tipoVia);
+    }
+
+    if (dir.nombreVia) {
+      address += address != '' ? ' ' + dir.nombreVia : dir.nombreVia;
+    }
+
+    if (dir.numero) {
+      address += address != '' ? ' NRO ' + dir.numero : 'NRO ' + dir.numero;
+    }
+
+    if (dir.manzana) {
+      address += address != '' ? ' MZA ' + dir.manzana : 'MZA ' + dir.manzana;
+    }
+
+    if (dir.lote) {
+      address += address != '' ? ' LOTE ' + dir.lote : 'LOTE ' + dir.lote;
+    }
+    return address;
+  }
+
+  private getNombreTipoVia(tipoVia: string) {
+    const item = this.tipoVias.find(i => i.codItem == tipoVia);
+    return item ? item.descripcion : '';
   }
 }

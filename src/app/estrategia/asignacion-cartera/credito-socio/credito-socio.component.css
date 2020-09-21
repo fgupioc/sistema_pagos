@@ -26,3 +26,12 @@
 #tabla-acuerdos tbody tr td {
   padding: 0 0.75rem;
 }
+
+.area-direccion {
+  height: 390px;
+  overflow-y: auto;
+}
+
+.area-direccion .col-12, .area-direccion .col-md-12, .area-direccion .col-md-6, .area-direccion .col-md-4 ,.area-direccion .col-md-2 {
+  padding: 0 2px;
+}
