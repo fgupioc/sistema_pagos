@@ -33,6 +33,7 @@ import {AsignarEtapasEjecutivoComponent} from './estrategia/asignacion-cartera/a
 import {EjecutivoCreditosComponent} from './estrategia/asignacion-cartera/ejecutivo-creditos/ejecutivo-creditos.component';
 import {CreditoSocioComponent} from './estrategia/asignacion-cartera/credito-socio/credito-socio.component';
 import {EjecutivoAsignacionesComponent} from './estrategia/asignacion-cartera/ejecutivo-asignaciones/ejecutivo-asignaciones.component';
+import {MisCarterasAsignadasComponent} from './estrategia/asignacion-cartera/mis-carteras-asignadas/mis-carteras-asignadas.component';
 
 
 const A = Autorizacion;
@@ -113,7 +114,8 @@ const routes: Routes = [
             {path: 'asignacion-cartera/:ejecutivoId/configuracion', component: AsignarEtapasEjecutivoComponent},
             {path: 'asignacion-cartera/:ejecutivoId/listado', component: EjecutivoAsignacionesComponent},
             {path: 'asignacion-cartera/:ejecutivoId/listado/:asignacionId/detalle', component: EjecutivoCreditosComponent},
-            {path: 'asignacion-cartera/:ejecutivoId/listado/:asignacionId/detalle/socio', component: CreditoSocioComponent}
+            {path: 'asignacion-cartera/:ejecutivoId/listado/:asignacionId/detalle/socio', component: CreditoSocioComponent},
+            {path: 'asignacion-cartera/mis-cartera-asignadas', component: EjecutivoAsignacionesComponent, data: {role: 'X'}},
           ]
         },
         {

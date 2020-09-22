@@ -9,7 +9,7 @@ import {DashboardComponent} from '../dashboard/dashboard.component';
 import {MantenimientoModule} from '../mantenimiento/mantenimiento.module';
 
 @NgModule({
-  declarations: [AuthComponent, DashboardComponent,],
+  declarations: [AuthComponent, DashboardComponent],
   imports: [
     CommonModule,
     AppHeaderModule,

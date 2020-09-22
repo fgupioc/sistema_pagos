@@ -2,7 +2,7 @@
   <div class="card-header">
     <i class="fa fa-align-justify"></i>
     <span class="card-title text-uppercase font-weight-bold">Carteras Asignadas</span>
-    <div class="card-tools float-right">
+    <div class="card-tools float-right" *ngIf="!role">
       <button type="button" class="btn btn-sm btn-primary" routerLink="/auth/estrategia/asignacion-cartera">
         <i class="fa fa-arrow-left"></i> Regresar
       </button>
@@ -12,7 +12,7 @@
     <div class="row">
       <div class="col-12">
         <div class="table-responsive">
-          <table class="table table-bordered table-hover" *ngIf="asignaciones.length > 0">
+          <table class="table table-bordered table-hover">
             <thead>
             <tr class="text-center">
               <th scope="col">#</th>
@@ -34,7 +34,9 @@
                 <button class="btn btn-sm btn-primary mr-2" [routerLink]="'/auth/estrategia/asignacion-cartera/' + item.codEjecutivo + '/listado/' + item.id + '/detalle'"><i class="fa fa-eye"></i></button>
               </td>
             </tr>
-
+            <tr class="text-center" *ngIf="asignaciones.length == 0">
+              <th scope="row" colspan="6"><small>No tiene carteras asignadas</small></th>
+            </tr>
             </tbody>
           </table>
         </div>
