@@ -84,7 +84,7 @@ export class UsuarioCrearComponent implements OnInit {
         asyncValidators: [this.usuarioUnicoService.validate.bind(this.usuarioUnicoService, 0)],
         updateOn: 'blur'
       }],
-      encuentraTodos: ['', [Validators.required]],
+      fechaInicio: ['', [Validators.required]],
       fechaFinal: ['', [Validators.required]],
       rolId: [''],
       rolElegidoId: ['', [Validators.required]],
@@ -94,7 +94,7 @@ export class UsuarioCrearComponent implements OnInit {
         Validators.pattern(CONST.REG_EXP_CONTRASENHA)]],
       confirmarContrasenha: ['', [Validators.required]],
     });
-    this.formGroup.get('encuentraTodos').setValue(this.datePipe.transform(new Date(), 'yyyy-MM-dd'));
+    this.formGroup.get('fechaInicio').setValue(this.datePipe.transform(new Date(), 'yyyy-MM-dd'));
     this.listarRolesActivos();
     this.listarEstadosDeRegistro();
     this.listarTipoDocumentos();
@@ -520,7 +520,7 @@ export class UsuarioCrearComponent implements OnInit {
         email: this.formGroup.get('email').value,
         contrasenia: this.formGroup.get('contrasenha').value,
         numeroCelular: this.formGroup.get('numeroCelular').value,
-        encuentraTodos: this.formGroup.get('encuentraTodos').value,
+        fechaInicio: this.formGroup.get('fechaInicio').value,
         fechaFinal: this.formGroup.get('fechaFinal').value,
         inicioCierre: this.formGroup.get('inicioCierre').value,
         codEstado: this.formGroup.get('codEstado').value,
