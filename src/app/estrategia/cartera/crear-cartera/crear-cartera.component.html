@@ -166,6 +166,7 @@
         <ng-template ngbPanelContent >
           <div class="row" [formGroup]="formAdicional">
             <div class="col-12 col-md-6">
+              <label>Grupos:</label>
               <div class="form-group">
                 <select formControlName="listaCampos" class="form-control" (change)="seleccionarTipo($event)">
                   <option value="">Seleccione</option>
@@ -176,6 +177,7 @@
               </div>
             </div>
             <div class="col-12 col-md-6" *ngIf="itemsSelected.length > 0">
+              <label>Lista de Elementos:</label>
               <div class="form-group">
                 <ng-select
                   [items]="itemsSelected"
@@ -192,11 +194,13 @@
             <div class="col-12 col-md-6" *ngIf="number">
               <div class="row">
                 <div class="col-12 col-md-6">
+                  <label>Desde:</label>
                   <div class="form-group">
                     <input CustomizeCurrency type="text" class="form-control" placeholder="00000" formControlName="valorInicial">
                   </div>
                 </div>
                 <div class="col-12 col-md-6">
+                  <label>Hasta:</label>
                   <div class="form-group">
                     <input CustomizeCurrency type="text" class="form-control" placeholder="00000" formControlName="valorFinal">
                   </div>
