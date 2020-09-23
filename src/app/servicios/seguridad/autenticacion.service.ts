@@ -8,13 +8,14 @@ import {ConfigService} from './config.service';
 import {TokenInterceptor} from './token.interceptor';
 import {UsuarioService} from '../sistema/usuario.service';
 import {Usuario} from '../../interfaces/Usuario';
+import {environment} from '../../../environments/environment';
 
 const accessTokenKey = 'access_token';
 const refreshTokenKey = 'refresh_token';
 
 @Injectable({providedIn: 'root'})
 export class AutenticacionService {
-
+  apiUrlUsuario: any;
   private jwtHelper: JwtHelperService;
   private accessTokenSubject: BehaviorSubject<string>;
   accessToken$: Observable<string>;
@@ -30,7 +31,7 @@ export class AutenticacionService {
     private router: Router,
     private userService: UsuarioService,
   ) {
-
+    this.apiUrlUsuario = `${environment.serverUrl}usuario/`;
     this.jwtHelper = new JwtHelperService();
     TokenInterceptor.init(this);
     this.initAccessTokenPipe();
@@ -213,4 +214,7 @@ export class AutenticacionService {
     return [];
   }
 
+  misNotificacione(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrlUsuario}mis-notificaciones`);
+  }
 }

@@ -7,6 +7,17 @@
   [asideMenuToggler]=false
   [mobileAsideMenuToggler]="false">
   <ul class="nav navbar-nav ml-auto">
+    <li class="nav-item dropdown" dropdown placement="bottom right" *ngIf="notifications.length > 0">
+      <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">
+        <i class="icon-bell" style="font-size: 20px"></i><span class="badge badge-pill badge-danger">{{ notifications.length }}</span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown" style="width: 250px;">
+        <div class="dropdown-header text-center"><strong>Tienes {{ notifications.length }} notificaciones</strong></div>
+        <a class="dropdown-item" href="#" *ngFor="let noty of notifications">
+          <i class="icon-user-follow text-success"></i> {{ noty.mensaje }} </a>
+
+      </div>
+    </li>
     <li class="nav-item dropdown" dropdown placement="bottom right">
       <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
          dropdownToggle (click)="false">
@@ -23,8 +34,8 @@
   </ul>
 </app-header>
 <div class="app-body">
-  <app-sidebar [fixed]="true" [display]="'lg'" >
-    <app-sidebar-nav  [navItems]="navItems" [perfectScrollbar] [disabled]="sidebarMinimized" [appSidebarToggler]="true"></app-sidebar-nav>
+  <app-sidebar [fixed]="true" [display]="'lg'">
+    <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="sidebarMinimized" [appSidebarToggler]="true"></app-sidebar-nav>
     <app-sidebar-minimizer></app-sidebar-minimizer>
   </app-sidebar>
   <!-- Main content -->

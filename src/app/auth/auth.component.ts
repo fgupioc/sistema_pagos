@@ -3,6 +3,13 @@ import {DOCUMENT} from '@angular/common';
 import {MenuService} from '../servicios/sistema/menu.service';
 import {AutenticacionService} from '../servicios/seguridad/autenticacion.service';
 
+export interface MyNotification {
+  hora: string;
+  mensaje: string;
+  socio: string;
+  tipo: string;
+}
+
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
@@ -12,6 +19,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   username: any;
   sidebarMinimized: any;
   navItems = [];
+  notifications: MyNotification[] = [];
 
   private changes: MutationObserver;
   public element: HTMLElement;
@@ -39,6 +47,7 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.encuentraTodossNavItemPorUsuario();
+    this.misNotificaciones();
   }
 
   encuentraTodossNavItemPorUsuario() {
@@ -47,5 +56,9 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   logout() {
     this.authService.logout('Session completed');
+  }
+
+  private misNotificaciones() {
+    this.authService.misNotificacione().subscribe(res => this.notifications = res);
   }
 }
