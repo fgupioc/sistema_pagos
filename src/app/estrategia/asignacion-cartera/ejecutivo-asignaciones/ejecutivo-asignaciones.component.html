@@ -31,7 +31,8 @@
               <td> {{ item.startDate | date: 'dd/MM/yyyy'}}</td>
               <td> {{ item.endDate | date: 'dd/MM/yyyy'}}</td>
               <td>
-                <button class="btn btn-sm btn-primary mr-2" [routerLink]="'/auth/estrategia/asignacion-cartera/' + item.codEjecutivo + '/listado/' + item.id + '/detalle'"><i class="fa fa-eye"></i></button>
+                <button *ngIf="!role" class="btn btn-sm btn-primary mr-2" [routerLink]="'/auth/estrategia/asignacion-cartera/' + item.codEjecutivo + '/listado/' + item.id + '/detalle'"><i class="fa fa-eye"></i></button>
+                <button *ngIf="role" class="btn btn-sm btn-primary mr-2" [routerLink]="'/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/' + item.id + '/detalle'"><i class="fa fa-eye"></i></button>
               </td>
             </tr>
             <tr class="text-center" *ngIf="asignaciones.length == 0">

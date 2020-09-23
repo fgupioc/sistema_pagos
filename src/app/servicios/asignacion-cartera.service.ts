@@ -195,4 +195,8 @@ export class AsignacionCarteraService {
   eliminarAcuerdoPorAsignacionYCredito(acuerdoPagoId: any): Observable<Respuesta> {
     return this.http.delete<Respuesta>(`${urlBase}/eliminarAcuerdoPorAsignacionYCredito`, {params: new HttpParams().set('acuerdoPagoId', acuerdoPagoId)});
   }
+
+  buscarCreditoPorId(creditoId): Observable<Respuesta> {
+    return this.http.post<Respuesta>(`${urlBase}/buscarCreditoPorId`, {},{params: new HttpParams().set('creditoId', creditoId)});
+  }
 }

@@ -3,25 +3,16 @@
     <i class="fa fa-align-justify"></i>
     <span class="card-title text-uppercase font-weight-bold">Información del socio</span>
     <div class="card-tools float-right">
-      <button type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/' + ejecutivoId + '/listado/' + asignacionId+'/detalle'">
+      <button *ngIf="!role" type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/' + ejecutivoId + '/listado/' + asignacionId+'/detalle'">
+        <i class="fa fa-arrow-left"></i> Regresar
+      </button>
+      <button *ngIf="role" type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/'+asignacionId+'/detalle'">
         <i class="fa fa-arrow-left"></i> Regresar
       </button>
     </div>
   </div>
   <div class="card-body" *ngIf="socio">
     <div class="row" *ngIf="socio.personaNatural">
-      <div class="col-12 col-md-3">
-        <div class="form-group">
-          <label>Primer Nombre</label>
-          <input type="text" class="form-control" disabled [value]="socio.personaNatural.primerNombre">
-        </div>
-      </div>
-      <div class="col-12 col-md-3">
-        <div class="form-group">
-          <label>Segundo Nombre</label>
-          <input type="text" class="form-control" disabled [value]="socio.personaNatural.segundoNombre">
-        </div>
-      </div>
       <div class="col-12 col-md-3">
         <div class="form-group">
           <label>Primer Apellido</label>
@@ -32,6 +23,18 @@
         <div class="form-group">
           <label>Segundo Apellido</label>
           <input type="text" class="form-control" disabled [value]="socio.personaNatural.segundoApellido">
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <label>Primer Nombre</label>
+          <input type="text" class="form-control" disabled [value]="socio.personaNatural.primerNombre">
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <label>Segundo Nombre</label>
+          <input type="text" class="form-control" disabled [value]="socio.personaNatural.segundoNombre">
         </div>
       </div>
     </div>

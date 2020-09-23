@@ -13,9 +13,22 @@
       </a>
       <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown" style="width: 250px;">
         <div class="dropdown-header text-center"><strong>Tienes {{ notifications.length }} notificaciones</strong></div>
-        <a class="dropdown-item" href="#" *ngFor="let noty of notifications">
-          <i class="icon-user-follow text-success"></i> {{ noty.mensaje }} </a>
-
+        <div class="container-noty">
+          <ng-container *ngFor="let noty of notifications">
+            <ng-container *ngIf="noty.estado == 'N'">
+              <a class="dropdown-item" href="javascript:;" (click)="irNotification(noty)" style="padding: 10px">
+                <div class="message">
+                  <div class="d-flex justify-content-between">
+                    <small class="text-muted text-truncate" style="width: 190px">{{ noty.socio }}</small>
+                    <small class="text-muted float-right">{{ getFormart(noty.hora) }}</small>
+                  </div>
+                  <div class="text-truncate font-weight-bold">{{ getTipo(noty.tipo) }}</div>
+                  <div class="small text-muted text-truncate">{{ noty.mensaje }}</div>
+                </div>
+              </a>
+            </ng-container>
+          </ng-container>
+        </div>
       </div>
     </li>
     <li class="nav-item dropdown" dropdown placement="bottom right">

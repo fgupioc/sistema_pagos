@@ -114,8 +114,12 @@ const routes: Routes = [
             {path: 'asignacion-cartera/:ejecutivoId/configuracion', component: AsignarEtapasEjecutivoComponent},
             {path: 'asignacion-cartera/:ejecutivoId/listado', component: EjecutivoAsignacionesComponent},
             {path: 'asignacion-cartera/:ejecutivoId/listado/:asignacionId/detalle', component: EjecutivoCreditosComponent},
-            {path: 'asignacion-cartera/:ejecutivoId/listado/:asignacionId/detalle/socio', component: CreditoSocioComponent},
+            {path: 'asignacion-cartera/:ejecutivoId/listado/:asignacionId/detalle/:creditoId/socio', component: CreditoSocioComponent},
+
+            // ejecutovo
             {path: 'asignacion-cartera/mis-cartera-asignadas', component: EjecutivoAsignacionesComponent, data: {role: 'X'}},
+            {path: 'asignacion-cartera/mis-cartera-asignadas/:asignacionId/detalle', component: EjecutivoCreditosComponent, data: {role: 'X'}},
+            {path: 'asignacion-cartera/mis-cartera-asignadas/:asignacionId/detalle/:creditoId/socio', component: CreditoSocioComponent, data: {role: 'X'}},
           ]
         },
         {

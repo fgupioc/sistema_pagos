@@ -27,6 +27,7 @@ import {EmailService} from '../../../servicios/email.service';
 import {Ubigeo} from '../../../interfaces/ubigeo';
 import {UbigeoService} from '../../../servicios/sistema/ubigeo.service';
 import {DireccionService} from '../../../servicios/direccion.service';
+import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
 
 @Component({
   selector: 'app-credito-socio',
@@ -42,6 +43,7 @@ export class CreditoSocioComponent implements OnInit {
   formDireccion: FormGroup;
 
   credito: Credito;
+  creditoId: any;
   ejecutivoId: any;
   asignacionId: any;
   socio: Persona;
@@ -83,8 +85,10 @@ export class CreditoSocioComponent implements OnInit {
   $sectionName = 'Sección';
   $zoneName = 'Zona';
   $sectorName = 'Sector';
+  role: string;
 
   constructor(
+    private auth: AutenticacionService,
     private spinner: NgxSpinnerService,
     private asignacionCarteraService: AsignacionCarteraService,
     private activatedRoute: ActivatedRoute,
@@ -102,25 +106,56 @@ export class CreditoSocioComponent implements OnInit {
     config.backdrop = 'static';
     config.keyboard = false;
 
-    activatedRoute.params.subscribe(({ejecutivoId, asignacionId}) => {
-      if (asignacionId == undefined || ejecutivoId == undefined || asignacionId == 'undefined' || ejecutivoId == 'undefined') {
-        this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
-      }
-
-      if (ejecutivoId && asignacionId) {
-        this.ejecutivoId = ejecutivoId;
-        this.asignacionId = asignacionId;
-        const state = this.router.getCurrentNavigation().extras.state;
-        if (state) {
-          this.credito = state.credito;
-        } else {
-          router.navigateByUrl(`/auth/estrategia/asignacion-cartera/${ejecutivoId}/listado/${asignacionId}/detalle`);
+    const {role} = activatedRoute.snapshot.data;
+    if (role) {
+      this.role = role;
+      activatedRoute.params.subscribe(({asignacionId, creditoId}) => {
+        if (asignacionId == undefined || asignacionId == 'undefined') {
+          this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
         }
-      } else {
-        router.navigateByUrl('/auth/estrategia/asignacion-cartera');
-      }
+        if (asignacionId) {
+          this.ejecutivoId = auth.loggedUser.id;
+          this.asignacionId = asignacionId;
+          const state = this.router.getCurrentNavigation().extras.state;
+          this.creditoId = creditoId;
+          if (this.creditoId) {
+            if (state) {
+              this.credito = state.credito;
+            } else {
+              this.cargarCredito();
+            }
+          } else {
+            router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${this.creditoId}/detalle`);
+          }
+        } else {
+          router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
+        }
+      });
+    } else {
+      activatedRoute.params.subscribe(({ejecutivoId, asignacionId, creditoId}) => {
+        if (asignacionId == undefined || ejecutivoId == undefined || asignacionId == 'undefined' || ejecutivoId == 'undefined') {
+          this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
+        }
 
-    });
+        if (ejecutivoId && asignacionId) {
+          this.ejecutivoId = ejecutivoId;
+          this.asignacionId = asignacionId;
+          const state = this.router.getCurrentNavigation().extras.state;
+          this.creditoId = creditoId;
+          if (this.creditoId) {
+            if (state) {
+              this.credito = state.credito;
+            } else {
+              this.cargarCredito();
+            }
+          } else {
+            router.navigateByUrl(`/auth/estrategia/asignacion-cartera/${ejecutivoId}/listado/${asignacionId}/detalle`);
+          }
+        } else {
+          router.navigateByUrl('/auth/estrategia/asignacion-cartera');
+        }
+      });
+    }
   }
 
   ngOnInit() {
@@ -140,87 +175,7 @@ export class CreditoSocioComponent implements OnInit {
     this.loadTipoUsoEmail();
 
     if (this.credito) {
-      this.formRecordatorio = this.formBuilder.group({
-        asignacionId: [this.asignacionId],
-        ejecutivoId: [this.ejecutivoId],
-        socioId: [this.credito.socioId],
-        creditoId: [this.credito.id],
-        fecha: [this.dateDefault, [Validators.required]],
-        hora: ['', [Validators.required]],
-        tipoActividad: ['', [Validators.required]],
-        numeroTelefono: [''],
-        correo: [''],
-        tipoMetodo: [''],
-        direccion: [''],
-        comentario: [''],
-      });
-
-      this.formRegistrarAcuerdo = this.formBuilder.group({
-        asignacionId: [this.asignacionId],
-        ejecutivoId: [this.ejecutivoId],
-        socioId: [this.credito.socioId],
-        creditoId: [this.credito.id],
-        montoAcordado: ['', [Validators.required]],
-        posibilidadPago: ['', [Validators.required]],
-        fechaInicio: [this.dateDefault, [Validators.required]],
-        horaIncio: ['', [Validators.required]],
-      });
-
-      this.formPlanPago = this.formBuilder.group({
-        asignacionId: [this.asignacionId],
-        ejecutivoId: [this.ejecutivoId],
-        socioId: [this.credito.socioId],
-        creditoId: [this.credito.id],
-        descripcion: ['', [Validators.required]],
-        plazo: [null, [Validators.required]],
-        montoAcordado: [null, [Validators.required]],
-        intervalo: [null, [Validators.required]],
-        fechaInicio: [this.dateDefault, [Validators.required]],
-        posibilidadPago: ['', [Validators.required]],
-      });
-
-      this.formTelefono = this.formBuilder.group({
-        tipo: [this.$movil, Validators.required],
-        operador: ['', Validators.required],
-        numero: ['', [Validators.required, Validators.minLength(this.max)]],
-        codCiudad: [''],
-        codTipoNotificacion: ['', [Validators.required]],
-        codUso: ['', [Validators.required]],
-      });
-
-      this.formCorreo = this.formBuilder.group({
-        email: ['', [
-          Validators.required,
-          Validators.email
-        ]],
-        codTipoNotificacion: ['', [Validators.required]],
-        codUso: ['', [Validators.required]],
-      });
-
-      setTimeout(() => this.spinner.show(), 200);
-      this.buscarSocioById(this.credito.socioId);
-      if (this.asignacionId && this.ejecutivoId) {
-        this.loadRecordatorios(this.asignacionId, this.ejecutivoId, this.credito.socioId, this.credito.id);
-        this.loadAcuerdosPagos(this.asignacionId, this.ejecutivoId, this.credito.socioId, this.credito.id);
-      }
-      this.formDireccion = this.formBuilder.group({
-        tipoDireccion: ['', Validators.required],
-        tipoVivienda: ['', Validators.required],
-        tipoVia: ['', Validators.required],
-        nombreVia: ['', Validators.required],
-        numero: [''],
-        manzana: [''],
-        lote: [''],
-        tipoSeccion: [''],
-        numeroSeccion: [''],
-        tipoZona: ['', Validators.required],
-        nombreZona: ['', Validators.required],
-        tipoSector: [''],
-        nombreSector: [''],
-        departamento: ['', Validators.required],
-        provincia: ['', Validators.required],
-        distrito: ['', Validators.required],
-      });
+      this.cragarInformacion();
     }
   }
 
@@ -925,5 +880,113 @@ export class CreditoSocioComponent implements OnInit {
   private getNombreTipoVia(tipoVia: string) {
     const item = this.tipoVias.find(i => i.codItem == tipoVia);
     return item ? item.descripcion : '';
+  }
+
+  private cargarCredito() {
+    this.asignacionCarteraService.buscarCreditoPorId(this.creditoId).subscribe(
+      res => {
+        if (res.exito) {
+          this.credito = res.objeto;
+          this.cragarInformacion();
+        } else {
+          if (this.role) {
+            this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${this.creditoId}/detalle`);
+          } else {
+            this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/${this.ejecutivoId}/listado/${this.asignacionId}/detalle`);
+          }
+        }
+      },
+      err => {
+        if (this.role) {
+          this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${this.creditoId}/detalle`);
+        } else {
+          this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/${this.ejecutivoId}/listado/${this.asignacionId}/detalle`);
+        }
+      }
+    );
+  }
+
+  private cragarInformacion() {
+    this.formRecordatorio = this.formBuilder.group({
+      asignacionId: [this.asignacionId],
+      ejecutivoId: [this.ejecutivoId],
+      socioId: [this.credito.socioId],
+      creditoId: [this.credito.id],
+      fecha: [this.dateDefault, [Validators.required]],
+      hora: ['', [Validators.required]],
+      tipoActividad: ['', [Validators.required]],
+      numeroTelefono: [''],
+      correo: [''],
+      tipoMetodo: [''],
+      direccion: [''],
+      comentario: [''],
+    });
+
+    this.formRegistrarAcuerdo = this.formBuilder.group({
+      asignacionId: [this.asignacionId],
+      ejecutivoId: [this.ejecutivoId],
+      socioId: [this.credito.socioId],
+      creditoId: [this.credito.id],
+      montoAcordado: ['', [Validators.required]],
+      posibilidadPago: ['', [Validators.required]],
+      fechaInicio: [this.dateDefault, [Validators.required]],
+      horaIncio: ['', [Validators.required]],
+    });
+
+    this.formPlanPago = this.formBuilder.group({
+      asignacionId: [this.asignacionId],
+      ejecutivoId: [this.ejecutivoId],
+      socioId: [this.credito.socioId],
+      creditoId: [this.credito.id],
+      descripcion: ['', [Validators.required]],
+      plazo: [null, [Validators.required]],
+      montoAcordado: [null, [Validators.required]],
+      intervalo: [null, [Validators.required]],
+      fechaInicio: [this.dateDefault, [Validators.required]],
+      posibilidadPago: ['', [Validators.required]],
+    });
+
+    this.formTelefono = this.formBuilder.group({
+      tipo: [this.$movil, Validators.required],
+      operador: ['', Validators.required],
+      numero: ['', [Validators.required, Validators.minLength(this.max)]],
+      codCiudad: [''],
+      codTipoNotificacion: ['', [Validators.required]],
+      codUso: ['', [Validators.required]],
+    });
+
+    this.formCorreo = this.formBuilder.group({
+      email: ['', [
+        Validators.required,
+        Validators.email
+      ]],
+      codTipoNotificacion: ['', [Validators.required]],
+      codUso: ['', [Validators.required]],
+    });
+
+    setTimeout(() => this.spinner.show(), 200);
+    this.buscarSocioById(this.credito.socioId);
+    if (this.asignacionId && this.ejecutivoId) {
+      this.loadRecordatorios(this.asignacionId, this.ejecutivoId, this.credito.socioId, this.credito.id);
+      this.loadAcuerdosPagos(this.asignacionId, this.ejecutivoId, this.credito.socioId, this.credito.id);
+    }
+    this.formDireccion = this.formBuilder.group({
+      tipoDireccion: ['', Validators.required],
+      tipoVivienda: ['', Validators.required],
+      tipoVia: ['', Validators.required],
+      nombreVia: ['', Validators.required],
+      numero: [''],
+      manzana: [''],
+      lote: [''],
+      tipoSeccion: [''],
+      numeroSeccion: [''],
+      tipoZona: ['', Validators.required],
+      nombreZona: ['', Validators.required],
+      tipoSector: [''],
+      nombreSector: [''],
+      departamento: ['', Validators.required],
+      provincia: ['', Validators.required],
+      distrito: ['', Validators.required],
+    });
   }
 }

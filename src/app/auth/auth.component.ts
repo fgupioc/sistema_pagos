@@ -2,12 +2,20 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {MenuService} from '../servicios/sistema/menu.service';
 import {AutenticacionService} from '../servicios/seguridad/autenticacion.service';
+import * as moment from 'moment';
+import {Router} from '@angular/router';
 
 export interface MyNotification {
+  id: number;
   hora: string;
+  asignacionId: number;
+  creditoId: number;
+  ejecutivoId: number;
   mensaje: string;
   socio: string;
   tipo: string;
+  condicion: string;
+  estado: string;
 }
 
 @Component({
@@ -27,6 +35,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AutenticacionService,
     private menuService: MenuService,
+    private route: Router,
     @Inject(DOCUMENT) _document?: any
   ) {
     this.changes = new MutationObserver((mutations) => {
@@ -60,5 +69,30 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   private misNotificaciones() {
     this.authService.misNotificacione().subscribe(res => this.notifications = res);
+  }
+
+  getFormart(hora: string) {
+    return hora ? hora.slice(0, 5) : '';
+  }
+
+  irNotification(noty: MyNotification) {
+    if (noty) {
+      if (noty.tipo == '01' || noty.tipo == '02') {
+        this.route.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${noty.asignacionId}/detalle/${noty.creditoId}/socio`);
+      }
+    }
+  }
+
+  getTipo(tipo: string) {
+    let type = '';
+    switch (tipo) {
+      case '01' :
+        type = 'Recordatorio:';
+        break;
+      case '02' :
+        type = 'Acuerdo de Pago:';
+        break;
+    }
+    return type;
   }
 }

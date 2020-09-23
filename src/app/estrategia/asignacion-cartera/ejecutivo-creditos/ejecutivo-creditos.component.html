@@ -3,7 +3,10 @@
     <i class="fa fa-align-justify"></i>
     <span class="card-title text-uppercase font-weight-bold">Información de la Asignación</span>
     <div class="card-tools float-right">
-      <button type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/' + ejecutivoId + '/listado'">
+      <button *ngIf="!role" type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/' + ejecutivoId + '/listado'">
+        <i class="fa fa-arrow-left"></i> Regresar
+      </button>
+      <button *ngIf="role" type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/mis-cartera-asignadas'">
         <i class="fa fa-arrow-left"></i> Regresar
       </button>
     </div>
