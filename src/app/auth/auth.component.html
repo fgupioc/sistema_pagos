@@ -15,7 +15,6 @@
         <div class="dropdown-header text-center"><strong>Tienes {{ notifications.length }} notificaciones</strong></div>
         <div class="container-noty">
           <ng-container *ngFor="let noty of notifications">
-            <ng-container *ngIf="noty.estado == 'N'">
               <a class="dropdown-item" href="javascript:;" (click)="irNotification(noty)" style="padding: 10px">
                 <div class="message">
                   <div class="d-flex justify-content-between">
@@ -26,7 +25,6 @@
                   <div class="small text-muted text-truncate">{{ noty.mensaje }}</div>
                 </div>
               </a>
-            </ng-container>
           </ng-container>
         </div>
       </div>

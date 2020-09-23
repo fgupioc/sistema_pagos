@@ -28,6 +28,8 @@ import {Ubigeo} from '../../../interfaces/ubigeo';
 import {UbigeoService} from '../../../servicios/sistema/ubigeo.service';
 import {DireccionService} from '../../../servicios/direccion.service';
 import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
+import {MyNotification} from '../../../interfaces/my-notification';
+import {EventosService} from '../../../servicios/eventos.service';
 
 @Component({
   selector: 'app-credito-socio',
@@ -86,6 +88,7 @@ export class CreditoSocioComponent implements OnInit {
   $zoneName = 'Zona';
   $sectorName = 'Sector';
   role: string;
+  myNotifications: MyNotification[] = [];
 
   constructor(
     private auth: AutenticacionService,
@@ -101,7 +104,8 @@ export class CreditoSocioComponent implements OnInit {
     private telefonoService: TelefonoService,
     private emailService: EmailService,
     private ubigeoService: UbigeoService,
-    private direccionService: DireccionService
+    private direccionService: DireccionService,
+    private eventosService: EventosService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -493,7 +497,11 @@ export class CreditoSocioComponent implements OnInit {
     );
   }
 
-  eliminarAcuerdoPago(id: number) {
+  eliminarAcuerdoPago(item: AcuerdoPago) {
+    if (this.isAfter(item.fechaInicio)) {
+      Swal.fire('Acuerdo de Pago', 'No es posible eliminar.', 'warning');
+      return;
+    }
     Swal.fire({
       title: 'Eliminar Acurdo de pago?',
       icon: 'warning',
@@ -502,7 +510,7 @@ export class CreditoSocioComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.value) {
-        this.asignacionCarteraService.eliminarAcuerdoPorAsignacionYCredito(id).subscribe(
+        this.asignacionCarteraService.eliminarAcuerdoPorAsignacionYCredito(item.id).subscribe(
           res => {
             if (res.exito) {
               Swal.fire('Información de Socio', res.mensaje, 'success');
@@ -988,5 +996,25 @@ export class CreditoSocioComponent implements OnInit {
       provincia: ['', Validators.required],
       distrito: ['', Validators.required],
     });
+  }
+
+  isCurrentDate(fecha: string, condicion: string) {
+    const date = moment(fecha).format('YYYY-MM-DD');
+    if (this.dateDefault == date && condicion != '2') {
+      return 'table-primary';
+    }
+    if (this.dateDefault == date && condicion == '2') {
+      return 'table-success';
+    }
+    if (moment().isAfter(fecha) && condicion != '2') {
+      return 'table-danger';
+    }
+    if (moment().isAfter(fecha) && condicion == '2') {
+      return 'table-success';
+    }
+  }
+
+  isAfter(fecha) {
+    return moment(this.dateDefault).isAfter(moment(fecha).format('YYYY-MM-DD'));
   }
 }

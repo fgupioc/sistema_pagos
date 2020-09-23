@@ -25,7 +25,7 @@
 
       <div class="col-12">
         <div class="form-group text-center mb-0 ">
-          <button class="btn btn-sm btn-primary mr-2" [disabled]="state == '1' || recordatorio.condicion != '1'" (click)="guardar()">Guardar</button>
+          <button class="btn btn-sm btn-primary mr-2" *ngIf="!isCurrentDate()" [disabled]="state == '1' || recordatorio.condicion != '1'" (click)="guardar()">Guardar</button>
           <button class="btn btn-sm btn-secondary mr-2" (click)="activeModal.close()">Cancelar</button>
         </div>
       </div>

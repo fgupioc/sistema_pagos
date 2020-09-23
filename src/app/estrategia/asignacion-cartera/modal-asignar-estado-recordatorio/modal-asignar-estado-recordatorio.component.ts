@@ -6,6 +6,8 @@ import {Recordatorio} from '../../../interfaces/recordatorio';
 import {AsignacionCarteraService} from '../../../servicios/asignacion-cartera.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import Swal from 'sweetalert2';
+import {EventosService} from '../../../servicios/eventos.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-modal-asignar-estado-recordatorio',
@@ -18,11 +20,13 @@ export class ModalAsignarEstadoRecordatorioComponent implements OnInit {
   erros: string[] = [];
   estados: TablaMaestra[] = [];
   recordatorio: Recordatorio;
+  dateDefault = moment(new Date()).format('YYYY-MM-DD');
 
   constructor(
     public activeModal: NgbActiveModal,
     private asignacionCarteraService: AsignacionCarteraService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private eventosService: EventosService
   ) {
   }
 
@@ -44,11 +48,11 @@ export class ModalAsignarEstadoRecordatorioComponent implements OnInit {
     const data = Object.assign({}, this.recordatorio);
     data.condicion = this.state;
     data.observacion = this.observation;
-    this.spinner.show();
     this.asignacionCarteraService.actualizarRecordatorio(data).subscribe(
       res => {
         if (res.exito) {
           Swal.fire('Recordatorio', res.mensaje, 'success');
+          this.eventosService.leerNotifyEmitter.emit({tipo: '01', id: this.recordatorio.id});
           this.activeModal.dismiss(res);
         } else {
           Swal.fire('Recordatorio', res.mensaje, 'error');
@@ -58,4 +62,7 @@ export class ModalAsignarEstadoRecordatorioComponent implements OnInit {
     );
   }
 
+  isCurrentDate() {
+    return moment(this.dateDefault).isAfter(moment(this.recordatorio.fecha).format('YYYY-MM-DD'));
+  }
 }

@@ -2,21 +2,9 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {MenuService} from '../servicios/sistema/menu.service';
 import {AutenticacionService} from '../servicios/seguridad/autenticacion.service';
-import * as moment from 'moment';
 import {Router} from '@angular/router';
-
-export interface MyNotification {
-  id: number;
-  hora: string;
-  asignacionId: number;
-  creditoId: number;
-  ejecutivoId: number;
-  mensaje: string;
-  socio: string;
-  tipo: string;
-  condicion: string;
-  estado: string;
-}
+import {EventosService} from '../servicios/eventos.service';
+import {MyNotification} from '../interfaces/my-notification';
 
 @Component({
   selector: 'app-auth',
@@ -36,6 +24,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     private authService: AutenticacionService,
     private menuService: MenuService,
     private route: Router,
+    private eventosService: EventosService,
     @Inject(DOCUMENT) _document?: any
   ) {
     this.changes = new MutationObserver((mutations) => {
@@ -57,6 +46,15 @@ export class AuthComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.encuentraTodossNavItemPorUsuario();
     this.misNotificaciones();
+    this.eventosService.leerNotifyEmitter.subscribe(
+      res => {
+        console.log(res);
+        if (res.tipo == '01') {
+          this.notifications = [];
+          this.misNotificaciones();
+        }
+      }
+    );
   }
 
   encuentraTodossNavItemPorUsuario() {

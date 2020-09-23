@@ -783,7 +783,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr *ngFor="let item of recordatorios" class="text-center" style="font-size: 12px;">
+                  <tr *ngFor="let item of recordatorios"  [class]="isCurrentDate(item.fecha, item.condicion)" style="font-size: 12px; text-align: center">
                     <td>
                       <ng-container *ngIf="!item.observacion; else obsetvation">
                         {{ getNameActividad(item.tipoActividad) }}
@@ -827,7 +827,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr *ngFor="let item of acuerdosPago" class="text-center" style="font-size: 12px;">
+                  <tr *ngFor="let item of acuerdosPago"  [class]="isCurrentDate(item.fechaInicio, item.condicion)" style="font-size: 12px; text-align: center">
                     <td>
                       {{ item.fechaInicio | date: 'dd/MM/yyyy' }}
                     </td>
@@ -838,7 +838,7 @@
                     <td>{{ item.cuota }}</td>
                     <td>{{ item.plazo }}</td>
                     <td>
-                      <button class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item.id)"><i class="fa fa-trash"></i></button>
+                      <button [disabled]="isAfter(item.fechaInicio)" class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item)"><i class="fa fa-trash"></i></button>
                     </td>
                   </tr>
                   </tbody>
