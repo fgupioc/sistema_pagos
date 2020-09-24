@@ -7,21 +7,23 @@ import {BsDropdownModule, TabsModule} from 'ngx-bootstrap';
 import {AppRoutingModule} from '../app-routing.module';
 import {DashboardComponent} from '../dashboard/dashboard.component';
 import {MantenimientoModule} from '../mantenimiento/mantenimiento.module';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 @NgModule({
   declarations: [AuthComponent, DashboardComponent],
-  imports: [
-    CommonModule,
-    AppHeaderModule,
-    AppFooterModule,
-    AppSidebarModule,
-    AppBreadcrumbModule,
-    PerfectScrollbarModule,
-    BsDropdownModule.forRoot(),
-    TabsModule.forRoot(),
-    AppRoutingModule,
-    MantenimientoModule,
-  ]
+    imports: [
+        CommonModule,
+        AppHeaderModule,
+        AppFooterModule,
+        AppSidebarModule,
+        AppBreadcrumbModule,
+        PerfectScrollbarModule,
+        BsDropdownModule.forRoot(),
+        TabsModule.forRoot(),
+        AppRoutingModule,
+        MantenimientoModule,
+        NgxSpinnerModule,
+    ]
 })
 export class AuthModule {
 }

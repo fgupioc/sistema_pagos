@@ -5,6 +5,7 @@ import {AutenticacionService} from '../servicios/seguridad/autenticacion.service
 import {Router} from '@angular/router';
 import {EventosService} from '../servicios/eventos.service';
 import {MyNotification} from '../interfaces/my-notification';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-auth',
@@ -25,6 +26,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     private menuService: MenuService,
     private route: Router,
     private eventosService: EventosService,
+    private spinner: NgxSpinnerService,
     @Inject(DOCUMENT) _document?: any
   ) {
     this.changes = new MutationObserver((mutations) => {
@@ -58,7 +60,11 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   encuentraTodossNavItemPorUsuario() {
-    this.menuService.encuentraTodossNavItemPorUsuario().subscribe(navItems => this.navItems = navItems);
+    this.spinner.show();
+    this.menuService.encuentraTodossNavItemPorUsuario().subscribe(navItems => {
+      this.navItems = navItems;
+      this.spinner.hide();
+    }, error => this.spinner.hide());
   }
 
   logout() {
