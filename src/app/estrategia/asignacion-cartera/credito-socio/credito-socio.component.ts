@@ -30,6 +30,7 @@ import {DireccionService} from '../../../servicios/direccion.service';
 import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
 import {MyNotification} from '../../../interfaces/my-notification';
 import {EventosService} from '../../../servicios/eventos.service';
+import {EjecutivoCartera} from '../../../models/ejecutivo-cartera';
 
 @Component({
   selector: 'app-credito-socio',
@@ -88,7 +89,7 @@ export class CreditoSocioComponent implements OnInit {
   $zoneName = 'Zona';
   $sectorName = 'Sector';
   role: string;
-  myNotifications: MyNotification[] = [];
+  campania: EjecutivoCartera;
 
   constructor(
     private auth: AutenticacionService,
@@ -915,6 +916,7 @@ export class CreditoSocioComponent implements OnInit {
   }
 
   private cragarInformacion() {
+    this.obtenerAsignnacionPorId(this.asignacionId);
     this.formRecordatorio = this.formBuilder.group({
       asignacionId: [this.asignacionId],
       ejecutivoId: [this.ejecutivoId],
@@ -1016,5 +1018,35 @@ export class CreditoSocioComponent implements OnInit {
 
   isAfter(fecha) {
     return moment(this.dateDefault).isAfter(moment(fecha).format('YYYY-MM-DD'));
+  }
+
+  obtenerAsignnacionPorId(asignacionId: any) {
+    this.spinner.show();
+    this.asignacionCarteraService.obtenerAsignnacionPorId(asignacionId).subscribe(
+      res => {
+        if (res.exito) {
+          this.campania = res.objeto;
+        } else {
+          if (this.role) {
+            this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
+          } else {
+            this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/' + this.ejecutivoId + '/listado');
+          }
+        }
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
+        if (this.role) {
+          this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
+        } else {
+          this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/' + this.ejecutivoId + '/listado');
+        }
+      }
+    );
+  }
+
+  get conPermiso() {
+    return moment().isBetween(this.campania.startDate, this.campania.endDate);
   }
 }

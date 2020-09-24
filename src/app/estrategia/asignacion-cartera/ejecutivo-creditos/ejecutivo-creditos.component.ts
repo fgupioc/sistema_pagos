@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import {ModalAgregarCreditoComponent} from '../modal-agregar-credito/modal-agregar-credito.component';
 import {isNullOrUndefined} from 'util';
 import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
+import * as moment from 'moment';
 
 export interface InfoCampo {
   descripction: string;
@@ -106,19 +107,25 @@ export class EjecutivoCreditosComponent implements OnInit {
                 break;
             }
           });
+        } else {
+          if (this.role) {
+            this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
+          } else {
+            this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/' + this.ejecutivoId + '/listado');
+          }
         }
         this.spinner.hide();
       },
-      err => this.spinner.hide()
+      err => {
+        this.spinner.hide();
+        if (this.role) {
+          this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
+        } else {
+          this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/' + this.ejecutivoId + '/listado');
+        }
+      }
     );
   }
-
-  /*
-  showSocio(credito: any) {
-    const url = '/auth/estrategia/carteras/' + this.cartera.nombreExterno + '/asignacion/' + this.ejecutivo.codUsuario + '/creditos/socio';
-    this.router.navigateByUrl(url, {state: {user: this.ejecutivo, cartera: this.cartera, credito}});
-  }
-*/
 
   eliminarCredito(credito: any) {
     Swal.fire({
@@ -171,5 +178,9 @@ export class EjecutivoCreditosComponent implements OnInit {
      const url = `/auth/estrategia/asignacion-cartera/${this.ejecutivoId}/listado/${this.asignacionId}/detalle/${credito.id}/socio`;
      this.router.navigateByUrl(url, {state: {credito}});
    }
+  }
+
+  get conPermiso() {
+    return moment().isBetween(this.campania.startDate, this.campania.endDate);
   }
 }

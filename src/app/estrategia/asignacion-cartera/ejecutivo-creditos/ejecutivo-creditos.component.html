@@ -72,8 +72,8 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-12">
-        <button class="btn btn-primary" (click)="agregarCredito()"><i class="fa fa-plus"></i> Agrenar Crédito</button>
+      <div class="col-12" *ngIf="!role">
+        <button *ngIf="conPermiso" class="btn btn-primary" (click)="agregarCredito()"><i class="fa fa-plus"></i> Agrenar Crédito</button>
       </div>
       <div class="col-12">
         <div class="form-group">
@@ -102,7 +102,9 @@
               <td class="text-center">
                 <button class="btn btn-sm btn-success mr-2"><i class="fa fa-eye"></i></button>
                 <button class="btn btn-sm btn-primary mr-2" (click)="irCliente(credito)"><i class="fa fa-user"></i></button>
-                <button class="btn btn-sm btn-danger mr-2" (click)="eliminarCredito(credito)"><i class="fa fa-trash"></i></button>
+                <ng-container *ngIf="!role">
+                  <button *ngIf="conPermiso" class="btn btn-sm btn-danger mr-2" (click)="eliminarCredito(credito)"><i class="fa fa-trash"></i></button>
+                </ng-container>
               </td>
             </tr>
             </tbody>

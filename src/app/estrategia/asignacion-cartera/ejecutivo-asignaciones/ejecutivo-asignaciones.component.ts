@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgWizardService} from 'ng-wizard';
 import Swal from 'sweetalert2';
 import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-ejecutivo-asignaciones',
@@ -75,4 +76,7 @@ export class EjecutivoAsignacionesComponent implements OnInit {
     );
   }
 
+  getClase(item: any) {
+    return !(moment().isBetween(item.startDate, item.endDate)) ? 'table-danger' : '';
+  }
 }

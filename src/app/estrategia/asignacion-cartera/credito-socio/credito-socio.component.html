@@ -11,7 +11,7 @@
       </button>
     </div>
   </div>
-  <div class="card-body" *ngIf="socio">
+  <div class="card-body" *ngIf="socio && campania">
     <div class="row" *ngIf="socio.personaNatural">
       <div class="col-12 col-md-3">
         <div class="form-group">
@@ -67,7 +67,7 @@
     <hr>
     <div class="row">
       <div class="col-12">
-        <div class="form-group mb-0">
+        <div class="form-group mb-0" *ngIf="conPermiso">
           <div class="text-center">
             <a class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearEventos(1, 'Gestionar Eventos Socio')"><i class="fa fa-plus"></i></a>
             <a class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearEventos(2, '')"><i class="fa fa-clock-o"></i></a>
@@ -799,7 +799,7 @@
                     <td style="text-align: left;"> {{ item.comentario }}</td>
                     <td> {{ getNameCondition(item.condicion) }}</td>
                     <td>
-                      <button class="btn btn-sm btn-success" (click)="cambiarEstado(item)"><i class="fa fa-check"></i></button>
+                      <button *ngIf="conPermiso" class="btn btn-sm btn-success" (click)="cambiarEstado(item)"><i class="fa fa-check"></i></button>
                     </td>
                   </tr>
                   </tbody>
@@ -838,7 +838,7 @@
                     <td>{{ item.cuota }}</td>
                     <td>{{ item.plazo }}</td>
                     <td>
-                      <button [disabled]="isAfter(item.fechaInicio)" class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item)"><i class="fa fa-trash"></i></button>
+                      <button *ngIf="conPermiso" [disabled]="isAfter(item.fechaInicio)" class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item)"><i class="fa fa-trash"></i></button>
                     </td>
                   </tr>
                   </tbody>

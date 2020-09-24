@@ -101,12 +101,6 @@ const routes: Routes = [
                 {path: 'cargar-credito/creditos/:cargaCreditoId', component: CarteraCargarCreditoCreditosComponent},
                 {path: 'crear-gestion', component: ActualizarGestionComponent},
                 {path: 'editar-gestion', component: ActualizarGestionComponent},
-                /*
-                {path: ':nombre/asignacion', component: AsignacionCarteraComponent},
-                {path: ':nombre/asignacion/:ejecutivoId/etapas', component: AsignarEtapasEjecutivoComponent},
-                {path: ':nombre/asignacion/:ejecutivoId/creditos', component: EjecutivoCreditosComponent},
-                {path: ':nombre/asignacion/:ejecutivoId/creditos/socio', component: CreditoSocioComponent}
-                 */
               ]
             },
             {path: 'notificaciones', component: EnviarNotificionComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.NOTIFICACION_LISTAR]}},
