@@ -239,9 +239,9 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
 
     if (cartera.campos[0].desde) {
       this.showMontos = false;
-    } else if (cartera.campos[0].codCampo == CONST.TABLE_INT_LISTA_SEDE) {
+    } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_LISTA_SEDE) {
       this.showSedes = false;
-    } else if (cartera.campos[0].codCampo == CONST.TABLE_INT_LISTA_TIPO_CREDITO) {
+    } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_LISTA_PRODUCTO_ABACO) {
       this.showTipoCredito = false;
     }
     this.listarSociosByCartera(cartera.codCartera);
@@ -368,7 +368,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     const campoItems: EjecutivoCarteraCampo[] = [];
     this.selectedTipoCreditos.forEach(v => {
       campoItems.push({
-        codCampo: this.showTipoCredito ? CONST.TABLE_INT_LISTA_TIPO_CREDITO : CONST.TABLE_INT_LISTA_SEDE,
+        codCampo: this.showTipoCredito ? CONST.TABLE_STR_LISTA_PRODUCTO_ABACO : CONST.TABLE_STR_LISTA_SEDE,
         valor: v,
         opciona: 1
       });
@@ -376,7 +376,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
 
     this.selectedSedes.forEach(v => {
       campoItems.push({
-        codCampo: this.showSedes ? CONST.TABLE_INT_LISTA_SEDE : CONST.TABLE_INT_LISTA_TIPO_CREDITO,
+        codCampo: this.showSedes ? CONST.TABLE_STR_LISTA_SEDE : CONST.TABLE_STR_LISTA_PRODUCTO_ABACO,
         valor: v,
         opciona: 1
       });
@@ -471,7 +471,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     const tipo = campos[0].codCampo;
     const items: GrupoCampo[] = [];
     switch (tipo) {
-      case CONST.TABLE_INT_LISTA_TIPO_CREDITO:
+      case CONST.TABLE_STR_LISTA_PRODUCTO_ABACO:
         campos.forEach(item => {
           const obj = this.tipoCreditos.find(i => i.id == item.valor);
           if (obj) {
@@ -483,7 +483,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
         });
         this.nombreCampoTemp = 'Tipo de Creditos';
         break;
-      case CONST.TABLE_INT_LISTA_SEDE:
+      case CONST.TABLE_STR_LISTA_SEDE:
         campos.forEach(item => {
           const obj = this.sedes.find(i => i.id == item.valor);
           if (obj) {

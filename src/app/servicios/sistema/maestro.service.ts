@@ -77,14 +77,6 @@ export class MaestroService {
     return this.http.get<any[]>(`${this.apiUrl}listarEstadoCivil`);
   }
 
-  listaTipoCreditos(): Observable<TablaMaestra[]> {
-    return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_INT_LISTA_TIPO_CREDITO)});
-  }
-
-  listaSedes(): Observable<TablaMaestra[]> {
-    return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_INT_LISTA_SEDE)});
-  }
-
   listarElementosPorCodTable(id: string): Observable<TablaMaestra[]> {
     return this.http.get<TablaMaestra[]>(this.apiUrl + 'listarElementosPorCodTable', {params: new HttpParams().set('codTable', id)});
   }
@@ -137,6 +129,38 @@ export class MaestroService {
   }
 
   loadTipoUsoEmail(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.apiUrl}listarTipoUsoEmail`);
-}
+    return this.http.get<any[]>(`${this.apiUrl}listarTipoUsoEmail`);
+  }
+
+
+  listaTablaTipoCredito(): Observable<TablaMaestra[]> {
+    return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_LISTA_TIPO_CREDITO)});
+  }
+  listaTablaProductoAbaco(): Observable<TablaMaestra[]> {
+    return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_LISTA_PRODUCTO_ABACO)});
+  }
+
+  listaTablaSedes(): Observable<TablaMaestra[]> {
+    return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_LISTA_SEDE)});
+  }
+
+  listaTablaBancasAbaco(): Observable<TablaMaestra[]> {
+    return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_LISTA_BANCA_ABACO)});
+  }
+
+  listaTablaDivisionesAbaco(): Observable<TablaMaestra[]> {
+    return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_TIPO_DIVISION_ABACO)});
+  }
+
+  listaTablaComerciosAbaco(): Observable<TablaMaestra[]> {
+    return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_TIPO_COMERCIAL_ABACO)});
+  }
+
+  listaTablaTipoSociosAbaco(): Observable<TablaMaestra[]> {
+    return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_TIPO_DE_SOCIO_ABACO)});
+  }
+
+  listaTablaClasificacionDeudorAbaco(): Observable<TablaMaestra[]> {
+    return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_CLASIFICACION_DEL_DEUDOR_ABACO)});
+  }
 }

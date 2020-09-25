@@ -88,8 +88,6 @@ export class CONST {
 
   public static S_SEPARADOR_AUTORIZACIONES = '_';
 
-  public static  TABLE_INT_LISTA_SEDE = '22';
-  public static  TABLE_INT_LISTA_TIPO_CREDITO = '23';
   public static  TABLE_INT_MONTO = '00';
 
   public static C_INT_PUSH = 1; // "PUSH";
@@ -99,4 +97,14 @@ export class CONST {
   public static C_INT_MESSAGER = 5; // "MESSAGER";
   public static C_INT_EMAIL = 6; // "EMAIL";
   public static C_INT_LLAMADAS = 7; // "LLAMADAS",
+
+  public static  TABLE_STR_LISTA_PRODUCTO_ABACO = '22';
+  public static  TABLE_STR_LISTA_BANCA_ABACO = '23';
+  public static  TABLE_STR_TIPO_DIVISION_ABACO = '25';
+  public static  TABLE_STR_TIPO_DE_CREDITO_ABACO = '26';
+  public static  TABLE_STR_TIPO_COMERCIAL_ABACO = '27';
+  public static  TABLE_STR_TIPO_DE_SOCIO_ABACO = '28';
+  public static  TABLE_STR_CLASIFICACION_DEL_DEUDOR_ABACO = '29';
+  public static  TABLE_STR_LISTA_SEDE = '30';
+  public static  TABLE_STR_LISTA_TIPO_CREDITO = '31';
 }

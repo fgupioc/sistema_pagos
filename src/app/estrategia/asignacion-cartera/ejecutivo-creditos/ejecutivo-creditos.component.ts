@@ -89,12 +89,12 @@ export class EjecutivoCreditosComponent implements OnInit {
           this.ejecutivoNombre = res.ejecutivo.alias || this.ejecutivoId;
           this.campania.campoItems.forEach(item => {
             switch (item.codCampo) {
-              case CONST.TABLE_INT_LISTA_TIPO_CREDITO:
+              case CONST.TABLE_STR_LISTA_PRODUCTO_ABACO:
                 this.tipoCreditos.push({
                   descripction: item.nombreCampo,
                 });
                 break;
-              case CONST.TABLE_INT_LISTA_SEDE:
+              case CONST.TABLE_STR_LISTA_SEDE:
                 this.sedes.push({
                   descripction: item.nombreCampo,
                 });

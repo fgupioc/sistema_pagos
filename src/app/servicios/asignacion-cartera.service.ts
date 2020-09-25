@@ -91,7 +91,7 @@ export class AsignacionCarteraService {
           value: i.codGrupCampo,
           checked: false
         });
-        campoName = i.codCampo == CONST.TABLE_INT_LISTA_TIPO_CREDITO ? 'Tipo Crédito' : 'Sede';
+        campoName = i.codCampo == CONST.TABLE_STR_LISTA_PRODUCTO_ABACO ? 'Tipo Crédito' : 'Sede';
       } else {
         campoName = 'Monto';
         const hasta = i.hasta ? ' a ' + i.hasta : '';
@@ -124,11 +124,11 @@ export class AsignacionCarteraService {
   }
 
   listaTipoCreditos(): Observable<TablaMaestra[]> {
-    return this.http.get<any>(`${urlMaestro}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_INT_LISTA_TIPO_CREDITO)});
+    return this.http.get<any>(`${urlMaestro}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_LISTA_PRODUCTO_ABACO)});
   }
 
   listaSedes(): Observable<TablaMaestra[]> {
-    return this.http.get<any>(`${urlMaestro}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_INT_LISTA_SEDE)});
+    return this.http.get<any>(`${urlMaestro}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_LISTA_SEDE)});
   }
 
   getAlbums() {
@@ -197,6 +197,6 @@ export class AsignacionCarteraService {
   }
 
   buscarCreditoPorId(creditoId): Observable<Respuesta> {
-    return this.http.post<Respuesta>(`${urlBase}/buscarCreditoPorId`, {},{params: new HttpParams().set('creditoId', creditoId)});
+    return this.http.post<Respuesta>(`${urlBase}/buscarCreditoPorId`, {}, {params: new HttpParams().set('creditoId', creditoId)});
   }
 }

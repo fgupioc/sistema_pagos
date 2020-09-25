@@ -12,6 +12,7 @@ import {FUNC} from '../../../comun/FUNC';
 import {GrupoCampo} from '../../../interfaces/grupo-campo';
 import {MultiSelect, Seleccionado} from '../detalle-cartera/detalle-cartera.component';
 import {CONST} from '../../../comun/CONST';
+import {TablaMaestra} from '../../../interfaces/tabla-maestra';
 
 declare var $: any;
 
@@ -27,15 +28,57 @@ export class CrearCarteraComponent implements OnInit {
   monedas: any[] = [];
   monedasSeleccionadas: any[] = [];
 
-  itemsSelected: MultiSelect[] = [];
   placeholderSelect: '';
   number = false;
-  tipoCreditos: MultiSelect[] = [];
-  sedes: MultiSelect[] = [];
   mgsError: any;
-  codTipoCredito = CONST.TABLE_INT_LISTA_TIPO_CREDITO;
-  codSede = CONST.TABLE_INT_LISTA_SEDE;
-  codMonto = CONST.TABLE_INT_MONTO;
+  itemsSelected: MultiSelect[] = [];
+  tipoProductos: MultiSelect[] = [];
+  tipoBancas: MultiSelect[] = [];
+  tipoDiviciones: MultiSelect[] = [];
+  tipoCreditos: MultiSelect[] = [];
+  tipoComercios: MultiSelect[] = [];
+  tipoSocios: MultiSelect[] = [];
+  tipoCalificacionesDeudor: MultiSelect[] = [];
+  sedes: MultiSelect[] = [];
+
+  listaGrupos: TablaMaestra[] = [
+    {
+      codItem: CONST.TABLE_STR_LISTA_PRODUCTO_ABACO,
+      descripcion: 'PRODUCTO',
+    },
+    {
+      codItem: CONST.TABLE_STR_LISTA_BANCA_ABACO,
+      descripcion: 'BANCA',
+    },
+    {
+      codItem: CONST.TABLE_STR_TIPO_DIVISION_ABACO,
+      descripcion: 'DIVISIÓN',
+    },
+    {
+      codItem: CONST.TABLE_STR_LISTA_TIPO_CREDITO,
+      descripcion: 'TIPO DE CRÉDITO SBS',
+    },
+    {
+      codItem: CONST.TABLE_STR_TIPO_COMERCIAL_ABACO,
+      descripcion: 'TIPO COMERCIO',
+    },
+    {
+      codItem: CONST.TABLE_STR_TIPO_DE_SOCIO_ABACO,
+      descripcion: 'TIPO DE SOCIO',
+    },
+    {
+      codItem: CONST.TABLE_STR_CLASIFICACION_DEL_DEUDOR_ABACO,
+      descripcion: 'CLASIFICACION DEL DEUDOR',
+    },
+    {
+      codItem: CONST.TABLE_INT_MONTO,
+      descripcion: 'MONTO DE SALDO DEUDA',
+    },
+    {
+      codItem: CONST.TABLE_STR_LISTA_SEDE,
+      descripcion: 'DISTRITO',
+    }
+  ];
 
   constructor(
     private router: Router,
@@ -48,6 +91,12 @@ export class CrearCarteraComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.listarTipoProductos();
+    this.listarTipoBancas();
+    this.listarTipoDivisiones();
+    this.listarTipoComerciales();
+    this.listarTipoSocios();
+    this.listarClasificacionDeudor();
     this.listaTipoCreditos();
     this.listaSedes();
     this.listarMondas();
@@ -178,34 +227,21 @@ export class CrearCarteraComponent implements OnInit {
     return !!obj;
   }
 
-  cambio(tipo: any) {
-    if (tipo == '1') {
-      $('.gestion').removeClass('active');
-      $('.cartera').addClass('active');
-      $('#gestion').removeClass('show active');
-      $('#cartera').addClass('show active');
-    } else {
-      $('.cartera').removeClass('active');
-      $('.gestion').addClass('active');
-      $('#gestion').addClass('show active');
-      $('#cartera').removeClass('show active');
-    }
-  }
-
   generateCode(event: any) {
     const value = event.target.value;
     this.formulario.controls.nombreExterno.setValue(FUNC.generateSlug(value));
   }
 
   public listaTipoCreditos() {
-    this.maestroService.listaTipoCreditos().subscribe(
-      res => res.forEach(item => this.tipoCreditos.push({id: item.codItem, name: item.descripcion})),
+    this.maestroService.listaTablaTipoCredito().subscribe(
+      res => res.forEach(item => this.tipoCreditos.push({id: item.codItem, name: item.descripcion}))
+      ,
       err => console.log(err)
     );
   }
 
   public listaSedes() {
-    this.maestroService.listaSedes().subscribe(
+    this.maestroService.listaTablaSedes().subscribe(
       res => res.forEach(item => this.sedes.push({id: item.codItem, name: item.descripcion})),
       err => console.log(err)
     );
@@ -225,17 +261,30 @@ export class CrearCarteraComponent implements OnInit {
     this.formAdicional.get('listaCampos').updateValueAndValidity();
 
     this.placeholderSelect = event.target.options[event.target.options.selectedIndex].text;
-
     switch (event.target.value) {
-      case CONST.TABLE_INT_LISTA_TIPO_CREDITO :
-        this.itemsSelected = this.tipoCreditos;
-        this.formAdicional.get('selectedOptionsIds').setValidators([Validators.required]);
-        this.formAdicional.get('selectedOptionsIds').updateValueAndValidity();
+      case CONST.TABLE_STR_LISTA_PRODUCTO_ABACO :
+        this.agregarItemsAlGrupo(this.tipoProductos);
         break;
-      case  CONST.TABLE_INT_LISTA_SEDE :
-        this.itemsSelected = this.sedes;
-        this.formAdicional.get('selectedOptionsIds').setValidators([Validators.required]);
-        this.formAdicional.get('selectedOptionsIds').updateValueAndValidity();
+      case CONST.TABLE_STR_LISTA_BANCA_ABACO :
+        this.agregarItemsAlGrupo(this.tipoBancas);
+        break;
+      case CONST.TABLE_STR_TIPO_DIVISION_ABACO :
+        this.agregarItemsAlGrupo(this.tipoDiviciones);
+        break;
+      case CONST.TABLE_STR_LISTA_TIPO_CREDITO :
+        this.agregarItemsAlGrupo(this.tipoCreditos);
+        break;
+      case CONST.TABLE_STR_TIPO_COMERCIAL_ABACO :
+        this.agregarItemsAlGrupo(this.tipoComercios);
+        break;
+      case CONST.TABLE_STR_TIPO_DE_SOCIO_ABACO :
+        this.agregarItemsAlGrupo(this.tipoSocios);
+        break;
+      case CONST.TABLE_STR_CLASIFICACION_DEL_DEUDOR_ABACO :
+        this.agregarItemsAlGrupo(this.tipoCalificacionesDeudor);
+        break;
+      case  CONST.TABLE_STR_LISTA_SEDE:
+        this.agregarItemsAlGrupo(this.sedes);
         break;
       case  CONST.TABLE_INT_MONTO :
         this.number = true;
@@ -249,6 +298,12 @@ export class CrearCarteraComponent implements OnInit {
         this.formAdicional.get('listaCampos').setValidators([Validators.required]);
         this.formAdicional.get('listaCampos').updateValueAndValidity();
     }
+  }
+
+  agregarItemsAlGrupo(items: any[]) {
+    this.itemsSelected = items;
+    this.formAdicional.get('selectedOptionsIds').setValidators([Validators.required]);
+    this.formAdicional.get('selectedOptionsIds').updateValueAndValidity();
   }
 
   reverseConvertObject(seleccionado: Seleccionado) {
@@ -347,5 +402,47 @@ export class CrearCarteraComponent implements OnInit {
       this.formulario.controls.compromisoHasta.setErrors({incorrect: true});
       this.mgsError = 'La campo hasta no puede ser igual al campo desde';
     }
+  }
+
+  private listarTipoProductos() {
+    this.maestroService.listaTablaProductoAbaco().subscribe(
+      res => res.forEach(item => this.tipoProductos.push({id: item.codItem, name: item.descripcion})),
+      err => console.log(err)
+    );
+  }
+
+  private listarTipoBancas() {
+    this.maestroService.listaTablaBancasAbaco().subscribe(
+      res => res.forEach(item => this.tipoBancas.push({id: item.codItem, name: item.descripcion})),
+      err => console.log(err)
+    );
+  }
+
+  private listarTipoDivisiones() {
+    this.maestroService.listaTablaDivisionesAbaco().subscribe(
+      res => res.forEach(item => this.tipoDiviciones.push({id: item.codItem, name: item.descripcion})),
+      err => console.log(err)
+    );
+  }
+
+  private listarTipoComerciales() {
+    this.maestroService.listaTablaComerciosAbaco().subscribe(
+      res => res.forEach(item => this.tipoComercios.push({id: item.codItem, name: item.descripcion})),
+      err => console.log(err)
+    );
+  }
+
+  private listarTipoSocios() {
+    this.maestroService.listaTablaTipoSociosAbaco().subscribe(
+      res => res.forEach(item => this.tipoSocios.push({id: item.codItem, name: item.descripcion})),
+      err => console.log(err)
+    );
+  }
+
+  private listarClasificacionDeudor() {
+    this.maestroService.listaTablaClasificacionDeudorAbaco().subscribe(
+      res => res.forEach(item => this.tipoCalificacionesDeudor.push({id: item.codItem, name: item.descripcion})),
+      err => console.log(err)
+    );
   }
 }
