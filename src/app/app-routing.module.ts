@@ -34,6 +34,9 @@ import {EjecutivoCreditosComponent} from './estrategia/asignacion-cartera/ejecut
 import {CreditoSocioComponent} from './estrategia/asignacion-cartera/credito-socio/credito-socio.component';
 import {EjecutivoAsignacionesComponent} from './estrategia/asignacion-cartera/ejecutivo-asignaciones/ejecutivo-asignaciones.component';
 import {MisCarterasAsignadasComponent} from './estrategia/asignacion-cartera/mis-carteras-asignadas/mis-carteras-asignadas.component';
+import {EjecutivoTareaComponent} from './estrategia/gestionar-tarea/ejecutivo-tarea/ejecutivo-tarea.component';
+import {TableroTareasComponent} from './estrategia/gestionar-tarea/tablero-tareas/tablero-tareas.component';
+import {TareaDetalleComponent} from './estrategia/gestionar-tarea/tarea-detalle/tarea-detalle.component';
 
 
 const A = Autorizacion;
@@ -134,6 +137,14 @@ const routes: Routes = [
           children: [
             {path: 'lista-socios', component: ListaSociosComponent},
             {path: 'detalle', component: EditarSociosComponent}
+          ]
+        },
+        {
+          path: 'gestion-tarea',
+          children: [
+            {path: 'tablero', component: TableroTareasComponent},
+            {path: 'tablero/:slug', component: TareaDetalleComponent},
+            {path: ':ejecutivoId/ejecutivo', component: EjecutivoTareaComponent }
           ]
         }
       ]

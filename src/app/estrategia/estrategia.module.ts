@@ -38,6 +38,11 @@ import { EjecutivoAsignacionesComponent } from './asignacion-cartera/ejecutivo-a
 import {ModalAgregarCreditoComponent} from './asignacion-cartera/modal-agregar-credito/modal-agregar-credito.component';
 import { ModalAsignarEstadoRecordatorioComponent } from './asignacion-cartera/modal-asignar-estado-recordatorio/modal-asignar-estado-recordatorio.component';
 import { MisCarterasAsignadasComponent } from './asignacion-cartera/mis-carteras-asignadas/mis-carteras-asignadas.component';
+import { EjecutivoTareaComponent } from './gestionar-tarea/ejecutivo-tarea/ejecutivo-tarea.component';
+import { TableroTareasComponent } from './gestionar-tarea/tablero-tareas/tablero-tareas.component';
+import {BsDropdownModule} from 'ngx-bootstrap';
+import { ModalNuevaTareasComponent } from './gestionar-tarea/modal-nueva-tareas/modal-nueva-tareas.component';
+import { TareaDetalleComponent } from './gestionar-tarea/tarea-detalle/tarea-detalle.component';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -69,22 +74,27 @@ const ngWizardConfig: NgWizardConfig = {
     EjecutivoAsignacionesComponent,
     ModalAgregarCreditoComponent,
     ModalAsignarEstadoRecordatorioComponent,
-    MisCarterasAsignadasComponent
+    MisCarterasAsignadasComponent,
+    EjecutivoTareaComponent,
+    TableroTareasComponent,
+    ModalNuevaTareasComponent,
+    TareaDetalleComponent
   ],
-  imports: [
-    CommonModule,
-    ComunModule,
-    NgbModule,
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MyPipesModule,
-    RouterModule,
-    NgSelectModule,
-    NgxSpinnerModule,
-    TreeviewModule.forRoot(),
-    NgWizardModule.forRoot(ngWizardConfig),
-  ],
+    imports: [
+        CommonModule,
+        ComunModule,
+        NgbModule,
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MyPipesModule,
+        RouterModule,
+        NgSelectModule,
+        NgxSpinnerModule,
+        TreeviewModule.forRoot(),
+        NgWizardModule.forRoot(ngWizardConfig),
+        BsDropdownModule,
+    ],
   exports: [
     CrearCarteraComponent,
     ActualizarGestionComponent,
@@ -104,7 +114,8 @@ const ngWizardConfig: NgWizardConfig = {
     ModalGestionarTareaComponent,
     ModalGestionarPromesasPagoComponent,
     ModalAgregarCreditoComponent,
-    ModalAsignarEstadoRecordatorioComponent
+    ModalAsignarEstadoRecordatorioComponent,
+    ModalNuevaTareasComponent
   ]
 })
 export class EstrategiaModule {
