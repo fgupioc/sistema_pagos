@@ -124,7 +124,7 @@ export class AsignacionCarteraService {
   }
 
   listaTipoCreditos(): Observable<TablaMaestra[]> {
-    return this.http.get<any>(`${urlMaestro}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_LISTA_PRODUCTO_ABACO)});
+    return this.http.get<any>(`${urlMaestro}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_TIPO_DE_CREDITO_ABACO)});
   }
 
   listaSedes(): Observable<TablaMaestra[]> {

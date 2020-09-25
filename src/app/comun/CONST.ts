@@ -106,5 +106,4 @@ export class CONST {
   public static  TABLE_STR_TIPO_DE_SOCIO_ABACO = '28';
   public static  TABLE_STR_CLASIFICACION_DEL_DEUDOR_ABACO = '29';
   public static  TABLE_STR_LISTA_SEDE = '30';
-  public static  TABLE_STR_LISTA_TIPO_CREDITO = '31';
 }

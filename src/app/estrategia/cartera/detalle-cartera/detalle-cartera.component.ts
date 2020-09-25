@@ -66,7 +66,7 @@ export class DetalleCarteraComponent implements OnInit {
       descripcion: 'DIVISIÓN',
     },
     {
-      codItem: CONST.TABLE_STR_LISTA_TIPO_CREDITO,
+      codItem: CONST.TABLE_STR_TIPO_DE_CREDITO_ABACO,
       descripcion: 'TIPO DE CRÉDITO SBS',
     },
     {
@@ -364,7 +364,7 @@ export class DetalleCarteraComponent implements OnInit {
       case CONST.TABLE_STR_TIPO_DIVISION_ABACO :
         this.agregarItemsAlGrupo(this.tipoDiviciones);
         break;
-      case CONST.TABLE_STR_LISTA_TIPO_CREDITO :
+      case CONST.TABLE_STR_TIPO_DE_CREDITO_ABACO :
         this.agregarItemsAlGrupo(this.tipoCreditos);
         break;
       case CONST.TABLE_STR_TIPO_COMERCIAL_ABACO :
@@ -408,7 +408,7 @@ export class DetalleCarteraComponent implements OnInit {
       case CONST.TABLE_STR_TIPO_DIVISION_ABACO :
         this.itemsSelected = this.tipoDiviciones;
         break;
-      case CONST.TABLE_STR_LISTA_TIPO_CREDITO :
+      case CONST.TABLE_STR_TIPO_DE_CREDITO_ABACO :
         this.itemsSelected = this.tipoCreditos;
         break;
       case CONST.TABLE_STR_TIPO_COMERCIAL_ABACO :

@@ -15,6 +15,7 @@ import {delay} from 'rxjs/operators';
 import {SocioCredito} from '../../../interfaces/socio-credito';
 import * as moment from 'moment';
 import {GrupoCampo} from '../../../interfaces/grupo-campo';
+import {MaestroService} from '../../../servicios/sistema/maestro.service';
 
 declare const $: any;
 
@@ -29,18 +30,34 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   items: TreeviewItem[];
   gestiones: Gestion[] = [];
   etapas: Etapa[] = [];
+
+  errors: string[] = [];
+
+  tipoProductos: MultiSelect[] = [];
+  tipoBancas: MultiSelect[] = [];
+  tipoDiviciones: MultiSelect[] = [];
+  tipoComercios: MultiSelect[] = [];
+  tipoSocios: MultiSelect[] = [];
+  tipoCalificacionesDeudor: MultiSelect[] = [];
   tipoCreditos: MultiSelect[] = [];
   sedes: MultiSelect[] = [];
-  errors: string[] = [];
+
   /**********/
   ejecutivoSelected: any;
   carteraSelected: Cartera;
   gestionSelected: Gestion;
   etapasSelecionadas: Etapa[] = [];
-  selectedSedes: any[] = [];
-  selectedTipoCreditos: any[] = [];
   desde: any;
   hasta: any;
+
+  selectedProductos: any[] = [];
+  selectedBancas: any[] = [];
+  selectedDivisiones: any[] = [];
+  selectedComercios: any[] = [];
+  selectedSocios: any[] = [];
+  selectedClasificacionDeudor: any[] = [];
+  selectedSedes: any[] = [];
+  selectedTipoCreditos: any[] = [];
   /**********/
   sociosSeleccionados: SocioCredito[] = [];
 
@@ -75,18 +92,31 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   $creditosCheched: any[] = [];
   nombreCampoTemp: any;
   frecuencia: any;
+  showProductos = true;
+  showBancas = true;
+  showDivision = true;
+  showComercios = true;
+  showSocios = true;
+  showClasificacionDeudor = true;
 
   constructor(
     private spinner: NgxSpinnerService,
     private asignacionService: AsignacionCarteraService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private ngWizardService: NgWizardService
+    private ngWizardService: NgWizardService,
+    private maestroService: MaestroService
   ) {
     activatedRoute.params.subscribe(({ejecutivoId}) => this.buscarEjecutivoByCodUsuario(ejecutivoId));
   }
 
   ngOnInit() {
+    this.listarTipoProductos();
+    this.listarTipoBancas();
+    this.listarTipoDivisiones();
+    this.listarTipoComerciales();
+    this.listarTipoSocios();
+    this.listarClasificacionDeudor();
     this.listaTipoCreditos();
     this.listaSedes();
     this.listarCarteras();
@@ -239,9 +269,21 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
 
     if (cartera.campos[0].desde) {
       this.showMontos = false;
+    } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_LISTA_PRODUCTO_ABACO) {
+      this.showProductos = false;
+    } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_LISTA_BANCA_ABACO) {
+      this.showBancas = false;
+    } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_TIPO_DIVISION_ABACO) {
+      this.showDivision = false;
+    } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_TIPO_COMERCIAL_ABACO) {
+      this.showComercios = false;
+    } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_TIPO_DE_SOCIO_ABACO) {
+      this.showSocios = false;
+    } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_CLASIFICACION_DEL_DEUDOR_ABACO) {
+      this.showClasificacionDeudor = false;
     } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_LISTA_SEDE) {
       this.showSedes = false;
-    } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_LISTA_PRODUCTO_ABACO) {
+    } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_TIPO_DE_CREDITO_ABACO) {
       this.showTipoCredito = false;
     }
     this.listarSociosByCartera(cartera.codCartera);
@@ -328,8 +370,6 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     const cartera = this.carteraSelected;
     const gestion = this.gestionSelected;
     const etapas = this.etapasSelecionadas;
-    const sedes = this.selectedSedes;
-    const tipoCreditos = this.selectedTipoCreditos;
     const desde = this.desde;
     const hasta = this.hasta;
     const sociosOpcional = this.sociosSeleccionados;
@@ -366,9 +406,58 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     });
 
     const campoItems: EjecutivoCarteraCampo[] = [];
+
+    this.selectedProductos.forEach(v => {
+      campoItems.push({
+        codCampo: CONST.TABLE_STR_LISTA_PRODUCTO_ABACO,
+        valor: v,
+        opciona: 1
+      });
+    });
+
+    this.selectedBancas.forEach(v => {
+      campoItems.push({
+        codCampo: CONST.TABLE_STR_LISTA_BANCA_ABACO,
+        valor: v,
+        opciona: 1
+      });
+    });
+
+    this.selectedDivisiones.forEach(v => {
+      campoItems.push({
+        codCampo: CONST.TABLE_STR_TIPO_DIVISION_ABACO,
+        valor: v,
+        opciona: 1
+      });
+    });
+
+    this.selectedComercios.forEach(v => {
+      campoItems.push({
+        codCampo: CONST.TABLE_STR_TIPO_COMERCIAL_ABACO,
+        valor: v,
+        opciona: 1
+      });
+    });
+
+    this.selectedSocios.forEach(v => {
+      campoItems.push({
+        codCampo: CONST.TABLE_STR_TIPO_DE_SOCIO_ABACO,
+        valor: v,
+        opciona: 1
+      });
+    });
+
+    this.selectedClasificacionDeudor.forEach(v => {
+      campoItems.push({
+        codCampo: CONST.TABLE_STR_CLASIFICACION_DEL_DEUDOR_ABACO,
+        valor: v,
+        opciona: 1
+      });
+    });
+
     this.selectedTipoCreditos.forEach(v => {
       campoItems.push({
-        codCampo: this.showTipoCredito ? CONST.TABLE_STR_LISTA_PRODUCTO_ABACO : CONST.TABLE_STR_LISTA_SEDE,
+        codCampo: CONST.TABLE_STR_TIPO_DE_CREDITO_ABACO,
         valor: v,
         opciona: 1
       });
@@ -376,7 +465,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
 
     this.selectedSedes.forEach(v => {
       campoItems.push({
-        codCampo: this.showSedes ? CONST.TABLE_STR_LISTA_SEDE : CONST.TABLE_STR_LISTA_PRODUCTO_ABACO,
+        codCampo: CONST.TABLE_STR_LISTA_SEDE ,
         valor: v,
         opciona: 1
       });
@@ -402,7 +491,6 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
       endDate: this.$endDate,
       frecuencia: this.frecuencia
     };
-    console.log(data);
     return data;
   }
 
@@ -471,7 +559,79 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     const tipo = campos[0].codCampo;
     const items: GrupoCampo[] = [];
     switch (tipo) {
-      case CONST.TABLE_STR_LISTA_PRODUCTO_ABACO:
+      case CONST.TABLE_STR_LISTA_PRODUCTO_ABACO :
+        campos.forEach(item => {
+          const obj = this.tipoProductos.find(i => i.id == item.valor);
+          if (obj) {
+            items.push({
+              codCampo: item.codCampo,
+              descripcion: obj.name
+            });
+          }
+        });
+        this.nombreCampoTemp = 'Tipo de Productos';
+        break;
+      case CONST.TABLE_STR_LISTA_BANCA_ABACO :
+        campos.forEach(item => {
+          const obj = this.tipoBancas.find(i => i.id == item.valor);
+          if (obj) {
+            items.push({
+              codCampo: item.codCampo,
+              descripcion: obj.name
+            });
+          }
+        });
+        this.nombreCampoTemp = 'Tipo de Bancas';
+        break;
+      case CONST.TABLE_STR_TIPO_DIVISION_ABACO :
+        campos.forEach(item => {
+          const obj = this.tipoDiviciones.find(i => i.id == item.valor);
+          if (obj) {
+            items.push({
+              codCampo: item.codCampo,
+              descripcion: obj.name
+            });
+          }
+        });
+        this.nombreCampoTemp = 'Tipo de División';
+        break;
+      case CONST.TABLE_STR_TIPO_COMERCIAL_ABACO :
+        campos.forEach(item => {
+          const obj = this.tipoComercios.find(i => i.id == item.valor);
+          if (obj) {
+            items.push({
+              codCampo: item.codCampo,
+              descripcion: obj.name
+            });
+          }
+        });
+        this.nombreCampoTemp = 'Tipo de Comercio';
+        break;
+      case CONST.TABLE_STR_TIPO_DE_SOCIO_ABACO :
+        campos.forEach(item => {
+          const obj = this.tipoSocios.find(i => i.id == item.valor);
+          if (obj) {
+            items.push({
+              codCampo: item.codCampo,
+              descripcion: obj.name
+            });
+          }
+        });
+        this.nombreCampoTemp = 'Tipo de Socio';
+        break;
+      case CONST.TABLE_STR_CLASIFICACION_DEL_DEUDOR_ABACO :
+        campos.forEach(item => {
+          const obj = this.tipoCalificacionesDeudor.find(i => i.id == item.valor);
+          if (obj) {
+            items.push({
+              codCampo: item.codCampo,
+              descripcion: obj.name
+            });
+          }
+        });
+        this.nombreCampoTemp = 'Clasificación de Deudor';
+        break;
+      case CONST.TABLE_STR_TIPO_DE_CREDITO_ABACO:
         campos.forEach(item => {
           const obj = this.tipoCreditos.find(i => i.id == item.valor);
           if (obj) {
@@ -506,5 +666,48 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     }
 
     return items;
+  }
+
+
+  private listarTipoProductos() {
+    this.maestroService.listaTablaProductoAbaco().subscribe(
+      res => res.forEach(item => this.tipoProductos.push({id: item.codItem, name: item.descripcion})),
+      err => console.log(err)
+    );
+  }
+
+  private listarTipoBancas() {
+    this.maestroService.listaTablaBancasAbaco().subscribe(
+      res => res.forEach(item => this.tipoBancas.push({id: item.codItem, name: item.descripcion})),
+      err => console.log(err)
+    );
+  }
+
+  private listarTipoDivisiones() {
+    this.maestroService.listaTablaDivisionesAbaco().subscribe(
+      res => res.forEach(item => this.tipoDiviciones.push({id: item.codItem, name: item.descripcion})),
+      err => console.log(err)
+    );
+  }
+
+  private listarTipoComerciales() {
+    this.maestroService.listaTablaComerciosAbaco().subscribe(
+      res => res.forEach(item => this.tipoComercios.push({id: item.codItem, name: item.descripcion})),
+      err => console.log(err)
+    );
+  }
+
+  private listarTipoSocios() {
+    this.maestroService.listaTablaTipoSociosAbaco().subscribe(
+      res => res.forEach(item => this.tipoSocios.push({id: item.codItem, name: item.descripcion})),
+      err => console.log(err)
+    );
+  }
+
+  private listarClasificacionDeudor() {
+    this.maestroService.listaTablaClasificacionDeudorAbaco().subscribe(
+      res => res.forEach(item => this.tipoCalificacionesDeudor.push({id: item.codItem, name: item.descripcion})),
+      err => console.log(err)
+    );
   }
 }

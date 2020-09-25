@@ -134,7 +134,7 @@ export class MaestroService {
 
 
   listaTablaTipoCredito(): Observable<TablaMaestra[]> {
-    return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_LISTA_TIPO_CREDITO)});
+    return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_TIPO_DE_CREDITO_ABACO)});
   }
   listaTablaProductoAbaco(): Observable<TablaMaestra[]> {
     return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_LISTA_PRODUCTO_ABACO)});

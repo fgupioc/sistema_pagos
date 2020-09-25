@@ -84,6 +84,108 @@
                   </ul>
                 </div>
               </div>
+              <ng-container *ngIf="showProductos">
+                <div class="col-12 col-md-4" *ngIf="tipoProductos.length > 0">
+                  <div class="form-group">
+                    <label>Productos</label>
+                    <ng-select
+                      [items]="tipoProductos"
+                      bindLabel="name"
+                      bindValue="id"
+                      labelForId="tipoProductos"
+                      [multiple]="true"
+                      [placeholder]="'Seleccione'"
+                      clearAllText="Clear"
+                      [(ngModel)]="selectedProductos">
+                    </ng-select>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="showBancas">
+                <div class="col-12 col-md-4" *ngIf="tipoBancas.length > 0">
+                  <div class="form-group">
+                    <label>Bancas</label>
+                    <ng-select
+                      [items]="tipoBancas"
+                      bindLabel="name"
+                      bindValue="id"
+                      labelForId="tipoBancas"
+                      [multiple]="true"
+                      [placeholder]="'Seleccione'"
+                      clearAllText="Clear"
+                      [(ngModel)]="selectedBancas">
+                    </ng-select>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="showDivision">
+                <div class="col-12 col-md-4" *ngIf="tipoDiviciones.length > 0">
+                  <div class="form-group">
+                    <label>División</label>
+                    <ng-select
+                      [items]="tipoDiviciones"
+                      bindLabel="name"
+                      bindValue="id"
+                      labelForId="tipoDiviciones"
+                      [multiple]="true"
+                      [placeholder]="'Seleccione'"
+                      clearAllText="Clear"
+                      [(ngModel)]="selectedDivisiones">
+                    </ng-select>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="showComercios">
+                <div class="col-12 col-md-4" *ngIf="tipoComercios.length > 0">
+                  <div class="form-group">
+                    <label>Comercio</label>
+                    <ng-select
+                      [items]="tipoComercios"
+                      bindLabel="name"
+                      bindValue="id"
+                      labelForId="tipoComercios"
+                      [multiple]="true"
+                      [placeholder]="'Seleccione'"
+                      clearAllText="Clear"
+                      [(ngModel)]="selectedComercios">
+                    </ng-select>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="showSocios">
+                <div class="col-12 col-md-4" *ngIf="tipoSocios.length > 0">
+                  <div class="form-group">
+                    <label>Tipo Socio</label>
+                    <ng-select
+                      [items]="tipoSocios"
+                      bindLabel="name"
+                      bindValue="id"
+                      labelForId="tipoSocios"
+                      [multiple]="true"
+                      [placeholder]="'Seleccione'"
+                      clearAllText="Clear"
+                      [(ngModel)]="selectedSocios">
+                    </ng-select>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="showClasificacionDeudor">
+                <div class="col-12 col-md-4" *ngIf="tipoCalificacionesDeudor.length > 0">
+                  <div class="form-group">
+                    <label>Clasificación Deudor</label>
+                    <ng-select
+                      [items]="tipoCalificacionesDeudor"
+                      bindLabel="name"
+                      bindValue="id"
+                      labelForId="tipoCalificacionesDeudor"
+                      [multiple]="true"
+                      [placeholder]="'Seleccione'"
+                      clearAllText="Clear"
+                      [(ngModel)]="selectedClasificacionDeudor">
+                    </ng-select>
+                  </div>
+                </div>
+              </ng-container>
               <ng-container *ngIf="showSedes">
                 <div class="col-12 col-md-4" *ngIf="sedes.length > 0">
                   <div class="form-group">
@@ -257,7 +359,6 @@
           </ng-wizard-step>
         </ng-wizard>
       </div>
-
     </div>
   </div>
 </div>
