@@ -65,3 +65,7 @@
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+
+.accordion > .card {
+  overflow: inherit !important;
+}
