@@ -43,6 +43,8 @@ import { TableroTareasComponent } from './gestionar-tarea/tablero-tareas/tablero
 import {BsDropdownModule} from 'ngx-bootstrap';
 import { ModalNuevaTareasComponent } from './gestionar-tarea/modal-nueva-tareas/modal-nueva-tareas.component';
 import { TareaDetalleComponent } from './gestionar-tarea/tarea-detalle/tarea-detalle.component';
+import {BrowserModule} from '@angular/platform-browser';
+import {DndModule} from 'ngx-drag-drop';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -94,6 +96,8 @@ const ngWizardConfig: NgWizardConfig = {
         TreeviewModule.forRoot(),
         NgWizardModule.forRoot(ngWizardConfig),
         BsDropdownModule,
+        BrowserModule,
+        DndModule
     ],
   exports: [
     CrearCarteraComponent,
