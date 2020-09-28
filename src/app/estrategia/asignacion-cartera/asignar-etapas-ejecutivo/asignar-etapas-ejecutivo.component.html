@@ -76,7 +76,7 @@
                   <h3>Filtros Adicionales</h3>
                 </div>
               </div>
-              <div class="col-12 col-md-4" *ngIf="carteraSelected">
+              <div class="col-12 px-4 " *ngIf="carteraSelected">
                 <div class="form-group">
                   <label>{{ nombreCampoTemp }}</label>
                   <ul>
@@ -84,209 +84,225 @@
                   </ul>
                 </div>
               </div>
-              <ng-container *ngIf="showProductos">
-                <div class="col-12 col-md-4" *ngIf="tipoProductos.length > 0">
-                  <div class="form-group">
-                    <label>Productos</label>
-                    <ng-select
-                      [items]="tipoProductos"
-                      bindLabel="name"
-                      bindValue="id"
-                      labelForId="tipoProductos"
-                      [multiple]="true"
-                      [placeholder]="'Seleccione'"
-                      clearAllText="Clear"
-                      [(ngModel)]="selectedProductos">
-                    </ng-select>
-                  </div>
-                </div>
-              </ng-container>
-              <ng-container *ngIf="showBancas">
-                <div class="col-12 col-md-4" *ngIf="tipoBancas.length > 0">
-                  <div class="form-group">
-                    <label>Bancas</label>
-                    <ng-select
-                      [items]="tipoBancas"
-                      bindLabel="name"
-                      bindValue="id"
-                      labelForId="tipoBancas"
-                      [multiple]="true"
-                      [placeholder]="'Seleccione'"
-                      clearAllText="Clear"
-                      [(ngModel)]="selectedBancas">
-                    </ng-select>
-                  </div>
-                </div>
-              </ng-container>
-              <ng-container *ngIf="showDivision">
-                <div class="col-12 col-md-4" *ngIf="tipoDiviciones.length > 0">
-                  <div class="form-group">
-                    <label>División</label>
-                    <ng-select
-                      [items]="tipoDiviciones"
-                      bindLabel="name"
-                      bindValue="id"
-                      labelForId="tipoDiviciones"
-                      [multiple]="true"
-                      [placeholder]="'Seleccione'"
-                      clearAllText="Clear"
-                      [(ngModel)]="selectedDivisiones">
-                    </ng-select>
-                  </div>
-                </div>
-              </ng-container>
-              <ng-container *ngIf="showComercios">
-                <div class="col-12 col-md-4" *ngIf="tipoComercios.length > 0">
-                  <div class="form-group">
-                    <label>Comercio</label>
-                    <ng-select
-                      [items]="tipoComercios"
-                      bindLabel="name"
-                      bindValue="id"
-                      labelForId="tipoComercios"
-                      [multiple]="true"
-                      [placeholder]="'Seleccione'"
-                      clearAllText="Clear"
-                      [(ngModel)]="selectedComercios">
-                    </ng-select>
-                  </div>
-                </div>
-              </ng-container>
-              <ng-container *ngIf="showSocios">
-                <div class="col-12 col-md-4" *ngIf="tipoSocios.length > 0">
-                  <div class="form-group">
-                    <label>Tipo Socio</label>
-                    <ng-select
-                      [items]="tipoSocios"
-                      bindLabel="name"
-                      bindValue="id"
-                      labelForId="tipoSocios"
-                      [multiple]="true"
-                      [placeholder]="'Seleccione'"
-                      clearAllText="Clear"
-                      [(ngModel)]="selectedSocios">
-                    </ng-select>
-                  </div>
-                </div>
-              </ng-container>
-              <ng-container *ngIf="showClasificacionDeudor">
-                <div class="col-12 col-md-4" *ngIf="tipoCalificacionesDeudor.length > 0">
-                  <div class="form-group">
-                    <label>Clasificación Deudor</label>
-                    <ng-select
-                      [items]="tipoCalificacionesDeudor"
-                      bindLabel="name"
-                      bindValue="id"
-                      labelForId="tipoCalificacionesDeudor"
-                      [multiple]="true"
-                      [placeholder]="'Seleccione'"
-                      clearAllText="Clear"
-                      [(ngModel)]="selectedClasificacionDeudor">
-                    </ng-select>
-                  </div>
-                </div>
-              </ng-container>
-              <ng-container *ngIf="showSedes">
-                <div class="col-12 col-md-4" *ngIf="sedes.length > 0">
-                  <div class="form-group">
-                    <label>Sedes</label>
-                    <ng-select
-                      [items]="sedes"
-                      bindLabel="name"
-                      bindValue="id"
-                      labelForId="sedes"
-                      [multiple]="true"
-                      [placeholder]="'Seleccione'"
-                      clearAllText="Clear"
-                      [(ngModel)]="selectedSedes">
-                    </ng-select>
-                  </div>
-                </div>
-              </ng-container>
-              <ng-container *ngIf="showTipoCredito">
-                <div class="col-12 col-md-4" *ngIf="tipoCreditos.length > 0">
-                  <div class="form-group">
-                    <label>Tipo Creditos</label>
-                    <ng-select
-                      [items]="tipoCreditos"
-                      bindLabel="name"
-                      bindValue="id"
-                      labelForId="creditos"
-                      [multiple]="true"
-                      [placeholder]="'Seleccione'"
-                      clearAllText="Clear"
-                      [(ngModel)]="selectedTipoCreditos">
-                    </ng-select>
-                  </div>
-                </div>
-              </ng-container>
-              <ng-container *ngIf="showMontos">
-                <div class="col-12 col-md-4">
-                  <label>Montos</label>
-                  <div class="row">
-                    <div class="col-6">
-                      <div class="form-group">
-                        <input #from Number class="form-control" type="text" [(ngModel)]="desde" (ngModelChange)="validarDesde($event, to)" placeholder="Monto desde">
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <div class="form-group">
-                        <input #to Number class="form-control" type="text" [(ngModel)]="hasta" (ngModelChange)="validarHasta($event, from)" placeholder="Monto hasta">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </ng-container>
-              <hr>
-              <div class="col-12">
-                <div class="form-group">
-                  <label *ngIf="carteraSelected">Lista de socios de {{ carteraSelected.nombre }}</label>
-                  <ng-select [items]="sociosCredito"
-                             #select
-                             bindLabel="alias"
-                             dropdownPosition="auto"
-                             bindValue="id"
-                             labelForId="clientes"
-                             placeholder="Selecciona socio"
-                             [virtualScroll]="true"
-                             (change)="selecionarSocio($event, select)"
-                            [(ngModel)]="socioModel">
-                    <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-                      <div><span>Socio: </span><span>{{item.alias}}</span></div>
-                      <small><b>Tipo:</b> {{item.tipoDocumento}} | <b>Número:</b> {{item.numeroDocumento}}</small>
+              <div class="col-12 mb-4">
+                <ngb-accordion [closeOthers]="true">
+                  <ngb-panel id="static-1" title="Más Filtros">
+                    <ng-template ngbPanelContent>
+                     <div class="row">
+                       <ng-container *ngIf="showProductos">
+                         <div class="col-12 col-md-4" *ngIf="tipoProductos.length > 0">
+                           <div class="form-group">
+                             <label>Productos</label>
+                             <ng-select
+                               [items]="tipoProductos"
+                               bindLabel="name"
+                               bindValue="id"
+                               labelForId="tipoProductos"
+                               [multiple]="true"
+                               [placeholder]="'Seleccione'"
+                               clearAllText="Clear"
+                               [(ngModel)]="selectedProductos">
+                             </ng-select>
+                           </div>
+                         </div>
+                       </ng-container>
+                       <ng-container *ngIf="showBancas">
+                         <div class="col-12 col-md-4" *ngIf="tipoBancas.length > 0">
+                           <div class="form-group">
+                             <label>Bancas</label>
+                             <ng-select
+                               [items]="tipoBancas"
+                               bindLabel="name"
+                               bindValue="id"
+                               labelForId="tipoBancas"
+                               [multiple]="true"
+                               [placeholder]="'Seleccione'"
+                               clearAllText="Clear"
+                               [(ngModel)]="selectedBancas">
+                             </ng-select>
+                           </div>
+                         </div>
+                       </ng-container>
+                       <ng-container *ngIf="showDivision">
+                         <div class="col-12 col-md-4" *ngIf="tipoDiviciones.length > 0">
+                           <div class="form-group">
+                             <label>División</label>
+                             <ng-select
+                               [items]="tipoDiviciones"
+                               bindLabel="name"
+                               bindValue="id"
+                               labelForId="tipoDiviciones"
+                               [multiple]="true"
+                               [placeholder]="'Seleccione'"
+                               clearAllText="Clear"
+                               [(ngModel)]="selectedDivisiones">
+                             </ng-select>
+                           </div>
+                         </div>
+                       </ng-container>
+                       <ng-container *ngIf="showComercios">
+                         <div class="col-12 col-md-4" *ngIf="tipoComercios.length > 0">
+                           <div class="form-group">
+                             <label>Comercio</label>
+                             <ng-select
+                               [items]="tipoComercios"
+                               bindLabel="name"
+                               bindValue="id"
+                               labelForId="tipoComercios"
+                               [multiple]="true"
+                               [placeholder]="'Seleccione'"
+                               clearAllText="Clear"
+                               [(ngModel)]="selectedComercios">
+                             </ng-select>
+                           </div>
+                         </div>
+                       </ng-container>
+                       <ng-container *ngIf="showSocios">
+                         <div class="col-12 col-md-4" *ngIf="tipoSocios.length > 0">
+                           <div class="form-group">
+                             <label>Tipo Socio</label>
+                             <ng-select
+                               [items]="tipoSocios"
+                               bindLabel="name"
+                               bindValue="id"
+                               labelForId="tipoSocios"
+                               [multiple]="true"
+                               [placeholder]="'Seleccione'"
+                               clearAllText="Clear"
+                               [(ngModel)]="selectedSocios">
+                             </ng-select>
+                           </div>
+                         </div>
+                       </ng-container>
+                       <ng-container *ngIf="showClasificacionDeudor">
+                         <div class="col-12 col-md-4" *ngIf="tipoCalificacionesDeudor.length > 0">
+                           <div class="form-group">
+                             <label>Clasificación Deudor</label>
+                             <ng-select
+                               [items]="tipoCalificacionesDeudor"
+                               bindLabel="name"
+                               bindValue="id"
+                               labelForId="tipoCalificacionesDeudor"
+                               [multiple]="true"
+                               [placeholder]="'Seleccione'"
+                               clearAllText="Clear"
+                               [(ngModel)]="selectedClasificacionDeudor">
+                             </ng-select>
+                           </div>
+                         </div>
+                       </ng-container>
+                       <ng-container *ngIf="showSedes">
+                         <div class="col-12 col-md-4" *ngIf="sedes.length > 0">
+                           <div class="form-group">
+                             <label>Sedes</label>
+                             <ng-select
+                               [items]="sedes"
+                               bindLabel="name"
+                               bindValue="id"
+                               labelForId="sedes"
+                               [multiple]="true"
+                               [placeholder]="'Seleccione'"
+                               clearAllText="Clear"
+                               [(ngModel)]="selectedSedes">
+                             </ng-select>
+                           </div>
+                         </div>
+                       </ng-container>
+                       <ng-container *ngIf="showTipoCredito">
+                         <div class="col-12 col-md-4" *ngIf="tipoCreditos.length > 0">
+                           <div class="form-group">
+                             <label>Tipo Creditos</label>
+                             <ng-select
+                               [items]="tipoCreditos"
+                               bindLabel="name"
+                               bindValue="id"
+                               labelForId="creditos"
+                               [multiple]="true"
+                               [placeholder]="'Seleccione'"
+                               clearAllText="Clear"
+                               [(ngModel)]="selectedTipoCreditos">
+                             </ng-select>
+                           </div>
+                         </div>
+                       </ng-container>
+                       <ng-container *ngIf="showMontos">
+                         <div class="col-12 col-md-4">
+                           <label>Montos</label>
+                           <div class="row">
+                             <div class="col-6">
+                               <div class="form-group">
+                                 <input #from Number class="form-control" type="text" [(ngModel)]="desde" (ngModelChange)="validarDesde($event, to)" placeholder="Monto desde">
+                               </div>
+                             </div>
+                             <div class="col-6">
+                               <div class="form-group">
+                                 <input #to Number class="form-control" type="text" [(ngModel)]="hasta" (ngModelChange)="validarHasta($event, from)" placeholder="Monto hasta">
+                               </div>
+                             </div>
+                           </div>
+                         </div>
+                       </ng-container>
+                     </div>
                     </ng-template>
-                  </ng-select>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
-                      <thead>
-                      <tr class="text-center">
-                        <th scope="col">#</th>
-                        <th scope="col">Socio</th>
-                        <th scope="col">Tipo</th>
-                        <th scope="col">Documento</th>
-                        <th scope="col">opción</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr class="text-center" *ngFor="let socio of sociosSeleccionados; let i = index">
-                        <th scope="row">
-                          {{ i + 1}}
-                        </th>
-                        <td style="text-align: left">{{ socio.alias }}</td>
-                        <td>{{ socio.tipoDocumento }}</td>
-                        <td>{{ socio.numeroDocumento }}</td>
-                        <td>
-                          <button class="btn btn-sm btn-danger" (click)="eliminarSocioCredito(socio)"><i class="fa fa-trash"></i></button>
-                        </td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+                  </ngb-panel>
+                  <ngb-panel id="static-2">
+                    <ng-template ngbPanelTitle>
+                      <span>Socios</span>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <label *ngIf="carteraSelected">Lista de socios de {{ carteraSelected.nombre }}</label>
+                          <ng-select [items]="sociosCredito"
+                                     #select
+                                     bindLabel="alias"
+                                     dropdownPosition="auto"
+                                     bindValue="id"
+                                     labelForId="clientes"
+                                     placeholder="Selecciona socio"
+                                     [virtualScroll]="true"
+                                     (change)="selecionarSocio($event, select)"
+                                     [(ngModel)]="socioModel">
+                            <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                              <div><span>Socio: </span><span>{{item.alias}}</span></div>
+                              <small><b>Tipo:</b> {{item.tipoDocumento}} | <b>Número:</b> {{item.numeroDocumento}}</small>
+                            </ng-template>
+                          </ng-select>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                              <thead>
+                              <tr class="text-center">
+                                <th scope="col">#</th>
+                                <th scope="col">Socio</th>
+                                <th scope="col">Tipo</th>
+                                <th scope="col">Documento</th>
+                                <th scope="col">opción</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr class="text-center" *ngFor="let socio of sociosSeleccionados; let i = index">
+                                <th scope="row">
+                                  {{ i + 1}}
+                                </th>
+                                <td style="text-align: left">{{ socio.alias }}</td>
+                                <td>{{ socio.tipoDocumento }}</td>
+                                <td>{{ socio.numeroDocumento }}</td>
+                                <td>
+                                  <button class="btn btn-sm btn-danger" (click)="eliminarSocioCredito(socio)"><i class="fa fa-trash"></i></button>
+                                </td>
+                              </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </ngb-panel>
+                </ngb-accordion>
               </div>
               <div class="col-12" *ngIf="errors.length > 0 || errorMonto">
                 <div role="alert" class="alert alert-danger">
@@ -298,7 +314,7 @@
               </div>
               <div class="col-12 text-center">
                 <div class="form-group">
-                  <button class="btn btn-primary" (click)="nextCoincidencias()" >Continuar <i class="fa fa-arrow-right"></i></button>
+                  <button class="btn btn-primary" (click)="nextCoincidencias()">Continuar <i class="fa fa-arrow-right"></i></button>
                 </div>
               </div>
             </div>
@@ -336,7 +352,7 @@
                       <tr class="text-center" *ngFor="let credito of $creditos; let i = index">
                         <th scope="row">
                           <label class="container">
-                            <input type="checkbox"  (change)="changeCheckCreditos($event, credito)">
+                            <input type="checkbox" (change)="changeCheckCreditos($event, credito)">
                             <span class="checkmark"></span>
                           </label>
                         </th>
@@ -353,7 +369,7 @@
               </div>
 
               <div class="col-12 text-center mt-4">
-                <button class="btn btn-primary" [disabled]="$creditosCheched.length == 0 || !$startDate " (click)="nextFinished()" >Guardad <i class="fa fa-save"></i></button>
+                <button class="btn btn-primary" [disabled]="$creditosCheched.length == 0 || !$startDate " (click)="nextFinished()">Guardad <i class="fa fa-save"></i></button>
               </div>
             </div>
           </ng-wizard-step>
