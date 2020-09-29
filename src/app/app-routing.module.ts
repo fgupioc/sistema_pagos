@@ -140,10 +140,10 @@ const routes: Routes = [
           ]
         },
         {
-          path: 'gestion-tarea',
+          path: 'gestion-administrativa',
           children: [
-            {path: 'tablero', component: TableroTareasComponent},
-            {path: 'tablero/:slug', component: TareaDetalleComponent},
+            {path: 'tareas', component: TableroTareasComponent},
+            {path: 'tareas/:slug', component: TareaDetalleComponent},
             {path: ':ejecutivoId/ejecutivo', component: EjecutivoTareaComponent }
           ]
         }
