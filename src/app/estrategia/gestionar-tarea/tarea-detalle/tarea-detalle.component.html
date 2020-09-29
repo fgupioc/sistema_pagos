@@ -39,8 +39,11 @@
                  (dndLinked)="onDragged(item, $tareasLista, 'link')"
                  (dndMoved)="onDragged(item, $tareasLista, 'move')"
                  (dndCanceled)="onDragged(item, $tareasLista, 'none')"
-                 (dndEnd)="onDragEnd($event)" class="list-group-item list-group-item-action list-group-item-secondary mb-2">
-                {{item.content}}</a>
+                 (dndEnd)="onDragEnd($event)" class="list-group-item list-group-item-action list-group-item-secondary mb-2" style="padding-bottom: 0.5rem !important;">
+                <div class="item-container">
+                  <div class="item-body">{{ item.content }}</div>
+                </div>
+                </a>
             </ng-container>
             <ng-container *ngIf="$tareasLista.length == 0">
               <div style="height: 40px"></div>
@@ -76,7 +79,17 @@
                  (dndCopied)="onDragged(item, $tareasProceso, 'copy')"
                  (dndLinked)="onDragged(item, $tareasProceso, 'link')"
                  (dndMoved)="onDragged(item, $tareasProceso, 'move')"
-                 (dndCanceled)="onDragged(item, $tareasProceso, 'none')" class="list-group-item list-group-item-action list-group-item-primary  mb-2">{{item.content}}</a>
+                 (dndCanceled)="onDragged(item, $tareasProceso, 'none')" class="list-group-item list-group-item-action list-group-item-primary  mb-2">
+                <div class="item-container">
+                  <div class="item-body">{{ item.content }}</div>
+                  <div class="item-footer">
+                    <ul>
+                      <li><i class="fa fa-comment-o"></i> 1</li>
+                      <li><i class="fa fa-check-square-o"></i> 3</li>
+                    </ul>
+                  </div>
+                </div>
+              </a>
             </ng-container>
             <ng-container *ngIf="$tareasProceso.length ==0">
               <div style="height: 40px"></div>
@@ -113,7 +126,16 @@
                  (dndLinked)="onDragged(item, $tareasTerminadas, 'link')"
                  (dndMoved)="onDragged(item, $tareasTerminadas, 'move')"
                  (dndCanceled)="onDragged(item, $tareasTerminadas, 'none')" class="list-group-item list-group-item-action list-group-item-success  mb-2">
-                {{item.content}}</a>
+                <div class="item-container">
+                  <div class="item-body">{{ item.content }}</div>
+                  <div class="item-footer">
+                    <ul>
+                      <li><i class="fa fa-comment-o"></i> 1</li>
+                      <li><i class="fa fa-check-square-o"></i> 3</li>
+                    </ul>
+                  </div>
+                </div>
+              </a>
             </ng-container>
             <ng-container *ngIf="$tareasTerminadas.length ==0">
               <div style="height: 40px"></div>
