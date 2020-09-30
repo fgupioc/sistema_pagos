@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {DndDropEvent, DropEffect} from 'ngx-drag-drop';
 import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
 import {ModalNuevaTareasComponent} from '../modal-nueva-tareas/modal-nueva-tareas.component';
+import {GestionAdministrativaService} from '../../../servicios/gestion-administrativa.service';
+import {Credito} from '../../../interfaces/credito';
 
 export interface Task {
   nombre: string;
@@ -39,8 +41,10 @@ export class TareaDetalleComponent implements OnInit {
   private currentDraggableEvent: DragEvent;
   newTask = false;
   nameTask: any;
+  $creditos: Credito[] = [];
 
   constructor(
+    private gestionAdministrativaService: GestionAdministrativaService,
     public modalService: NgbModal,
     public config: NgbModalConfig
   ) {
@@ -49,6 +53,7 @@ export class TareaDetalleComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loadCreditosPorEjecutivo('54');
   }
 
   onDragStart(event: DragEvent) {
@@ -93,8 +98,9 @@ export class TareaDetalleComponent implements OnInit {
   }
 
   showDetail(item: Task) {
-    const modal = this.modalService.open(ModalNuevaTareasComponent, { size: 'lg'});
+    const modal = this.modalService.open(ModalNuevaTareasComponent, {size: 'lg'});
     modal.componentInstance.tarea = item;
+    modal.componentInstance.creditos = this.$creditos;
     modal.result.then(
       this.closeModal.bind(this),
       this.closeModal.bind(this)
@@ -104,5 +110,15 @@ export class TareaDetalleComponent implements OnInit {
 
   closeModal(data) {
     console.log(data);
+  }
+
+  private loadCreditosPorEjecutivo(ejecutivoId: string) {
+    this.gestionAdministrativaService.onteberCreditosPorEjecutivo(ejecutivoId).subscribe(
+      res => {
+        if (res.exito) {
+          this.$creditos = res.objeto as Credito[];
+        }
+      }
+    );
   }
 }

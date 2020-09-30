@@ -1,115 +1,230 @@
 <div class="modal-content">
   <div class="modal-body" *ngIf="tarea">
     <div class="row">
-      <div class="col-12 col-md-8">
-        <div class="row">
-          <div class="col-12">
-            <div class="form-group">
-              <h3>{{tarea.nombre}}</h3>
-              <small>En la lista <span>{{ tarea.proceso }}</span></small>
+      <div class="col-12">
+        <div class="form-group">
+          <ng-container *ngIf="!editName">
+            <div class="d-flex justify-content-between mb-2">
+              <h3>{{$tarea.nombre}}</h3>
+              <button *ngIf="!editName" class="btn btn-sm btn-outline-info" (click)="editName ? editName = false : editName = true"><i class="fa fa-edit"></i></button>
             </div>
-          </div>
-          <div class="col-12" *ngIf="tarea.fechaVencimiento">
-            <div class="form-group">
-              <div class="d-flex justify-content-between mb-2">
-                <label>Vencimiento</label>
-                <button *ngIf="!editVencimiento" class="btn btn-sm btn-outline-info" (click)="newVencimiento()"><i class="fa fa-edit"></i></button>
+          </ng-container>
+          <ng-container *ngIf="editName">
+            <input class="form-control" [(ngModel)]="$tarea.nombre" (blur)="editName = false">
+          </ng-container>
+          <small>En la lista <span>{{ $tarea.proceso }}</span>
+            <div class="btn-group ml-2" ngbDropdown display="dynamic" placement="bottom-right">
+              <a class="btn btn-sm btn-outline-{{ getClassPriority }}" href="javascript:;"  tabindex="0" ngbDropdownToggle id="navbarDropdown2"  role="button">
+                <i class="fa fa-question-circle"></i> Prioridad
+              </a>
+              <div ngbDropdownMenu aria-labelledby="navbarDropdown2" class="dropdown-menu dropdown-menu-right">
+                <a ngbDropdownItem href="javascript:;" (click)="priority = 2" [class.active]="priority == 2">Alta</a>
+                <a ngbDropdownItem href="javascript:;" (click)="priority = 1" [class.active]="priority == 1">Media</a>
+                <a ngbDropdownItem href="javascript:;" (click)="priority = 0" [class.active]="priority == 0">Baja</a>
               </div>
-              <ng-container *ngIf="!editVencimiento">
-                <div class="d-flex justify-content-between">
-                  <label class="container" style="font-size: 16px; font-weight: bold">
-                    {{ tarea.fechaVencimiento  | date : 'dd MMM yyyy' }}
-                    a las {{ tarea.fechaHora }}
-                    <input type="checkbox" [(ngModel)]="checkVencimiento" (ngModelChange)="changeVencimiento($event)">
-                    <span class="checkmark"></span>
-                  </label>
-                  <span class="pull-right-container">
+            </div>
+          </small>
+
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group">
+          <div class="d-flex justify-content-between mb-2">
+            <label>Vencimiento</label>
+            <button *ngIf="!editVencimiento" class="btn btn-sm btn-outline-info" (click)="newVencimiento()"><i class="fa fa-edit"></i></button>
+          </div>
+          <ng-container *ngIf="!editVencimiento && $tarea.fechaVencimiento">
+            <div class="d-flex justify-content-between">
+              <label class="container" style="font-size: 16px; font-weight: bold">
+                {{ $tarea.fechaVencimiento  | date : 'dd MMM yyyy' }}
+                a las {{ $tarea.fechaHora }}
+                <input type="checkbox" [(ngModel)]="checkVencimiento" (ngModelChange)="changeVencimiento($event)">
+                <span class="checkmark"></span>
+              </label>
+              <span class="pull-right-container">
                   <small *ngIf="checedCumplido == 0" class="badge badge-info">PENDIENTE</small>
                   <small *ngIf="checedCumplido == 1" class="badge badge-success">CUMPLIDA</small>
                   <small *ngIf="checedCumplido == 2" class="badge badge-danger">PLAZO VENCIDO</small>
                 </span>
-                </div>
-              </ng-container>
-              <ng-container *ngIf="editVencimiento">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="form-group">
-                      <div class="text-center position-relative">
-                        <label>Cambiar fecha de vencimiento</label>
-                        <button (click)="editVencimiento = false" class="btn btn-sm btn-outline-primary position-absolute" style="right: 5px; top:0"><i class="fa fa-close"></i></button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <label>Fecha</label>
-                    <input type="date" class="form-control" [(ngModel)]="tarea.fechaVencimiento">
-                  </div>
-                  <div class="col-6">
-                    <label>Hora</label>
-                    <input type="time" class="form-control" [(ngModel)]="tarea.fechaHora">
-                  </div>
-                  <div class="col-12 mt-2">
-                    <div class="form-group">
-                      <div class="d-flex justify-content-between">
-                        <button class="btn btn-sm btn-info" (click)="editVencimiento = false">Guardar</button>
-                        <button class="btn btn-sm btn-danger" (click)="tarea.fechaVencimiento = null">Quitar</button>
-                      </div>
-                    </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="editVencimiento || !$tarea.fechaVencimiento">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <div class="text-center position-relative">
+                    <label>Cambiar fecha de vencimiento</label>
+                    <button (click)="editVencimiento = false" class="btn btn-sm btn-outline-primary position-absolute" style="right: 5px; top:0"><i class="fa fa-close"></i></button>
                   </div>
                 </div>
-              </ng-container>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="form-group">
-              <div class="d-flex justify-content-between mb-2">
-                <label>Descripción</label>
-                <button *ngIf="!editDescription" class="btn btn-sm btn-outline-info" (click)="editDescription = true"><i class="fa fa-edit"></i></button>
               </div>
-              <ng-container *ngIf="editDescription">
-                <textarea [(ngModel)]="tarea.descripcion" class="form-control" (blur)="editDescription = false" rows="4"></textarea>
-              </ng-container>
-              <ng-container *ngIf="!editDescription">
-                <p>{{ tarea.descripcion }}</p>
-              </ng-container>
-
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="form-group">
-              <div class="d-flex justify-content-between mb-2">
-                <label>Actividades</label>
-                <button *ngIf="showActividades" class="btn btn-sm btn-outline-info" (click)="showActividades = false">Ocultar Detalle</button>
-                <button *ngIf="!showActividades" class="btn btn-sm btn-outline-info" (click)="showActividades = true">Mostrar Detalle</button>
+              <div class="col-6">
+                <label>Fecha</label>
+                <input type="date" class="form-control" [(ngModel)]="$tarea.fechaVencimiento">
               </div>
-              <ul class="list-group" *ngIf="showActividades">
-                <li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, blanditiis earum inventore maiores minima vel?</li>
-                <li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, blanditiis earum inventore maiores minima vel?</li>
-                <li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, blanditiis earum inventore maiores minima vel?</li>
-                <li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, blanditiis earum inventore maiores minima vel?</li>
-                <li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, blanditiis earum inventore maiores minima vel?</li>
-                <li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, blanditiis earum inventore maiores minima vel?</li>
-                <li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, blanditiis earum inventore maiores minima vel?</li>
-              </ul>
+              <div class="col-6">
+                <label>Hora</label>
+                <input type="time" class="form-control" [(ngModel)]="$tarea.fechaHora">
+              </div>
+              <div class="col-12 mt-2">
+                <div class="form-group">
+                  <div class="d-flex justify-content-between">
+                    <button class="btn btn-sm btn-info" (click)="editVencimiento = false">Guardar</button>
+                    <button class="btn btn-sm btn-danger" (click)="$tarea.fechaVencimiento = null">Quitar</button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+          </ng-container>
         </div>
       </div>
-      <div class="col-12 col-md-4">
-        <div class="row">
-          <div class="col-12">
-            <div class="form-group">
-              <h5 class="text-uppercase">Añadir a la tarea</h5>
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label class="container " style="font-size: 16px;">
+            Recordar el
+            <input type="checkbox" [(ngModel)]="checkRecordatorio">
+            <span class="checkmark"></span>
+          </label>
+
+          <input type="date" class="form-control input-date mr-2" style="width: 140px">
+          <input type="time" class="form-control input-date" style="width: 96px">
+
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label class="container" style="font-size: 16px;">
+            Notificación
+            <input type="checkbox" [(ngModel)]="checkNotification">
+            <span class="checkmark"></span>
+          </label>
+          <label class="container" style="font-size: 16px;">
+            Correo
+            <input type="checkbox" [(ngModel)]="checkEmail">
+            <span class="checkmark"></span>
+          </label>
+          <label class="container" style="font-size: 16px;">
+            Enviar notificación de vencimiento
+            <input type="checkbox" [(ngModel)]="checkNotificationexpiration">
+            <span class="checkmark"></span>
+          </label>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group">
+          <label>Créditos asignados</label>
+          <select class="form-control" [(ngModel)]="credito" (ngModelChange)="changeCredito($event);">
+            <option *ngFor="let item of creditos" [value]="item.id">{{ item.alias }} - {{ item.nroCredito }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-12">
+        <ng-container *ngIf="socio" [formGroup]="formRecordatorio">
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" class="form-control" formControlName="fecha">
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label>Hora</label>
+                <input type="time" class="form-control" formControlName="hora" min="07:00" max="20:00">
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label>Seleccione la actividad</label>
+                <select class="form-control" formControlName="tipoActividad" (ngModelChange)="showItem = $event">
+                  <option value="">Selecione</option>
+                  <option *ngFor="let item of tipoActividades" [value]="item.codItem">{{ item.descripcion }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-12 col-md-6" *ngIf="showItem == '1'">
+              <div class="form-group">
+                <label>Seleccione número</label>
+                <select class="form-control" formControlName="numeroTelefono">
+                  <option>Selecione</option>
+                  <option *ngFor="let item of showPhones" [value]="item.numero">{{ (item.codCiudad ? item.codCiudad + '-' : '') + item.numero }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-12 col-md-6" *ngIf="showItem == '2'">
+              <div class="form-group">
+                <label>Seleccione Correo</label>
+                <select class="form-control" formControlName="correo">
+                  <option>Selecione</option>
+                  <option *ngFor="let item of showEmails" [value]="item.email">{{ item.email }}</option>
+                </select>
+              </div>
+            </div>
+            <ng-container *ngIf="showItem == '3'">
+              <div class="col-12 col-md-6">
+                <div class="form-group">
+                  <label>Seleccione Metodo</label>
+                  <select #metodo class="form-control" formControlName="tipoMetodo" (ngModelChange)="cambioTipoMetodo($event)">
+                    <option value="">Selecione</option>
+                    <option *ngFor="let item of listadoMensaje" [value]="item.nombre">{{ item.nombre }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-12 col-md-6" *ngIf="showCellphones != ''">
+                <div class="form-group">
+                  <label>Seleccione número</label>
+                  <select class="form-control" formControlName="numeroTelefono">
+                    <option value="">Selecione</option>
+                    <option *ngFor="let item of $telefonos" [value]="item.numero">{{ item.numero }}</option>
+                  </select>
+                </div>
+              </div>
+            </ng-container>
+            <div class="col-12 " *ngIf="showItem == '4'">
+              <div class="form-group">
+                <label>Seleccione Dirección</label>
+                <select class="form-control" formControlName="direccion">
+                  <option>Selecione</option>
+                  <option *ngFor="let item of showAddress" [value]="item.nombreVia">{{ item.nombreVia }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label>Comentario</label>
+                <textarea class="form-control" formControlName="comentario"></textarea>
+              </div>
             </div>
           </div>
-          <div class="col-12">
-            <div class="form-group">
-              <ul class="list-group">
-                <li class="cursor-pointer list-group-item list-group-item-action list-group-item-light" (click)="newVencimiento()"><i class="fa fa-clock-o"></i> Vencimiento</li>
-                <li class="cursor-pointer list-group-item list-group-item-action list-group-item-light"><i class="fa fa-check-circle"></i> Checklist</li>
-              </ul>
-            </div>
+        </ng-container>
+      </div>
+      <div class="col-12">
+        <div class="form-group">
+          <div class="d-flex justify-content-between mb-2">
+            <label>Descripción</label>
+            <button *ngIf="!editDescription" class="btn btn-sm btn-outline-info" (click)="editDescription = true"><i class="fa fa-edit"></i></button>
           </div>
+          <ng-container *ngIf="editDescription">
+            <textarea [(ngModel)]="$tarea.descripcion" class="form-control" (blur)="editDescription = false" rows="4"></textarea>
+          </ng-container>
+          <ng-container *ngIf="!editDescription">
+            <p>{{ $tarea.descripcion }}</p>
+          </ng-container>
+
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group">
+          <div class="d-flex justify-content-between mb-2">
+            <label>Actividades</label>
+            <button *ngIf="showActividades" class="btn btn-sm btn-outline-info" (click)="showActividades = false">Ocultar Detalle</button>
+            <button *ngIf="!showActividades" class="btn btn-sm btn-outline-info" (click)="showActividades = true">Mostrar Detalle</button>
+          </div>
+          <ul class="list-group" *ngIf="showActividades">
+            <li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, blanditiis earum inventore maiores minima vel?</li>
+            <li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, blanditiis earum inventore maiores minima vel?</li>
+            <li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, blanditiis earum inventore maiores minima vel?</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -119,3 +234,4 @@
     <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Cancelar</button>
   </div>
 </div>
+<app-loading></app-loading>
