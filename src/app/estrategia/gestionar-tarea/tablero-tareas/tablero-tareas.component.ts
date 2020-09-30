@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ModalNuevaTareasComponent} from '../modal-nueva-tareas/modal-nueva-tareas.component';
+import {ModalTableroNuevaTareaComponent} from '../modal-tablero-nueva-tarea/modal-tablero-nueva-tarea.component';
 
 @Component({
   selector: 'app-tablero-tareas',
@@ -17,6 +18,6 @@ export class TableroTareasComponent implements OnInit {
   }
 
   showModalNuevaTarea() {
-    const modal = this.modalService.open(ModalNuevaTareasComponent, {centered: true});
+    const modal = this.modalService.open(ModalTableroNuevaTareaComponent, {centered: true});
   }
 }

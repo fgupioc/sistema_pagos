@@ -45,6 +45,7 @@ import { ModalNuevaTareasComponent } from './gestionar-tarea/modal-nueva-tareas/
 import { TareaDetalleComponent } from './gestionar-tarea/tarea-detalle/tarea-detalle.component';
 import {BrowserModule} from '@angular/platform-browser';
 import {DndModule} from 'ngx-drag-drop';
+import { ModalTableroNuevaTareaComponent } from './gestionar-tarea/modal-tablero-nueva-tarea/modal-tablero-nueva-tarea.component';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -80,7 +81,8 @@ const ngWizardConfig: NgWizardConfig = {
     EjecutivoTareaComponent,
     TableroTareasComponent,
     ModalNuevaTareasComponent,
-    TareaDetalleComponent
+    TareaDetalleComponent,
+    ModalTableroNuevaTareaComponent
   ],
     imports: [
         CommonModule,
@@ -119,7 +121,8 @@ const ngWizardConfig: NgWizardConfig = {
     ModalGestionarPromesasPagoComponent,
     ModalAgregarCreditoComponent,
     ModalAsignarEstadoRecordatorioComponent,
-    ModalNuevaTareasComponent
+    ModalNuevaTareasComponent,
+    ModalTableroNuevaTareaComponent
   ]
 })
 export class EstrategiaModule {

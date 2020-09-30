@@ -27,12 +27,12 @@
         <div class="container-list-tasks">
           <div class="list-group" dndDropzone
                dndEffectAllowed="copyMove"
-               (dndDrop)="onDrop($event, $tareasLista)">
+               (dndDrop)="onDrop($event, 'En Lista', $tareasLista)">
             <div dndPlaceholderRef class="dndPlaceholder mb-2"></div>
             <ng-container *ngIf="$tareasLista.length > 0">
               <a href="javascript:;" *ngFor="let item of $tareasLista"
                  [dndDraggable]="item"
-                 [dndEffectAllowed]="item.effectAllowed"
+                 [dndEffectAllowed]="'move'"
                  [dndDisableIf]="item.disable"
                  (dndStart)="onDragStart($event)"
                  (dndCopied)="onDragged(item, $tareasLista, 'copy')"
@@ -41,7 +41,14 @@
                  (dndCanceled)="onDragged(item, $tareasLista, 'none')"
                  (dndEnd)="onDragEnd($event)" class="list-group-item list-group-item-action list-group-item-secondary mb-2" style="padding-bottom: 0.5rem !important;">
                 <div class="item-container">
-                  <div class="item-body">{{ item.content }}</div>
+                  <div class="item-body">
+                    <div class="item-body-header">
+                      <div class="item-title">{{ item.nombre }}</div>
+                      <div class="item-tools">
+                        <div class="btn btn-sm btn-outline-primary" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 </a>
             </ng-container>
@@ -50,9 +57,19 @@
             </ng-container>
           </div>
         </div>
-        <a class="open-card-composer">
-          <i class="fa fa-plus"></i><span class="box-title"> Añada una tarjeta</span>
+        <a *ngIf="!newTask" class="open-card-composer cursor-pointer" (click)="newTask = true;">
+          <i class="fa fa-plus"></i><span class="box-title"> Añada una Tarea</span>
         </a>
+        <ng-container *ngIf="newTask">
+         <div class="text-center mt-2">
+           <textarea class="form-control" [(ngModel)]="nameTask" placeholder="Introduzca un titulo para esta tarea..."></textarea>
+           <div class="mt-2">
+             <button class="btn btn-sm btn-outline-info mr-2" (click)="nuevaTarea()">Añadir tarea</button>
+             <button class="btn btn-sm btn-danger" (click)="newTask = false"><i class="fa fa-close"></i></button>
+           </div>
+         </div>
+
+        </ng-container>
       </div>
     </div>
   </div>
@@ -68,12 +85,12 @@
         <div class="container-list-tasks">
           <div class="list-group" dndDropzone
                dndEffectAllowed="copyMove"
-               (dndDrop)="onDrop($event, $tareasProceso)">
+               (dndDrop)="onDrop($event, 'En Proceso',$tareasProceso)">
             <div dndPlaceholderRef class="dndPlaceholder  mb-2"></div>
             <ng-container *ngIf="$tareasProceso.length > 0">
               <a href="javascript:;" *ngFor="let item of $tareasProceso"
                  [dndDraggable]="item"
-                 [dndEffectAllowed]="item.effectAllowed"
+                 [dndEffectAllowed]="'move'"
                  [dndDisableIf]="item.disable"
                  (dndStart)="onDragStart($event)"
                  (dndCopied)="onDragged(item, $tareasProceso, 'copy')"
@@ -81,7 +98,14 @@
                  (dndMoved)="onDragged(item, $tareasProceso, 'move')"
                  (dndCanceled)="onDragged(item, $tareasProceso, 'none')" class="list-group-item list-group-item-action list-group-item-primary  mb-2">
                 <div class="item-container">
-                  <div class="item-body">{{ item.content }}</div>
+                  <div class="item-body">
+                    <div class="item-body-header">
+                      <div class="item-title">{{ item.nombre }}</div>
+                      <div class="item-tools">
+                        <div class="btn btn-sm btn-outline-primary" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
+                      </div>
+                    </div>
+                  </div>
                   <div class="item-footer">
                     <ul>
                       <li><i class="fa fa-comment-o"></i> 1</li>
@@ -111,12 +135,12 @@
         <div class="container-list-tasks">
           <div class="list-group" dndDropzone
                dndEffectAllowed="copyMove"
-               (dndDrop)="onDrop($event, $tareasTerminadas)">
+               (dndDrop)="onDrop($event, 'Terminada', $tareasTerminadas)">
             <div dndPlaceholderRef class="dndPlaceholder  mb-2"></div>
             <ng-container *ngIf="$tareasTerminadas.length > 0">
               <a href="javascript:;" *ngFor="let item of $tareasTerminadas"
                  [dndDraggable]="item"
-                 [dndEffectAllowed]="item.effectAllowed"
+                 [dndEffectAllowed]="'move'"
                  [dndDisableIf]="item.disable"
                  (dndStart)="onDragStart($event)"
                  (dndCopied)="onDragged(item, $tareasTerminadas, 'copy')"
@@ -124,7 +148,14 @@
                  (dndMoved)="onDragged(item, $tareasTerminadas, 'move')"
                  (dndCanceled)="onDragged(item, $tareasTerminadas, 'none')" class="list-group-item list-group-item-action list-group-item-success  mb-2">
                 <div class="item-container">
-                  <div class="item-body">{{ item.content }}</div>
+                  <div class="item-body">
+                    <div class="item-body-header">
+                      <div class="item-title">{{ item.nombre }}</div>
+                      <div class="item-tools">
+                        <div class="btn btn-sm btn-outline-success" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
+                      </div>
+                    </div>
+                  </div>
                   <div class="item-footer">
                     <ul>
                       <li><i class="fa fa-comment-o"></i> 1</li>
