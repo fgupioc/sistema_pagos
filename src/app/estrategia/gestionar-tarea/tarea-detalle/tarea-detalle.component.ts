@@ -75,7 +75,7 @@ export class TareaDetalleComponent implements OnInit {
       this.gestionAdministrativaService.actualizarEtapaTarea(event.data.id, process).subscribe(
         res => {
           if (res.exito) {
-            event.data.proceso = process;
+            event.data.etapaActual = process;
             list.splice(index, 0, event.data);
             this.spinner.hide();
           } else {
@@ -130,7 +130,9 @@ export class TareaDetalleComponent implements OnInit {
   }
 
   closeModal(data) {
-    console.log(data);
+    if (data && data.exito) {
+      this.loadTableroTareaPorSlug(this.tarjeta.slug);
+    }
   }
 
   loadCreditosPorEjecutivo(ejecutivoId: string) {

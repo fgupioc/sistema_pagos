@@ -18,6 +18,7 @@ import {TipoNotificacion} from '../../../models/tipo-notificacion';
 import {TipoNotificacionService} from '../../../servicios/tipo-notificacion.service';
 import {Tarea} from '../../../interfaces/tarea';
 import {FUNC} from '../../../comun/FUNC';
+import {GestionAdministrativaService} from '../../../servicios/gestion-administrativa.service';
 
 @Component({
   selector: 'app-modal-nueva-tareas',
@@ -60,6 +61,7 @@ export class ModalNuevaTareasComponent implements OnInit {
     private tablaMaestraService: MaestroService,
     private formBuilder: FormBuilder,
     private tipoNotificacionService: TipoNotificacionService,
+    private gestionAdministrativaService: GestionAdministrativaService
   ) {
   }
 
@@ -94,7 +96,25 @@ export class ModalNuevaTareasComponent implements OnInit {
 
 
   crear() {
-
+    if (this.$tarea.nombre && this.$tarea.nombre.trim().length == 0) {
+      Swal.fire('Actualizar Tarea', 'El nombre de la tarea es obligatorio', 'warning');
+      return;
+    }
+    this.spinner.show();
+    this.gestionAdministrativaService.actualizarTarea(this.$tarea).subscribe(
+      res => {
+        if (res.exito) {
+          this.activeModal.dismiss(res);
+        } else {
+          Swal.fire('Actualizar Tareas', res.mensaje, 'warning');
+        }
+        this.spinner.hide();
+      },
+      err => {
+        Swal.fire('Actualizar Tareas', 'Ocurrio un error', 'success');
+        this.spinner.hide();
+      }
+    );
   }
 
   changeVencimiento(event: any) {

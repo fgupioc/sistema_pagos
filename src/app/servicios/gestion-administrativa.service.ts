@@ -45,4 +45,8 @@ export class GestionAdministrativaService {
   actualizarEtapaTarea(tareaId: string, etapa: string): Observable<Respuesta> {
     return this.http.put<Respuesta>(`${urlBase}/tarea-actualizar-etapa`, {}, {params: new HttpParams().set('tareaId', tareaId).set('etapa', etapa)});
   }
+
+  actualizarTarea(tarea: Tarea): Observable<Respuesta> {
+    return this.http.put<Respuesta>(`${urlBase}/tarea-actualizar`, tarea);
+  }
 }
