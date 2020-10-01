@@ -1,6 +1,7 @@
 import {isNullOrUndefined} from 'util';
 import * as moment from 'moment';
 import 'moment/locale/es';
+import {CONST} from './CONST';
 
 export class FUNC {
   static generateSlug(value: string) {
@@ -36,5 +37,17 @@ export class FUNC {
       .replace(/\s+/g, '-') // collapse whitespace and replace by -
       .replace(/-+/g, '-'); // collapse dashes
     return str;
+  }
+
+  static getNombreLista(etapaActual: string) {
+    if (etapaActual == CONST.C_STR_ETAPA_EN_LISTA) {
+      return 'En Lista';
+    } else if (etapaActual == CONST.C_STR_ETAPA_EN_PROCESO) {
+      return 'En Proceso';
+    } else if (etapaActual == CONST.C_STR_ETAPA_TERMINADA) {
+      return 'Termindada';
+    } else {
+      return '';
+    }
   }
 }

@@ -5,7 +5,6 @@ import {AsignacionCarteraService} from '../../../servicios/asignacion-cartera.se
 import {ActivatedRoute, Router} from '@angular/router';
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
-import {Task} from '../tarea-detalle/tarea-detalle.component';
 import {Credito} from '../../../interfaces/credito';
 import {MaestroService} from '../../../servicios/sistema/maestro.service';
 import {TablaMaestra} from '../../../interfaces/tabla-maestra';
@@ -17,6 +16,8 @@ import {Email} from '../../../interfaces/email';
 import {Direccion} from '../../../interfaces/direccion';
 import {TipoNotificacion} from '../../../models/tipo-notificacion';
 import {TipoNotificacionService} from '../../../servicios/tipo-notificacion.service';
+import {Tarea} from '../../../interfaces/tarea';
+import {FUNC} from '../../../comun/FUNC';
 
 @Component({
   selector: 'app-modal-nueva-tareas',
@@ -26,9 +27,9 @@ import {TipoNotificacionService} from '../../../servicios/tipo-notificacion.serv
 
 export class ModalNuevaTareasComponent implements OnInit {
   formRecordatorio: FormGroup;
-  $tarea: Task;
+  $tarea: Tarea;
   name: any;
-  tarea: Task;
+  tarea: Tarea;
   showActividades = false;
   editDescription = false;
   editVencimiento = false;
@@ -80,9 +81,13 @@ export class ModalNuevaTareasComponent implements OnInit {
       comentario: [''],
     });
     if (this.tarea) {
-      this.$tarea = Object.assign({}, this.tarea);
+      const task = Object.assign({}, this.tarea);
+      this.$tarea = task;
       if (!this.tarea.fechaVencimiento) {
         this.newVencimiento();
+      } else {
+        this.$tarea.fechaVencimiento = moment(task.fechaVencimiento).format('YYYY-MM-DD');
+        this.$tarea.fechaRecordatorio = moment(task.fechaRecordatorio).format('YYYY-MM-DD');
       }
     }
   }
@@ -99,7 +104,7 @@ export class ModalNuevaTareasComponent implements OnInit {
   newVencimiento() {
     if (!this.tarea.fechaVencimiento) {
       this.tarea.fechaVencimiento = moment(new Date()).format('YYYY-MM-DD');
-      this.tarea.fechaHora = moment(new Date()).format('HH:mm');
+      this.tarea.horaVencimiento = moment(new Date()).format('HH:mm');
     } else {
       this.tarea.fechaVencimiento = moment(this.tarea.fechaVencimiento).format('YYYY-MM-DD');
     }
@@ -225,10 +230,10 @@ export class ModalNuevaTareasComponent implements OnInit {
   }
 
   get getClassPriority() {
-    if (this.priority == 1) {
+    if (this.$tarea.prioridad == 1) {
       return 'success';
-    } else if (this.priority == 2) {
-      return  'danger';
+    } else if (this.$tarea.prioridad == 2) {
+      return 'danger';
     } else {
       return 'info';
     }
@@ -243,5 +248,21 @@ export class ModalNuevaTareasComponent implements OnInit {
   onRemove(event) {
     console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
+  }
+
+  get getNameList() {
+    return FUNC.getNombreLista(this.tarea.etapaActual);
+  }
+
+  get getNamePriority() {
+    if (this.$tarea.prioridad == 0) {
+      return 'Baja';
+    } else if (this.$tarea.prioridad == 1) {
+      return 'Media';
+    } else if (this.$tarea.prioridad == 2) {
+      return 'Alta';
+    } else {
+      return '';
+    }
   }
 }

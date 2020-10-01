@@ -4,6 +4,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Respuesta} from '../interfaces/Respuesta';
 import {EjecutivoAsignacion} from '../interfaces/ejecutivo-asignacion';
+import {Tarea} from '../interfaces/tarea';
 
 const urlBase = environment.serverUrl + 'gestion-administrativa';
 
@@ -35,5 +36,13 @@ export class GestionAdministrativaService {
 
   actualizarAsignacionTarea(tablero: EjecutivoAsignacion): Observable<Respuesta> {
     return this.http.put<Respuesta>(`${urlBase}/actualizar-asignacion-tarea`, tablero);
+  }
+
+  crearTarea(tableroId: string, tarea: Tarea): Observable<Respuesta> {
+    return this.http.post<Respuesta>(`${urlBase}/crear-tarea`, tarea, {params: new HttpParams().set('tableroId', tableroId)});
+  }
+
+  actualizarEtapaTarea(tareaId: string, etapa: string): Observable<Respuesta> {
+    return this.http.put<Respuesta>(`${urlBase}/tarea-actualizar-etapa`, {}, {params: new HttpParams().set('tareaId', tareaId).set('etapa', etapa)});
   }
 }

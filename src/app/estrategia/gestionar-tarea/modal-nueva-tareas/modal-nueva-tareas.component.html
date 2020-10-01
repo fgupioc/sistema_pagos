@@ -15,15 +15,15 @@
                 <ng-container *ngIf="editName">
                   <input class="form-control" [(ngModel)]="$tarea.nombre" (blur)="editName = false">
                 </ng-container>
-                <small>En la lista <span>{{ $tarea.proceso }}</span>
+                <small>En la lista <span>{{ getNameList }}</span>
                   <div class="btn-group ml-2" ngbDropdown display="dynamic" placement="bottom-right">
                     <a class="btn btn-sm btn-outline-{{ getClassPriority }}" href="javascript:;" tabindex="0" ngbDropdownToggle id="navbarDropdown2" role="button">
-                      <i class="fa fa-question-circle"></i> Prioridad
+                      <i class="fa fa-question-circle"></i> Prioridad {{ getNamePriority }}
                     </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown2" class="dropdown-menu dropdown-menu-right">
-                      <a ngbDropdownItem href="javascript:;" (click)="priority = 2" [class.active]="priority == 2">Alta</a>
-                      <a ngbDropdownItem href="javascript:;" (click)="priority = 1" [class.active]="priority == 1">Media</a>
-                      <a ngbDropdownItem href="javascript:;" (click)="priority = 0" [class.active]="priority == 0">Baja</a>
+                      <a ngbDropdownItem href="javascript:;" (click)="this.$tarea.prioridad = 2" [class.active]="this.$tarea.prioridad == 2">Alta</a>
+                      <a ngbDropdownItem href="javascript:;" (click)="this.$tarea.prioridad = 1" [class.active]="this.$tarea.prioridad == 1">Media</a>
+                      <a ngbDropdownItem href="javascript:;" (click)="this.$tarea.prioridad = 0" [class.active]="this.$tarea.prioridad == 0">Baja</a>
                     </div>
                   </div>
                 </small>
@@ -40,7 +40,7 @@
                   <div class="d-flex justify-content-between">
                     <label class="container" style="font-size: 16px; font-weight: bold">
                       {{ $tarea.fechaVencimiento  | date : 'dd MMM yyyy' }}
-                      a las {{ $tarea.fechaHora }}
+                      a las {{ $tarea.horaVencimiento | slice : 0 : 5 }}
                       <input type="checkbox" [(ngModel)]="checkVencimiento" (ngModelChange)="changeVencimiento($event)">
                       <span class="checkmark"></span>
                     </label>
@@ -67,7 +67,7 @@
                     </div>
                     <div class="col-6">
                       <label>Hora</label>
-                      <input type="time" class="form-control" [(ngModel)]="$tarea.fechaHora">
+                      <input type="time" class="form-control" [(ngModel)]="$tarea.horaVencimiento">
                     </div>
                     <div class="col-12 mt-2">
                       <div class="form-group">
@@ -88,8 +88,8 @@
                   <span class="checkmark"></span>
                 </label>
 
-                <input type="date" class="form-control input-date mr-2" style="width: 140px">
-                <input type="time" class="form-control input-date" style="width: 96px">
+                <input type="date" class="form-control input-date mr-2" [(ngModel)]="$tarea.fechaRecordatorio" style="width: 140px">
+                <input type="time" class="form-control input-date" [(ngModel)]="$tarea.horaRecordatorio" style="width: 96px">
 
               </div>
             </div>
@@ -97,17 +97,17 @@
               <div class="form-group">
                 <label class="container" style="font-size: 16px;">
                   Notificación
-                  <input type="checkbox" [(ngModel)]="checkNotification">
+                  <input type="checkbox" [(ngModel)]="$tarea.notificacion">
                   <span class="checkmark"></span>
                 </label>
                 <label class="container" style="font-size: 16px;">
                   Correo
-                  <input type="checkbox" [(ngModel)]="checkEmail">
+                  <input type="checkbox" [(ngModel)]="$tarea.correo">
                   <span class="checkmark"></span>
                 </label>
                 <label class="container" style="font-size: 16px;">
                   Enviar notificación de vencimiento
-                  <input type="checkbox" [(ngModel)]="checkNotificationexpiration">
+                  <input type="checkbox" [(ngModel)]="$tarea.notificacionVencimiento">
                   <span class="checkmark"></span>
                 </label>
               </div>

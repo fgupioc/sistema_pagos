@@ -8,16 +8,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {EjecutivoAsignacion} from '../../../interfaces/ejecutivo-asignacion';
 import Swal from 'sweetalert2';
-
-export interface Task {
-  nombre: string;
-  descripcion: string;
-  fechaVencimiento?: string;
-  fechaHora?: string;
-  disable: boolean;
-  handle: boolean;
-  proceso?: string;
-}
+import {Tarea} from '../../../interfaces/tarea';
+import {CONST} from '../../../comun/CONST';
 
 @Component({
   selector: 'app-tarea-detalle',
@@ -26,25 +18,12 @@ export interface Task {
 })
 export class TareaDetalleComponent implements OnInit {
   tarjeta: EjecutivoAsignacion;
-  $tareasLista: Task[] = [
-    {
-      nombre: 'tarea 1',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium ad alias iure iusto libero mollitia recusandae rem sint tempora? Atque beatae doloribus illum laborum maiores nihil quasi tenetur, vero voluptas?',
-      disable: false,
-      handle: false,
-      fechaVencimiento: '2020-10-05T08:15:30-05:00',
-      fechaHora: '05:00',
-      proceso: 'En Lista'
-
-    },
-
-  ];
-
-  $tareasProceso: Task[] = [];
-  $tareasTerminadas: Task[] = [];
+  $tareasLista: Tarea[] = [];
+  $tareasProceso: Tarea[] = [];
+  $tareasTerminadas: Tarea[] = [];
   private currentDraggableEvent: DragEvent;
   newTask = false;
-  nameTask: any;
+  taskName: string;
   $creditos: Credito[] = [];
 
   constructor(
@@ -92,25 +71,54 @@ export class TareaDetalleComponent implements OnInit {
       if (typeof index === 'undefined') {
         index = list.length;
       }
-      event.data.proceso = process;
-      list.splice(index, 0, event.data);
+      this.spinner.show();
+      this.gestionAdministrativaService.actualizarEtapaTarea(event.data.id, process).subscribe(
+        res => {
+          if (res.exito) {
+            event.data.proceso = process;
+            list.splice(index, 0, event.data);
+            this.spinner.hide();
+          } else {
+            this.loadTableroTareaPorSlug(this.tarjeta.slug);
+          }
+        },
+        error => {
+          this.spinner.hide();
+          this.loadTableroTareaPorSlug(this.tarjeta.slug);
+        }
+      );
     }
   }
 
   nuevaTarea() {
-    if (this.nameTask && this.nameTask.trim().length > 0) {
-      this.$tareasLista.push({
-        nombre: this.nameTask,
-        descripcion: '',
-        disable: false,
-        handle: false,
-      });
-      this.nameTask = null;
+    if (this.taskName && this.taskName.trim().length > 0) {
+      const tarea = {
+        tableroTareaId: this.tarjeta.id,
+        etapaActual: CONST.C_STR_ETAPA_EN_LISTA,
+        prioridad: 0,
+        nombre: this.taskName,
+      };
+      this.spinner.show();
+      this.gestionAdministrativaService.crearTarea(String(this.tarjeta.id), tarea).subscribe(
+        res => {
+          if (res.exito) {
+            this.$tareasLista.push(res.objeto);
+          } else {
+            Swal.fire('Crear Tarea', res.mensaje, 'error');
+          }
+          this.spinner.hide();
+        },
+        err => {
+          this.spinner.hide();
+          Swal.fire('Crear Tarea', 'Ocurrio un error', 'error');
+        }
+      );
       this.newTask = false;
+
     }
   }
 
-  showDetail(item: Task) {
+  showDetail(item: Tarea) {
     const modal = this.modalService.open(ModalNuevaTareasComponent, {size: 'lg'});
     modal.componentInstance.tarea = item;
     modal.componentInstance.creditos = this.$creditos;
@@ -151,6 +159,11 @@ export class TareaDetalleComponent implements OnInit {
         if (res.exito) {
           this.tarjeta = res.objeto as EjecutivoAsignacion;
           this.loadCreditosPorEjecutivo(String(this.tarjeta.ejecutivoId));
+          if (this.tarjeta.tareas.length > 0) {
+            this.$tareasLista = this.tarjeta.tareas.filter(i => i.etapaActual == CONST.C_STR_ETAPA_EN_LISTA);
+            this.$tareasProceso = this.tarjeta.tareas.filter(i => i.etapaActual == CONST.C_STR_ETAPA_EN_PROCESO);
+            this.$tareasTerminadas = this.tarjeta.tareas.filter(i => i.etapaActual == CONST.C_STR_ETAPA_TERMINADA);
+          }
         } else {
           Swal.fire('Tareas', res.mensaje, 'warning');
           this.router.navigateByUrl('/auth/gestion-administrativa/tareas');

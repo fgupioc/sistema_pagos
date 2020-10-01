@@ -1,3 +1,5 @@
+import {Tarea} from './tarea';
+
 export interface EjecutivoAsignacion {
   ejecutivoId: number;
   nombre: string;
@@ -7,4 +9,5 @@ export interface EjecutivoAsignacion {
   usuarioId?: number;
   fechaCreacion?: string;
   estado?: string;
+  tareas?: Tarea[];
 }
