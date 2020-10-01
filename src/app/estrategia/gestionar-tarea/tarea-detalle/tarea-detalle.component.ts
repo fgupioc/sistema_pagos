@@ -4,6 +4,10 @@ import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
 import {ModalNuevaTareasComponent} from '../modal-nueva-tareas/modal-nueva-tareas.component';
 import {GestionAdministrativaService} from '../../../servicios/gestion-administrativa.service';
 import {Credito} from '../../../interfaces/credito';
+import {ActivatedRoute, Router} from '@angular/router';
+import {NgxSpinnerService} from 'ngx-spinner';
+import {EjecutivoAsignacion} from '../../../interfaces/ejecutivo-asignacion';
+import Swal from 'sweetalert2';
 
 export interface Task {
   nombre: string;
@@ -21,7 +25,7 @@ export interface Task {
   styleUrls: ['./tarea-detalle.component.css']
 })
 export class TareaDetalleComponent implements OnInit {
-
+  tarjeta: EjecutivoAsignacion;
   $tareasLista: Task[] = [
     {
       nombre: 'tarea 1',
@@ -46,18 +50,27 @@ export class TareaDetalleComponent implements OnInit {
   constructor(
     private gestionAdministrativaService: GestionAdministrativaService,
     public modalService: NgbModal,
-    public config: NgbModalConfig
+    public config: NgbModalConfig,
+    private activeModal: ActivatedRoute,
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
+    activeModal.params.subscribe(({slug}) => {
+      if (!slug) {
+        router.navigateByUrl('/auth/gestion-administrativa/tareas');
+      } else {
+        this.loadTableroTareaPorSlug(slug);
+      }
+    });
   }
 
   ngOnInit() {
-    this.loadCreditosPorEjecutivo('54');
+
   }
 
   onDragStart(event: DragEvent) {
-
     this.currentDraggableEvent = event;
 
   }
@@ -112,12 +125,42 @@ export class TareaDetalleComponent implements OnInit {
     console.log(data);
   }
 
-  private loadCreditosPorEjecutivo(ejecutivoId: string) {
+  loadCreditosPorEjecutivo(ejecutivoId: string) {
     this.gestionAdministrativaService.onteberCreditosPorEjecutivo(ejecutivoId).subscribe(
       res => {
         if (res.exito) {
-          this.$creditos = res.objeto as Credito[];
+          if (res.objeto) {
+            this.$creditos = res.objeto as Credito[];
+          }
+        } else {
+          Swal.fire('Tareas', 'El tablero de tareas no existe', 'error');
+          this.router.navigateByUrl('/auth/gestion-administrativa/tareas');
         }
+      },
+      err => {
+        Swal.fire('Tareas', 'El tablero de tareas no existe', 'error');
+        this.router.navigateByUrl('/auth/gestion-administrativa/tareas');
+      }
+    );
+  }
+
+  loadTableroTareaPorSlug(slug: string) {
+    this.spinner.show();
+    this.gestionAdministrativaService.getTableroTareaBySlug(slug).subscribe(
+      res => {
+        if (res.exito) {
+          this.tarjeta = res.objeto as EjecutivoAsignacion;
+          this.loadCreditosPorEjecutivo(String(this.tarjeta.ejecutivoId));
+        } else {
+          Swal.fire('Tareas', res.mensaje, 'warning');
+          this.router.navigateByUrl('/auth/gestion-administrativa/tareas');
+        }
+        this.spinner.hide();
+      },
+      err => {
+        Swal.fire('Tareas', 'El tablero de tareas no existe', 'error');
+        this.router.navigateByUrl('/auth/gestion-administrativa/tareas');
+        this.spinner.hide();
       }
     );
   }

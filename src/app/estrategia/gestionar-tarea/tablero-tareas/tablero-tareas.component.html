@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-sm-6 col-lg-3">
+  <div class="col-sm-6 col-lg-3" *ngFor="let item of asignaciones">
     <div class="card text-white bg-primary position-relative">
       <div class="btn-group position-absolute" style="right: 5px; top: 5px" dropdown>
         <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
@@ -12,8 +12,8 @@
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </div>
-      <div class="card-body pb-0 cursor-pointer" style="min-height: 90px" [routerLink]="'/auth/gestion-administrativa/tareas/adminstracion-de-negocio'">
-        <div>Adminstración de Negocio</div>
+      <div class="card-body pb-0 cursor-pointer" style="min-height: 90px" [routerLink]="'/auth/gestion-administrativa/tareas/'+item.slug">
+        <div>{{ item.nombre }}</div>
         <div  class="text-value">Miembros (1)</div>
       </div>
     </div>
@@ -26,3 +26,4 @@
     </div>
   </div><!--/.col-->
 </div><!--/.row-->
+<app-loading></app-loading>

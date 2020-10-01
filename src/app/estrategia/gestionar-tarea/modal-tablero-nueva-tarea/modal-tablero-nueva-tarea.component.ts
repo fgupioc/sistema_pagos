@@ -4,6 +4,10 @@ import {AsignacionCarteraService} from '../../../servicios/asignacion-cartera.se
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
+import {GestionAdministrativaService} from '../../../servicios/gestion-administrativa.service';
+import {EjecutivoAsignacion} from '../../../interfaces/ejecutivo-asignacion';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FUNC} from '../../../comun/FUNC';
 
 export interface IEjecutivo {
   alias: string;
@@ -22,46 +26,53 @@ export interface IEjecutivo {
   styleUrls: ['./modal-tablero-nueva-tarea.component.css']
 })
 export class ModalTableroNuevaTareaComponent implements OnInit {
-
-  name: any;
-  visible: any;
+  tablero: EjecutivoAsignacion;
   ejecutivos: IEjecutivo[] = [];
-  codEjec: any;
+  formulario: FormGroup;
+
 
   constructor(
     private spinner: NgxSpinnerService,
     private asignacionService: AsignacionCarteraService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    public activeModal: NgbActiveModal
+    public activeModal: NgbActiveModal,
+    private gestionAdministrativaService: GestionAdministrativaService,
+    private formBuilder: FormBuilder
   ) {
   }
 
   ngOnInit() {
-    this.listarEjecutivos();
-  }
+    this.formulario = this.formBuilder.group({
+      ejecutivoId: ['', [Validators.required]],
+      nombre: ['', [Validators.required]],
+      visibilidad: ['', [Validators.required]],
 
-  listarEjecutivos() {
-    this.asignacionService.listarEjecutivos().subscribe(
-      res => {
-        if (res.exito) {
-          this.ejecutivos = res.objeto as any[];
-        }
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    });
   }
-
 
   crear() {
-    if (!this.name || !this.visible ) {
+    if (this.formulario.invalid) {
       Swal.fire('Nueva Tarear', 'Ingrese los datos obligatorios', 'warning');
       return;
     }
-    console.log(this.name);
-    console.log(this.visible);
+    const data: EjecutivoAsignacion = this.formulario.getRawValue();
+    data.slug = FUNC.slugGenerate(data.nombre);
+    this.spinner.show();
+    this.gestionAdministrativaService.crearAsignacionTarea(data).subscribe(
+      res => {
+        if (res.exito) {
+          Swal.fire('Crear Nuevo Tablero', res.mensaje, 'success');
+          this.activeModal.dismiss({flag: true});
+        } else {
+          Swal.fire('Crear Nuevo Tablero', res.mensaje, 'error');
+        }
+        this.spinner.hide();
+      },
+      err => {
+        Swal.fire('Crear Nuevo Tablero', 'Ocurrio un error', 'success');
+      }
+    );
   }
 
 }

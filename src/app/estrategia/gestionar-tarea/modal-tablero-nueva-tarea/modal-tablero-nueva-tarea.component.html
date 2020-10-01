@@ -5,36 +5,35 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="row">
+    <div class="row" [formGroup]="formulario">
       <div class="col-12">
         <label>Añadir título de tablero</label>
         <div class="form-group">
-          <input type="text" class="form-control" [(ngModel)]="name" maxlength="225">
+          <input type="text" class="form-control" formControlName="nombre" maxlength="225">
         </div>
       </div>
       <div class="col-12">
         <label>Visibilidad</label>
         <div class="form-group">
-          <select class="form-control" [(ngModel)]="visible">
-            <option>Privado</option>
-            <option>Publico</option>
+          <select class="form-control" formControlName="visibilidad">
+            <option value="01">Privado</option>
+            <option value="02">Publico</option>
           </select>
         </div>
       </div>
       <div class="col-12">
         <label>Miembros</label>
         <div class="form-group">
-          <select class="form-control" [(ngModel)]="codEjec">
+          <select class="form-control" formControlName="ejecutivoId">
             <option>Seleccione</option>
             <option *ngFor="let item of ejecutivos" [value]="item.codUsuario">{{ item.alias }}</option>
           </select>
-
         </div>
       </div>
     </div>
   </div>
   <div class="modal-footer d-flex justify-content-center">
-    <button type="button" class="btn btn-outline-primary mr-2" [disabled]="!name || !visible" (click)="crear()">Crear Tablero</button>
-    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Close</button>
+    <button type="button" class="btn btn-outline-primary mr-2" [disabled]="formulario.invalid" (click)="crear()">Crear Tablero</button>
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Cerrar</button>
   </div>
 </div>
