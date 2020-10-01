@@ -37,3 +37,10 @@
 .btn-outline-info:hover, .btn-outline-info:active{
   color: white;
 }
+
+ngx-dropzone,
+.custom-dropzone {
+  margin: 20px;
+}
+
+

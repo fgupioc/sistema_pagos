@@ -214,11 +214,28 @@
         </div>
       </div>
       <div class="col-12">
+        <div class="d-flex justify-content-between mb-2">
+          <label>Adjuntos</label>
+          <button class="btn btn-sm btn-outline-info" (click)="showDropzone ? showDropzone = false : showDropzone = true"><i class="fa fa-eye"></i></button>
+        </div>
+        <div class="form-group" *ngIf="showDropzone">
+          <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
+            <ngx-dropzone-label>
+              <div>
+                <h2>Adjuntar archivos</h2>
+              </div>
+            </ngx-dropzone-label>
+            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+              <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+            </ngx-dropzone-image-preview>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
         <div class="form-group">
           <div class="d-flex justify-content-between mb-2">
             <label>Actividades</label>
-            <button *ngIf="showActividades" class="btn btn-sm btn-outline-info" (click)="showActividades = false">Ocultar Detalle</button>
-            <button *ngIf="!showActividades" class="btn btn-sm btn-outline-info" (click)="showActividades = true">Mostrar Detalle</button>
+            <button class="btn btn-sm btn-outline-info" (click)="showActividades ? showActividades = false : showActividades = true"><i class="fa fa-eye"></i></button>
           </div>
           <ul class="list-group" *ngIf="showActividades">
             <li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, blanditiis earum inventore maiores minima vel?</li>

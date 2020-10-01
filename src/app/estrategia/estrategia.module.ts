@@ -46,6 +46,7 @@ import { TareaDetalleComponent } from './gestionar-tarea/tarea-detalle/tarea-det
 import {BrowserModule} from '@angular/platform-browser';
 import {DndModule} from 'ngx-drag-drop';
 import { ModalTableroNuevaTareaComponent } from './gestionar-tarea/modal-tablero-nueva-tarea/modal-tablero-nueva-tarea.component';
+import {NgxDropzoneModule} from 'ngx-dropzone';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -99,7 +100,8 @@ const ngWizardConfig: NgWizardConfig = {
         NgWizardModule.forRoot(ngWizardConfig),
         BsDropdownModule,
         BrowserModule,
-        DndModule
+        DndModule,
+        NgxDropzoneModule
     ],
   exports: [
     CrearCarteraComponent,

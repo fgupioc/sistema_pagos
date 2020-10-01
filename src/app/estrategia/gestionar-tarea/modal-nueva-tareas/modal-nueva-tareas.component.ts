@@ -47,6 +47,8 @@ export class ModalNuevaTareasComponent implements OnInit {
   checkEmail = false;
   checkNotificationexpiration: any;
   priority = 0;
+  files: File[] = [];
+  showDropzone = false;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -105,7 +107,6 @@ export class ModalNuevaTareasComponent implements OnInit {
   }
 
   get checedCumplido() {
-    console.log(this.estaFechaVencida(), this.checkVencimiento);
     if (this.estaFechaVencida() && !this.checkVencimiento) {
       return 2;
     } else if (this.checkVencimiento) {
@@ -231,5 +232,16 @@ export class ModalNuevaTareasComponent implements OnInit {
     } else {
       return 'info';
     }
+  }
+
+
+  onSelect(event) {
+    console.log(event);
+    this.files.push(...event.addedFiles);
+  }
+
+  onRemove(event) {
+    console.log(event);
+    this.files.splice(this.files.indexOf(event), 1);
   }
 }
