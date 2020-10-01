@@ -43,4 +43,67 @@ ngx-dropzone,
   margin: 20px;
 }
 
+.image-cs {
+  border-radius: 3px;
+  min-height: 80px;
+  margin: 0 0 8px;
+  overflow: hidden;
+  position: relative;
+}
 
+.image-cs-preview {
+  background-color: rgba(9,30,66,.04);
+  background-position: 50%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border-radius: 3px;
+  height: 80px;
+  margin-top: -40px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  text-align: center;
+  text-decoration: none;
+  z-index: 1;
+  width: 112px;
+}
+
+.image-cs-details {
+  box-sizing: border-box;
+  padding: 8px 8px 8px 128px;
+  min-height: 80px;
+  margin: 0;
+  z-index: 0;
+}
+
+.image-cs-details .image-cs-name {
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.image-cs-details-title-action {
+  padding-left: 3px;
+}
+
+.image-cs-details-title-options {
+  margin-bottom: 8px;
+}
+.quiet, .quiet a {
+  color: #5e6c84;
+}
+.u-block {
+  display: block;
+}
+
+.image-cs-preview-ext {
+  color: #5e6c84;
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  height: 100%;
+  line-height: 80px;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  width: 100%;
+}
