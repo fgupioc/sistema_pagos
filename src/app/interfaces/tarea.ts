@@ -1,3 +1,5 @@
+import {Recordatorio} from './recordatorio';
+
 export interface Tarea {
   correo?: boolean;
   descripcion?: string;
@@ -15,5 +17,5 @@ export interface Tarea {
   prioridad?: number;
   tableroTareaId?: number;
   usuarioId?: number;
-  disable?: boolean;
+  recordatorio?: Recordatorio;
 }

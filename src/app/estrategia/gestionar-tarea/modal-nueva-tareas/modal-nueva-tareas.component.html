@@ -116,7 +116,8 @@
             <div class="col-12">
               <div class="form-group">
                 <label>Créditos asignados</label>
-                <select class="form-control" [(ngModel)]="credito" (ngModelChange)="changeCredito($event);">
+                <select class="form-control" [(ngModel)]="creditoId" (ngModelChange)="changeCredito($event);">
+                  <option value="">Seleccione</option>
                   <option *ngFor="let item of creditos" [value]="item.id">{{ item.alias }} - {{ item.nroCredito }}</option>
                 </select>
               </div>

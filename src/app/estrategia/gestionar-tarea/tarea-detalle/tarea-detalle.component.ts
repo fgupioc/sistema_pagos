@@ -122,6 +122,7 @@ export class TareaDetalleComponent implements OnInit {
     const modal = this.modalService.open(ModalNuevaTareasComponent, {size: 'lg'});
     modal.componentInstance.tarea = item;
     modal.componentInstance.creditos = this.$creditos;
+    modal.componentInstance.ejecutivoId = this.tarjeta.ejecutivoId;
     modal.result.then(
       this.closeModal.bind(this),
       this.closeModal.bind(this)

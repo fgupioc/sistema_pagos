@@ -19,6 +19,7 @@ import {TipoNotificacionService} from '../../../servicios/tipo-notificacion.serv
 import {Tarea} from '../../../interfaces/tarea';
 import {FUNC} from '../../../comun/FUNC';
 import {GestionAdministrativaService} from '../../../servicios/gestion-administrativa.service';
+import {Recordatorio} from '../../../interfaces/recordatorio';
 
 @Component({
   selector: 'app-modal-nueva-tareas',
@@ -51,6 +52,8 @@ export class ModalNuevaTareasComponent implements OnInit {
   priority = 0;
   files: File[] = [];
   showDropzone = false;
+  ejecutivoId: any;
+  creditoId: any = '';
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -66,6 +69,7 @@ export class ModalNuevaTareasComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.creditos);
     this.listarTipoActividades();
     this.loadTipoNotificaciones();
     this.formRecordatorio = this.formBuilder.group({
@@ -100,6 +104,19 @@ export class ModalNuevaTareasComponent implements OnInit {
       Swal.fire('Actualizar Tarea', 'El nombre de la tarea es obligatorio', 'warning');
       return;
     }
+    
+    if (this.creditoId > 0 && this.formRecordatorio.invalid) {
+      Swal.fire('Actualizar Tarea', 'Debe ingresar los datos del recoridatorio', 'warning');
+      return;
+    }
+
+    if (this.creditoId > 0 && this.formRecordatorio.valid) {
+      this.$tarea.recordatorio = this.formRecordatorio.getRawValue();
+      this.$tarea.recordatorio.socioId = this.socio.id;
+      this.$tarea.recordatorio.creditoId = this.credito.id;
+      this.$tarea.recordatorio.ejecutivoId = this.ejecutivoId;
+    }
+
     this.spinner.show();
     this.gestionAdministrativaService.actualizarTarea(this.$tarea).subscribe(
       res => {
@@ -146,8 +163,11 @@ export class ModalNuevaTareasComponent implements OnInit {
   }
 
   changeCredito(event: any) {
+    this.credito = null;
     const item = this.creditos.find(i => i.id == event);
     if (item) {
+      this.credito = item;
+      this.creditoId = item.id;
       this.obtenerSocio(item.socioId);
     } else {
       this.socio = null;
