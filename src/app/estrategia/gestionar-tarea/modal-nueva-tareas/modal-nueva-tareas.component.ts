@@ -493,4 +493,28 @@ export class ModalNuevaTareasComponent implements OnInit {
     const extens = ['image/png', 'image/jpg', 'image/jpeg'];
     return extens.includes(tipo);
   }
+
+  eliminarArchivo(item: any) {
+    Swal.fire({
+      text: 'Estas segura de eliminar el archivo?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, Eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        this.spinner.show();
+        this.gestionAdministrativaService.eliminarTareaAchivos(this.tarea.id, item.id).subscribe(
+          res => {
+            if (res.exito) {
+              Swal.fire('Archivo', res.mensaje, 'success');
+              this.spinner.hide();
+              this.listarArchivosPorTarea();
+            }
+          }
+        );
+      }
+    });
+  }
+
 }

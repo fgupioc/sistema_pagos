@@ -81,4 +81,8 @@ export class GestionAdministrativaService {
     return this.http.get<Respuesta>(`${urlBase}/listar-tarea-archivo`, {params: new HttpParams().set('tareaId', tareaId)});
   }
 
+  eliminarTareaAchivos(tareaId: any, archivoid: any): Observable<Respuesta> {
+    return this.http.delete<Respuesta>(`${urlBase}/eliminar-tarea-archivo`, {params: new HttpParams().set('taskId', tareaId).set('archivoid', archivoid)});
+  }
+
 }
