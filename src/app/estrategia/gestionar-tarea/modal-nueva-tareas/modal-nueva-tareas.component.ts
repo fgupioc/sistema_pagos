@@ -22,6 +22,11 @@ import {GestionAdministrativaService} from '../../../servicios/gestion-administr
 import {Recordatorio} from '../../../interfaces/recordatorio';
 import {TareaActividad} from '../../../interfaces/tarea-actividad';
 import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
+import {HttpEventType} from '@angular/common/http';
+import {environment} from '../../../../environments/environment';
+import {EjecutivoTarea} from '../../../interfaces/ejecutivo-tarea';
+
+const urlBaseFotos = environment.signinUrl + '/upload/';
 
 @Component({
   selector: 'app-modal-nueva-tareas',
@@ -60,6 +65,8 @@ export class ModalNuevaTareasComponent implements OnInit {
   comentario = '';
   actividades: any[] = [];
   userLoggedName: any;
+  progresos: any[] = [];
+  archivos: EjecutivoTarea[] = [];
 
   constructor(
     private auth: AutenticacionService,
@@ -97,6 +104,7 @@ export class ModalNuevaTareasComponent implements OnInit {
     });
     if (this.tarea) {
       this.listarActividadPorTarea();
+      this.listarArchivosPorTarea();
       const task = Object.assign({}, this.tarea);
       this.$tarea = task;
       if (!this.tarea.fechaVencimiento) {
@@ -405,6 +413,17 @@ export class ModalNuevaTareasComponent implements OnInit {
     );
   }
 
+  listarArchivosPorTarea() {
+    this.gestionAdministrativaService.listarTareaAchivos(this.tarea.id).subscribe(
+      res => {
+        if (res.exito) {
+          this.archivos = res.objeto as any[];
+          console.log(this.archivos);
+        }
+      }
+    );
+  }
+
   desactivarActividad(item: any) {
     Swal.fire({
       text: 'Estas segura de eliminar la actividad?',
@@ -426,5 +445,52 @@ export class ModalNuevaTareasComponent implements OnInit {
         );
       }
     });
+  }
+
+  subirArchivos() {
+    for (const file of this.files) {
+      this.gestionAdministrativaService.subirArchivosTarea(file, this.tarea.id, FUNC.getFileExtension(file.name)).subscribe(
+        event => {
+          if (event.type == HttpEventType.UploadProgress) {
+            const progreso = Math.round((event.loaded / event.total) * 100);
+            this.progresos.push({
+              name: file.name,
+              progress: progreso,
+              ok: true,
+            });
+          } else if (event.type == HttpEventType.Response) {
+            const res = event.body;
+          }
+        },
+        err => {
+          this.progresos.push({
+            name: file.name,
+            progress: 0,
+            ok: false,
+          });
+          console.log(err);
+        }
+      );
+    }
+    this.showDropzone = false;
+    this.files = [];
+    setTimeout(() => {
+      this.progresos = [];
+      this.listarArchivosPorTarea();
+    }, 6000);
+  }
+
+  getUrl(file) {
+    return `${urlBaseFotos}${this.tarea.id}/images/${file.url}`;
+  }
+
+  isImage(tipo) {
+    const extens = ['PNG', 'JPG', 'JPEG'];
+    return extens.includes(tipo.toUpperCase());
+  }
+
+  isFormatImage(tipo) {
+    const extens = ['image/png', 'image/jpg', 'image/jpeg'];
+    return extens.includes(tipo);
   }
 }

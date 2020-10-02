@@ -50,4 +50,9 @@ export class FUNC {
       return '';
     }
   }
+
+  static getFileExtension(filename: string) {
+    // tslint:disable-next-line:no-bitwise
+    return filename.slice((filename.lastIndexOf('.') - 1 >>> 0) + 2);
+  }
 }

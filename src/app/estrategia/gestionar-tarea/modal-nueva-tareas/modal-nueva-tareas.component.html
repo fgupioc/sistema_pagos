@@ -270,60 +270,86 @@
                 <button class="btn btn-sm btn-outline-info" (click)="showDropzone ? showDropzone = false : showDropzone = true"><i class="fa fa-eye"></i></button>
               </div>
               <div class="form-group" *ngIf="showDropzone">
-                <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
+                <!--  [accept]="'image/*'" -->
+                <div class="custom-dropzone" ngx-dropzone  (change)="onSelect($event)">
                   <ngx-dropzone-label>
                     <div>
                       <h2>Adjuntar archivos</h2>
                     </div>
                   </ngx-dropzone-label>
-                  <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
-                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-                  </ngx-dropzone-image-preview>
+                  <ng-container *ngFor="let f of files" >
+                    <ng-container *ngIf="isFormatImage(f.type); else noImage">
+                      <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                        <ngx-dropzone-label>{{  f.name | slice:0: 20 }}{{ f.name.length > 20 ? '...' : ''}}  ({{ f.type }})</ngx-dropzone-label>
+                      </ngx-dropzone-image-preview>
+                    </ng-container>
+                    <ng-template #noImage>
+                      <ngx-dropzone-preview [removable]="true" (removed)="onRemove(f)">
+                        <ngx-dropzone-label>{{  f.name | slice:0: 20 }}{{ f.name.length > 20 ? '...' : ''}}  ({{ f.type }})</ngx-dropzone-label>
+                      </ngx-dropzone-preview>
+                    </ng-template>
+                  </ng-container>
+
+                </div>
+                <button class="btn btn-outline-info mt-2" *ngIf="files.length > 0" (click)="subirArchivos()"><i class="fa fa-upload"></i> Subir Archivos</button>
+              </div>
+            </div>
+            <div class="col-12" *ngIf="progresos.length > 0">
+              <div class="form-group">
+                <div class="progress mb-2" *ngFor="let item of progresos">
+                  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [attr.aria-valuenow]="item.progress" aria-valuemin="0" [attr.aria-valuemax]="100" [style.width]="item.progress+'%'">
+                    {{ item.name }} {{ item.progress }}%
+                  </div>
                 </div>
               </div>
             </div>
             <div class="col-12">
               <div class="form-group">
                 <div class="container-images">
-
-                  <div class="image-cs">
-                    <a class="image-cs-preview"
-                       href="#" target="_blank" title=""
-                       style="background-image: url('https://trello-attachments.s3.amazonaws.com/5ba489df79a40d0c18d721ca/150x87/86293b6ba8044dfd7fbf461675c3216d/los-50-paisajes-maravillosos-del-mundo-para-tomar-fotos.jpg');background-color: #404736;"
-                       rel="noreferrer nofollow noopener">
-                    </a>
-                    <p class="image-cs-details">
-                      <span class="image-cs-name">los-50-paisajes-maravillosos-del-mundo-para-tomar-fotos.jpg</span>
-                      <span class="u-block quiet image-cs-details-title-options">
-                        <span>Añadido: <span class="date past" dt="2020-10-01T14:24:30.979Z" title="1 de octubre de 2020 9:24">hace 7 minutos</span>
+                  <ng-container *ngFor="let file of archivos">
+                    <ng-container *ngIf="isImage(file.tipo); else nofile">
+                      <div class="image-cs">
+                        <a class="image-cs-preview"
+                           href="#" target="_blank" title=""
+                           [ngStyle]="{'background-image': 'url(' + getUrl(file) + ')'}"
+                           style="background-color: #404736;"
+                           rel="noreferrer nofollow noopener">
+                        </a>
+                        <p class="image-cs-details">
+                          <span class="image-cs-name">{{ file.nombre}}</span>
+                          <span class="u-block quiet image-cs-details-title-options">
+                        <span>Añadido: <span class="date past" [title]="file.fechaCreacion | date : 'dd MMM yyyy HH:mm'">{{ file.fechaCreacion | date : 'dd MMM yyyy HH:mm'  }}</span>
                         </span>
                       </span>
-                      <span class="quiet">
+                          <span class="quiet">
                         <a class="text-danger" href="#">
                           <i class="fa fa-trash"></i>
                           <span>Quitar portada</span></a>
                     </span>
-                    </p>
-                  </div>
-                  <div class="image-cs">
-                    <a class="image-cs-preview" href="#" target="_blank" title="proceso de cobranza.vsdx" style="" rel="noreferrer nofollow noopener">
-                      <span class="image-cs-preview-ext">vsdx</span>
-                    </a>
-                    <p class="image-cs-details">
-                      <span class="image-cs-name">proceso de cobranza.vsdx</span>
-                      <span class="u-block quiet image-cs-details-title-options">
-                        <span>Añadido: <span class="date past" dt="2020-10-01T14:24:30.979Z" title="1 de octubre de 2020 9:24">hace 7 minutos</span>
+                        </p>
+                      </div>
+                    </ng-container>
+                    <ng-template #nofile>
+                      <div class="image-cs">
+                        <a class="image-cs-preview" href="#" target="_blank" [title]="file.nombre" style="" rel="noreferrer nofollow noopener">
+                          <span class="image-cs-preview-ext">{{ file.tipo }}</span>
+                        </a>
+                        <p class="image-cs-details">
+                          <span class="image-cs-name">{{ file.nombre }}</span>
+                          <span class="u-block quiet image-cs-details-title-options">
+                        <span>Añadido: <span class="date past" [title]="file.fechaCreacion | date : 'dd MMM yyyy HH:mm'">{{ file.fechaCreacion | date : 'dd MMM yyyy HH:mm'  }}</span>
                         </span>
                       </span>
-                      <span class="quiet">
+                          <span class="quiet">
                         <a class="text-danger" href="#">
                           <i class="fa fa-trash"></i>
                           <span>Quitar portada</span>
                         </a>
                     </span>
-                    </p>
-                  </div>
-
+                        </p>
+                      </div>
+                    </ng-template>
+                  </ng-container>
                 </div>
               </div>
             </div>
@@ -341,7 +367,7 @@
                 <ng-container>
                   <div class="new-comment mb-4">
                     <div class="member member-no-menu" *ngIf="userLoggedName">
-                      <span class="member-initials text-uppercase" [title]="userLoggedName" >{{ userLoggedName | slice: 0:2 }}</span>
+                      <span class="member-initials text-uppercase" [title]="userLoggedName">{{ userLoggedName | slice: 0:2 }}</span>
                     </div>
                     <div class="comment-frame">
                       <textarea class="form-control" maxlength="224" placeholder="Escriba un comentario..." dir="auto" style="min-height: 50px" [(ngModel)]="comentario"></textarea>
@@ -354,7 +380,7 @@
                   <div class="body-comment">
                     <div class="new-comment mb-2" *ngFor="let item of actividades">
                       <div class="member member-no-menu">
-                        <span class="member-initials text-uppercase" [title]="item.alias" >{{ item.alias | slice: 0:2 }}</span>
+                        <span class="member-initials text-uppercase" [title]="item.alias">{{ item.alias | slice: 0:2 }}</span>
                       </div>
                       <div class="comment-frame">
                         <div class="comment-item">

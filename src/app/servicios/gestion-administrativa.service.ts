@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Respuesta} from '../interfaces/Respuesta';
 import {EjecutivoAsignacion} from '../interfaces/ejecutivo-asignacion';
@@ -65,4 +65,20 @@ export class GestionAdministrativaService {
   desactivarTareaComentario(actividadId: any): Observable<Respuesta> {
     return this.http.put<Respuesta>(`${urlBase}/desactivar-tarea-actividad`, {}, {params: new HttpParams().set('actividadId', actividadId)});
   }
+
+  subirArchivosTarea(archivo: any, tareaId: any, extension: any): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', archivo);
+    formData.append('tareaId', tareaId);
+    formData.append('extension', extension);
+    const req = new HttpRequest('POST', `${urlBase}/subir-tarea-archivo`, formData, {
+      reportProgress: true
+    });
+    return this.http.request(req);
+  }
+
+  listarTareaAchivos(tareaId: any): Observable<Respuesta> {
+    return this.http.get<Respuesta>(`${urlBase}/listar-tarea-archivo`, {params: new HttpParams().set('tareaId', tareaId)});
+  }
+
 }
