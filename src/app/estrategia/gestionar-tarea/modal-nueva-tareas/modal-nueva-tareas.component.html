@@ -112,97 +112,134 @@
                 </label>
               </div>
             </div>
-          <ng-container *ngIf="creditos.length > 0">
-            <div class="col-12">
-              <div class="form-group">
-                <label>Créditos asignados</label>
-                <select class="form-control" [(ngModel)]="creditoId" (ngModelChange)="changeCredito($event);">
-                  <option value="">Seleccione</option>
-                  <option *ngFor="let item of creditos" [value]="item.id">{{ item.alias }} - {{ item.nroCredito }}</option>
-                </select>
+
+            <ng-container *ngIf="$tarea.recordatorio">
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                  <thead>
+                  <tr class="text-center">
+                    <th>Actividad</th>
+                    <th>Fecha/hora</th>
+                    <th>Descrpción</th>
+                    <th>Mensaje</th>
+                    <th>Condición</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr  [class]="isCurrentDate($tarea.recordatorio.fecha, $tarea.recordatorio.condicion)" style="font-size: 12px; text-align: center">
+                    <td>
+                      <ng-container *ngIf="!$tarea.recordatorio.observacion; else obsetvation">
+                        {{ getNameActividad($tarea.recordatorio.tipoActividad) }}
+                      </ng-container>
+
+                      <ng-template #obsetvation>
+                        <ng-template #tipContent><b>{{$tarea.recordatorio.observacion}}</b></ng-template>
+                        <span> <b triggers="click" [autoClose]="'outside'" [ngbTooltip]="tipContent" class="cursor-pointer" style="font-size: 18px"><i class="fa  fa-question-circle"></i></b> {{ getNameActividad($tarea.recordatorio.tipoActividad) }} </span>
+                      </ng-template>
+                    </td>
+                    <td> {{ $tarea.recordatorio.fecha | date: 'dd/MM/yyyy' }} {{ $tarea.recordatorio.hora   }}</td>
+                    <td> {{ getDescripcion($tarea.recordatorio) }}</td>
+                    <td style="text-align: left;"> {{ $tarea.recordatorio.comentario }}</td>
+                    <td> {{ getNameCondition($tarea.recordatorio.condicion) }}</td>
+
+                  </tr>
+                  </tbody>
+                </table>
               </div>
-            </div>
-            <div class="col-12">
-              <ng-container *ngIf="socio" [formGroup]="formRecordatorio">
-                <div class="row">
-                  <div class="col-12 col-md-4">
-                    <div class="form-group">
-                      <label>Fecha</label>
-                      <input type="date" class="form-control" formControlName="fecha">
-                    </div>
+            </ng-container>
+            <ng-container *ngIf="!$tarea.recordatorio">
+              <ng-container *ngIf="creditos.length > 0">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label>Créditos asignados</label>
+                    <select class="form-control" [(ngModel)]="creditoId" (ngModelChange)="changeCredito($event);">
+                      <option value="">Seleccione</option>
+                      <option *ngFor="let item of creditos" [value]="item.id">{{ item.alias }} - {{ item.nroCredito }}</option>
+                    </select>
                   </div>
-                  <div class="col-12 col-md-4">
-                    <div class="form-group">
-                      <label>Hora</label>
-                      <input type="time" class="form-control" formControlName="hora" min="07:00" max="20:00">
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-4">
-                    <div class="form-group">
-                      <label>Seleccione la actividad</label>
-                      <select class="form-control" formControlName="tipoActividad" (ngModelChange)="showItem = $event">
-                        <option value="">Selecione</option>
-                        <option *ngFor="let item of tipoActividades" [value]="item.codItem">{{ item.descripcion }}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-6" *ngIf="showItem == '1'">
-                    <div class="form-group">
-                      <label>Seleccione número</label>
-                      <select class="form-control" formControlName="numeroTelefono">
-                        <option>Selecione</option>
-                        <option *ngFor="let item of showPhones" [value]="item.numero">{{ (item.codCiudad ? item.codCiudad + '-' : '') + item.numero }}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-6" *ngIf="showItem == '2'">
-                    <div class="form-group">
-                      <label>Seleccione Correo</label>
-                      <select class="form-control" formControlName="correo">
-                        <option>Selecione</option>
-                        <option *ngFor="let item of showEmails" [value]="item.email">{{ item.email }}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <ng-container *ngIf="showItem == '3'">
-                    <div class="col-12 col-md-6">
-                      <div class="form-group">
-                        <label>Seleccione Metodo</label>
-                        <select #metodo class="form-control" formControlName="tipoMetodo" (ngModelChange)="cambioTipoMetodo($event)">
-                          <option value="">Selecione</option>
-                          <option *ngFor="let item of listadoMensaje" [value]="item.nombre">{{ item.nombre }}</option>
-                        </select>
+                </div>
+                <div class="col-12">
+                  <ng-container *ngIf="socio" [formGroup]="formRecordatorio">
+                    <div class="row">
+                      <div class="col-12 col-md-4">
+                        <div class="form-group">
+                          <label>Fecha</label>
+                          <input type="date" class="form-control" formControlName="fecha">
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-12 col-md-6" *ngIf="showCellphones != ''">
-                      <div class="form-group">
-                        <label>Seleccione número</label>
-                        <select class="form-control" formControlName="numeroTelefono">
-                          <option value="">Selecione</option>
-                          <option *ngFor="let item of $telefonos" [value]="item.numero">{{ item.numero }}</option>
-                        </select>
+                      <div class="col-12 col-md-4">
+                        <div class="form-group">
+                          <label>Hora</label>
+                          <input type="time" class="form-control" formControlName="hora" min="07:00" max="20:00">
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <div class="form-group">
+                          <label>Seleccione la actividad</label>
+                          <select class="form-control" formControlName="tipoActividad" (ngModelChange)="showItem = $event">
+                            <option value="">Selecione</option>
+                            <option *ngFor="let item of tipoActividades" [value]="item.codItem">{{ item.descripcion }}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6" *ngIf="showItem == '1'">
+                        <div class="form-group">
+                          <label>Seleccione número</label>
+                          <select class="form-control" formControlName="numeroTelefono">
+                            <option>Selecione</option>
+                            <option *ngFor="let item of showPhones" [value]="item.numero">{{ (item.codCiudad ? item.codCiudad + '-' : '') + item.numero }}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6" *ngIf="showItem == '2'">
+                        <div class="form-group">
+                          <label>Seleccione Correo</label>
+                          <select class="form-control" formControlName="correo">
+                            <option>Selecione</option>
+                            <option *ngFor="let item of showEmails" [value]="item.email">{{ item.email }}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <ng-container *ngIf="showItem == '3'">
+                        <div class="col-12 col-md-6">
+                          <div class="form-group">
+                            <label>Seleccione Metodo</label>
+                            <select #metodo class="form-control" formControlName="tipoMetodo" (ngModelChange)="cambioTipoMetodo($event)">
+                              <option value="">Selecione</option>
+                              <option *ngFor="let item of listadoMensaje" [value]="item.nombre">{{ item.nombre }}</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-6" *ngIf="showCellphones != ''">
+                          <div class="form-group">
+                            <label>Seleccione número</label>
+                            <select class="form-control" formControlName="numeroTelefono">
+                              <option value="">Selecione</option>
+                              <option *ngFor="let item of $telefonos" [value]="item.numero">{{ item.numero }}</option>
+                            </select>
+                          </div>
+                        </div>
+                      </ng-container>
+                      <div class="col-12 " *ngIf="showItem == '4'">
+                        <div class="form-group">
+                          <label>Seleccione Dirección</label>
+                          <select class="form-control" formControlName="direccion">
+                            <option>Selecione</option>
+                            <option *ngFor="let item of showAddress" [value]="item.nombreVia">{{ item.nombreVia }}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <label>Comentario</label>
+                          <textarea class="form-control" formControlName="comentario"></textarea>
+                        </div>
                       </div>
                     </div>
                   </ng-container>
-                  <div class="col-12 " *ngIf="showItem == '4'">
-                    <div class="form-group">
-                      <label>Seleccione Dirección</label>
-                      <select class="form-control" formControlName="direccion">
-                        <option>Selecione</option>
-                        <option *ngFor="let item of showAddress" [value]="item.nombreVia">{{ item.nombreVia }}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label>Comentario</label>
-                      <textarea class="form-control" formControlName="comentario"></textarea>
-                    </div>
-                  </div>
                 </div>
               </ng-container>
-            </div>
-          </ng-container>
+            </ng-container>
             <div class="col-12">
               <div class="form-group">
                 <div class="d-flex justify-content-between mb-2">

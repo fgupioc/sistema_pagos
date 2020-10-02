@@ -39,6 +39,7 @@ export class ModalNuevaTareasComponent implements OnInit {
   creditos: Credito[] = [];
   credito: Credito;
   tipoActividades: TablaMaestra[] = [];
+  estadosRecordatorio: TablaMaestra[] = [];
   socio: Persona;
   showItem: any;
   dateDefault = moment(new Date()).format('YYYY-MM-DD');
@@ -72,6 +73,7 @@ export class ModalNuevaTareasComponent implements OnInit {
     console.log(this.creditos);
     this.listarTipoActividades();
     this.loadTipoNotificaciones();
+    this.loadEstadosRecordatorios();
     this.formRecordatorio = this.formBuilder.group({
       asignacionId: [],
       ejecutivoId: [],
@@ -104,7 +106,7 @@ export class ModalNuevaTareasComponent implements OnInit {
       Swal.fire('Actualizar Tarea', 'El nombre de la tarea es obligatorio', 'warning');
       return;
     }
-    
+
     if (this.creditoId > 0 && this.formRecordatorio.invalid) {
       Swal.fire('Actualizar Tarea', 'Debe ingresar los datos del recoridatorio', 'warning');
       return;
@@ -115,8 +117,8 @@ export class ModalNuevaTareasComponent implements OnInit {
       this.$tarea.recordatorio.socioId = this.socio.id;
       this.$tarea.recordatorio.creditoId = this.credito.id;
       this.$tarea.recordatorio.ejecutivoId = this.ejecutivoId;
+      this.$tarea.recordatorio.asignacionId = this.credito.asignacionId;
     }
-
     this.spinner.show();
     this.gestionAdministrativaService.actualizarTarea(this.$tarea).subscribe(
       res => {
@@ -131,6 +133,11 @@ export class ModalNuevaTareasComponent implements OnInit {
         Swal.fire('Actualizar Tareas', 'Ocurrio un error', 'success');
         this.spinner.hide();
       }
+    );
+  }
+  loadEstadosRecordatorios() {
+    this.tablaMaestraService.loadEstadosRecordatorios().subscribe(
+      res => this.estadosRecordatorio = res
     );
   }
 
@@ -304,5 +311,53 @@ export class ModalNuevaTareasComponent implements OnInit {
     } else {
       return '';
     }
+  }
+
+  isCurrentDate(fecha: string, condicion: string) {
+    const date = moment(fecha).format('YYYY-MM-DD');
+    if (this.dateDefault == date && condicion != '2') {
+      return 'table-primary';
+    }
+    if (this.dateDefault == date && condicion == '2') {
+      return 'table-success';
+    }
+    if (moment().isAfter(fecha) && condicion != '2') {
+      return 'table-danger';
+    }
+    if (moment().isAfter(fecha) && condicion == '2') {
+      return 'table-success';
+    }
+  }
+
+  getNameActividad(tipoActividad: string) {
+    const item = this.tipoActividades.find(i => i.codItem == tipoActividad);
+    return item ? item.descripcion : '';
+  }
+
+  getDescripcion(item: Recordatorio) {
+    let msj = '';
+    if (item.numeroTelefono) {
+      msj = item.numeroTelefono;
+      if (item.tipoMetodo) {
+        msj += ` - ${item.tipoMetodo}`;
+      }
+    }
+
+    if (item.correo) {
+      msj = item.correo;
+      if (item.tipoMetodo) {
+        msj += ` - ${item.tipoMetodo}`;
+      }
+    }
+
+    if (item.direccion) {
+      msj = item.direccion;
+    }
+    return msj;
+  }
+
+  getNameCondition(condicion: any) {
+    const item = this.estadosRecordatorio.find(i => i.codItem == condicion);
+    return item ? item.descripcion : '';
   }
 }
