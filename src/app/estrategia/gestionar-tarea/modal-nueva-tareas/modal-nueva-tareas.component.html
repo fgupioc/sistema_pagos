@@ -126,7 +126,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr  [class]="isCurrentDate($tarea.recordatorio.fecha, $tarea.recordatorio.condicion)" style="font-size: 12px; text-align: center">
+                  <tr [class]="isCurrentDate($tarea.recordatorio.fecha, $tarea.recordatorio.condicion)" style="font-size: 12px; text-align: center">
                     <td>
                       <ng-container *ngIf="!$tarea.recordatorio.observacion; else obsetvation">
                         {{ getNameActividad($tarea.recordatorio.tipoActividad) }}
@@ -288,8 +288,9 @@
 
                   <div class="image-cs">
                     <a class="image-cs-preview"
-                       href="#" target="_blank" title="" style="background-image: url('https://trello-attachments.s3.amazonaws.com/5ba489df79a40d0c18d721ca/150x87/86293b6ba8044dfd7fbf461675c3216d/los-50-paisajes-maravillosos-del-mundo-para-tomar-fotos.jpg');background-color: #404736;"
-                                                       rel="noreferrer nofollow noopener">
+                       href="#" target="_blank" title=""
+                       style="background-image: url('https://trello-attachments.s3.amazonaws.com/5ba489df79a40d0c18d721ca/150x87/86293b6ba8044dfd7fbf461675c3216d/los-50-paisajes-maravillosos-del-mundo-para-tomar-fotos.jpg');background-color: #404736;"
+                       rel="noreferrer nofollow noopener">
                     </a>
                     <p class="image-cs-details">
                       <span class="image-cs-name">los-50-paisajes-maravillosos-del-mundo-para-tomar-fotos.jpg</span>
@@ -305,7 +306,7 @@
                     </p>
                   </div>
                   <div class="image-cs">
-                    <a class="image-cs-preview" href="#"  target="_blank" title="proceso de cobranza.vsdx" style="" rel="noreferrer nofollow noopener">
+                    <a class="image-cs-preview" href="#" target="_blank" title="proceso de cobranza.vsdx" style="" rel="noreferrer nofollow noopener">
                       <span class="image-cs-preview-ext">vsdx</span>
                     </a>
                     <p class="image-cs-details">
@@ -317,7 +318,7 @@
                       <span class="quiet">
                         <a class="text-danger" href="#">
                           <i class="fa fa-trash"></i>
-                          <span >Quitar portada</span>
+                          <span>Quitar portada</span>
                         </a>
                     </span>
                     </p>
@@ -336,13 +337,41 @@
               <div class="form-group">
                 <div class="d-flex justify-content-between mb-2">
                   <label>Actividades</label>
-                  <button class="btn btn-sm btn-outline-info" (click)="showActividades ? showActividades = false : showActividades = true"><i class="fa fa-eye"></i></button>
                 </div>
-                <ul class="list-group" *ngIf="showActividades">
-                  <li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, blanditiis earum inventore maiores minima vel?</li>
-                  <li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, blanditiis earum inventore maiores minima vel?</li>
-                  <li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, blanditiis earum inventore maiores minima vel?</li>
-                </ul>
+                <ng-container>
+                  <div class="new-comment mb-4">
+                    <div class="member member-no-menu" *ngIf="userLoggedName">
+                      <span class="member-initials text-uppercase" [title]="userLoggedName" >{{ userLoggedName | slice: 0:2 }}</span>
+                    </div>
+                    <div class="comment-frame">
+                      <textarea class="form-control" maxlength="224" placeholder="Escriba un comentario..." dir="auto" style="min-height: 50px" [(ngModel)]="comentario"></textarea>
+                      <ng-container *ngIf="comentario.trim().length > 0">
+                        <button class="btn btn-sm btn-outline-info mt-2" *ngIf="comentario.trim().length < 225" (click)="guardarCometario()">Guardar comentario</button>
+                        <span class="text-danger" *ngIf="comentario.trim().length > 225">Su comentario es demasiado largo.</span>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div class="body-comment">
+                    <div class="new-comment mb-2" *ngFor="let item of actividades">
+                      <div class="member member-no-menu">
+                        <span class="member-initials text-uppercase" [title]="item.alias" >{{ item.alias | slice: 0:2 }}</span>
+                      </div>
+                      <div class="comment-frame">
+                        <div class="comment-item">
+                          <div class="">
+                            <h6 class="m-0 p-0">{{ item.alias }}</h6>
+                            <small>{{ item.fechaCreacion | date : 'dd MMM yyyy HH:mm' }}</small>
+                          </div>
+                          <p class="p-0 m-0">{{ item.comentario }}</p>
+                          <div class="">
+                            <a href="javascript:;" class="btn-link mr-2">Editar</a>
+                            <a href="javascript:;" class="btn-link" (click)="desactivarActividad(item)">Eliminar</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
               </div>
             </div>
           </div>

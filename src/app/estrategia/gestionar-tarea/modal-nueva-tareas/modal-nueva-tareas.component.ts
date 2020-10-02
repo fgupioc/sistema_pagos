@@ -20,6 +20,8 @@ import {Tarea} from '../../../interfaces/tarea';
 import {FUNC} from '../../../comun/FUNC';
 import {GestionAdministrativaService} from '../../../servicios/gestion-administrativa.service';
 import {Recordatorio} from '../../../interfaces/recordatorio';
+import {TareaActividad} from '../../../interfaces/tarea-actividad';
+import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
 
 @Component({
   selector: 'app-modal-nueva-tareas',
@@ -55,8 +57,12 @@ export class ModalNuevaTareasComponent implements OnInit {
   showDropzone = false;
   ejecutivoId: any;
   creditoId: any = '';
+  comentario = '';
+  actividades: any[] = [];
+  userLoggedName: any;
 
   constructor(
+    private auth: AutenticacionService,
     private spinner: NgxSpinnerService,
     private asignacionCarteraService: AsignacionCarteraService,
     private activatedRoute: ActivatedRoute,
@@ -67,6 +73,7 @@ export class ModalNuevaTareasComponent implements OnInit {
     private tipoNotificacionService: TipoNotificacionService,
     private gestionAdministrativaService: GestionAdministrativaService
   ) {
+    this.userLoggedName = auth.loggedUser.alias;
   }
 
   ngOnInit() {
@@ -89,6 +96,7 @@ export class ModalNuevaTareasComponent implements OnInit {
       comentario: [''],
     });
     if (this.tarea) {
+      this.listarActividadPorTarea();
       const task = Object.assign({}, this.tarea);
       this.$tarea = task;
       if (!this.tarea.fechaVencimiento) {
@@ -135,6 +143,7 @@ export class ModalNuevaTareasComponent implements OnInit {
       }
     );
   }
+
   loadEstadosRecordatorios() {
     this.tablaMaestraService.loadEstadosRecordatorios().subscribe(
       res => this.estadosRecordatorio = res
@@ -359,5 +368,63 @@ export class ModalNuevaTareasComponent implements OnInit {
   getNameCondition(condicion: any) {
     const item = this.estadosRecordatorio.find(i => i.codItem == condicion);
     return item ? item.descripcion : '';
+  }
+
+  guardarCometario() {
+    if (this.comentario.trim().length == 0) {
+      Swal.fire('Crear Comentario', 'Debeingresar un comentario valido.', 'warning');
+      return;
+    }
+    const comment: TareaActividad = {
+      tareaId: this.tarea.id,
+      comentario: this.comentario,
+    };
+    this.spinner.show();
+    this.gestionAdministrativaService.crearTareaComentario(comment).subscribe(
+      res => {
+        if (res.exito) {
+          this.comentario = '';
+          Swal.fire('Crear Comentario', res.mensaje, 'success');
+          this.listarActividadPorTarea();
+        }
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
+      }
+    );
+  }
+
+  listarActividadPorTarea() {
+    this.gestionAdministrativaService.listarActividadPorTarea(this.tarea.id).subscribe(
+      res => {
+        if (res.exito) {
+          this.actividades = res.objeto as any[];
+        }
+      }
+    );
+  }
+
+  desactivarActividad(item: any) {
+    Swal.fire({
+      text: 'Estas segura de eliminar la actividad?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, Eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        this.spinner.show();
+        this.gestionAdministrativaService.desactivarTareaComentario(item.id).subscribe(
+          res => {
+            if (res.exito) {
+              Swal.fire('Actividad', res.mensaje, 'success');
+              this.spinner.hide();
+              this.listarActividadPorTarea();
+            }
+          }
+        );
+      }
+    });
   }
 }
