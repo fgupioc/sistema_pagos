@@ -50,8 +50,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.misNotificaciones();
     this.eventosService.leerNotifyEmitter.subscribe(
       res => {
-        console.log(res);
-        if (res.tipo == '01') {
+        if (res.tipo == '01' || res.tipo == '03') {
           this.notifications = [];
           this.misNotificaciones();
         }
@@ -81,8 +80,11 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   irNotification(noty: MyNotification) {
     if (noty) {
+
       if (noty.tipo == '01' || noty.tipo == '02') {
         this.route.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${noty.asignacionId}/detalle/${noty.creditoId}/socio`);
+      } else if (noty.tipo == '03') {
+        this.route.navigateByUrl(`/auth/gestion-administrativa/mis-tareas/${noty.condicion}`);
       }
     }
   }

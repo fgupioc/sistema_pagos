@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import {Tarea} from '../../../interfaces/tarea';
 import {CONST} from '../../../comun/CONST';
 import {FUNC} from '../../../comun/FUNC';
+import {EventosService} from '../../../servicios/eventos.service';
 
 @Component({
   selector: 'app-tarea-detalle',
@@ -34,7 +35,8 @@ export class TareaDetalleComponent implements OnInit {
     public config: NgbModalConfig,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private eventosService: EventosService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -80,6 +82,7 @@ export class TareaDetalleComponent implements OnInit {
           if (res.exito) {
             event.data.etapaActual = process;
             list.splice(index, 0, event.data);
+            this.eventosService.leerNotifyEmitter.emit({tipo: '03', id: event.data.id});
             this.spinner.hide();
           } else {
             this.loadTableroTareaPorSlug(this.tarjeta.slug);
