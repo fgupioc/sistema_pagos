@@ -1,4 +1,5 @@
 import {Tarea} from './tarea';
+import {Persona} from './Persona';
 
 export interface EjecutivoAsignacion {
   ejecutivoId: number;
@@ -10,4 +11,5 @@ export interface EjecutivoAsignacion {
   fechaCreacion?: string;
   estado?: string;
   tareas?: Tarea[];
+  ejecutivo?: Persona;
 }
