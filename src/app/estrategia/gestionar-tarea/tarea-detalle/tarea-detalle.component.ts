@@ -10,6 +10,7 @@ import {EjecutivoAsignacion} from '../../../interfaces/ejecutivo-asignacion';
 import Swal from 'sweetalert2';
 import {Tarea} from '../../../interfaces/tarea';
 import {CONST} from '../../../comun/CONST';
+import {FUNC} from '../../../comun/FUNC';
 
 @Component({
   selector: 'app-tarea-detalle',
@@ -25,24 +26,26 @@ export class TareaDetalleComponent implements OnInit {
   newTask = false;
   taskName: string;
   $creditos: Credito[] = [];
+  role: string;
 
   constructor(
     private gestionAdministrativaService: GestionAdministrativaService,
     public modalService: NgbModal,
     public config: NgbModalConfig,
-    private activeModal: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
-    activeModal.params.subscribe(({slug}) => {
+    activatedRoute.params.subscribe(({slug}) => {
       if (!slug) {
         router.navigateByUrl('/auth/gestion-administrativa/tareas');
       } else {
         this.loadTableroTareaPorSlug(slug);
       }
     });
+    activatedRoute.data.subscribe(({role}) => this.role = role);
   }
 
   ngOnInit() {
@@ -123,6 +126,7 @@ export class TareaDetalleComponent implements OnInit {
     modal.componentInstance.tarea = item;
     modal.componentInstance.creditos = this.$creditos;
     modal.componentInstance.ejecutivoId = this.tarjeta.ejecutivoId;
+    modal.componentInstance.role = this.role;
     modal.result.then(
       this.closeModal.bind(this),
       this.closeModal.bind(this)
@@ -147,10 +151,12 @@ export class TareaDetalleComponent implements OnInit {
           Swal.fire('Tareas', 'El tablero de tareas no existe', 'error');
           this.router.navigateByUrl('/auth/gestion-administrativa/tareas');
         }
+        this.spinner.hide();
       },
       err => {
         Swal.fire('Tareas', 'El tablero de tareas no existe', 'error');
         this.router.navigateByUrl('/auth/gestion-administrativa/tareas');
+        this.spinner.hide();
       }
     );
   }
@@ -170,8 +176,8 @@ export class TareaDetalleComponent implements OnInit {
         } else {
           Swal.fire('Tareas', res.mensaje, 'warning');
           this.router.navigateByUrl('/auth/gestion-administrativa/tareas');
+          this.spinner.hide();
         }
-        this.spinner.hide();
       },
       err => {
         Swal.fire('Tareas', 'El tablero de tareas no existe', 'error');
@@ -179,5 +185,13 @@ export class TareaDetalleComponent implements OnInit {
         this.spinner.hide();
       }
     );
+  }
+
+  getNamePriority(prioridad: any) {
+    return FUNC.getNamePriority(prioridad);
+  }
+
+  getClassPriority(prioridad: any) {
+    return FUNC.getClassPriority(prioridad);
   }
 }

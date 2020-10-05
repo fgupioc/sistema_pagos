@@ -251,3 +251,11 @@ textarea {
   max-height: 210px;
   overflow-y: auto;
 }
+
+.container input:disabled ~ .checkmark {
+  background-color: #c8ced3;
+}
+
+.container input:disabled ~ .checkmark:after {
+  display: none;
+}

@@ -53,6 +53,7 @@
                       <ul>
                         <li *ngIf="item.actividades.length > 0" class="mr-2"><i class="fa fa-comment-o"></i> {{ item.actividades.length }}</li>
                         <li *ngIf="item.archivos.length > 0"><i class="fa fa-file-o"></i> {{ item.actividades.length }}</li>
+                        <li> <span class="text-{{ getClassPriority(item.prioridad) }} font-weight-bold">{{ getNamePriority(item.prioridad) }}</span> </li>
                       </ul>
                     </div>
                   </div>
@@ -63,17 +64,19 @@
               </ng-container>
             </div>
           </div>
-          <a *ngIf="!newTask" class="open-card-composer cursor-pointer" (click)="newTask = true;">
-            <i class="fa fa-plus"></i><span class="box-title"> Añada una Tarea</span>
-          </a>
-          <ng-container *ngIf="newTask">
-            <div class="text-center mt-2">
-              <textarea class="form-control" [(ngModel)]="taskName" placeholder="Introduzca un titulo para esta tarea..."></textarea>
-              <div class="mt-2">
-                <button class="btn btn-sm btn-outline-info mr-2" (click)="nuevaTarea()">Añadir tarea</button>
-                <button class="btn btn-sm btn-danger" (click)="newTask = false"><i class="fa fa-close"></i></button>
+          <ng-container *ngIf="!role">
+            <a *ngIf="!newTask" class="open-card-composer cursor-pointer" (click)="newTask = true;">
+              <i class="fa fa-plus"></i><span class="box-title"> Añada una Tarea</span>
+            </a>
+            <ng-container *ngIf="newTask">
+              <div class="text-center mt-2">
+                <textarea class="form-control" [(ngModel)]="taskName" placeholder="Introduzca un titulo para esta tarea..."></textarea>
+                <div class="mt-2">
+                  <button class="btn btn-sm btn-outline-info mr-2" (click)="nuevaTarea()">Añadir tarea</button>
+                  <button class="btn btn-sm btn-danger" (click)="newTask = false"><i class="fa fa-close"></i></button>
+                </div>
               </div>
-            </div>
+            </ng-container>
           </ng-container>
         </div>
       </div>
@@ -115,6 +118,7 @@
                       <ul>
                         <li *ngIf="item.actividades.length > 0" class="mr-2"><i class="fa fa-comment-o"></i> {{ item.actividades.length }}</li>
                         <li *ngIf="item.archivos.length > 0"><i class="fa fa-file-o"></i> {{ item.actividades.length }}</li>
+                        <li> <span class="text-{{ getClassPriority(item.prioridad) }} font-weight-bold">{{ getNamePriority(item.prioridad) }}</span> </li>
                       </ul>
                     </div>
                   </div>
@@ -165,6 +169,7 @@
                       <ul>
                         <li *ngIf="item.actividades.length > 0" class="mr-2"><i class="fa fa-comment-o"></i> {{ item.actividades.length }}</li>
                         <li *ngIf="item.archivos.length > 0"><i class="fa fa-file-o"></i> {{ item.actividades.length }}</li>
+                        <li> <span class="text-{{ getClassPriority(item.prioridad) }} font-weight-bold">{{ getNamePriority(item.prioridad) }}</span> </li>
                       </ul>
                     </div>
                   </div>
@@ -180,4 +185,5 @@
     </div>
   </div>
 </ng-container>
+<app-loading></app-loading>
 

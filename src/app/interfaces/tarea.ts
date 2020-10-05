@@ -22,4 +22,6 @@ export interface Tarea {
   recordatorio?: Recordatorio;
   actividades?: TareaActividad[];
   archivos?: TareaArchivo[];
+  checkFechaVencimiento?: boolean;
+  checkFechaRecordatorio?: boolean;
 }

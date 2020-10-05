@@ -39,10 +39,8 @@ export class ModalNuevaTareasComponent implements OnInit {
   $tarea: Tarea;
   name: any;
   tarea: Tarea;
-  showActividades = false;
   editDescription = false;
   editVencimiento = false;
-  checkVencimiento: any;
   creditos: Credito[] = [];
   credito: Credito;
   tipoActividades: TablaMaestra[] = [];
@@ -53,10 +51,6 @@ export class ModalNuevaTareasComponent implements OnInit {
   tipoNotificaciones: TipoNotificacion[] = [];
   $telefonos: Telefono[] = [];
   editName = false;
-  checkRecordatorio: boolean;
-  checkNotification = false;
-  checkEmail = false;
-  checkNotificationexpiration: any;
   priority = 0;
   files: File[] = [];
   showDropzone = false;
@@ -67,9 +61,10 @@ export class ModalNuevaTareasComponent implements OnInit {
   userLoggedName: any;
   progresos: any[] = [];
   archivos: TareaArchivo[] = [];
+  role: string;
 
   constructor(
-    private auth: AutenticacionService,
+    public auth: AutenticacionService,
     private spinner: NgxSpinnerService,
     private asignacionCarteraService: AsignacionCarteraService,
     private activatedRoute: ActivatedRoute,
@@ -84,7 +79,6 @@ export class ModalNuevaTareasComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.creditos);
     this.listarTipoActividades();
     this.loadTipoNotificaciones();
     this.loadEstadosRecordatorios();
@@ -135,6 +129,15 @@ export class ModalNuevaTareasComponent implements OnInit {
       this.$tarea.recordatorio.ejecutivoId = this.ejecutivoId;
       this.$tarea.recordatorio.asignacionId = this.credito.asignacionId;
     }
+
+    if (!this.$tarea.checkFechaRecordatorio) {
+      this.$tarea.fechaRecordatorio = null;
+      this.$tarea.horaRecordatorio = null;
+      this.$tarea.correo = false;
+      this.$tarea.notificacion = false;
+      this.$tarea.notificacionVencimiento = false;
+    }
+
     this.spinner.show();
     this.gestionAdministrativaService.actualizarTarea(this.$tarea).subscribe(
       res => {
@@ -142,8 +145,8 @@ export class ModalNuevaTareasComponent implements OnInit {
           this.activeModal.dismiss(res);
         } else {
           Swal.fire('Actualizar Tareas', res.mensaje, 'warning');
+          this.spinner.hide();
         }
-        this.spinner.hide();
       },
       err => {
         Swal.fire('Actualizar Tareas', 'Ocurrio un error', 'success');
@@ -158,8 +161,15 @@ export class ModalNuevaTareasComponent implements OnInit {
     );
   }
 
-  changeVencimiento(event: any) {
-    console.log(event);
+  changeRecordatorio(event: any) {
+    if (event.target.checked) {
+      this.$tarea.fechaRecordatorio = this.$tarea.fechaVencimiento;
+      this.$tarea.horaRecordatorio = this.getTime;
+
+    } else {
+      this.$tarea.fechaRecordatorio = null;
+      this.$tarea.horaRecordatorio = null;
+    }
   }
 
   newVencimiento() {
@@ -173,9 +183,9 @@ export class ModalNuevaTareasComponent implements OnInit {
   }
 
   get checedCumplido() {
-    if (this.estaFechaVencida() && !this.checkVencimiento) {
+    if (this.estaFechaVencida() && !this.$tarea.checkFechaVencimiento) {
       return 2;
-    } else if (this.checkVencimiento) {
+    } else if (this.$tarea.checkFechaVencimiento) {
       return 1;
     } else {
       return 0;
@@ -294,23 +304,15 @@ export class ModalNuevaTareasComponent implements OnInit {
   }
 
   get getClassPriority() {
-    if (this.$tarea.prioridad == 1) {
-      return 'success';
-    } else if (this.$tarea.prioridad == 2) {
-      return 'danger';
-    } else {
-      return 'info';
-    }
+    return FUNC.getClassPriority(this.$tarea.prioridad);
   }
 
 
   onSelect(event) {
-    console.log(event);
     this.files.push(...event.addedFiles);
   }
 
   onRemove(event) {
-    console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
   }
 
@@ -319,15 +321,7 @@ export class ModalNuevaTareasComponent implements OnInit {
   }
 
   get getNamePriority() {
-    if (this.$tarea.prioridad == 0) {
-      return 'Baja';
-    } else if (this.$tarea.prioridad == 1) {
-      return 'Media';
-    } else if (this.$tarea.prioridad == 2) {
-      return 'Alta';
-    } else {
-      return '';
-    }
+    return FUNC.getNamePriority(this.$tarea.prioridad);
   }
 
   isCurrentDate(fecha: string, condicion: string) {
@@ -418,7 +412,6 @@ export class ModalNuevaTareasComponent implements OnInit {
       res => {
         if (res.exito) {
           this.archivos = res.objeto as any[];
-          console.log(this.archivos);
         }
       }
     );
@@ -484,6 +477,10 @@ export class ModalNuevaTareasComponent implements OnInit {
     return `${urlBaseFotos}${this.tarea.id}/images/${file.url}`;
   }
 
+  getUrlDownload(file) {
+    return `${urlBaseFotos}${this.tarea.id}/download/${file.url}`;
+  }
+
   isImage(tipo) {
     const extens = ['PNG', 'JPG', 'JPEG'];
     return extens.includes(tipo.toUpperCase());
@@ -517,4 +514,22 @@ export class ModalNuevaTareasComponent implements OnInit {
     });
   }
 
+  chengeFehcaRecordatorio(event: any, element: HTMLInputElement) {
+    if (moment(this.$tarea.fechaVencimiento).isBefore(event)) {
+      this.$tarea.fechaRecordatorio = this.$tarea.fechaVencimiento;
+      element.value = this.$tarea.fechaVencimiento;
+    } else {
+      if (moment().isAfter(event)) {
+        this.$tarea.fechaRecordatorio = this.$tarea.fechaVencimiento;
+        element.value = moment().format('YYYY-MM-DD');
+      } else {
+        this.$tarea.fechaRecordatorio = event;
+      }
+    }
+  }
+
+  get getTime() {
+    const time = Number(this.$tarea.horaVencimiento.slice(0, 2)) - 1;
+    return time < 10 ? `0${time}:00` : `${time}:00`;
+  }
 }

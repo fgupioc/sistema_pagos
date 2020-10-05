@@ -85,4 +85,8 @@ export class GestionAdministrativaService {
     return this.http.delete<Respuesta>(`${urlBase}/eliminar-tarea-archivo`, {params: new HttpParams().set('taskId', tareaId).set('archivoid', archivoid)});
   }
 
+  listarTableroTareasPorEjecutivo(): Observable<EjecutivoAsignacion[]> {
+    return this.http.get<EjecutivoAsignacion[]>(`${urlBase}/listar-asignacion-tarea-por-ejecutivo`);
+  }
+
 }

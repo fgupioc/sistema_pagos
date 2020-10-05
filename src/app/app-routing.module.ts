@@ -144,7 +144,10 @@ const routes: Routes = [
           children: [
             {path: 'tareas', component: TableroTareasComponent},
             {path: 'tareas/:slug', component: TareaDetalleComponent},
-            {path: ':ejecutivoId/ejecutivo', component: EjecutivoTareaComponent }
+
+            // ejecutivo
+            {path: 'mis-tareas', component: EjecutivoTareaComponent},
+            {path: 'mis-tareas/:slug', component: TareaDetalleComponent, data: {role: 'X'}},
           ]
         }
       ]

@@ -55,4 +55,26 @@ export class FUNC {
     // tslint:disable-next-line:no-bitwise
     return filename.slice((filename.lastIndexOf('.') - 1 >>> 0) + 2);
   }
+
+  static getNamePriority(text: any) {
+    if (text == 0) {
+      return 'Baja';
+    } else if (text == 1) {
+      return 'Media';
+    } else if (text == 2) {
+      return 'Alta';
+    } else {
+      return '';
+    }
+  }
+
+  static getClassPriority(text: any) {
+    if (text == 1) {
+      return 'success';
+    } else if (text == 2) {
+      return 'danger';
+    } else {
+      return 'info';
+    }
+  }
 }

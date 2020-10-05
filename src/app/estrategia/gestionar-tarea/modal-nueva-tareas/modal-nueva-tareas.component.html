@@ -9,23 +9,30 @@
                 <ng-container *ngIf="!editName">
                   <div class="d-flex justify-content-between mb-2">
                     <h3>{{$tarea.nombre}}</h3>
-                    <button *ngIf="!editName" class="btn btn-sm btn-outline-info" (click)="editName ? editName = false : editName = true"><i class="fa fa-edit"></i></button>
+                    <button *ngIf="!editName && !role" class="btn btn-sm btn-outline-info" (click)="editName ? editName = false : editName = true"><i class="fa fa-edit"></i></button>
                   </div>
                 </ng-container>
                 <ng-container *ngIf="editName">
                   <input class="form-control" [(ngModel)]="$tarea.nombre" (blur)="editName = false">
                 </ng-container>
                 <small>En la lista <span>{{ getNameList }}</span>
-                  <div class="btn-group ml-2" ngbDropdown display="dynamic" placement="bottom-right">
-                    <a class="btn btn-sm btn-outline-{{ getClassPriority }}" href="javascript:;" tabindex="0" ngbDropdownToggle id="navbarDropdown2" role="button">
+                  <ng-container *ngIf="role">
+                    <span class="ml-2 btn btn-sm btn-{{ getClassPriority }}">
                       <i class="fa fa-question-circle"></i> Prioridad {{ getNamePriority }}
-                    </a>
-                    <div ngbDropdownMenu aria-labelledby="navbarDropdown2" class="dropdown-menu dropdown-menu-right">
-                      <a ngbDropdownItem href="javascript:;" (click)="this.$tarea.prioridad = 2" [class.active]="this.$tarea.prioridad == 2">Alta</a>
-                      <a ngbDropdownItem href="javascript:;" (click)="this.$tarea.prioridad = 1" [class.active]="this.$tarea.prioridad == 1">Media</a>
-                      <a ngbDropdownItem href="javascript:;" (click)="this.$tarea.prioridad = 0" [class.active]="this.$tarea.prioridad == 0">Baja</a>
+                    </span>
+                  </ng-container>
+                  <ng-container *ngIf="!role">
+                    <div class="btn-group ml-2" ngbDropdown display="dynamic" placement="bottom-right">
+                      <a class="btn btn-sm btn-outline-{{ getClassPriority }}" href="javascript:;" tabindex="0" ngbDropdownToggle id="navbarDropdown2" role="button">
+                        <i class="fa fa-question-circle"></i> Prioridad {{ getNamePriority }}
+                      </a>
+                      <div ngbDropdownMenu aria-labelledby="navbarDropdown2" class="dropdown-menu dropdown-menu-right">
+                        <a ngbDropdownItem href="javascript:;" (click)="this.$tarea.prioridad = 2" [class.active]="this.$tarea.prioridad == 2">Alta</a>
+                        <a ngbDropdownItem href="javascript:;" (click)="this.$tarea.prioridad = 1" [class.active]="this.$tarea.prioridad == 1">Media</a>
+                        <a ngbDropdownItem href="javascript:;" (click)="this.$tarea.prioridad = 0" [class.active]="this.$tarea.prioridad == 0">Baja</a>
+                      </div>
                     </div>
-                  </div>
+                  </ng-container>
                 </small>
 
               </div>
@@ -34,14 +41,14 @@
               <div class="form-group">
                 <div class="d-flex justify-content-between mb-2">
                   <label>Vencimiento</label>
-                  <button *ngIf="!editVencimiento" class="btn btn-sm btn-outline-info" (click)="newVencimiento()"><i class="fa fa-edit"></i></button>
+                  <button *ngIf="!editVencimiento && !role" class="btn btn-sm btn-outline-info" (click)="newVencimiento()"><i class="fa fa-edit"></i></button>
                 </div>
                 <ng-container *ngIf="!editVencimiento && $tarea.fechaVencimiento">
                   <div class="d-flex justify-content-between">
                     <label class="container" style="font-size: 16px; font-weight: bold">
                       {{ $tarea.fechaVencimiento  | date : 'dd MMM yyyy' }}
                       a las {{ $tarea.horaVencimiento | slice : 0 : 5 }}
-                      <input type="checkbox" [(ngModel)]="checkVencimiento" (ngModelChange)="changeVencimiento($event)">
+                      <input type="checkbox" [(ngModel)]="$tarea.checkFechaVencimiento">
                       <span class="checkmark"></span>
                     </label>
                     <span class="pull-right-container">
@@ -84,35 +91,33 @@
               <div class="form-group">
                 <label class="container " style="font-size: 16px;">
                   Recordar el
-                  <input type="checkbox" [(ngModel)]="checkRecordatorio">
+                  <input type="checkbox" [(ngModel)]="$tarea.checkFechaRecordatorio" (click)="changeRecordatorio($event)">
                   <span class="checkmark"></span>
                 </label>
 
-                <input type="date" class="form-control input-date mr-2" [(ngModel)]="$tarea.fechaRecordatorio" style="width: 140px">
-                <input type="time" class="form-control input-date" [(ngModel)]="$tarea.horaRecordatorio" style="width: 96px">
-
+                <input #fechaVenc [disabled]="!$tarea.checkFechaRecordatorio" type="date" class="form-control input-date mr-2" [(ngModel)]="$tarea.fechaRecordatorio" style="width: 140px" (ngModelChange)="chengeFehcaRecordatorio($event, fechaVenc)">
+                <input [disabled]="!$tarea.checkFechaRecordatorio" type="time" class="form-control input-date" [(ngModel)]="$tarea.horaRecordatorio" style="width: 96px">
               </div>
             </div>
             <div class="col-12 col-md-6">
               <div class="form-group">
                 <label class="container" style="font-size: 16px;">
                   Notificación
-                  <input type="checkbox" [(ngModel)]="$tarea.notificacion">
+                  <input type="checkbox" [(ngModel)]="$tarea.notificacion" [disabled]="!$tarea.checkFechaRecordatorio">
                   <span class="checkmark"></span>
                 </label>
                 <label class="container" style="font-size: 16px;">
                   Correo
-                  <input type="checkbox" [(ngModel)]="$tarea.correo">
+                  <input type="checkbox" [(ngModel)]="$tarea.correo" [disabled]="!$tarea.checkFechaRecordatorio">
                   <span class="checkmark"></span>
                 </label>
                 <label class="container" style="font-size: 16px;">
                   Enviar notificación de vencimiento
-                  <input type="checkbox" [(ngModel)]="$tarea.notificacionVencimiento">
+                  <input type="checkbox" [(ngModel)]="$tarea.notificacionVencimiento" [disabled]="!$tarea.checkFechaRecordatorio">
                   <span class="checkmark"></span>
                 </label>
               </div>
             </div>
-
             <ng-container *ngIf="$tarea.recordatorio">
               <div class="table-responsive">
                 <table class="table table-bordered table-hover">
@@ -147,7 +152,7 @@
                 </table>
               </div>
             </ng-container>
-            <ng-container *ngIf="!$tarea.recordatorio">
+            <ng-container *ngIf="!$tarea.recordatorio && !role">
               <ng-container *ngIf="creditos.length > 0">
                 <div class="col-12">
                   <div class="form-group">
@@ -255,6 +260,9 @@
 
               </div>
             </div>
+            <div class="col-12">
+              <button type="button" class="btn btn-outline-primary mr-2" (click)="crear()">guardar</button>
+            </div>
           </div>
         </ng-template>
       </ngb-panel>
@@ -271,13 +279,13 @@
               </div>
               <div class="form-group" *ngIf="showDropzone">
                 <!--  [accept]="'image/*'" -->
-                <div class="custom-dropzone" ngx-dropzone  (change)="onSelect($event)">
+                <div class="custom-dropzone" ngx-dropzone (change)="onSelect($event)">
                   <ngx-dropzone-label>
                     <div>
                       <h2>Adjuntar archivos</h2>
                     </div>
                   </ngx-dropzone-label>
-                  <ng-container *ngFor="let f of files" >
+                  <ng-container *ngFor="let f of files">
                     <ng-container *ngIf="isFormatImage(f.type); else noImage">
                       <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" [file]="f" [removable]="true" (removed)="onRemove(f)">
                         <ngx-dropzone-label>{{  f.name | slice:0: 20 }}{{ f.name.length > 20 ? '...' : ''}}  ({{ f.type }})</ngx-dropzone-label>
@@ -289,7 +297,6 @@
                       </ngx-dropzone-preview>
                     </ng-template>
                   </ng-container>
-
                 </div>
                 <button class="btn btn-outline-info mt-2" *ngIf="files.length > 0" (click)="subirArchivos()"><i class="fa fa-upload"></i> Subir Archivos</button>
               </div>
@@ -310,42 +317,44 @@
                     <ng-container *ngIf="isImage(file.tipo); else nofile">
                       <div class="image-cs">
                         <a class="image-cs-preview"
-                           href="#" target="_blank" title=""
+                           [href]="getUrl(file)"
                            [ngStyle]="{'background-image': 'url(' + getUrl(file) + ')'}"
-                           style="background-color: #404736;"
-                           rel="noreferrer nofollow noopener">
+                           style="background-color: #404736;">
                         </a>
                         <p class="image-cs-details">
                           <span class="image-cs-name">{{ file.nombre}}</span>
                           <span class="u-block quiet image-cs-details-title-options">
-                        <span>Añadido: <span class="date past" [title]="file.fechaCreacion | date : 'dd MMM yyyy HH:mm'">{{ file.fechaCreacion | date : 'dd MMM yyyy HH:mm'  }}</span>
-                        </span>
-                      </span>
-                          <span class="quiet">
-                        <a class="text-danger" href="javascript:;" (click)="eliminarArchivo(file)">
-                          <i class="fa fa-trash"></i>
-                          <span>Quitar portada</span></a>
-                    </span>
+                            <span>Añadido:
+                              <span class="date past" [title]="file.fechaCreacion | date : 'dd MMM yyyy HH:mm'">{{ file.fechaCreacion | date : 'dd MMM yyyy HH:mm'  }}</span>
+                            </span>
+                          </span>
+                          <span class="quiet" *ngIf="auth.loggedUser.id == file.usuarioId">
+                            <a class="text-danger" href="javascript:;" (click)="eliminarArchivo(file)">
+                              <i class="fa fa-trash"></i>
+                              <span>Quitar portada</span>
+                            </a>
+                          </span>
                         </p>
                       </div>
                     </ng-container>
                     <ng-template #nofile>
                       <div class="image-cs">
-                        <a class="image-cs-preview" href="#" target="_blank" [title]="file.nombre" style="" rel="noreferrer nofollow noopener">
+                        <a class="image-cs-preview" [href]="getUrlDownload(file)" [title]="file.nombre">
                           <span class="image-cs-preview-ext">{{ file.tipo }}</span>
                         </a>
                         <p class="image-cs-details">
                           <span class="image-cs-name">{{ file.nombre }}</span>
                           <span class="u-block quiet image-cs-details-title-options">
-                        <span>Añadido: <span class="date past" [title]="file.fechaCreacion | date : 'dd MMM yyyy HH:mm'">{{ file.fechaCreacion | date : 'dd MMM yyyy HH:mm'  }}</span>
-                        </span>
-                      </span>
-                          <span class="quiet">
-                       <a class="text-danger" href="javascript:;" (click)="eliminarArchivo(file)">
-                          <i class="fa fa-trash"></i>
-                          <span>Quitar portada</span>
-                        </a>
-                    </span>
+                            <span>Añadido:
+                              <span class="date past" [title]="file.fechaCreacion | date : 'dd MMM yyyy HH:mm'">{{ file.fechaCreacion | date : 'dd MMM yyyy HH:mm'  }}</span>
+                            </span>
+                          </span>
+                          <span class="quiet" *ngIf="file.usuarioId == auth.loggedUser.id">
+                           <a class="text-danger" href="javascript:;" (click)="eliminarArchivo(file)">
+                              <i class="fa fa-trash"></i>
+                              <span>Quitar portada</span>
+                           </a>
+                          </span>
                         </p>
                       </div>
                     </ng-template>
@@ -389,7 +398,7 @@
                             <small>{{ item.fechaCreacion | date : 'dd MMM yyyy HH:mm' }}</small>
                           </div>
                           <p class="p-0 m-0">{{ item.comentario }}</p>
-                          <div class="">
+                          <div class="" *ngIf="item.usuarioId == auth.loggedUser.id">
                             <a href="javascript:;" class="btn-link mr-2">Editar</a>
                             <a href="javascript:;" class="btn-link" (click)="desactivarActividad(item)">Eliminar</a>
                           </div>
@@ -406,7 +415,6 @@
     </ngb-accordion>
   </div>
   <div class="modal-footer d-flex justify-content-center">
-    <button type="button" class="btn btn-outline-primary mr-2" (click)="crear()">guardar</button>
     <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Cancelar</button>
   </div>
 </div>
