@@ -1,4 +1,4 @@
-export interface EjecutivoTarea {
+export interface TareaArchivo {
   comentario?: string;
   estado?: string;
   fechaCreacion?: number;

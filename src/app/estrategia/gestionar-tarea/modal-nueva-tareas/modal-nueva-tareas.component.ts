@@ -24,7 +24,7 @@ import {TareaActividad} from '../../../interfaces/tarea-actividad';
 import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
 import {HttpEventType} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
-import {EjecutivoTarea} from '../../../interfaces/ejecutivo-tarea';
+import {TareaArchivo} from '../../../interfaces/tarea-archivo';
 
 const urlBaseFotos = environment.signinUrl + '/upload/';
 
@@ -66,7 +66,7 @@ export class ModalNuevaTareasComponent implements OnInit {
   actividades: any[] = [];
   userLoggedName: any;
   progresos: any[] = [];
-  archivos: EjecutivoTarea[] = [];
+  archivos: TareaArchivo[] = [];
 
   constructor(
     private auth: AutenticacionService,

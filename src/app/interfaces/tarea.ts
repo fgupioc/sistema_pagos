@@ -1,4 +1,6 @@
 import {Recordatorio} from './recordatorio';
+import {TareaActividad} from './tarea-actividad';
+import {TareaArchivo} from './tarea-archivo';
 
 export interface Tarea {
   correo?: boolean;
@@ -18,4 +20,6 @@ export interface Tarea {
   tableroTareaId?: number;
   usuarioId?: number;
   recordatorio?: Recordatorio;
+  actividades?: TareaActividad[];
+  archivos?: TareaArchivo[];
 }
