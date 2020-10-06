@@ -24,4 +24,7 @@ export interface Tarea {
   archivos?: TareaArchivo[];
   checkFechaVencimiento?: boolean;
   checkFechaRecordatorio?: boolean;
+  asignacionId?: number;
+  socioId?: number;
+  codActividad?: string;
 }

@@ -46,7 +46,7 @@ export class ModalTableroNuevaTareaComponent implements OnInit {
     this.formulario = this.formBuilder.group({
       ejecutivoId: ['', [Validators.required]],
       nombre: ['', [Validators.required]],
-      visibilidad: ['', [Validators.required]],
+      visibilidad: [{value: '01', disabled: true}, [Validators.required]],
 
     });
   }

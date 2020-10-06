@@ -40,6 +40,21 @@
             <div class="col-12">
               <div class="form-group">
                 <div class="d-flex justify-content-between mb-2">
+                  <label>Descripción</label>
+                  <button *ngIf="!editDescription" class="btn btn-sm btn-outline-info" (click)="editDescription = true"><i class="fa fa-edit"></i></button>
+                </div>
+                <ng-container *ngIf="editDescription">
+                  <textarea [(ngModel)]="$tarea.descripcion" class="form-control" (blur)="editDescription = false" rows="4"></textarea>
+                </ng-container>
+                <ng-container *ngIf="!editDescription">
+                  <p>{{ $tarea.descripcion }}</p>
+                </ng-container>
+
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <div class="d-flex justify-content-between mb-2">
                   <label>Vencimiento</label>
                   <button *ngIf="!editVencimiento && !role" class="btn btn-sm btn-outline-info" (click)="newVencimiento()"><i class="fa fa-edit"></i></button>
                 </div>
@@ -101,7 +116,7 @@
             </div>
             <div class="col-12 col-md-6">
               <div class="form-group">
-                <label class="container" style="font-size: 16px;">
+                <label class="container" style="font-size: 16px;" *ngIf="false">
                   Notificación
                   <input type="checkbox" [(ngModel)]="$tarea.notificacion" [disabled]="!$tarea.checkFechaRecordatorio">
                   <span class="checkmark"></span>
@@ -109,11 +124,6 @@
                 <label class="container" style="font-size: 16px;">
                   Correo
                   <input type="checkbox" [(ngModel)]="$tarea.correo" [disabled]="!$tarea.checkFechaRecordatorio">
-                  <span class="checkmark"></span>
-                </label>
-                <label class="container" style="font-size: 16px;">
-                  Enviar notificación de vencimiento
-                  <input type="checkbox" [(ngModel)]="$tarea.notificacionVencimiento" [disabled]="!$tarea.checkFechaRecordatorio">
                   <span class="checkmark"></span>
                 </label>
               </div>
@@ -152,12 +162,12 @@
                 </table>
               </div>
             </ng-container>
-            <ng-container *ngIf="!$tarea.recordatorio && !role">
+            <ng-container *ngIf="!$tarea.recordatorio">
               <ng-container *ngIf="creditos.length > 0">
                 <div class="col-12">
                   <div class="form-group">
                     <label>Créditos asignados</label>
-                    <select class="form-control" [(ngModel)]="creditoId" (ngModelChange)="changeCredito($event);">
+                    <select class="form-control" [(ngModel)]="creditoId" (ngModelChange)="changeCredito($event);" [disabled]="role">
                       <option value="">Seleccione</option>
                       <option *ngFor="let item of creditos" [value]="item.id">{{ item.alias }} - {{ item.nroCredito }}</option>
                     </select>
@@ -166,19 +176,7 @@
                 <div class="col-12">
                   <ng-container *ngIf="socio" [formGroup]="formRecordatorio">
                     <div class="row">
-                      <div class="col-12 col-md-4">
-                        <div class="form-group">
-                          <label>Fecha</label>
-                          <input type="date" class="form-control" formControlName="fecha">
-                        </div>
-                      </div>
-                      <div class="col-12 col-md-4">
-                        <div class="form-group">
-                          <label>Hora</label>
-                          <input type="time" class="form-control" formControlName="hora" min="07:00" max="20:00">
-                        </div>
-                      </div>
-                      <div class="col-12 col-md-4">
+                      <div class="col-12 col-md-6">
                         <div class="form-group">
                           <label>Seleccione la actividad</label>
                           <select class="form-control" formControlName="tipoActividad" (ngModelChange)="showItem = $event">
@@ -187,6 +185,7 @@
                           </select>
                         </div>
                       </div>
+                      <ng-container *ngIf="role">
                       <div class="col-12 col-md-6" *ngIf="showItem == '1'">
                         <div class="form-group">
                           <label>Seleccione número</label>
@@ -240,26 +239,12 @@
                           <textarea class="form-control" formControlName="comentario"></textarea>
                         </div>
                       </div>
+                      </ng-container>
                     </div>
                   </ng-container>
                 </div>
               </ng-container>
             </ng-container>
-            <div class="col-12">
-              <div class="form-group">
-                <div class="d-flex justify-content-between mb-2">
-                  <label>Descripción</label>
-                  <button *ngIf="!editDescription" class="btn btn-sm btn-outline-info" (click)="editDescription = true"><i class="fa fa-edit"></i></button>
-                </div>
-                <ng-container *ngIf="editDescription">
-                  <textarea [(ngModel)]="$tarea.descripcion" class="form-control" (blur)="editDescription = false" rows="4"></textarea>
-                </ng-container>
-                <ng-container *ngIf="!editDescription">
-                  <p>{{ $tarea.descripcion }}</p>
-                </ng-container>
-
-              </div>
-            </div>
             <div class="col-12">
               <button type="button" class="btn btn-outline-primary mr-2" (click)="crear()">guardar</button>
             </div>

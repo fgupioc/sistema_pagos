@@ -3,12 +3,17 @@
     <div class="col-12">
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <h6>{{ tarjeta.nombre }}</h6>
+          <h6>{{ tarjeta.ejecutivo.alias }} - <b>{{ tarjeta.nombre }}</b></h6>
         </li>
         <li class="breadcrumb-menu d-md-down-none">
           <div aria-label="Button group with nested dropdown" class="btn-group" role="group">
-            <span class="btn"><i class="fa fa-lock"></i> Visible {{ tarjeta.visibilidad == '01' ? 'Privada' : 'Publica' }}</span>
-            <button class="btn btn-sm btn-outline-primary"><i class="fa fa-user-plus"></i> Invitar</button>
+            <ng-container *ngIf="tarjeta.visibilidad == '01'; else unlock">
+              <span class="btn"><i class="fa fa-lock"></i> Visible Privada</span>
+            </ng-container>
+            <ng-template #unlock>
+              <span class="btn"><i class="fa fa-unlock"></i> Visible Publica</span>
+            </ng-template>
+
           </div>
         </li>
       </ol>

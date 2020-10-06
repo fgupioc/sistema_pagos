@@ -101,6 +101,10 @@ export class ModalNuevaTareasComponent implements OnInit {
       this.listarArchivosPorTarea();
       const task = Object.assign({}, this.tarea);
       this.$tarea = task;
+      if (this.$tarea.socioId) {
+        this.obtenerSocio(this.$tarea.socioId);
+      }
+
       if (!this.tarea.fechaVencimiento) {
         this.newVencimiento();
       } else {
@@ -117,19 +121,17 @@ export class ModalNuevaTareasComponent implements OnInit {
       return;
     }
 
-    if (this.creditoId > 0 && this.formRecordatorio.invalid) {
-      Swal.fire('Actualizar Tarea', 'Debe ingresar los datos del recoridatorio', 'warning');
-      return;
-    }
-
-    if (this.creditoId > 0 && this.formRecordatorio.valid) {
+    if (this.role) {
       this.$tarea.recordatorio = this.formRecordatorio.getRawValue();
       this.$tarea.recordatorio.socioId = this.socio.id;
       this.$tarea.recordatorio.creditoId = this.credito.id;
       this.$tarea.recordatorio.ejecutivoId = this.ejecutivoId;
       this.$tarea.recordatorio.asignacionId = this.credito.asignacionId;
+      this.$tarea.recordatorio.fecha = moment().format('YYYY-MM-DD');
+      this.$tarea.recordatorio.hora = moment().format('HH:mm');
     }
 
+    this.$tarea.codActividad = this.formRecordatorio.controls.tipoActividad.value;
     if (!this.$tarea.checkFechaRecordatorio) {
       this.$tarea.fechaRecordatorio = null;
       this.$tarea.horaRecordatorio = null;
@@ -137,7 +139,7 @@ export class ModalNuevaTareasComponent implements OnInit {
       this.$tarea.notificacion = false;
       this.$tarea.notificacionVencimiento = false;
     }
-
+    console.log(this.$tarea);
     this.spinner.show();
     this.gestionAdministrativaService.actualizarTarea(this.$tarea).subscribe(
       res => {
@@ -203,17 +205,26 @@ export class ModalNuevaTareasComponent implements OnInit {
       this.credito = item;
       this.creditoId = item.id;
       this.obtenerSocio(item.socioId);
+      this.$tarea.asignacionId = item.asignacionId;
+      this.$tarea.socioId = item.socioId;
     } else {
       this.socio = null;
     }
   }
 
   obtenerSocio(codSocio) {
-    this.spinner.show();
+    setTimeout(() => this.spinner.show(), 10);
     this.asignacionCarteraService.buscarSocioByCodUsuario(codSocio).subscribe(
       res => {
         if (res.exito) {
           this.socio = res.objeto;
+          this.credito = this.creditos.find(i => i.asignacionId == this.$tarea.asignacionId);
+          this.creditoId = this.credito ? this.credito.id : '';
+          this.formRecordatorio.controls.tipoActividad.setValue(this.$tarea.codActividad);
+          if (this.role) {
+            this.showItem = this.$tarea.codActividad;
+            this.formRecordatorio.controls.tipoActividad.disable();
+          }
         } else {
           this.socio = null;
         }
