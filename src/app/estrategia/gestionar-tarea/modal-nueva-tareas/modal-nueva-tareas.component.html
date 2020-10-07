@@ -9,19 +9,21 @@
                 <ng-container *ngIf="!editName">
                   <div class="d-flex justify-content-between mb-2">
                     <h3>{{$tarea.nombre}}</h3>
-                    <button *ngIf="!editName && !role" class="btn btn-sm btn-outline-info" (click)="editName ? editName = false : editName = true"><i class="fa fa-edit"></i></button>
+                    <ng-container *ngIf="$tarea.estado == '1'">
+                      <button *ngIf="!editName && auth.loggedUser.id == $tarea.usuarioId" class="btn btn-sm btn-outline-info" (click)="editName ? editName = false : editName = true"><i class="fa fa-edit"></i></button>
+                    </ng-container>
                   </div>
                 </ng-container>
                 <ng-container *ngIf="editName">
                   <input class="form-control" [(ngModel)]="$tarea.nombre" (blur)="editName = false">
                 </ng-container>
                 <small>En la lista <span>{{ getNameList }}</span>
-                  <ng-container *ngIf="role">
+                  <ng-container *ngIf="auth.loggedUser.id != $tarea.usuarioId || $tarea.estado != '1'">
                     <span class="ml-2 btn btn-sm btn-{{ getClassPriority }}">
                       <i class="fa fa-question-circle"></i> Prioridad {{ getNamePriority }}
                     </span>
                   </ng-container>
-                  <ng-container *ngIf="!role">
+                  <ng-container *ngIf="auth.loggedUser.id == $tarea.usuarioId && $tarea.estado == '1'">
                     <div class="btn-group ml-2" ngbDropdown display="dynamic" placement="bottom-right">
                       <a class="btn btn-sm btn-outline-{{ getClassPriority }}" href="javascript:;" tabindex="0" ngbDropdownToggle id="navbarDropdown2" role="button">
                         <i class="fa fa-question-circle"></i> Prioridad {{ getNamePriority }}
@@ -41,7 +43,9 @@
               <div class="form-group">
                 <div class="d-flex justify-content-between mb-2">
                   <label>Descripción</label>
+                  <ng-container *ngIf="$tarea.estado == '1'">
                   <button *ngIf="!editDescription" class="btn btn-sm btn-outline-info" (click)="editDescription = true"><i class="fa fa-edit"></i></button>
+                  </ng-container>
                 </div>
                 <ng-container *ngIf="editDescription">
                   <textarea [(ngModel)]="$tarea.descripcion" class="form-control" (blur)="editDescription = false" rows="4"></textarea>
@@ -56,14 +60,16 @@
               <div class="form-group">
                 <div class="d-flex justify-content-between mb-2">
                   <label>Vencimiento</label>
-                  <button *ngIf="!editVencimiento && !role" class="btn btn-sm btn-outline-info" (click)="newVencimiento()"><i class="fa fa-edit"></i></button>
+                  <ng-container *ngIf="$tarea.estado == '1'">
+                  <button *ngIf="!editVencimiento" class="btn btn-sm btn-outline-info" (click)="newVencimiento()"><i class="fa fa-edit"></i></button>
+                  </ng-container>
                 </div>
                 <ng-container *ngIf="!editVencimiento && $tarea.fechaVencimiento">
                   <div class="d-flex justify-content-between">
                     <label class="container" style="font-size: 16px; font-weight: bold">
                       {{ $tarea.fechaVencimiento  | date : 'dd MMM yyyy' }}
                       a las {{ $tarea.horaVencimiento | slice : 0 : 5 }}
-                      <input type="checkbox" [(ngModel)]="$tarea.checkFechaVencimiento">
+                      <input type="checkbox" [(ngModel)]="$tarea.checkFechaVencimiento" [disabled]="$tarea.estado != '1'">
                       <span class="checkmark"></span>
                     </label>
                     <span class="pull-right-container">
@@ -85,12 +91,13 @@
                     </div>
                     <div class="col-6">
                       <label>Fecha</label>
-                      <input type="date" class="form-control" [(ngModel)]="$tarea.fechaVencimiento">
+                      <input type="date" class="form-control" [(ngModel)]="$tarea.fechaVencimiento" [disabled]="$tarea.estado != '1'">
                     </div>
                     <div class="col-6">
                       <label>Hora</label>
-                      <input type="time" class="form-control" [(ngModel)]="$tarea.horaVencimiento">
+                      <input type="time" class="form-control" [(ngModel)]="$tarea.horaVencimiento" [disabled]="$tarea.estado != '1'">
                     </div>
+                    <ng-container *ngIf="$tarea.estado == '1'">
                     <div class="col-12 mt-2">
                       <div class="form-group">
                         <div class="d-flex justify-content-between">
@@ -98,6 +105,7 @@
                         </div>
                       </div>
                     </div>
+                    </ng-container>
                   </div>
                 </ng-container>
               </div>
@@ -106,12 +114,14 @@
               <div class="form-group">
                 <label class="container " style="font-size: 16px;">
                   Recordar el
-                  <input type="checkbox" [(ngModel)]="$tarea.checkFechaRecordatorio" (click)="changeRecordatorio($event)">
+                  <input #checkRecord type="checkbox" [(ngModel)]="$tarea.checkFechaRecordatorio" (click)="changeRecordatorio($event, checkRecord)" [disabled]="$tarea.estado != '1'">
                   <span class="checkmark"></span>
                 </label>
 
-                <input #fechaVenc [disabled]="!$tarea.checkFechaRecordatorio" type="date" class="form-control input-date mr-2" [(ngModel)]="$tarea.fechaRecordatorio" style="width: 140px" (ngModelChange)="chengeFehcaRecordatorio($event, fechaVenc)">
-                <input [disabled]="!$tarea.checkFechaRecordatorio" type="time" class="form-control input-date" [(ngModel)]="$tarea.horaRecordatorio" style="width: 96px">
+                <input #fechaVenc [disabled]="!$tarea.checkFechaRecordatorio || $tarea.estado !='1'" type="date" class="form-control input-date mr-2" [(ngModel)]="$tarea.fechaRecordatorio" style="width: 140px"
+                       (ngModelChange)="chengeFehcaRecordatorio($event,
+                fechaVenc)">
+                <input [disabled]="!$tarea.checkFechaRecordatorio || $tarea.estado !='1'" type="time" class="form-control input-date" [(ngModel)]="$tarea.horaRecordatorio" style="width: 96px">
               </div>
             </div>
             <div class="col-12 col-md-6">
@@ -146,7 +156,6 @@
                       <ng-container *ngIf="!$tarea.recordatorio.observacion; else obsetvation">
                         {{ getNameActividad($tarea.recordatorio.tipoActividad) }}
                       </ng-container>
-
                       <ng-template #obsetvation>
                         <ng-template #tipContent><b>{{$tarea.recordatorio.observacion}}</b></ng-template>
                         <span> <b triggers="click" [autoClose]="'outside'" [ngbTooltip]="tipContent" class="cursor-pointer" style="font-size: 18px"><i class="fa  fa-question-circle"></i></b> {{ getNameActividad($tarea.recordatorio.tipoActividad) }} </span>
@@ -156,7 +165,6 @@
                     <td> {{ getDescripcion($tarea.recordatorio) }}</td>
                     <td style="text-align: left;"> {{ $tarea.recordatorio.comentario }}</td>
                     <td> {{ getNameCondition($tarea.recordatorio.condicion) }}</td>
-
                   </tr>
                   </tbody>
                 </table>
@@ -167,7 +175,7 @@
                 <div class="col-12">
                   <div class="form-group">
                     <label>Créditos asignados</label>
-                    <select class="form-control" [(ngModel)]="creditoId" (ngModelChange)="changeCredito($event);" [disabled]="role">
+                    <select class="form-control" [(ngModel)]="creditoId" (ngModelChange)="changeCredito($event);" [disabled]="auth.loggedUser.id != $tarea.usuarioId || $tarea.estado !='1'">
                       <option value="">Seleccione</option>
                       <option *ngFor="let item of creditos" [value]="item.id">{{ item.alias }} - {{ item.nroCredito }}</option>
                     </select>
@@ -185,7 +193,7 @@
                           </select>
                         </div>
                       </div>
-                      <ng-container *ngIf="role">
+                      <ng-container *ngIf="false">
                       <div class="col-12 col-md-6" *ngIf="showItem == '1'">
                         <div class="form-group">
                           <label>Seleccione número</label>
@@ -245,9 +253,11 @@
                 </div>
               </ng-container>
             </ng-container>
+            <ng-container *ngIf="$tarea.estado == '1'">
             <div class="col-12">
               <button type="button" class="btn btn-outline-primary mr-2" (click)="crear()">guardar</button>
             </div>
+            </ng-container>
           </div>
         </ng-template>
       </ngb-panel>
@@ -260,7 +270,10 @@
             <div class="col-12">
               <div class="d-flex justify-content-between mb-2">
                 <label>Adjuntos</label>
+                <ng-container *ngIf="$tarea.estado =='1'">
                 <button class="btn btn-sm btn-outline-info" (click)="showDropzone ? showDropzone = false : showDropzone = true"><i class="fa fa-eye"></i></button>
+                </ng-container>
+
               </div>
               <div class="form-group" *ngIf="showDropzone">
                 <!--  [accept]="'image/*'" -->
@@ -313,12 +326,14 @@
                               <span class="date past" [title]="file.fechaCreacion | date : 'dd MMM yyyy HH:mm'">{{ file.fechaCreacion | date : 'dd MMM yyyy HH:mm'  }}</span>
                             </span>
                           </span>
+                          <ng-container *ngIf="$tarea.estado =='1'">
                           <span class="quiet" *ngIf="auth.loggedUser.id == file.usuarioId">
                             <a class="text-danger" href="javascript:;" (click)="eliminarArchivo(file)">
                               <i class="fa fa-trash"></i>
                               <span>Quitar portada</span>
                             </a>
                           </span>
+                          </ng-container>
                         </p>
                       </div>
                     </ng-container>
@@ -334,12 +349,14 @@
                               <span class="date past" [title]="file.fechaCreacion | date : 'dd MMM yyyy HH:mm'">{{ file.fechaCreacion | date : 'dd MMM yyyy HH:mm'  }}</span>
                             </span>
                           </span>
+                          <ng-container *ngIf="$tarea.estado =='1'">
                           <span class="quiet" *ngIf="file.usuarioId == auth.loggedUser.id">
                            <a class="text-danger" href="javascript:;" (click)="eliminarArchivo(file)">
                               <i class="fa fa-trash"></i>
                               <span>Quitar portada</span>
                            </a>
                           </span>
+                          </ng-container>
                         </p>
                       </div>
                     </ng-template>
@@ -384,8 +401,9 @@
                           </div>
                           <p class="p-0 m-0">{{ item.comentario }}</p>
                           <div class="" *ngIf="item.usuarioId == auth.loggedUser.id">
-                            <a href="javascript:;" class="btn-link mr-2">Editar</a>
+                            <ng-container *ngIf="$tarea.estado =='1'">
                             <a href="javascript:;" class="btn-link" (click)="desactivarActividad(item)">Eliminar</a>
+                            </ng-container>
                           </div>
                         </div>
                       </div>
@@ -400,7 +418,10 @@
     </ngb-accordion>
   </div>
   <div class="modal-footer d-flex justify-content-center">
-    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Cancelar</button>
+    <ng-container *ngIf="$tarea.estado == '1'">
+      <button *ngIf="auth.loggedUser.id == $tarea.usuarioId" type="button" class="btn btn-danger mr-2" (click)="cancelarTarea()">Cancelar Tarea</button>
+    </ng-container>
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Cerrar</button>
   </div>
 </div>
 <app-loading></app-loading>

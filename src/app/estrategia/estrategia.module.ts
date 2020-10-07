@@ -47,6 +47,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {DndModule} from 'ngx-drag-drop';
 import { ModalTableroNuevaTareaComponent } from './gestionar-tarea/modal-tablero-nueva-tarea/modal-tablero-nueva-tarea.component';
 import {NgxDropzoneModule} from 'ngx-dropzone';
+import { MisGestionesComponent } from './ejecutivo/mis-gestiones/mis-gestiones.component';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -83,7 +84,8 @@ const ngWizardConfig: NgWizardConfig = {
     TableroTareasComponent,
     ModalNuevaTareasComponent,
     TareaDetalleComponent,
-    ModalTableroNuevaTareaComponent
+    ModalTableroNuevaTareaComponent,
+    MisGestionesComponent
   ],
     imports: [
         CommonModule,

@@ -42,6 +42,10 @@ export class GestionAdministrativaService {
     return this.http.post<Respuesta>(`${urlBase}/crear-tarea`, tarea, {params: new HttpParams().set('tableroId', tableroId)});
   }
 
+  cancelarTarea(tareaId: any): Observable<Respuesta> {
+    return this.http.put<Respuesta>(`${urlBase}/cancelar-tarea`, {}, {params: new HttpParams().set('tareaId', tareaId)});
+  }
+
   actualizarEtapaTarea(tareaId: string, etapa: string): Observable<Respuesta> {
     return this.http.put<Respuesta>(`${urlBase}/tarea-actualizar-etapa`, {}, {params: new HttpParams().set('tareaId', tareaId).set('etapa', etapa)});
   }

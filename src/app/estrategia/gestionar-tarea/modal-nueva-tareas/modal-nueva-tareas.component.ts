@@ -120,7 +120,7 @@ export class ModalNuevaTareasComponent implements OnInit {
       Swal.fire('Actualizar Tarea', 'El nombre de la tarea es obligatorio', 'warning');
       return;
     }
-
+    /*
     if (this.role) {
       this.$tarea.recordatorio = this.formRecordatorio.getRawValue();
       this.$tarea.recordatorio.socioId = this.socio.id;
@@ -130,7 +130,7 @@ export class ModalNuevaTareasComponent implements OnInit {
       this.$tarea.recordatorio.fecha = moment().format('YYYY-MM-DD');
       this.$tarea.recordatorio.hora = moment().format('HH:mm');
     }
-
+*/
     this.$tarea.codActividad = this.formRecordatorio.controls.tipoActividad.value;
     if (!this.$tarea.checkFechaRecordatorio) {
       this.$tarea.fechaRecordatorio = null;
@@ -163,11 +163,16 @@ export class ModalNuevaTareasComponent implements OnInit {
     );
   }
 
-  changeRecordatorio(event: any) {
+  changeRecordatorio(event: any, element: HTMLInputElement) {
     if (event.target.checked) {
-      this.$tarea.fechaRecordatorio = this.$tarea.fechaVencimiento;
-      this.$tarea.horaRecordatorio = this.getTime;
-
+      if (this.$tarea.fechaVencimiento && this.$tarea.horaVencimiento) {
+        this.$tarea.fechaRecordatorio = this.$tarea.fechaVencimiento;
+        this.$tarea.horaRecordatorio = this.getTime;
+      } else {
+        Swal.fire('Tarea', 'Debe ingresar una fecha de vencimiento y hora de vencimiento', 'warning');
+        element.checked = false;
+        return;
+      }
     } else {
       this.$tarea.fechaRecordatorio = null;
       this.$tarea.horaRecordatorio = null;
@@ -221,7 +226,7 @@ export class ModalNuevaTareasComponent implements OnInit {
           this.credito = this.creditos.find(i => i.asignacionId == this.$tarea.asignacionId);
           this.creditoId = this.credito ? this.credito.id : '';
           this.formRecordatorio.controls.tipoActividad.setValue(this.$tarea.codActividad);
-          if (this.role) {
+          if (this.auth.loggedUser.id != this.$tarea.usuarioId || this.$tarea.estado != '1') {
             this.showItem = this.$tarea.codActividad;
             this.formRecordatorio.controls.tipoActividad.disable();
           }
@@ -385,7 +390,7 @@ export class ModalNuevaTareasComponent implements OnInit {
 
   guardarCometario() {
     if (this.comentario.trim().length == 0) {
-      Swal.fire('Crear Comentario', 'Debeingresar un comentario valido.', 'warning');
+      Swal.fire('Crear Comentario', 'Debe ingresar un comentario valido.', 'warning');
       return;
     }
     const comment: TareaActividad = {
@@ -540,7 +545,46 @@ export class ModalNuevaTareasComponent implements OnInit {
   }
 
   get getTime() {
-    const time = Number(this.$tarea.horaVencimiento.slice(0, 2)) - 1;
-    return time < 10 ? `0${time}:00` : `${time}:00`;
+    if (this.$tarea.horaVencimiento) {
+      const time = Number(this.$tarea.horaVencimiento.slice(0, 2)) - 1;
+      return time < 10 ? `0${time}:00` : `${time}:00`;
+    } else {
+      return '09:00';
+    }
+
+  }
+
+  cancelarTarea() {
+    if (this.$tarea.usuarioId != this.auth.loggedUser.id) {
+      Swal.fire('Cancelar Tarea', 'No puede cancelar esta tarea.', 'warning');
+      return;
+    }
+    Swal.fire({
+      text: 'Esta seguro de calcelar la tarea?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, Cancelar',
+      cancelButtonText: 'No, Mantener'
+    }).then((result) => {
+      if (result.value) {
+        this.spinner.show();
+        this.gestionAdministrativaService.cancelarTarea(this.$tarea.id).subscribe(
+          res => {
+            if (res.exito) {
+              Swal.fire('Cancelar Tarea', res.mensaje, 'success');
+              this.spinner.hide();
+              this.activeModal.dismiss(res);
+            } else {
+              Swal.fire('Cancelar Tarea', res.mensaje, 'error');
+              this.spinner.hide();
+            }
+          },
+          error => {
+            Swal.fire('Cancelar Tarea', 'Ocurrio un error', 'error');
+            this.spinner.hide();
+          }
+        );
+      }
+    });
   }
 }

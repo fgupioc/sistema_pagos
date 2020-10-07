@@ -24,9 +24,9 @@
       <div class="card">
         <div class="card-header">
           <span>Lista de tareas</span>
-          <div class="box-tools pull-right">
+          <!--div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool text-white"><i class="fa fa-times"></i></button>
-          </div>
+          </div-->
         </div>
         <div class="card-body">
           <div class="container-list-tasks">
@@ -44,7 +44,7 @@
                    (dndLinked)="onDragged(item, $tareasLista, 'link')"
                    (dndMoved)="onDragged(item, $tareasLista, 'move')"
                    (dndCanceled)="onDragged(item, $tareasLista, 'none')"
-                   (dndEnd)="onDragEnd($event)" class="list-group-item list-group-item-action list-group-item-secondary mb-2" style="padding-bottom: 0.5rem !important;">
+                   (dndEnd)="onDragEnd($event)" class="list-group-item list-group-item-action mb-2 {{ item.estado == '1' ? 'list-group-item-secondary' : 'list-group-item-danger' }}"  style="padding-bottom: 0.5rem !important;">
                   <div class="item-container">
                     <div class="item-body">
                       <div class="item-body-header">
@@ -69,7 +69,7 @@
               </ng-container>
             </div>
           </div>
-          <ng-container *ngIf="!role">
+          <ng-container>
             <a *ngIf="!newTask" class="open-card-composer cursor-pointer" (click)="newTask = true;">
               <i class="fa fa-plus"></i><span class="box-title"> Añada una Tarea</span>
             </a>
@@ -90,9 +90,6 @@
       <div class="card">
         <div class="card-header">
           <span>En proceso</span>
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool text-white"><i class="fa fa-times"></i></button>
-          </div>
         </div>
         <div class="card-body">
           <div class="container-list-tasks">
@@ -109,7 +106,7 @@
                    (dndCopied)="onDragged(item, $tareasProceso, 'copy')"
                    (dndLinked)="onDragged(item, $tareasProceso, 'link')"
                    (dndMoved)="onDragged(item, $tareasProceso, 'move')"
-                   (dndCanceled)="onDragged(item, $tareasProceso, 'none')" class="list-group-item list-group-item-action list-group-item-primary  mb-2">
+                   (dndCanceled)="onDragged(item, $tareasProceso, 'none')" class="list-group-item list-group-item-action mb-2 {{ item.estado == '1' ? 'list-group-item-primary' : 'list-group-item-danger' }}">
                   <div class="item-container">
                     <div class="item-body">
                       <div class="item-body-header">
@@ -141,9 +138,6 @@
       <div class="card">
         <div class="card-header">
           <span>Terminado</span>
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool text-white"><i class="fa fa-times"></i></button>
-          </div>
         </div>
         <div class="card-body">
           <div class="container-list-tasks">
@@ -160,7 +154,7 @@
                    (dndCopied)="onDragged(item, $tareasTerminadas, 'copy')"
                    (dndLinked)="onDragged(item, $tareasTerminadas, 'link')"
                    (dndMoved)="onDragged(item, $tareasTerminadas, 'move')"
-                   (dndCanceled)="onDragged(item, $tareasTerminadas, 'none')" class="list-group-item list-group-item-action list-group-item-success  mb-2">
+                   (dndCanceled)="onDragged(item, $tareasTerminadas, 'none')" class="list-group-item list-group-item-action mb-2 {{ item.estado == '1' ? 'list-group-item-success' : 'list-group-item-danger' }}">
                   <div class="item-container">
                     <div class="item-body">
                       <div class="item-body-header">

@@ -37,6 +37,7 @@ import {MisCarterasAsignadasComponent} from './estrategia/asignacion-cartera/mis
 import {EjecutivoTareaComponent} from './estrategia/gestionar-tarea/ejecutivo-tarea/ejecutivo-tarea.component';
 import {TableroTareasComponent} from './estrategia/gestionar-tarea/tablero-tareas/tablero-tareas.component';
 import {TareaDetalleComponent} from './estrategia/gestionar-tarea/tarea-detalle/tarea-detalle.component';
+import {MisGestionesComponent} from './estrategia/ejecutivo/mis-gestiones/mis-gestiones.component';
 
 
 const A = Autorizacion;
@@ -148,6 +149,7 @@ const routes: Routes = [
             // ejecutivo
             {path: 'mis-tareas', component: EjecutivoTareaComponent},
             {path: 'mis-tareas/:slug', component: TareaDetalleComponent, data: {role: 'X'}},
+            {path: 'mis-gestiones', component: MisGestionesComponent},
           ]
         }
       ]
@@ -155,6 +157,7 @@ const routes: Routes = [
   },
   {path: '**', redirectTo: 'login'},
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
