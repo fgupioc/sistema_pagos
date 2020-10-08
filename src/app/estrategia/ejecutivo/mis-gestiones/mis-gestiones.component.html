@@ -1,1 +1,38 @@
-<p>mis-gestiones works!</p>
+<div class="card">
+  <div class="card-header">
+    <h4>Lista de créditos</h4>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-bordered">
+          <thead>
+          <tr></tr>
+          <tr class="text-center">
+            <th scope="col" width="5%">#</th>
+            <th scope="col">N° Credito</th>
+            <th scope="col">F. Dese.</th>
+            <th scope="col">Monto Dese.</th>
+            <th scope="col">Saldo.</th>
+            <th> Socio</th>
+            <th> Opción</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let credito of creditos; let i = index" class="text-center">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ credito.nroCredito }}</td>
+            <td>{{ credito.fechaVencimiento | date : 'dd-MM-yyyy' }}</td>
+            <td>{{ credito.codMoneda == 'PEN' ? 'S/' : '$'}} {{ credito.montoCredito | currency: ' '}}</td>
+            <td>{{ credito.codMoneda == 'PEN' ? 'S/' : '$'}} {{ credito.saldoDeDeuda | currency: ' '}}</td>
+            <td style="text-align: left;">{{ credito.alias}}</td>
+            <td class="text-center">
+              <button [routerLink]="'/auth/gestion-administrativa/mis-gestiones/'+credito.id+'/detalle'" class="btn btn-sm btn-success mr-2"><i class="fa fa-eye"></i></button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

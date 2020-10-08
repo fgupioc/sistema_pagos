@@ -93,4 +93,11 @@ export class GestionAdministrativaService {
     return this.http.get<EjecutivoAsignacion[]>(`${urlBase}/listar-asignacion-tarea-por-ejecutivo`);
   }
 
+  listarCreditosAsignadosPorEjecutivo(): Observable<Respuesta> {
+    return this.http.get<Respuesta>(`${urlBase}/listar-creditos-asignados-por-ejecutivo`);
+  }
+
+  buscarCreditoPorId(creditoId): Observable<any> {
+    return this.http.post<any>(`${urlBase}/buscarCreditoPorId`, {}, {params: new HttpParams().set('creditoId', creditoId)});
+  }
 }

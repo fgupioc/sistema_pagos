@@ -38,6 +38,7 @@ import {EjecutivoTareaComponent} from './estrategia/gestionar-tarea/ejecutivo-ta
 import {TableroTareasComponent} from './estrategia/gestionar-tarea/tablero-tareas/tablero-tareas.component';
 import {TareaDetalleComponent} from './estrategia/gestionar-tarea/tarea-detalle/tarea-detalle.component';
 import {MisGestionesComponent} from './estrategia/ejecutivo/mis-gestiones/mis-gestiones.component';
+import {MisGestionesDetalleComponent} from './estrategia/ejecutivo/mis-gestiones-detalle/mis-gestiones-detalle.component';
 
 
 const A = Autorizacion;
@@ -150,6 +151,7 @@ const routes: Routes = [
             {path: 'mis-tareas', component: EjecutivoTareaComponent},
             {path: 'mis-tareas/:slug', component: TareaDetalleComponent, data: {role: 'X'}},
             {path: 'mis-gestiones', component: MisGestionesComponent},
+            {path: 'mis-gestiones/:creditoId/detalle', component: MisGestionesDetalleComponent},
           ]
         }
       ]

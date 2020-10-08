@@ -1,0 +1,154 @@
+<div class="card">
+  <div class="card-header">
+    <h4>Información del crédito</h4>
+  </div>
+  <div class="card-body">
+    <section *ngIf="credito && cartera && socio">
+    <div class="row">
+      <div class="col-12 col-md-3">
+       <div class="form-group">
+         <label>Cartera</label>
+         <input type="text" class="form-control" [value]="cartera.nombre" disabled>
+       </div>
+      </div>
+      <div class="col-12 col-md-5">
+       <div class="form-group">
+         <label>Cliente</label>
+         <input type="text" class="form-control" [value]="credito.alias" disabled>
+       </div>
+      </div>
+      <div class="col-12 col-md-2">
+       <div class="form-group">
+         <label>Documento</label>
+         <input type="text" class="form-control" [value]="typeDocumentDescription" disabled>
+       </div>
+      </div>
+      <div class="col-12 col-md-2">
+        <div class="form-group">
+          <label>T. Documento</label>
+          <input type="text" class="form-control" [value]="documentNumber" disabled>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Etapa</label>
+          <input type="text" class="form-control" [value]="regla" disabled>
+        </div>
+      </div>
+      <div class="col-12 col-md-2">
+        <div class="form-group">
+          <label>N. Crédito</label>
+          <input type="text" class="form-control" [value]="credito.nroCredito" disabled>
+        </div>
+      </div>
+      <div class="col-12 col-md-2">
+        <div class="form-group">
+          <label>F. Vencimiento</label>
+          <input type="text" class="form-control" [value]="funciones.formatDate(credito.fechaVencimiento, 'DD/MM/YYYY')" disabled>
+        </div>
+      </div>
+      <div class="col-12 col-md-2">
+        <div class="form-group">
+          <label>Monto</label>
+          <input type="text" class="form-control" [value]="credito.montoCredito" disabled>
+        </div>
+      </div>
+    </div>
+    </section>
+    <section>
+      <h5>Gestión</h5>
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <label>Tipo Gestión</label>
+            <select class="form-control">
+              <option>Compromiso de pago</option>
+              <option>Compromiso de pago incumplido</option>
+              <option>Resolver reclamo cliente</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <label>Tipo Llamada</label>
+            <select class="form-control">
+              <option>Saliente manual</option>
+              <option>Otros</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <label>Número telefonico</label>
+          <div class="input-group">
+            <select class="form-control">
+              <option>12345678</option>
+            </select>
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-danger">Iniciar</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <label>Tiempo(sec)</label>
+            <input class="form-control" placeholder="Tiempo transcurrido">
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <label>Respuesta</label>
+            <select class="form-control">
+              <option>Sin Respuesta</option>
+              <option>Numero Invalido</option>
+              <option>Deje Mensaje</option>
+              <option>Rellamar</option>
+              <option>Vocación Positiva</option>
+              <option>Pidio Agendar Llamada</option>
+              <option>No Quiere Pagar</option>
+              <option>Reclamo del cliente</option>
+              <option>Fallecio</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-12">
+          <label>Comentario</label>
+          <div class="input-group">
+            <input type="text" class="form-control">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-info">Registrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="row">
+        <h6>Historial de Gestion</h6>
+        <div class="col-12">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th scope="col">&nbsp;</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Ejecutivo</th>
+              <th scope="col">Descripcion</th>
+              <th scope="col">Tipo Gestion</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th scope="row">
+                <input class="form-control" type="checkbox">
+              </th>
+              <td>06/10/2020</td>
+              <td>FRANZ JUNIOR GUPIOC VENTURA</td>
+              <td>contesto el padre</td>
+              <td>Gestion Inicial</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
