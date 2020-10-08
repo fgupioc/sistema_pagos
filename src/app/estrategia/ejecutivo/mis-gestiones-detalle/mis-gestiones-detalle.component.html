@@ -19,13 +19,13 @@
       </div>
       <div class="col-12 col-md-2">
        <div class="form-group">
-         <label>Documento</label>
+         <label>T. Documento</label>
          <input type="text" class="form-control" [value]="typeDocumentDescription" disabled>
        </div>
       </div>
       <div class="col-12 col-md-2">
         <div class="form-group">
-          <label>T. Documento</label>
+          <label>N. Documento</label>
           <input type="text" class="form-control" [value]="documentNumber" disabled>
         </div>
       </div>
@@ -58,23 +58,27 @@
     <section>
       <h5>Gestión</h5>
       <div class="row">
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-6">
           <div class="form-group">
             <label>Tipo Gestión</label>
             <select class="form-control">
-              <option>Compromiso de pago</option>
-              <option>Compromiso de pago incumplido</option>
-              <option>Resolver reclamo cliente</option>
+              <option value="001">Compromiso de pago</option>
+              <option value="002">Compromiso de pago incumplido</option>
+              <option value="003">Resolver reclamo cliente</option>
             </select>
           </div>
         </div>
-        <div class="col-12 col-md-4">
-          <div class="form-group">
-            <label>Tipo Llamada</label>
+        <div class="col-12 col-md-6">
+          <label>Tipo Contacto</label>
+          <div class="input-group">
             <select class="form-control">
-              <option>Saliente manual</option>
-              <option>Otros</option>
+              <option value="01">Llamada</option>
+              <option value="02">Correo</option>
+              <option value="03">Visita Domiciliaria</option>
             </select>
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-danger">Iniciar</button>
+            </div>
           </div>
         </div>
         <div class="col-12 col-md-4">
@@ -83,9 +87,7 @@
             <select class="form-control">
               <option>12345678</option>
             </select>
-            <div class="input-group-btn">
-              <button type="button" class="btn btn-danger">Iniciar</button>
-            </div>
+
           </div>
         </div>
         <div class="col-12 col-md-4">
@@ -94,6 +96,8 @@
             <input class="form-control" placeholder="Tiempo transcurrido">
           </div>
         </div>
+      </div>
+      <div class="row">
         <div class="col-12 col-md-4">
           <div class="form-group">
             <label>Respuesta</label>
@@ -110,7 +114,7 @@
             </select>
           </div>
         </div>
-        <div class="col-12">
+        <div class="col-8">
           <label>Comentario</label>
           <div class="input-group">
             <input type="text" class="form-control">
