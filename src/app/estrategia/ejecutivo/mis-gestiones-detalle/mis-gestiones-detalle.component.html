@@ -4,150 +4,165 @@
   </div>
   <div class="card-body">
     <section *ngIf="credito && cartera && socio">
-    <div class="row">
-      <div class="col-12 col-md-3">
-       <div class="form-group">
-         <label>Cartera</label>
-         <input type="text" class="form-control" [value]="cartera.nombre" disabled>
-       </div>
-      </div>
-      <div class="col-12 col-md-5">
-       <div class="form-group">
-         <label>Cliente</label>
-         <input type="text" class="form-control" [value]="credito.alias" disabled>
-       </div>
-      </div>
-      <div class="col-12 col-md-2">
-       <div class="form-group">
-         <label>T. Documento</label>
-         <input type="text" class="form-control" [value]="typeDocumentDescription" disabled>
-       </div>
-      </div>
-      <div class="col-12 col-md-2">
-        <div class="form-group">
-          <label>N. Documento</label>
-          <input type="text" class="form-control" [value]="documentNumber" disabled>
+      <div class="row">
+        <div class="col-12 col-md-3">
+          <div class="form-group">
+            <label>Cartera</label>
+            <input type="text" class="form-control" [value]="cartera.nombre" disabled>
+          </div>
+        </div>
+        <div class="col-12 col-md-5">
+          <div class="form-group">
+            <label>Cliente</label>
+            <input type="text" class="form-control" [value]="credito.alias" disabled>
+          </div>
+        </div>
+        <div class="col-12 col-md-2">
+          <div class="form-group">
+            <label>T. Documento</label>
+            <input type="text" class="form-control" [value]="typeDocumentDescription" disabled>
+          </div>
+        </div>
+        <div class="col-12 col-md-2">
+          <div class="form-group">
+            <label>N. Documento</label>
+            <input type="text" class="form-control" [value]="documentNumber" disabled>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label>Etapa</label>
+            <input type="text" class="form-control" [value]="regla" disabled>
+          </div>
+        </div>
+        <div class="col-12 col-md-2">
+          <div class="form-group">
+            <label>N. Crédito</label>
+            <input type="text" class="form-control" [value]="credito.nroCredito" disabled>
+          </div>
+        </div>
+        <div class="col-12 col-md-2">
+          <div class="form-group">
+            <label>F. Vencimiento</label>
+            <input type="text" class="form-control" [value]="funciones.formatDate(credito.fechaVencimiento, 'DD/MM/YYYY')" disabled>
+          </div>
+        </div>
+        <div class="col-12 col-md-2">
+          <div class="form-group">
+            <label>Monto</label>
+            <input type="text" class="form-control" [value]="credito.montoCredito" disabled>
+          </div>
         </div>
       </div>
-      <div class="col-12 col-md-6">
-        <div class="form-group">
-          <label>Etapa</label>
-          <input type="text" class="form-control" [value]="regla" disabled>
-        </div>
-      </div>
-      <div class="col-12 col-md-2">
-        <div class="form-group">
-          <label>N. Crédito</label>
-          <input type="text" class="form-control" [value]="credito.nroCredito" disabled>
-        </div>
-      </div>
-      <div class="col-12 col-md-2">
-        <div class="form-group">
-          <label>F. Vencimiento</label>
-          <input type="text" class="form-control" [value]="funciones.formatDate(credito.fechaVencimiento, 'DD/MM/YYYY')" disabled>
-        </div>
-      </div>
-      <div class="col-12 col-md-2">
-        <div class="form-group">
-          <label>Monto</label>
-          <input type="text" class="form-control" [value]="credito.montoCredito" disabled>
-        </div>
-      </div>
-    </div>
     </section>
-    <section>
+    <section [formGroup]="form">
       <h5>Gestión</h5>
       <div class="row">
         <div class="col-12 col-md-6">
           <div class="form-group">
             <label>Tipo Gestión</label>
-            <select class="form-control">
-              <option value="001">Compromiso de pago</option>
-              <option value="002">Compromiso de pago incumplido</option>
-              <option value="003">Resolver reclamo cliente</option>
+            <select class="form-control" formControlName="tipoGestion">
+              <option *ngFor="let item of gestiones" [value]="item.codItem">{{ item.descripcion }}</option>
             </select>
           </div>
         </div>
         <div class="col-12 col-md-6">
           <label>Tipo Contacto</label>
           <div class="input-group">
-            <select class="form-control">
-              <option value="01">Llamada</option>
-              <option value="02">Correo</option>
-              <option value="03">Visita Domiciliaria</option>
+            <select class="form-control" formControlName="tipoContacto">
+              <option *ngFor="let item of tiposContacto" [value]="item.codItem">{{ item.descripcion }}</option>
             </select>
             <div class="input-group-btn">
-              <button type="button" class="btn btn-danger">Iniciar</button>
+              <button *ngIf="!showRespuesta" type="button" class="btn btn-info" (click)="iniciarGestion()">Iniciar</button>
+              <button *ngIf="showRespuesta" type="button" class="btn btn-danger" (click)="cancelarGestion()">Cancelar</button>
             </div>
           </div>
         </div>
-        <div class="col-12 col-md-4">
-          <label>Número telefonico</label>
-          <div class="input-group">
-            <select class="form-control">
-              <option>12345678</option>
-            </select>
-
+        <ng-container *ngIf="form.controls.tipoContacto.value == '1' && showRespuesta">
+          <div class="col-12 col-md-4">
+            <label>Número telefonico</label>
+            <div class="input-group">
+              <select class="form-control" formControlName="telefono">
+                <option value="">Seleccione</option>
+                <option *ngFor="let item of showPhones" [value]="item.numero">{{ (item.codCiudad ? item.codCiudad + '-' : '') + item.numero }}</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <div class="col-12 col-md-4">
-          <div class="form-group">
-            <label>Tiempo(sec)</label>
-            <input class="form-control" placeholder="Tiempo transcurrido">
+          <div class="col-12 col-md-4">
+            <div class="form-group">
+              <label>Tiempo(seg)</label>
+              <input Number class="form-control" placeholder="Tiempo transcurrido" formControlName="duracion">
+            </div>
           </div>
-        </div>
+        </ng-container>
+        <ng-container *ngIf="form.controls.tipoContacto.value == '2' && showRespuesta">
+          <div class="col-12 col-md-6">
+            <div class="form-group">
+              <label>Seleccione Correo</label>
+              <select class="form-control" formControlName="correo">
+                <option value="">Seleccione</option>
+                <option *ngFor="let item of showEmails" [value]="item.email">{{ item.email }}</option>
+              </select>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="form.controls.tipoContacto.value == '4' && showRespuesta">
+          <div class="col-12 col-md-6">
+            <div class="form-group">
+              <label>Seleccione Dirección</label>
+              <select class="form-control" formControlName="direccion">
+                <option value="">Selecione</option>
+                <option *ngFor="let item of showAddress" [value]="mostrarDireccion(item)">{{ mostrarDireccion(item)}}</option>
+              </select>
+            </div>
+          </div>
+        </ng-container>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="showRespuesta">
         <div class="col-12 col-md-4">
           <div class="form-group">
             <label>Respuesta</label>
-            <select class="form-control">
-              <option>Sin Respuesta</option>
-              <option>Numero Invalido</option>
-              <option>Deje Mensaje</option>
-              <option>Rellamar</option>
-              <option>Vocación Positiva</option>
-              <option>Pidio Agendar Llamada</option>
-              <option>No Quiere Pagar</option>
-              <option>Reclamo del cliente</option>
-              <option>Fallecio</option>
+            <select class="form-control" formControlName="codRespuesta">
+              <option *ngFor="let item of respuestas" [value]="item.codItem">{{ item.descripcion }}</option>
             </select>
           </div>
         </div>
         <div class="col-8">
           <label>Comentario</label>
           <div class="input-group">
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" formControlName="comentario">
             <div class="input-group-btn">
-              <button type="button" class="btn btn-info">Registrar</button>
+              <button [disabled]="form.invalid" type="button" class="btn btn-info" (click)="registrarGestion()">Ingresar</button>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <section>
+    <section *ngIf="acciones.length > 0">
       <div class="row">
         <h6>Historial de Gestion</h6>
         <div class="col-12">
-          <table class="table table-bordered">
+          <table class="table table-bordered" id="listaGestiones">
             <thead>
-            <tr>
+            <tr class="text-center">
               <th scope="col">&nbsp;</th>
+              <th scope="col">Acción</th>
+              <th scope="col">Target</th>
+              <th scope="col">Respuesta</th>
+              <th scope="col">Comentario</th>
               <th scope="col">Fecha</th>
               <th scope="col">Ejecutivo</th>
-              <th scope="col">Descripcion</th>
-              <th scope="col">Tipo Gestion</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <th scope="row">
-                <input class="form-control" type="checkbox">
-              </th>
-              <td>06/10/2020</td>
-              <td>FRANZ JUNIOR GUPIOC VENTURA</td>
-              <td>contesto el padre</td>
-              <td>Gestion Inicial</td>
+            <tr *ngFor="let item of acciones; let i = index">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ item.gestionDescripcion }}</td>
+              <td>{{ item.target }}</td>
+              <td>{{ item.respuestaDescripcion }}</td>
+              <td> {{item.comentario}}</td>
+              <td> {{item.fechaRegistro | date: 'd/M/yyyy'}}</td>
+              <td> {{item.ejecutivoNombre}}</td>
             </tr>
             </tbody>
           </table>

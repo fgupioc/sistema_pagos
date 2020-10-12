@@ -106,6 +106,9 @@ export class CONST {
   public static  TABLE_STR_TIPO_DE_SOCIO_ABACO = '28';
   public static  TABLE_STR_CLASIFICACION_DEL_DEUDOR_ABACO = '29';
   public static  TABLE_STR_LISTA_SEDE = '30';
+  public static  TABLE_STR_LISTA_GESTIONES = '31';
+  public static  TABLE_STR_LISTA_ACTIVIDADES = '32';
+  public static  TABLE_STR_LISTA_RESPUESTAS = '33';
 
   public static C_STR_ETAPA_EN_LISTA = '01'; // "MESSAGER";
   public static C_STR_ETAPA_EN_PROCESO = '02'; // "EMAIL";

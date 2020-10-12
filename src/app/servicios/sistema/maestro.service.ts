@@ -136,6 +136,7 @@ export class MaestroService {
   listaTablaTipoCredito(): Observable<TablaMaestra[]> {
     return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_TIPO_DE_CREDITO_ABACO)});
   }
+
   listaTablaProductoAbaco(): Observable<TablaMaestra[]> {
     return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_LISTA_PRODUCTO_ABACO)});
   }
@@ -162,5 +163,17 @@ export class MaestroService {
 
   listaTablaClasificacionDeudorAbaco(): Observable<TablaMaestra[]> {
     return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_CLASIFICACION_DEL_DEUDOR_ABACO)});
+  }
+
+  listarTiposGestiones(): Observable<TablaMaestra[]> {
+    return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_LISTA_GESTIONES)});
+  }
+
+  listarTiposContactos(): Observable<TablaMaestra[]> {
+    return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_LISTA_ACTIVIDADES)});
+  }
+
+  listarTiposRespuestas(): Observable<TablaMaestra[]> {
+    return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_LISTA_RESPUESTAS)});
   }
 }

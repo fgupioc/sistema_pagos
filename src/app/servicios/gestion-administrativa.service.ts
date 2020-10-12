@@ -100,4 +100,12 @@ export class GestionAdministrativaService {
   buscarCreditoPorId(creditoId): Observable<any> {
     return this.http.post<any>(`${urlBase}/buscarCreditoPorId`, {}, {params: new HttpParams().set('creditoId', creditoId)});
   }
+
+  buscarCreditoAsignacionAccion(creditoId, asignacionId): Observable<any> {
+    return this.http.post<any>(`${urlBase}/buscar-credito-asignacio-accion`, {}, {params: new HttpParams().set('creditoId', creditoId).set('asignacionId', asignacionId)});
+  }
+
+  registrarCreditoAsignacionAccion(asignacion): Observable<any> {
+    return this.http.post<any>(`${urlBase}/registrar-accion-credito`, asignacion);
+  }
 }
