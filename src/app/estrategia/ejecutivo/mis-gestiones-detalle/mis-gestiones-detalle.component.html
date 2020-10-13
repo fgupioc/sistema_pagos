@@ -127,6 +127,113 @@
             </select>
           </div>
         </div>
+        <ng-container *ngIf="showAcuerdoPago">
+          <div class="col-12"></div>
+          <div class="col-12 col-md-4">
+            <ul class="list-group list-acuerdos">
+              <li class="list-group-item" [ngClass]="{'active': typeAcuerdo == 1}" (click)="typeAcuerdo = 1">AL DÍA</li>
+              <li class="list-group-item" [ngClass]="{'active': typeAcuerdo == 2}" (click)="typeAcuerdo = 2">PLAN DE PAGO</li>
+              <li class="list-group-item" [ngClass]="{'active': typeAcuerdo == 3}" (click)="typeAcuerdo = 3">TOTAL DE LA MORA</li>
+              <li class="list-group-item" [ngClass]="{'active': typeAcuerdo == 4}" (click)="typeAcuerdo = 4">ABONO</li>
+            </ul>
+          </div>
+          <ng-container *ngIf="typeAcuerdo == 1  || typeAcuerdo == 3 || typeAcuerdo == 4" [formGroup]="formRegistrarAcuerdo">
+            <div class="col-12 col-md-8">
+              <div class="row">
+                <div class="col-12" *ngIf="errors.length > 0">
+                  <div class="form-group">
+                    <div class="alert alert-danger" role="alert" *ngFor="let value of errors">
+                      <span><b>.</b> {{ value }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-7">
+                  <div class="form-group">
+                    <label>Monto Acordado</label>
+                    <input CustomizeCurrency type="text" class="form-control" formControlName="montoAcordado">
+                  </div>
+                </div>
+                <div class="col-12 col-md-5">
+                  <div class="form-group">
+                    <label>Posibilidad Pagar</label>
+                    <select class="form-control" formControlName="posibilidadPago">
+                      <option value="">Seleccione</option>
+                      <option value="1">Alto</option>
+                      <option value="2">Medio</option>
+                      <option value="3">Bajo</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-12 col-md-7">
+                  <div class="form-group">
+                    <label>Fecha</label>
+                    <input type="date" class="form-control" formControlName="fechaInicio">
+                  </div>
+                </div>
+                <div class="col-12 col-md-5">
+                  <div class="form-group">
+                    <label>Hora</label>
+                    <input type="time" class="form-control" min="07:00" max="20:00" formControlName="horaIncio">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="typeAcuerdo == 2" [formGroup]="formPlanPago">
+            <div class="col-12 col-md-8">
+              <div class="row">
+                <div class="col-12" *ngIf="errors.length > 0">
+                  <div class="form-group">
+                    <div class="alert alert-danger" role="alert" *ngFor="let value of errors">
+                      <span><b>.</b> {{ value }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group">
+                    <label>Nombre del plan</label>
+                    <input SoloLetras Uppercase type="text" class="form-control" formControlName="descripcion">
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <label>Número de cuotas</label>
+                    <input Number type="text" class="form-control" formControlName="plazo">
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <label>Valor de cuotas</label>
+                    <input CustomizeCurrency type="text" class="form-control" formControlName="montoAcordado">
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <label>Intervalo cotas (Días)</label>
+                    <input Number type="text" class="form-control" formControlName="intervalo">
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <label>Fecha inicio</label>
+                    <input type="date" class="form-control" formControlName="fechaInicio">
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group">
+                    <label>Posibilidad Pagar</label>
+                    <select class="form-control" formControlName="posibilidadPago">
+                      <option value="">Seleccione</option>
+                      <option value="1">Alto</option>
+                      <option value="2">Medio</option>
+                      <option value="3">Bajo</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
         <div class="col-8">
           <label>Comentario</label>
           <div class="input-group">

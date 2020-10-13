@@ -17,6 +17,7 @@ import {MaestroService} from '../../../servicios/sistema/maestro.service';
 import {CreditoGestion} from '../../../interfaces/credito-gestion';
 import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
 import * as moment from 'moment';
+import {AcuerdoPago} from '../../../interfaces/acuerdo-pago';
 
 @Component({
   selector: 'app-mis-gestiones-detalle',
@@ -25,6 +26,9 @@ import * as moment from 'moment';
 })
 export class MisGestionesDetalleComponent implements OnInit {
   form: FormGroup;
+  formPlanPago: FormGroup;
+  formRegistrarAcuerdo: FormGroup;
+
   creditoId: any;
   credito: Credito;
   cartera: Cartera;
@@ -38,6 +42,11 @@ export class MisGestionesDetalleComponent implements OnInit {
   gestiones: TablaMaestra[] = [];
   respuestas: TablaMaestra[] = [];
   tiposContacto: TablaMaestra[] = [];
+  typeAcuerdo = 1;
+  errors: string[] = [];
+  dateDefault = moment(new Date()).format('YYYY-MM-DD');
+  codAcuedoPago = '008';
+  codClienteComprometePago = '009';
 
   constructor(
     private auth: AutenticacionService,
@@ -69,6 +78,29 @@ export class MisGestionesDetalleComponent implements OnInit {
       direccion: [''],
       codRespuesta: ['001', Validators.required],
       comentario: ['', Validators.required],
+    });
+    this.formRegistrarAcuerdo = this.formBuilder.group({
+      asignacionId: [],
+      ejecutivoId: [],
+      socioId: [],
+      creditoId: [],
+      montoAcordado: ['', [Validators.required]],
+      posibilidadPago: ['', [Validators.required]],
+      fechaInicio: [this.dateDefault, [Validators.required]],
+      horaIncio: ['', [Validators.required]],
+    });
+
+    this.formPlanPago = this.formBuilder.group({
+      asignacionId: [],
+      ejecutivoId: [],
+      socioId: [],
+      creditoId: [],
+      descripcion: ['', [Validators.required]],
+      plazo: [null, [Validators.required]],
+      montoAcordado: [null, [Validators.required]],
+      intervalo: [null, [Validators.required]],
+      fechaInicio: [this.dateDefault, [Validators.required]],
+      posibilidadPago: ['', [Validators.required]],
     });
   }
 
@@ -266,20 +298,17 @@ export class MisGestionesDetalleComponent implements OnInit {
   }
 
   registrarGestion() {
+    this.errors = [];
     const data = this.form.getRawValue();
-    this.form.reset({
-      tipoGestion: '001',
-      tipoContacto: '1',
-      telefono: '',
-      duracion: '',
-      correo: '',
-      direccion: '',
-      codRespuesta: '001',
-      comentario: '',
-    });
-    this.showRespuesta = false;
-    this.form.controls.tipoGestion.enable();
-    this.form.controls.tipoContacto.enable();
+    if (this.formRegistrarAcuerdo.invalid && this.showAcuerdoPago && [1, 3, 4].includes(this.typeAcuerdo)) {
+      this.errors.push('Debe llenar los datos obligatorios de acuerdo de pago. 1');
+      return;
+    }
+
+    if (this.formPlanPago.invalid && this.showAcuerdoPago && this.typeAcuerdo == 2) {
+      this.errors.push('Debe llenar los datos obligatorios de acuerdo de pago. 2');
+      return;
+    }
 
     const gestion = this.gestiones.find(i => i.codItem == data.tipoGestion);
     const contacto = this.tiposContacto.find(i => i.codItem == data.tipoContacto);
@@ -312,12 +341,68 @@ export class MisGestionesDetalleComponent implements OnInit {
       creditoId: this.credito.id,
       asignacionId: this.credito.asignacionId,
     };
+
+    let listAcuerdo: AcuerdoPago[] = [];
+    if (this.formRegistrarAcuerdo.valid && this.showAcuerdoPago && [1, 3, 4].includes(this.typeAcuerdo)) {
+      const acuerdoPago: AcuerdoPago = this.formRegistrarAcuerdo.getRawValue();
+      acuerdoPago.asignacionId = this.credito.asignacionId;
+      acuerdoPago.creditoId = this.credito.id;
+      acuerdoPago.ejecutivoId = this.auth.loggedUser.id;
+      acuerdoPago.socioId = this.credito.socioId;
+      acuerdoPago.tipoAcuerdo = this.typeAcuerdo;
+      acuerdoPago.descripcion = 'estandar';
+      listAcuerdo = [acuerdoPago];
+    }
+
+    if (this.formPlanPago.valid && this.showAcuerdoPago && this.typeAcuerdo == 2) {
+      const acuerdoPago: AcuerdoPago = this.formPlanPago.getRawValue();
+      acuerdoPago.asignacionId = this.credito.asignacionId;
+      acuerdoPago.creditoId = this.credito.id;
+      acuerdoPago.ejecutivoId = this.auth.loggedUser.id;
+      acuerdoPago.socioId = this.credito.socioId;
+      let start = acuerdoPago.fechaInicio;
+      for (let i = 1; i <= acuerdoPago.plazo; i++) {
+        const item = {
+          asignacionId: acuerdoPago.asignacionId,
+          creditoId: acuerdoPago.creditoId,
+          cuota: i,
+          descripcion: acuerdoPago.descripcion,
+          ejecutivoId: acuerdoPago.ejecutivoId,
+          fechaInicio: start,
+          intervalo: acuerdoPago.intervalo,
+          montoAcordado: acuerdoPago.montoAcordado,
+          plazo: acuerdoPago.plazo,
+          posibilidadPago: acuerdoPago.posibilidadPago,
+          socioId: acuerdoPago.socioId,
+          tipoAcuerdo: this.typeAcuerdo
+        };
+        listAcuerdo.push(item);
+        start = FUNC.addDays(item.fechaInicio, acuerdoPago.intervalo);
+      }
+    }
+    accion.acuerdosPago = listAcuerdo;
     this.spinner.show();
     this.gestionAdministrativaService.registrarCreditoAsignacionAccion(accion).subscribe(
       res => {
         if (res.exito) {
           Swal.fire('Registrar Gestión', res.mensaje, 'success');
           this.listarAcciones(this.credito.id, this.credito.asignacionId);
+          this.form.reset({
+            tipoGestion: '001',
+            tipoContacto: '1',
+            telefono: '',
+            duracion: '',
+            correo: '',
+            direccion: '',
+            codRespuesta: '001',
+            comentario: '',
+          });
+          this.showRespuesta = false;
+          this.form.controls.tipoGestion.enable();
+          this.form.controls.tipoContacto.enable();
+          this.formPlanPago.reset();
+          this.formRegistrarAcuerdo.reset();
+          this.typeAcuerdo = null;
           return;
         }
         this.spinner.hide();
@@ -328,4 +413,8 @@ export class MisGestionesDetalleComponent implements OnInit {
     );
   }
 
+  get showAcuerdoPago() {
+    const codes = [this.codAcuedoPago, this.codClienteComprometePago];
+    return codes.includes(this.form.controls.codRespuesta.value);
+  }
 }

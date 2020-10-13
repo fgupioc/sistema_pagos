@@ -1,3 +1,5 @@
+import {AcuerdoPago} from './acuerdo-pago';
+
 export interface CreditoGestion {
   id?: number;
   asignacionId?: number;
@@ -15,4 +17,5 @@ export interface CreditoGestion {
   gestionDescripcion?: string;
   contactoDescripcion?: string;
   respuestaDescripcion?: string;
+  acuerdosPago?: AcuerdoPago[];
 }
