@@ -628,4 +628,47 @@ export class MisGestionesDetalleComponent implements OnInit {
       }
     );
   }
+
+  crearTablero() {
+    Swal.fire({
+      title: 'Ingrese un nombre',
+      input: 'text',
+      inputAttributes: {
+        autocapitalize: 'off'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Crear',
+      cancelButtonText: 'Cancelar',
+      showLoaderOnConfirm: false,
+      inputValidator: (value) => {
+        if (!value) {
+          return 'El nombre es obligatorio.';
+        }
+      }
+    }).then((result) => {
+      if (result.value) {
+        const data: EjecutivoAsignacion = {
+          nombre: result.value,
+          slug: FUNC.slugGenerate(result.value),
+          ejecutivoId: this.auth.loggedUser.id,
+          visibilidad: '01',
+        };
+        this.spinner.show();
+        this.gestionAdministrativaService.crearAsignacionTarea(data).subscribe(
+          res => {
+            if (res.exito) {
+              Swal.fire('Crear Nuevo Tablero', res.mensaje, 'success');
+              this.listarTablero();
+            } else {
+              Swal.fire('Crear Nuevo Tablero', res.mensaje, 'error');
+            }
+            this.spinner.hide();
+          },
+          err => {
+            Swal.fire('Crear Nuevo Tablero', 'Ocurrio un error', 'success');
+          }
+        );
+      }
+    });
+  }
 }
