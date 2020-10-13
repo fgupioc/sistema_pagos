@@ -50,7 +50,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.misNotificaciones();
     this.eventosService.leerNotifyEmitter.subscribe(
       res => {
-        if (res.tipo == '01' || res.tipo == '03') {
+        if (res.tipo == '01' || res.tipo == '03' || res.tipo == '04') {
           this.notifications = [];
           this.misNotificaciones();
         }

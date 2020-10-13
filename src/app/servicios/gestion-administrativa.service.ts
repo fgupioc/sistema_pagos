@@ -38,7 +38,7 @@ export class GestionAdministrativaService {
     return this.http.put<Respuesta>(`${urlBase}/actualizar-asignacion-tarea`, tablero);
   }
 
-  crearTarea(tableroId: string, tarea: Tarea): Observable<Respuesta> {
+  crearTarea(tableroId: any, tarea: Tarea): Observable<Respuesta> {
     return this.http.post<Respuesta>(`${urlBase}/crear-tarea`, tarea, {params: new HttpParams().set('tableroId', tableroId)});
   }
 

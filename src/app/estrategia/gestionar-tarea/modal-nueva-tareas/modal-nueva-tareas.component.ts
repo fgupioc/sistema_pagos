@@ -139,6 +139,7 @@ export class ModalNuevaTareasComponent implements OnInit {
       this.$tarea.notificacion = false;
       this.$tarea.notificacionVencimiento = false;
     }
+    this.$tarea.creditoId = this.credito.id;
     console.log(this.$tarea);
     this.spinner.show();
     this.gestionAdministrativaService.actualizarTarea(this.$tarea).subscribe(

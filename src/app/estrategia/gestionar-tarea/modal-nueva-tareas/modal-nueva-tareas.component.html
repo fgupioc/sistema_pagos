@@ -118,9 +118,8 @@
                   <span class="checkmark"></span>
                 </label>
 
-                <input #fechaVenc [disabled]="!$tarea.checkFechaRecordatorio || $tarea.estado !='1'" type="date" class="form-control input-date mr-2" [(ngModel)]="$tarea.fechaRecordatorio" style="width: 140px"
-                       (ngModelChange)="chengeFehcaRecordatorio($event,
-                fechaVenc)">
+                <input #fechaRec [disabled]="!$tarea.checkFechaRecordatorio || $tarea.estado !='1'" type="date" class="form-control input-date mr-2" [(ngModel)]="$tarea.fechaRecordatorio" style="width: 140px"
+                       (ngModelChange)="chengeFehcaRecordatorio($event, fechaRec)">
                 <input [disabled]="!$tarea.checkFechaRecordatorio || $tarea.estado !='1'" type="time" class="form-control input-date" [(ngModel)]="$tarea.horaRecordatorio" style="width: 96px">
               </div>
             </div>

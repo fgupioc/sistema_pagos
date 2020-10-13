@@ -26,5 +26,6 @@ export interface Tarea {
   checkFechaRecordatorio?: boolean;
   asignacionId?: number;
   socioId?: number;
+  creditoId?: number;
   codActividad?: string;
 }

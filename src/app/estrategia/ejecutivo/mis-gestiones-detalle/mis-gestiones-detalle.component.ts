@@ -20,6 +20,9 @@ import * as moment from 'moment';
 import {AcuerdoPago} from '../../../interfaces/acuerdo-pago';
 import {AsignacionCarteraService} from '../../../servicios/asignacion-cartera.service';
 import {EjecutivoCartera} from '../../../models/ejecutivo-cartera';
+import {Tarea} from '../../../interfaces/tarea';
+import {EjecutivoAsignacion} from '../../../interfaces/ejecutivo-asignacion';
+import {EventosService} from '../../../servicios/eventos.service';
 
 @Component({
   selector: 'app-mis-gestiones-detalle',
@@ -30,6 +33,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   form: FormGroup;
   formPlanPago: FormGroup;
   formRegistrarAcuerdo: FormGroup;
+  formTarea: FormGroup;
 
   creditoId: any;
   credito: Credito;
@@ -53,6 +57,9 @@ export class MisGestionesDetalleComponent implements OnInit {
   estadosRecordatorio: TablaMaestra[] = [];
   listaAcuerdos: TablaMaestra[] = [];
   campania: EjecutivoCartera;
+  tipoActividades: TablaMaestra[] = [];
+  misTableros: EjecutivoAsignacion[] = [];
+  showNewTask = false;
 
   constructor(
     private auth: AutenticacionService,
@@ -63,6 +70,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     private formBuilder: FormBuilder,
     private tablaMaestraService: MaestroService,
     private asignacionCarteraService: AsignacionCarteraService,
+    private eventosService: EventosService
   ) {
     activatedRoute.params.subscribe(({creditoId}) => this.creditoId = creditoId);
   }
@@ -74,6 +82,8 @@ export class MisGestionesDetalleComponent implements OnInit {
     this.listarTiposContactos();
     this.loadEstadosRecordatorios();
     this.loadlistaAcuerdos();
+    this.listarTipoActividades();
+    this.listarTablero();
 
     if (this.creditoId) {
       this.loadCredito();
@@ -110,6 +120,21 @@ export class MisGestionesDetalleComponent implements OnInit {
       intervalo: [null, [Validators.required]],
       fechaInicio: [this.dateDefault, [Validators.required]],
       posibilidadPago: ['', [Validators.required]],
+    });
+
+    this.formTarea = this.formBuilder.group({
+      tableroTareaId: ['', [Validators.required]],
+      nombre: ['', [Validators.required]],
+      prioridad: [0, [Validators.required]],
+      codActividad: ['', [Validators.required]],
+      descripcion: ['', [Validators.required]],
+      fechaVencimiento: ['', [Validators.required]],
+      horaVencimiento: ['', [Validators.required]],
+      horaRecordatorio: [''],
+      fechaRecordatorio: [''],
+      checkFechaRecordatorio: [false],
+      notificacion: [false],
+      correo: [false],
     });
   }
 
@@ -152,6 +177,14 @@ export class MisGestionesDetalleComponent implements OnInit {
     );
   }
 
+  private listarTipoActividades() {
+    this.tablaMaestraService.listarTipoActividades().subscribe(
+      res => {
+        this.tipoActividades = res;
+      }
+    );
+  }
+
   listarTiposContactos() {
     this.tablaMaestraService.listarTiposContactos().subscribe(
       response => {
@@ -188,7 +221,6 @@ export class MisGestionesDetalleComponent implements OnInit {
           this.etapa = res.etapa;
           this.campania = res.campania;
           this.listarAcciones(this.credito.id, this.credito.asignacionId);
-          console.log(this.credito.asignacionId, this.auth.loggedUser.id, this.credito.socioId, this.credito.id);
           this.loadAcuerdosPagos(this.credito.asignacionId, this.auth.loggedUser.id, this.credito.socioId, this.credito.id);
         } else {
           Swal.fire('Credito', res.mensaje, 'error');
@@ -514,5 +546,86 @@ export class MisGestionesDetalleComponent implements OnInit {
         );
       }
     });
+  }
+
+  guardarTarea() {
+    if (this.formTarea.invalid) {
+      Swal.fire('Crear Tarea', 'Debe ingresar los campos obligatorios.', 'warning');
+      return;
+    }
+    const task: Tarea = this.formTarea.getRawValue();
+    task.etapaActual = CONST.C_STR_ETAPA_EN_LISTA;
+    task.creditoId = this.credito.id;
+    task.socioId = this.credito.socioId;
+    task.asignacionId = this.credito.asignacionId;
+    console.log(task);
+    this.spinner.show();
+    this.gestionAdministrativaService.crearTarea(task.tableroTareaId, task).subscribe(
+      res => {
+        if (res.exito) {
+          this.formTarea.reset();
+          console.log(res);
+          this.showNewTask = false;
+          this.eventosService.leerNotifyEmitter.emit({tipo: '04'});
+        } else {
+          Swal.fire('Crear Tarea', res.mensaje, 'error');
+        }
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
+        Swal.fire('Crear Tarea', 'Ocurrio un error', 'error');
+      }
+    );
+  }
+
+  changeRecordatorio(event: any) {
+    if (event.target.checked) {
+      if (this.formTarea.controls.fechaVencimiento.value && this.formTarea.controls.horaVencimiento.value) {
+        this.formTarea.controls.fechaRecordatorio.setValue(this.formTarea.controls.fechaVencimiento.value);
+        this.formTarea.controls.horaRecordatorio.setValue(this.getTime);
+      } else {
+        Swal.fire('Tarea', 'Debe ingresar una fecha de vencimiento y hora de vencimiento', 'warning');
+        this.formTarea.controls.checkFechaRecordatorio.setValue(false);
+        return;
+      }
+    } else {
+      this.formTarea.controls.fechaRecordatorio.setValue(null);
+      this.formTarea.controls.horaRecordatorio.setValue(null);
+    }
+  }
+
+  chengeFehcaRecordatorio(event: any) {
+    if (moment(this.formTarea.controls.fechaVencimiento.value).isBefore(event)) {
+      this.formTarea.controls.fechaRecordatorio.setValue(this.formTarea.controls.fechaVencimiento.value);
+    } else {
+      if (moment().isAfter(event)) {
+        // this.formTarea.controls.fechaRecordatorio.setValue(moment().format('YYYY-MM-DD'));
+      } else {
+        // this.formTarea.controls.fechaRecordatorio.setValue(event);
+      }
+    }
+  }
+
+  get getTime() {
+    if (this.formTarea.controls.horaVencimiento.value) {
+      const time = Number(this.formTarea.controls.horaVencimiento.value.slice(0, 2)) - 1;
+      return time < 10 ? `0${time}:00` : `${time}:00`;
+    } else {
+      return '09:00';
+    }
+  }
+
+  listarTablero() {
+    this.spinner.show();
+    this.gestionAdministrativaService.listarTableroTareasPorEjecutivo().subscribe(
+      res => {
+        this.misTableros = res;
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
+      }
+    );
   }
 }
