@@ -18,6 +18,8 @@ import {CreditoGestion} from '../../../interfaces/credito-gestion';
 import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
 import * as moment from 'moment';
 import {AcuerdoPago} from '../../../interfaces/acuerdo-pago';
+import {AsignacionCarteraService} from '../../../servicios/asignacion-cartera.service';
+import {EjecutivoCartera} from '../../../models/ejecutivo-cartera';
 
 @Component({
   selector: 'app-mis-gestiones-detalle',
@@ -47,6 +49,10 @@ export class MisGestionesDetalleComponent implements OnInit {
   dateDefault = moment(new Date()).format('YYYY-MM-DD');
   codAcuedoPago = '008';
   codClienteComprometePago = '009';
+  acuerdosPago: AcuerdoPago[] = [];
+  estadosRecordatorio: TablaMaestra[] = [];
+  listaAcuerdos: TablaMaestra[] = [];
+  campania: EjecutivoCartera;
 
   constructor(
     private auth: AutenticacionService,
@@ -56,6 +62,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     private gestionAdministrativaService: GestionAdministrativaService,
     private formBuilder: FormBuilder,
     private tablaMaestraService: MaestroService,
+    private asignacionCarteraService: AsignacionCarteraService,
   ) {
     activatedRoute.params.subscribe(({creditoId}) => this.creditoId = creditoId);
   }
@@ -65,6 +72,8 @@ export class MisGestionesDetalleComponent implements OnInit {
     this.listarTiposGestiones();
     this.listarTiposRespuestas();
     this.listarTiposContactos();
+    this.loadEstadosRecordatorios();
+    this.loadlistaAcuerdos();
 
     if (this.creditoId) {
       this.loadCredito();
@@ -102,6 +111,18 @@ export class MisGestionesDetalleComponent implements OnInit {
       fechaInicio: [this.dateDefault, [Validators.required]],
       posibilidadPago: ['', [Validators.required]],
     });
+  }
+
+  loadEstadosRecordatorios() {
+    this.tablaMaestraService.loadEstadosRecordatorios().subscribe(
+      res => this.estadosRecordatorio = res
+    );
+  }
+
+  loadlistaAcuerdos() {
+    this.tablaMaestraService.loadTipoAcuerdos().subscribe(
+      res => this.listaAcuerdos = res
+    );
   }
 
   listarTipoVias() {
@@ -165,7 +186,10 @@ export class MisGestionesDetalleComponent implements OnInit {
           this.cartera = res.cartera;
           this.socio = res.socio;
           this.etapa = res.etapa;
+          this.campania = res.campania;
           this.listarAcciones(this.credito.id, this.credito.asignacionId);
+          console.log(this.credito.asignacionId, this.auth.loggedUser.id, this.credito.socioId, this.credito.id);
+          this.loadAcuerdosPagos(this.credito.asignacionId, this.auth.loggedUser.id, this.credito.socioId, this.credito.id);
         } else {
           Swal.fire('Credito', res.mensaje, 'error');
           this.router.navigateByUrl('/auth/gestion-administrativa/mis-gestiones');
@@ -387,6 +411,7 @@ export class MisGestionesDetalleComponent implements OnInit {
         if (res.exito) {
           Swal.fire('Registrar Gestión', res.mensaje, 'success');
           this.listarAcciones(this.credito.id, this.credito.asignacionId);
+          this.loadAcuerdosPagos(this.credito.asignacionId, this.auth.loggedUser.id, this.credito.socioId, this.credito.id);
           this.form.reset({
             tipoGestion: '001',
             tipoContacto: '1',
@@ -416,5 +441,78 @@ export class MisGestionesDetalleComponent implements OnInit {
   get showAcuerdoPago() {
     const codes = [this.codAcuedoPago, this.codClienteComprometePago];
     return codes.includes(this.form.controls.codRespuesta.value);
+  }
+
+  loadAcuerdosPagos(asignacionId: any, ejecutivoId: any, socioId: number, creditoId: number) {
+    this.asignacionCarteraService.listarAcuerdosPorAsignacionYCredito(asignacionId, ejecutivoId, socioId, creditoId).subscribe(
+      res => {
+        if (res.exito) {
+          this.acuerdosPago = res.objeto as AcuerdoPago[];
+        }
+      }
+    );
+  }
+
+  isCurrentDate(fecha: string, condicion: string) {
+    const date = moment(fecha).format('YYYY-MM-DD');
+    if (this.dateDefault == date && condicion != '2') {
+      return 'table-primary';
+    }
+    if (this.dateDefault == date && condicion == '2') {
+      return 'table-success';
+    }
+    if (moment().isAfter(fecha) && condicion != '2') {
+      return 'table-danger';
+    }
+    if (moment().isAfter(fecha) && condicion == '2') {
+      return 'table-success';
+    }
+  }
+
+  getNameCondition(condicion: any) {
+    const item = this.estadosRecordatorio.find(i => i.codItem == condicion);
+    return item ? item.descripcion : '';
+  }
+
+  getNameTipoAcuerdo(condicion: any) {
+    const item = this.listaAcuerdos.find(i => i.codItem == condicion);
+    return item ? item.descripcion : '';
+  }
+
+  get conPermiso() {
+    return moment().isBetween(this.campania.startDate, this.campania.endDate);
+  }
+
+  isAfter(fecha) {
+    return moment(this.dateDefault).isAfter(moment(fecha).format('YYYY-MM-DD'));
+  }
+
+  eliminarAcuerdoPago(item: AcuerdoPago) {
+    if (this.isAfter(item.fechaInicio)) {
+      Swal.fire('Acuerdo de Pago', 'No es posible eliminar.', 'warning');
+      return;
+    }
+    Swal.fire({
+      title: 'Eliminar Acurdo de pago?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, Eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        this.asignacionCarteraService.eliminarAcuerdoPorAsignacionYCredito(item.id).subscribe(
+          res => {
+            if (res.exito) {
+              Swal.fire('Información de Socio', res.mensaje, 'success');
+              this.loadAcuerdosPagos(this.credito.asignacionId, this.auth.loggedUser.id, this.credito.socioId, this.credito.id);
+            } else {
+              Swal.fire('Información de Socio', res.mensaje, 'error');
+            }
+            this.spinner.hide();
+          },
+          err => this.spinner.hide()
+        );
+      }
+    });
   }
 }
