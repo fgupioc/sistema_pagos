@@ -34,6 +34,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   formPlanPago: FormGroup;
   formRegistrarAcuerdo: FormGroup;
   formTarea: FormGroup;
+  formCorreo: FormGroup;
 
   creditoId: any;
   credito: Credito;
@@ -60,9 +61,11 @@ export class MisGestionesDetalleComponent implements OnInit {
   tipoActividades: TablaMaestra[] = [];
   misTableros: EjecutivoAsignacion[] = [];
   showNewTask = false;
+  showNewEmail = false;
+  $body: string;
 
   constructor(
-    private auth: AutenticacionService,
+    public auth: AutenticacionService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
@@ -135,6 +138,13 @@ export class MisGestionesDetalleComponent implements OnInit {
       checkFechaRecordatorio: [false],
       notificacion: [false],
       correo: [false],
+    });
+
+    this.$body = `\n${ this.auth.loggedUser.alias}\n${ this.auth.loggedUser.email }\nEjecutivo de Negocio.`;
+    this.formCorreo = this.formBuilder.group({
+      asunto: ['', [Validators.required]],
+      correo: ['', [Validators.required]],
+      cuerpo: [this.$body, [Validators.required]],
     });
   }
 
@@ -309,14 +319,17 @@ export class MisGestionesDetalleComponent implements OnInit {
   public get showEmails(): Email[] {
     const index = [CONST.C_INT_MESSAGER, CONST.C_INT_EMAIL];
     const emails: Email[] = [];
-    this.socio.correos.forEach(item => {
-      if (index.includes(item.codTipoNotificacion)) {
-        const exit = emails.find(i => i.email == item.email);
-        if (!exit) {
-          emails.push(item);
+    if (this.socio) {
+      this.socio.correos.forEach(item => {
+        if (index.includes(item.codTipoNotificacion)) {
+          const exit = emails.find(i => i.email == item.email);
+          if (!exit) {
+            emails.push(item);
+          }
         }
-      }
-    });
+      });
+    }
+
     return emails;
   }
 
@@ -558,7 +571,6 @@ export class MisGestionesDetalleComponent implements OnInit {
     task.creditoId = this.credito.id;
     task.socioId = this.credito.socioId;
     task.asignacionId = this.credito.asignacionId;
-    console.log(task);
     this.spinner.show();
     this.gestionAdministrativaService.crearTarea(task.tableroTareaId, task).subscribe(
       res => {
@@ -670,5 +682,20 @@ export class MisGestionesDetalleComponent implements OnInit {
         );
       }
     });
+  }
+
+  guardarCorreo() {
+    if (this.formCorreo.invalid) {
+      Swal.fire('Enviar Correo', 'Debe ingresar todos los datos.', 'warning');
+      return;
+    }
+
+    const correo = this.formCorreo.getRawValue();
+    correo.creditoId = this.credito.id;
+    correo.socioId = this.credito.socioId;
+    correo.asignacionId = this.credito.asignacionId;
+    console.log(correo);
+    this.formCorreo.reset({aunto: '', correo: '', cuerpo: this.$body});
+    this.showNewEmail = false;
   }
 }
