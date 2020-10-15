@@ -416,8 +416,14 @@
                       </thead>
                       <tbody>
                       <tr *ngFor="let item of acciones; let i = index">
-                        <th scope="row">{{ i + 1 }}</th>
-                        <td>{{ item.gestionDescripcion }}</td>
+                        <th scope="row">
+                          <ng-container *ngIf="item.tipo == 1"><i class="fa fa-sign-in" aria-hidden="true"></i></ng-container>
+                          <ng-container *ngIf="item.tipo == 2"><i class="fa fa-envelope" aria-hidden="true"></i></ng-container>
+                          <ng-container *ngIf="item.tipo == 3"><i class="fa fa-bell" aria-hidden="true"></i></ng-container>
+                        </th>
+                        <td>
+                          {{ item.gestionDescripcion }}
+                        </td>
                         <td>{{ item.target }}</td>
                         <td>{{ item.respuestaDescripcion }}</td>
                         <td> {{item.comentario}}</td>

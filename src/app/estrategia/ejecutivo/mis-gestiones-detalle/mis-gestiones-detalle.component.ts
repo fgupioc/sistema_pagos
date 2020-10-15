@@ -576,7 +576,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       res => {
         if (res.exito) {
           this.formTarea.reset();
-          console.log(res);
+          this.listarAcciones(this.credito.id, this.credito.asignacionId);
           this.showNewTask = false;
           this.eventosService.leerNotifyEmitter.emit({tipo: '04'});
         } else {
@@ -701,6 +701,7 @@ export class MisGestionesDetalleComponent implements OnInit {
         if (res.exito) {
           Swal.fire('Envio de Correo', res.mensaje, 'success');
           this.formCorreo.reset({aunto: '', correo: '', asunto: this.$body});
+          this.listarAcciones(this.credito.id, this.credito.asignacionId);
           this.showNewEmail = false;
         } else {
           Swal.fire('Envio de Correo', res.mensaje, 'error');

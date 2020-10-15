@@ -116,3 +116,7 @@
 .checkmark {
   background-color: #73818f;
 }
+
+table tr th i {
+  font-size: 14px;
+}

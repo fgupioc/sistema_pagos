@@ -18,4 +18,5 @@ export interface CreditoGestion {
   contactoDescripcion?: string;
   respuestaDescripcion?: string;
   acuerdosPago?: AcuerdoPago[];
+  tipo?: number;
 }
