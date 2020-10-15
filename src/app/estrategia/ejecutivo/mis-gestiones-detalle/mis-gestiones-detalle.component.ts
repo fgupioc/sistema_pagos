@@ -49,6 +49,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   gestiones: TablaMaestra[] = [];
   respuestas: TablaMaestra[] = [];
   tiposContacto: TablaMaestra[] = [];
+  tipoDirecciones: TablaMaestra[] = [];
   typeAcuerdo = 1;
   errors: string[] = [];
   dateDefault = moment(new Date()).format('YYYY-MM-DD');
@@ -79,6 +80,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.listarTipoDirecciones();
     this.listarTipoVias();
     this.listarTiposGestiones();
     this.listarTiposRespuestas();
@@ -146,6 +148,15 @@ export class MisGestionesDetalleComponent implements OnInit {
       correo: ['', [Validators.required]],
       mensaje: [this.$body, [Validators.required]],
     });
+  }
+
+  listarTipoDirecciones() {
+    this.tablaMaestraService.listarTipoDirecciones().subscribe(
+      response => {
+        this.tipoDirecciones = response;
+      },
+      error => console.log(error)
+    );
   }
 
   loadEstadosRecordatorios() {
@@ -712,7 +723,10 @@ export class MisGestionesDetalleComponent implements OnInit {
         Swal.fire('Envio de Correo', 'Ocurrio un error', 'success');
       }
     );
+  }
 
-
+  getNameTipoDireccion(tipoDireccion: string) {
+    const item = this.tipoDirecciones.find(i => i.codItem == tipoDireccion);
+    return item ? item.descripcion : '';
   }
 }

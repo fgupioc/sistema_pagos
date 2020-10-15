@@ -473,9 +473,88 @@
                 </div>
               </ng-template>
             </ngb-tab>
-            <ngb-tab title="Disabled">
+            <ngb-tab title="Teléfonos">
               <ng-template ngbTabContent>
-                <p>Sed commodo, leo at suscipit dictum, quam est porttitor sapien, eget sodales nibh elit id diam. Nulla facilisi. Donec egestas ligula vitae odio interdum aliquet. Duis lectus turpis, luctus eget tincidunt eu, congue et odio. Duis pharetra et nisl at faucibus. Quisque luctus pulvinar arcu, et molestie lectus ultrices et. Sed diam urna, egestas ut ipsum vel, volutpat volutpat neque. Praesent fringilla tortor arcu. Vivamus faucibus nisl enim, nec tristique ipsum euismod facilisis. Morbi ut bibendum est, eu tincidunt odio. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris aliquet odio ac lorem aliquet ultricies in eget neque. Phasellus nec tortor vel tellus pulvinar feugiat.</p>
+                <div class="row" *ngIf="socio">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered">
+                        <thead>
+                        <tr class="text-center">
+                          <th scope="col">#</th>
+                          <th scope="col">Número</th>
+                          <th scope="col">Operador</th>
+                          <th scope="col">Tipo</th>
+                          <th scope="col">Notificación</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let phone of socio.telefonos; let i = index" class="text-center">
+                          <th scope="row">{{ i + 1 }}</th>
+                          <td>{{ (phone.codCiudad ? phone.codCiudad +'-' : '') + phone.numero }}</td>
+                          <td>{{ phone.operadorDescripcion }}</td>
+                          <td>{{ phone.tipoUsoDescripcion }}</td>
+                          <td>{{ phone.tipoNotificacion }}</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Correos">
+              <ng-template ngbTabContent>
+                <div class="row" *ngIf="socio">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered">
+                        <thead>
+                        <tr class="text-center">
+                          <th scope="col">#</th>
+                          <th scope="col">Correo</th>
+                          <th scope="col">Tipo</th>
+                          <th scope="col">Notificación</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="text-center" *ngFor="let email of socio.correos; let i = index">
+                          <th scope="row">{{ i + 1 }}</th>
+                          <td>{{ email.email }}</td>
+                          <td>{{ email.tipoUsoDescripcion }}</td>
+                          <td>{{ email.tipoNotificacion }}</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Direcciones">
+              <ng-template ngbTabContent>
+                <div class="row" *ngIf="socio">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered">
+                        <thead>
+                        <tr class="text-center">
+                          <th scope="col">#</th>
+                          <th scope="col">Descripcion</th>
+                          <th scope="col">Tipo</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="text-center" *ngFor="let direccion of socio.direcciones; let i = index" style="font-size: 12px">
+                          <th scope="row">{{ i + 1 }}</th>
+                          <td style="text-align: left">{{ mostrarDireccion(direccion)}}</td>
+                          <td>{{ getNameTipoDireccion(direccion.tipoDireccion) }}</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
               </ng-template>
             </ngb-tab>
           </ngb-tabset>
