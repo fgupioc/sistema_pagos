@@ -194,13 +194,13 @@
                           <div class="col-12">
                             <div class="form-group">
                               <label>Cuerpo</label>
-                              <textarea class="form-control" rows="4" formControlName="cuerpo"></textarea>
+                              <textarea class="form-control" rows="4" formControlName="mensaje"></textarea>
                             </div>
                           </div>
                           <div class="col-12">
                             <div class="form-group text-center mt-2">
-                              <button class="btn btn-sm btn-primary mr-2" [disabled]="formCorreo.invalid" (click)="guardarCorreo()">Guardar</button>
-                              <button class="btn btn-sm btn-danger" (click)="formCorreo.reset({aunto: '', correo: '',cuerpo: $body}); showNewEmail = false;">Cancelar</button>
+                              <button class="btn btn-sm btn-primary mr-2" [disabled]="formCorreo.invalid" (click)="guardarCorreo()">Enviar</button>
+                              <button class="btn btn-sm btn-danger" (click)="formCorreo.reset({aunto: '', correo: '',mensaje: $body}); showNewEmail = false;">Cancelar</button>
                             </div>
                           </div>
                         </div>
@@ -478,3 +478,4 @@
     </section>
   </div>
 </div>
+<app-loading></app-loading>

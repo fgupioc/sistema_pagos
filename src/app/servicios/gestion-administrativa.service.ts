@@ -108,4 +108,8 @@ export class GestionAdministrativaService {
   registrarCreditoAsignacionAccion(asignacion): Observable<any> {
     return this.http.post<any>(`${urlBase}/registrar-accion-credito`, asignacion);
   }
+
+  guardarEnvioEmail(correo: any, asunto: string): Observable<any> {
+    return this.http.post<any>(`${urlBase}/envio-correo-gestion`, correo, {params: new HttpParams().set('asunto', asunto)});
+  }
 }

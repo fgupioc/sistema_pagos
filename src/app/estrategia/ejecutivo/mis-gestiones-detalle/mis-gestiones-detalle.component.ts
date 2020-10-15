@@ -144,7 +144,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     this.formCorreo = this.formBuilder.group({
       asunto: ['', [Validators.required]],
       correo: ['', [Validators.required]],
-      cuerpo: [this.$body, [Validators.required]],
+      mensaje: [this.$body, [Validators.required]],
     });
   }
 
@@ -690,12 +690,28 @@ export class MisGestionesDetalleComponent implements OnInit {
       return;
     }
 
-    const correo = this.formCorreo.getRawValue();
+    const {asunto , ...correo} = this.formCorreo.getRawValue();
     correo.creditoId = this.credito.id;
-    correo.socioId = this.credito.socioId;
+    correo.codPersona = this.credito.socioId;
     correo.asignacionId = this.credito.asignacionId;
-    console.log(correo);
-    this.formCorreo.reset({aunto: '', correo: '', cuerpo: this.$body});
-    this.showNewEmail = false;
+
+    this.spinner.show();
+    this.gestionAdministrativaService.guardarEnvioEmail(correo, asunto).subscribe(
+      res => {
+        if (res.exito) {
+          Swal.fire('Envio de Correo', res.mensaje, 'success');
+          this.formCorreo.reset({aunto: '', correo: '', asunto: this.$body});
+          this.showNewEmail = false;
+        } else {
+          Swal.fire('Envio de Correo', res.mensaje, 'error');
+        }
+        this.spinner.hide();
+      },
+      err => {
+        Swal.fire('Envio de Correo', 'Ocurrio un error', 'success');
+      }
+    );
+
+
   }
 }
