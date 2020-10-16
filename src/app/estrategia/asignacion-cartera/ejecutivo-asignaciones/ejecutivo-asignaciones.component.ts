@@ -7,6 +7,11 @@ import Swal from 'sweetalert2';
 import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
 import * as moment from 'moment';
 
+export interface EtapaTemp {
+  cod: number;
+  etapas: any[];
+}
+
 @Component({
   selector: 'app-ejecutivo-asignaciones',
   templateUrl: './ejecutivo-asignaciones.component.html',
@@ -15,6 +20,7 @@ import * as moment from 'moment';
 export class EjecutivoAsignacionesComponent implements OnInit {
   asignaciones: any[] = [];
   role: string;
+  etapas: EtapaTemp[] = [];
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -47,6 +53,12 @@ export class EjecutivoAsignacionesComponent implements OnInit {
       res => {
         if (res.exito) {
           this.asignaciones = res.objeto as any[];
+          if (this.asignaciones.length > 0) {
+            this.asignaciones.forEach(v => {
+              this.obtenerEtapasAsignaciones(v.id);
+            });
+          }
+          this.nombreEtapas(1);
         } else {
           Swal.fire('Asignación de Cartera', 'EL Asesor de negocio no existe.', 'error');
           this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
@@ -64,6 +76,11 @@ export class EjecutivoAsignacionesComponent implements OnInit {
       res => {
         if (res.exito) {
           this.asignaciones = res.objeto as any[];
+          if (this.asignaciones.length > 0) {
+            this.asignaciones.forEach(v => {
+              this.obtenerEtapasAsignaciones(v.id);
+            });
+          }
         } else {
           Swal.fire('Asignación de Cartera', 'EL Asesor de negocio no existe.', 'error');
           this.router.navigateByUrl('/auth/dashboard');
@@ -79,4 +96,29 @@ export class EjecutivoAsignacionesComponent implements OnInit {
   getClase(item: any) {
     return !(moment().isBetween(item.startDate, item.endDate)) ? 'table-danger' : '';
   }
+
+  obtenerEtapasAsignaciones(id) {
+    this.asignacionService.obtenerEtapasAsignaciones(id).subscribe(
+      res => {
+        this.etapas.push({
+          cod: id,
+          etapas: res,
+        });
+      }
+    );
+  }
+
+  nombreEtapas(id) {
+    let nombre = '';
+    if (this.etapas.length > 0) {
+      const etapa = this.etapas.find(v => v.cod == id);
+      if (etapa) {
+        etapa.etapas.forEach(i => {
+          nombre = i.nombreGestion;
+        });
+      }
+    }
+    return nombre;
+  }
+
 }

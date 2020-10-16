@@ -199,4 +199,8 @@ export class AsignacionCarteraService {
   buscarCreditoPorId(creditoId): Observable<Respuesta> {
     return this.http.post<Respuesta>(`${urlBase}/buscarCreditoPorId`, {}, {params: new HttpParams().set('creditoId', creditoId)});
   }
+
+  obtenerEtapasAsignaciones(codAsignacion): Observable<any[]> {
+    return this.http.post<any[]>(`${urlBase}/obtenerEtapasAsignaciones`, {}, {params: new HttpParams().set('codAsignacion', codAsignacion)});
+  }
 }
