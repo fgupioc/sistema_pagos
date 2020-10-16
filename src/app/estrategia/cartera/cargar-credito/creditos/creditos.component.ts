@@ -25,6 +25,7 @@ export class CarteraCargarCreditoCreditosComponent implements OnInit {
       res => {
         this.spinner.hide();
         this.cretidosTemps = res;
+        console.log(res);
       });
   }
 
