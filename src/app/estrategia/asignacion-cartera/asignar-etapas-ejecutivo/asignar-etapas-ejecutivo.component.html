@@ -1,7 +1,7 @@
 <div class="card" *ngIf="ejecutivoSelected">
   <div class="card-header">
     <i class="fa fa-align-justify"></i>
-    <span class="card-title text-uppercase font-weight-bold">Asignación de Cartera</span>
+    <span class="card-title text-uppercase font-weight-bold">Asignación de Cartera del Gestor : {{ ejecutivoSelected.alias }}</span>
     <div class="card-tools float-right">
       <button type="button" class="btn btn-sm btn-primary" routerLink="/auth/estrategia/asignacion-cartera">
         <i class="fa fa-arrow-left"></i> Regresar

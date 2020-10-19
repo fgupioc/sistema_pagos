@@ -185,6 +185,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
       res => {
         if (res.exito) {
           this.ejecutivoSelected = res.objeto;
+          console.log(this.ejecutivoSelected);
         } else {
           this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
           Swal.fire('Asignación de Cartera', 'EL Asesor de negocio no existe.', 'error');
