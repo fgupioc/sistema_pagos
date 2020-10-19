@@ -85,7 +85,7 @@ export class EjecutivoCreditosComponent implements OnInit {
       res => {
         if (res.exito) {
           this.campania = res.objeto;
-          this.creditos = res.objeto.creditosAsignados;
+          this.creditos = res.objeto.creditosTemp;
           this.ejecutivoNombre = res.ejecutivo.alias || this.ejecutivoId;
           this.campania.campoItems.forEach(item => {
             switch (item.codCampo) {

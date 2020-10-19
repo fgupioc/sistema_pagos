@@ -85,10 +85,40 @@
               <tr class="text-center">
                 <th scope="col" width="5%">#</th>
                 <th> Opción</th>
-                <th scope="col">N° Credito</th>
-                <th scope="col">F. Dese.</th>
-                <th scope="col">Monto Dese.</th>
-                <th scope="col">Saldo.</th>
+                <th>Nro Crédito</th>
+                <th>Moneda</th>
+                <th>C. Socio</th>
+                <th>Socio</th>
+                <th>F. Desem</th>
+                <th>Cap. Vig.</th>
+                <th>Cap. Ven.(par. Mor.)</th>
+                <th>Int. Cre. Fec.</th>
+                <th>Estado</th>
+                <th>Pro. Abaco</th>
+                <th>Tip. Serv.</th>
+                <th>Tip. Pro. Serv.</th>
+                <th>Condición</th>
+                <th>Fec. Repro.</th>
+                <th>Refinanciado</th>
+                <th>Importe Vencido</th>
+                <th>Dias Venc.</th>
+                <th>Fec. Venc.</th>
+                <th>Tot. Cuotas</th>
+                <th>Cuotas Pag.</th>
+                <th>Cuotas Pen.</th>
+                <th>Fec. Ult. Pag.</th>
+                <th>Cuotas Atra.</th>
+                <th>Mont. Atra.</th>
+                <th>Fec. Cuo. Mes</th>
+                <th>Mont. Cuo. Mes</th>
+                <th>Calificación</th>
+                <th>Gar. Liqu.</th>
+                <th>Gar. Real</th>
+                <th>Tasa</th>
+                <th>División</th>
+                <th>Banca</th>
+                <th>Seg. Riesgo</th>
+                <th>Sec. Econo.</th>
                 <th> Socio</th>
               </tr>
               </thead>
@@ -96,15 +126,47 @@
               <tr *ngFor="let credito of creditos; let i = index" class="text-center">
                 <th scope="row">{{ i + 1 }}</th>
                 <td class="text-center">
+                <div class="w-100 d-flex justify-content-center">
                   <button class="btn btn-sm btn-primary mr-2" (click)="irCliente(credito)"><i class="fa fa-user"></i></button>
                   <ng-container *ngIf="!role">
                     <button *ngIf="conPermiso" class="btn btn-sm btn-danger mr-2" (click)="eliminarCredito(credito)"><i class="fa fa-trash"></i></button>
                   </ng-container>
+                </div>
                 </td>
-                <td>{{ credito.nroCredito }}</td>
-                <td>{{ credito.fechaVencimiento | date : 'dd-MM-yyyy' }}</td>
-                <td>{{ credito.codMoneda == 'PEN' ? 'S/' : '$'}} {{ credito.montoCredito | currency: ' '}}</td>
-                <td>{{ credito.codMoneda == 'PEN' ? 'S/' : '$'}} {{ credito.saldoDeDeuda | currency: ' '}}</td>
+                <td class="text-center">{{ credito.nroCredito }}</td>
+                <td class="text-center">{{ credito.desMoneda }}</td>
+                <td class="text-center">{{ credito.socioId }}</td>
+                <td class="text-center">{{ credito.socioAlias }}</td>
+                <td class="text-center">{{ credito.fechaDesembolso | date: 'dd/MM/yyyy' }}</td>
+                <td class="text-center">{{ credito.montoCredito }}</td>
+                <td class="text-center">{{ credito.capitalVencido }}</td>
+                <td class="text-center">{{ credito.interesCreditoFecha }}</td>
+                <td class="text-center">{{ credito.estado }}</td>
+                <td class="text-center">{{ credito.productoAbaco }}</td>
+                <td class="text-center">{{ credito.tipoServicio }}</td>
+                <td class="text-center">{{ credito.tipoProdcutoAbaco }}</td>
+                <td class="text-center">{{ credito.condicion }}</td>
+                <td class="text-center">{{ credito.fechaReprogramado | date: 'dd/MM/yyyy' }}</td>
+                <td class="text-center">{{ credito.refinanciado }}</td>
+                <td class="text-center">{{ credito.importeVencido }}</td>
+                <td class="text-center">{{ credito.diasVencido }}</td>
+                <td class="text-center">{{ credito.fechaVencimiento | date: 'dd/MM/yyyy' }}</td>
+                <td class="text-center">{{ credito.totalCuotas }}</td>
+                <td class="text-center">{{ credito.cuotasPagadas }}</td>
+                <td class="text-center">{{ credito.cuotasPendientes }}</td>
+                <td class="text-center">{{ credito.fechaUltimoPago | date: 'dd/MM/yyyy' }}</td>
+                <td class="text-center">{{ credito.cuotasAtrasadas }}</td>
+                <td class="text-center">{{ credito.montoAtrasadas }}</td>
+                <td class="text-center">{{ credito.fechaCuotaMes  | date: 'dd/MM/yyyy'}}</td>
+                <td class="text-center">{{ credito.montoCuotaMes }}</td>
+                <td class="text-center">{{ credito.calificacion }}</td>
+                <td class="text-center">{{ credito.garantiaLiquida }}</td>
+                <td class="text-center">{{ credito.garantiaReal }}</td>
+                <td class="text-center">{{ credito.desTipoTasa }}</td>
+                <td class="text-center">{{ credito.divicion }}</td>
+                <td class="text-center">{{ credito.banca }}</td>
+                <td class="text-center">{{ credito.segmentadoRiesgo }}</td>
+                <td class="text-center">{{ credito.sectorEconomico }}</td>
                 <td style="text-align: left;">{{ credito.alias}}</td>
               </tr>
               </tbody>
