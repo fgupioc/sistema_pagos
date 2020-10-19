@@ -15,7 +15,7 @@
     <div class="row">
       <div class="col-6 col-md-4">
         <div class="form-group">
-          <label>Ejecutivo</label>
+          <label>Gestor de Cobranza</label>
           <input class="form-control" [value]="ejecutivoNombre" disabled>
         </div>
       </div>
@@ -40,8 +40,8 @@
       <div class="col-12 col-md-4" *ngIf="campania.etapaItems.length > 0">
         <div class="form-group">
           <label>Etapas</label>
-          <ul>
-            <li *ngFor="let item of campania.etapaItems"> {{ item.nombreGestion }} - {{ item.nombreEtapa }} </li>
+          <ul class="lista-etapas">
+            <li *ngFor="let item of campania.etapaItems"> {{ item.nombreGestion }} - {{ item.nombreEtapa }} [{{ item.desde }} a {{ item.hasta }}] </li>
           </ul>
         </div>
       </div>
@@ -77,38 +77,39 @@
       </div>
       <div class="col-12">
         <div class="form-group">
-          <table class="table table-bordered">
-            <caption style="caption-side: top; text-align: center;">Lista de créditos</caption>
-            <thead>
-            <tr>
-            <tr class="text-center">
-              <th scope="col" width="5%">#</th>
-              <th scope="col">N° Credito</th>
-              <th scope="col">F. Dese.</th>
-              <th scope="col">Monto Dese.</th>
-              <th scope="col">Saldo.</th>
-              <th> Socio</th>
-              <th> Opción</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let credito of creditos; let i = index" class="text-center">
-              <th scope="row">{{ i + 1 }}</th>
-              <td>{{ credito.nroCredito }}</td>
-              <td>{{ credito.fechaVencimiento | date : 'dd-MM-yyyy' }}</td>
-              <td>{{ credito.codMoneda == 'PEN' ? 'S/' : '$'}} {{ credito.montoCredito | currency: ' '}}</td>
-              <td>{{ credito.codMoneda == 'PEN' ? 'S/' : '$'}} {{ credito.saldoDeDeuda | currency: ' '}}</td>
-              <td style="text-align: left;">{{ credito.alias}}</td>
-              <td class="text-center">
-                <button class="btn btn-sm btn-success mr-2"><i class="fa fa-eye"></i></button>
-                <button class="btn btn-sm btn-primary mr-2" (click)="irCliente(credito)"><i class="fa fa-user"></i></button>
-                <ng-container *ngIf="!role">
-                  <button *ngIf="conPermiso" class="btn btn-sm btn-danger mr-2" (click)="eliminarCredito(credito)"><i class="fa fa-trash"></i></button>
-                </ng-container>
-              </td>
-            </tr>
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <caption style="caption-side: top; text-align: center;">Lista de créditos</caption>
+              <thead>
+              <tr>
+              <tr class="text-center">
+                <th scope="col" width="5%">#</th>
+                <th> Opción</th>
+                <th scope="col">N° Credito</th>
+                <th scope="col">F. Dese.</th>
+                <th scope="col">Monto Dese.</th>
+                <th scope="col">Saldo.</th>
+                <th> Socio</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let credito of creditos; let i = index" class="text-center">
+                <th scope="row">{{ i + 1 }}</th>
+                <td class="text-center">
+                  <button class="btn btn-sm btn-primary mr-2" (click)="irCliente(credito)"><i class="fa fa-user"></i></button>
+                  <ng-container *ngIf="!role">
+                    <button *ngIf="conPermiso" class="btn btn-sm btn-danger mr-2" (click)="eliminarCredito(credito)"><i class="fa fa-trash"></i></button>
+                  </ng-container>
+                </td>
+                <td>{{ credito.nroCredito }}</td>
+                <td>{{ credito.fechaVencimiento | date : 'dd-MM-yyyy' }}</td>
+                <td>{{ credito.codMoneda == 'PEN' ? 'S/' : '$'}} {{ credito.montoCredito | currency: ' '}}</td>
+                <td>{{ credito.codMoneda == 'PEN' ? 'S/' : '$'}} {{ credito.saldoDeDeuda | currency: ' '}}</td>
+                <td style="text-align: left;">{{ credito.alias}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

@@ -1,7 +1,8 @@
 <div class="card">
   <div class="card-header">
     <i class="fa fa-align-justify"></i>
-    <span class="card-title text-uppercase font-weight-bold">Carteras Asignadas</span>
+    <span *ngIf="ejecutivoSelected" class="card-title text-uppercase font-weight-bold">Carteras Asignadas de : {{ ejecutivoSelected.alias }}</span>
+    <span *ngIf="!ejecutivoSelected" class="card-title text-uppercase font-weight-bold">Mis Carteras Asignadas </span>
     <div class="card-tools float-right" *ngIf="!role">
       <button type="button" class="btn btn-sm btn-primary" routerLink="/auth/estrategia/asignacion-cartera">
         <i class="fa fa-arrow-left"></i> Regresar
@@ -17,10 +18,10 @@
             <tr class="text-center">
               <th scope="col">#</th>
               <th scope="col">Cartera</th>
+              <th scope="col">Gestión</th>
               <th scope="col">Frecuencia</th>
               <th scope="col">Inicio</th>
               <th scope="col">Fin</th>
-              <th scope="col">Gestión</th>
               <th scope="col">Opción</th>
             </tr>
             </thead>
@@ -28,10 +29,10 @@
             <tr *ngFor="let item of asignaciones; let i = index" style="text-align: center" [class]="getClase(item)">
               <th scope="row">{{ i + 1 }}</th>
               <td style="text-align: left"> {{ item.nombreCartera }}</td>
+              <td><span style="font-size: 12px">{{ nombreEtapas(item.id) }}</span></td>
               <td>{{ item.frecuencia }}</td>
               <td> {{ item.startDate | date: 'dd/MM/yyyy'}}</td>
               <td> {{ item.endDate | date: 'dd/MM/yyyy'}}</td>
-              <td> {{ nombreEtapas(item.id) }}</td>
               <td>
                 <button *ngIf="!role" class="btn btn-sm btn-primary mr-2" [routerLink]="'/auth/estrategia/asignacion-cartera/' + item.codEjecutivo + '/listado/' + item.id + '/detalle'"><i class="fa fa-eye"></i></button>
                 <button *ngIf="role" class="btn btn-sm btn-primary mr-2" [routerLink]="'/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/' + item.id + '/detalle'"><i class="fa fa-eye"></i></button>

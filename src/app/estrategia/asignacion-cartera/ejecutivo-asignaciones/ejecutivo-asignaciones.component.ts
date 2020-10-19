@@ -21,6 +21,7 @@ export class EjecutivoAsignacionesComponent implements OnInit {
   asignaciones: any[] = [];
   role: string;
   etapas: EtapaTemp[] = [];
+  ejecutivoSelected: any;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -31,7 +32,10 @@ export class EjecutivoAsignacionesComponent implements OnInit {
   ) {
     const {role} = activatedRoute.snapshot.data;
     if (!role) {
-      activatedRoute.params.subscribe(({ejecutivoId}) => this.listaAsignacionCreditoPorEjecutivo(ejecutivoId));
+      activatedRoute.params.subscribe(({ejecutivoId}) => {
+        this.buscarEjecutivoByCodUsuario(ejecutivoId);
+        this.listaAsignacionCreditoPorEjecutivo(ejecutivoId);
+      });
     } else {
       const user = auth.loggedUser.id;
       this.role = role;
@@ -49,6 +53,7 @@ export class EjecutivoAsignacionesComponent implements OnInit {
       Swal.fire('Asignación de Cartera', 'EL Asesor de negocio no existe.', 'error');
       this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
     }
+    this.spinner.show();
     this.asignacionService.listaAsignacionCreditoPorEjecutivo(ejecutivoId).subscribe(
       res => {
         if (res.exito) {
@@ -59,13 +64,16 @@ export class EjecutivoAsignacionesComponent implements OnInit {
             });
           }
           this.nombreEtapas(1);
+          this.spinner.hide();
         } else {
           Swal.fire('Asignación de Cartera', 'EL Asesor de negocio no existe.', 'error');
+          this.spinner.hide();
           this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
         }
       },
       err => {
         Swal.fire('Asignación de Cartera', 'EL Asesor de negocio no existe.', 'error');
+        this.spinner.hide();
         this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
       }
     );
@@ -114,11 +122,29 @@ export class EjecutivoAsignacionesComponent implements OnInit {
       const etapa = this.etapas.find(v => v.cod == id);
       if (etapa) {
         etapa.etapas.forEach(i => {
-          nombre = i.nombreGestion;
+          nombre = `${i.nombreGestion} - ${i.nombreEtapa} [${i.desde} a ${i.hasta}]`;
         });
       }
     }
     return nombre;
+  }
+
+  buscarEjecutivoByCodUsuario(codUsuario) {
+    this.asignacionService.buscarEjecutivoByCodUsuario(codUsuario).subscribe(
+      res => {
+        if (res.exito) {
+          this.ejecutivoSelected = res.objeto;
+        } else {
+          this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
+          Swal.fire('Asignación de Cartera', 'EL Asesor de negocio no existe.', 'error');
+        }
+      },
+      err => {
+        console.log(err);
+        this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
+        Swal.fire('Asignación de Cartera', 'EL Asesor de negocio no existe.', 'error');
+      }
+    );
   }
 
 }

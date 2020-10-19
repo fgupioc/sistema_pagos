@@ -185,7 +185,6 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
       res => {
         if (res.exito) {
           this.ejecutivoSelected = res.objeto;
-          console.log(this.ejecutivoSelected);
         } else {
           this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
           Swal.fire('Asignación de Cartera', 'EL Asesor de negocio no existe.', 'error');
@@ -336,6 +335,9 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
 
 
   checkSelected(event: any, item: Etapa) {
+    this.etapasSelecionadas = [];
+    this.etapasSelecionadas.push(item);
+    /*
     const etapa = this.etapasSelecionadas.find(i => i.codEtapa == item.codEtapa);
     if (event.target.checked) {
       if (!etapa) {
@@ -343,7 +345,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
       }
     } else {
       this.etapasSelecionadas = this.etapasSelecionadas.filter(i => i.codEtapa != item.codEtapa);
-    }
+    }*/
   }
 
   nextFinished() {

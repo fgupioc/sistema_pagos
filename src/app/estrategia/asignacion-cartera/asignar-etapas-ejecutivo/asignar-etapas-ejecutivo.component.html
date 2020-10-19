@@ -56,11 +56,13 @@
               <div class="col-12">
                 <ul class="todo-list ui-sortable">
                   <li *ngFor="let item of etapas">
-                      <span class="handle ui-sortable-handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
+                    <label class="container-radio">{{ item.nombre }}
+                      <input type="radio" name="tasks" (change)="checkSelected($event, item)">
+                      <span class="checkmark"></span>
+                    </label>
+                    <!--
                     <label class="text cursor-pointer"> <input type="checkbox" value="" (change)="checkSelected($event, item)"> {{ item.nombre }}</label>
+                    -->
                   </li>
                 </ul>
               </div>

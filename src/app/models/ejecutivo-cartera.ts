@@ -22,6 +22,8 @@ export class EjecutivoCarteraEtapa {
   codEtapa: number;
   nombreEtapa?: string;
   nombreGestion?: string;
+  desde?: number;
+  hasta?: number;
 }
 
 
