@@ -45,6 +45,7 @@ export class UsuarioComponent implements OnInit {
   }
 
   refreshDatatable() {
+    console.log(this.dtElement);
     if (this.isDtInitialized) {
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
         dtInstance.destroy();

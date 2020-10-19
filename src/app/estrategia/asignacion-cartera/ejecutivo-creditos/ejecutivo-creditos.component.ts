@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AsignacionCarteraService} from '../../../servicios/asignacion-cartera.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -10,6 +10,8 @@ import {ModalAgregarCreditoComponent} from '../modal-agregar-credito/modal-agreg
 import {isNullOrUndefined} from 'util';
 import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
 import * as moment from 'moment';
+import {Subject} from 'rxjs';
+import {DataTableDirective} from 'angular-datatables';
 
 export interface InfoCampo {
   descripction: string;
@@ -22,6 +24,10 @@ export interface InfoCampo {
 })
 
 export class EjecutivoCreditosComponent implements OnInit {
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
+  isDtInitialized = false;
+  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
   ejecutivoId: any;
   ejecutivoNombre: string;
   asignacionId: string;
@@ -70,6 +76,7 @@ export class EjecutivoCreditosComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dtOptions = CONST.C_OBJ_DT_OPCIONES();
     if (this.ejecutivoId && this.asignacionId) {
       this.obtenerAsignnacionPorId(this.asignacionId);
     }
@@ -107,6 +114,7 @@ export class EjecutivoCreditosComponent implements OnInit {
                 break;
             }
           });
+          this.refreshDatatable();
         } else {
           if (this.role) {
             this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
@@ -181,6 +189,22 @@ export class EjecutivoCreditosComponent implements OnInit {
   }
 
   get conPermiso() {
-    return moment().isBetween(this.campania.startDate, this.campania.endDate);
+    if (this.campania) {
+      return moment().isBetween(this.campania.startDate, this.campania.endDate);
+    } else {
+      return false;
+    }
+  }
+
+  refreshDatatable() {
+    if (this.isDtInitialized) {
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    } else {
+      this.isDtInitialized = true;
+      this.dtTrigger.next();
+    }
   }
 }

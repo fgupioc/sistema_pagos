@@ -14,6 +14,7 @@ export class EjecutivoCartera {
   startDate?: string;
   endDate?: string;
   frecuencia: string;
+  creditosTemp?: [] = [];
 }
 
 export class EjecutivoCarteraEtapa {

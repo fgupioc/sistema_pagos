@@ -49,6 +49,8 @@ import { ModalTableroNuevaTareaComponent } from './gestionar-tarea/modal-tablero
 import {NgxDropzoneModule} from 'ngx-dropzone';
 import { MisGestionesComponent } from './ejecutivo/mis-gestiones/mis-gestiones.component';
 import { MisGestionesDetalleComponent } from './ejecutivo/mis-gestiones-detalle/mis-gestiones-detalle.component';
+import {DataTablesModule} from 'angular-datatables';
+import {AsignacionCarteraService} from '../servicios/asignacion-cartera.service';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -89,24 +91,25 @@ const ngWizardConfig: NgWizardConfig = {
     MisGestionesComponent,
     MisGestionesDetalleComponent
   ],
-    imports: [
-        CommonModule,
-        ComunModule,
-        NgbModule,
-        CommonModule,
-        ReactiveFormsModule,
-        FormsModule,
-        MyPipesModule,
-        RouterModule,
-        NgSelectModule,
-        NgxSpinnerModule,
-        TreeviewModule.forRoot(),
-        NgWizardModule.forRoot(ngWizardConfig),
-        BsDropdownModule,
-        BrowserModule,
-        DndModule,
-        NgxDropzoneModule
-    ],
+  imports: [
+    CommonModule,
+    ComunModule,
+    NgbModule,
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MyPipesModule,
+    RouterModule,
+    NgSelectModule,
+    NgxSpinnerModule,
+    TreeviewModule.forRoot(),
+    NgWizardModule.forRoot(ngWizardConfig),
+    BsDropdownModule,
+    BrowserModule,
+    DndModule,
+    NgxDropzoneModule,
+    DataTablesModule
+  ],
   exports: [
     CrearCarteraComponent,
     ActualizarGestionComponent,
@@ -129,6 +132,9 @@ const ngWizardConfig: NgWizardConfig = {
     ModalAsignarEstadoRecordatorioComponent,
     ModalNuevaTareasComponent,
     ModalTableroNuevaTareaComponent
+  ],
+  providers: [
+    AsignacionCarteraService
   ]
 })
 export class EstrategiaModule {

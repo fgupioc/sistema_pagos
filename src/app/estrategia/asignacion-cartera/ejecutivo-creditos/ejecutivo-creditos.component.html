@@ -11,8 +11,8 @@
       </button>
     </div>
   </div>
-  <div class="card-body" *ngIf="campania">
-    <div class="row">
+  <div class="card-body">
+    <div class="row" *ngIf="campania">
       <div class="col-6 col-md-4">
         <div class="form-group">
           <label>Gestor de Cobranza</label>
@@ -75,10 +75,11 @@
       <div class="col-12" *ngIf="!role">
         <button *ngIf="conPermiso" class="btn btn-primary" (click)="agregarCredito()"><i class="fa fa-plus"></i> Agrenar Crédito</button>
       </div>
-      <div class="col-12">
+      <div class="col-12 mt-4">
         <div class="form-group">
           <div class="table-responsive">
-            <table class="table table-bordered">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                   class="table table-bordered table-striped table-sm">
               <caption style="caption-side: top; text-align: center;">Lista de créditos</caption>
               <thead>
               <tr>

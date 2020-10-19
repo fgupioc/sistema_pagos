@@ -21,7 +21,8 @@ export class ModalAgregarCreditoComponent implements OnInit {
     creditosAsignados: [],
     startDate: null,
     endDate: null,
-    frecuencia: null
+    frecuencia: null,
+    creditosTemp: [],
   };
   $creditos: any[] = [];
   $creditosCheched: any[] = [];
@@ -42,6 +43,7 @@ export class ModalAgregarCreditoComponent implements OnInit {
       const data = this.data;
       data.creditosAsignados = [];
       data.sociosOpcional = [];
+      data.creditosTemp = [];
       this.asignacionService.buscarCreditosPorFiltro(data.cartera.codCartera, data).subscribe(
         res => {
           this.$creditos = res;
