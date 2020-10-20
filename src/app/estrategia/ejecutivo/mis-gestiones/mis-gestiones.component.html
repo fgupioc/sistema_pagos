@@ -5,33 +5,92 @@
   <div class="card-body">
     <div class="row">
       <div class="col-12">
-        <table class="table table-bordered">
-          <thead>
-          <tr></tr>
-          <tr class="text-center">
-            <th scope="col" width="5%">#</th>
-            <th scope="col">N° Credito</th>
-            <th scope="col">F. Dese.</th>
-            <th scope="col">Monto Dese.</th>
-            <th scope="col">Saldo.</th>
-            <th> Socio</th>
-            <th> Opción</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let credito of creditos; let i = index" class="text-center">
-            <th scope="row">{{ i + 1 }}</th>
-            <td>{{ credito.nroCredito }}</td>
-            <td>{{ credito.fechaVencimiento | date : 'dd-MM-yyyy' }}</td>
-            <td>{{ credito.codMoneda == 'PEN' ? 'S/' : '$'}} {{ credito.montoCredito | currency: ' '}}</td>
-            <td>{{ credito.codMoneda == 'PEN' ? 'S/' : '$'}} {{ credito.saldoDeDeuda | currency: ' '}}</td>
-            <td style="text-align: left;">{{ credito.alias}}</td>
-            <td class="text-center">
-              <button [routerLink]="'/auth/gestion-administrativa/mis-gestiones/'+credito.id+'/detalle'" class="btn btn-sm btn-success mr-2"><i class="fa fa-eye"></i></button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" class="table table-responsive-sm table-bordered">
+            <thead>
+            <tr class="text-center">
+              <th>#</th>
+              <th>Opción</th>
+              <th>Nro Crédito</th>
+              <th>Moneda</th>
+              <th>C. Socio</th>
+              <th>Socio</th>
+              <th>F. Desem</th>
+              <th>Cap. Vig.</th>
+              <th>Cap. Ven.(par. Mor.)</th>
+              <th>Int. Cre. Fec.</th>
+              <th>Estado</th>
+              <th>Pro. Abaco</th>
+              <th>Tip. Serv.</th>
+              <th>Tip. Pro. Serv.</th>
+              <th>Condición</th>
+              <th>Fec. Repro.</th>
+              <th>Refinanciado</th>
+              <th>Importe Vencido</th>
+              <th>Dias Venc.</th>
+              <th>Fec. Venc.</th>
+              <th>Tot. Cuotas</th>
+              <th>Cuotas Pag.</th>
+              <th>Cuotas Pen.</th>
+              <th>Fec. Ult. Pag.</th>
+              <th>Cuotas Atra.</th>
+              <th>Mont. Atra.</th>
+              <th>Fec. Cuo. Mes</th>
+              <th>Mont. Cuo. Mes</th>
+              <th>Calificación</th>
+              <th>Gar. Liqu.</th>
+              <th>Gar. Real</th>
+              <th>Tasa</th>
+              <th>División</th>
+              <th>Banca</th>
+              <th>Seg. Riesgo</th>
+              <th>Sec. Econo.</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let o of creditos; index as i; ">
+              <td class="text-center">{{ i + 1 }}</td>
+              <th scope="row">
+                <button placement="top" ngbTooltip="Iniciar Gestión" [routerLink]="'/auth/gestion-administrativa/mis-gestiones/'+o.id+'/detalle'" class="btn btn-sm btn-success mr-2"><i class="fa fa-eye"></i></button>
+              </th>
+              <td class="text-center">{{ o.nroCredito }}</td>
+              <td class="text-center">{{ o.desMoneda }}</td>
+              <td class="text-center">{{ o.socioId }}</td>
+              <td class="text-center">{{ o.socioAlias }}</td>
+              <td class="text-center">{{ o.fechaDesembolso | date: 'dd/MM/yyyy' }}</td>
+              <td class="text-center">{{ o.montoCredito }}</td>
+              <td class="text-center">{{ o.capitalVencido }}</td>
+              <td class="text-center">{{ o.interesCreditoFecha }}</td>
+              <td class="text-center">{{ o.estado }}</td>
+              <td class="text-center">{{ o.productoAbaco }}</td>
+              <td class="text-center">{{ o.tipoServicio }}</td>
+              <td class="text-center">{{ o.tipoProdcutoAbaco }}</td>
+              <td class="text-center">{{ o.condicion }}</td>
+              <td class="text-center">{{ o.fechaReprogramado | date: 'dd/MM/yyyy' }}</td>
+              <td class="text-center">{{ o.refinanciado }}</td>
+              <td class="text-center">{{ o.importeVencido }}</td>
+              <td class="text-center">{{ o.diasVencido }}</td>
+              <td class="text-center">{{ o.fechaVencimiento | date: 'dd/MM/yyyy' }}</td>
+              <td class="text-center">{{ o.totalCuotas }}</td>
+              <td class="text-center">{{ o.cuotasPagadas }}</td>
+              <td class="text-center">{{ o.cuotasPendientes }}</td>
+              <td class="text-center">{{ o.fechaUltimoPago | date: 'dd/MM/yyyy' }}</td>
+              <td class="text-center">{{ o.cuotasAtrasadas }}</td>
+              <td class="text-center">{{ o.montoAtrasadas }}</td>
+              <td class="text-center">{{ o.fechaCuotaMes  | date: 'dd/MM/yyyy'}}</td>
+              <td class="text-center">{{ o.montoCuotaMes }}</td>
+              <td class="text-center">{{ o.calificacion }}</td>
+              <td class="text-center">{{ o.garantiaLiquida }}</td>
+              <td class="text-center">{{ o.garantiaReal }}</td>
+              <td class="text-center">{{ o.desTipoTasa }}</td>
+              <td class="text-center">{{ o.divicion }}</td>
+              <td class="text-center">{{ o.banca }}</td>
+              <td class="text-center">{{ o.segmentadoRiesgo }}</td>
+              <td class="text-center">{{ o.sectorEconomico }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Cartera, Etapa, Gestion} from '../../../interfaces/cartera';
 import {TreeviewConfig, TreeviewItem} from 'ngx-treeview';
 import {NgxSpinnerService} from 'ngx-spinner';
@@ -16,6 +16,8 @@ import {SocioCredito} from '../../../interfaces/socio-credito';
 import * as moment from 'moment';
 import {GrupoCampo} from '../../../interfaces/grupo-campo';
 import {MaestroService} from '../../../servicios/sistema/maestro.service';
+import {Subject} from 'rxjs';
+import {DataTableDirective} from 'angular-datatables';
 
 declare const $: any;
 
@@ -25,6 +27,12 @@ declare const $: any;
   styleUrls: ['./asignar-etapas-ejecutivo.component.css']
 })
 export class AsignarEtapasEjecutivoComponent implements OnInit {
+
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
+  isDtInitialized = false;
+  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
+
   carteras: Cartera[] = [];
   nombre: string;
   items: TreeviewItem[];
@@ -111,6 +119,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dtOptions = CONST.DATATABLE_ES();
     this.listarTipoProductos();
     this.listarTipoBancas();
     this.listarTipoDivisiones();

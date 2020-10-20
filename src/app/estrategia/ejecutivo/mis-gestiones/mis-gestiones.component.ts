@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {GestionAdministrativaService} from '../../../servicios/gestion-administrativa.service';
 import {Router} from '@angular/router';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {Subject} from 'rxjs';
+import {DataTableDirective} from 'angular-datatables';
+import {CONST} from '../../../comun/CONST';
 
 @Component({
   selector: 'app-mis-gestiones',
@@ -10,12 +13,19 @@ import {NgxSpinnerService} from 'ngx-spinner';
 })
 export class MisGestionesComponent implements OnInit {
   creditos: any[] = [];
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
+  isDtInitialized = false;
+  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
+
+
   constructor(
     private gestionAdministrativaService: GestionAdministrativaService,
     private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
+    this.dtOptions = CONST.DATATABLE_ES();
     this.listarCreditos();
   }
 
