@@ -1,10 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {EjecutivoCartera} from '../../../models/ejecutivo-cartera';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AsignacionCarteraService} from '../../../servicios/asignacion-cartera.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import Swal from 'sweetalert2';
+import {Subject} from 'rxjs';
+import {DataTableDirective} from 'angular-datatables';
+import {CONST} from '../../../comun/CONST';
 
 @Component({
   selector: 'app-modal-agregar-credito',
@@ -24,6 +27,11 @@ export class ModalAgregarCreditoComponent implements OnInit {
     frecuencia: null,
     creditosTemp: [],
   };
+
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
+  isDtInitialized = false;
+  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
   $creditos: any[] = [];
   $creditosCheched: any[] = [];
   creditosAsignacion: any[] = [];
@@ -38,6 +46,7 @@ export class ModalAgregarCreditoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dtOptions = CONST.C_OBJ_DT_OPCIONES();
     setTimeout(() => this.spinner.show(), 100);
     if (this.data.cartera.codCartera) {
       const data = this.data;
@@ -48,6 +57,7 @@ export class ModalAgregarCreditoComponent implements OnInit {
         res => {
           this.$creditos = res;
           this.spinner.hide();
+          this.refreshDatatable();
         },
         err => this.spinner.hide()
       );
@@ -89,5 +99,17 @@ export class ModalAgregarCreditoComponent implements OnInit {
         this.spinner.hide();
       }
     );
+  }
+
+  refreshDatatable() {
+    if (this.isDtInitialized) {
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    } else {
+      this.isDtInitialized = true;
+      this.dtTrigger.next();
+    }
   }
 }
