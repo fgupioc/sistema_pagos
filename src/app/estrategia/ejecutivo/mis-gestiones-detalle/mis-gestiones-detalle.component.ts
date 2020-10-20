@@ -24,12 +24,13 @@ import {Tarea} from '../../../interfaces/tarea';
 import {EjecutivoAsignacion} from '../../../interfaces/ejecutivo-asignacion';
 import {EventosService} from '../../../servicios/eventos.service';
 import {TelefonoService} from '../../../servicios/telefono.service';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
 import {TipoNotificacion} from '../../../models/tipo-notificacion';
 import {TipoNotificacionService} from '../../../servicios/tipo-notificacion.service';
 import {EmailService} from '../../../servicios/email.service';
 import {UbigeoService} from '../../../servicios/sistema/ubigeo.service';
 import {DireccionService} from '../../../servicios/direccion.service';
+import {Ubigeo} from '../../../interfaces/ubigeo';
 
 @Component({
   selector: 'app-mis-gestiones-detalle',
@@ -80,10 +81,23 @@ export class MisGestionesDetalleComponent implements OnInit {
   max = 9;
   $fijo = 2;
   $movil = 1;
+  $sectionName = 'Sección';
+  $zoneName = 'Zona';
+  $sectorName = 'Sector';
 
   tipoNotificaciones: TipoNotificacion[] = [];
   tiposUsoTelefono: TablaMaestra[] = [];
   tipoUsoEmail: TablaMaestra[] = [];
+  showNewAddress = false;
+
+  tipoViviendas: TablaMaestra[] = [];
+  tipoSecciones: TablaMaestra[] = [];
+  tipoZonas: TablaMaestra[] = [];
+  tiposSectores: TablaMaestra[] = [];
+
+  departamentos: Ubigeo[] = [];
+  provincias: Ubigeo[] = [];
+  distritos: Ubigeo[] = [];
 
   constructor(
     public auth: AutenticacionService,
@@ -106,6 +120,11 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   ngOnInit() {
     this.listarTipoDirecciones();
+    this.listarTipoviviendas();
+    this.listarTipoSecciones();
+    this.listarTipoZonas();
+    this.listarTipoSectores();
+    this.listarDepartamentos();
     this.listarTipoVias();
     this.listarTiposGestiones();
     this.listarTiposRespuestas();
@@ -207,7 +226,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       distrito: ['', Validators.required],
     });
 
-    this.$body = `\n${ this.auth.loggedUser.alias}\n${ this.auth.loggedUser.email }\nEjecutivo de Negocio.`;
+    this.$body = `\n${this.auth.loggedUser.alias}\n${this.auth.loggedUser.email}\nEjecutivo de Negocio.`;
     this.formCorreo = this.formBuilder.group({
       asunto: ['', [Validators.required]],
       correo: ['', [Validators.required]],
@@ -306,11 +325,12 @@ export class MisGestionesDetalleComponent implements OnInit {
           this.socio = res.socio;
           this.etapa = res.etapa;
           this.campania = res.campania;
-          this.listarAcciones(this.credito.id, this.credito.asignacionId);
           this.loadAcuerdosPagos(this.credito.asignacionId, this.auth.loggedUser.id, this.credito.socioId, this.credito.id);
+          this.listarAcciones(this.credito.id, this.credito.asignacionId);
         } else {
           Swal.fire('Credito', res.mensaje, 'error');
           this.router.navigateByUrl('/auth/gestion-administrativa/mis-gestiones');
+          this.spinner.hide();
         }
       },
       err => {
@@ -705,14 +725,11 @@ export class MisGestionesDetalleComponent implements OnInit {
   }
 
   listarTablero() {
-    this.spinner.show();
     this.gestionAdministrativaService.listarTableroTareasPorEjecutivo().subscribe(
       res => {
         this.misTableros = res;
-        this.spinner.hide();
       },
       err => {
-        this.spinner.hide();
       }
     );
   }
@@ -766,7 +783,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       return;
     }
 
-    const {asunto , ...correo} = this.formCorreo.getRawValue();
+    const {asunto, ...correo} = this.formCorreo.getRawValue();
     correo.creditoId = this.credito.id;
     correo.codPersona = this.credito.socioId;
     correo.asignacionId = this.credito.asignacionId;
@@ -809,10 +826,12 @@ export class MisGestionesDetalleComponent implements OnInit {
         if (res.exito) {
           Swal.fire('Telefono', res.mensaje, 'success');
           this.resetFormTelefono();
+          this.loadCredito();
+          this.showNewPhone = false;
         } else {
           Swal.fire('Telefono', res.mensaje, 'error');
+          this.spinner.hide();
         }
-        this.spinner.hide();
       },
       () => this.spinner.hide()
     );
@@ -915,12 +934,191 @@ export class MisGestionesDetalleComponent implements OnInit {
             email: '',
             codUso: ''
           });
+          this.loadCredito();
+          this.showNewEmail = false;
         } else {
           Swal.fire('Correo', 'No se pudo registrar el correo.', 'error');
+          this.spinner.hide();
         }
-        this.spinner.hide();
       },
       () => this.spinner.hide()
+    );
+  }
+
+
+  listarTipoviviendas() {
+    this.tablaMaestraService.listarTipoViviendas().subscribe(
+      response => {
+        this.tipoViviendas = response;
+      },
+      error => console.log(error)
+    );
+  }
+
+
+  listarTipoSecciones() {
+    this.tablaMaestraService.listarTipoSecciones().subscribe(
+      response => {
+        this.tipoSecciones = response;
+      },
+      error => console.log(error)
+    );
+  }
+
+  listarTipoZonas() {
+    this.tablaMaestraService.listarTipoZonas().subscribe(
+      response => {
+        this.tipoZonas = response;
+      },
+      error => console.log(error)
+    );
+  }
+
+  listarTipoSectores() {
+    this.tablaMaestraService.listarTipoSectores().subscribe(
+      response => {
+        this.tiposSectores = response;
+      },
+      error => console.log(error)
+    );
+  }
+
+  listarDepartamentos() {
+    this.ubigeoService.listarDepartamentos().subscribe(
+      response => {
+        this.departamentos = response;
+      },
+      error => console.log(error)
+    );
+  }
+
+  cambioManzana(event: any) {
+    const value = event.target.value;
+    if (value.length > 0) {
+      this.formDireccion.controls.lote.setValidators(
+        Validators.compose([
+          Validators.required
+        ]),
+      );
+      this.formDireccion.controls.lote.updateValueAndValidity();
+    } else {
+      this.formDireccion.controls.lote.clearValidators();
+      this.formDireccion.controls.lote.updateValueAndValidity();
+      this.formDireccion.controls.lote.setValue('');
+    }
+  }
+
+  cambioTipoSeccion(event: any) {
+    const value = event.target.value;
+    if (Number(value) !== 0) {
+      this.formDireccion.controls.numeroSeccion.setValidators(
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(CONST.C_STR_EXP_REGULAR_NUMERO)
+        ]),
+      );
+      this.formDireccion.controls.numeroSeccion.updateValueAndValidity();
+      const item = this.tipoSecciones.find(v => v.codItem == value);
+      this.$sectionName = item ? item.descripcion : 'Sección';
+    } else {
+      this.formDireccion.controls.numeroSeccion.clearValidators();
+      this.formDireccion.controls.numeroSeccion.updateValueAndValidity();
+      this.formDireccion.controls.numeroSeccion.setValue('');
+      this.$sectionName = 'Sección';
+    }
+  }
+
+  cambioTipoZona(event: any) {
+    const value = event.target.value;
+    if (Number(value) !== 0) {
+      const item = this.tipoZonas.find(v => v.codItem == value);
+      this.$zoneName = item ? item.descripcion : 'Zona';
+    } else {
+      this.$zoneName = 'Zona';
+    }
+  }
+
+  cambioTipoSector(event: any) {
+    const value = event.target.value;
+    if (Number(value) !== 0) {
+      this.formDireccion.controls.nombreSector.setValidators(
+        Validators.compose([
+          Validators.required
+        ]),
+      );
+      this.formDireccion.controls.nombreSector.updateValueAndValidity();
+      const item = this.tiposSectores.find(v => v.codItem == value);
+      this.$sectorName = item ? item.descripcion : 'Sector';
+    } else {
+      this.formDireccion.controls.nombreSector.clearValidators();
+      this.formDireccion.controls.nombreSector.updateValueAndValidity();
+      this.formDireccion.controls.nombreSector.setValue('');
+      this.$sectorName = 'Sector';
+    }
+  }
+
+  listarProvincias() {
+    this.provincias = [];
+    this.distritos = [];
+    this.formDireccion.controls.provincia.setValue(null);
+    this.formDireccion.controls.distrito.setValue(null);
+
+    const codDepartamento = this.formDireccion.controls.departamento.value;
+    if (codDepartamento) {
+      this.ubigeoService.listarProvincias(codDepartamento).subscribe(
+        response => {
+          this.provincias = response;
+        },
+        error => console.log(error)
+      );
+    }
+  }
+
+  listarDistritos() {
+    this.distritos = [];
+    this.formDireccion.controls.distrito.setValue(null);
+    const codDepartamento = this.formDireccion.controls.departamento.value;
+    const codProvincia = this.formDireccion.controls.provincia.value;
+    if (codDepartamento && codProvincia) {
+      this.ubigeoService.listarDistritos(codDepartamento, codProvincia).subscribe(
+        response => {
+          this.distritos = response;
+        },
+        error => console.log(error)
+      );
+    }
+  }
+
+  guardarDireccion() {
+    if (this.formDireccion.invalid) {
+      Swal.fire('Direccion', 'Debe ingresar los datos obligatorios.', 'warning');
+      return;
+    }
+    this.spinner.show();
+    const {departamento, distrito, provincia, ...address} = this.formDireccion.getRawValue();
+    address.personaId = this.socio.id;
+    address.ubigeo = `${departamento}${distrito}${provincia}`;
+    console.log(address);
+
+    this.direccionService.guardar(address).subscribe(
+      res => {
+        if (res.exito) {
+          Swal.fire('Dirección', res.mensaje, 'success');
+          this.$sectionName = 'Sección';
+          this.$zoneName = 'Zona';
+          this.$sectorName = 'Sector';
+          this.formDireccion.reset();
+          this.loadCredito();
+          this.showNewAddress = false;
+        } else {
+          Swal.fire('Dirección', res.mensaje, 'error');
+          this.spinner.hide();
+        }
+      },
+      err => {
+        Swal.fire('Dirección', err.mensaje, 'error');
+        this.spinner.hide();
+      }
     );
   }
 }
