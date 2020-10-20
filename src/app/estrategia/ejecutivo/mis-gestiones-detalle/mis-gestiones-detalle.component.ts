@@ -23,6 +23,13 @@ import {EjecutivoCartera} from '../../../models/ejecutivo-cartera';
 import {Tarea} from '../../../interfaces/tarea';
 import {EjecutivoAsignacion} from '../../../interfaces/ejecutivo-asignacion';
 import {EventosService} from '../../../servicios/eventos.service';
+import {TelefonoService} from '../../../servicios/telefono.service';
+import {isNullOrUndefined} from "util";
+import {TipoNotificacion} from '../../../models/tipo-notificacion';
+import {TipoNotificacionService} from '../../../servicios/tipo-notificacion.service';
+import {EmailService} from '../../../servicios/email.service';
+import {UbigeoService} from '../../../servicios/sistema/ubigeo.service';
+import {DireccionService} from '../../../servicios/direccion.service';
 
 @Component({
   selector: 'app-mis-gestiones-detalle',
@@ -35,6 +42,9 @@ export class MisGestionesDetalleComponent implements OnInit {
   formRegistrarAcuerdo: FormGroup;
   formTarea: FormGroup;
   formCorreo: FormGroup;
+  formTelefono: FormGroup;
+  formEmail: FormGroup;
+  formDireccion: FormGroup;
 
   creditoId: any;
   credito: Credito;
@@ -64,6 +74,16 @@ export class MisGestionesDetalleComponent implements OnInit {
   showNewTask = false;
   showNewEmail = false;
   $body: string;
+  showNewPhone = false;
+
+  typePhone = '01';
+  max = 9;
+  $fijo = 2;
+  $movil = 1;
+
+  tipoNotificaciones: TipoNotificacion[] = [];
+  tiposUsoTelefono: TablaMaestra[] = [];
+  tipoUsoEmail: TablaMaestra[] = [];
 
   constructor(
     public auth: AutenticacionService,
@@ -74,7 +94,12 @@ export class MisGestionesDetalleComponent implements OnInit {
     private formBuilder: FormBuilder,
     private tablaMaestraService: MaestroService,
     private asignacionCarteraService: AsignacionCarteraService,
-    private eventosService: EventosService
+    private eventosService: EventosService,
+    private telefonoService: TelefonoService,
+    private tipoNotificacionService: TipoNotificacionService,
+    private emailService: EmailService,
+    private ubigeoService: UbigeoService,
+    private direccionService: DireccionService,
   ) {
     activatedRoute.params.subscribe(({creditoId}) => this.creditoId = creditoId);
   }
@@ -89,6 +114,9 @@ export class MisGestionesDetalleComponent implements OnInit {
     this.loadlistaAcuerdos();
     this.listarTipoActividades();
     this.listarTablero();
+    this.loadTipoNotificaciones();
+    this.loadTipoUsoTelefono();
+    this.loadTipoUsoEmail();
 
     if (this.creditoId) {
       this.loadCredito();
@@ -140,6 +168,43 @@ export class MisGestionesDetalleComponent implements OnInit {
       checkFechaRecordatorio: [false],
       notificacion: [false],
       correo: [false],
+    });
+
+    this.formTelefono = this.formBuilder.group({
+      tipo: [this.$movil, Validators.required],
+      operador: ['', Validators.required],
+      numero: ['', [Validators.required, Validators.minLength(this.max)]],
+      codCiudad: [''],
+      codTipoNotificacion: ['', [Validators.required]],
+      codUso: ['', [Validators.required]],
+    });
+
+    this.formEmail = this.formBuilder.group({
+      email: ['', [
+        Validators.required,
+        Validators.email
+      ]],
+      codTipoNotificacion: ['', [Validators.required]],
+      codUso: ['', [Validators.required]],
+    });
+
+    this.formDireccion = this.formBuilder.group({
+      tipoDireccion: ['', Validators.required],
+      tipoVivienda: ['', Validators.required],
+      tipoVia: ['', Validators.required],
+      nombreVia: ['', Validators.required],
+      numero: [''],
+      manzana: [''],
+      lote: [''],
+      tipoSeccion: [''],
+      numeroSeccion: [''],
+      tipoZona: ['', Validators.required],
+      nombreZona: ['', Validators.required],
+      tipoSector: [''],
+      nombreSector: [''],
+      departamento: ['', Validators.required],
+      provincia: ['', Validators.required],
+      distrito: ['', Validators.required],
     });
 
     this.$body = `\n${ this.auth.loggedUser.alias}\n${ this.auth.loggedUser.email }\nEjecutivo de Negocio.`;
@@ -728,5 +793,134 @@ export class MisGestionesDetalleComponent implements OnInit {
   getNameTipoDireccion(tipoDireccion: string) {
     const item = this.tipoDirecciones.find(i => i.codItem == tipoDireccion);
     return item ? item.descripcion : '';
+  }
+
+  guardarTetefono() {
+    const phone: Telefono = this.formTelefono.getRawValue();
+    phone.personaId = this.socio.id;
+    const tel = this.socio.telefonos.find(v => v.codTipoNotificacion == phone.codTipoNotificacion && v.numero == phone.numero);
+    if (tel) {
+      Swal.fire('Telefono', 'EL teléfono ya esta asociada a una notificación', 'warning');
+      return;
+    }
+    this.spinner.show();
+    this.telefonoService.guardar(phone).subscribe(
+      res => {
+        if (res.exito) {
+          Swal.fire('Telefono', res.mensaje, 'success');
+          this.resetFormTelefono();
+        } else {
+          Swal.fire('Telefono', res.mensaje, 'error');
+        }
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+  }
+
+  resetFormTelefono() {
+    this.formTelefono.reset();
+    this.formTelefono.controls.tipo.setValue(this.$movil);
+    this.formTelefono.controls.codCiudad.setValue('');
+    this.formTelefono.controls.codTipoNotificacion.setValue('');
+    this.formTelefono.controls.codUso.setValue('');
+  }
+
+  cambioSelectTelefono() {
+    const select = this.formTelefono.controls.codTipoNotificacion.value;
+    if (isNullOrUndefined(select) || select == '') {
+      this.formTelefono.controls.numero.reset();
+      this.formTelefono.controls.codCiudad.reset();
+    }
+  }
+
+  get tipoNotificacionesTelefono() {
+    return this.tipoNotificaciones.filter(v => [1, 2, 3, 4, 7].includes(v.codTipoNotificacion));
+  }
+
+  get tipoNotificacionesEmails() {
+    return this.tipoNotificaciones.filter(v => [5, 6].includes(v.codTipoNotificacion));
+  }
+
+
+  private loadTipoNotificaciones() {
+    this.tipoNotificacionService.getAll().subscribe(
+      res => this.tipoNotificaciones = res
+    );
+  }
+
+  loadTipoUsoTelefono() {
+    this.tablaMaestraService.listarTipoUso().subscribe(
+      res => this.tiposUsoTelefono = res
+    );
+  }
+
+  changeTypeTelefono(event: any) {
+    this.typePhone = event;
+    this.formTelefono.controls.numero.reset();
+    this.formTelefono.controls.codCiudad.reset();
+    let flag = null;
+    if (event == this.$movil) {
+      this.max = 9;
+    } else {
+      this.max = 6;
+      flag = Validators.required;
+    }
+    this.formTelefono.controls.numero.setValidators([Validators.required, Validators.minLength(this.max)]);
+    this.formTelefono.controls.codCiudad.setValidators(flag);
+    this.formTelefono.controls.numero.updateValueAndValidity();
+    this.formTelefono.controls.codCiudad.updateValueAndValidity();
+  }
+
+  cambioSelectEmails() {
+    const select = this.formEmail.controls.codTipoNotificacion.value;
+    if (isNullOrUndefined(select) || select == '') {
+      this.formEmail.controls.email.setValue('');
+    }
+  }
+
+  private loadTipoUsoEmail() {
+    this.tablaMaestraService.loadTipoUsoEmail().subscribe(
+      res => this.tipoUsoEmail = res
+    );
+  }
+
+
+  guardarEmail() {
+    if (this.formEmail.invalid) {
+      Swal.fire('Correo', 'Debe ingresar los datos obligatorios', 'warning');
+      return;
+    }
+    const {codTipoNotificacion, email, codUso} = this.formEmail.getRawValue();
+    const notity = this.tipoNotificaciones.find(v => v.codTipoNotificacion == codTipoNotificacion);
+    const correo = this.socio.correos.find(i => i.email == email && i.codTipoNotificacion == codTipoNotificacion);
+    if (correo) {
+      Swal.fire('Correo', 'El correo ya se encuentra registrado para el tipo de notificación seleccionada.', 'warning');
+      return;
+    }
+    const emailDto: Email = {
+      personaId: this.socio.id,
+      codTipoNotificacion,
+      email,
+      tipoNotificacion: notity.nombre,
+      tipo: codUso
+    };
+    this.spinner.show();
+    this.emailService.crear(emailDto).subscribe(
+      res => {
+        if (res && res.emailId) {
+          Swal.fire('Correo', 'Se registro el correo con éxito.', 'success');
+          this.formEmail.reset({
+            codTipoNotificacion: '',
+            email: '',
+            codUso: ''
+          });
+        } else {
+          Swal.fire('Correo', 'No se pudo registrar el correo.', 'error');
+        }
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
   }
 }

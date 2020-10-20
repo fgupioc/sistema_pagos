@@ -477,6 +477,107 @@
               <ng-template ngbTabContent>
                 <div class="row" *ngIf="socio">
                   <div class="col-12">
+                    <div class="row other-btns mb-3">
+                      <div class="col-12">
+                        <a class="btn btn-social btn-instagram mr-4" (click)="showNewPhone = true;">
+                          <i class="fa fa-phone"></i> Nuevo Teléfono
+                        </a>
+                      </div>
+                    </div>
+                    <ng-container *ngIf="showNewPhone">
+                      <div class="row" [formGroup]="formTelefono">
+                        <div class="col-12 col-md-6">
+                          <div class="form-group">
+                            <select class="form-control" formControlName="codTipoNotificacion" (ngModelChange)="cambioSelectTelefono()" [ngClass]="
+                              {
+                              'is-invalid': formTelefono.controls['codTipoNotificacion'].touched && formTelefono.controls['codTipoNotificacion'].errors
+                              }
+                              ">
+                              <option value="">Tipo Notificacion</option>
+                              <option *ngFor="let item of tipoNotificacionesTelefono" [value]="item.codTipoNotificacion">{{ item.nombre }}</option>
+                            </select>
+                            <div class="invalid-feedback">
+                              <span class="d-block" *ngIf="formTelefono.get('codTipoNotificacion').hasError('required')"> El tipo de notificacion es obligatorio.</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                          <div class="form-group">
+                            <select class="form-control" formControlName="codUso" (ngModelChange)="cambioSelectTelefono()" [ngClass]="
+                              {
+                              'is-invalid': formTelefono.controls['codUso'].touched && formTelefono.controls['codUso'].errors
+                              }
+                              ">
+                              <option value="">Tipo Uso</option>
+                              <option *ngFor="let item of tiposUsoTelefono" [value]="item.codItem">{{ item.descripcion }}</option>
+                            </select>
+                            <div class="invalid-feedback">
+                              <span class="d-block" *ngIf="formTelefono.get('codUso').hasError('required')"> El tipo de uso es obligatorio.</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                          <div class="form-group">
+                            <select class="form-control" formControlName="tipo" (ngModelChange)="changeTypeTelefono($event)">
+                              <option [value]="$movil">Celular</option>
+                              <option [value]="$fijo">Fijo</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                          <div class="form-group">
+                            <select class="form-control" formControlName="operador" [ngClass]="
+            {
+            'is-invalid': formTelefono.controls['operador'].touched && formTelefono.controls['operador'].errors
+            }
+            ">
+                              <option value="">Seleccionar</option>
+                              <option value="1">Claro</option>
+                              <option value="2">Movistar</option>
+                              <option value="3">Entel</option>
+                              <option value="4">Bitel</option>
+                            </select>
+                            <div class="invalid-feedback">
+                              <span class="d-block" *ngIf="formTelefono.get('operador').hasError('required')"> El operador es obligatorio.</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div  class="col-12 col-md-6" *ngIf="typePhone == $fijo">
+                          <div class="form-group">
+                            <input Number type="text" class="form-control" placeholder="codCiudad" formControlName="codCiudad" maxlength="3" [ngClass]="
+            {
+            'is-invalid': formTelefono.controls['codCiudad'].touched && formTelefono.controls['codCiudad'].errors
+            }
+            ">
+                            <div class="invalid-feedback">
+                              <span class="d-block" *ngIf="formTelefono.get('codCiudad').hasError('required')"> El código ciudad es obligatorio.</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div  [class]="typePhone == $movil ? 'col-6' : 'col-12 col-md-6'">
+                          <div class="form-group">
+                            <input Number type="text" class="form-control" placeholder="Número Telefóno" [maxlength]="max" formControlName="numero" [ngClass]="
+            {
+            'is-invalid': formTelefono.controls['numero'].touched && formTelefono.controls['numero'].errors
+            }
+            ">
+
+                            <div class="invalid-feedback">
+                              <span class="d-block" *ngIf="formTelefono.get('numero').hasError('required')"> El número de telefono es obligatorio.</span>
+                              <span class="d-block" *ngIf="formTelefono.get('numero').hasError('minlength')"> El número solo acepta {{ max }} caracteres.</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <div class="form-group text-center">
+                            <button type="button" class="btn btn-success mr-2" [disabled]="formTelefono.invalid" (click)="guardarTetefono()">Guardar</button>
+                            <button type="button" class="btn btn-danger" (click)="showNewPhone = false; resetFormTelefono()">Cancelar</button>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                  <div class="col-12">
                     <div class="table-responsive">
                       <table class="table table-bordered">
                         <thead>
@@ -506,6 +607,67 @@
             <ngb-tab title="Correos">
               <ng-template ngbTabContent>
                 <div class="row" *ngIf="socio">
+                  <div class="col-12">
+                    <div class="row other-btns mb-3">
+                      <div class="col-12">
+                        <a class="btn btn-social btn-instagram mr-4" (click)="showNewEmail = true;">
+                          <i class="fa fa-envelope"></i> Nuevo Correo
+                        </a>
+                      </div>
+                    </div>
+                    <ng-container *ngIf="showNewEmail">
+                      <div class="row" [formGroup]="formEmail">
+                        <div class="col-12 col-md-3">
+                          <div class="form-group">
+                            <select class="form-control" formControlName="codTipoNotificacion" (ngModelChange)="cambioSelectEmails()" [ngClass]="
+                              {
+                              'is-invalid': formEmail.controls['codTipoNotificacion'].touched && formEmail.controls['codTipoNotificacion'].errors
+                              }
+                              ">
+                              <option value="">Seleccione</option>
+                              <option *ngFor="let item of tipoNotificacionesEmails" [value]="item.codTipoNotificacion">{{ item.nombre }}</option>
+                            </select>
+                            <div class="invalid-feedback">
+                              <span class="d-block" *ngIf="formEmail.get('codTipoNotificacion').hasError('required')"> El tipo de notificacion es obligatorio.</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                          <div class="form-group">
+                            <select class="form-control" formControlName="codUso" [ngClass]="
+                              {
+                              'is-invalid': formEmail.controls['codUso'].touched && formEmail.controls['codUso'].errors
+                              }
+                              ">
+                              <option value="">Tipo Uso</option>
+                              <option *ngFor="let item of tipoUsoEmail" [value]="item.codItem">{{ item.descripcion }}</option>
+                            </select>
+                            <div class="invalid-feedback">
+                              <span class="d-block" *ngIf="formEmail.get('codUso').hasError('required')"> El tipo de uso es obligatorio.</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                          <div class="form-group mb-3">
+                            <input Uppercase type="email" class="form-control" placeholder="Correo electrónico" formControlName="email" [ngClass]="
+                          {
+                          'is-invalid': formEmail.controls['email'].touched && formEmail.controls['email'].errors
+                          }
+                          ">
+
+                            <div class="invalid-feedback">
+                              <span class="d-block" *ngIf="formEmail.get('email').hasError('required')"> El corre electrónico es obligatorio.</span>
+                              <span class="d-block" *ngIf="formEmail.get('email').hasError('email')">El correo electrónico no es válido.</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 text-center mb-4">
+                          <button type="button" class="btn btn-success mr-2" (click)="guardarEmail()" [disabled]="formEmail.invalid">Guardar</button>
+                          <button type="button" class="btn btn-danger" (click)="this.showNewEmail = false;  formEmail.reset({ codTipoNotificacion: '', email: '', codUso: ''}); " >Cancelar</button>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
                   <div class="col-12">
                     <div class="table-responsive">
                       <table class="table table-bordered">
