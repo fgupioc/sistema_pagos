@@ -124,11 +124,7 @@ export class CreditoSocioComponent implements OnInit {
           const state = this.router.getCurrentNavigation().extras.state;
           this.creditoId = creditoId;
           if (this.creditoId) {
-            if (state) {
-              this.credito = state.credito;
-            } else {
-              this.cargarCredito();
-            }
+            this.cargarCredito();
           } else {
             router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${this.creditoId}/detalle`);
           }
@@ -148,11 +144,7 @@ export class CreditoSocioComponent implements OnInit {
           const state = this.router.getCurrentNavigation().extras.state;
           this.creditoId = creditoId;
           if (this.creditoId) {
-            if (state) {
-              this.credito = state.credito;
-            } else {
-              this.cargarCredito();
-            }
+            this.cargarCredito();
           } else {
             router.navigateByUrl(`/auth/estrategia/asignacion-cartera/${ejecutivoId}/listado/${asignacionId}/detalle`);
           }
@@ -529,7 +521,7 @@ export class CreditoSocioComponent implements OnInit {
 
   get getCodeMoney() {
     const moneda = this.tipoMonedas.find(i => i.codItem == this.credito.codMoneda);
-    return moneda.strValor || '';
+    return moneda ? moneda.strValor : '';
   }
 
   tabSeleccionado(event: NgbTabChangeEvent) {
