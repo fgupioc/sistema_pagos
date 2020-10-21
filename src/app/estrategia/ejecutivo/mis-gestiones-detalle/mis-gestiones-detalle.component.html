@@ -359,7 +359,7 @@
                             </div>
                             <div class="col-12 col-md-6">
                               <div class="form-group">
-                                <label>Intervalo cotas (Días)</label>
+                                <label>Intervalo cuotas (Días)</label>
                                 <input Number type="text" class="form-control" formControlName="intervalo">
                               </div>
                             </div>
@@ -411,15 +411,15 @@
                         <th scope="col">Respuesta</th>
                         <th scope="col">Comentario</th>
                         <th scope="col">Fecha</th>
-                        <th scope="col">Ejecutivo</th>
+                        <th scope="col">Usuario</th>
                       </tr>
                       </thead>
                       <tbody>
                       <tr *ngFor="let item of acciones; let i = index">
-                        <th scope="row">
-                          <ng-container *ngIf="item.tipo == 1"><i class="fa fa-sign-in" aria-hidden="true"></i></ng-container>
-                          <ng-container *ngIf="item.tipo == 2"><i class="fa fa-envelope" aria-hidden="true"></i></ng-container>
-                          <ng-container *ngIf="item.tipo == 3"><i class="fa fa-bell" aria-hidden="true"></i></ng-container>
+                        <th scope="row" class="text-center">
+                          <ng-container *ngIf="item.tipo == 1"><span class="text-warning"><i class="fa fa-usd" aria-hidden="true"></i></span></ng-container>
+                          <ng-container *ngIf="item.tipo == 2"><span class="text-success"><i class="fa fa-envelope" aria-hidden="true"></i></span></ng-container>
+                          <ng-container *ngIf="item.tipo == 3"><span class="text-info"><i class="fa fa-bell" aria-hidden="true"></i></span></ng-container>
                         </th>
                         <td>
                           {{ item.gestionDescripcion }}
