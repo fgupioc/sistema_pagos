@@ -127,3 +127,8 @@ pre {
 .item-body .item-body-header .item-tools{
 
 }
+
+.container-list-tasks {
+  max-height: 410px;
+  overflow-y: auto;
+}

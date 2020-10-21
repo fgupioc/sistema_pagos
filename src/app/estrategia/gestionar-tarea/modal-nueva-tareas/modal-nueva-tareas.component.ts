@@ -139,15 +139,19 @@ export class ModalNuevaTareasComponent implements OnInit {
       this.$tarea.notificacion = false;
       this.$tarea.notificacionVencimiento = false;
     }
+
+    if (!this.$tarea.checkFechaVencimiento) {
+      this.$tarea.checkFechaVencimiento = false;
+    }
+
     this.$tarea.creditoId = this.credito.id;
-    console.log(this.$tarea);
     this.spinner.show();
     this.gestionAdministrativaService.actualizarTarea(this.$tarea).subscribe(
       res => {
         if (res.exito) {
           this.activeModal.dismiss(res);
         } else {
-          Swal.fire('Actualizar Tareas', res.mensaje, 'warning');
+          Swal.fire('Actualizar Tareas', res.mensaje ? res.mensaje : 'Error', 'warning');
           this.spinner.hide();
         }
       },
@@ -573,7 +577,6 @@ export class ModalNuevaTareasComponent implements OnInit {
           res => {
             if (res.exito) {
               Swal.fire('Cancelar Tarea', res.mensaje, 'success');
-              this.spinner.hide();
               this.activeModal.dismiss(res);
             } else {
               Swal.fire('Cancelar Tarea', res.mensaje, 'error');
