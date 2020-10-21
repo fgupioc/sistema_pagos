@@ -402,36 +402,42 @@
                    </div>
                  </div>
                   <div class="col-12">
-                    <table class="table table-bordered" id="listaGestiones">
-                      <thead>
-                      <tr class="text-center">
-                        <th scope="col">&nbsp;</th>
-                        <th scope="col">Acción</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Respuesta</th>
-                        <th scope="col">Comentario</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Usuario</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr *ngFor="let item of acciones; let i = index">
-                        <th scope="row" class="text-center">
-                          <ng-container *ngIf="item.tipo == 1"><span class="text-warning"><i class="fa fa-usd" aria-hidden="true"></i></span></ng-container>
-                          <ng-container *ngIf="item.tipo == 2"><span class="text-success"><i class="fa fa-envelope" aria-hidden="true"></i></span></ng-container>
-                          <ng-container *ngIf="item.tipo == 3"><span class="text-info"><i class="fa fa-bell" aria-hidden="true"></i></span></ng-container>
-                        </th>
-                        <td>
-                          {{ item.gestionDescripcion }}
-                        </td>
-                        <td>{{ item.target }}</td>
-                        <td>{{ item.respuestaDescripcion }}</td>
-                        <td> {{item.comentario}}</td>
-                        <td> {{item.fechaRegistro | date: 'd/M/yyyy'}}</td>
-                        <td> {{item.ejecutivoNombre}}</td>
-                      </tr>
-                      </tbody>
-                    </table>
+                   <div class="table-responsive">
+                     <table class="table table-bordered" id="listaGestiones">
+                       <thead>
+                       <tr class="text-center">
+                         <th scope="col">&nbsp;</th>
+                         <th scope="col">Acción</th>
+                         <th scope="col">Target</th>
+                         <th scope="col">Respuesta</th>
+                         <th scope="col">Comentario</th>
+                         <th scope="col">Fecha</th>
+                         <th scope="col">Usuario</th>
+                       </tr>
+                       </thead>
+                       <tbody>
+                       <tr *ngFor="let item of countries; let i = index">
+                         <th scope="row" class="text-center">
+                           <ng-container *ngIf="item.tipo == 1"><span class="text-warning"><i class="fa fa-usd" aria-hidden="true"></i></span></ng-container>
+                           <ng-container *ngIf="item.tipo == 2"><span class="text-success"><i class="fa fa-envelope" aria-hidden="true"></i></span></ng-container>
+                           <ng-container *ngIf="item.tipo == 3"><span class="text-info"><i class="fa fa-bell" aria-hidden="true"></i></span></ng-container>
+                         </th>
+                         <td>
+                           {{ item.gestionDescripcion }}
+                         </td>
+                         <td>{{ item.target }}</td>
+                         <td>{{ item.respuestaDescripcion }}</td>
+                         <td> {{item.comentario}}</td>
+                         <td> {{item.fechaRegistro | date: 'd/M/yyyy'}}</td>
+                         <td> {{item.ejecutivoNombre}}</td>
+                       </tr>
+                       </tbody>
+                     </table>
+                   </div>
+                    <div class="d-flex justify-content-center p-2" *ngIf="acciones.length > 10">
+                      <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" [boundaryLinks]="true" (pageChange)="refreshCountries()">
+                      </ngb-pagination>
+                    </div>
                   </div>
                 </div>
               </ng-template>

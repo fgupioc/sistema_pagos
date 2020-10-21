@@ -38,6 +38,11 @@ import {Ubigeo} from '../../../interfaces/ubigeo';
   styleUrls: ['./mis-gestiones-detalle.component.css']
 })
 export class MisGestionesDetalleComponent implements OnInit {
+  page = 1;
+  pageSize = 10;
+  collectionSize = 0;
+  countries: CreditoGestion[];
+
   form: FormGroup;
   formPlanPago: FormGroup;
   formRegistrarAcuerdo: FormGroup;
@@ -232,6 +237,8 @@ export class MisGestionesDetalleComponent implements OnInit {
       correo: ['', [Validators.required]],
       mensaje: [this.$body, [Validators.required]],
     });
+
+    this.refreshCountries();
   }
 
   listarTipoDirecciones() {
@@ -304,6 +311,8 @@ export class MisGestionesDetalleComponent implements OnInit {
       res => {
         if (res.exito) {
           this.acciones = res.acciones;
+          this.collectionSize = this.acciones.length;
+          this.refreshCountries();
         }
         this.spinner.hide();
       },
@@ -1120,5 +1129,11 @@ export class MisGestionesDetalleComponent implements OnInit {
         this.spinner.hide();
       }
     );
+  }
+
+  refreshCountries() {
+    this.countries = this.acciones
+      .map((country, i) => ({id_: i + 1, ...country}))
+      .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
 }
