@@ -19,4 +19,5 @@ export interface CreditoGestion {
   respuestaDescripcion?: string;
   acuerdosPago?: AcuerdoPago[];
   tipo?: number;
+  keyResp?: string;
 }

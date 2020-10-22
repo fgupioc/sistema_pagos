@@ -32,6 +32,8 @@ import {UbigeoService} from '../../../servicios/sistema/ubigeo.service';
 import {DireccionService} from '../../../servicios/direccion.service';
 import {Ubigeo} from '../../../interfaces/ubigeo';
 
+declare var $: any;
+
 @Component({
   selector: 'app-mis-gestiones-detalle',
   templateUrl: './mis-gestiones-detalle.component.html',
@@ -103,6 +105,8 @@ export class MisGestionesDetalleComponent implements OnInit {
   departamentos: Ubigeo[] = [];
   provincias: Ubigeo[] = [];
   distritos: Ubigeo[] = [];
+
+  acuerdosPagoTemp: AcuerdoPago[] = [];
 
   constructor(
     public auth: AutenticacionService,
@@ -311,6 +315,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       res => {
         if (res.exito) {
           this.acciones = res.acciones;
+          console.log(this.acciones);
           this.collectionSize = this.acciones.length;
           this.refreshCountries();
         }
@@ -1136,4 +1141,27 @@ export class MisGestionesDetalleComponent implements OnInit {
       .map((country, i) => ({id_: i + 1, ...country}))
       .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
+
+  showDetalle(i, item: CreditoGestion) {
+    if ($(`.item_${i}`).hasClass('hidden')) {
+      $(`.item-detalle`).addClass('hidden');
+      $(`.item_${i}`).removeClass('hidden');
+    } else {
+      $(`.item-detalle`).addClass('hidden');
+    }
+
+    if ($(`.tr_${i}`).hasClass('table-primary')) {
+      $(`.tr_${i}`).removeClass('table-primary');
+    } else {
+      $(`#listaGestiones tbody tr`).removeClass('table-primary');
+      $(`.tr_${i}`).addClass('table-primary');
+    }
+    this.acuerdosPagoTemp = [];
+    if (item.tipo == 1) {
+      if (item.codRespuesta == '008' || item.codRespuesta == '009') {
+        this.acuerdosPagoTemp = this.acuerdosPago.filter(value => String(value.grupo) == item.keyResp);
+      }
+    }
+  }
+
 }
