@@ -10,7 +10,8 @@
                   <div class="d-flex justify-content-between mb-2">
                     <h3>{{$tarea.nombre}}</h3>
                     <ng-container *ngIf="$tarea.estado == '1'">
-                      <button *ngIf="!editName && auth.loggedUser.id == $tarea.usuarioId" class="btn btn-sm btn-outline-info" (click)="editName ? editName = false : editName = true"><i class="fa fa-edit"></i></button>
+                      <button placement="top" ngbTooltip="Editar" *ngIf="!editName && auth.loggedUser.id == $tarea.usuarioId" class="btn btn-sm btn-outline-info"
+                              (click)="editName ? editName = false : editName = true"><i class="fa fa-edit"></i></button>
                     </ng-container>
                   </div>
                 </ng-container>
@@ -36,7 +37,6 @@
                     </div>
                   </ng-container>
                 </small>
-
               </div>
             </div>
             <div class="col-12">
@@ -44,7 +44,7 @@
                 <div class="d-flex justify-content-between mb-2">
                   <label>Descripción</label>
                   <ng-container *ngIf="$tarea.estado == '1'">
-                  <button *ngIf="!editDescription" class="btn btn-sm btn-outline-info" (click)="editDescription = true"><i class="fa fa-edit"></i></button>
+                  <button *ngIf="!editDescription" placement="top" ngbTooltip="Editar" class="btn btn-sm btn-outline-info" (click)="editDescription = true"><i class="fa fa-edit"></i></button>
                   </ng-container>
                 </div>
                 <ng-container *ngIf="editDescription">
@@ -53,18 +53,16 @@
                 <ng-container *ngIf="!editDescription">
                   <p>{{ $tarea.descripcion }}</p>
                 </ng-container>
-
               </div>
             </div>
             <div class="col-12">
               <div class="form-group">
                 <div class="d-flex justify-content-between mb-2">
                   <label>Vencimiento</label>
-                  <ng-container *ngIf="$tarea.estado == '1'">
-                  <button *ngIf="!editVencimiento" class="btn btn-sm btn-outline-info" (click)="newVencimiento()"><i class="fa fa-edit"></i></button>
-                  </ng-container>
+                  <button *ngIf="!editVencimiento && $tarea.estado =='1'" placement="top" ngbTooltip="Editar" class="btn btn-sm btn-outline-info" (click)="newVencimiento()"><i class="fa fa-edit"></i></button>
+                  <button *ngIf="editVencimiento" placement="top" ngbTooltip="Cerrar" (click)="editVencimiento = false" class="btn btn-sm btn-outline-primary position-absolute" style="right: 5px; top:0"><i class="fa fa-close"></i></button>
                 </div>
-                <ng-container *ngIf="!editVencimiento && $tarea.fechaVencimiento">
+                <ng-container *ngIf="!editVencimiento">
                   <div class="d-flex justify-content-between">
                     <label class="container" style="font-size: 16px; font-weight: bold">
                       {{ $tarea.fechaVencimiento  | date : 'dd MMM yyyy' }}
@@ -72,20 +70,19 @@
                       <input type="checkbox" [(ngModel)]="$tarea.checkFechaVencimiento" [disabled]="$tarea.estado != '1'">
                       <span class="checkmark"></span>
                     </label>
-                    <span class="pull-right-container">
-                  <small *ngIf="checedCumplido == 0" class="badge badge-info">PENDIENTE</small>
-                  <small *ngIf="checedCumplido == 1" class="badge badge-success">CUMPLIDA</small>
-                  <small *ngIf="checedCumplido == 2" class="badge badge-danger">PLAZO VENCIDO</small>
-                </span>
+                    <span class="pull-right-container" *ngIf="$tarea.estado == '1'">
+                      <small *ngIf="checedCumplido == 0" class="badge badge-info">PENDIENTE</small>
+                      <small *ngIf="checedCumplido == 1" class="badge badge-success">CUMPLIDA</small>
+                      <small *ngIf="checedCumplido == 2" class="badge badge-danger">PLAZO VENCIDO</small>
+                    </span>
                   </div>
                 </ng-container>
-                <ng-container *ngIf="editVencimiento || !$tarea.fechaVencimiento">
+                <ng-container *ngIf="editVencimiento">
                   <div class="row">
                     <div class="col-12">
                       <div class="form-group">
                         <div class="text-center position-relative">
                           <label>Cambiar fecha de vencimiento</label>
-                          <button (click)="editVencimiento = false" class="btn btn-sm btn-outline-primary position-absolute" style="right: 5px; top:0"><i class="fa fa-close"></i></button>
                         </div>
                       </div>
                     </div>
@@ -117,7 +114,6 @@
                   <input #checkRecord type="checkbox" [(ngModel)]="$tarea.checkFechaRecordatorio" (click)="changeRecordatorio($event, checkRecord)" [disabled]="$tarea.estado != '1'">
                   <span class="checkmark"></span>
                 </label>
-
                 <input #fechaRec [disabled]="!$tarea.checkFechaRecordatorio || $tarea.estado !='1'" type="date" class="form-control input-date mr-2" [(ngModel)]="$tarea.fechaRecordatorio" style="width: 140px"
                        (ngModelChange)="chengeFehcaRecordatorio($event, fechaRec)">
                 <input [disabled]="!$tarea.checkFechaRecordatorio || $tarea.estado !='1'" type="time" class="form-control input-date" [(ngModel)]="$tarea.horaRecordatorio" style="width: 96px">
@@ -272,7 +268,6 @@
                 <ng-container *ngIf="$tarea.estado =='1'">
                 <button class="btn btn-sm btn-outline-info" (click)="showDropzone ? showDropzone = false : showDropzone = true"><i class="fa fa-eye"></i></button>
                 </ng-container>
-
               </div>
               <div class="form-group" *ngIf="showDropzone">
                 <!--  [accept]="'image/*'" -->
@@ -374,7 +369,7 @@
                 <div class="d-flex justify-content-between mb-2">
                   <label>Actividades</label>
                 </div>
-                <ng-container>
+                <ng-container *ngIf="$tarea.estado == '1'">
                   <div class="new-comment mb-4">
                     <div class="member member-no-menu" *ngIf="userLoggedName">
                       <span class="member-initials text-uppercase" [title]="userLoggedName">{{ userLoggedName | slice: 0:2 }}</span>

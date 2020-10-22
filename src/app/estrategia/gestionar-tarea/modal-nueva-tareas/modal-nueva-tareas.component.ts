@@ -187,11 +187,14 @@ export class ModalNuevaTareasComponent implements OnInit {
   newVencimiento() {
     if (!this.tarea.fechaVencimiento) {
       this.tarea.fechaVencimiento = moment(new Date()).format('YYYY-MM-DD');
-      this.tarea.horaVencimiento = moment(new Date()).format('HH:mm');
+      this.tarea.horaVencimiento = moment(new Date()).add(1, 'hours').format('HH:mm');
+      this.$tarea.fechaVencimiento = moment(new Date()).format('YYYY-MM-DD');
+      this.$tarea.horaVencimiento = moment(new Date()).add(1, 'hours').format('HH:mm');
+      this.editVencimiento = false;
     } else {
-      this.tarea.fechaVencimiento = moment(this.tarea.fechaVencimiento).format('YYYY-MM-DD');
+      this.$tarea.fechaVencimiento = moment(this.tarea.fechaVencimiento).format('YYYY-MM-DD');
+      this.editVencimiento = true;
     }
-    this.editVencimiento = true;
   }
 
   get checedCumplido() {
@@ -205,7 +208,7 @@ export class ModalNuevaTareasComponent implements OnInit {
   }
 
   estaFechaVencida() {
-    return moment().isAfter(moment(this.$tarea.fechaVencimiento).format('YYYY-MM-DD'));
+    return moment().isAfter(moment(this.$tarea.fechaVencimiento + ' ' + this.$tarea.horaVencimiento));
   }
 
   changeCredito(event: any) {
