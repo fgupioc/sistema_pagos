@@ -101,6 +101,7 @@ export class ModalNuevaTareasComponent implements OnInit {
       this.listarArchivosPorTarea();
       const task = Object.assign({}, this.tarea);
       this.$tarea = task;
+      this.creditoId = this.tarea.creditoId;
       if (this.$tarea.socioId) {
         this.obtenerSocio(this.$tarea.socioId);
       }
@@ -223,7 +224,6 @@ export class ModalNuevaTareasComponent implements OnInit {
     if (item) {
       this.credito = item;
       this.creditoId = item.id;
-      this.obtenerSocio(item.socioId);
       this.$tarea.asignacionId = item.asignacionId;
       this.$tarea.socioId = item.socioId;
     } else {
@@ -237,8 +237,10 @@ export class ModalNuevaTareasComponent implements OnInit {
       res => {
         if (res.exito) {
           this.socio = res.objeto;
-          this.credito = this.creditos.find(i => i.asignacionId == this.$tarea.asignacionId);
+          /*
+          this.credito = this.creditos.find(i => i.carteraId == this.$tarea.creditoId);
           this.creditoId = this.credito ? this.credito.id : '';
+           */
           this.formRecordatorio.controls.tipoActividad.setValue(this.$tarea.codActividad);
           if (this.auth.loggedUser.id != this.$tarea.usuarioId || this.$tarea.estado != '1') {
             this.showItem = this.$tarea.codActividad;

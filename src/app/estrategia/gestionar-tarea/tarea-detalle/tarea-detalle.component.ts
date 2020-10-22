@@ -199,4 +199,10 @@ export class TareaDetalleComponent implements OnInit {
   getClassPriority(prioridad: any) {
     return FUNC.getClassPriority(prioridad);
   }
+
+  getCodCredito(creditoId: number) {
+    const credito = this.$creditos.find(i => i.id == creditoId);
+
+    return credito ? credito.nroCredito : '';
+  }
 }
