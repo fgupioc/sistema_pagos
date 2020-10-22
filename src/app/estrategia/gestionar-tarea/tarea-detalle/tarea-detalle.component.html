@@ -24,6 +24,10 @@
       <div class="card">
         <div class="card-header">
           <span>Lista de tareas</span>
+          <select class="form-control" (change)="changeEnLista($event)">
+            <option value="">Todos</option>
+            <option *ngFor="let credito of $creditos" [value]="credito.id"> {{ credito.nroCredito }}</option>
+          </select>
           <!--div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool text-white"><i class="fa fa-times"></i></button>
           </div-->
@@ -90,6 +94,10 @@
       <div class="card">
         <div class="card-header">
           <span>En proceso</span>
+          <select class="form-control" (change)="changeProceso($event)">
+            <option value="">Todos</option>
+            <option *ngFor="let credito of $creditos" [value]="credito.id"> {{ credito.nroCredito }}</option>
+          </select>
         </div>
         <div class="card-body">
           <div class="container-list-tasks">
@@ -138,6 +146,10 @@
       <div class="card">
         <div class="card-header">
           <span>Terminado</span>
+          <select class="form-control" (change)="changeTerminado($event)">
+            <option value="">Todos</option>
+            <option *ngFor="let credito of $creditos" [value]="credito.id"> {{ credito.nroCredito }}</option>
+          </select>
         </div>
         <div class="card-body">
           <div class="container-list-tasks">

@@ -21,8 +21,11 @@ import {EventosService} from '../../../servicios/eventos.service';
 export class TareaDetalleComponent implements OnInit {
   tarjeta: EjecutivoAsignacion;
   $tareasLista: Tarea[] = [];
+  $tareasListaTemp: Tarea[] = [];
   $tareasProceso: Tarea[] = [];
+  $tareasProcesoTemp: Tarea[] = [];
   $tareasTerminadas: Tarea[] = [];
+  $tareasTerminadasTemp: Tarea[] = [];
   private currentDraggableEvent: DragEvent;
   newTask = false;
   taskName: string;
@@ -175,8 +178,11 @@ export class TareaDetalleComponent implements OnInit {
           this.loadCreditosPorEjecutivo(String(this.tarjeta.ejecutivoId));
           if (this.tarjeta.tareas.length > 0) {
             this.$tareasLista = this.tarjeta.tareas.filter(i => i.etapaActual == CONST.C_STR_ETAPA_EN_LISTA);
+            this.$tareasListaTemp = this.tarjeta.tareas.filter(i => i.etapaActual == CONST.C_STR_ETAPA_EN_LISTA);
             this.$tareasProceso = this.tarjeta.tareas.filter(i => i.etapaActual == CONST.C_STR_ETAPA_EN_PROCESO);
+            this.$tareasProcesoTemp = this.tarjeta.tareas.filter(i => i.etapaActual == CONST.C_STR_ETAPA_EN_PROCESO);
             this.$tareasTerminadas = this.tarjeta.tareas.filter(i => i.etapaActual == CONST.C_STR_ETAPA_TERMINADA);
+            this.$tareasTerminadasTemp = this.tarjeta.tareas.filter(i => i.etapaActual == CONST.C_STR_ETAPA_TERMINADA);
           }
         } else {
           Swal.fire('Tareas', res.mensaje, 'warning');
@@ -204,5 +210,32 @@ export class TareaDetalleComponent implements OnInit {
     const credito = this.$creditos.find(i => i.id == creditoId);
 
     return credito ? credito.nroCredito : '';
+  }
+
+  changeEnLista(event: any) {
+    const value = event.target.value;
+    if (value) {
+      this.$tareasLista = this.$tareasListaTemp.filter(i => i.creditoId == value);
+    } else {
+      this.$tareasLista = this.$tareasListaTemp;
+    }
+  }
+
+  changeProceso(event: any) {
+    const value = event.target.value;
+    if (value) {
+      this.$tareasProceso = this.$tareasProcesoTemp.filter(i => i.creditoId == value);
+    } else {
+      this.$tareasProceso = this.$tareasProcesoTemp;
+    }
+  }
+
+  changeTerminado(event: any) {
+    const value = event.target.value;
+    if (value) {
+      this.$tareasTerminadas = this.$tareasTerminadasTemp.filter(i => i.creditoId == value);
+    } else {
+      this.$tareasTerminadas = this.$tareasTerminadasTemp;
+    }
   }
 }
