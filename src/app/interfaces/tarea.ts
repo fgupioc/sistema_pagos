@@ -28,4 +28,5 @@ export interface Tarea {
   socioId?: number;
   creditoId?: number;
   codActividad?: string;
+  condicion?: string;
 }

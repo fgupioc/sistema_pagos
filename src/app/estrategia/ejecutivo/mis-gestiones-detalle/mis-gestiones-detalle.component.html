@@ -73,105 +73,105 @@
                     </div>
                     <div class="col-12">
                       <div class="container-works mt-2" *ngIf="showNewTask">
-                        <ng-container >
+                        <ng-container>
                           <div class="row" [formGroup]="formTarea">
-                          <div class="col-12">
-                            <div class="form-group text-center">
-                              <h4 class="font-weight-bold">Crear Tarea</h4>
+                            <div class="col-12">
+                              <div class="form-group text-center">
+                                <h4 class="font-weight-bold">Crear Tarea</h4>
+                              </div>
                             </div>
-                          </div>
-                          <div class="col-12 col-md-6">
-                            <div class="row">
-                              <div class="col-12">
-                                <label>Seleccione el tablero</label>
-                                <div class="input-group">
-                                  <select class="form-control" formControlName="tableroTareaId">
-                                    <option value="">Selecione</option>
-                                    <option *ngFor="let item of misTableros" [value]="item.id">{{ item.nombre }}</option>
-                                  </select>
-                                  <div class="input-group-btn">
-                                    <button type="button" class="btn btn-success" (click)="crearTablero()"><i class="fa fa-plus"></i></button>
+                            <div class="col-12 col-md-6">
+                              <div class="row">
+                                <div class="col-12">
+                                  <label>Seleccione el tablero</label>
+                                  <div class="input-group">
+                                    <select class="form-control" formControlName="tableroTareaId">
+                                      <option value="">Selecione</option>
+                                      <option *ngFor="let item of misTableros" [value]="item.id">{{ item.nombre }}</option>
+                                    </select>
+                                    <div class="input-group-btn">
+                                      <button type="button" class="btn btn-success" (click)="crearTablero()"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="form-group">
+                                    <label>Nombre</label>
+                                    <input class="form-control" type="text" formControlName="nombre">
+                                  </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                  <div class="form-group">
+                                    <label>Prioridad</label>
+                                    <select class="form-control" formControlName="prioridad">
+                                      <option [value]="0">Baja</option>
+                                      <option [value]="1">Media</option>
+                                      <option [value]="2">Alta</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                  <div class="form-group">
+                                    <label>Seleccione la actividad</label>
+                                    <select class="form-control" formControlName="codActividad">
+                                      <option value="">Selecione</option>
+                                      <option *ngFor="let item of tipoActividades" [value]="item.codItem">{{ item.descripcion }}</option>
+                                    </select>
                                   </div>
                                 </div>
                               </div>
-                              <div class="col-12">
-                                <div class="form-group">
-                                  <label>Nombre</label>
-                                  <input class="form-control" type="text" formControlName="nombre">
-                                </div>
-                              </div>
-                              <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                  <label>Prioridad</label>
-                                  <select class="form-control" formControlName="prioridad">
-                                    <option [value]="0">Baja</option>
-                                    <option [value]="1">Media</option>
-                                    <option [value]="2">Alta</option>
-                                  </select>
-                                </div>
-                              </div>
-                              <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                  <label>Seleccione la actividad</label>
-                                  <select class="form-control" formControlName="codActividad">
-                                    <option value="">Selecione</option>
-                                    <option *ngFor="let item of tipoActividades" [value]="item.codItem">{{ item.descripcion }}</option>
-                                  </select>
-                                </div>
-                              </div>
                             </div>
-                          </div>
-                          <div class="col-12 col-md-6">
-                           <div class="row">
-                             <div class="col-12">
-                               <div class="form-group">
-                                 <label>Fecha Vencimiento</label>
-                                 <br>
-                                 <input formControlName="fechaVencimiento" type="date" class="form-control input-date mr-2" style="width: 140px">
-                                 <input formControlName="horaVencimiento" type="time" class="form-control input-date" style="width: 96px">
-                               </div>
-                             </div>
-                             <div class="col-12 col-md-7">
-                               <div class="form-group">
-                                 <label class="container " style="font-size: 16px;">
-                                   Recordar el
-                                   <input type="checkbox" formControlName="checkFechaRecordatorio" (click)="changeRecordatorio($event)" >
-                                   <span class="checkmark"></span>
-                                 </label>
+                            <div class="col-12 col-md-6">
+                              <div class="row">
+                                <div class="col-12">
+                                  <div class="form-group">
+                                    <label>Fecha Vencimiento</label>
+                                    <br>
+                                    <input formControlName="fechaVencimiento" type="date" class="form-control input-date mr-2" style="width: 140px">
+                                    <input formControlName="horaVencimiento" type="time" class="form-control input-date" style="width: 96px">
+                                  </div>
+                                </div>
+                                <div class="col-12 col-md-7">
+                                  <div class="form-group">
+                                    <label class="container " style="font-size: 16px;">
+                                      Recordar el
+                                      <input type="checkbox" formControlName="checkFechaRecordatorio" (click)="changeRecordatorio($event)">
+                                      <span class="checkmark"></span>
+                                    </label>
 
-                                 <input formControlName="fechaRecordatorio" type="date" class="form-control input-date mr-2" (ngModelChange)="chengeFehcaRecordatorio($event)" style="width: 140px">
-                                 <input formControlName="horaRecordatorio" type="time" class="form-control input-date" style="width: 96px">
-                               </div>
-                             </div>
-                             <div class="col-12 col-md-5">
-                               <div class="form-group">
-                                 <label class="container" style="font-size: 16px;">
-                                   Notificación SMS
-                                   <input type="checkbox" formControlName="notificacion">
-                                   <span class="checkmark"></span>
-                                 </label>
-                                 <label class="container" style="font-size: 16px;">
-                                   Correo
-                                   <input type="checkbox" formControlName="correo">
-                                   <span class="checkmark"></span>
-                                 </label>
-                               </div>
-                             </div>
-                             <div class="col-12">
-                               <div class="form-group">
-                                 <label>Descripción</label>
-                                 <textarea class="form-control" rows="2" formControlName="descripcion"></textarea>
-                               </div>
-                             </div>
-                           </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="form-group text-center mt-2">
-                              <button class="btn btn-sm btn-primary mr-2" [disabled]="formTarea.invalid" (click)="guardarTarea()">Guardar</button>
-                              <button class="btn btn-sm btn-danger" (click)="formTarea.reset(); showNewTask = false;">Cancelar</button>
+                                    <input formControlName="fechaRecordatorio" type="date" class="form-control input-date mr-2" (ngModelChange)="chengeFehcaRecordatorio($event)" style="width: 140px">
+                                    <input formControlName="horaRecordatorio" type="time" class="form-control input-date" style="width: 96px">
+                                  </div>
+                                </div>
+                                <div class="col-12 col-md-5">
+                                  <div class="form-group">
+                                    <label class="container" style="font-size: 16px;">
+                                      Notificación SMS
+                                      <input type="checkbox" formControlName="notificacion">
+                                      <span class="checkmark"></span>
+                                    </label>
+                                    <label class="container" style="font-size: 16px;">
+                                      Correo
+                                      <input type="checkbox" formControlName="correo">
+                                      <span class="checkmark"></span>
+                                    </label>
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="form-group">
+                                    <label>Descripción</label>
+                                    <textarea class="form-control" rows="2" formControlName="descripcion"></textarea>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12">
+                              <div class="form-group text-center mt-2">
+                                <button class="btn btn-sm btn-primary mr-2" [disabled]="formTarea.invalid" (click)="guardarTarea()">Guardar</button>
+                                <button class="btn btn-sm btn-danger" (click)="formTarea.reset(); showNewTask = false;">Cancelar</button>
+                              </div>
                             </div>
                           </div>
-                        </div>
                         </ng-container>
                       </div>
                       <div class="container-works mt-2" *ngIf="showNewEmail">
@@ -396,141 +396,180 @@
                   </div>
                 </section>
                 <div class="row">
-                 <div class="col-12">
-                   <div class="form-group">
-                     <h6>Historial de Gestión</h6>
-                   </div>
-                 </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <h6>Historial de Gestión</h6>
+                    </div>
+                  </div>
                   <div class="col-md-12">
-                      <div class="table-responsive">
-                        <table data-detail-view="true" class="table table-bordered" id="listaGestiones">
-                          <thead>
-                          <tr class="text-center">
-                            <th class="detail" rowspan="1">
-                              <div class="fht-cell"></div>
-                            </th>
-                            <th data-field="field0">
-                              <div class="th-inner sortable both">Acción</div>
-                              <div class="fht-cell"></div>
-                            </th>
-                            <th data-field="field1">
-                              <div class="th-inner sortable both">Target</div>
-                              <div class="fht-cell"></div>
-                            </th>
-                            <th data-field="field2">
-                              <div class="th-inner sortable both">Respuesta</div>
-                              <div class="fht-cell"></div>
-                            </th>
-                            <th data-field="field3">
-                              <div class="th-inner sortable both">Comentario</div>
-                              <div class="fht-cell"></div>
-                            </th>
-                            <th data-field="field4">
-                              <div class="th-inner sortable both">Fecha</div>
-                              <div class="fht-cell"></div>
-                            </th>
-                            <th data-field="field5">
-                              <div class="th-inner sortable both">Usuario</div>
-                              <div class="fht-cell"></div>
-                            </th>
+                    <div class="table-responsive">
+                      <table data-detail-view="true" class="table table-bordered" id="listaGestiones">
+                        <thead>
+                        <tr class="text-center">
+                          <th class="detail" rowspan="1">
+                            <div class="fht-cell"></div>
+                          </th>
+                          <th data-field="field0">
+                            <div class="th-inner sortable both">Acción</div>
+                            <div class="fht-cell"></div>
+                          </th>
+                          <th data-field="field1">
+                            <div class="th-inner sortable both">Target</div>
+                            <div class="fht-cell"></div>
+                          </th>
+                          <th data-field="field2">
+                            <div class="th-inner sortable both">Respuesta</div>
+                            <div class="fht-cell"></div>
+                          </th>
+                          <th data-field="field3">
+                            <div class="th-inner sortable both">Comentario</div>
+                            <div class="fht-cell"></div>
+                          </th>
+                          <th data-field="field4">
+                            <div class="th-inner sortable both">Fecha</div>
+                            <div class="fht-cell"></div>
+                          </th>
+                          <th data-field="field5">
+                            <div class="th-inner sortable both">Usuario</div>
+                            <div class="fht-cell"></div>
+                          </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <ng-container *ngFor="let item of countries; let i = index;">
+                          <tr [attr.data-index]="i" data-has-detail-view="true" class="text-center cursor-pointer tr_{{i}}" (click)="showDetalle(i, item)">
+                            <td class="text-center">
+                              <ng-container *ngIf="item.tipo == 1"><span class="text-warning"><i class="fa fa-usd" aria-hidden="true"></i></span></ng-container>
+                              <ng-container *ngIf="item.tipo == 2"><span class="text-success"><i class="fa fa-envelope" aria-hidden="true"></i></span></ng-container>
+                              <ng-container *ngIf="item.tipo == 3"><span class="text-info"><i class="fa fa-bell" aria-hidden="true"></i></span></ng-container>
+                            </td>
+                            <td>
+                              {{ item.gestionDescripcion }}
+                              <ng-container *ngIf="item.tipo == 3">
+                                <br>
+                                <small *ngIf="item.condicion == '0'" class="text-primary">PENDIENTE</small>
+                                <small *ngIf="item.condicion == '1'" class="text-success">CUMPLIDA</small>
+                                <small *ngIf="item.condicion == '2'" class="text-danger">PLAZO VENCIDO</small>
+                              </ng-container>
+                            </td>
+                            <td>{{ item.target }}</td>
+                            <td>{{ item.respuestaDescripcion }}</td>
+                            <td>
+                              <ng-container *ngIf="item.comentario">
+                                {{item.comentario | slice: 0 : 20}} {{item.comentario.length > 20 ? '...' : ''}}
+                              </ng-container>
+                            </td>
+                            <td> {{item.fechaRegistro | date: 'd/M/yyyy'}}</td>
+                            <td>
+                              {{item.ejecutivoNombre | slice: 0 : 15}} {{item.ejecutivoNombre.length > 15 ? '...' : ''}}</td>
                           </tr>
-                          </thead>
-                          <tbody>
-                          <ng-container *ngFor="let item of countries; let i = index;">
-                            <tr [attr.data-index]="i" data-has-detail-view="true" class="text-center cursor-pointer tr_{{i}}" (click)="showDetalle(i, item)">
-                              <td class="text-center">
-                                <ng-container *ngIf="item.tipo == 1"><span class="text-warning"><i class="fa fa-usd" aria-hidden="true"></i></span></ng-container>
-                                <ng-container *ngIf="item.tipo == 2"><span class="text-success"><i class="fa fa-envelope" aria-hidden="true"></i></span></ng-container>
-                                <ng-container *ngIf="item.tipo == 3"><span class="text-info"><i class="fa fa-bell" aria-hidden="true"></i></span></ng-container>
-                              </td>
-                              <td>
-                                {{ item.gestionDescripcion }}
-                              </td>
-                              <td>{{ item.target }}</td>
-                              <td>{{ item.respuestaDescripcion }}</td>
-                              <td>
-                                <ng-container *ngIf="item.comentario">
-                                  {{item.comentario | slice: 0 : 20}} {{item.comentario.length > 20 ? '...' : ''}}
-                                </ng-container>
-                              </td>
-                              <td> {{item.fechaRegistro | date: 'd/M/yyyy'}}</td>
-                              <td>
-                                {{item.ejecutivoNombre | slice: 0 : 15}} {{item.ejecutivoNombre.length > 15 ? '...' : ''}}</td>
-                            </tr>
-                            <tr [class]="'detail-view item_'+i +' item-detalle hidden'">
-                              <td colspan="7">
-                                <div class="bootstrap-table bootstrap4">
-                                  <div class="fixed-table-toolbar"></div>
-                                  <div class="fixed-table-container" style="padding-bottom: 0px;">
-                                    <div class="fixed-table-header" style="display: none;">
-                                      <table></table>
-                                    </div>
-                                    <div class="fixed-table-body">
-                                      <table class="table table-bordered table-hover">
+                          <tr [class]="'detail-view item_'+i +' item-detalle hidden'">
+                            <td colspan="7">
+                              <div class="bootstrap-table bootstrap4">
+                                <div class="fixed-table-toolbar"></div>
+                                <div class="fixed-table-container" style="padding-bottom: 0px;">
+                                  <div class="fixed-table-header" style="display: none;">
+                                    <table></table>
+                                  </div>
+                                  <div class="fixed-table-body">
+                                    <table class="table table-bordered table-hover">
+                                      <thead>
+                                      <tr>
+                                        <th data-field="field0">
+                                          <div class="th-inner sortable both">
+                                            <div>
+                                              <span>{{ item.gestionDescripcion }}</span>
+                                            </div>
+
+                                            <div class="fht-cell pull-right">{{item.fechaRegistro | date: 'MMMM y, EEEE d  h:mm a'}} </div>
+                                          </div>
+                                        </th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <tr>
+                                        <td>
+                                          <div class="mb-2">
+                                            <span><b>Target: </b></span> {{ item.target }}
+                                            <br>
+                                            <span><b>Comentario: </b></span> {{ item.comentario }}
+                                            <br>
+                                            <span><b>Usuario: </b></span> {{ item.ejecutivoNombre }}
+                                          </div>
+                                          <ng-container *ngIf="item.tipo == 3 && item.condicion == '0'">
+                                            <div class="row">
+                                              <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                  <label>Condición:</label>
+                                                  <select class="form-control" [(ngModel)]="$condicion">
+                                                    <option value="0">PENDIENTE</option>
+                                                    <option value="1">CUMPLIDA</option>
+                                                    <option value="2">PLAZO VENCIDO</option>
+                                                  </select>
+                                                </div>
+                                              </div>
+                                              <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                  <label>Comentario:</label>
+                                                  <textarea class="form-control" [(ngModel)]="item.comentario"></textarea>
+                                                </div>
+                                              </div>
+                                              <div class="col-12 mt-2" *ngIf="item.condicion == '0'">
+                                                <button class="btn btn-sm btn-primary" (click)="actualizarTarea(item)">Actualizar</button>
+                                              </div>
+                                            </div>
+                                          </ng-container>
+                                        </td>
+                                      </tr>
+                                      </tbody>
+                                    </table>
+                                    <div class="table-responsive" *ngIf="acuerdosPagoTemp.length > 0">
+                                      <table id="tabla-acuerdos2" class="table table-bordered table-hover">
                                         <thead>
-                                        <tr>
-                                          <th data-field="field0">
-                                            <div class="th-inner sortable both">{{ item.gestionDescripcion }} <div class="fht-cell pull-right">{{item.fechaRegistro | date: 'MMMM y, EEEE d  h:mm a'}} </div></div>
-                                          </th>
+                                        <tr class="text-center">
+                                          <th>Fecha</th>
+                                          <th>Monto</th>
+                                          <th>T. Acuerdo</th>
+                                          <th>Estado</th>
+                                          <th>Tipo</th>
+                                          <th>Cuota</th>
+                                          <th>Plazo</th>
+                                          <th>Opcipon</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
+                                        <tr *ngFor="let item of acuerdosPagoTemp" [class]="isCurrentDate(item.fechaInicio, item.condicion)" style="font-size: 12px; text-align: center">
                                           <td>
-                                            <div class="">
-                                              <span><b>Target: </b></span> {{ item.target }}
-                                              <br>
-                                              <span><b>Comentario: </b></span> {{ item.comentario }}
-                                              <br>
-                                              <span><b>Usuario: </b></span> {{ item.ejecutivoNombre }}
-                                            </div>
+                                            {{ item.fechaInicio | date: 'dd/MM/yyyy' }}
+                                          </td>
+                                          <td>{{ item.montoAcordado  | currency: 'S/ ' }} </td>
+                                          <td>{{ getNameTipoAcuerdo(item.tipoAcuerdo) }}</td>
+                                          <td>{{ getNameCondition(item.condicion) | uppercase}}</td>
+                                          <td>{{ item.descripcion | uppercase}}</td>
+                                          <td>{{ item.cuota }}</td>
+                                          <td>{{ item.plazo }}</td>
+                                          <td>
+                                            <button *ngIf="conPermiso" [disabled]="isAfter(item.fechaInicio)" class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item)"><i class="fa fa-trash"></i></button>
                                           </td>
                                         </tr>
                                         </tbody>
                                       </table>
-                                      <div class="table-responsive" *ngIf="acuerdosPagoTemp.length > 0">
-                                        <table id="tabla-acuerdos" class="table table-bordered table-hover">
-                                          <thead>
-                                          <tr class="text-center">
-                                            <th>Fecha</th>
-                                            <th>Monto</th>
-                                            <th>T. Acuerdo</th>
-                                            <th>Estado</th>
-                                            <th>Tipo</th>
-                                            <th>Cuota</th>
-                                            <th>Plazo</th>
-                                            <th>Opcipon</th>
-                                          </tr>
-                                          </thead>
-                                          <tbody>
-                                          <tr *ngFor="let item of acuerdosPagoTemp"  [class]="isCurrentDate(item.fechaInicio, item.condicion)" style="font-size: 12px; text-align: center">
-                                            <td>
-                                              {{ item.fechaInicio | date: 'dd/MM/yyyy' }}
-                                            </td>
-                                            <td>{{ item.montoAcordado  | currency: 'S/ ' }} </td>
-                                            <td>{{ getNameTipoAcuerdo(item.tipoAcuerdo) }}</td>
-                                            <td>{{ getNameCondition(item.condicion) | uppercase}}</td>
-                                            <td>{{ item.descripcion | uppercase}}</td>
-                                            <td>{{ item.cuota }}</td>
-                                            <td>{{ item.plazo }}</td>
-                                            <td>
-                                              <button *ngIf="conPermiso" [disabled]="isAfter(item.fechaInicio)" class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item)"><i class="fa fa-trash"></i></button>
-                                            </td>
-                                          </tr>
-                                          </tbody>
-                                        </table>
-                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                                <div class="clearfix"></div>
-                              </td>
-                            </tr>
-                          </ng-container>
-                          </tbody>
-                        </table>
-                      </div>
+                              </div>
+                              <div class="clearfix"></div>
+                            </td>
+                          </tr>
+                        </ng-container>
+                        </tbody>
+                      </table>
                     </div>
+                    <div class="d-flex justify-content-center p-2" *ngIf="acciones.length > 10">
+                      <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" [boundaryLinks]="true" (pageChange)="refreshCountries()">
+                      </ngb-pagination>
+                    </div>
+                  </div>
 
                 </div>
               </ng-template>
@@ -553,7 +592,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let item of acuerdosPago"  [class]="isCurrentDate(item.fechaInicio, item.condicion)" style="font-size: 12px; text-align: center">
+                    <tr *ngFor="let item of acuerdosPago" [class]="isCurrentDate(item.fechaInicio, item.condicion)" style="font-size: 12px; text-align: center">
                       <td>
                         {{ item.fechaInicio | date: 'dd/MM/yyyy' }}
                       </td>
@@ -641,7 +680,7 @@
                             </div>
                           </div>
                         </div>
-                        <div  class="col-12 col-md-6" *ngIf="typePhone == $fijo">
+                        <div class="col-12 col-md-6" *ngIf="typePhone == $fijo">
                           <div class="form-group">
                             <input Number type="text" class="form-control" placeholder="codCiudad" formControlName="codCiudad" maxlength="3" [ngClass]="
             {
@@ -653,7 +692,7 @@
                             </div>
                           </div>
                         </div>
-                        <div  [class]="typePhone == $movil ? 'col-6' : 'col-12 col-md-6'">
+                        <div [class]="typePhone == $movil ? 'col-6' : 'col-12 col-md-6'">
                           <div class="form-group">
                             <input Number type="text" class="form-control" placeholder="Número Telefóno" [maxlength]="max" formControlName="numero" [ngClass]="
             {
@@ -691,7 +730,7 @@
                         <tbody>
                         <tr *ngFor="let phone of socio.telefonos; let i = index" class="text-center">
                           <th scope="row">{{ i + 1 }}</th>
-                          <td>{{ (phone.codCiudad ? phone.codCiudad +'-' : '') + phone.numero }}</td>
+                          <td>{{ (phone.codCiudad ? phone.codCiudad + '-' : '') + phone.numero }}</td>
                           <td>{{ phone.operadorDescripcion }}</td>
                           <td>{{ phone.tipoUsoDescripcion }}</td>
                           <td>{{ phone.tipoNotificacion }}</td>
@@ -762,7 +801,7 @@
                         </div>
                         <div class="col-12 text-center mb-4">
                           <button type="button" class="btn btn-success mr-2" (click)="guardarEmail()" [disabled]="formEmail.invalid">Guardar</button>
-                          <button type="button" class="btn btn-danger" (click)="this.showNewEmail = false;  formEmail.reset({ codTipoNotificacion: '', email: '', codUso: ''}); " >Cancelar</button>
+                          <button type="button" class="btn btn-danger" (click)="this.showNewEmail = false;  formEmail.reset({ codTipoNotificacion: '', email: '', codUso: ''}); ">Cancelar</button>
                         </div>
                       </div>
                     </ng-container>
@@ -1025,7 +1064,7 @@
 
                         <div class="col-12 text-center mb-4">
                           <button class="btn btn-primary mr-2" [disabled]="formDireccion.invalid" (click)="guardarDireccion()"> guardar</button>
-                          <button type="button" class="btn btn-danger" (click)="this.showNewAddress = false; formDireccion.reset()" >Cancelar</button>
+                          <button type="button" class="btn btn-danger" (click)="this.showNewAddress = false; formDireccion.reset()">Cancelar</button>
                         </div>
                       </div>
                     </ng-container>

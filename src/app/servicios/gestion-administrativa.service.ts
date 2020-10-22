@@ -54,6 +54,11 @@ export class GestionAdministrativaService {
     return this.http.put<Respuesta>(`${urlBase}/tarea-actualizar`, tarea);
   }
 
+  actualizarTareaCondicion(tareaId, condicion, comentario): Observable<Respuesta> {
+    return this.http.put<Respuesta>(`${urlBase}/tarea-actualizar-condicion`, {}, {params: new HttpParams().set('tareaId', tareaId).set('condicion', condicion).set('comentario', comentario)});
+  }
+
+
   listarActividadPorTarea(tareaId: any): Observable<Respuesta> {
     return this.http.get<Respuesta>(`${urlBase}/listar-tarea-actividad`, {params: new HttpParams().set('tareaId', tareaId)});
   }

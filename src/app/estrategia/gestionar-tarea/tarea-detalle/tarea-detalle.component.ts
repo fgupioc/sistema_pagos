@@ -103,12 +103,14 @@ export class TareaDetalleComponent implements OnInit {
         etapaActual: CONST.C_STR_ETAPA_EN_LISTA,
         prioridad: 0,
         nombre: this.taskName,
+        condicion: '0',
       };
       this.spinner.show();
       this.gestionAdministrativaService.crearTarea(String(this.tarjeta.id), tarea).subscribe(
         res => {
           if (res.exito) {
             this.$tareasLista.push(res.objeto);
+            this.eventosService.leerNotifyEmitter.emit({tipo: '04'});
           } else {
             Swal.fire('Crear Tarea', res.mensaje, 'error');
           }

@@ -199,11 +199,17 @@ export class ModalNuevaTareasComponent implements OnInit {
 
   get checedCumplido() {
     if (this.estaFechaVencida() && !this.$tarea.checkFechaVencimiento) {
-      return 2;
+      this.$tarea.condicion = '2';
+      this.tarea.condicion = '2';
+      return '2';
     } else if (this.$tarea.checkFechaVencimiento) {
-      return 1;
+      this.$tarea.condicion = '1';
+      this.tarea.condicion = '1';
+      return '1';
     } else {
-      return 0;
+      this.$tarea.condicion = '0';
+      this.tarea.condicion = '0';
+      return '0';
     }
   }
 

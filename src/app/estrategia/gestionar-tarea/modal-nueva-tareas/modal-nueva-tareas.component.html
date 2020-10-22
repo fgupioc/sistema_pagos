@@ -71,9 +71,9 @@
                       <span class="checkmark"></span>
                     </label>
                     <span class="pull-right-container" *ngIf="$tarea.estado == '1'">
-                      <small *ngIf="checedCumplido == 0" class="badge badge-info">PENDIENTE</small>
-                      <small *ngIf="checedCumplido == 1" class="badge badge-success">CUMPLIDA</small>
-                      <small *ngIf="checedCumplido == 2" class="badge badge-danger">PLAZO VENCIDO</small>
+                      <small *ngIf="checedCumplido == '0'" class="badge badge-info">PENDIENTE</small>
+                      <small *ngIf="checedCumplido == '1'" class="badge badge-success">CUMPLIDA</small>
+                      <small *ngIf="checedCumplido == '2'" class="badge badge-danger">PLAZO VENCIDO</small>
                     </span>
                   </div>
                 </ng-container>

@@ -108,6 +108,8 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   acuerdosPagoTemp: AcuerdoPago[] = [];
 
+  $condicion = '0';
+
   constructor(
     public auth: AutenticacionService,
     private router: Router,
@@ -315,7 +317,6 @@ export class MisGestionesDetalleComponent implements OnInit {
       res => {
         if (res.exito) {
           this.acciones = res.acciones;
-          console.log(this.acciones);
           this.collectionSize = this.acciones.length;
           this.refreshCountries();
         }
@@ -681,6 +682,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     task.creditoId = this.credito.id;
     task.socioId = this.credito.socioId;
     task.asignacionId = this.credito.asignacionId;
+    task.condicion = '0',
     this.spinner.show();
     this.gestionAdministrativaService.crearTarea(task.tableroTareaId, task).subscribe(
       res => {
@@ -1164,4 +1166,28 @@ export class MisGestionesDetalleComponent implements OnInit {
     }
   }
 
+  actualizarTarea(item: CreditoGestion) {
+    if (!this.$condicion) {
+      return;
+    }
+    this.spinner.show();
+    this.gestionAdministrativaService.actualizarTareaCondicion(item.id, this.$condicion, item.comentario).subscribe(
+      res => {
+        if (res.exito) {
+          Swal.fire('Actualizar Tarea', res.mensaje, 'success');
+          this.eventosService.leerNotifyEmitter.emit({tipo: '04', id: item.id});
+          this.$condicion = '0';
+          this.listarAcciones(this.credito.id, this.credito.asignacionId);
+          this.spinner.hide();
+        } else {
+          Swal.fire('Actualizar Tarea', res.mensaje, 'error');
+          this.spinner.hide();
+        }
+      },
+      err => {
+        Swal.fire('Actualizar Tarea', 'Ocurrio un error', 'error');
+        this.spinner.hide();
+      }
+    );
+  }
 }
