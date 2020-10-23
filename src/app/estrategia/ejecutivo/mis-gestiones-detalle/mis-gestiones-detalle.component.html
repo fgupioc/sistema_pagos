@@ -477,11 +477,13 @@
                                       <tr>
                                         <th data-field="field0">
                                           <div class="th-inner sortable both">
-                                            <div>
-                                              <span>{{ item.gestionDescripcion }}</span>
-                                            </div>
-
-                                            <div class="fht-cell pull-right">{{item.fechaRegistro | date: 'MMMM y, EEEE d  h:mm a'}} </div>
+                                            <span>{{ item.gestionDescripcion }} <div class="fht-cell pull-right">{{item.fechaRegistro | date: 'MMMM y, EEEE d  h:mm a'}} </div></span>
+                                            <br>
+                                            <span *ngIf="item.tipo == 3">
+                                              <span *ngIf="item.codRespuesta == '01'" class="text-info">En Lista</span>
+                                              <span *ngIf="item.codRespuesta == '02'" class="text-info">En Proceso</span>
+                                              <span *ngIf="item.codRespuesta == '03'" class="text-info">Terminada</span>
+                                            </span>
                                           </div>
                                         </th>
                                       </tr>
@@ -497,27 +499,39 @@
                                             <span><b>Usuario: </b></span> {{ item.ejecutivoNombre }}
                                           </div>
                                           <ng-container *ngIf="item.tipo == 3 && item.condicion == '0'">
-                                            <div class="row">
-                                              <div class="col-12 col-md-6">
-                                                <div class="form-group">
-                                                  <label>Condición:</label>
-                                                  <select class="form-control" [(ngModel)]="$condicion">
-                                                    <option value="0">PENDIENTE</option>
-                                                    <option value="1">CUMPLIDA</option>
-                                                    <option value="2">PLAZO VENCIDO</option>
-                                                  </select>
+                                            <ng-container *ngIf="item.codRespuesta == '01'">
+                                              <ng-container *ngIf="!iniciarTarea">
+                                                <button class="btn btn-sm btn-primary" (click)="iniciarProcesoTarea(item)">Iniciar Tarea</button>
+                                              </ng-container>
+                                              <ng-container *ngIf="iniciarTarea">
+                                              <button class="btn btn-sm btn-primary">
+                                                <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+                                                <span>Iniciando...</span></button>
+                                              </ng-container>
+                                            </ng-container>
+                                            <ng-container *ngIf="item.codRespuesta == '02'">
+                                              <div class="row">
+                                                <div class="col-12 col-md-6">
+                                                  <div class="form-group">
+                                                    <label>Condición:</label>
+                                                    <select class="form-control" [(ngModel)]="$condicion">
+                                                      <option value="0">PENDIENTE</option>
+                                                      <option value="1">CUMPLIDA</option>
+                                                      <option value="2">PLAZO VENCIDO</option>
+                                                    </select>
+                                                  </div>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                  <div class="form-group">
+                                                    <label>Comentario:</label>
+                                                    <textarea class="form-control" [(ngModel)]="item.comentario"></textarea>
+                                                  </div>
+                                                </div>
+                                                <div class="col-12 mt-2" *ngIf="item.condicion == '0'">
+                                                  <button class="btn btn-sm btn-primary" (click)="actualizarTarea(item)">Actualizar</button>
                                                 </div>
                                               </div>
-                                              <div class="col-12 col-md-6">
-                                                <div class="form-group">
-                                                  <label>Comentario:</label>
-                                                  <textarea class="form-control" [(ngModel)]="item.comentario"></textarea>
-                                                </div>
-                                              </div>
-                                              <div class="col-12 mt-2" *ngIf="item.condicion == '0'">
-                                                <button class="btn btn-sm btn-primary" (click)="actualizarTarea(item)">Actualizar</button>
-                                              </div>
-                                            </div>
+                                            </ng-container>
                                           </ng-container>
                                         </td>
                                       </tr>

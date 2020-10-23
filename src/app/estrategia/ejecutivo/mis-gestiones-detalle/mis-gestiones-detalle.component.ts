@@ -114,6 +114,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   comentario = '';
   actividades: any[];
   msgSending = false;
+  iniciarTarea = false;
 
   constructor(
     public auth: AutenticacionService,
@@ -1273,5 +1274,24 @@ export class MisGestionesDetalleComponent implements OnInit {
         );
       }
     });
+  }
+
+  iniciarProcesoTarea(item: CreditoGestion) {
+    this.iniciarTarea = true;
+    this.gestionAdministrativaService.iniciarTarea(item.id).subscribe(
+      res => {
+        if (res.exito) {
+          item.codRespuesta = '02';
+          this.eventosService.leerNotifyEmitter.emit({tipo: '04'});
+        } else {
+          Swal.fire('Iniciar Tarea', res.mensaje ? res.mensaje : '', 'error');
+        }
+        this.iniciarTarea = false;
+      },
+      err => {
+        Swal.fire('Iniciar Tarea', 'Ocurrio un error en el proceso.', 'error');
+        this.iniciarTarea = false;
+      }
+    );
   }
 }

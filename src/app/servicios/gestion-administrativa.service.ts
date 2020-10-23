@@ -117,4 +117,8 @@ export class GestionAdministrativaService {
   guardarEnvioEmail(correo: any, asunto: string): Observable<any> {
     return this.http.post<any>(`${urlBase}/envio-correo-gestion`, correo, {params: new HttpParams().set('asunto', asunto)});
   }
+
+  iniciarTarea(tareaId): Observable<Respuesta> {
+    return this.http.put<Respuesta>(`${urlBase}/tarea-iniciar-proceso`, {}, {params: new HttpParams().set('tareaId', tareaId)});
+  }
 }
