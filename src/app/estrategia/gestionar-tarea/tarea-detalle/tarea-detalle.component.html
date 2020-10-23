@@ -52,7 +52,12 @@
                   <div class="item-container">
                     <div class="item-body">
                       <div class="item-body-header">
-                        <div class="item-title">{{ item.nombre }} - {{ getCodCredito(item.creditoId) }}</div>
+                        <div class="div">
+                          <div class="item-title">{{ item.nombre }}</div>
+                          <small> Cred: {{ getCodCredito(item.creditoId) }} -
+                            <span *ngIf="item.socio"> {{ item.socio.alias | slice:0:25 }} {{ item.socio.alias.length > 25 ? '...' : '' }}</span>
+                          </small>
+                        </div>
                         <div class="item-tools">
                           <div class="btn btn-sm btn-outline-primary" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
                         </div>
@@ -118,7 +123,12 @@
                   <div class="item-container">
                     <div class="item-body">
                       <div class="item-body-header">
-                        <div class="item-title">{{ item.nombre }} - {{ getCodCredito(item.creditoId) }} </div>
+                        <div class="div">
+                          <div class="item-title">{{ item.nombre }}</div>
+                          <small> Cred: {{ getCodCredito(item.creditoId) }} -
+                            <span *ngIf="item.socio"> {{ item.socio.alias | slice:0:25 }} {{ item.socio.alias.length > 25 ? '...' : '' }}</span>
+                          </small>
+                        </div>
                         <div class="item-tools">
                           <div class="btn btn-sm btn-outline-primary" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
                         </div>
@@ -170,7 +180,12 @@
                   <div class="item-container">
                     <div class="item-body">
                       <div class="item-body-header">
-                        <div class="item-title">{{ item.nombre }} - {{ getCodCredito(item.creditoId) }} </div>
+                        <div class="div">
+                          <div class="item-title">{{ item.nombre }}</div>
+                          <small> Cred: {{ getCodCredito(item.creditoId) }} -
+                            <span *ngIf="item.socio"> {{ item.socio.alias | slice:0:20 }} {{ item.socio.alias.length > 20 ? '...' : '' }}</span>
+                          </small>
+                        </div>
                         <div class="item-tools">
                           <div class="btn btn-sm btn-outline-success" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
                         </div>
