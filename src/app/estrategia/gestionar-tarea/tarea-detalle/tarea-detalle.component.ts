@@ -59,7 +59,6 @@ export class TareaDetalleComponent implements OnInit {
 
   onDragStart(event: DragEvent) {
     this.currentDraggableEvent = event;
-
   }
 
   onDragged(item: any, list: any[], effect: DropEffect) {
@@ -79,6 +78,34 @@ export class TareaDetalleComponent implements OnInit {
       if (typeof index === 'undefined') {
         index = list.length;
       }
+
+      if (event.data.etapaActual == '01' && process == '01') {
+        this.$tareasLista.splice(index, 0, event.data);
+        return;
+      }
+
+      if (event.data.etapaActual == '02' && process == '02') {
+        this.$tareasProceso.splice(index, 0, event.data);
+        return;
+      }
+
+      if (event.data.etapaActual == '03' && process == '03') {
+        this.$tareasTerminadas.splice(index, 0, event.data);
+        return;
+      }
+
+      if (event.data.etapaActual == '01' && process == '03') {
+        this.$tareasLista.splice(index, 0, event.data);
+        Swal.fire('Tarea', 'Debe arrastrar primero a la lista de "En Proceso"', 'warning');
+        return;
+      }
+
+      if (event.data.etapaActual == '03' && process != '03') {
+        this.$tareasTerminadas.splice(index, 0, event.data);
+        Swal.fire('Tarea', 'La tarea ya se encuentra terminada.', 'warning');
+        return;
+      }
+
       this.spinner.show();
       this.gestionAdministrativaService.actualizarEtapaTarea(event.data.id, process).subscribe(
         res => {

@@ -34,12 +34,10 @@
         </div>
         <div class="card-body">
           <div class="container-list-tasks">
-            <div class="list-group" dndDropzone
-                 dndEffectAllowed="copyMove"
-                 (dndDrop)="onDrop($event, '01', $tareasLista)">
+            <div class="list-group" dndDropzone dndEffectAllowed="copyMove" (dndDrop)="onDrop($event, '01', $tareasLista)">
               <div dndPlaceholderRef class="dndPlaceholder mb-2"></div>
               <ng-container *ngIf="$tareasLista.length > 0">
-                <a href="javascript:;" *ngFor="let item of $tareasLista"
+                <a href="javascript:;" *ngFor="let item of $tareasLista;"
                    [dndDraggable]="item"
                    [dndEffectAllowed]="'move'"
                     [dndDisableIf]="item.estado!='1'"
@@ -106,12 +104,10 @@
         </div>
         <div class="card-body">
           <div class="container-list-tasks">
-            <div class="list-group" dndDropzone
-                 dndEffectAllowed="copyMove"
-                 (dndDrop)="onDrop($event, '02',$tareasProceso)">
+            <div class="list-group" dndDropzone  dndEffectAllowed="copyMove" (dndDrop)="onDrop($event, '02',$tareasProceso)">
               <div dndPlaceholderRef class="dndPlaceholder  mb-2"></div>
               <ng-container *ngIf="$tareasProceso.length > 0">
-                <a href="javascript:;" *ngFor="let item of $tareasProceso"
+                <a href="javascript:;" *ngFor="let item of $tareasProceso;"
                    [dndDraggable]="item"
                    [dndEffectAllowed]="'move'"
                    [dndDisableIf]="item.estado!='1'"
@@ -163,12 +159,10 @@
         </div>
         <div class="card-body">
           <div class="container-list-tasks">
-            <div class="list-group" dndDropzone
-                 dndEffectAllowed="copyMove"
-                 (dndDrop)="onDrop($event, '03', $tareasTerminadas)">
+            <div class="list-group" dndDropzone dndEffectAllowed="copyMove" (dndDrop)="onDrop($event, '03', $tareasTerminadas)">
               <div dndPlaceholderRef class="dndPlaceholder  mb-2"></div>
               <ng-container *ngIf="$tareasTerminadas.length > 0">
-                <a href="javascript:;" *ngFor="let item of $tareasTerminadas"
+                <a href="javascript:;" *ngFor="let item of $tareasTerminadas;"
                    [dndDraggable]="item"
                    [dndEffectAllowed]="'move'"
                   [dndDisableIf]="item.estado!='1'"
