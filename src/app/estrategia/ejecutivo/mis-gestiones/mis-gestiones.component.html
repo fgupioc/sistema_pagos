@@ -50,7 +50,7 @@
             <tbody>
             <tr *ngFor="let o of creditos; index as i; ">
               <td class="text-center">{{ i + 1 }}</td>
-              <th scope="row">
+              <th scope="row" class="text-center">
                 <button placement="top" ngbTooltip="Iniciar Gestión" [routerLink]="'/auth/gestion-administrativa/mis-gestiones/'+o.id+'/detalle'" class="btn btn-sm btn-success mr-2"><i class="fa fa-eye"></i></button>
               </th>
               <td class="text-center">{{ o.nroCredito }}</td>
