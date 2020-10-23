@@ -102,6 +102,9 @@ export class ModalNuevaTareasComponent implements OnInit {
       const task = Object.assign({}, this.tarea);
       this.$tarea = task;
       this.creditoId = this.tarea.creditoId;
+      if (this.tarea.creditoId) {
+        this.credito = this.creditos.find(i => i.id == this.tarea.creditoId);
+      }
       if (this.$tarea.socioId) {
         this.obtenerSocio(this.$tarea.socioId);
       }
