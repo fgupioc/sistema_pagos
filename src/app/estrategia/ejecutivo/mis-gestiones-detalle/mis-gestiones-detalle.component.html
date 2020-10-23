@@ -521,6 +521,48 @@
                                           </ng-container>
                                         </td>
                                       </tr>
+                                      <tr *ngIf="item.tipo == 3">
+                                        <td>
+                                          <div class="new-comment mb-4">
+                                            <div class="member member-no-menu" *ngIf="userLoggedName">
+                                              <span class="member-initials text-uppercase" [title]="userLoggedName">{{ userLoggedName | slice: 0:2 }}</span>
+                                            </div>
+                                            <div class="comment-frame">
+                                              <textarea class="form-control" maxlength="224" placeholder="Escriba un comentario..." dir="auto" style="min-height: 50px" [(ngModel)]="comentario"></textarea>
+                                              <ng-container *ngIf="comentario.trim().length > 0">
+                                                <ng-container *ngIf="!msgSending">
+                                                  <button class="btn btn-sm btn-outline-info mt-2" *ngIf="comentario.trim().length < 225" (click)="guardarCometario(item.id)">Guardar comentario</button>
+                                                  <span class="text-danger" *ngIf="comentario.trim().length > 225">Su comentario es demasiado largo.</span>
+                                                </ng-container>
+                                                <ng-container *ngIf="msgSending">
+                                                  <button class="btn btn-sm btn-outline-info mt-2"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span>Enviando...</span></button>
+                                                </ng-container>
+                                              </ng-container>
+                                            </div>
+                                          </div>
+                                          <div class="body-comment">
+                                            <div class="new-comment mb-2" *ngFor="let item of actividades">
+                                              <div class="member member-no-menu">
+                                                <span class="member-initials text-uppercase" [title]="item.alias">{{ item.alias | slice: 0:2 }}</span>
+                                              </div>
+                                              <div class="comment-frame">
+                                                <div class="comment-item">
+                                                  <div class="">
+                                                    <h6 class="m-0 p-0">{{ item.alias }}</h6>
+                                                    <small>{{ item.fechaCreacion | date : 'dd MMM yyyy HH:mm' }}</small>
+                                                  </div>
+                                                  <p class="p-0 m-0">{{ item.comentario }}</p>
+                                                  <div class="" *ngIf="item.usuarioId == auth.loggedUser.id">
+                                                    <ng-container *ngIf="true">
+                                                      <a href="javascript:;" class="btn-link" (click)="desactivarActividad(item.id)">Eliminar</a>
+                                                    </ng-container>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </td>
+                                      </tr>
                                       </tbody>
                                     </table>
                                     <div class="table-responsive" *ngIf="acuerdosPagoTemp.length > 0">

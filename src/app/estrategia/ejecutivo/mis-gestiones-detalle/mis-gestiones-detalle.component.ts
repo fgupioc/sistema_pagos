@@ -31,6 +31,7 @@ import {EmailService} from '../../../servicios/email.service';
 import {UbigeoService} from '../../../servicios/sistema/ubigeo.service';
 import {DireccionService} from '../../../servicios/direccion.service';
 import {Ubigeo} from '../../../interfaces/ubigeo';
+import {TareaActividad} from '../../../interfaces/tarea-actividad';
 
 declare var $: any;
 
@@ -109,6 +110,10 @@ export class MisGestionesDetalleComponent implements OnInit {
   acuerdosPagoTemp: AcuerdoPago[] = [];
 
   $condicion = '0';
+  userLoggedName = '';
+  comentario = '';
+  actividades: any[];
+  msgSending = false;
 
   constructor(
     public auth: AutenticacionService,
@@ -127,7 +132,9 @@ export class MisGestionesDetalleComponent implements OnInit {
     private direccionService: DireccionService,
   ) {
     activatedRoute.params.subscribe(({creditoId}) => this.creditoId = creditoId);
+    this.userLoggedName = auth.loggedUser.alias;
   }
+
 
   ngOnInit() {
     this.listarTipoDirecciones();
@@ -683,7 +690,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     task.socioId = this.credito.socioId;
     task.asignacionId = this.credito.asignacionId;
     task.condicion = '0',
-    this.spinner.show();
+      this.spinner.show();
     this.gestionAdministrativaService.crearTarea(task.tableroTareaId, task).subscribe(
       res => {
         if (res.exito) {
@@ -1164,6 +1171,9 @@ export class MisGestionesDetalleComponent implements OnInit {
         this.acuerdosPagoTemp = this.acuerdosPago.filter(value => String(value.grupo) == item.keyResp);
       }
     }
+    if (item.tipo == 3) {
+      this.listarActividadPorTarea(item.id);
+    }
   }
 
   actualizarTarea(item: CreditoGestion) {
@@ -1189,5 +1199,79 @@ export class MisGestionesDetalleComponent implements OnInit {
         this.spinner.hide();
       }
     );
+  }
+
+  listarActividadPorTarea(tareaId) {
+    this.actividades = [];
+    this.msgSending = true;
+    this.gestionAdministrativaService.listarActividadPorTarea(tareaId).subscribe(
+      res => {
+        if (res.exito) {
+          this.actividades = res.objeto as any[];
+        }
+        this.msgSending = false;
+      },
+      err => {
+        this.msgSending = false;
+      }
+    );
+  }
+
+  guardarCometario(tareaId) {
+    if (this.comentario.trim().length == 0) {
+      Swal.fire('Crear Comentario', 'Debe ingresar un comentario valido.', 'warning');
+      return;
+    }
+    const comment: TareaActividad = {
+      tareaId,
+      comentario: this.comentario,
+    };
+    this.msgSending = true;
+    this.spinner.show();
+    this.gestionAdministrativaService.crearTareaComentario(comment).subscribe(
+      res => {
+        if (res.exito) {
+          this.comentario = '';
+          Swal.fire('Crear Comentario', res.mensaje, 'success');
+          this.listarActividadPorTarea(tareaId);
+        }
+        this.spinner.hide();
+        this.msgSending = false;
+      },
+      err => {
+        this.spinner.hide();
+        this.msgSending = false;
+      }
+    );
+  }
+
+  desactivarActividad(tareaId) {
+    Swal.fire({
+      text: 'Estas segura de eliminar la actividad?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, Eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        this.spinner.show();
+        this.gestionAdministrativaService.desactivarTareaComentario(tareaId).subscribe(
+          res => {
+            if (res.exito) {
+              Swal.fire('Actividad', res.mensaje, 'success');
+              this.spinner.hide();
+              this.listarActividadPorTarea(tareaId);
+            } else {
+              Swal.fire('Actividad', res.mensaje ? res.mensaje : 'Error en el proceso', 'error');
+              this.spinner.hide();
+            }
+          },
+          err => {
+            Swal.fire('Actividad', 'Error en el proceso', 'error');
+            this.spinner.hide();
+          }
+        );
+      }
+    });
   }
 }
