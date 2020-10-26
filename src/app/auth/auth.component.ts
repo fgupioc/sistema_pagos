@@ -80,11 +80,17 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   irNotification(noty: MyNotification) {
     if (noty) {
-
       if (noty.tipo == '01' || noty.tipo == '02') {
         this.route.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${noty.asignacionId}/detalle/${noty.creditoId}/socio`);
       } else if (noty.tipo == '03') {
         this.route.navigateByUrl(`/auth/gestion-administrativa/mis-tareas/${noty.condicion}`);
+      } else if (noty.tipo == '04') {
+        console.log(this.authService.loggedUser.role);
+        if (this.authService.loggedUser.role == 'E') {
+          this.route.navigateByUrl(`/auth/gestion-administrativa/mis-tareas/${noty.condicion}`);
+        } else {
+          this.route.navigateByUrl(`/auth/gestion-administrativa/tareas/${noty.condicion}`);
+        }
       }
     }
   }
@@ -97,6 +103,12 @@ export class AuthComponent implements OnInit, OnDestroy {
         break;
       case '02' :
         type = 'Acuerdo de Pago:';
+        break;
+      case '03' :
+        type = 'Tarea:';
+        break;
+      case '04' :
+        type = 'Comentario:';
         break;
     }
     return type;

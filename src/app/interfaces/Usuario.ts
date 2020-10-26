@@ -10,4 +10,5 @@ export interface Usuario {
   primerApellido?: string;
   codEstado?: string;
   rolNombre?: string;
+  role?: string;
 }
