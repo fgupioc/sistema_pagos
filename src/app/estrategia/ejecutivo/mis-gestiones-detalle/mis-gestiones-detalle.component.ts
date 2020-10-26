@@ -1174,6 +1174,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     }
     if (item.tipo == 3) {
       this.listarActividadPorTarea(item.id);
+      this.leerComentarios(item.id);
     }
   }
 
@@ -1291,6 +1292,17 @@ export class MisGestionesDetalleComponent implements OnInit {
       err => {
         Swal.fire('Iniciar Tarea', 'Ocurrio un error en el proceso.', 'error');
         this.iniciarTarea = false;
+      }
+    );
+  }
+
+  leerComentarios(id: any) {
+    this.gestionAdministrativaService.leerComentariosPorTarea(id).subscribe(
+      res => {
+        if (res.exito) {
+          this.eventosService.leerNotifyEmitter.emit({tipo: '04', id});
+          console.log(res);
+        }
       }
     );
   }

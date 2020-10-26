@@ -1,6 +1,6 @@
 <div class="modal-content">
   <div class="modal-body" *ngIf="tarea">
-    <ngb-accordion [closeOthers]="true" activeIds="static-1">
+    <ngb-accordion [closeOthers]="true" activeIds="static-1" (panelChange)="leerComentarios($event)">
       <ngb-panel id="static-1" title="Información">
         <ng-template ngbPanelContent>
           <div class="row">
@@ -256,7 +256,7 @@
           </div>
         </ng-template>
       </ngb-panel>
-      <ngb-panel id="static-2">
+      <ngb-panel id="002">
         <ng-template ngbPanelTitle>
           <span>Archivos Adjuntos</span>
         </ng-template>
@@ -361,7 +361,7 @@
           </div>
         </ng-template>
       </ngb-panel>
-      <ngb-panel id="static-3" title="Actividades">
+      <ngb-panel id="003" title="Actividades">
         <ng-template ngbPanelContent>
           <div class="row">
             <div class="col-12">

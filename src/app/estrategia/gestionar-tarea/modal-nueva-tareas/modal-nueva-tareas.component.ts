@@ -25,6 +25,7 @@ import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.s
 import {HttpEventType} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 import {TareaArchivo} from '../../../interfaces/tarea-archivo';
+import {EventosService} from '../../../servicios/eventos.service';
 
 const urlBaseFotos = environment.signinUrl + '/upload/';
 
@@ -73,7 +74,8 @@ export class ModalNuevaTareasComponent implements OnInit {
     private tablaMaestraService: MaestroService,
     private formBuilder: FormBuilder,
     private tipoNotificacionService: TipoNotificacionService,
-    private gestionAdministrativaService: GestionAdministrativaService
+    private gestionAdministrativaService: GestionAdministrativaService,
+    private eventosService: EventosService
   ) {
     this.userLoggedName = auth.loggedUser.alias;
   }
@@ -604,5 +606,18 @@ export class ModalNuevaTareasComponent implements OnInit {
         );
       }
     });
+  }
+
+  leerComentarios(event: any) {
+    if (event.panelId == '003') {
+      this.gestionAdministrativaService.leerComentariosPorTarea(this.tarea.id).subscribe(
+        res => {
+          if (res.exito) {
+            this.eventosService.leerNotifyEmitter.emit({tipo: '04', id: this.tarea.id});
+            console.log(res);
+          }
+        }
+      );
+    }
   }
 }
