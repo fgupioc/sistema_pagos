@@ -5,8 +5,8 @@
   <div class="modal-body">
     <div class="row">
       <div class="col-12">
-        <div class="form-group">
-          <span>IP: <b>125.123.15.2</b></span>
+        <div class="form-group" *ngIf="ipAddress">
+          <span>IP: <b>{{ ipAddress }}</b></span>
         </div>
       </div>
       <div class="col-12">
