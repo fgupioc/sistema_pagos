@@ -39,6 +39,8 @@ import {TableroTareasComponent} from './estrategia/gestionar-tarea/tablero-tarea
 import {TareaDetalleComponent} from './estrategia/gestionar-tarea/tarea-detalle/tarea-detalle.component';
 import {MisGestionesComponent} from './estrategia/ejecutivo/mis-gestiones/mis-gestiones.component';
 import {MisGestionesDetalleComponent} from './estrategia/ejecutivo/mis-gestiones-detalle/mis-gestiones-detalle.component';
+import {SocioCreditosComponent} from './socio/views/socio-creditos/socio-creditos.component';
+import {SocioCreditoDetalleComponent} from './socio/views/socio-credito-detalle/socio-credito-detalle.component';
 
 
 const A = Autorizacion;
@@ -46,6 +48,13 @@ const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent, canActivate: [GuestGuard]},
   {path: 'restablecimiento-credenciales', component: ValidarPinComponent, canActivate: [GuestGuard]},
+  {
+    path: 'socio',
+    children: [
+      { path: 'mis-creditos/:token', component: SocioCreditosComponent},
+      { path: 'mis-creditos/:token/detalle/:numCredito', component: SocioCreditoDetalleComponent}
+    ]
+  },
   {
     path: 'auth', children: [{
       path: '', component: AuthComponent,

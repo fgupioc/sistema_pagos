@@ -15,6 +15,7 @@ import {ComponentesModule} from './componentes/componentes.module';
 import {PublicoModule} from './publico/publico.module';
 import {ConfigService, configServiceInitializerFactory} from './servicios/seguridad/config.service';
 import {RouterModule} from '@angular/router';
+import {SocioModule} from './socio/socio.module';
 
 registerLocaleData(localePE, 'es-PE');
 
@@ -31,7 +32,8 @@ registerLocaleData(localePE, 'es-PE');
     AuthModule,
     PublicoModule,
     EstrategiaModule,
-    ComponentesModule
+    ComponentesModule,
+    SocioModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [I18n,

@@ -1,0 +1,68 @@
+<section class="app-body h100vh">
+  <div class="main">
+    <div class="container mt-5">
+      <!--  d-md-down-none 'ocultar en movil' -->
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <div class="float-right">
+                  <button class="btn btn-outline-info" [routerLink]="'/socio/mis-creditos/'+ token"><i class="fa fa-reply" aria-hidden="true"></i></button>
+                </div>
+                Socio: <label class="text-uppercase"><b>franz junior gupioc ventura</b></label>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                Documento: <label class="text-uppercase"><b>DNI / 46588976</b></label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <h3 class="title-table">Detalle de la Cuota</h3>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                    <tr class="text-center">
+                      <th scope="col">#</th>
+                      <th scope="col">N° Crédito</th>
+                      <th scope="col">Vencimeinto</th>
+                      <th scope="col">Días</th>
+                      <th scope="col">Monto</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="text-center">
+                      <th scope="row">1</th>
+                      <td>0014</td>
+                      <td>28/10/2020</td>
+                      <td>-2</td>
+                      <td>{{ 10000 | currency:'PEN' }}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group text-center">
+                <button class="btn btn-success mr-2 mb-2">Quiero que me Llamen</button>
+                <button class="btn btn-success mr-2 mb-2">&nbsp;Compromiso de Pago&nbsp;</button>
+                <button class="btn btn-success mr-2 mb-2" (click)="showModalYaPague()">&nbsp; Informar que Pagué &nbsp;</button>
+                <button class="btn btn-success mr-2 mb-2">Precentar un reclamo</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
