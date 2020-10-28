@@ -33,7 +33,7 @@
                     <tr class="text-center">
                       <th scope="col">#</th>
                       <th scope="col">N° Crédito</th>
-                      <th scope="col">Vencimeinto</th>
+                      <th scope="col">Vencimiento</th>
                       <th scope="col">Días</th>
                       <th scope="col">Monto</th>
                     </tr>
@@ -53,10 +53,10 @@
             </div>
             <div class="col-12">
               <div class="form-group text-center">
-                <button class="btn btn-success mr-2 mb-2">Quiero que me Llamen</button>
-                <button class="btn btn-success mr-2 mb-2">&nbsp;Compromiso de Pago&nbsp;</button>
+                <button class="btn btn-success mr-2 mb-2" (click)="showModalLlamenme()">Quiero que me Llamen</button>
+                <button class="btn btn-success mr-2 mb-2" (click)="showModalCompromisoPago()">&nbsp;Compromiso de Pago&nbsp;</button>
                 <button class="btn btn-success mr-2 mb-2" (click)="showModalYaPague()">&nbsp; Informar que Pagué &nbsp;</button>
-                <button class="btn btn-success mr-2 mb-2">Precentar un reclamo</button>
+                <button class="btn btn-success mr-2 mb-2" (click)="showModalReclamo()">Precentar un reclamo</button>
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
 <div class="modal-content">
   <div class="modal-header justify-content-center">
-    <h4 class="modal-title">Informar que Pagué</h4>
+    <h4 class="modal-title">Agendar Llamada</h4>
   </div>
   <div class="modal-body">
     <div class="row">
@@ -14,9 +14,21 @@
           <span *ngIf="info.longitude">Longitud: <b>{{ info.longitude }}</b></span>
         </div>
       </div>
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Fecha:</label>
+          <input class="form-control" type="date">
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Hora:</label>
+          <input class="form-control" type="time">
+        </div>
+      </div>
       <div class="col-12">
         <div class="form-group">
-          <label>Observación:</label>
+          <label>Comentario:</label>
           <textarea class="form-control" rows="4" [(ngModel)]="comment"></textarea>
         </div>
       </div>

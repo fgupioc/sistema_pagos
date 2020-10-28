@@ -2,12 +2,12 @@
   <div class="main">
     <div class="container mt-5">
       <!--  d-md-down-none 'ocultar en movil' -->
-      <div class="card">
+      <div class="card" *ngIf="socio">
         <div class="card-body">
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                Socio: <label class="text-uppercase"><b>franz junior gupioc ventura</b></label>
+                Socio: <label class="text-uppercase"><b>{{ socio.alias }}</b></label>
               </div>
             </div>
             <div class="col-12">
@@ -35,31 +35,21 @@
                     <tr class="text-center">
                       <th scope="col">#</th>
                       <th scope="col">N° Crédito</th>
-                      <th scope="col">Vencimeinto </th>
+                      <th scope="col">Vencimiento </th>
                       <th scope="col">Días</th>
                       <th scope="col">Monto</th>
                       <th scope="col">Opción</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="text-center">
-                      <th scope="row">1</th>
-                      <td>0014</td>
-                      <td>28/10/2020</td>
-                      <td>-2</td>
-                      <td>{{ 10000 | currency:'PEN' }}</td>
+                    <tr class="text-center" *ngFor="let credito of creditos; let i = index">
+                      <th scope="row">{{ i + 1 }}</th>
+                      <td>{{ credito.nroCredito }}</td>
+                      <td>{{ credito.fechaVencimiento | date : 'dd/MM/yyyy' }}</td>
+                      <td>{{ credito.diasAtraso }}</td>
+                      <td>{{ credito.montoCuota | currency: credito.codMoneda }}</td>
                       <td>
-                        <button class="btn btn-sm btn-primary" [routerLink]="'/socio/mis-creditos/'+ token+'/detalle/0014'"><i class="fa fa-eye"></i></button>
-                      </td>
-                    </tr>
-                    <tr class="text-center">
-                      <th scope="row">1</th>
-                      <td>0015</td>
-                      <td>28/10/2020</td>
-                      <td>-2</td>
-                      <td>{{ 10000 | currency:'PEN' }}</td>
-                      <td>
-                        <button class="btn btn-sm btn-primary" [routerLink]="'/socio/mis-creditos/'+ token+'/detalle/0015'"><i class="fa fa-eye"></i></button>
+                        <button class="btn btn-sm btn-primary" [routerLink]="'/socio/mis-creditos/'+ token +'/detalle/' + credito.nroCredito"><i class="fa fa-eye"></i></button>
                       </td>
                     </tr>
                     </tbody>
@@ -73,3 +63,4 @@
     </div>
   </div>
 </section>
+<app-loading></app-loading>

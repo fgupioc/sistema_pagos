@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
-import {LoginComponent} from '../publico/login/login.component';
-import {ValidarPinComponent} from '../publico/validar-pin/validar-pin.component';
+
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
@@ -15,12 +14,19 @@ import {MyPipesModule} from '../pipes/my-pipes.module';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {SocioCreditoDetalleComponent} from './views/socio-credito-detalle/socio-credito-detalle.component';
 import {YaPagueComponent} from './views/respuestas/ya-pague/ya-pague.component';
+import {AgmCoreModule} from '@agm/core';
+import { LlamenmeComponent } from './views/respuestas/llamenme/llamenme.component';
+import { ReclamoComponent } from './views/respuestas/reclamo/reclamo.component';
+import { CompromisoPagoComponent } from './views/respuestas/compromiso-pago/compromiso-pago.component';
 
 @NgModule({
   declarations: [
     SocioCreditosComponent,
     SocioCreditoDetalleComponent,
-    YaPagueComponent
+    YaPagueComponent,
+    LlamenmeComponent,
+    ReclamoComponent,
+    CompromisoPagoComponent
   ],
   imports: [
     CommonModule,
@@ -33,9 +39,16 @@ import {YaPagueComponent} from './views/respuestas/ya-pague/ya-pague.component';
     RouterModule,
     NgSelectModule,
     NgxSpinnerModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyATTjzPJ2jmiEJTscRjdIz72EhG6LEGiT0',
+      libraries: ['places']
+    })
   ],
   entryComponents: [
-    YaPagueComponent
+    YaPagueComponent,
+    LlamenmeComponent,
+    ReclamoComponent,
+    CompromisoPagoComponent
   ],
   providers: [
     {
