@@ -125,4 +125,10 @@ export class CONST {
   public static C_STR_TIPO_DOCUMENTO_RUC = '6';
   public static C_STR_TIPO_DOCUMENTO_PAS = '7';
   public static C_STR_TIPO_DOCUMENTO_PNA = '11';
+
+  public static ENUM_MONEDA = {
+    SOL: 'PEN',
+    DOLAR: 'USD',
+    EURO: 'EUR',
+  };
 }

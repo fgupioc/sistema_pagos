@@ -2,64 +2,89 @@
   <div class="main">
     <div class="container mt-5">
       <!--  d-md-down-none 'ocultar en movil' -->
-      <div class="card" *ngIf="socio">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                Socio: <label class="text-uppercase"><b>{{ socio.alias }}</b></label>
+      <section *ngIf="show">
+        <div class="card" *ngIf="socio">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  Socio: <label class="text-uppercase"><b>{{ socio.alias }}</b></label>
+                </div>
               </div>
-            </div>
-            <div class="col-12">
-              <div class="form-group">
-                Documento: <label class="text-uppercase"><b>DNI / 46588976</b></label>
+              <div class="col-12">
+                <div class="form-group" *ngFor="let doc of socio.documentos;">
+                  Documento: <label class="text-uppercase"><b>{{ doc.tipoDocumentoDescripcion }} / {{ doc.numeroDocumento }}</b></label>
+                </div>
               </div>
-            </div>
-            <div class="col-12">
-              <div class="form-group">
-                Monto Total: <label class="text-uppercase"><b>{{ 32800 | currency: 'PEN'}}</b></label>
+              <div class="col-12" *ngIf="totalSoles > 0">
+                <div class="form-group">
+                  Monto Total: <label class="text-uppercase"><b>{{ totalSoles | currency: codSol}}</b></label>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <h3 class="title-table">Mis Créditos</h3>
-                <div class="table-responsive">
-                  <table class="table table-bordered table-hover">
-                    <thead class="thead-light">
-                    <tr class="text-center">
-                      <th scope="col">#</th>
-                      <th scope="col">N° Crédito</th>
-                      <th scope="col">Vencimiento </th>
-                      <th scope="col">Días</th>
-                      <th scope="col">Monto</th>
-                      <th scope="col">Opción</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="text-center" *ngFor="let credito of creditos; let i = index">
-                      <th scope="row">{{ i + 1 }}</th>
-                      <td>{{ credito.nroCredito }}</td>
-                      <td>{{ credito.fechaVencimiento | date : 'dd/MM/yyyy' }}</td>
-                      <td>{{ credito.diasAtraso }}</td>
-                      <td>{{ credito.montoCuota | currency: credito.codMoneda }}</td>
-                      <td>
-                        <button class="btn btn-sm btn-primary" [routerLink]="'/socio/mis-creditos/'+ token +'/detalle/' + credito.nroCredito"><i class="fa fa-eye"></i></button>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
+              <div class="col-12" *ngIf="totalDolares > 0">
+                <div class="form-group">
+                  Monto Total: <label class="text-uppercase"><b>{{ totalDolares | currency: codDolar}}</b></label>
+                </div>
+              </div>
+              <div class="col-12" *ngIf="totalEuros > 0">
+                <div class="form-group">
+                  Monto Total: <label class="text-uppercase"><b>{{ totalEuros | currency: codEuro}}</b></label>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <h3 class="title-table">Mis Créditos</h3>
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                      <thead class="thead-light">
+                      <tr class="text-center">
+                        <th scope="col">#</th>
+                        <th scope="col">N° Crédito</th>
+                        <th scope="col">Vencimiento </th>
+                        <th scope="col">Días</th>
+                        <th scope="col">Monto</th>
+                        <th scope="col">Opción</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr class="text-center" *ngFor="let credito of creditos; let i = index">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ credito.nroCredito }}</td>
+                        <td>{{ credito.fechaVencimiento | date : 'dd/MM/yyyy' }}</td>
+                        <td>{{ credito.diasAtraso }}</td>
+                        <td>{{ credito.montoCuota | currency: credito.codMoneda }}</td>
+                        <td>
+                          <button class="btn btn-sm btn-primary" [routerLink]="'/socio/mis-creditos/'+ token +'/detalle/' + credito.nroCredito"><i class="fa fa-eye"></i></button>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="!show">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label class="text-uppercase"><b>{{ mensaje }}</b></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </section>

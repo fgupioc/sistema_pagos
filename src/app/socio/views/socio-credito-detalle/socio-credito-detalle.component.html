@@ -2,7 +2,7 @@
   <div class="main">
     <div class="container mt-5">
       <!--  d-md-down-none 'ocultar en movil' -->
-      <div class="card">
+      <div class="card" *ngIf="socio">
         <div class="card-body">
           <div class="row">
             <div class="col-12">
@@ -10,18 +10,18 @@
                 <div class="float-right">
                   <button class="btn btn-outline-info" [routerLink]="'/socio/mis-creditos/'+ token"><i class="fa fa-reply" aria-hidden="true"></i></button>
                 </div>
-                Socio: <label class="text-uppercase"><b>franz junior gupioc ventura</b></label>
+                Socio: <label class="text-uppercase"><b>{{ socio.alias }}</b></label>
               </div>
             </div>
             <div class="col-12">
-              <div class="form-group">
-                Documento: <label class="text-uppercase"><b>DNI / 46588976</b></label>
+              <div class="form-group" *ngFor="let doc of socio.documentos;">
+                Documento: <label class="text-uppercase"><b>{{ doc.tipoDocumentoDescripcion }} / {{ doc.numeroDocumento }}</b></label>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="card">
+      <div class="card" *ngIf="credito">
         <div class="card-body">
           <div class="row">
             <div class="col-12">
@@ -41,10 +41,10 @@
                     <tbody>
                     <tr class="text-center">
                       <th scope="row">1</th>
-                      <td>0014</td>
-                      <td>28/10/2020</td>
-                      <td>-2</td>
-                      <td>{{ 10000 | currency:'PEN' }}</td>
+                      <td>{{ credito.nroCredito }}</td>
+                      <td>{{ credito.fechaVencimiento | date : 'dd/MM/yyyy' }}</td>
+                      <td>{{ credito.diasAtraso }}</td>
+                      <td>{{ credito.montoCuota | currency: credito.codMoneda }}</td>
                     </tr>
                     </tbody>
                   </table>
@@ -56,7 +56,7 @@
                 <button class="btn btn-success mr-2 mb-2" (click)="showModalLlamenme()">Quiero que me Llamen</button>
                 <button class="btn btn-success mr-2 mb-2" (click)="showModalCompromisoPago()">&nbsp;Compromiso de Pago&nbsp;</button>
                 <button class="btn btn-success mr-2 mb-2" (click)="showModalYaPague()">&nbsp; Informar que Pagué &nbsp;</button>
-                <button class="btn btn-success mr-2 mb-2" (click)="showModalReclamo()">Precentar un reclamo</button>
+                <button class="btn btn-success mr-2 mb-2" (click)="showModalReclamo()">Presentar un reclamo</button>
               </div>
             </div>
           </div>
@@ -65,4 +65,4 @@
     </div>
   </div>
 </section>
-
+<app-loading></app-loading>

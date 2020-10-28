@@ -18,12 +18,13 @@
         <div class="form-group">
           <label>Observación:</label>
           <textarea class="form-control" rows="4" [(ngModel)]="comment"></textarea>
+          <small *ngIf="comment.length > 225" class="text-danger">El comentario es muy largo. Max(225 caracteres)</small>
         </div>
       </div>
     </div>
   </div>
   <div class="modal-footer justify-content-center">
-    <button type="button" class="btn btn-primary" (click)="enviar()" [disabled]="!comment">Enviar</button>
+    <button type="button" class="btn btn-primary" (click)="enviar()" [disabled]="comment.trim().length == 0 || comment.trim().length > 225">Enviar</button>
     <button type="button" class="btn btn-outline-dark" (click)="activeModal.dismiss()">Cerrar</button>
   </div>
 </div>
