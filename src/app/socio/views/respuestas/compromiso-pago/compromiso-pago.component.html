@@ -1,130 +1,174 @@
 <div class="modal-content">
   <div class="modal-header justify-content-center">
-    <h4 class="modal-title">Generar Crompromiso de Pago</h4>
+    <h4 class="modal-title">Generar Compromiso de Pago</h4>
   </div>
   <div class="modal-body">
-    <div class="row">
-      <div class="col-12">
-      </div>
-      <div class="col-12">
-        <div class="form-group" *ngIf="info">
-          <span>IP: <b>{{ info.ipAddress }}</b></span><br>
-          <span *ngIf="info.address">Dirección: <b>{{ info.address }}</b></span><br>
-          <span *ngIf="info.latitude">Latitud: <b>{{ info.latitude }}</b></span><br>
-          <span *ngIf="info.longitude">Longitud: <b>{{ info.longitude }}</b></span>
-        </div>
-      </div>
-        <div class="col-12">
-          <div class="form-group">
-            <select class="form-control" [(ngModel)]="typeAcuerdo">
-              <option [value]="0">Seleccione</option>
-              <option [value]="1">AL DÍA</option>
-              <option [value]="2">PLAN DE PAGO</option>
-              <option [value]="3">TOTAL DE LA MORA</option>
-              <option [value]="4">ABONO</option>
-            </select>
-          </div>
-        </div>
-        <ng-container *ngIf="typeAcuerdo == 1  || typeAcuerdo == 3 || typeAcuerdo == 4" [formGroup]="formRegistrarAcuerdo">
-          <div class="col-12">
-            <div class="row">
-              <div class="col-12" *ngIf="errors.length > 0">
-                <div class="form-group">
-                  <div class="alert alert-danger" role="alert" *ngFor="let value of errors">
-                    <span><b>.</b> {{ value }}</span>
+    <ngb-accordion [closeOthers]="true" activeIds="static-1">
+      <ngb-panel id="static-1" title="Información">
+        <ng-template ngbPanelContent>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group" *ngIf="info">
+                <span>IP: <b>{{ info.ipAddress }}</b></span><br>
+                <span *ngIf="info.address">Dirección: <b>{{ info.address }}</b></span><br>
+                <span *ngIf="info.latitude">Latitud: <b>{{ info.latitude }}</b></span><br>
+                <span *ngIf="info.longitude">Longitud: <b>{{ info.longitude }}</b></span>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <select class="form-control" [(ngModel)]="typeAcuerdo" (ngModelChange)="$cronograma = []">
+                  <option [value]="0">Seleccione</option>
+                  <option *ngFor="let item of tiposAcuerdos" [value]="item.id">{{ item.text }}</option>
+                </select>
+              </div>
+            </div>
+            <ng-container *ngIf="typeAcuerdo == 1  || typeAcuerdo == 3 || typeAcuerdo == 4" [formGroup]="formRegistrarAcuerdo">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12" *ngIf="errors.length > 0">
+                    <div class="form-group">
+                      <div class="alert alert-danger" role="alert" *ngFor="let value of errors">
+                        <span><b>.</b> {{ value }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label>Monto Acordado</label>
+                      <input CustomizeCurrency type="text" class="form-control" formControlName="montoAcordado" (ngModelChange)="generarCronograma()">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label>Posibilidad Pagar</label>
+                      <select class="form-control" formControlName="posibilidadPago">
+                        <option value="">Seleccione</option>
+                        <option value="1">Alto</option>
+                        <option value="2">Medio</option>
+                        <option value="3">Bajo</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label>Fecha</label>
+                      <input type="date" class="form-control" formControlName="fechaInicio" (ngModelChange)="generarCronograma()">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label>Hora</label>
+                      <input type="time" class="form-control" min="07:00" max="20:00" formControlName="horaIncio">
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-12 col-md-7">
-                <div class="form-group">
-                  <label>Monto Acordado</label>
-                  <input CustomizeCurrency type="text" class="form-control" formControlName="montoAcordado">
-                </div>
-              </div>
-              <div class="col-12 col-md-5">
-                <div class="form-group">
-                  <label>Posibilidad Pagar</label>
-                  <select class="form-control" formControlName="posibilidadPago">
-                    <option value="">Seleccione</option>
-                    <option value="1">Alto</option>
-                    <option value="2">Medio</option>
-                    <option value="3">Bajo</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-12 col-md-7">
-                <div class="form-group">
-                  <label>Fecha</label>
-                  <input type="date" class="form-control" formControlName="fechaInicio">
-                </div>
-              </div>
-              <div class="col-12 col-md-5">
-                <div class="form-group">
-                  <label>Hora</label>
-                  <input type="time" class="form-control" min="07:00" max="20:00" formControlName="horaIncio">
-                </div>
-              </div>
-            </div>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="typeAcuerdo == 2" [formGroup]="formPlanPago">
-          <div class="col-12">
-            <div class="row">
-              <div class="col-12" *ngIf="errors.length > 0">
-                <div class="form-group">
-                  <div class="alert alert-danger" role="alert" *ngFor="let value of errors">
-                    <span><b>.</b> {{ value }}</span>
+            </ng-container>
+            <ng-container *ngIf="typeAcuerdo == 2" [formGroup]="formPlanPago">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12" *ngIf="errors.length > 0">
+                    <div class="form-group">
+                      <div class="alert alert-danger" role="alert" *ngFor="let value of errors">
+                        <span><b>.</b> {{ value }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label>Nombre del plan</label>
+                      <input SoloLetras Uppercase type="text" class="form-control" formControlName="descripcion">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label>Posibilidad Pagar</label>
+                      <select class="form-control" formControlName="posibilidadPago">
+                        <option value="">Seleccione</option>
+                        <option value="1">Alto</option>
+                        <option value="2">Medio</option>
+                        <option value="3">Bajo</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label>Número de cuotas</label>
+                      <input Number type="text" class="form-control" formControlName="plazo" (ngModelChange)="generarCronograma()">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label>Valor de cuotas</label>
+                      <input CustomizeCurrency type="text" class="form-control" formControlName="montoAcordado" (ngModelChange)="generarCronograma()">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label>Intervalo cuotas (Días)</label>
+                      <input Number type="text" class="form-control" formControlName="intervalo" (ngModelChange)="generarCronograma()">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label>Fecha inicio</label>
+                      <input type="date" class="form-control" formControlName="fechaInicio" (ngModelChange)="generarCronograma()">
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-12">
-                <div class="form-group">
-                  <label>Nombre del plan</label>
-                  <input SoloLetras Uppercase type="text" class="form-control" formControlName="descripcion">
-                </div>
-              </div>
-              <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <label>Número de cuotas</label>
-                  <input Number type="text" class="form-control" formControlName="plazo">
-                </div>
-              </div>
-              <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <label>Valor de cuotas</label>
-                  <input CustomizeCurrency type="text" class="form-control" formControlName="montoAcordado">
-                </div>
-              </div>
-              <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <label>Intervalo cuotas (Días)</label>
-                  <input Number type="text" class="form-control" formControlName="intervalo">
-                </div>
-              </div>
-              <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <label>Fecha inicio</label>
-                  <input type="date" class="form-control" formControlName="fechaInicio">
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  <label>Posibilidad Pagar</label>
-                  <select class="form-control" formControlName="posibilidadPago">
-                    <option value="">Seleccione</option>
-                    <option value="1">Alto</option>
-                    <option value="2">Medio</option>
-                    <option value="3">Bajo</option>
-                  </select>
-                </div>
+            </ng-container>
+            <div class="col-12">
+              <div class="form-group">
+                <label>Observación:</label>
+                <textarea class="form-control" rows="2" [(ngModel)]="comment"></textarea>
+                <small *ngIf="comment.length > 225" class="text-danger">El comentario es muy largo. Max(225 caracteres)</small>
               </div>
             </div>
           </div>
-        </ng-container>
-    </div>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel id="static-2">
+        <ng-template ngbPanelTitle>
+          <span>Cronograma de Pago</span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+              <tr class="text-center">
+                <th>Cuota</th>
+                <th>Fecha</th>
+                <th>Monto</th>
+              </tr>
+              </thead>
+              <tbody>
+              <ng-container *ngIf="$cronograma.length > 0">
+              <tr style="font-size: 12px; text-align: center" *ngFor="let item of countries">
+                <td>{{ item.cuota }}</td>
+                <td>{{ item.fechaInicio }}</td>
+                <td> {{ item.montoAcordado | currency:'PEN' }}</td>
+              </tr>
+              </ng-container>
+              <ng-container *ngIf="$cronograma.length == 0">
+                <tr style="font-size: 12px; text-align: center">
+                  <td colspan="3"><small>No hay datos.</small></td>
+                </tr>
+              </ng-container>
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-center p-2" *ngIf="$cronograma.length > 4">
+              <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshCountries()">
+              </ngb-pagination>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
   </div>
   <div class="modal-footer justify-content-center">
-    <button type="button" class="btn btn-primary" (click)="enviar()">Enviar</button>
+    <button type="button" class="btn btn-primary" (click)="enviar()" [disabled]="comment.trim().length == 0 || comment.trim().length > 225">Enviar</button>
     <button type="button" class="btn btn-outline-dark" (click)="activeModal.dismiss()">Cerrar</button>
   </div>
 </div>
