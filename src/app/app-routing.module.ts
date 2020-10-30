@@ -48,13 +48,14 @@ const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent, canActivate: [GuestGuard]},
   {path: 'restablecimiento-credenciales', component: ValidarPinComponent, canActivate: [GuestGuard]},
+ /*
   {
     path: 'socio',
     children: [
       { path: 'mis-creditos/:token', component: SocioCreditosComponent},
       { path: 'mis-creditos/:token/detalle/:numCredito', component: SocioCreditoDetalleComponent}
     ]
-  },
+  },*/
   {
     path: 'auth', children: [{
       path: '', component: AuthComponent,

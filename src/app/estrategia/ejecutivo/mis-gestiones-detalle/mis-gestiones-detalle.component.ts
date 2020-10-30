@@ -1122,8 +1122,6 @@ export class MisGestionesDetalleComponent implements OnInit {
     const {departamento, distrito, provincia, ...address} = this.formDireccion.getRawValue();
     address.personaId = this.socio.id;
     address.ubigeo = `${departamento}${distrito}${provincia}`;
-    console.log(address);
-
     this.direccionService.guardar(address).subscribe(
       res => {
         if (res.exito) {
@@ -1170,6 +1168,10 @@ export class MisGestionesDetalleComponent implements OnInit {
     if (item.tipo == 1) {
       if (item.codRespuesta == '008' || item.codRespuesta == '009') {
         this.acuerdosPagoTemp = this.acuerdosPago.filter(value => String(value.grupo) == item.keyResp);
+      }
+
+      if (item.tipoContacto == '5') {
+        this.leerAccionPorTarea(item.id);
       }
     }
     if (item.tipo == 3) {
@@ -1301,7 +1303,16 @@ export class MisGestionesDetalleComponent implements OnInit {
       res => {
         if (res.exito) {
           this.eventosService.leerNotifyEmitter.emit({tipo: '04', id});
-          console.log(res);
+        }
+      }
+    );
+  }
+
+  leerAccionPorTarea(id: number) {
+    this.gestionAdministrativaService.leerAccionPorTarea(id).subscribe(
+      res => {
+        if (res.exito) {
+          this.eventosService.leerNotifyEmitter.emit({tipo: '05', id});
         }
       }
     );

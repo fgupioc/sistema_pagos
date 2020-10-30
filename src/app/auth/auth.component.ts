@@ -50,7 +50,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.misNotificaciones();
     this.eventosService.leerNotifyEmitter.subscribe(
       res => {
-        if (res.tipo == '01' || res.tipo == '03' || res.tipo == '04') {
+        if (res.tipo == '01' || res.tipo == '03' || res.tipo == '04' || res.tipo == '05') {
           this.notifications = [];
           this.misNotificaciones();
         }
@@ -91,6 +91,8 @@ export class AuthComponent implements OnInit, OnDestroy {
         } else {
           this.route.navigateByUrl(`/auth/gestion-administrativa/tareas/${noty.condicion}`);
         }
+      } else if (noty.tipo == '05') {
+        this.route.navigateByUrl(`/auth/gestion-administrativa/mis-gestiones/${noty.creditoId}/detalle`);
       }
     }
   }
@@ -109,6 +111,9 @@ export class AuthComponent implements OnInit, OnDestroy {
         break;
       case '04' :
         type = 'Comentario:';
+        break;
+      case '05' :
+        type = 'Respuesta:';
         break;
     }
     return type;

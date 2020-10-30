@@ -125,4 +125,8 @@ export class GestionAdministrativaService {
   leerComentariosPorTarea(tareaId: any): Observable<Respuesta> {
     return this.http.put<Respuesta>(`${urlBase}/leer-comentario-por-tarea`, {}, {params: new HttpParams().set('tareaId', tareaId)});
   }
+
+  leerAccionPorTarea(accionId: any): Observable<Respuesta> {
+    return this.http.put<Respuesta>(`${urlBase}/leer-accion-por-id`, {}, {params: new HttpParams().set('accionId', accionId)});
+  }
 }
