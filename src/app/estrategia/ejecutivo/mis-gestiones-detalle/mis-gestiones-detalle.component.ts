@@ -32,6 +32,7 @@ import {UbigeoService} from '../../../servicios/sistema/ubigeo.service';
 import {DireccionService} from '../../../servicios/direccion.service';
 import {Ubigeo} from '../../../interfaces/ubigeo';
 import {TareaActividad} from '../../../interfaces/tarea-actividad';
+import {environment} from '../../../../environments/environment';
 
 declare var $: any;
 
@@ -41,6 +42,7 @@ declare var $: any;
   styleUrls: ['./mis-gestiones-detalle.component.css']
 })
 export class MisGestionesDetalleComponent implements OnInit {
+  urlBaseFotos = environment.signinUrl + '/archivo/images/';
   page = 1;
   pageSize = 10;
   collectionSize = 0;
@@ -64,6 +66,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   showRespuesta = false;
   tipoVias: TablaMaestra[] = [];
   acciones: CreditoGestion[] = [];
+
 
   gestiones: TablaMaestra[] = [];
   respuestas: TablaMaestra[] = [];
@@ -115,6 +118,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   actividades: any[];
   msgSending = false;
   iniciarTarea = false;
+  archivos: any[] = [];
 
   constructor(
     public auth: AutenticacionService,
@@ -1309,9 +1313,14 @@ export class MisGestionesDetalleComponent implements OnInit {
   }
 
   leerAccionPorTarea(id: number) {
+    this.archivos = [];
     this.gestionAdministrativaService.leerAccionPorTarea(id).subscribe(
       res => {
         if (res.exito) {
+          if (res.objeto) {
+            const obj: any = res.objeto;
+            this.archivos = obj.archivos;
+          }
           this.eventosService.leerNotifyEmitter.emit({tipo: '05', id});
         }
       }
