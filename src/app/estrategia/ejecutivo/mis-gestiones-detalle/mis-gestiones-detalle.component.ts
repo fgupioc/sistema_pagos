@@ -33,6 +33,8 @@ import {DireccionService} from '../../../servicios/direccion.service';
 import {Ubigeo} from '../../../interfaces/ubigeo';
 import {TareaActividad} from '../../../interfaces/tarea-actividad';
 import {environment} from '../../../../environments/environment';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ShowImagenComponent} from '../../../componentes/show-imagen/show-imagen.component';
 
 declare var $: any;
 
@@ -119,6 +121,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   msgSending = false;
   iniciarTarea = false;
   archivos: any[] = [];
+  cargandoImagenes = false;
 
   constructor(
     public auth: AutenticacionService,
@@ -135,6 +138,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     private emailService: EmailService,
     private ubigeoService: UbigeoService,
     private direccionService: DireccionService,
+    private modalService: NgbModal
   ) {
     activatedRoute.params.subscribe(({creditoId}) => this.creditoId = creditoId);
     this.userLoggedName = auth.loggedUser.alias;
@@ -1314,6 +1318,7 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   leerAccionPorTarea(id: number) {
     this.archivos = [];
+    this.cargandoImagenes = true;
     this.gestionAdministrativaService.leerAccionPorTarea(id).subscribe(
       res => {
         if (res.exito) {
@@ -1323,7 +1328,16 @@ export class MisGestionesDetalleComponent implements OnInit {
           }
           this.eventosService.leerNotifyEmitter.emit({tipo: '05', id});
         }
+        this.cargandoImagenes = false;
+      },
+      err => {
+        this.cargandoImagenes = false;
       }
     );
+  }
+
+  showImagen(arcivo: any) {
+    const modal = this.modalService.open(ShowImagenComponent);
+    modal.componentInstance.url = this.urlBaseFotos + arcivo.url;
   }
 }

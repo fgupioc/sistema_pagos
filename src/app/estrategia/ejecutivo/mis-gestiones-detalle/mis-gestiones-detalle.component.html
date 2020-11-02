@@ -477,7 +477,8 @@
                                       <tr>
                                         <th data-field="field0">
                                           <div class="th-inner sortable both">
-                                            <span>{{ item.gestionDescripcion }} <div class="fht-cell pull-right">{{item.fechaRegistro | date: 'MMMM y, EEEE d  h:mm a'}} </div></span>
+                                            <span>{{ item.gestionDescripcion }}
+                                              <div class="fht-cell pull-right">{{item.fechaRegistro | date: 'MMMM y, EEEE d  h:mm a'}} </div></span>
                                             <br>
                                             <span *ngIf="item.tipo == 3">
                                               <span *ngIf="item.codRespuesta == '01'" class="text-info">En Lista</span>
@@ -504,9 +505,9 @@
                                                 <button class="btn btn-sm btn-primary" (click)="iniciarProcesoTarea(item)">Iniciar Tarea</button>
                                               </ng-container>
                                               <ng-container *ngIf="iniciarTarea">
-                                              <button class="btn btn-sm btn-primary">
-                                                <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
-                                                <span>Iniciando...</span></button>
+                                                <button class="btn btn-sm btn-primary">
+                                                  <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+                                                  <span>Iniciando...</span></button>
                                               </ng-container>
                                             </ng-container>
                                             <ng-container *ngIf="item.codRespuesta == '02'">
@@ -535,15 +536,26 @@
                                           </ng-container>
                                         </td>
                                       </tr>
-                                      <tr *ngIf="archivos.length > 0">
-                                        <td>
-                                          <div class="row">
-                                            <div class="col-6 col-md-3" *ngFor="let arcivo of archivos">
-                                              <img [src]="urlBaseFotos + arcivo.url" style="width: 100%; height: 240px">
+                                      <ng-container *ngIf="cargandoImagenes">
+                                        <tr >
+                                          <td class="text-center" style="background: #eee">
+                                            <span>
+                                              <i class="fa fa-spinner fa-pulse" style="font-size: 30px"></i>
+                                            </span>
+                                          </td>
+                                        </tr>
+                                      </ng-container>
+                                      <ng-container *ngIf="!cargandoImagenes">
+                                        <tr *ngIf="archivos.length > 0">
+                                          <td>
+                                            <div class="row">
+                                              <div class="col-6 col-md-3 mb-4" *ngFor="let arcivo of archivos" (click)="showImagen(arcivo)">
+                                                <img [src]="urlBaseFotos + arcivo.url" class="imagen">
+                                              </div>
                                             </div>
-                                          </div>
-                                        </td>
-                                      </tr>
+                                          </td>
+                                        </tr>
+                                      </ng-container>
                                       <tr *ngIf="item.tipo == 3">
                                         <td>
                                           <div class="new-comment mb-4">

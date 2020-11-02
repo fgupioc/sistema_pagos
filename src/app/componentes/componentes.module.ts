@@ -10,6 +10,7 @@ import { EditarSociosComponent } from './socio/editar-socios/editar-socios.compo
 import { GestionarDireccionComponent } from './socio/gestionar-direccion/gestionar-direccion.component';
 import { GestionarTelefonoComponent } from './socio/gestionar-telefono/gestionar-telefono.component';
 import { GestionarCorreoComponent } from './socio/gestionar-correo/gestionar-correo.component';
+import { ShowImagenComponent } from './show-imagen/show-imagen.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { GestionarCorreoComponent } from './socio/gestionar-correo/gestionar-cor
     EditarSociosComponent,
     GestionarDireccionComponent,
     GestionarTelefonoComponent,
-    GestionarCorreoComponent
+    GestionarCorreoComponent,
+    ShowImagenComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,11 @@ import { GestionarCorreoComponent } from './socio/gestionar-correo/gestionar-cor
   entryComponents: [
     GestionarDireccionComponent,
     GestionarTelefonoComponent,
-    GestionarCorreoComponent
+    GestionarCorreoComponent,
+    ShowImagenComponent
+  ],
+  exports: [
+    ShowImagenComponent
   ]
 })
 export class ComponentesModule { }
