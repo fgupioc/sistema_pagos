@@ -24,6 +24,13 @@
   background-color: #3f729b;
   border-color: rgba(0,0,0,0.2);
 }
+
+.other-btns  .btn-whatsapp {
+  color: #fff;
+  background-color: #25d366;
+  border-color: rgba(0,0,0,0.2);
+}
+
 .other-btns .btn-social {
   position: relative;
   padding-left: 44px;

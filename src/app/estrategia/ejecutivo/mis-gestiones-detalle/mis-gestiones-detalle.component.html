@@ -64,12 +64,16 @@
                 <section [formGroup]="form">
                   <div class="row other-btns mb-3">
                     <div class="col-12">
-                      <a class="btn btn-social btn-instagram mr-4" (click)="showNewTask = true; showNewEmail = false;">
+                      <a class="btn btn-social btn-instagram mr-4" (click)="showNewTask = true; showNewEmail = false; showNewWhatsapp = false">
                         <i class="fa fa-bell-o"></i> Programar Tarea
                       </a>
-                      <a class="btn btn-social btn-linkedin" (click)="showNewTask = false; showNewEmail = true;">
+                      <a class="btn btn-social btn-linkedin mr-4" (click)="showNewTask = false; showNewEmail = true;  showNewWhatsapp = false">
                         <i class="fa fa-envelope-o"></i> Enviar Correo
                       </a>
+                      <a class="btn btn-social btn-whatsapp mr-4" (click)="showNewTask = false;  showNewEmail = false; showNewWhatsapp = true;">
+                        <i class="fa fa-whatsapp"></i> Enviar Whatsapp
+                      </a>
+
                     </div>
                     <div class="col-12">
                       <div class="container-works mt-2" *ngIf="showNewTask">
@@ -196,7 +200,7 @@
                               <br>
                               <br>
                               <label class="cursor-pointer">
-                              <input type="checkbox" formControlName="url"> Enviar url de SelfService a socio.
+                              <input type="checkbox" formControlName="url"> Adjuntar URL Self Service
                               </label>
                             </div>
                           </div>
@@ -210,6 +214,40 @@
                             <div class="form-group text-center mt-2">
                               <button class="btn btn-sm btn-primary mr-2" [disabled]="formCorreo.invalid" (click)="guardarCorreo()">Enviar</button>
                               <button class="btn btn-sm btn-danger" (click)="formCorreo.reset({aunto: '', correo: '',mensaje: $body}); showNewEmail = false;">Cancelar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="container-works mt-2" *ngIf="showNewWhatsapp">
+                        <div class="row" [formGroup]="formWhatsapp">
+                          <div class="col-12 col-md-4">
+                            <div class="form-group">
+                              <label>Seleccione Correo</label>
+                              <select class="form-control" formControlName="telefono">
+                                <option value="">Seleccione</option>
+                                <option *ngFor="let item of showPhones" [value]="item.numero">{{ item.numero }}</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-12 col-md-4">
+                            <div class="form-group">
+                              <br>
+                              <br>
+                              <label class="cursor-pointer">
+                                <input type="checkbox" formControlName="url"> Adjuntar URL Self Service
+                              </label>
+                            </div>
+                          </div>
+                          <div class="col-12">
+                            <div class="form-group">
+                              <label>Cuerpo</label>
+                              <textarea class="form-control" rows="4" formControlName="mensaje"></textarea>
+                            </div>
+                          </div>
+                          <div class="col-12">
+                            <div class="form-group text-center mt-2">
+                              <button class="btn btn-sm btn-primary mr-2" [disabled]="formWhatsapp.invalid" (click)="eviarWhatsapp()">Enviar</button>
+                              <button class="btn btn-sm btn-danger" (click)="formWhatsapp.reset({numero: '',mensaje: $body}); showNewEmail = false;">Cancelar</button>
                             </div>
                           </div>
                         </div>
@@ -449,8 +487,9 @@
                           <tr [attr.data-index]="i" data-has-detail-view="true" class="text-center cursor-pointer tr_{{i}}" (click)="showDetalle(i, item)">
                             <td class="text-center">
                               <ng-container *ngIf="item.tipo == 1"><span class="text-warning"><i class="fa fa-usd" aria-hidden="true"></i></span></ng-container>
-                              <ng-container *ngIf="item.tipo == 2"><span class="text-success"><i class="fa fa-envelope" aria-hidden="true"></i></span></ng-container>
+                              <ng-container *ngIf="item.tipo == 2"><span class="text-danger"><i class="fa fa-envelope" aria-hidden="true"></i></span></ng-container>
                               <ng-container *ngIf="item.tipo == 3"><span class="text-info"><i class="fa fa-bell" aria-hidden="true"></i></span></ng-container>
+                              <ng-container *ngIf="item.tipo == 4"><span class="text-success"><i class="fa fa-whatsapp" aria-hidden="true"></i></span></ng-container>
                             </td>
                             <td>
                               {{ item.gestionDescripcion }}

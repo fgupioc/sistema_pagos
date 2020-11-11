@@ -129,4 +129,8 @@ export class GestionAdministrativaService {
   leerAccionPorTarea(accionId: any): Observable<any> {
     return this.http.put<any>(`${urlBase}/leer-accion-por-id`, {}, {params: new HttpParams().set('accionId', accionId)});
   }
+
+  guardarEnvioWhatsapp(data: any, url?: any): Observable<any> {
+    return this.http.post<any>(`${urlBase}/envio-whatsapp-gestion`, data, {params: new HttpParams().set('url', url)});
+  }
 }

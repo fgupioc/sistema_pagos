@@ -58,6 +58,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   formTelefono: FormGroup;
   formEmail: FormGroup;
   formDireccion: FormGroup;
+  formWhatsapp: FormGroup;
 
   creditoId: any;
   credito: Credito;
@@ -123,6 +124,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   archivos: any[] = [];
   cargandoImagenes = false;
   pagos: any[] = [];
+  showNewWhatsapp = false;
 
   constructor(
     public auth: AutenticacionService,
@@ -258,6 +260,11 @@ export class MisGestionesDetalleComponent implements OnInit {
     this.formCorreo = this.formBuilder.group({
       asunto: ['', [Validators.required]],
       correo: ['', [Validators.required]],
+      mensaje: [this.$body, [Validators.required]],
+      url: [false]
+    });
+    this.formWhatsapp = this.formBuilder.group({
+      telefono: ['', [Validators.required]],
       mensaje: [this.$body, [Validators.required]],
       url: [false]
     });
@@ -434,14 +441,17 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   public get showPhones(): Telefono[] {
     const phones: Telefono[] = [];
-    this.socio.telefonos.forEach(item => {
-      if (item.codTipoNotificacion == CONST.C_INT_LLAMADAS) {
-        const exit = phones.find(i => i.numero == item.numero);
-        if (!exit) {
-          phones.push(item);
-        }
-      }
-    });
+     if(this.socio) {
+       this.socio.telefonos.forEach(item => {
+         if (item.codTipoNotificacion == CONST.C_INT_LLAMADAS) {
+           const exit = phones.find(i => i.numero == item.numero);
+           if (!exit) {
+             phones.push(item);
+           }
+         }
+       });
+     }
+
     return phones;
   }
 
@@ -804,7 +814,7 @@ export class MisGestionesDetalleComponent implements OnInit {
             this.spinner.hide();
           },
           err => {
-            Swal.fire('Crear Nuevo Tablero', 'Ocurrio un error', 'success');
+            Swal.fire('Crear Nuevo Tablero', 'Ocurrio un error', 'error');
           }
         );
       }
@@ -826,7 +836,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       res => {
         if (res.exito) {
           Swal.fire('Envio de Correo', res.mensaje, 'success');
-          this.formCorreo.reset({aunto: '', correo: '', asunto: this.$body});
+          this.formCorreo.reset({aunto: '', correo: '', mensaje: this.$body});
           this.listarAcciones(this.credito.id, this.credito.asignacionId);
           this.showNewEmail = false;
         } else {
@@ -836,6 +846,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       },
       err => {
         Swal.fire('Envio de Correo', 'Ocurrio un error', 'success');
+        this.spinner.hide();
       }
     );
   }
@@ -1346,5 +1357,35 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   generarCeros(numero: string, ceros: number) {
     return String(numero).padStart(ceros, '0');
+  }
+
+  eviarWhatsapp() {
+    if (this.formWhatsapp.invalid) {
+      Swal.fire('Enviar Whatsapp', 'Debe ingresar todos los datos.', 'warning');
+      return;
+    }
+
+    const {url, ...whatsapp} = this.formWhatsapp.getRawValue();
+    whatsapp.creditoId = this.credito.id;
+    whatsapp.codPersona = this.credito.socioId;
+    whatsapp.asignacionId = this.credito.asignacionId;
+    this.spinner.show();
+    this.gestionAdministrativaService.guardarEnvioWhatsapp(whatsapp, url).subscribe(
+      res => {
+        if (res.exito) {
+          Swal.fire('Envio de Whatsapp', res.mensaje, 'success');
+          this.formWhatsapp.reset({numero: '', mensaje: this.$body});
+          this.listarAcciones(this.credito.id, this.credito.asignacionId);
+          this.showNewWhatsapp = false;
+        } else {
+          Swal.fire('Envio de Whatsapp', res.mensaje, 'error');
+        }
+        this.spinner.hide();
+      },
+      err => {
+        Swal.fire('Envio de Whatsapp', 'Ocurrio un error', 'error');
+        this.spinner.hide();
+      }
+    );
   }
 }
