@@ -59,8 +59,8 @@ export class GestionAdministrativaService {
   }
 
 
-  listarActividadPorTarea(tareaId: any): Observable<Respuesta> {
-    return this.http.get<Respuesta>(`${urlBase}/listar-tarea-actividad`, {params: new HttpParams().set('tareaId', tareaId)});
+  listarActividadPorTarea(tareaId: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/listar-tarea-actividad`, {params: new HttpParams().set('tareaId', tareaId)});
   }
 
   crearTareaComentario(comment: any): Observable<Respuesta> {
@@ -126,7 +126,7 @@ export class GestionAdministrativaService {
     return this.http.put<Respuesta>(`${urlBase}/leer-comentario-por-tarea`, {}, {params: new HttpParams().set('tareaId', tareaId)});
   }
 
-  leerAccionPorTarea(accionId: any): Observable<Respuesta> {
-    return this.http.put<Respuesta>(`${urlBase}/leer-accion-por-id`, {}, {params: new HttpParams().set('accionId', accionId)});
+  leerAccionPorTarea(accionId: any): Observable<any> {
+    return this.http.put<any>(`${urlBase}/leer-accion-por-id`, {}, {params: new HttpParams().set('accionId', accionId)});
   }
 }

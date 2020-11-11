@@ -122,6 +122,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   iniciarTarea = false;
   archivos: any[] = [];
   cargandoImagenes = false;
+  pagos: any[] = [];
 
   constructor(
     public auth: AutenticacionService,
@@ -1318,6 +1319,7 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   leerAccionPorTarea(id: number) {
     this.archivos = [];
+    this.pagos = [];
     this.cargandoImagenes = true;
     this.gestionAdministrativaService.leerAccionPorTarea(id).subscribe(
       res => {
@@ -1325,6 +1327,7 @@ export class MisGestionesDetalleComponent implements OnInit {
           if (res.objeto) {
             const obj: any = res.objeto;
             this.archivos = obj.archivos;
+            this.pagos = res.pagos as any[];
           }
           this.eventosService.leerNotifyEmitter.emit({tipo: '05', id});
         }
@@ -1339,5 +1342,9 @@ export class MisGestionesDetalleComponent implements OnInit {
   showImagen(arcivo: any) {
     const modal = this.modalService.open(ShowImagenComponent);
     modal.componentInstance.url = this.urlBaseFotos + arcivo.url;
+  }
+
+  generarCeros(numero: string, ceros: number) {
+    return String(numero).padStart(ceros, '0');
   }
 }

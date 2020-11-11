@@ -91,7 +91,7 @@ export class AuthComponent implements OnInit, OnDestroy {
         } else {
           this.route.navigateByUrl(`/auth/gestion-administrativa/tareas/${noty.condicion}`);
         }
-      } else if (noty.tipo == '05') {
+      } else if (noty.tipo == '05' || noty.tipo == '06') {
         this.route.navigateByUrl(`/auth/gestion-administrativa/mis-gestiones/${noty.creditoId}/detalle`);
       }
     }
@@ -114,6 +114,9 @@ export class AuthComponent implements OnInit, OnDestroy {
         break;
       case '05' :
         type = 'Respuesta:';
+        break;
+      case '06' :
+        type = 'Pago de Cuota:';
         break;
     }
     return type;

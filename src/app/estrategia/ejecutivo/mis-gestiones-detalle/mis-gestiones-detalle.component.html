@@ -632,6 +632,30 @@
                                         </tbody>
                                       </table>
                                     </div>
+                                    <ng-container *ngIf="pagos.length > 0">
+                                      <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                          <thead>
+                                          <tr class="text-center">
+                                            <th scope="col">#</th>
+                                            <th scope="col">N° Recibo</th>
+                                            <th scope="col">Pagado con</th>
+                                            <th scope="col">Monto Pagado</th>
+                                            <th scope="col">Fecha Pago</th>
+                                          </tr>
+                                          </thead>
+                                          <tbody>
+                                          <tr *ngFor="let ticket of pagos; let i = index" class="text-center">
+                                            <th scope="row">{{ i+1 }}</th>
+                                            <td>{{ ticket.codigoRecibo }}-{{ generarCeros(ticket.numeroRecibo, 8) }}</td>
+                                            <td><span>**** **** {{ ticket.numeroDescripcion }}</span></td>
+                                            <td>{{ ticket.monto | currency : 'PEN' }}</td>
+                                            <td>{{ ticket.fechaEfectiva | date : 'd/M/y' }}</td>
+                                          </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </ng-container>
                                   </div>
                                 </div>
                               </div>

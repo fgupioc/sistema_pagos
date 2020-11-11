@@ -112,6 +112,7 @@ export class MaestroService {
       {codItem: '2', descripcion: 'COMPLETADA'},
       {codItem: '3', descripcion: 'CANCELADA'},
       {codItem: '4', descripcion: 'NO COMPLETADA'},
+      {codItem: '5', descripcion: 'PAGADA'},
     ];
 
     return of(data);
