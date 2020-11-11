@@ -537,7 +537,7 @@
                                         </td>
                                       </tr>
                                       <ng-container *ngIf="cargandoImagenes">
-                                        <tr >
+                                        <tr>
                                           <td class="text-center" style="background: #eee">
                                             <span>
                                               <i class="fa fa-spinner fa-pulse" style="font-size: 30px"></i>
@@ -626,7 +626,9 @@
                                           <td>{{ item.cuota }}</td>
                                           <td>{{ item.plazo }}</td>
                                           <td>
-                                            <button *ngIf="conPermiso" [disabled]="isAfter(item.fechaInicio)" class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item)"><i class="fa fa-trash"></i></button>
+                                            <ng-container *ngIf="item.condicion != '5'">
+                                              <button *ngIf="conPermiso" [disabled]="isAfter(item.fechaInicio)" class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item)"><i class="fa fa-trash"></i></button>
+                                            </ng-container>
                                           </td>
                                         </tr>
                                         </tbody>
@@ -646,7 +648,7 @@
                                           </thead>
                                           <tbody>
                                           <tr *ngFor="let ticket of pagos; let i = index" class="text-center">
-                                            <th scope="row">{{ i+1 }}</th>
+                                            <th scope="row">{{ i + 1 }}</th>
                                             <td>{{ ticket.codigoRecibo }}-{{ generarCeros(ticket.numeroRecibo, 8) }}</td>
                                             <td><span>**** **** {{ ticket.numeroDescripcion }}</span></td>
                                             <td>{{ ticket.monto | currency : 'PEN' }}</td>
@@ -704,7 +706,9 @@
                       <td>{{ item.cuota }}</td>
                       <td>{{ item.plazo }}</td>
                       <td>
-                        <button *ngIf="conPermiso" [disabled]="isAfter(item.fechaInicio)" class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item)"><i class="fa fa-trash"></i></button>
+                        <ng-container *ngIf="item.condicion != '5'">
+                          <button *ngIf="conPermiso" [disabled]="isAfter(item.fechaInicio)" class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item)"><i class="fa fa-trash"></i></button>
+                        </ng-container>
                       </td>
                     </tr>
                     </tbody>
