@@ -176,7 +176,7 @@
                       </div>
                       <div class="container-works mt-2" *ngIf="showNewEmail">
                         <div class="row" [formGroup]="formCorreo">
-                          <div class="col-12 col-md-6">
+                          <div class="col-12 col-md-4">
                             <div class="form-group">
                               <label>Seleccione Correo</label>
                               <select class="form-control" formControlName="correo">
@@ -185,10 +185,19 @@
                               </select>
                             </div>
                           </div>
-                          <div class="col-12 col-md-6">
+                          <div class="col-12 col-md-4">
                             <div class="form-group">
                               <label>Asunto</label>
                               <input Uppercase class="form-control" type="text" formControlName="asunto">
+                            </div>
+                          </div>
+                          <div class="col-12 col-md-4">
+                            <div class="form-group">
+                              <br>
+                              <br>
+                              <label class="cursor-pointer">
+                              <input type="checkbox" formControlName="url"> Enviar url de SelfService a socio.
+                              </label>
                             </div>
                           </div>
                           <div class="col-12">

@@ -259,6 +259,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       asunto: ['', [Validators.required]],
       correo: ['', [Validators.required]],
       mensaje: [this.$body, [Validators.required]],
+      url: [false]
     });
 
     this.refreshCountries();
@@ -816,13 +817,12 @@ export class MisGestionesDetalleComponent implements OnInit {
       return;
     }
 
-    const {asunto, ...correo} = this.formCorreo.getRawValue();
+    const {asunto, url , ...correo} = this.formCorreo.getRawValue();
     correo.creditoId = this.credito.id;
     correo.codPersona = this.credito.socioId;
     correo.asignacionId = this.credito.asignacionId;
-
     this.spinner.show();
-    this.gestionAdministrativaService.guardarEnvioEmail(correo, asunto).subscribe(
+    this.gestionAdministrativaService.guardarEnvioEmail(correo, asunto, url).subscribe(
       res => {
         if (res.exito) {
           Swal.fire('Envio de Correo', res.mensaje, 'success');
