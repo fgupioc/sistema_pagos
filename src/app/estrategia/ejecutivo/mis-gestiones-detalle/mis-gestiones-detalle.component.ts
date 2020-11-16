@@ -45,6 +45,7 @@ declare var $: any;
 })
 export class MisGestionesDetalleComponent implements OnInit {
   urlBaseFotos = environment.signinUrl + '/archivo/images/';
+  urlBaseImagenTicket = environment.signinUrl + '/archivo/images-ticket/';
   page = 1;
   pageSize = 10;
   collectionSize = 0;
@@ -1350,9 +1351,9 @@ export class MisGestionesDetalleComponent implements OnInit {
     );
   }
 
-  showImagen(arcivo: any) {
+  showImagen(urlbase: any, arcivo: any) {
     const modal = this.modalService.open(ShowImagenComponent);
-    modal.componentInstance.url = this.urlBaseFotos + arcivo.url;
+    modal.componentInstance.url = urlbase + arcivo.url;
   }
 
   generarCeros(numero: string, ceros: number) {
