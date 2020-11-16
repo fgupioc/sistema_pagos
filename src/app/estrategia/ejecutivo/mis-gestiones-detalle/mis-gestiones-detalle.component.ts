@@ -442,16 +442,16 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   public get showPhones(): Telefono[] {
     const phones: Telefono[] = [];
-     if(this.socio) {
-       this.socio.telefonos.forEach(item => {
-         if (item.codTipoNotificacion == CONST.C_INT_LLAMADAS) {
-           const exit = phones.find(i => i.numero == item.numero);
-           if (!exit) {
-             phones.push(item);
-           }
-         }
-       });
-     }
+    if (this.socio) {
+      this.socio.telefonos.forEach(item => {
+        if (item.codTipoNotificacion == CONST.C_INT_LLAMADAS) {
+          const exit = phones.find(i => i.numero == item.numero);
+          if (!exit) {
+            phones.push(item);
+          }
+        }
+      });
+    }
 
     return phones;
   }
@@ -828,12 +828,13 @@ export class MisGestionesDetalleComponent implements OnInit {
       return;
     }
 
-    const {asunto, url , ...correo} = this.formCorreo.getRawValue();
+    const {asunto, url, ...correo} = this.formCorreo.getRawValue();
     correo.creditoId = this.credito.id;
     correo.codPersona = this.credito.socioId;
     correo.asignacionId = this.credito.asignacionId;
+    const flag = !!url;
     this.spinner.show();
-    this.gestionAdministrativaService.guardarEnvioEmail(correo, asunto, url).subscribe(
+    this.gestionAdministrativaService.guardarEnvioEmail(correo, asunto, flag).subscribe(
       res => {
         if (res.exito) {
           Swal.fire('Envio de Correo', res.mensaje, 'success');
@@ -1370,8 +1371,9 @@ export class MisGestionesDetalleComponent implements OnInit {
     whatsapp.creditoId = this.credito.id;
     whatsapp.codPersona = this.credito.socioId;
     whatsapp.asignacionId = this.credito.asignacionId;
+    const flag = !!url;
     this.spinner.show();
-    this.gestionAdministrativaService.guardarEnvioWhatsapp(whatsapp, url).subscribe(
+    this.gestionAdministrativaService.guardarEnvioWhatsapp(whatsapp, flag).subscribe(
       res => {
         if (res.exito) {
           Swal.fire('Envio de Whatsapp', res.mensaje, 'success');
