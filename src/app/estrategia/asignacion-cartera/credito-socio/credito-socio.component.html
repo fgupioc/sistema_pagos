@@ -70,10 +70,11 @@
         <div class="form-group mb-0" *ngIf="conPermiso">
           <div class="text-center">
             <a class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearEventos(1, 'Gestionar Eventos Socio')"><i class="fa fa-plus"></i></a>
-
+            <!--
             <a [ngbTooltip]="'Crear Recordatorio'" class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearEventos(4, 'Crear Recordatorio')" placement="top" ngbTooltip="Crear Recordatorio"><i
               class="fa fa-calendar"></i></a>
             <a [ngbTooltip]="'Crear Acuerdo de Pago'" class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearEventos(5, 'Crear Acuerdos de Pago')"><i class="fa fa-handshake-o"></i></a>
+            -->
           </div>
         </div>
       </div>
@@ -763,54 +764,358 @@
     <hr>
     <div class="row">
       <div class="col-12">
-        <ngb-accordion [closeOthers]="true">
-          <ngb-panel>
-            <ng-template ngbPanelTitle>
-              <span><b>Recordatorio</b></span>
-            </ng-template>
-            <ng-template ngbPanelContent>
-              <div class="table-responsive">
-                <table class="table table-bordered table-hover">
-                  <thead>
-                  <tr class="text-center">
-                    <th>Actividad</th>
-                    <th>Fecha/hora</th>
-                    <th>Descrpción</th>
-                    <th>Mensaje</th>
-                    <th>Condición</th>
-                    <th>Opcipon</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr *ngFor="let item of recordatorios"  [class]="isCurrentDate(item.fecha, item.condicion)" style="font-size: 12px; text-align: center">
-                    <td>
-                      <ng-container *ngIf="!item.observacion; else obsetvation">
-                        {{ getNameActividad(item.tipoActividad) }}
-                      </ng-container>
+        <ngb-tabset [destroyOnHide]="false">
+          <ngb-tab title="Gestión">
+            <ng-template ngbTabContent>
+              <section>
+                <div class="row other-btns mb-3">
+                  <div class="col-12" *ngIf="conPermiso">
+                    <a class="btn btn-social btn-instagram mr-4 text-white" (click)="showNewTask = true;">
+                      <i class="fa fa-bell-o"></i> Programar Tarea
+                    </a>
 
-                      <ng-template #obsetvation>
-                        <ng-template #tipContent><b>{{item.observacion}}</b></ng-template>
-                        <span> <b triggers="click" [autoClose]="'outside'" [ngbTooltip]="tipContent" class="cursor-pointer" style="font-size: 18px"><i class="fa  fa-question-circle"></i></b> {{ getNameActividad(item.tipoActividad) }} </span>
-                      </ng-template>
-                    </td>
-                    <td> {{ item.fecha | date: 'dd/MM/yyyy' }} {{ item.hora   }}</td>
-                    <td> {{ getDescripcion(item) }}</td>
-                    <td style="text-align: left;"> {{ item.comentario }}</td>
-                    <td> {{ getNameCondition(item.condicion) }}</td>
-                    <td>
-                      <button *ngIf="conPermiso" class="btn btn-sm btn-success" (click)="cambiarEstado(item)"><i class="fa fa-check"></i></button>
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
+                  </div>
+                  <div class="col-12">
+                    <div class="container-works mt-2" *ngIf="showNewTask">
+                      <ng-container>
+                        <div class="row" [formGroup]="formTarea">
+                          <div class="col-12">
+                            <div class="form-group text-center">
+                              <h4 class="font-weight-bold">Crear Tarea</h4>
+                            </div>
+                          </div>
+                          <div class="col-12 col-md-6">
+                            <div class="row">
+                              <div class="col-12">
+                                <label>Seleccione el tablero</label>
+                                <div class="input-group">
+                                  <select class="form-control" formControlName="tableroTareaId">
+                                    <option value="">Selecione</option>
+                                    <option *ngFor="let item of misTableros" [value]="item.id">{{ item.nombre }}</option>
+                                  </select>
+                                  <div class="input-group-btn">
+                                    <button type="button" class="btn btn-success" (click)="crearTablero()"><i class="fa fa-plus"></i></button>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label>Nombre</label>
+                                  <input class="form-control" type="text" formControlName="nombre">
+                                </div>
+                              </div>
+                              <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                  <label>Prioridad</label>
+                                  <select class="form-control" formControlName="prioridad">
+                                    <option [value]="0">Baja</option>
+                                    <option [value]="1">Media</option>
+                                    <option [value]="2">Alta</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                  <label>Seleccione la actividad</label>
+                                  <select class="form-control" formControlName="codActividad">
+                                    <option value="">Selecione</option>
+                                    <option *ngFor="let item of tipoActividades" [value]="item.codItem">{{ item.descripcion }}</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12 col-md-6">
+                            <div class="row">
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label>Fecha Vencimiento</label>
+                                  <br>
+                                  <input formControlName="fechaVencimiento" type="date" class="form-control input-date mr-2" style="width: 140px">
+                                  <input formControlName="horaVencimiento" type="time" class="form-control input-date" style="width: 96px">
+                                </div>
+                              </div>
+                              <div class="col-12 col-md-7">
+                                <div class="form-group">
+                                  <label class="container " style="font-size: 16px;">
+                                    Recordar el
+                                    <input type="checkbox" formControlName="checkFechaRecordatorio" (click)="changeRecordatorio($event)">
+                                    <span class="checkmark"></span>
+                                  </label>
+
+                                  <input formControlName="fechaRecordatorio" type="date" class="form-control input-date mr-2" (ngModelChange)="chengeFehcaRecordatorio($event)" style="width: 140px">
+                                  <input formControlName="horaRecordatorio" type="time" class="form-control input-date" style="width: 96px">
+                                </div>
+                              </div>
+                              <div class="col-12 col-md-5">
+                                <div class="form-group">
+                                  <label class="container" style="font-size: 16px;">
+                                    Notificación SMS
+                                    <input type="checkbox" formControlName="notificacion">
+                                    <span class="checkmark"></span>
+                                  </label>
+                                  <label class="container" style="font-size: 16px;">
+                                    Correo
+                                    <input type="checkbox" formControlName="correo">
+                                    <span class="checkmark"></span>
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label>Descripción</label>
+                                  <textarea class="form-control" rows="2" formControlName="descripcion"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12">
+                            <div class="form-group text-center mt-2">
+                              <button class="btn btn-sm btn-primary mr-2" [disabled]="formTarea.invalid" (click)="guardarTarea()">Guardar</button>
+                              <button class="btn btn-sm btn-danger" (click)="formTarea.reset(); showNewTask = false;">Cancelar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </div>
+
+                  </div>
+                </div>
+              </section>
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <h6>Historial de Gestión</h6>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="table-responsive">
+                    <table data-detail-view="true" class="table table-bordered" id="listaGestiones">
+                      <thead>
+                      <tr class="text-center">
+                        <th class="detail" rowspan="1">
+                          <div class="fht-cell"></div>
+                        </th>
+                        <th data-field="field0">
+                          <div class="th-inner sortable both">Acción</div>
+                          <div class="fht-cell"></div>
+                        </th>
+                        <th data-field="field1">
+                          <div class="th-inner sortable both">Target</div>
+                          <div class="fht-cell"></div>
+                        </th>
+                        <th data-field="field2">
+                          <div class="th-inner sortable both">Respuesta</div>
+                          <div class="fht-cell"></div>
+                        </th>
+                        <th data-field="field3">
+                          <div class="th-inner sortable both">Comentario</div>
+                          <div class="fht-cell"></div>
+                        </th>
+                        <th data-field="field4">
+                          <div class="th-inner sortable both">Fecha</div>
+                          <div class="fht-cell"></div>
+                        </th>
+                        <th data-field="field5">
+                          <div class="th-inner sortable both">Usuario</div>
+                          <div class="fht-cell"></div>
+                        </th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <ng-container *ngFor="let item of countries; let i = index;">
+                        <tr [attr.data-index]="i" data-has-detail-view="true" class="text-center cursor-pointer tr_{{i}}" (click)="showDetalle(i, item)">
+                          <td class="text-center">
+                            <ng-container *ngIf="item.tipo == 1"><span class="text-warning"><i class="fa fa-usd" aria-hidden="true"></i></span></ng-container>
+                            <ng-container *ngIf="item.tipo == 2"><span class="text-danger"><i class="fa fa-envelope" aria-hidden="true"></i></span></ng-container>
+                            <ng-container *ngIf="item.tipo == 3"><span class="text-info"><i class="fa fa-bell" aria-hidden="true"></i></span></ng-container>
+                            <ng-container *ngIf="item.tipo == 4"><span class="text-success"><i class="fa fa-whatsapp" aria-hidden="true"></i></span></ng-container>
+                          </td>
+                          <td>
+                            {{ item.gestionDescripcion }}
+                            <ng-container *ngIf="item.tipo == 3">
+                              <br>
+                              <small *ngIf="item.condicion == '0'" class="text-primary">PENDIENTE</small>
+                              <small *ngIf="item.condicion == '1'" class="text-success">CUMPLIDA</small>
+                              <small *ngIf="item.condicion == '2'" class="text-danger">PLAZO VENCIDO</small>
+                            </ng-container>
+                          </td>
+                          <td>{{ item.target }}</td>
+                          <td>{{ item.respuestaDescripcion }}</td>
+                          <td>
+                            <ng-container *ngIf="item.comentario">
+                              {{item.comentario | slice: 0 : 20}} {{item.comentario.length > 20 ? '...' : ''}}
+                            </ng-container>
+                          </td>
+                          <td> {{item.fechaRegistro | date: 'd/M/yyyy'}}</td>
+                          <td>
+                            {{item.ejecutivoNombre | slice: 0 : 15}} {{item.ejecutivoNombre.length > 15 ? '...' : ''}}</td>
+                        </tr>
+                        <tr [class]="'detail-view item_'+i +' item-detalle hidden'">
+                          <td colspan="7">
+                            <div class="bootstrap-table bootstrap4">
+                              <div class="fixed-table-toolbar"></div>
+                              <div class="fixed-table-container" style="padding-bottom: 0px;">
+                                <div class="fixed-table-header" style="display: none;">
+                                  <table></table>
+                                </div>
+                                <div class="fixed-table-body">
+                                  <table class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                      <th data-field="field0">
+                                        <div class="th-inner sortable both">
+                                            <span>{{ item.gestionDescripcion }}
+                                              <div class="fht-cell pull-right">{{item.fechaRegistro | date: 'MMMM y, EEEE d  h:mm a'}} </div></span>
+                                          <br>
+                                          <span *ngIf="item.tipo == 3">
+                                              <span *ngIf="item.codRespuesta == '01'" class="text-info">En Lista</span>
+                                              <span *ngIf="item.codRespuesta == '02'" class="text-info">En Proceso</span>
+                                              <span *ngIf="item.codRespuesta == '03'" class="text-info">Terminada</span>
+                                            </span>
+                                        </div>
+                                      </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                      <td>
+                                        <div class="mb-2">
+                                          <span><b>Target: </b></span> {{ item.target }}
+                                          <br>
+                                          <span><b>Comentario: </b></span> {{ item.comentario }}
+                                          <br>
+                                          <span><b>Usuario: </b></span> {{ item.ejecutivoNombre }}
+                                        </div>
+                                      </td>
+                                    </tr>
+                                    <ng-container *ngIf="cargandoImagenes">
+                                      <tr>
+                                        <td class="text-center" style="background: #eee">
+                                            <span>
+                                              <i class="fa fa-spinner fa-pulse" style="font-size: 30px"></i>
+                                            </span>
+                                        </td>
+                                      </tr>
+                                    </ng-container>
+                                    <ng-container *ngIf="!cargandoImagenes">
+                                      <tr *ngIf="archivos.length > 0">
+                                        <td>
+                                          <div class="row">
+                                            <div class="col-6 col-md-3 mb-4" *ngFor="let arcivo of archivos" (click)="showImagen(urlBaseFotos ,arcivo, 1)">
+                                              <img [src]="urlBaseFotos + arcivo.url" class="imagen">
+                                            </div>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    </ng-container>
+                                    <tr *ngIf="item.tipo == 3">
+                                      <td>
+                                        <div class="new-comment mb-4" *ngIf="conPermiso">
+                                          <div class="member member-no-menu" *ngIf="userLoggedName">
+                                            <span class="member-initials text-uppercase" [title]="userLoggedName">{{ userLoggedName | slice: 0:2 }}</span>
+                                          </div>
+                                          <div class="comment-frame">
+                                            <textarea class="form-control" maxlength="224" placeholder="Escriba un comentario..." dir="auto" style="min-height: 50px" [(ngModel)]="comentario"></textarea>
+                                            <ng-container *ngIf="comentario.trim().length > 0">
+                                              <ng-container *ngIf="!msgSending">
+                                                <button class="btn btn-sm btn-outline-info mt-2" *ngIf="comentario.trim().length < 225" (click)="guardarCometario(item.id)">Guardar comentario</button>
+                                                <span class="text-danger" *ngIf="comentario.trim().length > 225">Su comentario es demasiado largo.</span>
+                                              </ng-container>
+                                              <ng-container *ngIf="msgSending">
+                                                <button class="btn btn-sm btn-outline-info mt-2"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span>Enviando...</span></button>
+                                              </ng-container>
+                                            </ng-container>
+                                          </div>
+                                        </div>
+                                        <div class="body-comment">
+                                          <div class="new-comment mb-2" *ngFor="let item of actividades">
+                                            <div class="member member-no-menu">
+                                              <span class="member-initials text-uppercase" [title]="item.alias">{{ item.alias | slice: 0:2 }}</span>
+                                            </div>
+                                            <div class="comment-frame">
+                                              <div class="comment-item">
+                                                <div class="">
+                                                  <h6 class="m-0 p-0">{{ item.alias }}</h6>
+                                                  <small>{{ item.fechaCreacion | date : 'dd MMM yyyy HH:mm' }}</small>
+                                                </div>
+                                                <p class="p-0 m-0">{{ item.comentario }}</p>
+                                                <div class="" *ngIf="item.usuarioId == auth.loggedUser.id">
+                                                  <ng-container *ngIf="true">
+                                                    <a href="javascript:;" class="btn-link" (click)="desactivarActividad(item.id)">Eliminar</a>
+                                                  </ng-container>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                    </tbody>
+                                  </table>
+                                  <div class="table-responsive" *ngIf="acuerdosPagoTemp.length > 0">
+                                    <table id="tabla-acuerdos2" class="table table-bordered table-hover">
+                                      <thead>
+                                      <tr class="text-center">
+                                        <th>Fecha</th>
+                                        <th>Monto</th>
+                                        <th>T. Acuerdo</th>
+                                        <th>Estado</th>
+                                        <th>Tipo</th>
+                                        <th>Cuota</th>
+                                        <th>Plazo</th>
+                                        <th>Opcipon</th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <tr *ngFor="let item of acuerdosPagoTemp" [class]="isCurrentDate(item.fechaInicio, item.condicion)" style="font-size: 12px; text-align: center">
+                                        <td>
+                                          {{ item.fechaInicio | date: 'dd/MM/yyyy' }}
+                                        </td>
+                                        <td>{{ item.montoAcordado  | currency: 'S/ ' }} </td>
+                                        <td>{{ getNameTipoAcuerdo(item.tipoAcuerdo) }}</td>
+                                        <td>{{ getNameCondition(item.condicion) | uppercase}}</td>
+                                        <td>{{ item.descripcion | uppercase}}</td>
+                                        <td>{{ item.cuota }}</td>
+                                        <td>{{ item.plazo }}</td>
+                                        <td>
+                                          <ng-container *ngIf="item.condicion != '5'">
+                                            <button *ngIf="conPermiso" [disabled]="isAfter(item.fechaInicio)" class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item)"><i class="fa fa-trash"></i></button>
+                                          </ng-container>
+                                        </td>
+                                      </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                  <ng-container *ngIf="pagos.length > 0">
+                                    <div class="row">
+                                      <div class="col-6 col-md-3 mb-4" *ngFor="let pago of pagos" (click)="showImagen(urlBaseImagenTicket ,pago, 2)">
+                                        <img [src]="urlBaseImagenTicket + pago.url" class="imagen">
+                                      </div>
+                                    </div>
+                                  </ng-container>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="clearfix"></div>
+                          </td>
+                        </tr>
+                      </ng-container>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="d-flex justify-content-center p-2" *ngIf="acciones.length > 10">
+                    <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" [boundaryLinks]="true" (pageChange)="refreshCountries()">
+                    </ngb-pagination>
+                  </div>
+                </div>
+
               </div>
             </ng-template>
-          </ngb-panel>
-          <ngb-panel>
-            <ng-template ngbPanelTitle>
-              <span><b>Acuerdos</b></span>
-            </ng-template>
-            <ng-template ngbPanelContent>
+          </ngb-tab>
+          <ngb-tab>
+            <ng-template ngbTabTitle>Pagos/Compromiso de Pagos</ng-template>
+            <ng-template ngbTabContent>
               <div class="table-responsive">
                 <table id="tabla-acuerdos" class="table table-bordered table-hover">
                   <thead>
@@ -826,7 +1131,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr *ngFor="let item of acuerdosPago"  [class]="isCurrentDate(item.fechaInicio, item.condicion)" style="font-size: 12px; text-align: center">
+                  <tr *ngFor="let item of acuerdosPago" [class]="isCurrentDate(item.fechaInicio, item.condicion)" style="font-size: 12px; text-align: center">
                     <td>
                       {{ item.fechaInicio | date: 'dd/MM/yyyy' }}
                     </td>
@@ -837,15 +1142,18 @@
                     <td>{{ item.cuota }}</td>
                     <td>{{ item.plazo }}</td>
                     <td>
-                      <button *ngIf="conPermiso" [disabled]="isAfter(item.fechaInicio)" class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item)"><i class="fa fa-trash"></i></button>
+                      <ng-container *ngIf="item.condicion != '5'">
+                        <button *ngIf="conPermiso" [disabled]="isAfter(item.fechaInicio)" class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item)"><i class="fa fa-trash"></i></button>
+                      </ng-container>
                     </td>
                   </tr>
                   </tbody>
                 </table>
               </div>
             </ng-template>
-          </ngb-panel>
-        </ngb-accordion>
+          </ngb-tab>
+
+        </ngb-tabset>
       </div>
     </div>
   </div>

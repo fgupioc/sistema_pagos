@@ -31,6 +31,12 @@ import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.s
 import {MyNotification} from '../../../interfaces/my-notification';
 import {EventosService} from '../../../servicios/eventos.service';
 import {EjecutivoCartera} from '../../../models/ejecutivo-cartera';
+import {EjecutivoAsignacion} from '../../../interfaces/ejecutivo-asignacion';
+import {Tarea} from '../../../interfaces/tarea';
+import {CreditoGestion} from '../../../interfaces/credito-gestion';
+import {ShowImagenComponent} from '../../../componentes/show-imagen/show-imagen.component';
+import {environment} from '../../../../environments/environment';
+import {TareaActividad} from '../../../interfaces/tarea-actividad';
 
 @Component({
   selector: 'app-credito-socio',
@@ -38,12 +44,16 @@ import {EjecutivoCartera} from '../../../models/ejecutivo-cartera';
   styleUrls: ['./credito-socio.component.css']
 })
 export class CreditoSocioComponent implements OnInit {
+  urlBaseFotos = environment.signinUrl + '/archivo/images/';
+  urlBaseImagenTicket = environment.signinUrl + '/archivo/images-ticket/';
+  userLoggedName = '';
   formRecordatorio: FormGroup;
   formPlanPago: FormGroup;
   formRegistrarAcuerdo: FormGroup;
   formTelefono: FormGroup;
   formCorreo: FormGroup;
   formDireccion: FormGroup;
+  formTarea: FormGroup;
 
   credito: Credito;
   creditoId: any;
@@ -91,8 +101,26 @@ export class CreditoSocioComponent implements OnInit {
   role: string;
   campania: EjecutivoCartera;
 
+  showNewTask = false;
+
+  misTableros: EjecutivoAsignacion[] = [];
+  page = 1;
+  pageSize = 10;
+  collectionSize = 0;
+  countries: CreditoGestion[];
+  acciones: CreditoGestion[] = [];
+  acuerdosPagoTemp: AcuerdoPago[] = [];
+
+  archivos: any[] = [];
+  cargandoImagenes = false;
+  pagos: any[] = [];
+
+  actividades: any[];
+  msgSending = false;
+  comentario = '';
+
   constructor(
-    private auth: AutenticacionService,
+    public auth: AutenticacionService,
     private spinner: NgxSpinnerService,
     private asignacionCarteraService: AsignacionCarteraService,
     private activatedRoute: ActivatedRoute,
@@ -110,7 +138,7 @@ export class CreditoSocioComponent implements OnInit {
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
-
+    this.userLoggedName = auth.loggedUser.alias;
     const {role} = activatedRoute.snapshot.data;
     if (role) {
       this.role = role;
@@ -173,6 +201,10 @@ export class CreditoSocioComponent implements OnInit {
 
     if (this.credito) {
       this.cragarInformacion();
+    }
+    this.listarAcciones(this.creditoId, this.asignacionId);
+    if (this.ejecutivoId) {
+      this.listarTablero();
     }
   }
 
@@ -888,6 +920,7 @@ export class CreditoSocioComponent implements OnInit {
       res => {
         if (res.exito) {
           this.credito = res.objeto;
+          console.log(this.credito);
           this.cragarInformacion();
         } else {
           if (this.role) {
@@ -990,6 +1023,23 @@ export class CreditoSocioComponent implements OnInit {
       provincia: ['', Validators.required],
       distrito: ['', Validators.required],
     });
+
+    this.formTarea = this.formBuilder.group({
+      tableroTareaId: ['', [Validators.required]],
+      nombre: ['', [Validators.required]],
+      prioridad: [0, [Validators.required]],
+      codActividad: ['', [Validators.required]],
+      descripcion: ['', [Validators.required]],
+      fechaVencimiento: ['', [Validators.required]],
+      horaVencimiento: ['', [Validators.required]],
+      horaRecordatorio: [''],
+      fechaRecordatorio: [''],
+      checkFechaRecordatorio: [false],
+      notificacion: [false],
+      correo: [false],
+    });
+
+    this.refreshCountries();
   }
 
   isCurrentDate(fecha: string, condicion: string) {
@@ -1040,5 +1090,296 @@ export class CreditoSocioComponent implements OnInit {
 
   get conPermiso() {
     return moment().isBetween(this.campania.startDate, this.campania.endDate);
+  }
+
+  crearTablero() {
+    Swal.fire({
+      title: 'Ingrese un nombre',
+      input: 'text',
+      inputAttributes: {
+        autocapitalize: 'off'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Crear',
+      cancelButtonText: 'Cancelar',
+      showLoaderOnConfirm: false,
+      inputValidator: (value) => {
+        if (!value) {
+          return 'El nombre es obligatorio.';
+        }
+      }
+    }).then((result) => {
+      if (result.value) {
+        const data: EjecutivoAsignacion = {
+          nombre: result.value,
+          slug: FUNC.slugGenerate(result.value),
+          ejecutivoId: this.auth.loggedUser.id,
+          visibilidad: '01',
+        };
+        this.spinner.show();
+        /*
+        this.gestionAdministrativaService.crearAsignacionTarea(data).subscribe(
+          res => {
+            if (res.exito) {
+              Swal.fire('Crear Nuevo Tablero', res.mensaje, 'success');
+              this.listarTablero();
+            } else {
+              Swal.fire('Crear Nuevo Tablero', res.mensaje, 'error');
+            }
+            this.spinner.hide();
+          },
+          err => {
+            Swal.fire('Crear Nuevo Tablero', 'Ocurrio un error', 'error');
+          }
+        );
+        */
+      }
+    });
+  }
+
+  changeRecordatorio(event: any) {
+    if (event.target.checked) {
+      if (this.formTarea.controls.fechaVencimiento.value && this.formTarea.controls.horaVencimiento.value) {
+        this.formTarea.controls.fechaRecordatorio.setValue(this.formTarea.controls.fechaVencimiento.value);
+        this.formTarea.controls.horaRecordatorio.setValue(this.getTime);
+      } else {
+        Swal.fire('Tarea', 'Debe ingresar una fecha de vencimiento y hora de vencimiento', 'warning');
+        this.formTarea.controls.checkFechaRecordatorio.setValue(false);
+        return;
+      }
+    } else {
+      this.formTarea.controls.fechaRecordatorio.setValue(null);
+      this.formTarea.controls.horaRecordatorio.setValue(null);
+    }
+  }
+
+  get getTime() {
+    if (this.formTarea.controls.horaVencimiento.value) {
+      const time = Number(this.formTarea.controls.horaVencimiento.value.slice(0, 2)) - 1;
+      return time < 10 ? `0${time}:00` : `${time}:00`;
+    } else {
+      return '09:00';
+    }
+  }
+
+  chengeFehcaRecordatorio(event: any) {
+    if (moment(this.formTarea.controls.fechaVencimiento.value).isBefore(event)) {
+      this.formTarea.controls.fechaRecordatorio.setValue(this.formTarea.controls.fechaVencimiento.value);
+    } else {
+      if (moment().isAfter(event)) {
+        // this.formTarea.controls.fechaRecordatorio.setValue(moment().format('YYYY-MM-DD'));
+      } else {
+        // this.formTarea.controls.fechaRecordatorio.setValue(event);
+      }
+    }
+  }
+
+  guardarTarea() {
+    if (this.formTarea.invalid) {
+      Swal.fire('Crear Tarea', 'Debe ingresar los campos obligatorios.', 'warning');
+      return;
+    }
+    const task: Tarea = this.formTarea.getRawValue();
+    task.etapaActual = CONST.C_STR_ETAPA_EN_LISTA;
+    task.creditoId = this.credito.id;
+    task.socioId = this.credito.socioId;
+    task.asignacionId = this.credito.asignacionId;
+    task.condicion = '0';
+    this.spinner.show();
+    this.asignacionCarteraService.crearTarea(task.tableroTareaId, task).subscribe(
+      res => {
+        if (res.exito) {
+          this.formTarea.reset();
+          this.listarAcciones(this.credito.id, this.credito.asignacionId);
+          this.showNewTask = false;
+        } else {
+          Swal.fire('Crear Tarea', res.mensaje, 'error');
+        }
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
+        Swal.fire('Crear Tarea', 'Ocurrio un error', 'error');
+      }
+    );
+  }
+
+  refreshCountries() {
+    this.countries = this.acciones
+      .map((country, i) => ({id_: i + 1, ...country}))
+      .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
+  }
+
+  showDetalle(i, item: CreditoGestion) {
+    this.archivos = [];
+    this.pagos = [];
+    if ($(`.item_${i}`).hasClass('hidden')) {
+      $(`.item-detalle`).addClass('hidden');
+      $(`.item_${i}`).removeClass('hidden');
+    } else {
+      $(`.item-detalle`).addClass('hidden');
+    }
+
+    if ($(`.tr_${i}`).hasClass('table-primary')) {
+      $(`.tr_${i}`).removeClass('table-primary');
+    } else {
+      $(`#listaGestiones tbody tr`).removeClass('table-primary');
+      $(`.tr_${i}`).addClass('table-primary');
+    }
+    this.acuerdosPagoTemp = [];
+    if (item.tipo == 1) {
+      if (item.codRespuesta == '008' || item.codRespuesta == '009') {
+        this.acuerdosPagoTemp = this.acuerdosPago.filter(value => String(value.grupo) == item.keyResp);
+      }
+
+      if (item.tipoContacto == '5') {
+        this.leerAccionPorTarea(item.id);
+      }
+    }
+    if (item.tipo == 3) {
+      this.listarActividadPorTarea(item.id);
+      this.leerComentarios(item.id);
+    }
+  }
+
+  leerAccionPorTarea(id: number) {
+    this.cargandoImagenes = true;
+    this.asignacionCarteraService.leerAccionPorTarea(id).subscribe(
+      res => {
+        if (res.exito) {
+          if (res.objeto) {
+            const obj: any = res.objeto;
+            this.archivos = obj.archivos;
+            this.pagos = res.pagos as any[];
+          }
+        }
+        this.cargandoImagenes = false;
+      },
+      err => {
+        this.cargandoImagenes = false;
+      }
+    );
+  }
+
+  listarActividadPorTarea(tareaId) {
+    this.actividades = [];
+    this.msgSending = true;
+    this.asignacionCarteraService.listarActividadPorTarea(tareaId).subscribe(
+      res => {
+        if (res.exito) {
+          this.actividades = res.objeto as any[];
+        }
+        this.msgSending = false;
+      },
+      err => {
+        this.msgSending = false;
+      }
+    );
+  }
+
+  leerComentarios(id: any) {
+    this.asignacionCarteraService.leerComentariosPorTarea(id).subscribe(
+      res => {
+        if (res.exito) {
+          this.eventosService.leerNotifyEmitter.emit({tipo: '04', id});
+        }
+      }
+    );
+  }
+
+  showImagen(urlbase: any, arcivo: any, tipo: any) {
+    const modal = this.modalService.open(ShowImagenComponent);
+    modal.componentInstance.url = urlbase + arcivo.url;
+    modal.componentInstance.tipo = tipo;
+    modal.componentInstance.id = arcivo.id;
+  }
+
+
+  guardarCometario(tareaId) {
+    if (this.comentario.trim().length == 0) {
+      Swal.fire('Crear Comentario', 'Debe ingresar un comentario valido.', 'warning');
+      return;
+    }
+    const comment: TareaActividad = {
+      tareaId,
+      comentario: this.comentario,
+    };
+    this.msgSending = true;
+    this.spinner.show();
+    this.asignacionCarteraService.crearTareaComentario(comment).subscribe(
+      res => {
+        if (res.exito) {
+          this.comentario = '';
+          Swal.fire('Crear Comentario', res.mensaje, 'success');
+          this.listarActividadPorTarea(tareaId);
+        }
+        this.spinner.hide();
+        this.msgSending = false;
+      },
+      err => {
+        this.spinner.hide();
+        this.msgSending = false;
+      }
+    );
+  }
+
+
+  desactivarActividad(tareaId) {
+    Swal.fire({
+      text: 'Estas segura de eliminar la actividad?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, Eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        /*
+        this.spinner.show();
+        this.gestionAdministrativaService.desactivarTareaComentario(tareaId).subscribe(
+          res => {
+            if (res.exito) {
+              Swal.fire('Actividad', res.mensaje, 'success');
+              this.spinner.hide();
+              this.listarActividadPorTarea(tareaId);
+            } else {
+              Swal.fire('Actividad', res.mensaje ? res.mensaje : 'Error en el proceso', 'error');
+              this.spinner.hide();
+            }
+          },
+          err => {
+            Swal.fire('Actividad', 'Error en el proceso', 'error');
+            this.spinner.hide();
+          }
+        );
+        */
+      }
+    });
+  }
+
+  listarAcciones(creditoId, asignacionId) {
+    this.asignacionCarteraService.buscarCreditoAsignacionAccion(creditoId, asignacionId).subscribe(
+      res => {
+        if (res.exito) {
+          this.acciones = res.acciones;
+          this.collectionSize = this.acciones.length;
+          this.refreshCountries();
+        }
+        this.spinner.hide();
+      },
+      error => {
+        console.log(error);
+        this.spinner.hide();
+      }
+    );
+  }
+
+  listarTablero() {
+    this.asignacionCarteraService.listarTableroTareasPorEjecutivo(this.ejecutivoId).subscribe(
+      res => {
+        this.misTableros = res;
+      },
+      err => {
+      }
+    );
   }
 }

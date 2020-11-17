@@ -711,8 +711,8 @@ export class MisGestionesDetalleComponent implements OnInit {
     task.creditoId = this.credito.id;
     task.socioId = this.credito.socioId;
     task.asignacionId = this.credito.asignacionId;
-    task.condicion = '0',
-      this.spinner.show();
+    task.condicion = '0';
+    this.spinner.show();
     this.gestionAdministrativaService.crearTarea(task.tableroTareaId, task).subscribe(
       res => {
         if (res.exito) {
@@ -1173,6 +1173,9 @@ export class MisGestionesDetalleComponent implements OnInit {
   }
 
   showDetalle(i, item: CreditoGestion) {
+    this.archivos = [];
+    this.pagos = [];
+
     if ($(`.item_${i}`).hasClass('hidden')) {
       $(`.item-detalle`).addClass('hidden');
       $(`.item_${i}`).removeClass('hidden');
@@ -1331,8 +1334,6 @@ export class MisGestionesDetalleComponent implements OnInit {
   }
 
   leerAccionPorTarea(id: number) {
-    this.archivos = [];
-    this.pagos = [];
     this.cargandoImagenes = true;
     this.gestionAdministrativaService.leerAccionPorTarea(id).subscribe(
       res => {

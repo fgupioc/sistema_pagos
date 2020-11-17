@@ -8,6 +8,8 @@ import {Cartera} from '../interfaces/cartera';
 import {TablaMaestra} from '../interfaces/tabla-maestra';
 import {CONST} from '../comun/CONST';
 import {Recordatorio} from '../interfaces/recordatorio';
+import {EjecutivoAsignacion} from '../interfaces/ejecutivo-asignacion';
+import {Tarea} from '../interfaces/tarea';
 
 const urlBase = environment.serverUrl + 'asignacio-cartera';
 const urlMaestro = `${environment.serverUrl}maestro/`;
@@ -202,5 +204,33 @@ export class AsignacionCarteraService {
 
   obtenerEtapasAsignaciones(codAsignacion): Observable<any[]> {
     return this.http.post<any[]>(`${urlBase}/obtenerEtapasAsignaciones`, {}, {params: new HttpParams().set('codAsignacion', codAsignacion)});
+  }
+
+  buscarCreditoAsignacionAccion(creditoId, asignacionId): Observable<any> {
+    return this.http.post<any>(`${urlBase}/buscar-credito-asignacio-accion`, {}, {params: new HttpParams().set('creditoId', creditoId).set('asignacionId', asignacionId)});
+  }
+
+  leerAccionPorTarea(accionId: any): Observable<any> {
+    return this.http.put<any>(`${urlBase}/leer-accion-por-id`, {}, {params: new HttpParams().set('accionId', accionId)});
+  }
+
+  listarActividadPorTarea(tareaId: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/listar-tarea-actividad`, {params: new HttpParams().set('tareaId', tareaId)});
+  }
+
+  leerComentariosPorTarea(tareaId: any): Observable<Respuesta> {
+    return this.http.put<Respuesta>(`${urlBase}/leer-comentario-por-tarea`, {}, {params: new HttpParams().set('tareaId', tareaId)});
+  }
+
+  listarTableroTareasPorEjecutivo(ejecutivoId): Observable<EjecutivoAsignacion[]> {
+    return this.http.get<EjecutivoAsignacion[]>(`${urlBase}/listar-asignacion-tarea-por-ejecutivo`,{params: new HttpParams().set('ejecutivoId', ejecutivoId)});
+  }
+
+  crearTarea(tableroId: any, tarea: Tarea): Observable<Respuesta> {
+    return this.http.post<Respuesta>(`${urlBase}/crear-tarea`, tarea, {params: new HttpParams().set('tableroId', tableroId)});
+  }
+
+  crearTareaComentario(comment: any): Observable<Respuesta> {
+    return this.http.post<Respuesta>(`${urlBase}/crear-tarea-actividad`, comment);
   }
 }
