@@ -597,7 +597,7 @@
                                         <tr *ngIf="archivos.length > 0">
                                           <td>
                                             <div class="row">
-                                              <div class="col-6 col-md-3 mb-4" *ngFor="let arcivo of archivos" (click)="showImagen(urlBaseFotos ,arcivo)">
+                                              <div class="col-6 col-md-3 mb-4" *ngFor="let arcivo of archivos" (click)="showImagen(urlBaseFotos ,arcivo, 1)">
                                                 <img [src]="urlBaseFotos + arcivo.url" class="imagen">
                                               </div>
                                             </div>
@@ -706,7 +706,7 @@
                                         </table>
                                       </div>
                                       <div class="row">
-                                        <div class="col-6 col-md-3 mb-4" *ngFor="let pago of pagos" (click)="showImagen(urlBaseImagenTicket ,pago)">
+                                        <div class="col-6 col-md-3 mb-4" *ngFor="let pago of pagos" (click)="showImagen(urlBaseImagenTicket ,pago, 2)">
                                           <img [src]="urlBaseImagenTicket + pago.url" class="imagen">
                                         </div>
                                       </div>

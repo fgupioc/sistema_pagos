@@ -1352,9 +1352,11 @@ export class MisGestionesDetalleComponent implements OnInit {
     );
   }
 
-  showImagen(urlbase: any, arcivo: any) {
+  showImagen(urlbase: any, arcivo: any, tipo: any) {
     const modal = this.modalService.open(ShowImagenComponent);
     modal.componentInstance.url = urlbase + arcivo.url;
+    modal.componentInstance.tipo = tipo;
+    modal.componentInstance.id = arcivo.id;
   }
 
   generarCeros(numero: string, ceros: number) {
