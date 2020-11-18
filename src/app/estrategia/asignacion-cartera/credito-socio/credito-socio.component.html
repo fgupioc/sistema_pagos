@@ -1,7 +1,7 @@
 <div class="card section-credito-socio">
-  <div class="card-header">
+  <div class="card-header"  *ngIf="credito">
     <i class="fa fa-align-justify"></i>
-    <span class="card-title text-uppercase font-weight-bold">Información del socio</span>
+    <span class="card-title text-uppercase font-weight-bold">Bitacora de Gestión del Crédito : {{ credito.nroCredito }} <label *ngIf="ejecutivo"> Gestor:  {{ ejecutivo.alias }}</label></span>
     <div class="card-tools float-right">
       <button *ngIf="!role" type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/' + ejecutivoId + '/listado/' + asignacionId+'/detalle'">
         <i class="fa fa-arrow-left"></i> Regresar
@@ -65,7 +65,7 @@
       </div>
     </div>
     <hr>
-    <div class="row">
+    <div class="row" *ngIf="false">
       <div class="col-12">
         <div class="form-group mb-0" *ngIf="conPermiso">
           <div class="text-center">
@@ -81,7 +81,7 @@
     </div>
     <hr>
     <div class="row">
-      <div class="col-12 col-md-8">
+      <div class="col-12">
         <ngb-tabset [destroyOnHide]="false" [activeId]="1" (tabChange)="tabSeleccionado($event)">
           <ngb-tab title="Fijo/Movil" id="1">
             <ng-template ngbTabContent>
@@ -169,7 +169,7 @@
           </ngb-tab>
         </ngb-tabset>
       </div>
-      <div class="col-12 col-md-4">
+      <div class="col-12 col-md-4" *ngIf="false">
         <div class="row">
           <div class="col-12">
             <div class="box box-primary">
@@ -759,7 +759,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div >
     </div>
     <hr>
     <div class="row">

@@ -98,7 +98,6 @@ export class SupervisorCreditoSocioComponent implements OnInit {
   $sectionName = 'Sección';
   $zoneName = 'Zona';
   $sectorName = 'Sector';
-  role: string;
   campania: EjecutivoCartera;
 
   showNewTask = false;
@@ -118,6 +117,8 @@ export class SupervisorCreditoSocioComponent implements OnInit {
   actividades: any[];
   msgSending = false;
   comentario = '';
+
+  ejecutivo: any;
 
   constructor(
     public auth: AutenticacionService,
@@ -141,7 +142,7 @@ export class SupervisorCreditoSocioComponent implements OnInit {
     this.userLoggedName = auth.loggedUser.alias;
     activatedRoute.params.subscribe(({asignacionId, creditoId}) => {
       if (asignacionId == undefined || asignacionId == 'undefined') {
-        this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
+        this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-asignaciones');
       }
       if (asignacionId) {
         this.ejecutivoId = auth.loggedUser.id;
@@ -151,10 +152,10 @@ export class SupervisorCreditoSocioComponent implements OnInit {
         if (this.creditoId) {
           this.cargarCredito();
         } else {
-          router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${this.creditoId}/detalle`);
+          router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.creditoId}/detalle`);
         }
       } else {
-        router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
+        this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-asignaciones');
       }
     });
   }
@@ -180,8 +181,19 @@ export class SupervisorCreditoSocioComponent implements OnInit {
     }
     this.listarAcciones(this.creditoId, this.asignacionId);
     if (this.ejecutivoId) {
+      this.loadEjecutivo()
       this.listarTablero();
     }
+  }
+
+  loadEjecutivo() {
+    this.asignacionCarteraService.buscarEjecutivoByCodUsuario(this.ejecutivoId).subscribe(
+      res => {
+        if (res.exito) {
+          this.ejecutivo = res.objeto;
+        }
+      }
+    );
   }
 
   loadEstadosRecordatorios() {
@@ -836,7 +848,6 @@ export class SupervisorCreditoSocioComponent implements OnInit {
     const {departamento, distrito, provincia, ...address} = this.formDireccion.getRawValue();
     address.personaId = this.socio.id;
     address.ubigeo = `${departamento}${distrito}${provincia}`;
-    console.log(address);
     this.$sectionName = 'Sección';
     this.$zoneName = 'Zona';
     this.$sectorName = 'Sector';
@@ -896,22 +907,13 @@ export class SupervisorCreditoSocioComponent implements OnInit {
       res => {
         if (res.exito) {
           this.credito = res.objeto;
-          console.log(this.credito);
           this.cragarInformacion();
         } else {
-          if (this.role) {
-            this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${this.creditoId}/detalle`);
-          } else {
-            this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/${this.ejecutivoId}/listado/${this.asignacionId}/detalle`);
-          }
+          this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.creditoId}/detalle`);
         }
       },
       err => {
-        if (this.role) {
-          this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${this.creditoId}/detalle`);
-        } else {
-          this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/${this.ejecutivoId}/listado/${this.asignacionId}/detalle`);
-        }
+        this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.creditoId}/detalle`);
       }
     );
   }
@@ -1045,21 +1047,13 @@ export class SupervisorCreditoSocioComponent implements OnInit {
         if (res.exito) {
           this.campania = res.objeto;
         } else {
-          if (this.role) {
-            this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
-          } else {
-            this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/' + this.ejecutivoId + '/listado');
-          }
+          this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.creditoId}/detalle`);
         }
         this.spinner.hide();
       },
       err => {
         this.spinner.hide();
-        if (this.role) {
-          this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
-        } else {
-          this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/' + this.ejecutivoId + '/listado');
-        }
+        this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.creditoId}/detalle`);
       }
     );
   }
@@ -1093,8 +1087,7 @@ export class SupervisorCreditoSocioComponent implements OnInit {
           visibilidad: '01',
         };
         this.spinner.show();
-        /*
-        this.gestionAdministrativaService.crearAsignacionTarea(data).subscribe(
+        this.asignacionCarteraService.crearAsignacionTarea(data).subscribe(
           res => {
             if (res.exito) {
               Swal.fire('Crear Nuevo Tablero', res.mensaje, 'success');
@@ -1108,7 +1101,6 @@ export class SupervisorCreditoSocioComponent implements OnInit {
             Swal.fire('Crear Nuevo Tablero', 'Ocurrio un error', 'error');
           }
         );
-        */
       }
     });
   }

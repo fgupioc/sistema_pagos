@@ -1,12 +1,9 @@
 <div class="card section-credito-socio">
-  <div class="card-header">
+  <div class="card-header" *ngIf="credito">
     <i class="fa fa-align-justify"></i>
-    <span class="card-title text-uppercase font-weight-bold">Información del socio</span>
+    <span class="card-title text-uppercase font-weight-bold">Bitacora de Gestión del Crédito : {{ credito.nroCredito }} <label *ngIf="ejecutivo"> Gestor:  {{ ejecutivo.alias }}</label></span>
     <div class="card-tools float-right">
-      <button *ngIf="!role" type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/' + ejecutivoId + '/listado/' + asignacionId+'/detalle'">
-        <i class="fa fa-arrow-left"></i> Regresar
-      </button>
-      <button *ngIf="role" type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/'+asignacionId+'/detalle'">
+      <button type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/mis-asignaciones/' + asignacionId+'/detalle'">
         <i class="fa fa-arrow-left"></i> Regresar
       </button>
     </div>
@@ -65,7 +62,7 @@
       </div>
     </div>
     <hr>
-    <div class="row">
+    <div class="row" *ngIf="false">
       <div class="col-12">
         <div class="form-group mb-0" *ngIf="conPermiso">
           <div class="text-center">
@@ -81,7 +78,7 @@
     </div>
     <hr>
     <div class="row">
-      <div class="col-12 col-md-8">
+      <div class="col-12">
         <ngb-tabset [destroyOnHide]="false" [activeId]="1" (tabChange)="tabSeleccionado($event)">
           <ngb-tab title="Fijo/Movil" id="1">
             <ng-template ngbTabContent>
@@ -101,7 +98,7 @@
                       <tbody>
                       <tr *ngFor="let phone of socio.telefonos; let i = index" class="text-center">
                         <th scope="row">{{ i + 1 }}</th>
-                        <td>{{ (phone.codCiudad ? phone.codCiudad +'-' : '') + phone.numero }}</td>
+                        <td>{{ (phone.codCiudad ? phone.codCiudad + '-' : '') + phone.numero }}</td>
                         <td>{{ phone.operadorDescripcion }}</td>
                         <td>{{ phone.tipoUsoDescripcion }}</td>
                         <td>{{ phone.tipoNotificacion }}</td>
@@ -169,7 +166,7 @@
           </ngb-tab>
         </ngb-tabset>
       </div>
-      <div class="col-12 col-md-4">
+      <div class="col-12 col-md-4" *ngIf="false">
         <div class="row">
           <div class="col-12">
             <div class="box box-primary">
@@ -242,7 +239,7 @@
                           </div>
                         </div>
                       </div>
-                      <div  class="col-12 col-md-6" *ngIf="typePhone == $fijo">
+                      <div class="col-12 col-md-6" *ngIf="typePhone == $fijo">
                         <div class="form-group">
                           <input Number type="text" class="form-control" placeholder="codCiudad" formControlName="codCiudad" maxlength="3" [ngClass]="
             {
@@ -254,7 +251,7 @@
                           </div>
                         </div>
                       </div>
-                      <div  [class]="typePhone == $movil ? 'col-12' : 'col-12 col-md-6'">
+                      <div [class]="typePhone == $movil ? 'col-12' : 'col-12 col-md-6'">
                         <div class="form-group">
                           <input Number type="text" class="form-control" placeholder="Número Telefóno" [maxlength]="max" formControlName="numero" [ngClass]="
             {
@@ -327,7 +324,7 @@
                       </div>
                     </div>
                   </ng-container>
-                  <ng-container  *ngIf="seccioSeleccionada == '3'">
+                  <ng-container *ngIf="seccioSeleccionada == '3'">
                     <div class="row area-direccion" [formGroup]="formDireccion">
                       <div class="col-12">
                         <div class="form-group">
@@ -583,7 +580,7 @@
                         <label>Seleccione número</label>
                         <select class="form-control" formControlName="numeroTelefono">
                           <option>Selecione</option>
-                          <option *ngFor="let item of showPhones" [value]="item.numero">{{ (item.codCiudad ? item.codCiudad +'-' : '') +  item.numero }}</option>
+                          <option *ngFor="let item of showPhones" [value]="item.numero">{{ (item.codCiudad ? item.codCiudad + '-' : '') + item.numero }}</option>
                         </select>
                       </div>
                     </div>

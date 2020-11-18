@@ -44,7 +44,6 @@ export class AsignacionCarteraService {
   }
 
   buscarEjecutivoByCodUsuario(codUsuario: any): Observable<Respuesta> {
-    console.log(codUsuario);
     return this.http.get<any>(`${urlBase}/${codUsuario}/ejecutivo`);
   }
 
@@ -225,6 +224,10 @@ export class AsignacionCarteraService {
 
   listarTableroTareasPorEjecutivo(ejecutivoId): Observable<EjecutivoAsignacion[]> {
     return this.http.get<EjecutivoAsignacion[]>(`${urlBase}/listar-asignacion-tarea-por-ejecutivo`,{params: new HttpParams().set('ejecutivoId', ejecutivoId)});
+  }
+
+  crearAsignacionTarea(tablero: EjecutivoAsignacion): Observable<Respuesta> {
+    return this.http.post<Respuesta>(`${urlBase}/crear-asignacion-tarea`, tablero);
   }
 
   crearTarea(tableroId: any, tarea: Tarea): Observable<Respuesta> {

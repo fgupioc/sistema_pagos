@@ -118,6 +118,7 @@ export class CreditoSocioComponent implements OnInit {
   actividades: any[];
   msgSending = false;
   comentario = '';
+  ejecutivo: any;
 
   constructor(
     public auth: AutenticacionService,
@@ -204,8 +205,19 @@ export class CreditoSocioComponent implements OnInit {
     }
     this.listarAcciones(this.creditoId, this.asignacionId);
     if (this.ejecutivoId) {
+      this.loadEjecutivo();
       this.listarTablero();
     }
+  }
+
+  loadEjecutivo() {
+    this.asignacionCarteraService.buscarEjecutivoByCodUsuario(this.ejecutivoId).subscribe(
+      res => {
+        if (res.exito) {
+          this.ejecutivo = res.objeto;
+        }
+      }
+    );
   }
 
   loadEstadosRecordatorios() {
@@ -920,7 +932,6 @@ export class CreditoSocioComponent implements OnInit {
       res => {
         if (res.exito) {
           this.credito = res.objeto;
-          console.log(this.credito);
           this.cragarInformacion();
         } else {
           if (this.role) {
