@@ -1,0 +1,49 @@
+<div class="card">
+  <div class="card-header">
+    <i class="fa fa-align-justify"></i>
+    <span class="card-title text-uppercase font-weight-bold">Mis Asignaciones</span>
+    <div class="box-tools float-right">
+      <button class="btn btn-sm btn-primary text-white mr-2" [routerLink]="'/auth/estrategia/asignacion-cartera'">Regresar</button>
+      <button class="btn btn-sm btn-success" [routerLink]="'/auth/estrategia/asignacion-cartera/mis-asignaciones/configuracion'">Nueva Asignación</button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead>
+            <tr class="text-center">
+              <th scope="col">#</th>
+              <th scope="col">Cartera</th>
+              <th scope="col">Gestión</th>
+              <th scope="col">Frecuencia</th>
+              <th scope="col">Inicio</th>
+              <th scope="col">Fin</th>
+              <th scope="col">Opción</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of asignaciones; let i = index" style="text-align: center" [class]="getClase(item)">
+              <th scope="row">{{ i + 1 }}</th>
+              <td style="text-align: left"> {{ item.nombreCartera }}</td>
+              <td><span style="font-size: 12px">{{ nombreEtapas(item.id) }}</span></td>
+              <td>{{ item.frecuencia }}</td>
+              <td> {{ item.startDate | date: 'dd/MM/yyyy'}}</td>
+              <td> {{ item.endDate | date: 'dd/MM/yyyy'}}</td>
+              <td>
+                <button class="btn btn-sm btn-primary mr-2" [routerLink]="'/auth/estrategia/asignacion-cartera/mis-asignaciones/' + item.id + '/detalle'"><i class="fa fa-eye"></i></button>
+              </td>
+            </tr>
+
+            <tr class="text-center" *ngIf="asignaciones.length == 0">
+              <th scope="row" colspan="7"><small>No tiene carteras asignadas</small></th>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner></ngx-spinner>

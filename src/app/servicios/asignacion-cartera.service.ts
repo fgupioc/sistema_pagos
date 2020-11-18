@@ -44,6 +44,7 @@ export class AsignacionCarteraService {
   }
 
   buscarEjecutivoByCodUsuario(codUsuario: any): Observable<Respuesta> {
+    console.log(codUsuario);
     return this.http.get<any>(`${urlBase}/${codUsuario}/ejecutivo`);
   }
 

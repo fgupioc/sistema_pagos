@@ -51,6 +51,9 @@ import { MisGestionesComponent } from './ejecutivo/mis-gestiones/mis-gestiones.c
 import { MisGestionesDetalleComponent } from './ejecutivo/mis-gestiones-detalle/mis-gestiones-detalle.component';
 import {DataTablesModule} from 'angular-datatables';
 import {AsignacionCarteraService} from '../servicios/asignacion-cartera.service';
+import { SupervisorAsignacionesComponent } from './asignacion-cartera/supervisor-asignaciones/supervisor-asignaciones.component';
+import { SupervisorCreditosComponent } from './asignacion-cartera/supervisor-creditos/supervisor-creditos.component';
+import { SupervisorCreditoSocioComponent } from './asignacion-cartera/supervisor-credito-socio/supervisor-credito-socio.component';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -89,7 +92,10 @@ const ngWizardConfig: NgWizardConfig = {
     TareaDetalleComponent,
     ModalTableroNuevaTareaComponent,
     MisGestionesComponent,
-    MisGestionesDetalleComponent
+    MisGestionesDetalleComponent,
+    SupervisorAsignacionesComponent,
+    SupervisorCreditosComponent,
+    SupervisorCreditoSocioComponent
   ],
   imports: [
     CommonModule,

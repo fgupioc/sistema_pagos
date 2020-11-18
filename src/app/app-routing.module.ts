@@ -41,6 +41,9 @@ import {MisGestionesComponent} from './estrategia/ejecutivo/mis-gestiones/mis-ge
 import {MisGestionesDetalleComponent} from './estrategia/ejecutivo/mis-gestiones-detalle/mis-gestiones-detalle.component';
 import {SocioCreditosComponent} from './socio/views/socio-creditos/socio-creditos.component';
 import {SocioCreditoDetalleComponent} from './socio/views/socio-credito-detalle/socio-credito-detalle.component';
+import {SupervisorAsignacionesComponent} from './estrategia/asignacion-cartera/supervisor-asignaciones/supervisor-asignaciones.component';
+import {SupervisorCreditosComponent} from './estrategia/asignacion-cartera/supervisor-creditos/supervisor-creditos.component';
+import {SupervisorCreditoSocioComponent} from './estrategia/asignacion-cartera/supervisor-credito-socio/supervisor-credito-socio.component';
 
 
 const A = Autorizacion;
@@ -48,14 +51,14 @@ const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent, canActivate: [GuestGuard]},
   {path: 'restablecimiento-credenciales', component: ValidarPinComponent, canActivate: [GuestGuard]},
- /*
-  {
-    path: 'socio',
-    children: [
-      { path: 'mis-creditos/:token', component: SocioCreditosComponent},
-      { path: 'mis-creditos/:token/detalle/:numCredito', component: SocioCreditoDetalleComponent}
-    ]
-  },*/
+  /*
+   {
+     path: 'socio',
+     children: [
+       { path: 'mis-creditos/:token', component: SocioCreditosComponent},
+       { path: 'mis-creditos/:token/detalle/:numCredito', component: SocioCreditoDetalleComponent}
+     ]
+   },*/
   {
     path: 'auth', children: [{
       path: '', component: AuthComponent,
@@ -125,10 +128,16 @@ const routes: Routes = [
             {path: 'asignacion-cartera/:ejecutivoId/listado/:asignacionId/detalle', component: EjecutivoCreditosComponent},
             {path: 'asignacion-cartera/:ejecutivoId/listado/:asignacionId/detalle/:creditoId/socio', component: CreditoSocioComponent},
 
-            // ejecutovo
+            // gestor de cobranza
             {path: 'asignacion-cartera/mis-cartera-asignadas', component: EjecutivoAsignacionesComponent, data: {role: 'X'}},
             {path: 'asignacion-cartera/mis-cartera-asignadas/:asignacionId/detalle', component: EjecutivoCreditosComponent, data: {role: 'X'}},
             {path: 'asignacion-cartera/mis-cartera-asignadas/:asignacionId/detalle/:creditoId/socio', component: CreditoSocioComponent, data: {role: 'X'}},
+
+            // supervisor
+            {path: 'asignacion-cartera/mis-asignaciones', component: SupervisorAsignacionesComponent},
+            {path: 'asignacion-cartera/mis-asignaciones/configuracion', component: AsignarEtapasEjecutivoComponent},
+            {path: 'asignacion-cartera/mis-asignaciones/:asignacionId/detalle', component: SupervisorCreditosComponent},
+            {path: 'asignacion-cartera/mis-asignaciones/:asignacionId/detalle/:creditoId/socio', component: SupervisorCreditoSocioComponent},
           ]
         },
         {

@@ -18,6 +18,7 @@ import {GrupoCampo} from '../../../interfaces/grupo-campo';
 import {MaestroService} from '../../../servicios/sistema/maestro.service';
 import {Subject} from 'rxjs';
 import {DataTableDirective} from 'angular-datatables';
+import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
 
 declare const $: any;
 
@@ -108,6 +109,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   showClasificacionDeudor = true;
 
   constructor(
+    public auth: AutenticacionService,
     private spinner: NgxSpinnerService,
     private asignacionService: AsignacionCarteraService,
     private activatedRoute: ActivatedRoute,
@@ -115,7 +117,13 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     private ngWizardService: NgWizardService,
     private maestroService: MaestroService
   ) {
-    activatedRoute.params.subscribe(({ejecutivoId}) => this.buscarEjecutivoByCodUsuario(ejecutivoId));
+    activatedRoute.params.subscribe(({ejecutivoId}) => {
+      if (!isNaN(ejecutivoId)) {
+        this.buscarEjecutivoByCodUsuario(ejecutivoId);
+      } else {
+        this.buscarEjecutivoByCodUsuario(auth.loggedUser.id);
+      }
+    });
   }
 
   ngOnInit() {
@@ -477,7 +485,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
 
     this.selectedSedes.forEach(v => {
       campoItems.push({
-        codCampo: CONST.TABLE_STR_LISTA_SEDE ,
+        codCampo: CONST.TABLE_STR_LISTA_SEDE,
         valor: v,
         opciona: 1
       });
