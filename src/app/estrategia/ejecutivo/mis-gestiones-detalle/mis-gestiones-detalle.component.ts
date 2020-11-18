@@ -412,7 +412,7 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   get regla() {
     if (this.etapa) {
-      return `${this.etapa.nombre}(${this.etapa.desde} - ${this.etapa.hasta})`;
+      return `${this.etapa.nombre}(${this.etapa.desde} a ${this.etapa.hasta})`;
     } else {
       return '';
     }
