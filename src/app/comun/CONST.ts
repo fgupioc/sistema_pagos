@@ -109,6 +109,8 @@ export class CONST {
   public static  TABLE_STR_LISTA_GESTIONES = '31';
   public static  TABLE_STR_LISTA_ACTIVIDADES = '32';
   public static  TABLE_STR_LISTA_RESPUESTAS = '33';
+  public static   TABLE_STR_TABLE_ESTADO_RECORDATORIOS = '35';
+  public static   TABLE_STR_TABLE_TIPO_ACUERDOS = '36';
 
   public static C_STR_ETAPA_EN_LISTA = '01'; // "MESSAGER";
   public static C_STR_ETAPA_EN_PROCESO = '02'; // "EMAIL";
@@ -131,4 +133,5 @@ export class CONST {
     DOLAR: 'USD',
     EURO: 'EUR',
   };
+  
 }

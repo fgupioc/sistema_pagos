@@ -94,7 +94,7 @@ export class MaestroService {
   }
 
   listarTipoActividades(): Observable<TablaMaestra[]> {
-    // return this.http.get<TablaMaestra[]>(this.apiUrl + 'listarElementosPorCodTable', {params: new HttpParams().set('codTable', CONST.TABLE_INT_LISTA_SEDE)});
+    /*
     const data: TablaMaestra[] = [
       {codItem: '1', descripcion: 'LLAMADAS'},
       {codItem: '2', descripcion: 'CORREO'},
@@ -103,22 +103,27 @@ export class MaestroService {
     ];
 
     return of(data);
+    */
+    return this.http.get<TablaMaestra[]>(this.apiUrl + 'listarElementosPorCodTable', {params: new HttpParams().set('codTable', CONST.TABLE_STR_LISTA_ACTIVIDADES)});
   }
 
   loadEstadosRecordatorios(): Observable<TablaMaestra[]> {
-    // return this.http.get<TablaMaestra[]>(this.apiUrl + 'listarElementosPorCodTable', {params: new HttpParams().set('codTable', CONST.TABLE_INT_LISTA_SEDE)});
+    /*
     const data: TablaMaestra[] = [
       {codItem: '1', descripcion: 'VIGENTE'},
       {codItem: '2', descripcion: 'COMPLETADA'},
       {codItem: '3', descripcion: 'CANCELADA'},
       {codItem: '4', descripcion: 'NO COMPLETADA'},
-      {codItem: '5', descripcion: 'PAGADA'},
+      {codItem: '5', descripcion: 'NO COMPLETADA'},
     ];
 
     return of(data);
+    */
+    return this.http.get<TablaMaestra[]>(this.apiUrl + 'listarElementosPorCodTable', {params: new HttpParams().set('codTable', CONST.TABLE_STR_TABLE_ESTADO_RECORDATORIOS)});
   }
 
   loadTipoAcuerdos(): Observable<TablaMaestra[]> {
+    /*
     const data: TablaMaestra[] = [
       {codItem: '1', descripcion: 'AL DÍA'},
       {codItem: '2', descripcion: 'PLAN DE PAGO'},
@@ -127,6 +132,8 @@ export class MaestroService {
     ];
 
     return of(data);
+    */
+    return this.http.get<TablaMaestra[]>(this.apiUrl + 'listarElementosPorCodTable', {params: new HttpParams().set('codTable', CONST.TABLE_STR_TABLE_TIPO_ACUERDOS)});
   }
 
   loadTipoUsoEmail(): Observable<any[]> {
