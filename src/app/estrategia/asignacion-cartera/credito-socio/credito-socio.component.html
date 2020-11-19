@@ -1127,7 +1127,6 @@
                     <th>Tipo</th>
                     <th>Cuota</th>
                     <th>Plazo</th>
-                    <th>Opcipon</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -1141,11 +1140,6 @@
                     <td>{{ item.descripcion | uppercase}}</td>
                     <td>{{ item.cuota }}</td>
                     <td>{{ item.plazo }}</td>
-                    <td>
-                      <ng-container *ngIf="item.condicion != '5'">
-                        <button *ngIf="conPermiso" [disabled]="isAfter(item.fechaInicio)" class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item)"><i class="fa fa-trash"></i></button>
-                      </ng-container>
-                    </td>
                   </tr>
                   </tbody>
                 </table>
