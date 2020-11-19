@@ -84,7 +84,7 @@
                         <span class="badge badge-info text-white" style="font-size: 14px;">#dueDate#</span> Fecha de Vencimiento.
                         <span class="badge badge-info text-white" style="font-size: 14px;">#debt#</span> Deuda Capital.
                         <span class="badge badge-info text-white" style="font-size: 14px;">#totalDebt#</span> Deuda Total.
-                      <ng-container *ngIf="obj && (obj.codTipoNotificacion == 3 || obj.codTipoNotificacion == 6)">
+                      <ng-container *ngIf="obj && obj.codTipoNotificacion == 6">
                         <span class="badge badge-info text-white" style="font-size: 14px;">#URLSelfService#</span>  URL Self Service.
                       </ng-container>
                     </small>
