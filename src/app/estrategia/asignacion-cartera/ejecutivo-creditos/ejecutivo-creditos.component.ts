@@ -144,6 +144,7 @@ export class EjecutivoCreditosComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.value) {
+        this.spinner.show();
         this.asignacionCarteraService.eliminarCredito(credito.id, this.campania.id).subscribe(
           res => {
             if (res.exito) {
@@ -151,9 +152,11 @@ export class EjecutivoCreditosComponent implements OnInit {
               this.obtenerAsignnacionPorId(this.campania.id);
             } else {
               Swal.fire('Asignación de Cartera', res.mensaje, 'error');
+              this.spinner.hide();
             }
           },
           err => {
+            this.spinner.hide();
             Swal.fire('Asignación de Cartera', err, 'error');
           }
         );
