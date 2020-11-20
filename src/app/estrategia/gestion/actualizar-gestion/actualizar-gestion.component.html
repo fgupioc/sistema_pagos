@@ -18,7 +18,7 @@
                 <div id="tabsContent" class="tab-content">
                     <div id="gestion" class="tab-pane fade show active">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-12 col-md-5">
                                 <div class="form-group">
                                     <label>Nombre</label>
                                     <input Uppercase type="text" class="form-control" formControlName="nombre" [ngClass]="
@@ -33,7 +33,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                          <div class="col-12 col-md-3">
+                            <div class="form-group">
+                              <label>Area</label>
+                              <select name="codArea" class="form-control" formControlName="codArea" [ngClass]="
+                                    {
+                                    'is-invalid': formGestion.controls['codArea'].touched && formGestion.controls['codArea'].errors,
+                                    'is-valid': formGestion.controls['codArea'].touched && !formGestion.controls['codArea'].errors
+                                    }
+                                    ">
+                                <option value="">Seleccione</option>
+                                <option *ngFor="let item of areas" [value]="item.codItem">{{ item.descripcion }}</option>
+                              </select>
+                              <div class="invalid-feedback">
+                                <span class="d-block" *ngIf="formGestion.get('codArea').hasError('required')"> El area es obligatorio.</span>
+                              </div>
+                            </div>
+                          </div>
+                            <div class="col-6 col-md-2">
                                 <div class="form-group">
                                     <label>Desde</label>
                                     <input CustomizeInteger type="text" class="form-control" (change)="validarDesde()" formControlName="desde" [ngClass]="
@@ -48,7 +65,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-6 col-md-2">
                                 <div class="form-group">
                                     <label>Hasta</label>
                                     <input CustomizeInteger type="text" class="form-control" (change)="validarHasta()" formControlName="hasta" [ngClass]="

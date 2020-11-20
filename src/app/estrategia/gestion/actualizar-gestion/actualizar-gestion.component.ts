@@ -10,6 +10,8 @@ import {isNullOrUndefined} from 'util';
 import {CONST} from '../../../comun/CONST';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {Cartera} from '../../../interfaces/cartera';
+import {TablaMaestra} from '../../../interfaces/tabla-maestra';
+import {MaestroService} from '../../../servicios/sistema/maestro.service';
 
 declare var $: any;
 
@@ -25,14 +27,16 @@ export class ActualizarGestionComponent implements OnInit {
   create: boolean;
   gestiones: any[] = [];
   cartera: Cartera;
+  areas: TablaMaestra[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private carteraService: CarteraService,
     public modalService: NgbModal,
-    private router: Router,
+    public router: Router,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private maestroService: MaestroService
   ) {
     if (this.router.getCurrentNavigation().extras.state !== undefined) {
       if (this.router.getCurrentNavigation().extras.state.create) {
@@ -45,11 +49,14 @@ export class ActualizarGestionComponent implements OnInit {
       }
       this.gestiones = this.router.getCurrentNavigation().extras.state.gestiones;
     } else {
-      this.router.navigate(['/auth/estrategia/cartera']);
+      this.router.navigate(['/auth/estrategia/carteras']);
     }
   }
 
   ngOnInit() {
+
+    this.loadAreas();
+
     this.formGestion = this.formBuilder.group({
       codGestion: [''],
       codCartera: [''],
@@ -59,6 +66,7 @@ export class ActualizarGestionComponent implements OnInit {
       ]],
       desde: ['', [Validators.required]],
       hasta: ['', [Validators.required]],
+      codArea: ['', [Validators.required]],
       fechaCreacion: [{value: '', disabled: true}],
       fechaActualizacion: [{value: '', disabled: true}],
       userCreate: [{value: '', disabled: true}],
@@ -247,5 +255,18 @@ export class ActualizarGestionComponent implements OnInit {
       $('#etapas').addClass('show active');
       $('#gestion').removeClass('show active');
     }
+  }
+
+  loadAreas() {
+    this.spinner.show();
+    this.maestroService.listaTablaAreas().subscribe(
+      res => {
+        this.areas = res;
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
+      }
+    );
   }
 }

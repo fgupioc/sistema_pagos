@@ -184,4 +184,8 @@ export class MaestroService {
   listarTiposRespuestas(): Observable<TablaMaestra[]> {
     return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_LISTA_RESPUESTAS)});
   }
+
+  listaTablaAreas(): Observable<TablaMaestra[]> {
+    return this.http.get<any>(`${this.apiUrl}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_TABLE_LISTA_AREAS)});
+  }
 }
