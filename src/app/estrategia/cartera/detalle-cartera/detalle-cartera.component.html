@@ -281,6 +281,7 @@
                 <thead>
                 <tr class="text-center">
                   <th scope="col">#</th>
+                  <th scope="col">Area</th>
                   <th scope="col">Nombre</th>
                   <th scope="col">Parametros</th>
                   <th scope="col">Acciones</th>
@@ -289,6 +290,7 @@
                 <tbody>
                 <tr *ngFor="let item of gestiones; let i = index;" class="text-center">
                   <th scope="row">{{ i+1 }}</th>
+                  <td>{{ nameArea(item.codArea) }}</td>
                   <td>{{ item.nombre }}</td>
                   <td>{{ item.desde }} a {{ item.hasta }}</td>
                   <td class="text-center">

@@ -90,10 +90,10 @@ export class DetalleCarteraComponent implements OnInit {
       descripcion: 'DISTRITO',
     }
   ];
-
+  areas: TablaMaestra[] = [];
 
   constructor(
-    private router: Router,
+    public router: Router,
     private carteraService: CarteraService,
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
@@ -109,6 +109,7 @@ export class DetalleCarteraComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loadAreas();
     this.listarTipoProductos();
     this.listarTipoBancas();
     this.listarTipoDivisiones();
@@ -588,6 +589,27 @@ export class DetalleCarteraComponent implements OnInit {
       res => res.forEach(item => this.tipoCalificacionesDeudor.push({id: item.codItem, name: item.descripcion})),
       err => console.log(err)
     );
+  }
+
+  loadAreas() {
+    this.spinner.show();
+    this.maestroService.listaTablaAreas().subscribe(
+      res => {
+        this.areas = res;
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
+      }
+    );
+  }
+
+  nameArea(id: string) {
+    if (this.areas.length == 0) {
+      return;
+    }
+    const area = this.areas.find(i => i.codItem == id);
+    return area ? area.descripcion : '';
   }
 }
 
