@@ -24,9 +24,9 @@ export class SupervisorCreditosComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
   isDtInitialized = false;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
-  ejecutivoId: any;
+  ejecutivoUuid: any;
   ejecutivoNombre: string;
-  asignacionId: string;
+  asignacionUuid: string;
   creditos: any[] = [];
   campania: EjecutivoCartera;
   tipoCreditos: InfoCampo[] = [];
@@ -45,10 +45,10 @@ export class SupervisorCreditosComponent implements OnInit {
     config.backdrop = 'static';
     config.keyboard = false;
 
-    activatedRoute.params.subscribe(({asignacionId}) => {
-      if (asignacionId) {
-        this.ejecutivoId = auth.loggedUser.id;
-        this.asignacionId = asignacionId;
+    activatedRoute.params.subscribe(({asignacionUuid}) => {
+      if (asignacionUuid) {
+        this.ejecutivoUuid = auth.loggedUser.uuid;
+        this.asignacionUuid = asignacionUuid;
       } else {
         this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-asignaciones');
       }
@@ -57,23 +57,23 @@ export class SupervisorCreditosComponent implements OnInit {
 
   ngOnInit() {
     this.dtOptions = CONST.C_OBJ_DT_OPCIONES();
-    if (this.ejecutivoId && this.asignacionId) {
-      this.obtenerAsignnacionPorId(this.asignacionId);
+    if (this.ejecutivoUuid && this.asignacionUuid) {
+      this.obtenerAsignnacionPorId(this.asignacionUuid);
     }
   }
 
-  obtenerAsignnacionPorId(asignacionId: any) {
+  obtenerAsignnacionPorId(asignacionUuid: any) {
     this.spinner.show();
     this.tipoCreditos = [];
     this.sedes = [];
     this.montos = [];
 
-    this.asignacionCarteraService.obtenerAsignnacionPorId(asignacionId).subscribe(
+    this.asignacionCarteraService.obtenerAsignnacionPorId(asignacionUuid).subscribe(
       res => {
         if (res.exito) {
           this.campania = res.objeto;
           this.creditos = res.objeto.creditosTemp;
-          this.ejecutivoNombre = res.ejecutivo.alias || this.ejecutivoId;
+          this.ejecutivoNombre = res.ejecutivo.alias || this.ejecutivoUuid;
           this.campania.campoItems.forEach(item => {
             switch (item.codCampo) {
               case CONST.TABLE_STR_LISTA_PRODUCTO_ABACO:
@@ -145,13 +145,13 @@ export class SupervisorCreditosComponent implements OnInit {
 
   closeModalAgregarCredito(data: any) {
     if (data && data.exito) {
-      this.obtenerAsignnacionPorId(this.asignacionId);
+      this.obtenerAsignnacionPorId(this.asignacionUuid);
       Swal.fire('Asignación de cartera', data.mensaje, 'success');
     }
   }
 
   irCliente(credito: any) {
-    const url = `/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.asignacionId}/detalle/${credito.id}/socio`;
+    const url = `/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.asignacionUuid}/detalle/${credito.nroCredito}/socio`;
     this.router.navigateByUrl(url, {state: {credito}});
   }
 

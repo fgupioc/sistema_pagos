@@ -32,15 +32,15 @@ export class EjecutivoAsignacionesComponent implements OnInit {
   ) {
     const {role} = activatedRoute.snapshot.data;
     if (!role) {
-      activatedRoute.params.subscribe(({ejecutivoId}) => {
-        this.buscarEjecutivoByCodUsuario(ejecutivoId);
-        this.listaAsignacionCreditoPorEjecutivo(ejecutivoId);
+      activatedRoute.params.subscribe(({ejecutivoUuid}) => {
+        this.buscarEjecutivoByCodUsuario(ejecutivoUuid);
+        this.listaAsignacionCreditoPorEjecutivo(ejecutivoUuid);
       });
     } else {
-      const user = auth.loggedUser.id;
+      const uuid = auth.loggedUser.uuid;
       this.role = role;
-      if (user) {
-        this.misAsignacionCreditoPorEjecutivo(auth.loggedUser.id);
+      if (uuid) {
+        this.misAsignacionCreditoPorEjecutivo(uuid);
       }
     }
   }
@@ -48,13 +48,13 @@ export class EjecutivoAsignacionesComponent implements OnInit {
   ngOnInit() {
   }
 
-  private listaAsignacionCreditoPorEjecutivo(ejecutivoId: any) {
-    if (!ejecutivoId) {
+  private listaAsignacionCreditoPorEjecutivo(uuid: any) {
+    if (!uuid) {
       Swal.fire('Asignación de Cartera', 'EL Asesor de negocio no existe.', 'error');
       this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
     }
     this.spinner.show();
-    this.asignacionService.listaAsignacionCreditoPorEjecutivo(ejecutivoId).subscribe(
+    this.asignacionService.listaAsignacionCreditoPorEjecutivo(uuid).subscribe(
       res => {
         if (res.exito) {
           this.asignaciones = res.objeto as any[];
@@ -79,8 +79,8 @@ export class EjecutivoAsignacionesComponent implements OnInit {
     );
   }
 
-  private misAsignacionCreditoPorEjecutivo(ejecutivoId: any) {
-    this.asignacionService.listaAsignacionCreditoPorEjecutivo(ejecutivoId).subscribe(
+  private misAsignacionCreditoPorEjecutivo(uuid: any) {
+    this.asignacionService.listaAsignacionCreditoPorEjecutivo(uuid).subscribe(
       res => {
         if (res.exito) {
           this.asignaciones = res.objeto as any[];

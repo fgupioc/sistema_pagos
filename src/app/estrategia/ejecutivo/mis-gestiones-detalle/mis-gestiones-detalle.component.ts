@@ -61,7 +61,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   formDireccion: FormGroup;
   formWhatsapp: FormGroup;
 
-  creditoId: any;
+  nroCredito: any;
   credito: Credito;
   cartera: Cartera;
   funciones = FUNC;
@@ -144,7 +144,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     private direccionService: DireccionService,
     private modalService: NgbModal
   ) {
-    activatedRoute.params.subscribe(({creditoId}) => this.creditoId = creditoId);
+    activatedRoute.params.subscribe(({nroCredito}) => this.nroCredito = nroCredito);
     this.userLoggedName = auth.loggedUser.alias;
   }
 
@@ -168,7 +168,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     this.loadTipoUsoTelefono();
     this.loadTipoUsoEmail();
 
-    if (this.creditoId) {
+    if (this.nroCredito) {
       this.loadCredito();
     }
     this.form = this.formBuilder.group({
@@ -358,7 +358,7 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   loadCredito() {
     this.spinner.show();
-    this.gestionAdministrativaService.buscarCreditoPorId(this.creditoId).subscribe(
+    this.gestionAdministrativaService.buscarCreditoPorNroCredito(this.nroCredito).subscribe(
       res => {
         if (res.exito) {
           this.credito = res.credito;

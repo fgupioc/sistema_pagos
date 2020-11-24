@@ -56,9 +56,9 @@ export class CreditoSocioComponent implements OnInit {
   formTarea: FormGroup;
 
   credito: Credito;
-  creditoId: any;
-  ejecutivoId: any;
-  asignacionId: any;
+  nroCredito: any;
+  ejecutivoUuid: any;
+  asignacionUuid: any;
   socio: Persona;
   title = 'Gestiónar Eventos Socio';
   typeEvent: number;
@@ -119,6 +119,8 @@ export class CreditoSocioComponent implements OnInit {
   msgSending = false;
   comentario = '';
   ejecutivo: any;
+  asignacionId: any;
+  ejecutivoId: any;
 
   constructor(
     public auth: AutenticacionService,
@@ -143,39 +145,39 @@ export class CreditoSocioComponent implements OnInit {
     const {role} = activatedRoute.snapshot.data;
     if (role) {
       this.role = role;
-      activatedRoute.params.subscribe(({asignacionId, creditoId}) => {
-        if (asignacionId == undefined || asignacionId == 'undefined') {
+      activatedRoute.params.subscribe(({asignacionUuid, nroCredito}) => {
+        if (asignacionUuid == undefined || asignacionUuid == 'undefined') {
           this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
         }
-        if (asignacionId) {
-          this.ejecutivoId = auth.loggedUser.id;
-          this.asignacionId = asignacionId;
+        if (asignacionUuid) {
+          this.ejecutivoUuid = auth.loggedUser.uuid;
+          this.asignacionUuid = asignacionUuid;
           const state = this.router.getCurrentNavigation().extras.state;
-          this.creditoId = creditoId;
-          if (this.creditoId) {
+          this.nroCredito = nroCredito;
+          if (this.nroCredito) {
             this.cargarCredito();
           } else {
-            router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${this.creditoId}/detalle`);
+            router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${this.nroCredito}/detalle`);
           }
         } else {
           router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
         }
       });
     } else {
-      activatedRoute.params.subscribe(({ejecutivoId, asignacionId, creditoId}) => {
-        if (asignacionId == undefined || ejecutivoId == undefined || asignacionId == 'undefined' || ejecutivoId == 'undefined') {
+      activatedRoute.params.subscribe(({ejecutivoUuid, asignacionUuid, nroCredito}) => {
+        if (asignacionUuid == undefined || ejecutivoUuid == undefined || asignacionUuid == 'undefined' || ejecutivoUuid == 'undefined') {
           this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
         }
 
-        if (ejecutivoId && asignacionId) {
-          this.ejecutivoId = ejecutivoId;
-          this.asignacionId = asignacionId;
+        if (ejecutivoUuid && asignacionUuid) {
+          this.ejecutivoUuid = ejecutivoUuid;
+          this.asignacionUuid = asignacionUuid;
           const state = this.router.getCurrentNavigation().extras.state;
-          this.creditoId = creditoId;
-          if (this.creditoId) {
+          this.nroCredito = nroCredito;
+          if (this.nroCredito) {
             this.cargarCredito();
           } else {
-            router.navigateByUrl(`/auth/estrategia/asignacion-cartera/${ejecutivoId}/listado/${asignacionId}/detalle`);
+            router.navigateByUrl(`/auth/estrategia/asignacion-cartera/${ejecutivoUuid}/listado/${asignacionUuid}/detalle`);
           }
         } else {
           router.navigateByUrl('/auth/estrategia/asignacion-cartera');
@@ -203,18 +205,18 @@ export class CreditoSocioComponent implements OnInit {
     if (this.credito) {
       this.cragarInformacion();
     }
-    this.listarAcciones(this.creditoId, this.asignacionId);
-    if (this.ejecutivoId) {
+
+    if (this.ejecutivoUuid) {
       this.loadEjecutivo();
-      this.listarTablero();
     }
   }
 
   loadEjecutivo() {
-    this.asignacionCarteraService.buscarEjecutivoByCodUsuario(this.ejecutivoId).subscribe(
+    this.asignacionCarteraService.buscarEjecutivoByCodUsuario(this.ejecutivoUuid).subscribe(
       res => {
         if (res.exito) {
           this.ejecutivo = res.objeto;
+          this.listarTablero(this.ejecutivo.codUsuario);
         }
       }
     );
@@ -928,31 +930,31 @@ export class CreditoSocioComponent implements OnInit {
   }
 
   private cargarCredito() {
-    this.asignacionCarteraService.buscarCreditoPorId(this.creditoId).subscribe(
+    this.asignacionCarteraService.buscarCreditoPorNroCredito(this.nroCredito).subscribe(
       res => {
         if (res.exito) {
           this.credito = res.objeto;
           this.cragarInformacion();
         } else {
           if (this.role) {
-            this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${this.creditoId}/detalle`);
+            this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${this.nroCredito}/detalle`);
           } else {
-            this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/${this.ejecutivoId}/listado/${this.asignacionId}/detalle`);
+            this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/${this.ejecutivoUuid}/listado/${this.asignacionUuid}/detalle`);
           }
         }
       },
       err => {
         if (this.role) {
-          this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${this.creditoId}/detalle`);
+          this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${this.nroCredito}/detalle`);
         } else {
-          this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/${this.ejecutivoId}/listado/${this.asignacionId}/detalle`);
+          this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/${this.ejecutivoUuid}/listado/${this.asignacionUuid}/detalle`);
         }
       }
     );
   }
 
   private cragarInformacion() {
-    this.obtenerAsignnacionPorId(this.asignacionId);
+    this.obtenerAsignnacionPorId(this.asignacionUuid);
     this.formRecordatorio = this.formBuilder.group({
       asignacionId: [this.asignacionId],
       ejecutivoId: [this.ejecutivoId],
@@ -1049,7 +1051,6 @@ export class CreditoSocioComponent implements OnInit {
       notificacion: [false],
       correo: [false],
     });
-
     this.refreshCountries();
   }
 
@@ -1073,17 +1074,21 @@ export class CreditoSocioComponent implements OnInit {
     return moment(this.dateDefault).isAfter(moment(fecha).format('YYYY-MM-DD'));
   }
 
-  obtenerAsignnacionPorId(asignacionId: any) {
+  obtenerAsignnacionPorId(asignacionUuid: any) {
     this.spinner.show();
-    this.asignacionCarteraService.obtenerAsignnacionPorId(asignacionId).subscribe(
+    this.asignacionCarteraService.obtenerAsignnacionPorId(asignacionUuid).subscribe(
       res => {
         if (res.exito) {
+          this.ejecutivoId = res.ejecutivo.id;
+          this.asignacionId = res.objeto.id;
           this.campania = res.objeto;
+
+          this.listarAcciones(this.credito.id, this.asignacionId);
         } else {
           if (this.role) {
             this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
           } else {
-            this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/' + this.ejecutivoId + '/listado');
+            this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/' + this.ejecutivoUuid + '/listado');
           }
         }
         this.spinner.hide();
@@ -1093,7 +1098,7 @@ export class CreditoSocioComponent implements OnInit {
         if (this.role) {
           this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
         } else {
-          this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/' + this.ejecutivoId + '/listado');
+          this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/' + this.ejecutivoUuid + '/listado');
         }
       }
     );
@@ -1384,8 +1389,8 @@ export class CreditoSocioComponent implements OnInit {
     );
   }
 
-  listarTablero() {
-    this.asignacionCarteraService.listarTableroTareasPorEjecutivo(this.ejecutivoId).subscribe(
+  listarTablero(ejecutivoId: any) {
+    this.asignacionCarteraService.listarTableroTareasPorEjecutivo(ejecutivoId).subscribe(
       res => {
         this.misTableros = res;
       },
