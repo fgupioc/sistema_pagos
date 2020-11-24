@@ -58,12 +58,15 @@ export class EjecutivoAsignacionesComponent implements OnInit {
       res => {
         if (res.exito) {
           this.asignaciones = res.objeto as any[];
+          /*
           if (this.asignaciones.length > 0) {
             this.asignaciones.forEach(v => {
               this.obtenerEtapasAsignaciones(v.id);
             });
           }
-          this.nombreEtapas(1);
+
+           */
+          //this.nombreEtapas(1);
           this.spinner.hide();
         } else {
           Swal.fire('Asignación de Cartera', 'EL Asesor de negocio no existe.', 'error');

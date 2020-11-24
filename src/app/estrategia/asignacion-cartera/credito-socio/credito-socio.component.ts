@@ -1082,8 +1082,8 @@ export class CreditoSocioComponent implements OnInit {
           this.ejecutivoId = res.ejecutivo.id;
           this.asignacionId = res.objeto.id;
           this.campania = res.objeto;
-
           this.listarAcciones(this.credito.id, this.asignacionId);
+          this.loadAcuerdosPagos(this.asignacionId, this.ejecutivoId, this.credito.socioId, this.credito.id);
         } else {
           if (this.role) {
             this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
@@ -1129,16 +1129,15 @@ export class CreditoSocioComponent implements OnInit {
         const data: EjecutivoAsignacion = {
           nombre: result.value,
           slug: FUNC.slugGenerate(result.value),
-          ejecutivoId: this.auth.loggedUser.id,
+          ejecutivoId: this.ejecutivoId,
           visibilidad: '01',
         };
         this.spinner.show();
-        /*
-        this.gestionAdministrativaService.crearAsignacionTarea(data).subscribe(
+        this.asignacionCarteraService.crearAsignacionTarea(data).subscribe(
           res => {
             if (res.exito) {
               Swal.fire('Crear Nuevo Tablero', res.mensaje, 'success');
-              this.listarTablero();
+              this.listarTablero(this.ejecutivoId);
             } else {
               Swal.fire('Crear Nuevo Tablero', res.mensaje, 'error');
             }
@@ -1148,7 +1147,6 @@ export class CreditoSocioComponent implements OnInit {
             Swal.fire('Crear Nuevo Tablero', 'Ocurrio un error', 'error');
           }
         );
-        */
       }
     });
   }
@@ -1349,9 +1347,8 @@ export class CreditoSocioComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.value) {
-        /*
         this.spinner.show();
-        this.gestionAdministrativaService.desactivarTareaComentario(tareaId).subscribe(
+        this.asignacionCarteraService.desactivarTareaComentario(tareaId).subscribe(
           res => {
             if (res.exito) {
               Swal.fire('Actividad', res.mensaje, 'success');
@@ -1367,7 +1364,6 @@ export class CreditoSocioComponent implements OnInit {
             this.spinner.hide();
           }
         );
-        */
       }
     });
   }

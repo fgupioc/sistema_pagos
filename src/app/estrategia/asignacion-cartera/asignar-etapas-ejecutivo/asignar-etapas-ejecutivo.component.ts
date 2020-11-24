@@ -374,7 +374,6 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.spinner.show();
     this.asignacionService.asignarCreditosEjecutivo(this.ejecutivoSelected.codUsuario, data).subscribe(
       res => {
-        console.log(res.objeto);
         if (res.exito) {
           Swal.fire('Asignación de credito', res.mensaje, 'success');
           this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');

@@ -62,6 +62,7 @@ export class EjecutivoCreditosComponent implements OnInit {
       });
     } else {
       activatedRoute.params.subscribe(({asignacionUuid, ejecutivoUuid}) => {
+
         if (asignacionUuid == undefined || ejecutivoUuid == undefined || asignacionUuid == 'undefined' || ejecutivoUuid == 'undefined') {
           this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
         }

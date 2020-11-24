@@ -201,7 +201,6 @@ export class RolCrearComponent implements OnInit {
       const rolNuevo = {rol, rolMenuAutoris, usuarioIds: usuariosElegidos};
 
       this.spinner.show();
-      console.log(rolNuevo);
       this.rolService.guardar(rolNuevo).subscribe(
         respuesta => {
           this.spinner.hide();

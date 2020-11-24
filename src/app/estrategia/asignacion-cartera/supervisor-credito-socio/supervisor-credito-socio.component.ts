@@ -361,6 +361,7 @@ export class SupervisorCreditoSocioComponent implements OnInit {
   }
 
   loadAcuerdosPagos(asignacionId: any, ejecutivoId: any, socioId: number, creditoId: number) {
+    console.log(asignacionId, ejecutivoId, socioId, creditoId);
     this.asignacionCarteraService.listarAcuerdosPorAsignacionYCredito(asignacionId, ejecutivoId, socioId, creditoId).subscribe(
       res => {
         if (res.exito) {
@@ -981,6 +982,7 @@ export class SupervisorCreditoSocioComponent implements OnInit {
 
     setTimeout(() => this.spinner.show(), 200);
     this.buscarSocioById(this.credito.socioId);
+    console.log(this.asignacionId, this.ejecutivoId);
     if (this.asignacionId && this.ejecutivoId) {
       this.loadRecordatorios(this.asignacionId, this.ejecutivoId, this.credito.socioId, this.credito.id);
       this.loadAcuerdosPagos(this.asignacionId, this.ejecutivoId, this.credito.socioId, this.credito.id);
@@ -1050,6 +1052,7 @@ export class SupervisorCreditoSocioComponent implements OnInit {
           this.campania = res.objeto;
           this.asignacionId = res.objeto.id;
           this.listarAcciones(this.credito.id, this.asignacionId);
+          this.loadAcuerdosPagos(this.asignacionId, this.ejecutivoId, this.credito.socioId, this.credito.id);
         } else {
           this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.nroCredito}/detalle`);
         }
@@ -1305,9 +1308,8 @@ export class SupervisorCreditoSocioComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.value) {
-        /*
         this.spinner.show();
-        this.gestionAdministrativaService.desactivarTareaComentario(tareaId).subscribe(
+        this.asignacionCarteraService.desactivarTareaComentario(tareaId).subscribe(
           res => {
             if (res.exito) {
               Swal.fire('Actividad', res.mensaje, 'success');
@@ -1323,7 +1325,6 @@ export class SupervisorCreditoSocioComponent implements OnInit {
             this.spinner.hide();
           }
         );
-        */
       }
     });
   }

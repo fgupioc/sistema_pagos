@@ -237,4 +237,8 @@ export class AsignacionCarteraService {
   crearTareaComentario(comment: any): Observable<Respuesta> {
     return this.http.post<Respuesta>(`${urlBase}/crear-tarea-actividad`, comment);
   }
+
+  desactivarTareaComentario(actividadId: any): Observable<Respuesta> {
+    return this.http.put<Respuesta>(`${urlBase}/desactivar-tarea-actividad`, {}, {params: new HttpParams().set('actividadId', actividadId)});
+  }
 }
