@@ -102,7 +102,7 @@
     </div>
     <div class="modal-footer d-flex justify-content-center">
         <button [disabled]="formEtapa.invalid" *ngIf="create" type="button" class="btn btn-outline-info mr-2" (click)="guardar()">Guardar</button>
-        <button [disabled]="formEtapa.invalid" *ngIf="!create" type="button" class="btn btn-outline-info mr-2" (click)="actualzar()">Actualizar</button>
+        <button [disabled]="formEtapa.invalid" *ngIf="!create" type="button" class="btn btn-outline-info mr-2" (click)="actualzar()">Guardar</button>
         <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cerrar</button>
     </div>
 </div>

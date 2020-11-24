@@ -15,6 +15,8 @@ export class ActualizarEtapaComponent implements OnInit {
   index: any;
   create = true;
   gestion: any;
+  personaCreate: any;
+  personaUpdate: any;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -53,6 +55,8 @@ export class ActualizarEtapaComponent implements OnInit {
 
     if (!this.create) {
       this.formEtapa.setValue(this.etapas[this.index]);
+      this.formEtapa.controls.userCreate.setValue(this.personaCreate);
+      this.formEtapa.controls.userUpdate.setValue(this.personaUpdate);
       this.formEtapa.controls.fechaCreacion.setValue(FUNC.formatDate(this.etapas[this.index].fechaCreacion, 'd MMMM yy h:mm a'));
       this.formEtapa.controls.fechaActualizacion.setValue(FUNC.formatDate(this.etapas[this.index].fechaActualizacion, 'd MMMM yy h:mm a'));
     }

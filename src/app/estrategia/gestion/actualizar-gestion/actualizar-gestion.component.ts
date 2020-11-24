@@ -29,6 +29,8 @@ export class ActualizarGestionComponent implements OnInit {
   gestiones: any[] = [];
   cartera: Cartera;
   areas: TablaMaestra[] = [];
+  personaCreate: any;
+  personaUpdate: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -78,6 +80,7 @@ export class ActualizarGestionComponent implements OnInit {
     });
 
     if (!this.create) {
+      this.usuariosGestion(this.gestion.codGestion);
       this.formGestion.setValue(this.gestion);
       this.formGestion.controls.fechaCreacion.setValue(FUNC.formatDate(this.gestion.fechaCreacion, 'd MMMM yy h:mm a'));
       this.formGestion.controls.fechaActualizacion.setValue(FUNC.formatDate(this.gestion.fechaActualizacion, 'd MMMM yy h:mm a'));
@@ -163,6 +166,8 @@ export class ActualizarGestionComponent implements OnInit {
     modal.componentInstance.index = i;
     modal.componentInstance.create = false;
     modal.componentInstance.gestion = this.formGestion.getRawValue();
+    modal.componentInstance.personaCreate = this.personaCreate;
+    modal.componentInstance.personaUpdate = this.personaUpdate;
   }
 
   closeModal(data) {
@@ -265,6 +270,26 @@ export class ActualizarGestionComponent implements OnInit {
     this.maestroService.listaTablaAreas().subscribe(
       res => {
         this.areas = res;
+        if (this.create) {
+          this.spinner.hide();
+        }
+      },
+      err => {
+        this.spinner.hide();
+      }
+    );
+  }
+
+  usuariosGestion(codGestion: any) {
+    this.spinner.show();
+    this.carteraService.getUsuariosGestion(codGestion).subscribe(
+      res => {
+        if (res.exito) {
+          this.personaCreate = res.personaCreate ? res.personaCreate.alias : '';
+          this.personaUpdate = res.personaUpdate ? res.personaUpdate.alias : '';
+          this.formGestion.controls.userCreate.setValue(this.personaCreate);
+          this.formGestion.controls.userUpdate.setValue(this.personaUpdate);
+        }
         this.spinner.hide();
       },
       err => {

@@ -51,6 +51,7 @@ export class DetalleCarteraComponent implements OnInit {
   tipoSocios: MultiSelect[] = [];
   tipoCalificacionesDeudor: MultiSelect[] = [];
   sedes: MultiSelect[] = [];
+  codCartera: any;
 
   listaGrupos: TablaMaestra[] = [
     {
@@ -102,13 +103,15 @@ export class DetalleCarteraComponent implements OnInit {
   ) {
     const state = this.router.getCurrentNavigation().extras.state;
     if (!isNullOrUndefined(state)) {
-      this.cartera = state.cartera;
+      //this.cartera = state.cartera;
+      this.codCartera =  state.cartera.codCartera;
     } else {
       this.router.navigateByUrl('/auth/estrategia/carteras');
     }
   }
 
   ngOnInit() {
+
     this.loadAreas();
     this.listarTipoProductos();
     this.listarTipoBancas();
@@ -119,6 +122,9 @@ export class DetalleCarteraComponent implements OnInit {
     this.listaTipoCreditos();
     this.listaSedes();
     this.listarMondas();
+    if (this.codCartera) {
+      this.loadCartera(this.codCartera);
+    }
     // this.getCartera();
     this.formulario = this.formBuilder.group({
       codCartera: [''],
@@ -170,43 +176,19 @@ export class DetalleCarteraComponent implements OnInit {
       valorInicial: [''],
       valorFinal: [''],
     });
-    if (this.cartera) {
-      if (this.cartera.campos.length > 0) {
-        const items = this.convertObject(this.cartera.campos);
-        this.formAdicional.controls.listaCampos.setValue(items.listaCampos);
-        if (items.selectedOptionsIds.length > 0) {
-          this.cargarItems(items.listaCampos);
-          this.formAdicional.controls.selectedOptionsIds.setValue(items.selectedOptionsIds);
-        } else {
-          this.formAdicional.controls.valorInicial.setValue(items.valorInicial);
-          this.formAdicional.controls.valorFinal.setValue(items.valorFinal);
-          this.formAdicional.controls.selectedOptionsIds.setValue([]);
-          this.number = true;
-        }
-      }
-      this.formulario.setValue(this.cartera);
-      this.formulario.controls.fechaCreacion.setValue(FUNC.formatDate(this.cartera.fechaCreacion, 'd MMMM yy h:mm a'));
-      this.formulario.controls.fechaActualizacion.setValue(FUNC.formatDate(this.cartera.fechaActualizacion, 'd MMMM yy h:mm a'));
-      if (this.cartera.monedas.length > 0) {
-        this.cartera.monedas.forEach(e => {
-          this.monedasSeleccionadas.push({
-            codTabla: null,
-            codItem: e.codMoneda,
-            descripcion: null,
-            strValor: null,
-            intValor: null,
-            codEstado: null,
-          });
-        });
-      }
-    }
-    this.getGestiones();
+    //this.getGestiones();
   }
 
   listarMondas() {
     this.maestroService.listarMondas().subscribe(
       response => {
         this.monedas = response;
+        if (!this.codCartera) {
+          this.spinner.hide();
+        }
+      },
+      err => {
+        this.spinner.hide();
       }
     );
   }
@@ -269,7 +251,7 @@ export class DetalleCarteraComponent implements OnInit {
     this.carteraService.actualizarCartera(data).subscribe(
       response => {
         if (response.exito) {
-          this.getCartera();
+          this.loadCartera(this.cartera.codCartera);
           Swal.fire('Actualizar Cartera', 'Se actualizó la cartera correctamente.', 'success');
         } else {
           this.toastr.error('Ocurrio un error.', 'Actualizar Cartera');
@@ -300,7 +282,6 @@ export class DetalleCarteraComponent implements OnInit {
         this.monedasSeleccionadas.push(item);
       }
     } else {
-      console.log(index);
       if (index >= 0) {
         this.monedasSeleccionadas.splice(index, 1);
       }
@@ -596,7 +577,6 @@ export class DetalleCarteraComponent implements OnInit {
     this.maestroService.listaTablaAreas().subscribe(
       res => {
         this.areas = res;
-        this.spinner.hide();
       },
       err => {
         this.spinner.hide();
@@ -610,6 +590,57 @@ export class DetalleCarteraComponent implements OnInit {
     }
     const area = this.areas.find(i => i.codItem == id);
     return area ? area.descripcion : '';
+  }
+
+  private loadCartera(codCartera: any) {
+    this.carteraService.getCarteraByCodCartera(codCartera).subscribe(
+      res => {
+        if (res.exito) {
+          this.cartera = res.cartera;
+          console.log(res);
+          this.gestiones = this.cartera.gestiones;
+          if (this.cartera.campos.length > 0) {
+            const items = this.convertObject(this.cartera.campos);
+            this.formAdicional.controls.listaCampos.setValue(items.listaCampos);
+            if (items.selectedOptionsIds.length > 0) {
+              this.cargarItems(items.listaCampos);
+              this.formAdicional.controls.selectedOptionsIds.setValue(items.selectedOptionsIds);
+            } else {
+              this.formAdicional.controls.valorInicial.setValue(items.valorInicial);
+              this.formAdicional.controls.valorFinal.setValue(items.valorFinal);
+              this.formAdicional.controls.selectedOptionsIds.setValue([]);
+              this.number = true;
+            }
+          }
+          this.formulario.setValue(this.cartera);
+          this.formulario.controls.fechaCreacion.setValue(FUNC.formatDate(this.cartera.fechaCreacion, 'd MMMM yy h:mm a'));
+          this.formulario.controls.fechaActualizacion.setValue(FUNC.formatDate(this.cartera.fechaActualizacion, 'd MMMM yy h:mm a'));
+          this.formulario.controls.userCreate.setValue(res.personaCreate ? res.personaCreate.alias : '');
+          this.formulario.controls.userUpdate.setValue(res.personaUpdate ? res.personaUpdate.alias : '');
+          if (this.cartera.monedas.length > 0) {
+            this.cartera.monedas.forEach(e => {
+              this.monedasSeleccionadas.push({
+                codTabla: null,
+                codItem: e.codMoneda,
+                descripcion: null,
+                strValor: null,
+                intValor: null,
+                codEstado: null,
+              });
+            });
+          }
+        }
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
+      }
+    );
+  }
+
+  generateCode(event: any) {
+    const value = event.target.value;
+    this.formulario.controls.nombreExterno.setValue(FUNC.generateSlug(value));
   }
 }
 

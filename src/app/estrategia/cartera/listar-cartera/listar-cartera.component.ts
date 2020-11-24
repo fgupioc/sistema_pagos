@@ -37,7 +37,7 @@ export class ListarCarteraComponent implements OnInit {
 
   private getCarteras() {
     this.spinner.show();
-    this.carteraService.getCarteras().subscribe(
+    this.carteraService.obtenerCarterasActivas().subscribe(
       res => {
         if (res.exito) {
           this.carteras = res.objeto as Cartera[];

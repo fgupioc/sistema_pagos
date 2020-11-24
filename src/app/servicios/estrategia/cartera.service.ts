@@ -52,6 +52,10 @@ export class CarteraService {
     return this.http.get<Respuesta>(`${this.apiUrl}listar`);
   }
 
+  obtenerCarterasActivas(): Observable<Respuesta> {
+    return this.http.get<Respuesta>(`${this.apiUrl}listarActivos`);
+  }
+
   crearCartera(data: any): Observable<Respuesta> {
     return this.http.post<Respuesta>(`${this.apiUrl}guardar`, data);
   }
@@ -62,5 +66,13 @@ export class CarteraService {
 
   getCarterasActivas(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}getCarterasActivas`);
+  }
+
+  getCarteraByCodCartera(codCartera: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}getCarteraByCodCartera`, {params: new HttpParams().set('codCartera', codCartera)});
+  }
+
+  getUsuariosGestion(codGestion: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}getUsuariosGestion`, {params: new HttpParams().set('codGestion', codGestion)});
   }
 }
