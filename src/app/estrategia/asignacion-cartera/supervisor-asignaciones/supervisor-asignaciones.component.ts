@@ -26,16 +26,16 @@ export class SupervisorAsignacionesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.listaAsignacionCreditoPorEjecutivo(this.auth.loggedUser.id);
+    this.listaAsignacionCreditoPorEjecutivo(this.auth.loggedUser.uuid);
   }
 
-  private listaAsignacionCreditoPorEjecutivo(ejecutivoId: any) {
-    if (!ejecutivoId) {
+  private listaAsignacionCreditoPorEjecutivo(ejecutivoUuid: any) {
+    if (!ejecutivoUuid) {
       Swal.fire('Asignación de Cartera', 'EL Asesor de negocio no existe.', 'error');
       this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
     }
     this.spinner.show();
-    this.asignacionService.listaAsignacionCreditoPorEjecutivo(ejecutivoId).subscribe(
+    this.asignacionService.listaAsignacionCreditoPorEjecutivo(ejecutivoUuid).subscribe(
       res => {
         if (res.exito) {
           this.asignaciones = res.objeto as any[];

@@ -43,8 +43,8 @@ export class AsignacionCarteraService {
     return this.http.get<any>(`${urlBase}/ejecutivos`);
   }
 
-  buscarEjecutivoByCodUsuario(codUsuario: any): Observable<Respuesta> {
-    return this.http.get<any>(`${urlBase}/${codUsuario}/ejecutivo`);
+  buscarEjecutivoByCodUsuario(uuid: any): Observable<Respuesta> {
+    return this.http.get<any>(`${urlBase}/${uuid}/ejecutivo`);
   }
 
   convertToTreeviewItem(cartera: Cartera): TreeviewItem[] {
@@ -149,12 +149,12 @@ export class AsignacionCarteraService {
     return this.http.post<any>(`${urlBase}/${codUsuario}`, campania);
   }
 
-  listaAsignacionCreditoPorEjecutivo(ejecutivoId: any): Observable<any> {
-    return this.http.get<any>(`${urlBase}/${ejecutivoId}/listaAsignacionCreditoPorEjecutivo`);
+  listaAsignacionCreditoPorEjecutivo(uuid: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/${uuid}/listaAsignacionCreditoPorEjecutivo`);
   }
 
-  obtenerAsignnacionPorId(codAsignacion: any): Observable<any> {
-    return this.http.get<any>(`${urlBase}/${codAsignacion}/obtenerAsignnacionPorId`);
+  obtenerAsignnacionPorId(asignacioUuid: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/${asignacioUuid}/obtenerAsignnacionPorId`);
   }
 
   eliminarCredito(creditoId: any, asignacionId: any): Observable<Respuesta> {
@@ -198,8 +198,8 @@ export class AsignacionCarteraService {
     return this.http.delete<Respuesta>(`${urlBase}/eliminarAcuerdoPorAsignacionYCredito`, {params: new HttpParams().set('acuerdoPagoId', acuerdoPagoId)});
   }
 
-  buscarCreditoPorId(creditoId): Observable<Respuesta> {
-    return this.http.post<Respuesta>(`${urlBase}/buscarCreditoPorId`, {}, {params: new HttpParams().set('creditoId', creditoId)});
+  buscarCreditoPorNroCredito(nroCredito): Observable<Respuesta> {
+    return this.http.post<Respuesta>(`${urlBase}/buscarCreditoPorNroCredito`, {}, {params: new HttpParams().set('nroCredito', nroCredito)});
   }
 
   obtenerEtapasAsignaciones(codAsignacion): Observable<any[]> {

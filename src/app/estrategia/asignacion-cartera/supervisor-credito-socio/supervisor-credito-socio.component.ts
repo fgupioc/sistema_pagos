@@ -56,9 +56,9 @@ export class SupervisorCreditoSocioComponent implements OnInit {
   formTarea: FormGroup;
 
   credito: Credito;
-  creditoId: any;
-  ejecutivoId: any;
-  asignacionId: any;
+  nroCredito: any;
+  ejecutivoUuid: any;
+  asignacionUuid: any;
   socio: Persona;
   title = 'Gestiónar Eventos Socio';
   typeEvent: number;
@@ -119,6 +119,8 @@ export class SupervisorCreditoSocioComponent implements OnInit {
   comentario = '';
 
   ejecutivo: any;
+  asignacionId: any;
+  ejecutivoId: any;
 
   constructor(
     public auth: AutenticacionService,
@@ -140,19 +142,20 @@ export class SupervisorCreditoSocioComponent implements OnInit {
     config.backdrop = 'static';
     config.keyboard = false;
     this.userLoggedName = auth.loggedUser.alias;
-    activatedRoute.params.subscribe(({asignacionId, creditoId}) => {
-      if (asignacionId == undefined || asignacionId == 'undefined') {
+    activatedRoute.params.subscribe(({asignacionUuid, nroCredito}) => {
+      if (asignacionUuid == undefined || asignacionUuid == 'undefined') {
         this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-asignaciones');
       }
-      if (asignacionId) {
+      if (asignacionUuid) {
+        this.ejecutivoUuid = auth.loggedUser.uuid;
+        this.asignacionUuid = asignacionUuid;
         this.ejecutivoId = auth.loggedUser.id;
-        this.asignacionId = asignacionId;
         const state = this.router.getCurrentNavigation().extras.state;
-        this.creditoId = creditoId;
-        if (this.creditoId) {
+        this.nroCredito = nroCredito;
+        if (this.nroCredito) {
           this.cargarCredito();
         } else {
-          router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.creditoId}/detalle`);
+          router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.nroCredito}/detalle`);
         }
       } else {
         this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-asignaciones');
@@ -179,15 +182,14 @@ export class SupervisorCreditoSocioComponent implements OnInit {
     if (this.credito) {
       this.cragarInformacion();
     }
-    this.listarAcciones(this.creditoId, this.asignacionId);
-    if (this.ejecutivoId) {
-      this.loadEjecutivo()
+    if (this.ejecutivoUuid) {
+      this.loadEjecutivo();
       this.listarTablero();
     }
   }
 
   loadEjecutivo() {
-    this.asignacionCarteraService.buscarEjecutivoByCodUsuario(this.ejecutivoId).subscribe(
+    this.asignacionCarteraService.buscarEjecutivoByCodUsuario(this.ejecutivoUuid).subscribe(
       res => {
         if (res.exito) {
           this.ejecutivo = res.objeto;
@@ -903,23 +905,23 @@ export class SupervisorCreditoSocioComponent implements OnInit {
   }
 
   private cargarCredito() {
-    this.asignacionCarteraService.buscarCreditoPorId(this.creditoId).subscribe(
+    this.asignacionCarteraService.buscarCreditoPorNroCredito(this.nroCredito).subscribe(
       res => {
         if (res.exito) {
           this.credito = res.objeto;
           this.cragarInformacion();
         } else {
-          this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.creditoId}/detalle`);
+          this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.nroCredito}/detalle`);
         }
       },
       err => {
-        this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.creditoId}/detalle`);
+        this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.nroCredito}/detalle`);
       }
     );
   }
 
   private cragarInformacion() {
-    this.obtenerAsignnacionPorId(this.asignacionId);
+    this.obtenerAsignnacionPorId(this.asignacionUuid);
     this.formRecordatorio = this.formBuilder.group({
       asignacionId: [this.asignacionId],
       ejecutivoId: [this.ejecutivoId],
@@ -1046,14 +1048,16 @@ export class SupervisorCreditoSocioComponent implements OnInit {
       res => {
         if (res.exito) {
           this.campania = res.objeto;
+          this.asignacionId = res.objeto.id;
+          this.listarAcciones(this.credito.id, this.asignacionId);
         } else {
-          this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.creditoId}/detalle`);
+          this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.nroCredito}/detalle`);
         }
         this.spinner.hide();
       },
       err => {
         this.spinner.hide();
-        this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.creditoId}/detalle`);
+        this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.nroCredito}/detalle`);
       }
     );
   }

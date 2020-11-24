@@ -123,21 +123,21 @@ const routes: Routes = [
             },
             {path: 'notificaciones', component: EnviarNotificionComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.NOTIFICACION_LISTAR]}},
             {path: 'asignacion-cartera', component: AsignacionCarteraComponent},
-            {path: 'asignacion-cartera/:ejecutivoId/configuracion', component: AsignarEtapasEjecutivoComponent},
-            {path: 'asignacion-cartera/:ejecutivoId/listado', component: EjecutivoAsignacionesComponent},
-            {path: 'asignacion-cartera/:ejecutivoId/listado/:asignacionId/detalle', component: EjecutivoCreditosComponent},
-            {path: 'asignacion-cartera/:ejecutivoId/listado/:asignacionId/detalle/:creditoId/socio', component: CreditoSocioComponent},
+            {path: 'asignacion-cartera/:ejecutivoUuid/configuracion', component: AsignarEtapasEjecutivoComponent},
+            {path: 'asignacion-cartera/:ejecutivoUuid/listado', component: EjecutivoAsignacionesComponent},
+            {path: 'asignacion-cartera/:ejecutivoUuid/listado/:asignacionUuid/detalle', component: EjecutivoCreditosComponent},
+            {path: 'asignacion-cartera/:ejecutivoUuid/listado/:asignacionUuid/detalle/:nroCredito/socio', component: CreditoSocioComponent},
 
             // gestor de cobranza
             {path: 'asignacion-cartera/mis-cartera-asignadas', component: EjecutivoAsignacionesComponent, data: {role: 'X'}},
-            {path: 'asignacion-cartera/mis-cartera-asignadas/:asignacionId/detalle', component: EjecutivoCreditosComponent, data: {role: 'X'}},
-            {path: 'asignacion-cartera/mis-cartera-asignadas/:asignacionId/detalle/:creditoId/socio', component: CreditoSocioComponent, data: {role: 'X'}},
+            {path: 'asignacion-cartera/mis-cartera-asignadas/:asignacionUuid/detalle', component: EjecutivoCreditosComponent, data: {role: 'X'}},
+            {path: 'asignacion-cartera/mis-cartera-asignadas/:asignacionUuid/detalle/:creditoId/socio', component: CreditoSocioComponent, data: {role: 'X'}},
 
             // supervisor
             {path: 'asignacion-cartera/mis-asignaciones', component: SupervisorAsignacionesComponent},
             {path: 'asignacion-cartera/mis-asignaciones/configuracion', component: AsignarEtapasEjecutivoComponent},
-            {path: 'asignacion-cartera/mis-asignaciones/:asignacionId/detalle', component: SupervisorCreditosComponent},
-            {path: 'asignacion-cartera/mis-asignaciones/:asignacionId/detalle/:creditoId/socio', component: SupervisorCreditoSocioComponent},
+            {path: 'asignacion-cartera/mis-asignaciones/:asignacionUuid/detalle', component: SupervisorCreditosComponent},
+            {path: 'asignacion-cartera/mis-asignaciones/:asignacionUuid/detalle/:nroCredito/socio', component: SupervisorCreditoSocioComponent},
           ]
         },
         {
@@ -170,7 +170,7 @@ const routes: Routes = [
             {path: 'mis-tareas', component: EjecutivoTareaComponent},
             {path: 'mis-tareas/:slug', component: TareaDetalleComponent, data: {role: 'X'}},
             {path: 'mis-gestiones', component: MisGestionesComponent},
-            {path: 'mis-gestiones/:creditoId/detalle', component: MisGestionesDetalleComponent},
+            {path: 'mis-gestiones/:nroCredito/detalle', component: MisGestionesDetalleComponent},
           ]
         }
       ]

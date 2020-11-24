@@ -28,9 +28,9 @@ export class EjecutivoCreditosComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
   isDtInitialized = false;
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
-  ejecutivoId: any;
+  ejecutivoUuid: any;
   ejecutivoNombre: string;
-  asignacionId: string;
+  asignacionUuid: string;
   creditos: any[] = [];
   campania: EjecutivoCartera;
   tipoCreditos: InfoCampo[] = [];
@@ -52,24 +52,24 @@ export class EjecutivoCreditosComponent implements OnInit {
     const {role} = activatedRoute.snapshot.data;
     if (role) {
       this.role = role;
-      activatedRoute.params.subscribe(({asignacionId}) => {
-        if (asignacionId) {
-          this.ejecutivoId = auth.loggedUser.id;
-          this.asignacionId = asignacionId;
+      activatedRoute.params.subscribe(({asignacionUuid}) => {
+        if (asignacionUuid) {
+          this.ejecutivoUuid = auth.loggedUser.uuid;
+          this.asignacionUuid = asignacionUuid;
         } else {
           this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
         }
       });
     } else {
-      activatedRoute.params.subscribe(({asignacionId, ejecutivoId}) => {
-        if (asignacionId == undefined || ejecutivoId == undefined || asignacionId == 'undefined' || ejecutivoId == 'undefined') {
+      activatedRoute.params.subscribe(({asignacionUuid, ejecutivoUuid}) => {
+        if (asignacionUuid == undefined || ejecutivoUuid == undefined || asignacionUuid == 'undefined' || ejecutivoUuid == 'undefined') {
           this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
         }
-        if (asignacionId && ejecutivoId) {
-          this.ejecutivoId = ejecutivoId;
-          this.asignacionId = asignacionId;
+        if (asignacionUuid && ejecutivoUuid) {
+          this.ejecutivoUuid = ejecutivoUuid;
+          this.asignacionUuid = asignacionUuid;
         } else {
-          this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/' + ejecutivoId + '/listado');
+          this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/' + ejecutivoUuid + '/listado');
         }
       });
     }
@@ -77,23 +77,23 @@ export class EjecutivoCreditosComponent implements OnInit {
 
   ngOnInit() {
     this.dtOptions = CONST.C_OBJ_DT_OPCIONES();
-    if (this.ejecutivoId && this.asignacionId) {
-      this.obtenerAsignnacionPorId(this.asignacionId);
+    if (this.ejecutivoUuid && this.asignacionUuid) {
+      this.obtenerAsignnacionPorId(this.asignacionUuid);
     }
   }
 
-  obtenerAsignnacionPorId(asignacionId: any) {
+  obtenerAsignnacionPorId(asignacioUuid: any) {
     this.spinner.show();
     this.tipoCreditos = [];
     this.sedes = [];
     this.montos = [];
 
-    this.asignacionCarteraService.obtenerAsignnacionPorId(asignacionId).subscribe(
+    this.asignacionCarteraService.obtenerAsignnacionPorId(asignacioUuid).subscribe(
       res => {
         if (res.exito) {
           this.campania = res.objeto;
           this.creditos = res.objeto.creditosTemp;
-          this.ejecutivoNombre = res.ejecutivo.alias || this.ejecutivoId;
+          this.ejecutivoNombre = res.ejecutivo.alias || this.ejecutivoUuid;
           this.campania.campoItems.forEach(item => {
             switch (item.codCampo) {
               case CONST.TABLE_STR_LISTA_PRODUCTO_ABACO:
@@ -119,7 +119,7 @@ export class EjecutivoCreditosComponent implements OnInit {
           if (this.role) {
             this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
           } else {
-            this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/' + this.ejecutivoId + '/listado');
+            this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/' + this.ejecutivoUuid + '/listado');
           }
         }
         this.spinner.hide();
@@ -129,7 +129,7 @@ export class EjecutivoCreditosComponent implements OnInit {
         if (this.role) {
           this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/mis-cartera-asignadas');
         } else {
-          this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/' + this.ejecutivoId + '/listado');
+          this.router.navigateByUrl('/auth/estrategia/asignacion-cartera/' + this.ejecutivoUuid + '/listado');
         }
       }
     );
@@ -176,17 +176,17 @@ export class EjecutivoCreditosComponent implements OnInit {
 
   closeModalAgregarCredito(data: any) {
     if (data && data.exito) {
-      this.obtenerAsignnacionPorId(this.asignacionId);
+      this.obtenerAsignnacionPorId(this.asignacionUuid);
       Swal.fire('Asignación de cartera', data.mensaje, 'success');
     }
   }
 
   irCliente(credito: any) {
    if (this.role) {
-     const url = `/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${this.asignacionId}/detalle/${credito.id}/socio`;
+     const url = `/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${this.asignacionUuid}/detalle/${credito.nroCredito}/socio`;
      this.router.navigateByUrl(url, {state: {credito}});
    } else {
-     const url = `/auth/estrategia/asignacion-cartera/${this.ejecutivoId}/listado/${this.asignacionId}/detalle/${credito.id}/socio`;
+     const url = `/auth/estrategia/asignacion-cartera/${this.ejecutivoUuid}/listado/${this.asignacionUuid}/detalle/${credito.nroCredito}/socio`;
      this.router.navigateByUrl(url, {state: {credito}});
    }
   }

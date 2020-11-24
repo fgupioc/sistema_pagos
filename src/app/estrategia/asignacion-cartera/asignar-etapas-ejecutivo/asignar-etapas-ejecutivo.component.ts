@@ -117,11 +117,11 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     private ngWizardService: NgWizardService,
     private maestroService: MaestroService
   ) {
-    activatedRoute.params.subscribe(({ejecutivoId}) => {
-      if (!isNaN(ejecutivoId)) {
-        this.buscarEjecutivoByCodUsuario(ejecutivoId);
+    activatedRoute.params.subscribe(({ejecutivoUuid}) => {
+      if (ejecutivoUuid.length == 36) {
+        this.buscarEjecutivoByCodUsuario(ejecutivoUuid);
       } else {
-        this.buscarEjecutivoByCodUsuario(auth.loggedUser.id);
+        this.buscarEjecutivoByCodUsuario(auth.loggedUser.uuid);
       }
     });
   }
@@ -197,8 +197,8 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     console.log('filter:', value);
   }
 
-  buscarEjecutivoByCodUsuario(codUsuario) {
-    this.asignacionService.buscarEjecutivoByCodUsuario(codUsuario).subscribe(
+  buscarEjecutivoByCodUsuario(ejecutivoUuid) {
+    this.asignacionService.buscarEjecutivoByCodUsuario(ejecutivoUuid).subscribe(
       res => {
         if (res.exito) {
           this.ejecutivoSelected = res.objeto;

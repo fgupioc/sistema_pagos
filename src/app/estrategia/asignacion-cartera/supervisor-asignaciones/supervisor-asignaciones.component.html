@@ -32,7 +32,7 @@
               <td> {{ item.startDate | date: 'dd/MM/yyyy'}}</td>
               <td> {{ item.endDate | date: 'dd/MM/yyyy'}}</td>
               <td>
-                <button class="btn btn-sm btn-primary mr-2" [routerLink]="'/auth/estrategia/asignacion-cartera/mis-asignaciones/' + item.id + '/detalle'"><i class="fa fa-eye"></i></button>
+                <button class="btn btn-sm btn-primary mr-2" [routerLink]="'/auth/estrategia/asignacion-cartera/mis-asignaciones/' + item.asignacioUuid + '/detalle'"><i class="fa fa-eye"></i></button>
               </td>
             </tr>
 

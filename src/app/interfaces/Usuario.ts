@@ -11,4 +11,5 @@ export interface Usuario {
   codEstado?: string;
   rolNombre?: string;
   role?: string;
+  uuid?: string;
 }

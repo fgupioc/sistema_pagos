@@ -102,8 +102,8 @@ export class GestionAdministrativaService {
     return this.http.get<Respuesta>(`${urlBase}/listar-creditos-asignados-por-ejecutivo`);
   }
 
-  buscarCreditoPorId(creditoId): Observable<any> {
-    return this.http.post<any>(`${urlBase}/buscarCreditoPorId`, {}, {params: new HttpParams().set('creditoId', creditoId)});
+  buscarCreditoPorNroCredito(nroCredito): Observable<any> {
+    return this.http.post<any>(`${urlBase}/buscarCreditoPorNroCredito`, {}, {params: new HttpParams().set('nroCredito', nroCredito)});
   }
 
   buscarCreditoAsignacionAccion(creditoId, asignacionId): Observable<any> {
