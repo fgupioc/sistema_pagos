@@ -16,6 +16,7 @@ import {RolUnicoService} from '../../validaciones/rol-unico.directive';
 import Swal from 'sweetalert2';
 import {Rol} from '../../interfaces/rol';
 import {RolBuscarUsuarioComponent} from '../rol-buscar-usuario/rol-buscar-usuario.component';
+import {TablaMaestra} from '../../interfaces/tabla-maestra';
 
 declare const $: any;
 
@@ -46,6 +47,7 @@ export class RolCrearComponent implements OnInit {
   });
 
   autorizacionesElegidos = [];
+  areas: TablaMaestra[] = [];
 
   constructor(private formBuilder: FormBuilder,
               private spinner: NgxSpinnerService,
@@ -63,13 +65,15 @@ export class RolCrearComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loadAreas();
     this.formGroup = this.formBuilder.group({
       nombre: ['', {
         validators: [Validators.required],
           asyncValidators: [this.rolUnicoService.validate.bind(this.rolUnicoService, 0)],
         updateOn: 'blur'
       }],
-      codEstado: [CONST.S_ESTADO_REG_ACTIVO, [Validators.required]]
+      codEstado: [CONST.S_ESTADO_REG_ACTIVO, [Validators.required]],
+      codArea: ['', Validators.required]
     });
     this.listarEstadosDeRegistro();
     this.encuentraTodosArbol();
@@ -187,7 +191,8 @@ export class RolCrearComponent implements OnInit {
 
       const rol: Rol = {
         nombre: this.formGroup.get('nombre').value,
-        codEstado: this.formGroup.get('codEstado').value
+        codEstado: this.formGroup.get('codEstado').value,
+        codArea:  this.formGroup.get('codArea').value,
       };
 
       const rolMenuAutoris = this.filtrarMenus();
@@ -196,6 +201,7 @@ export class RolCrearComponent implements OnInit {
       const rolNuevo = {rol, rolMenuAutoris, usuarioIds: usuariosElegidos};
 
       this.spinner.show();
+      console.log(rolNuevo);
       this.rolService.guardar(rolNuevo).subscribe(
         respuesta => {
           this.spinner.hide();
@@ -246,5 +252,18 @@ export class RolCrearComponent implements OnInit {
     if (index >= 0) {
       this.usuarios.splice(index, 1);
     }
+  }
+
+  loadAreas() {
+    this.spinner.show();
+    this.maestroService.listaTablaAreas().subscribe(
+      res => {
+        this.areas = res;
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
+      }
+    );
   }
 }

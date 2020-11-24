@@ -4,4 +4,5 @@ export interface Rol {
   codEstado: string;
   autorizacionesOriginales?: any[];
   autorizacionesModificadas?: any[];
+  codArea?: any;
 }

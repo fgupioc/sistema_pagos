@@ -42,6 +42,23 @@
                 </div>
               </div>
             </div>
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label>Area</label>
+                <select name="codArea" class="form-control" formControlName="codArea" [ngClass]="
+                                    {
+                                    'is-invalid': formGroup.controls['codArea'].touched && formGroup.controls['codArea'].errors,
+                                    'is-valid': formGroup.controls['codArea'].touched && !formGroup.controls['codArea'].errors
+                                    }
+                                    ">
+                  <option value="">Seleccione</option>
+                  <option *ngFor="let item of areas" [value]="item.codItem">{{ item.descripcion }}</option>
+                </select>
+                <div class="invalid-feedback">
+                  <span class="d-block" *ngIf="formGroup.get('codArea').hasError('required')"> El area es obligatorio.</span>
+                </div>
+              </div>
+            </div>
           </div>
         </form>
         <ngb-tabset [destroyOnHide]="false">

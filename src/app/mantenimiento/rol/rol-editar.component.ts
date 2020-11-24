@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {CONST} from '../../comun/CONST';
 import {RolBuscarUsuarioComponent} from '../rol-buscar-usuario/rol-buscar-usuario.component';
 import {Rol} from '../../interfaces/rol';
+import {TablaMaestra} from '../../interfaces/tabla-maestra';
 
 @Component({
   selector: 'app-rol-editar',
@@ -45,6 +46,7 @@ export class RolEditarComponent implements OnInit {
   valoresMenus: string[] = [];
 
   autorizacionesElegidos = [];
+  areas: TablaMaestra[] = [];
 
   constructor(private formBuilder: FormBuilder,
               private rolService: RolService,
@@ -64,13 +66,15 @@ export class RolEditarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loadAreas();
     this.formGroup = this.formBuilder.group({
       nombre: ['', {
         validators: [Validators.required],
         asyncValidators: [this.rolUnicoService.validate.bind(this.rolUnicoService, this.rolId)],
         updateOn: 'blur'
       }],
-      codEstado: [CONST.S_ESTADO_REG_ACTIVO, [Validators.required]]
+      codEstado: [CONST.S_ESTADO_REG_ACTIVO, [Validators.required]],
+      codArea: ['', Validators.required]
     });
     this.listarEstadosDeRegistro();
     this.obtenerRol();
@@ -103,10 +107,10 @@ export class RolEditarComponent implements OnInit {
   obtenerRol() {
     setTimeout(() => this.spinner.show());
     this.rolService.obtenerRol(this.rolId).subscribe(rol => {
-      console.log(rol);
       this.spinner.hide();
       this.formGroup.get('nombre').setValue(rol.nombre);
       this.formGroup.get('codEstado').setValue(rol.codEstado);
+      this.formGroup.get('codArea').setValue(rol.codArea);
       this.rol = rol;
       this.usuarios = rol.usuarios;
     });
@@ -241,7 +245,8 @@ export class RolEditarComponent implements OnInit {
     const rol: Rol = {
       id: this.rolId,
       nombre: this.formGroup.get('nombre').value,
-      codEstado: this.formGroup.get('codEstado').value
+      codEstado: this.formGroup.get('codEstado').value,
+      codArea: this.formGroup.get('codArea').value
     };
 
     const rolMenuAutoris = this.filtrarMenus();
@@ -293,4 +298,15 @@ export class RolEditarComponent implements OnInit {
     }
   }
 
+  loadAreas() {
+    this.spinner.show();
+    this.maestroService.listaTablaAreas().subscribe(
+      res => {
+        this.areas = res;
+      },
+      err => {
+        this.spinner.hide();
+      }
+    );
+  }
 }
