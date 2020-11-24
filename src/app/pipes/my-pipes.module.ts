@@ -8,6 +8,7 @@ import {SoloLetrasDirective} from './solo-letras.directive';
 import { MyCurrencyMoneyDirective } from './currency-money';
 import { MyCurrencyTCPipe } from './mycurrencytc.pipe';
 import { ArrayDiasDirective } from './array-dias';
+import {NumberIntegerDirective} from './number-integer.directive';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ArrayDiasDirective } from './array-dias';
     SoloLetrasDirective,
     MyCurrencyTCPipe,
     MyCurrencyMoneyDirective,
-    ArrayDiasDirective
+    ArrayDiasDirective,
+    NumberIntegerDirective
   ],
   providers: [
     MyCurrencyPipe,
@@ -35,7 +37,8 @@ import { ArrayDiasDirective } from './array-dias';
     SoloLetrasDirective,
     MyCurrencyTCPipe,
     MyCurrencyMoneyDirective,
-    ArrayDiasDirective
+    ArrayDiasDirective,
+    NumberIntegerDirective
   ]
 })
 export class MyPipesModule {

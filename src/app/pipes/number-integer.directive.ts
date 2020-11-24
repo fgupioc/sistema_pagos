@@ -1,27 +1,24 @@
 import {OnInit, ElementRef, HostListener, Directive} from '@angular/core';
-import {MyCurrencyPipe} from './mycurrency.pipe';
 
 @Directive({
-  selector: '[CustomizeInteger]'
+  selector: '[NumberInteger]'
 })
 
-export class MyIntegerDirective implements OnInit {
+export class NumberIntegerDirective implements OnInit {
   private el: any;
 
-  constructor(
-    private elementRef: ElementRef,
-    private formatcurrencypipe: MyCurrencyPipe) {
+  constructor(private elementRef: ElementRef) {
     this.el = this.elementRef.nativeElement;
   }
 
 
   ngOnInit(): void {
-    this.el.value = this.formatcurrencypipe.transform(this.el.value, 0);
+    this.el.value = Math.trunc(this.el.value);
   }
 
   @HostListener('focus', ['$event.target.value', '$event'])
   onFocus(value, event) {
-    this.el.value = this.formatcurrencypipe.parse(value);
+    this.el.value = Math.trunc(value);
     if (event.which == 9) {
       return false;
     }
@@ -31,12 +28,12 @@ export class MyIntegerDirective implements OnInit {
 
   @HostListener('blur', ['$event.target.value'])
   onBlur(value) {
-    this.el.value = this.formatcurrencypipe.transform(value, 0);
+    this.el.value = Math.trunc(value);
   }
 
   @HostListener('keydown', ['$event']) onKeyDown(event) {
     let e = <KeyboardEvent> event;
-    if ([46, 8, 9, 27, 13, 110, 189, 188].indexOf(e.keyCode) !== -1 ||
+    if ([46, 8, 9, 27, 13, 110, 189, 109].indexOf(e.keyCode) !== -1 ||
       // Allow: Ctrl+A
       (e.keyCode === 65 && (e.ctrlKey || e.metaKey)) ||
       // Allow: Ctrl+C

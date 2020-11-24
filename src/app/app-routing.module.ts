@@ -131,7 +131,7 @@ const routes: Routes = [
             // gestor de cobranza
             {path: 'asignacion-cartera/mis-cartera-asignadas', component: EjecutivoAsignacionesComponent, data: {role: 'X'}},
             {path: 'asignacion-cartera/mis-cartera-asignadas/:asignacionUuid/detalle', component: EjecutivoCreditosComponent, data: {role: 'X'}},
-            {path: 'asignacion-cartera/mis-cartera-asignadas/:asignacionUuid/detalle/:creditoId/socio', component: CreditoSocioComponent, data: {role: 'X'}},
+            {path: 'asignacion-cartera/mis-cartera-asignadas/:asignacionUuid/detalle/:nroCredito/socio', component: CreditoSocioComponent, data: {role: 'X'}},
 
             // supervisor
             {path: 'asignacion-cartera/mis-asignaciones', component: SupervisorAsignacionesComponent},

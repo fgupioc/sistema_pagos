@@ -12,6 +12,7 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {Cartera} from '../../../interfaces/cartera';
 import {TablaMaestra} from '../../../interfaces/tabla-maestra';
 import {MaestroService} from '../../../servicios/sistema/maestro.service';
+import {FUNC} from '../../../comun/FUNC';
 
 declare var $: any;
 
@@ -78,6 +79,8 @@ export class ActualizarGestionComponent implements OnInit {
 
     if (!this.create) {
       this.formGestion.setValue(this.gestion);
+      this.formGestion.controls.fechaCreacion.setValue(FUNC.formatDate(this.gestion.fechaCreacion, 'd MMMM yy h:mm a'));
+      this.formGestion.controls.fechaActualizacion.setValue(FUNC.formatDate(this.gestion.fechaActualizacion, 'd MMMM yy h:mm a'));
       this.etapas = this.gestion.etapas;
     }
     if (this.cartera) {

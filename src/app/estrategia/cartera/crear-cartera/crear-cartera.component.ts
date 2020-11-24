@@ -183,7 +183,7 @@ export class CrearCarteraComponent implements OnInit {
     this.carteraService.crearCartera(data).subscribe(
       res => {
         if (res.exito) {
-          Swal.fire('Actualizar Cartera', 'Se actualizó la cartera correctamente.', 'success');
+          Swal.fire('Crear Cartera', 'Se registro la cartera correctamente.', 'success');
           const cart: Cartera = res.objeto as Cartera;
           this.router.navigate(['/auth/estrategia/carteras/crear-gestion'], {state: {create: true, cartera: cart, gestiones: []}});
         } else {

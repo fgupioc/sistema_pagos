@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import Swal from 'sweetalert2';
+import {FUNC} from '../../../comun/FUNC';
 
 @Component({
   selector: 'app-actualizar-etapa',
@@ -18,7 +19,8 @@ export class ActualizarEtapaComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.formEtapa = this.formBuilder.group({
@@ -50,7 +52,9 @@ export class ActualizarEtapaComponent implements OnInit {
     });
 
     if (!this.create) {
-        this.formEtapa.setValue(this.etapas[this.index]);
+      this.formEtapa.setValue(this.etapas[this.index]);
+      this.formEtapa.controls.fechaCreacion.setValue(FUNC.formatDate(this.etapas[this.index].fechaCreacion, 'd MMMM yy h:mm a'));
+      this.formEtapa.controls.fechaActualizacion.setValue(FUNC.formatDate(this.etapas[this.index].fechaActualizacion, 'd MMMM yy h:mm a'));
     }
   }
 
@@ -97,8 +101,8 @@ export class ActualizarEtapaComponent implements OnInit {
           return;
         }
       }
-    }  else {
-      const etapas = this.etapas.filter( (v, i) =>  i < this.index);
+    } else {
+      const etapas = this.etapas.filter((v, i) => i < this.index);
       if (etapas.length > 0) {
         let flag = true;
         etapas.forEach(v => {
