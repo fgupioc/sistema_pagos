@@ -9,4 +9,7 @@ export interface MyNotification {
   tipo: string;
   condicion: string;
   estado: string;
+  nroCredito: string;
+  asignacionUuid: string;
+  ejecutivoUuid: string;
 }
