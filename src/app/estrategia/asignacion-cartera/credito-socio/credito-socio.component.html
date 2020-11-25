@@ -3,10 +3,10 @@
     <i class="fa fa-align-justify"></i>
     <span class="card-title text-uppercase font-weight-bold">Bitacora de Gestión del Crédito : {{ credito.nroCredito }} <label *ngIf="ejecutivo"> Gestor:  {{ ejecutivo.alias }}</label></span>
     <div class="card-tools float-right">
-      <button *ngIf="!role" type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/' + ejecutivoId + '/listado/' + asignacionId+'/detalle'">
+      <button *ngIf="!role" type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/' + ejecutivoUuid + '/listado/' + asignacionUuid+'/detalle'">
         <i class="fa fa-arrow-left"></i> Regresar
       </button>
-      <button *ngIf="role" type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/'+asignacionId+'/detalle'">
+      <button *ngIf="role" type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/'+asignacionUuid+'/detalle'">
         <i class="fa fa-arrow-left"></i> Regresar
       </button>
     </div>

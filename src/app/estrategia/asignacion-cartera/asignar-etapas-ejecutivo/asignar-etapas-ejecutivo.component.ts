@@ -107,6 +107,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   showComercios = true;
   showSocios = true;
   showClasificacionDeudor = true;
+  $frec = '';
 
   constructor(
     public auth: AutenticacionService,
@@ -137,64 +138,31 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.listaTipoCreditos();
     this.listaSedes();
     this.listarCarteras();
-    setTimeout(() => this.initDatepiker(), 3000);
   }
 
-  initDatepiker() {
+  frecuenciaCambio(event: any): void {
+    this.$startDate = null;
+    this.$endDate = null;
+    this.frecuencia = null;
+    if (event.length == 0) {
+      return;
+    }
+    if (event == 'personalizado') {
+      this.$startDate = moment().format('YYYY-MM-DD');
+      this.$endDate = moment().add(1, 'month').format('YYYY-MM-DD');
+      this.frecuencia = 'Personalizado';
+      return;
+    }
     moment.locale('es');
-    $('#daterange-btn').daterangepicker(
-      {
-        locale: {
-          format: 'YYYY-MM-DD',
-          separator: ' - ',
-          applyLabel: 'Guardar',
-          cancelLabel: 'Cancelar',
-          fromLabel: 'Desde',
-          toLabel: 'Hasta',
-          customRangeLabel: 'Personalizar',
-          daysOfWeek: [
-            'Do',
-            'Lu',
-            'Ma',
-            'Mi',
-            'Ju',
-            'Vi',
-            'Sa'
-          ],
-          monthNames: [
-            'Enero',
-            'Febrero',
-            'Marzo',
-            'Abril',
-            'Mayo',
-            'Junio',
-            'Julio',
-            'Agosto',
-            'Setiembre',
-            'Octubre',
-            'Noviembre',
-            'Diciembre'
-          ],
-          firstDay: 1
-        },
-        ranges: {
-          Diaria: [moment(), moment()],
-          Semana: [moment(), moment().add(6, 'days')],
-          Quincenal: [moment(), moment().add(14, 'days')],
-          Mensual: [moment(), moment().add(1, 'month')]
-        }
-      },
-      (start, end, label) => {
-        this.$startDate = start.format('YYYY-MM-DD');
-        this.$endDate = end.format('YYYY-MM-DD');
-        this.frecuencia = label;
-        $('#daterange-btn .text-title').html(` ${start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY')} `);
-      }
-    );
-  }
-
-  onFilterChange(value: string): void {
-    console.log('filter:', value);
+    const ranges = {
+      diaria: {start: moment(), end: moment(), label: 'Diaria'},
+      semana: {start: moment(), end: moment().add(6, 'days'), label: 'Semana'},
+      quincenal: {start: moment(), end: moment().add(14, 'days'), label: 'Quincenal'},
+      mensual: {start: moment(), end: moment().add(1, 'month'), label: 'Mensual'}
+    };
+    this.$startDate = ranges[event].start.format('YYYY-MM-DD');
+    this.$endDate = ranges[event].end.format('YYYY-MM-DD');
+    this.frecuencia = ranges[event].label;
   }
 
   buscarEjecutivoByCodUsuario(ejecutivoUuid) {

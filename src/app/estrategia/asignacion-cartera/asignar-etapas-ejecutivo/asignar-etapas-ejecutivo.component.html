@@ -323,15 +323,33 @@
           </ng-wizard-step>
           <ng-wizard-step [title]="'Créditos'">
             <div class="row">
-              <div class="col-6">
+              <div class="col-4">
                 <div class="form-group">
                   <label>Seleccione frecuencia</label>
-                  <div class="input-group">
-                    <button type="button" class="btn btn-primary float-right" id="daterange-btn">
-                      <i class="fa fa-calendar"></i>
-                      <span class="text-title"> Seleccione rango </span>
-                      <i class="fa fa-caret-square-o-down"></i>
-                    </button>
+                  <div class="form-group">
+                    <select class="form-control" [(ngModel)]="$frec" (ngModelChange)="frecuenciaCambio($event)">
+                      <option value="">Seleccione rango</option>
+                      <option [value]="'semana'">Semanal <span *ngIf="$startDate && frecuencia == 'Semana'">[{{ $startDate }} a {{ $endDate }}]</span></option>
+                      <option [value]="'quincenal'">Quincenal <span *ngIf="$startDate && frecuencia == 'Quincenal'">[{{ $startDate }} a {{ $endDate }}]</span></option>
+                      <option [value]="'mensual'">Mensual <span *ngIf="$startDate && frecuencia == 'Mensual'">[{{ $startDate }} a {{ $endDate }}]</span></option>
+                      <option [value]="'personalizado'">Personalizado <span *ngIf="$startDate && frecuencia == 'Personalizado'">[{{ $startDate }} a {{ $endDate }}]</span></option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4" *ngIf="frecuencia == 'Personalizado'">
+                <div class="form-group">
+                  <label>Fecha Inicio</label>
+                  <div class="form-group">
+                    <input type="date" class="form-control" [(ngModel)]="$startDate">
+                  </div>
+                </div>
+              </div>
+              <div class="col-4" *ngIf="frecuencia == 'Personalizado'">
+                <div class="form-group">
+                  <label>Fecha Fin</label>
+                  <div class="form-group">
+                    <input type="date" class="form-control"  [(ngModel)]="$endDate">
                   </div>
                 </div>
               </div>
