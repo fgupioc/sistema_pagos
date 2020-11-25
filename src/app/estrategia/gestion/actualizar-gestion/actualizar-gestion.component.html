@@ -112,12 +112,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <button [disabled]="formGestion.invalid" *ngIf=" create " class="btn btn-lg btn-outline-info " (click)="guardar() ">Guardar</button>
-                                <button [disabled]="formGestion.invalid" *ngIf="!create" class="btn btn-lg btn-outline-info" (click)="actualizar()">Actualizar</button>
-                            </div>
-                        </div>
+
                     </div>
                     <div id="etapas" class="tab-pane fade">
                         <div class="row">
@@ -158,6 +153,12 @@
                         </div>
                     </div>
                 </div>
+              <div class="row mt-4">
+                <div class="col-md-12">
+                  <button [disabled]="formGestion.invalid" *ngIf=" create " class="btn btn-lg btn-outline-info " (click)="guardar() ">Guardar</button>
+                  <button [disabled]="formGestion.invalid" *ngIf="!create" class="btn btn-lg btn-outline-info" (click)="actualizar()">Actualizar</button>
+                </div>
+              </div>
             </div>
         </div>
     </div>

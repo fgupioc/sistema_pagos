@@ -132,6 +132,10 @@ export class ActualizarGestionComponent implements OnInit {
       return;
     }
     data.etapas = this.etapas;
+    data.fechaCreacion = null;
+    data.fechaActualizacion = null;
+    data.userCreate = null;
+    data.userUpdate = null;
     this.spinner.show();
     this.carteraService.actualizarGestion(data).subscribe(
       response => {

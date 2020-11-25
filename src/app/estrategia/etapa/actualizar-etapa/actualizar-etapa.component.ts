@@ -32,7 +32,7 @@ export class ActualizarEtapaComponent implements OnInit {
         Validators.required,
         Validators.maxLength(100)
       ]],
-      codigo: ['', [
+      codigo: [{ value: '', disabled: true }, [
         Validators.required,
         Validators.maxLength(100)
       ]],
@@ -68,6 +68,7 @@ export class ActualizarEtapaComponent implements OnInit {
       return;
     }
     const data: any = this.formEtapa.getRawValue();
+    console.log(data);
     this.etapas.push(data);
     this.activeModal.dismiss(this.etapas);
   }
@@ -78,6 +79,11 @@ export class ActualizarEtapaComponent implements OnInit {
       return;
     }
     this.etapas[this.index] = this.formEtapa.getRawValue();
+    this.etapas[this.index].fechaCreacion = null;
+    this.etapas[this.index].fechaActualizacion = null;
+    this.etapas[this.index].userCreate = null;
+    this.etapas[this.index].userUpdate = null;
+    console.log(this.etapas[this.index]);
     this.activeModal.dismiss(this.etapas);
   }
 
@@ -146,5 +152,10 @@ export class ActualizarEtapaComponent implements OnInit {
         return;
       }
     }
+  }
+
+  generateCode(event: any) {
+    const value = event.target.value;
+    this.formEtapa.controls.codigo.setValue(FUNC.generateSlug(value));
   }
 }

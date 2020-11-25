@@ -25,7 +25,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Nombre:</label>
-                    <input Uppercase type="text" class="form-control" formControlName="nombre" [ngClass]="
+                    <input Uppercase type="text" class="form-control" formControlName="nombre" (keyup)="generateCode($event)" [ngClass]="
                     {
                     'is-invalid': formEtapa.controls['nombre'].touched && formEtapa.controls['nombre'].errors,
                     'is-valid': formEtapa.controls['nombre'].touched && !formEtapa.controls['nombre'].errors

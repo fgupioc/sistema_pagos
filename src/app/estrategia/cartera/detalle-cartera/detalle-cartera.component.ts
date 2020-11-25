@@ -246,6 +246,8 @@ export class DetalleCarteraComponent implements OnInit {
     data.monedas = this.convert();
     data.fechaCreacion = this.cartera.fechaCreacion;
     data.fechaActualizacion = this.cartera.fechaActualizacion;
+    data.userCreate = this.cartera.userCreate;
+    data.userUpdate = this.cartera.userUpdate;
     data.campos = this.reverseConvertObject(obj);
     this.spinner.show();
     this.carteraService.actualizarCartera(data).subscribe(
@@ -597,7 +599,6 @@ export class DetalleCarteraComponent implements OnInit {
       res => {
         if (res.exito) {
           this.cartera = res.cartera;
-          console.log(res);
           this.gestiones = this.cartera.gestiones;
           if (this.cartera.campos.length > 0) {
             const items = this.convertObject(this.cartera.campos);
