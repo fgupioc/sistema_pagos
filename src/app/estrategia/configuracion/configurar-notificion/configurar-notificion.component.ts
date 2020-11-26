@@ -59,7 +59,7 @@ export class ConfigurarNotificionComponent implements OnInit {
 
   listarCartera() {
     this.spinner.show();
-    this.carteraService.getCarterasActivas().subscribe(
+    this.carteraService.obtenerCarterasActivas().subscribe(
       response => {
         this.carteras = response.objeto;
         this.spinner.hide();

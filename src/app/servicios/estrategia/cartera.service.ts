@@ -52,7 +52,7 @@ export class CarteraService {
     return this.http.get<Respuesta>(`${this.apiUrl}listar`);
   }
 
-  obtenerCarterasActivas(): Observable<Respuesta> {
+  obtenerCarterasActivas(): Observable<any> {
     return this.http.get<Respuesta>(`${this.apiUrl}listarActivos`);
   }
 
