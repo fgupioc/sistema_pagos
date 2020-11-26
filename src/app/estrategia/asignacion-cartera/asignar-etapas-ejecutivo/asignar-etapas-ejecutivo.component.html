@@ -327,7 +327,7 @@
                 <div class="form-group">
                   <label>Seleccione frecuencia</label>
                   <div class="form-group">
-                    <select class="form-control" [(ngModel)]="$frec" (ngModelChange)="frecuenciaCambio($event)">
+                    <select class="form-control font-weight-bold" [(ngModel)]="$frec" (ngModelChange)="frecuenciaCambio($event)">
                       <option value="">Seleccione rango</option>
                       <option [value]="'semana'">Semanal <span *ngIf="$startDate && frecuencia == 'Semana'">[{{ $startDate }} a {{ $endDate }}]</span></option>
                       <option [value]="'quincenal'">Quincenal <span *ngIf="$startDate && frecuencia == 'Quincenal'">[{{ $startDate }} a {{ $endDate }}]</span></option>
@@ -435,7 +435,7 @@
                       <td class="text-center">{{ o.garantiaLiquida }}</td>
                       <td class="text-center">{{ o.garantiaReal }}</td>
                       <td class="text-center">{{ o.desTipoTasa }}</td>
-                      <td class="text-center">{{ o.divicion }}</td>
+                      <td class="text-center">{{ o.division }}</td>
                       <td class="text-center">{{ o.banca }}</td>
                       <td class="text-center">{{ o.ejecutivo }}</td>
                       <td class="text-center">{{ o.segmentadoRiesgo }}</td>

@@ -5,7 +5,7 @@
   <div class="card-body">
     <div class="row">
       <div class="col-12">
-        <div class="table-responsive">
+        <div class="table-responsive" *ngIf="creditos.length > 0">
           <table datatable [dtOptions]="dtOptions" class="table table-responsive-sm table-bordered">
             <thead>
             <tr class="text-center">
@@ -83,7 +83,7 @@
               <td class="text-center">{{ o.garantiaLiquida }}</td>
               <td class="text-center">{{ o.garantiaReal }}</td>
               <td class="text-center">{{ o.desTipoTasa }}</td>
-              <td class="text-center">{{ o.divicion }}</td>
+              <td class="text-center">{{ o.division }}</td>
               <td class="text-center">{{ o.banca }}</td>
               <td class="text-center">{{ o.segmentadoRiesgo }}</td>
               <td class="text-center">{{ o.sectorEconomico }}</td>
