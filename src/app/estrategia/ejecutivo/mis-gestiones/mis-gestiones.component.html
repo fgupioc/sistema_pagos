@@ -5,8 +5,8 @@
   <div class="card-body">
     <div class="row">
       <div class="col-12">
-        <div class="table-responsive" *ngIf="creditos.length > 0">
-          <table datatable [dtOptions]="dtOptions" class="table table-responsive-sm table-bordered">
+        <div *ngIf="creditos.length > 0">
+          <table datatable [dtOptions]="dtOptions" class="table table-responsive-sm table-bordered table-responsive">
             <thead>
             <tr class="text-center">
               <th>#</th>

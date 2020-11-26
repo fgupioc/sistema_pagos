@@ -355,8 +355,8 @@
               </div>
               <div class="col-12" *ngIf="$creditos.length > 0">
                 <label *ngIf="$creditos.length > 0">Se encontro {{ $creditos.length }} creditos.</label>
-                <div class="table-responsive">
-                  <table datatable [dtOptions]="dtOptions" class="table table-responsive-sm table-bordered">
+                <div>
+                  <table datatable [dtOptions]="dtOptions" class="table table-responsive-sm table-bordered table-responsive">
                     <thead>
                     <tr class="text-center">
                       <th>#</th>

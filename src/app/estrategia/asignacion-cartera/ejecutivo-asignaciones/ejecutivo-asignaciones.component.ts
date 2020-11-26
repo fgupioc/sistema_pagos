@@ -58,15 +58,6 @@ export class EjecutivoAsignacionesComponent implements OnInit {
       res => {
         if (res.exito) {
           this.asignaciones = res.objeto as any[];
-          /*
-          if (this.asignaciones.length > 0) {
-            this.asignaciones.forEach(v => {
-              this.obtenerEtapasAsignaciones(v.id);
-            });
-          }
-
-           */
-          //this.nombreEtapas(1);
           this.spinner.hide();
         } else {
           Swal.fire('Asignación de Cartera', 'EL Asesor de negocio no existe.', 'error');
@@ -87,11 +78,6 @@ export class EjecutivoAsignacionesComponent implements OnInit {
       res => {
         if (res.exito) {
           this.asignaciones = res.objeto as any[];
-          if (this.asignaciones.length > 0) {
-            this.asignaciones.forEach(v => {
-              this.obtenerEtapasAsignaciones(v.id);
-            });
-          }
         } else {
           Swal.fire('Asignación de Cartera', 'EL Asesor de negocio no existe.', 'error');
           this.router.navigateByUrl('/auth/dashboard');
@@ -106,30 +92,6 @@ export class EjecutivoAsignacionesComponent implements OnInit {
 
   getClase(item: any) {
     return !(moment().isBetween(item.startDate, item.endDate)) ? 'table-danger' : '';
-  }
-
-  obtenerEtapasAsignaciones(id) {
-    this.asignacionService.obtenerEtapasAsignaciones(id).subscribe(
-      res => {
-        this.etapas.push({
-          cod: id,
-          etapas: res,
-        });
-      }
-    );
-  }
-
-  nombreEtapas(id) {
-    let nombre = '';
-    if (this.etapas.length > 0) {
-      const etapa = this.etapas.find(v => v.cod == id);
-      if (etapa) {
-        etapa.etapas.forEach(i => {
-          nombre = `${i.nombreGestion} - ${i.nombreEtapa} [${i.desde} a ${i.hasta}]`;
-        });
-      }
-    }
-    return nombre;
   }
 
   buscarEjecutivoByCodUsuario(codUsuario) {

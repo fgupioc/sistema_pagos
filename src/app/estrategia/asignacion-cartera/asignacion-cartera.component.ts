@@ -33,14 +33,17 @@ export class AsignacionCarteraComponent implements OnInit {
 
 
   listarEjecutivos() {
+    this.spinner.show();
     this.asignacionService.listarEjecutivos().subscribe(
       res => {
         if (res.exito) {
           this.ejecutivos = res.objeto as any[];
         }
+        this.spinner.hide();
       },
       err => {
         console.log(err);
+        this.spinner.hide();
       }
     );
   }
