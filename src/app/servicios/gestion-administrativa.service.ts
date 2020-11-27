@@ -26,6 +26,10 @@ export class GestionAdministrativaService {
     return this.http.get<EjecutivoAsignacion[]>(`${urlBase}/listar-asignacion-tarea`);
   }
 
+  listarTableroEjecutivoTareas(): Observable<EjecutivoAsignacion[]> {
+    return this.http.get<EjecutivoAsignacion[]>(`${urlBase}/listar-asignacion-tarea-ejecutivo`);
+  }
+
   getTableroTareaBySlug(slug: string): Observable<Respuesta> {
     return this.http.get<Respuesta>(`${urlBase}/buscar-asignacion-tarea`, {params: new HttpParams().set('slug', slug)});
   }

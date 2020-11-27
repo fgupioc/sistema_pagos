@@ -43,7 +43,7 @@ export class TableroTareasComponent implements OnInit {
 
   listarTablero() {
     this.spinner.show();
-    this.gestionAdministrativaService.listarTableroTareas().subscribe(
+    this.gestionAdministrativaService.listarTableroEjecutivoTareas().subscribe(
       res => {
         this.asignaciones = res;
         this.spinner.hide();

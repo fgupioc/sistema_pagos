@@ -12,4 +12,5 @@ export interface EjecutivoAsignacion {
   estado?: string;
   tareas?: Tarea[];
   ejecutivo?: Persona;
+  ejecutivoAlias?: string;
 }

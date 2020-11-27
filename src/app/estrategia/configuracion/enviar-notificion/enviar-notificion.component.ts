@@ -65,7 +65,7 @@ export class EnviarNotificionComponent implements OnInit {
 
   listarCartera() {
     this.spinner.show();
-    this.carteraService.getCarterasActivas().subscribe(
+    this.carteraService.obtenerCarterasActivas().subscribe(
       ({objeto}) => {
         this.carteras = objeto;
         this.spinner.hide();
@@ -176,7 +176,7 @@ export class EnviarNotificionComponent implements OnInit {
 
   showMensaje(gestion, item, noti, day) {
     this.spinner.show();
-    this.notificacionService.buscarNotificacionEtapa(gestion.codGestion, item.codEtapa, noti, day.dia).subscribe(
+    this.notificacionService.buscarNotificacionEtapa(gestion.codGestion, item.codEtapa, noti, day).subscribe(
       res => {
         const modal = this.modalService.open(CrearEtapaNotificionComponent, {size: 'lg', scrollable: true});
         modal.result.then(
