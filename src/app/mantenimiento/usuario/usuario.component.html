@@ -17,7 +17,6 @@
             <th>#</th>
             <th>Alias</th>
             <th>Email</th>
-            <th>T. Usuario</th>
             <th>Estado</th>
             <th>Opciones</th>
           </tr>
@@ -27,7 +26,6 @@
             <td class="text-center">{{ i + 1 }}</td>
             <td class="text-center">{{ usuario.alias}}</td>
             <td class="text-center">{{ usuario.email}}</td>
-            <td class="text-center">{{ usuario.desTipoUsuario}}</td>
             <td class="text-center">
               <span class="badge" [ngClass]="estaActivo(usuario.codEstado) ? 'badge-success' : 'badge-danger'">
                 {{ usuario.desEstado}}

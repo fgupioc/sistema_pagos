@@ -70,7 +70,7 @@
                                                 <td *ngFor="let notify of notificaciones">
                                                   <ng-container *ngFor="let o of item.notificacionEtapas">
                                                       <span class="badge badge-info cursor-pointer" style="font-size: 14px;" *ngIf="showNotify(o, day, notify)"
-                                                            (click)="showMensaje(gestion, item, notify.codTipoNotificacion, day)">Envio de Mensaje</span>
+                                                            (click)="showMensaje(gestion, item, notify.codTipoNotificacion, day)">Enviar Mensaje</span>
                                                   </ng-container>
                                                 </td>
                                               </ng-container>
