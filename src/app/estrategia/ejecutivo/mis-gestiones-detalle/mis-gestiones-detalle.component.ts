@@ -126,6 +126,10 @@ export class MisGestionesDetalleComponent implements OnInit {
   cargandoImagenes = false;
   pagos: any[] = [];
   showNewWhatsapp = false;
+  $target = '';
+  $codRespuesta = '';
+  $tipoGestion = '';
+  $duracion = 0;
 
   constructor(
     public auth: AutenticacionService,
@@ -343,6 +347,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       res => {
         if (res.exito) {
           this.acciones = res.acciones;
+          console.log(res.acciones);
           this.collectionSize = this.acciones.length;
           this.refreshCountries();
         }
@@ -1175,6 +1180,11 @@ export class MisGestionesDetalleComponent implements OnInit {
   showDetalle(i, item: CreditoGestion) {
     this.archivos = [];
     this.pagos = [];
+    this.$target = '';
+    this.$codRespuesta = '';
+    this.$tipoGestion = '';
+    this.$duracion = 0;
+    this.$condicion = '0'
 
     if ($(`.item_${i}`).hasClass('hidden')) {
       $(`.item-detalle`).addClass('hidden');
@@ -1209,10 +1219,15 @@ export class MisGestionesDetalleComponent implements OnInit {
     if (!this.$condicion) {
       return;
     }
+
     this.spinner.show();
-    this.gestionAdministrativaService.actualizarTareaCondicion(item.id, this.$condicion, item.comentario).subscribe(
+    this.gestionAdministrativaService.actualizarTareaCondicion(item.id, this.$condicion, item.comentario, this.$tipoGestion, this.$target, this.$codRespuesta, this.$duracion).subscribe(
       res => {
         if (res.exito) {
+          this.$target = '';
+          this.$codRespuesta = '';
+          this.$tipoGestion = '';
+          this.$duracion = 0;
           Swal.fire('Actualizar Tarea', res.mensaje, 'success');
           this.eventosService.leerNotifyEmitter.emit({tipo: '04', id: item.id});
           this.$condicion = '0';

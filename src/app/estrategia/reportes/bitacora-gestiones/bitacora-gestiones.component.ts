@@ -53,4 +53,8 @@ export class BitacoraGestionesComponent implements OnInit {
     );
   }
 
+  getNameCondition(value) {
+    return value == 'V' ? 'Vencida' : 'Completada';
+  }
+
 }

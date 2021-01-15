@@ -576,9 +576,63 @@
                                                     <textarea class="form-control" [(ngModel)]="item.comentario"></textarea>
                                                   </div>
                                                 </div>
-                                                <div class="col-12 mt-2" *ngIf="item.condicion == '0'">
-                                                  <button class="btn btn-sm btn-primary" (click)="actualizarTarea(item)">Actualizar</button>
+                                                <ng-container *ngIf="$condicion == '1'">
+                                                <div class="col-12 col-md-6">
+                                                  <div class="form-group">
+                                                    <label>Tipo Gestión</label>
+                                                    <select class="form-control" [(ngModel)]="$tipoGestion">
+                                                      <option *ngFor="let obj of gestiones" [value]="obj.codItem">{{ obj.descripcion }}</option>
+                                                    </select>
+                                                  </div>
                                                 </div>
+                                                <div class="col-12 col-md-6" *ngIf="item.tipoContacto == '2' || item.tipoContacto == '3'">
+                                                  <div class="form-group">
+                                                    <label>Seleccione Correo</label>
+                                                    <select class="form-control" [(ngModel)]="$target">
+                                                      <option value="">Seleccione</option>
+                                                      <option *ngFor="let emails of showEmails" [value]="emails.email">{{ emails.email }}</option>
+                                                    </select>
+                                                  </div>
+                                                </div>
+                                                  <div class="col-12 col-md-6" *ngIf="item.tipoContacto == '1'">
+                                                    <label>Número telefonico</label>
+                                                    <div class="input-group">
+                                                      <select class="form-control" [(ngModel)]="$target">
+                                                        <option value="">Seleccione</option>
+                                                        <option *ngFor="let item of showPhones" [value]="item.numero">{{ (item.codCiudad ? item.codCiudad + '-' : '') + item.numero }}</option>
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                                  <div class="col-12 col-md-6" *ngIf="item.tipoContacto == '1'">
+                                                    <div class="form-group">
+                                                      <label>Tiempo(seg)</label>
+                                                      <input Number class="form-control" [(ngModel)]="$duracion">
+                                                    </div>
+                                                  </div>
+                                                  <div class="col-12 col-md-6" *ngIf="item.tipoContacto == '4'">
+                                                    <div class="form-group">
+                                                      <label>Seleccione Dirección</label>
+                                                      <select class="form-control" [(ngModel)]="$target">
+                                                        <option value="">Selecione</option>
+                                                        <option *ngFor="let item of showAddress" [value]="mostrarDireccion(item)">{{ mostrarDireccion(item)}}</option>
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                                <div class="col-12 col-md-6">
+                                                  <div class="form-group">
+                                                    <label>Respuesta</label>
+                                                    <select class="form-control" [(ngModel)]="$codRespuesta">
+                                                      <option *ngFor="let objs of respuestas" [value]="objs.codItem">{{ objs.descripcion }}</option>
+                                                    </select>
+                                                  </div>
+                                                </div>
+                                                </ng-container>
+                                                <ng-container *ngIf="$condicion != '0'">
+                                                <div class="col-12 mt-2" *ngIf="item.condicion == '0'">
+                                                  <button class="btn btn-sm btn-primary" *ngIf="$condicion == '1'" [disabled]="$codRespuesta.length == 0  || $tipoGestion.length == 0 || $target.length == 0 " (click)="actualizarTarea(item)">Actualizar</button>
+                                                  <button class="btn btn-sm btn-primary" *ngIf="$condicion == '2'" (click)="actualizarTarea(item)">Actualizar</button>
+                                                </div>
+                                                </ng-container>
                                               </div>
                                             </ng-container>
                                           </ng-container>

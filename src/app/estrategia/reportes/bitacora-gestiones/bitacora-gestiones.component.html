@@ -47,6 +47,7 @@
                                                         <th>Cobranza</th>
                                                         <th>Tipo Tarea</th>
                                                         <th>Fecha Gestion</th>
+                                                        <th>Condición</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -62,6 +63,7 @@
                                                         <td>{{ item.etapaCobranza }}</td>
                                                         <td>{{ item.tipoTarea }}</td>
                                                         <td>{{ item.fechaGestion | date : 'dd/MM/yy HH:mm' }}</td>
+                                                      <td>{{ getNameCondition(item.condicion)}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
