@@ -44,6 +44,7 @@ import {SocioCreditoDetalleComponent} from './socio/views/socio-credito-detalle/
 import {SupervisorAsignacionesComponent} from './estrategia/asignacion-cartera/supervisor-asignaciones/supervisor-asignaciones.component';
 import {SupervisorCreditosComponent} from './estrategia/asignacion-cartera/supervisor-creditos/supervisor-creditos.component';
 import {SupervisorCreditoSocioComponent} from './estrategia/asignacion-cartera/supervisor-credito-socio/supervisor-credito-socio.component';
+import {BitacoraGestionesComponent} from './estrategia/reportes/bitacora-gestiones/bitacora-gestiones.component';
 
 
 const A = Autorizacion;
@@ -171,6 +172,12 @@ const routes: Routes = [
             {path: 'mis-tareas/:slug', component: TareaDetalleComponent, data: {role: 'X'}},
             {path: 'mis-gestiones', component: MisGestionesComponent},
             {path: 'mis-gestiones/:nroCredito/detalle', component: MisGestionesDetalleComponent},
+          ]
+        },
+        {
+          path: 'reportes',
+          children: [
+            {path: 'bitacora-de-gestiones', component: BitacoraGestionesComponent},
           ]
         }
       ]

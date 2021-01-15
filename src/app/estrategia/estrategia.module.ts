@@ -54,6 +54,10 @@ import {AsignacionCarteraService} from '../servicios/asignacion-cartera.service'
 import { SupervisorAsignacionesComponent } from './asignacion-cartera/supervisor-asignaciones/supervisor-asignaciones.component';
 import { SupervisorCreditosComponent } from './asignacion-cartera/supervisor-creditos/supervisor-creditos.component';
 import { SupervisorCreditoSocioComponent } from './asignacion-cartera/supervisor-credito-socio/supervisor-credito-socio.component';
+import { BitacoraGestionesComponent } from './reportes/bitacora-gestiones/bitacora-gestiones.component';
+import { RelacionGestionesRealizadasComponent } from './reportes/relacion-gestiones-realizadas/relacion-gestiones-realizadas.component';
+import { ResumenResultadosPorGestorComponent } from './reportes/resumen-resultados-por-gestor/resumen-resultados-por-gestor.component';
+import { DetalleCarteraNoAsignadaComponent } from './reportes/detalle-cartera-no-asignada/detalle-cartera-no-asignada.component';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -95,7 +99,11 @@ const ngWizardConfig: NgWizardConfig = {
     MisGestionesDetalleComponent,
     SupervisorAsignacionesComponent,
     SupervisorCreditosComponent,
-    SupervisorCreditoSocioComponent
+    SupervisorCreditoSocioComponent,
+    BitacoraGestionesComponent,
+    RelacionGestionesRealizadasComponent,
+    ResumenResultadosPorGestorComponent,
+    DetalleCarteraNoAsignadaComponent
   ],
   imports: [
     CommonModule,

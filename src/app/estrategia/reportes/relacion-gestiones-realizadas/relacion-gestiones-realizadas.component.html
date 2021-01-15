@@ -1,0 +1,211 @@
+<div class="card">
+  <div class="card-header">
+    <h2 class="card-title text-uppercase">bitacora de gestiones</h2>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Fecha de Inicio</label>
+          <input type="date" class="form-control">
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Fecha de Inicio</label>
+          <input type="date" class="form-control">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <ngb-tabset [destroyOnHide]="false">
+          <ngb-tab>
+            <ng-template ngbTabTitle>Moneda <b>Soles</b></ng-template>
+            <ng-template ngbTabContent>
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label>Moneda <b>Soles</b></label><br>
+                    <label>Gestor <b>FRANZ JUNIOR</b></label>
+                    <div class="table-responsive">
+                      <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
+                        <caption style="caption-side: top; text-align: center;">Cartera <b>ABACO</b></caption>
+                        <thead>
+                        <tr class="text-center">
+                          <th>#</th>
+                          <th>Cartera</th>
+                          <th>LLamadas</th>
+                          <th>WhatsApp</th>
+                          <th>Correo</th>
+                          <th>SMS</th>
+                          <th>Visita</th>
+                          <th>Carta</th>
+                          <th>Compromiso de pago</th>
+                          <th>Cargo en cuenta</th>
+                          <th>Total Gestiones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="text-center" *ngFor="let item of gestionSoles; let i = index">
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-5  col-md-offset-3">
+                  <table class="table table-bordered table-responsive">
+                    <thead>
+                    <tr class="text-center">
+                      <th>Etapa</th>
+                      <th>Preventiva</th>
+                      <th>Pre-Correctiva</th>
+                      <th>Correctiva</th>
+                      <th>Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td>Total gestiones</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                    </tr>
+                    <tr>
+                      <td>Total créditos asignados</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                    </tr>
+                    <tr>
+                      <td>Total créditos sin gestión</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                    </tr>
+                    <tr>
+                      <td>Nivel de Gestión</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab>
+            <ng-template ngbTabTitle>Moneda <b>Dolares</b></ng-template>
+            <ng-template ngbTabContent>
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label>Moneda <b>Dolares</b></label><br>
+                    <label>Gestor <b>FRANZ JUNIOR</b></label>
+                    <div class="table-responsive">
+                      <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
+                        <caption style="caption-side: top; text-align: center;">Cartera <b>ABACO</b></caption>
+                        <thead>
+                        <tr class="text-center">
+                          <th>#</th>
+                          <th>Cartera</th>
+                          <th>LLamadas</th>
+                          <th>WhatsApp</th>
+                          <th>Correo</th>
+                          <th>SMS</th>
+                          <th>Visita</th>
+                          <th>Carta</th>
+                          <th>Compromiso de pago</th>
+                          <th>Cargo en cuenta</th>
+                          <th>Total Gestiones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="text-center" *ngFor="let item of gestionSoles; let i = index">
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-5  col-md-offset-3">
+                  <table class="table table-bordered table-responsive">
+                    <thead>
+                    <tr class="text-center">
+                      <th>Etapa</th>
+                      <th>Preventiva</th>
+                      <th>Pre-Correctiva</th>
+                      <th>Correctiva</th>
+                      <th>Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td>Total gestiones</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                    </tr>
+                    <tr>
+                      <td>Total créditos asignados</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                    </tr>
+                    <tr>
+                      <td>Total créditos sin gestión</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                    </tr>
+                    <tr>
+                      <td>Nivel de Gestión</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">0</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner></ngx-spinner>
