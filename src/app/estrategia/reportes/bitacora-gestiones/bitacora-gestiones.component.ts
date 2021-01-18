@@ -4,6 +4,9 @@ import {DataTableDirective} from 'angular-datatables';
 import {CONST} from '../../../comun/CONST';
 import {ReportesService} from '../../../servicios/reportes/reportes.service';
 import { GestorMoneda } from 'src/app/interfaces/reportes/bitacora-gestiones/gestor-moneda';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-bitacora-gestiones',
@@ -11,6 +14,7 @@ import { GestorMoneda } from 'src/app/interfaces/reportes/bitacora-gestiones/ges
   styleUrls: ['./bitacora-gestiones.component.css']
 })
 export class BitacoraGestionesComponent implements OnInit {
+  formSearch: FormGroup;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   isDtInitialized = false;
@@ -27,17 +31,23 @@ export class BitacoraGestionesComponent implements OnInit {
   totalGestionesNoRealizadasSoles: any;
 
   constructor(
-    private reportesService: ReportesService
+    private reportesService: ReportesService,
+    private spinner: NgxSpinnerService,
+    private formBuilder: FormBuilder
   ) {
   }
 
   ngOnInit() {
     this.dtOptions = CONST.C_OBJ_DT_OPCIONES();
-    this.loadList();
+    this.formSearch = this.formBuilder.group({
+      start: ['', Validators.required],
+      finish:  ['', Validators.required],
+    }); 
   }
 
-  loadList() {
-    this.reportesService.bitacoraGestiones().subscribe(
+  loadList(start, finish) {
+    this.spinner.show();
+    this.reportesService.bitacoraGestiones(start, finish).subscribe(
       res => {
         this.itemsSoles = res.itemsSoles;
         this.itemsDolares = res.itemsDolares;
@@ -49,12 +59,25 @@ export class BitacoraGestionesComponent implements OnInit {
         this.totalGestionesRealizadasDolar = res.totalGestionesRealizadasDolar;
         this.totalGestionesRealizadasEuro = res.totalGestionesRealizadasEuro;
         this.totalGestionesRealizadasSoles = res.totalGestionesRealizadasSoles;
-      }
+        this.spinner.hide();
+      },
+      err => this.spinner.hide()
     );
   }
 
   getNameCondition(value) {
     return value == 'V' ? 'Vencida' : 'Completada';
+  }
+
+  search() {
+    if (this.formSearch.invalid) {
+      Swal.fire('', 'Debe ingresar los campos obligatorios.', 'warning');
+      return;
+    }
+    const {start, finish} = this.formSearch.getRawValue();
+    console.log(start);
+    console.log(finish);
+    this.loadList(start, finish);
   }
 
 }
