@@ -67,7 +67,7 @@ export class BitacoraGestionesComponent implements OnInit {
     this.formSearch = this.formBuilder.group({
       start: ['', Validators.required],
       finish:  ['', Validators.required],
-    }); 
+    });
   }
 
   loadList(start, finish) {
@@ -142,12 +142,7 @@ export class BitacoraGestionesComponent implements OnInit {
         }
       ]
     });
-    const teenCategory = new TreeviewItem({
-      text: 'Teen', value: 2, collapsed: true, disabled: true, children: [
-        { text: 'Adventure', value: 21 },
-        { text: 'Science', value: 22 }
-      ]
-    });
+
     const othersCategory = new TreeviewItem({ text: 'Others', value: 3, checked: false, disabled: true });
     return [childrenCategory, itCategory, teenCategory, othersCategory];
   }
