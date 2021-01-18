@@ -17,8 +17,8 @@ export class ReportesService {
     return this.http.get<any>(`${this.apiUrl}/bitacora-de-gestiones`, {params: new HttpParams().set('start', start).set('finish', finish)});
   }
 
-  relacionGestionesRealizadas(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/relacion-gestiones-realizadas`);
+  relacionGestionesRealizadas(start:any, finish: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/relacion-gestiones-realizadas`, {params: new HttpParams().set('start', start).set('finish', finish)});
   }
 
   resumenResultadosPorGestor(): Observable<any> {
@@ -36,4 +36,5 @@ export class ReportesService {
   pagosRealizadosPorDia(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/pagos-realizados-por-dia`);
   }
+
 }
