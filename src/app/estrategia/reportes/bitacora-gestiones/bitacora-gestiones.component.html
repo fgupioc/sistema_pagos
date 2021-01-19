@@ -1,207 +1,158 @@
 <div class="card">
-    <div class="card-header">
-        <h2 class="card-title text-uppercase">bitacora de gestiones</h2>
-    </div>
-    <div class="card-body">
-        <div class="row" [formGroup]="formSearch">
-            <div class="col-12 col-md-6">
-                <div class="form-group">
-                    <label>Fecha de Inicio</label>
-                    <input type="date" class="form-control" formControlName="start">
-                </div>
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="form-group">
-                    <label>Fecha de Inicio</label>
-                    <input type="date" class="form-control" formControlName="finish">
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="form-group text-center">
-                    <button class="btn btn-sm btn-primary" [disabled]="formSearch.invalid" (click)="search()"><i class="fa fa-search" aria-hidden="true"></i> Buscar Gestiones</button>
-                </div>
-            </div>
+  <div class="card-header">
+    <h2 class="card-title text-uppercase">bitacora de gestiones</h2>
+  </div>
+  <div class="card-body">
+    <div class="row" [formGroup]="formSearch">
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Fecha de Inicio</label>
+          <input type="date" class="form-control" formControlName="start">
         </div>
-        <div class="row">
-            <div class="col-12">
-                <ngb-tabset [destroyOnHide]="false">
-                    <ngb-tab>
-                        <ng-template ngbTabTitle>Moneda <b>Soles</b></ng-template>
-                        <ng-template ngbTabContent>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="alert alert-success" role="alert">
-                                        Selected books: {{values}}
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-lg-4 col-sm-12">
-                                            <div class="form-group">
-                                                <label>
-                                          <strong>ngx-treeview</strong>
-                                        </label>
-                                                <ngx-treeview [config]="config" [items]="items" (filterChange)="onFilterChange($event)" (selectedChange)="values = $event">
-                                                </ngx-treeview>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <ng-container *ngFor="let item of itemsSoles">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label>Gestor: <b class="text-uppercase">{{ item.gestor }}</b></label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12" *ngFor="let cartera of item.carteras ">
-                                        <div class="form-group">
-                                            <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
-                                                <caption style="caption-side: top; text-align: center;">Cartera <b>{{ cartera.cartera }}</b></caption>
-                                                <thead>
-                                                    <tr class="text-center">
-                                                        <th>#</th>
-                                                        <th>Código del Socio</th>
-                                                        <th>Nombres del Socio</th>
-                                                        <th>Apellidos del Socio</th>
-                                                        <th>Tipo Doc. Socio</th>
-                                                        <th>Número Doc. Socio</th>
-                                                        <th>Kardex</th>
-                                                        <th>Gestion</th>
-                                                        <th>Cobranza</th>
-                                                        <th>Tipo Tarea</th>
-                                                        <th>Fecha Gestion</th>
-                                                        <th>Condición</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr class="text-center" *ngFor="let item of cartera.gestiones; let i = index">
-                                                        <td>{{ i+1 }}</td>
-                                                        <td>{{ item.socioCodigo }}</td>
-                                                        <td>{{ item.socioNombres }}</td>
-                                                        <td>{{ item.socioApellidos }}</td>
-                                                        <td>{{ item.tipoDocumentoSocio }}</td>
-                                                        <td>{{ item.numeroDocumentoSocio }}</td>
-                                                        <td>{{ item.kardex }}</td>
-                                                        <td>{{ item.tipoGestion }}</td>
-                                                        <td>{{ item.etapaCobranza }}</td>
-                                                        <td>{{ item.tipoTarea }}</td>
-                                                        <td>{{ item.fechaGestion | date : 'dd/MM/yy HH:mm' }}</td>
-                                                        <td>{{ getNameCondition(item.condicion)}}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </ng-container>
-                                <div class="col-12 col-md-5  col-md-offset-3">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr class="text-center">
-                                                <th colspan="2">
-                                                    <h4>Resumen Bitacora Cartera en Soles</h4>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Total créditos asignados</td>
-                                                <td class="text-center">{{ totalCreditosAsignadosSoles }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Total gestiones realizadas</td>
-                                                <td class="text-center">{{ totalGestionesRealizadasSoles }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Total gestiones no realizadas</td>
-                                                <td class="text-center">{{ totalGestionesNoRealizadasSoles }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </ng-template>
-                    </ngb-tab>
-                    <ngb-tab>
-                        <ng-template ngbTabTitle>Moneda <b>Dolares</b></ng-template>
-                        <ng-template ngbTabContent>
-                            <div class="row">
-                                <ng-container *ngFor="let item of itemsDolares">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label>Gestor: <b class="text-uppercase">{{ item.gestor }}</b></label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12" *ngFor="let cartera of item.carteras ">
-                                        <div class="form-group">
-                                            <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
-                                                <caption style="caption-side: top; text-align: center;">Cartera <b>{{ cartera.cartera }}</b></caption>
-                                                <thead>
-                                                    <tr class="text-center">
-                                                        <th>#</th>
-                                                        <th>Código del Socio</th>
-                                                        <th>Nombres del Socio</th>
-                                                        <th>Apellidos del Socio</th>
-                                                        <th>Tipo Doc. Socio</th>
-                                                        <th>Número Doc. Socio</th>
-                                                        <th>Kardex</th>
-                                                        <th>Gestion</th>
-                                                        <th>Cobranza</th>
-                                                        <th>Tipo Tarea</th>
-                                                        <th>Fecha Gestion</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr class="text-center" *ngFor="let item of cartera.gestiones; let i = index">
-                                                        <td>{{ i+1 }}</td>
-                                                        <td>{{ item.socioCodigo }}</td>
-                                                        <td>{{ item.socioNombres }}</td>
-                                                        <td>{{ item.socioApellidos }}</td>
-                                                        <td>{{ item.tipoDocumentoSocio }}</td>
-                                                        <td>{{ item.numeroDocumentoSocio }}</td>
-                                                        <td>{{ item.kardex }}</td>
-                                                        <td>{{ item.tipoGestion }}</td>
-                                                        <td>{{ item.etapaCobranza }}</td>
-                                                        <td>{{ item.tipoTarea }}</td>
-                                                        <td>{{ item.fechaGestion | date : 'dd/MM/yy HH:mm' }}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </ng-container>
-                                <div class="col-12 col-md-5  col-md-offset-3">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr class="text-center">
-                                                <th colspan="2">
-                                                    <h4>Resumen Bitacora Cartera en Dolares</h4>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Total créditos asignados</td>
-                                                <td class="text-center">{{ totalCreditosAsignadosDolar }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Total gestiones realizadas</td>
-                                                <td class="text-center">{{ totalGestionesRealizadasDolar }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Total gestiones no realizadas</td>
-                                                <td class="text-center">{{ totalGestionesNoRealizadasDolar }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </ng-template>
-                    </ngb-tab>
-                </ngb-tabset>
-            </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Fecha de Inicio</label>
+          <input type="date" class="form-control" formControlName="finish">
         </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group text-center">
+          <button class="btn btn-sm btn-primary" [disabled]="formSearch.invalid" (click)="search()"><i class="fa fa-search" aria-hidden="true"></i> Buscar Gestiones</button>
+        </div>
+      </div>
     </div>
+
+    <div class="row">
+      <div class="col-12">
+        <ul id="myUL">
+          <li (click)="$type = 1" *ngIf="itemsSoles.length > 0 ">
+            <span class="caret">Soles</span>
+            <ul class="nested">
+              <li>
+                <span class="caret">Gestores</span>
+                <ul class="nested">
+                  <li *ngFor="let item of itemsSoles"><span class="caret"> <b class="text-uppercase">{{ item.gestor }}</b></span>
+                    <ul class="nested">
+                      <li *ngFor="let cartera of item.carteras "><a href="javascript:;" (click)="seleccionado(cartera.gestiones)"><b>{{ cartera.cartera }}</b></a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li (click)="$type = 2 " *ngIf="itemsDolares.length > 0 ">
+            <span class="caret">Dolar</span>
+            <ul class="nested">
+              <li>
+                <span class="caret">Gestores</span>
+                <ul class="nested">
+                  <li *ngFor="let item of itemsDolares"><span class="caret"> <b class="text-uppercase">{{ item.gestor }}</b></span>
+                    <ul class="nested">
+                      <li *ngFor="let cartera of item.carteras "><a href="javascript:;" (click)="seleccionado(cartera.gestiones)"><b>{{ cartera.cartera }}</b></a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <br>
+    <div class="row" *ngIf="$gestiones.length > 0">
+      <div class="col-12">
+        <div class="form-group">
+          <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
+            <caption style="caption-side: top; text-align: center;">Cartera <b>{{ $gestiones[0].cartera }}</b>; Gestor <b>{{ $gestiones[0].gestor }}</b></caption>
+            <thead>
+            <tr class="text-center">
+              <th>#</th>
+              <th>Código del Socio</th>
+              <th>Nombres del Socio</th>
+              <th>Apellidos del Socio</th>
+              <th>Tipo Doc. Socio</th>
+              <th>Número Doc. Socio</th>
+              <th>Kardex</th>
+              <th>Gestion</th>
+              <th>Cobranza</th>
+              <th>Tipo Tarea</th>
+              <th>Fecha Gestion</th>
+              <th>Condición</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center" *ngFor="let item of $gestiones; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.socioCodigo }}</td>
+              <td>{{ item.socioNombres }}</td>
+              <td>{{ item.socioApellidos }}</td>
+              <td>{{ item.tipoDocumentoSocio }}</td>
+              <td>{{ item.numeroDocumentoSocio }}</td>
+              <td>{{ item.kardex }}</td>
+              <td>{{ item.tipoGestion }}</td>
+              <td>{{ item.etapaCobranza }}</td>
+              <td>{{ item.tipoTarea }}</td>
+              <td>{{ item.fechaGestion | date : 'dd/MM/yy HH:mm' }}</td>
+              <td>{{ getNameCondition(item.condicion)}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-6" *ngIf="$type == 1">
+        <table class="table table-bordered">
+          <thead>
+          <tr class="text-center">
+            <th colspan="2">
+              <h4>Resumen Bitacora Cartera en Soles</h4>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Total créditos asignados</td>
+            <td class="text-center">{{ totalCreditosAsignadosSoles }}</td>
+          </tr>
+          <tr>
+            <td>Total gestiones realizadas</td>
+            <td class="text-center">{{ totalGestionesRealizadasSoles }}</td>
+          </tr>
+          <tr>
+            <td>Total gestiones no realizadas</td>
+            <td class="text-center">{{ totalGestionesNoRealizadasSoles }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-12 col-md-6" *ngIf="$type == 2">
+        <table class="table table-bordered">
+          <thead>
+          <tr class="text-center">
+            <th colspan="2">
+              <h4>Resumen Bitacora Cartera en Dolares</h4>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Total créditos asignados</td>
+            <td class="text-center">{{ totalCreditosAsignadosDolar }}</td>
+          </tr>
+          <tr>
+            <td>Total gestiones realizadas</td>
+            <td class="text-center">{{ totalGestionesRealizadasDolar }}</td>
+          </tr>
+          <tr>
+            <td>Total gestiones no realizadas</td>
+            <td class="text-center">{{ totalGestionesNoRealizadasDolar }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 <ngx-spinner></ngx-spinner>
