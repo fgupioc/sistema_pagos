@@ -47,6 +47,7 @@ import {SupervisorCreditoSocioComponent} from './estrategia/asignacion-cartera/s
 import {BitacoraGestionesComponent} from './estrategia/reportes/bitacora-gestiones/bitacora-gestiones.component';
 import { RelacionGestionesRealizadasComponent } from './estrategia/reportes/relacion-gestiones-realizadas/relacion-gestiones-realizadas.component';
 import { ResumenResultadosPorGestorComponent } from './estrategia/reportes/resumen-resultados-por-gestor/resumen-resultados-por-gestor.component';
+import {DetalleCarteraNoAsignadaComponent} from './estrategia/reportes/detalle-cartera-no-asignada/detalle-cartera-no-asignada.component';
 
 
 const A = Autorizacion;
@@ -182,6 +183,7 @@ const routes: Routes = [
             {path: 'bitacora-de-gestiones', component: BitacoraGestionesComponent},
             {path: 'relacion-gestiones-realizadas', component: RelacionGestionesRealizadasComponent},
             {path: 'resumen-de-resultados-por-gestor', component: ResumenResultadosPorGestorComponent},
+            {path: 'detalle-de-cartera-no-asignada', component: DetalleCarteraNoAsignadaComponent},
           ]
         }
       ]

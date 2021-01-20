@@ -1,19 +1,24 @@
 <div class="card">
   <div class="card-header">
-    <h2 class="card-title text-uppercase">bitacora de gestiones</h2>
+    <h2 class="card-title text-uppercase">Detalle de cartera no asignada</h2>
   </div>
   <div class="card-body">
-    <div class="row">
+    <div class="row" [formGroup]="formSearch">
       <div class="col-12 col-md-6">
         <div class="form-group">
           <label>Fecha de Inicio</label>
-          <input type="date" class="form-control">
+          <input type="date" class="form-control" formControlName="start">
         </div>
       </div>
       <div class="col-12 col-md-6">
         <div class="form-group">
           <label>Fecha de Inicio</label>
-          <input type="date" class="form-control">
+          <input type="date" class="form-control" formControlName="finish">
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group text-center">
+          <button class="btn btn-sm btn-primary" [disabled]="formSearch.invalid" (click)="search()"><i class="fa fa-search" aria-hidden="true"></i> Buscar Gestiones</button>
         </div>
       </div>
     </div>
@@ -24,13 +29,10 @@
             <ng-template ngbTabTitle>Moneda <b>Soles</b></ng-template>
             <ng-template ngbTabContent>
               <div class="row">
-                <div class="col-12">
+                <div class="col-12" *ngIf="itemsSoles.length > 0">
                   <div class="form-group">
-                    <label>Moneda <b>Soles</b></label><br>
-                    <label>Gestor <b>FRANZ JUNIOR</b></label>
-                    <div class="table-responsive">
+                    <div class="">
                       <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
-                        <caption style="caption-side: top; text-align: center;">Cartera <b>ABACO</b></caption>
                         <thead>
                         <tr class="text-center">
                           <th>#</th>
@@ -51,50 +53,27 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="text-center" *ngFor="let item of gestionDolares; let i = index">
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
+                        <tr class="text-center" *ngFor="let item of itemsSoles; let i = index">
+                          <td>{{ i+1 }}</td>
+                          <td>{{ item.kardex }}</td>
+                          <td>{{ item.socioCodigo }}</td>
+                          <td>{{ item.socioNombres }}</td>
+                          <td>{{ item.socioApellidos }}</td>
+                          <td>{{ item.tipoDocumentoSocio }}</td>
+                          <td>{{ item.numeroDocumentoSocio }}</td>
+                          <td>{{ item.montoCobrar | currency: item.monedaCodigo }}</td>
+                          <td>{{ item.fechaUltimaCuotaVencida }}</td>
+                          <td>{{ item.fechaProximoVencimineto }}</td>
+                          <td>{{ item.diasAtraso }}</td>
+                          <td>{{ item.division }}</td>
+                          <td>{{ item.banca }}</td>
+                          <td>{{ item.tipoProducto}} </td>
+                          <td>{{ item.responsableAnterior }}</td>
                         </tr>
                         </tbody>
                       </table>
                     </div>
                   </div>
-                </div>
-                <div class="col-12 col-md-5  col-md-offset-3">
-                  <table class="table table-bordered table-responsive">
-                    <thead>
-                    <tr class="text-center">
-                      <th colspan="2"><h4>Resumen Bitacora Cartera en Soles</h4></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td>Total créditos asignados</td>
-                      <td class="text-center">0</td>
-                    </tr>
-                    <tr>
-                      <td>Total gestiones realizadas</td>
-                      <td class="text-center">0</td>
-                    </tr>
-                    <tr>
-                      <td>Total gestiones no realizadas</td>
-                      <td class="text-center">0</td>
-                    </tr>
-                    </tbody>
-                  </table>
                 </div>
               </div>
             </ng-template>
@@ -103,13 +82,10 @@
             <ng-template ngbTabTitle>Moneda <b>Dolares</b></ng-template>
             <ng-template ngbTabContent>
               <div class="row">
-                <div class="col-12">
+                <div class="col-12" *ngIf="itemsDolares.length > 0">
                   <div class="form-group">
-                    <label>Moneda <b>Dolares</b></label><br>
-                    <label>Gestor <b>FRANZ JUNIOR</b></label>
-                    <div class="table-responsive">
+                    <div class="">
                       <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
-                        <caption style="caption-side: top; text-align: center;">Cartera <b>ABACO</b></caption>
                         <thead>
                         <tr class="text-center">
                           <th>#</th>
@@ -130,50 +106,27 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="text-center" *ngFor="let item of gestionDolares; let i = index">
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
+                        <tr class="text-center" *ngFor="let item of itemsDolares; let i = index">
+                          <td>{{ i+1 }}</td>
+                          <td>{{ item.kardex }}</td>
+                          <td>{{ item.socioCodigo }}</td>
+                          <td>{{ item.socioNombres }}</td>
+                          <td>{{ item.socioApellidos }}</td>
+                          <td>{{ item.tipoDocumentoSocio }}</td>
+                          <td>{{ item.tipoProducto }}</td>
+                          <td>{{ item.montoCobrar | currency: item.monedaCodigo }}</td>
+                          <td>{{ item.fechaUltimaCuotaVencida }}</td>
+                          <td>{{ item.fechaProximoVencimineto }}</td>
+                          <td>{{ item.diasAtraso }}</td>
+                          <td>{{ item.division }}</td>
+                          <td>{{ item.banca }}</td>
+                          <td>{{ item.tipoProducto}} </td>
+                          <td>{{ item.responsableAnterior }}</td>
                         </tr>
                         </tbody>
                       </table>
                     </div>
                   </div>
-                </div>
-                <div class="col-12 col-md-5  col-md-offset-3">
-                  <table class="table table-bordered table-responsive">
-                    <thead>
-                    <tr class="text-center">
-                      <th colspan="2"><h4>Resumen Bitacora Cartera en Dolares</h4></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td>Total créditos asignados</td>
-                      <td class="text-center">0</td>
-                    </tr>
-                    <tr>
-                      <td>Total gestiones realizadas</td>
-                      <td class="text-center">0</td>
-                    </tr>
-                    <tr>
-                      <td>Total gestiones no realizadas</td>
-                      <td class="text-center">0</td>
-                    </tr>
-                    </tbody>
-                  </table>
                 </div>
               </div>
             </ng-template>

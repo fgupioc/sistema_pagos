@@ -14,27 +14,27 @@ export class ReportesService {
   }
 
   bitacoraGestiones(start: any, finish: any): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/bitacora-de-gestiones`, {params: new HttpParams().set('start', start).set('finish', finish)});
+    return this.http.get<any>(`${this.apiUrl}bitacora-de-gestiones`, {params: new HttpParams().set('start', start).set('finish', finish)});
   }
 
   relacionGestionesRealizadas(start: any, finish: any): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/relacion-gestiones-realizadas`, {params: new HttpParams().set('start', start).set('finish', finish)});
+    return this.http.get<any>(`${this.apiUrl}relacion-gestiones-realizadas`, {params: new HttpParams().set('start', start).set('finish', finish)});
   }
 
   resumenResultadosPorGestor(start: any, finish: any): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/resumen-resultados-por-gestor`, {params: new HttpParams().set('start', start).set('finish', finish)});
+    return this.http.get<any>(`${this.apiUrl}resumen-resultados-por-gestor`, {params: new HttpParams().set('start', start).set('finish', finish)});
   }
 
-  datosCarterasNoAsignadas(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/datos-carteras-no-asignadas`);
+  datosCarterasNoAsignadas(start: any, finish: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}datos-carteras-no-asignadas`, {params: new HttpParams().set('start', start).set('finish', finish)});
   }
 
-  compromisosPagos(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/compromisos-pagos`);
+  compromisosPagos(start: any, finish: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}compromisos-pagos`, {params: new HttpParams().set('start', start).set('finish', finish)});
   }
 
-  pagosRealizadosPorDia(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/pagos-realizados-por-dia`);
+  pagosRealizadosPorDia(start: any, finish: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}pagos-realizados-por-dia`, {params: new HttpParams().set('start', start).set('finish', finish)});
   }
 
 }
