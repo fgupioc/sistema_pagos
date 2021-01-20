@@ -3,239 +3,196 @@
     <h2 class="card-title text-uppercase">bitacora de gestiones</h2>
   </div>
   <div class="card-body">
-    <div class="row">
+    <div class="row" [formGroup]="formSearch">
       <div class="col-12 col-md-6">
         <div class="form-group">
           <label>Fecha de Inicio</label>
-          <input type="date" class="form-control">
+          <input type="date" class="form-control" formControlName="start">
         </div>
       </div>
       <div class="col-12 col-md-6">
         <div class="form-group">
           <label>Fecha de Inicio</label>
-          <input type="date" class="form-control">
+          <input type="date" class="form-control" formControlName="finish">
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group text-center">
+          <button class="btn btn-sm btn-primary" [disabled]="formSearch.invalid" (click)="search()"><i class="fa fa-search" aria-hidden="true"></i> Buscar Gestiones</button>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-12">
-        <ngb-tabset [destroyOnHide]="false">
-          <ngb-tab>
-            <ng-template ngbTabTitle>Moneda <b>Soles</b></ng-template>
-            <ng-template ngbTabContent>
-              <div class="row">
-                <div class="col-12">
-                  <div class="form-group">
-                    <label>Moneda <b>Soles</b></label><br>
-                    <label>Gestor <b>FRANZ JUNIOR</b></label>
-                    <div class="table-responsive">
-                      <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
-                        <caption style="caption-side: top; text-align: center;">Cartera <b>ABACO</b></caption>
-                        <thead>
-                        <tr class="text-center">
-                          <th>#</th>
-                          <th>Kardex</th>
-                          <th>Código del socio</th>
-                          <th>Nombre del socio</th>
-                          <th>Apellidos del socio</th>
-                          <th>Tipo de DOI</th>
-                          <th>Número de DOI</th>
-                          <th>Cantidad de cuotas atrasadas</th>
-                          <th>Fecha ulitma cuota vencida</th>
-                          <th>Fecha del proximo vencimiento</th>
-                          <th>Fecha real de pago</th>
-                          <th>Monto por cobrar (S/)</th>
-                          <th>Monto cobrado (S/)</th>
-                          <th>Días de atraso</th>
-                          <th>Días de atraso acumulado</th>
-                          <th>Cantidad de cuotas pagadas con atraso</th>
-                          <th>Días de atraso en promiedio por cada cuota atrasada</th>
-                          <th>Cantidad de gestiones</th>
-                          <th>Gestiones acumuladas</th>
-                          <th>Acuerdo de pago</th>
-                          <th>Fecha a pagar el acuerdo</th>
-                          <th>Cantidad de acuerdos acumulado</th>
-                          <th>División</th>
-                          <th>Banca</th>
-                          <th>Etapa</th>
-                          <th>Tipo de producto</th>
-                          <th>Cartera asignada</th>
-                          <th>Gestor anterior</th>
+        <ul id="myUL">
+          <li (click)="$type = 1" *ngIf="itemsSoles.length > 0 ">
+            <span class="caret">Soles</span>
+            <ul class="nested">
+              <li>
+                <span class="caret">Gestores</span>
+                <ul class="nested">
+                  <li *ngFor="let item of itemsSoles">
+                    <a href="javascript:;" class="text-uppercase" (click)="seleccionado(item.resultadosGestors)"><b>{{ item.gestor }}</b></a>
 
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="text-center" *ngFor="let item of gestionDolares; let i = index">
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-
-                        </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-5  col-md-offset-3">
-                  <table class="table table-bordered table-responsive">
-                    <thead>
-                    <tr class="text-center">
-                      <th colspan="2"><h4>Resumen Bitacora Cartera en Soles</h4></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td>Total créditos asignados</td>
-                      <td class="text-center">0</td>
-                    </tr>
-                    <tr>
-                      <td>Total gestiones realizadas</td>
-                      <td class="text-center">0</td>
-                    </tr>
-                    <tr>
-                      <td>Total gestiones no realizadas</td>
-                      <td class="text-center">0</td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </ng-template>
-          </ngb-tab>
-          <ngb-tab>
-            <ng-template ngbTabTitle>Moneda <b>Dolares</b></ng-template>
-            <ng-template ngbTabContent>
-              <div class="row">
-                <div class="col-12">
-                  <div class="form-group">
-                    <label>Moneda <b>Dolares</b></label><br>
-                    <label>Gestor <b>FRANZ JUNIOR</b></label>
-                    <div class="table-responsive">
-                      <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
-                        <caption style="caption-side: top; text-align: center;">Cartera <b>ABACO</b></caption>
-                        <thead>
-                        <tr class="text-center">
-                          <th>#</th>
-                          <th>Kardex</th>
-                          <th>Código del socio</th>
-                          <th>Nombre del socio</th>
-                          <th>Apellidos del socio</th>
-                          <th>Tipo de DOI</th>
-                          <th>Número de DOI</th>
-                          <th>Cantidad de cuotas atrasadas</th>
-                          <th>Fecha ulitma cuota vencida</th>
-                          <th>Fecha del proximo vencimiento</th>
-                          <th>Fecha real de pago</th>
-                          <th>Monto por cobrar (S/)</th>
-                          <th>Monto cobrado (S/)</th>
-                          <th>Días de atraso</th>
-                          <th>Días de atraso acumulado</th>
-                          <th>Cantidad de cuotas pagadas con atraso</th>
-                          <th>Días de atraso en promiedio por cada cuota atrasada</th>
-                          <th>Cantidad de gestiones</th>
-                          <th>Gestiones acumuladas</th>
-                          <th>Acuerdo de pago</th>
-                          <th>Fecha a pagar el acuerdo</th>
-                          <th>Cantidad de acuerdos acumulado</th>
-                          <th>División</th>
-                          <th>Banca</th>
-                          <th>Etapa</th>
-                          <th>Tipo de producto</th>
-                          <th>Cartera asignada</th>
-                          <th>Gestor anterior</th>
-
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="text-center" *ngFor="let item of gestionDolares; let i = index">
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-
-                        </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-5  col-md-offset-3">
-                  <table class="table table-bordered table-responsive">
-                    <thead>
-                    <tr class="text-center">
-                      <th colspan="2"><h4>Resumen Bitacora Cartera en Dolares</h4></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td>Total créditos asignados</td>
-                      <td class="text-center">0</td>
-                    </tr>
-                    <tr>
-                      <td>Total gestiones realizadas</td>
-                      <td class="text-center">0</td>
-                    </tr>
-                    <tr>
-                      <td>Total gestiones no realizadas</td>
-                      <td class="text-center">0</td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </ng-template>
-          </ngb-tab>
-        </ngb-tabset>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li (click)="$type = 2 " *ngIf="itemsDolares.length > 0 ">
+            <span class="caret">Dolar</span>
+            <ul class="nested">
+              <li>
+                <span class="caret">Gestores</span>
+                <ul class="nested">
+                  <li *ngFor="let item of itemsDolares">
+                    <a href="javascript:;" class="text-uppercase" (click)="seleccionado(item.resultadosGestors)"><b>{{ item.gestor }}</b></a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
+    </div>
+    <div class="row" *ngIf="$gestiones.length > 0">
+      <div class="col-12">
+        <div class="form-group text-center">
+          <h5>Gestor <b class="text-uppercase"> {{ $gestiones[0].responsable }}</b></h5>
+        </div>
+      </div>
+      <div class="col-12">
+        <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
+          <thead>
+          <tr class="text-center">
+            <th>#</th>
+            <th>Kardex</th>
+            <th>Código del socio</th>
+            <th>Nombre del socio</th>
+            <th>Apellidos del socio</th>
+            <th>Tipo de DOI</th>
+            <th>Número de DOI</th>
+            <th>Cantidad de cuotas atrasadas</th>
+            <th>Fecha ulitma cuota vencida</th>
+            <th>Fecha del proximo vencimiento</th>
+            <th>Fecha real de pago</th>
+            <th>Monto por cobrar (S/)</th>
+            <th>Monto cobrado (S/)</th>
+            <th>Días de atraso</th>
+            <th>Días de atraso acumulado</th>
+            <th>Cantidad de cuotas pagadas con atraso</th>
+            <th>Días de atraso en promiedio por cada cuota atrasada</th>
+            <th>Cantidad de gestiones</th>
+            <th>Gestiones acumuladas</th>
+            <th>Acuerdo de pago</th>
+            <th>Fecha a pagar el acuerdo</th>
+            <th>Cantidad de acuerdos acumulado</th>
+            <th>División</th>
+            <th>Banca</th>
+            <th>Etapa</th>
+            <th>Tipo de producto</th>
+            <th>Cartera asignada</th>
+            <th>Gestor anterior</th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="text-center" *ngFor="let item of $gestiones; let i = index">
+            <td>{{ i+1 }}</td>
+            <td>{{ item.kardex }}</td>
+            <td>{{ item.socioCodigo }}</td>
+            <td>{{ item.socioNombres }}</td>
+            <td>{{ item.socioApellidos }}</td>
+            <td>{{ item.tipoDocumentoSocio }}</td>
+            <td>{{ item.numeroDocumentoSocio }}</td>
+            <td>{{ item.totalCuotasAtrasadas }}</td>
+            <td>{{ item.fechaUltimaCuotaVencida }}</td>
+            <td>{{ item.fechaProximoVencimineto }}</td>
+            <td>{{ item.fechaRealPago }}</td>
+            <td>{{ item.montoCobrar }}</td>
+            <td>{{ item.montoCobrado }}</td>
+            <td>{{ item.diasAtraso }}</td>
+            <td>{{ item.diasAtrasoAcumulado }}</td>
+            <td>{{ item.cantidadCuotasPagadasAtraso }}</td>
+            <td>{{ item.diasAtrasoPromedioPorCuotaAtrasada }}</td>
+            <td>{{ item.cantidadGestiones }}</td>
+            <td>{{ item.gestionesAcumuladas }}</td>
+            <td>{{ item.acuerdoPago }}</td>
+            <td>{{ item.fechaPagarAcuerdo }}</td>
+            <td>{{ item.cantidadAcuerdosAcumulados }}</td>
+            <td>{{ item.division }}</td>
+            <td>{{ item.banca }}</td>
+            <td>{{ item.etapa }}</td>
+            <td>{{ item.tipoProducto }}</td>
+            <td>{{ item.cartera }}</td>
+            <td>{{ item.responsableAnterior }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-12"  *ngIf="$type == 1">
+        <label>Moneda: Soles</label>
+        <table  class="table table-bordered table-responsive">
+          <thead>
+          <tr class="text-center">
+            <th>Gestor</th>
+            <th>Total a cobrar</th>
+            <th>Total cobrado</th>
+            <th>Total cobrado parcial</th>
+            <th>Total cobrado completo</th>
+            <th>Total no pagado</th>
+            <th>Total saldos por pagar</th>
+            <th>Nivel de recaudacion</th>
+            <th>Nivel de saldos pendiente</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="text-center" *ngFor="let item of itemsSoles; let i = index">
+            <td>{{ item.gestor }}</td>
+            <td> 0.00</td>
+            <td> 0.00</td>
+            <td> 0.00</td>
+            <td> 0.00</td>
+            <td> 0.00</td>
+            <td> 0.00</td>
+            <td> 0.00</td>
+            <td> 0.00</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-12"  *ngIf="$type == 2">
+        <label>Moneda: Dolares</label>
+        <table  class="table table-bordered table-responsive">
+          <thead>
+          <tr class="text-center">
+            <th>Gestor</th>
+            <th>Total a cobrar</th>
+            <th>Total cobrado</th>
+            <th>Total cobrado parcial</th>
+            <th>Total cobrado completo</th>
+            <th>Total no pagado</th>
+            <th>Total saldos por pagar</th>
+            <th>Nivel de recaudacion</th>
+            <th>Nivel de saldos pendiente</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="text-center" *ngFor="let item of itemsSoles; let i = index">
+            <td>{{ item.gestor }}</td>
+            <td> 0.00</td>
+            <td> 0.00</td>
+            <td> 0.00</td>
+            <td> 0.00</td>
+            <td> 0.00</td>
+            <td> 0.00</td>
+            <td> 0.00</td>
+            <td> 0.00</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
     </div>
   </div>
 </div>
