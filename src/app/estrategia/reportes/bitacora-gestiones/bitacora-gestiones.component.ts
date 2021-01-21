@@ -142,4 +142,11 @@ export class BitacoraGestionesComponent implements OnInit {
     this.$gestiones = [];
     this.$gestiones = items;
   }
+
+  selected(html: any) {
+    if ($('.nested.tabla').has('.active')) {
+      $('.nested.tabla').removeClass('active');
+    }
+    $(html).find('.nested.tabla').addClass('active');
+  }
 }
