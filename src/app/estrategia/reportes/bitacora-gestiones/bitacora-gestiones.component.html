@@ -3,26 +3,38 @@
     <h2 class="card-title text-uppercase">Bitacora de gestiones</h2>
   </div>
   <div class="card-body">
-    <div class="row" [formGroup]="formSearch">
-      <div class="col-12 col-md-6">
-        <div class="form-group">
-          <label>Fecha de Inicio</label>
-          <input type="date" class="form-control" formControlName="start">
-        </div>
-      </div>
-      <div class="col-12 col-md-6">
-        <div class="form-group">
-          <label>Fecha de Inicio</label>
-          <input type="date" class="form-control" formControlName="finish">
-        </div>
-      </div>
-      <div class="col-12">
-        <div class="form-group text-center">
-          <button class="btn btn-sm btn-primary" [disabled]="formSearch.invalid" (click)="search()"><i class="fa fa-search" aria-hidden="true"></i> Buscar Gestiones</button>
+    <div class="row">
+      <div class="col-12 col-md-8 mx-auto">
+        <div class="form-inline" [formGroup]="formSearch">
+          <div class="form-group">
+            <div class="form-inline">
+              <div class="form-group d-block">
+                <label class=" d-block">Fecha Inicio</label>
+                <div class="input-group">
+                  <input type="date" formControlName="start"
+                         class="form-control" placeholder="Fecha Inicio"
+                         name="dpFromDate">
+
+                </div>
+              </div>
+              <div class="form-group  d-block ml-2">
+                <label class=" d-block">Fecha Fin</label>
+                <div class="input-group">
+                  <input type="date" formControlName="finish"
+                         class="form-control" placeholder="Fecha Fin"
+                         name="dpToDate" >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group d-block ml-4">
+            <label>&nbsp;</label>
+            <button class="btn btn-primary mr-4" (click)="search()"> <i class="fa fa-search"></i> Buscar</button>
+            <button class="btn btn-outline-success"><i class="fa fa-file-excel-o"></i> Exportar</button>
+          </div>
         </div>
       </div>
     </div>
-
     <div class="row">
       <div class="col-12">
         <ul id="myUL">
