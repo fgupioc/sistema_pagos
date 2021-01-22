@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 
@@ -11,6 +11,10 @@ export class ReportesService {
 
   constructor(private http: HttpClient) {
     this.apiUrl = `${environment.serverUrl}reportes/`;
+  }
+
+  getUrlReporteBitacoraGestion(start: any, finish: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}exportar-bitacora-de-gestiones/${start}/${finish}`, {responseType: 'arraybuffer'});
   }
 
   bitacoraGestiones(start: any, finish: any): Observable<any> {
@@ -36,5 +40,6 @@ export class ReportesService {
   pagosRealizadosPorDia(start: any, finish: any): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}pagos-realizados-por-dia`, {params: new HttpParams().set('start', start).set('finish', finish)});
   }
+
 
 }

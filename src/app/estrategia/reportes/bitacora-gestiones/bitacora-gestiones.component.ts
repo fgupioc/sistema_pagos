@@ -45,6 +45,7 @@ export class BitacoraGestionesComponent implements OnInit {
   $gestiones: GestorGestiones[] = [];
   $type: number;
 
+
   constructor(
     private reportesService: ReportesService,
     private spinner: NgxSpinnerService,
@@ -148,5 +149,29 @@ export class BitacoraGestionesComponent implements OnInit {
       $('.nested.tabla').removeClass('active');
     }
     $(html).find('.nested.tabla').addClass('active');
+  }
+
+  download() {
+    const {start, finish} = this.formSearch.getRawValue();
+    this.reportesService.getUrlReporteBitacoraGestion(start, finish).subscribe(
+      response => {
+        const blob = new Blob([response],
+          {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'});
+        const objectUrl = (window.URL).createObjectURL(blob);
+        if (navigator.msSaveBlob) {
+          navigator.msSaveBlob(blob, 'companyUsers.xlsx');
+        } else {
+          const a = document.createElement('a');
+          a.href = objectUrl;
+          a.target = '_blank';
+          a.download = 'reporte-bitacora-de-gestiones-' + new Date().getTime();
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(() => {
+            document.body.removeChild(a);
+          }, 3000);
+        }
+      }
+    );
   }
 }
