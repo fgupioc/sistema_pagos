@@ -17,6 +17,10 @@ export class ReportesService {
     return this.http.get(`${this.apiUrl}exportar-bitacora-de-gestiones/${start}/${finish}`, {responseType: 'arraybuffer'});
   }
 
+  getUrlRelacionGestionesRealizadas(start: any, finish: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}exportar-relacion-gestiones-realizadas/${start}/${finish}`, {responseType: 'arraybuffer'});
+  }
+
   bitacoraGestiones(start: any, finish: any): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}bitacora-de-gestiones`, {params: new HttpParams().set('start', start).set('finish', finish)});
   }

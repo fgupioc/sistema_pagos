@@ -96,37 +96,6 @@ export class BitacoraGestionesComponent implements OnInit {
     this.loadList(start, finish);
   }
 
-  generateTree(items: GestorMoneda[]): TreeviewItem[] {
-    const gestores: any[] = [];
-    for (let item of items) {
-      const cartera: any[] = [];
-      for (let value of item.carteras) {
-        cartera.push(
-          {
-            text: value.cartera,
-            checked: false,
-            value: item.gestorCod + '_' + value.carteraCod
-          }
-        );
-      }
-      gestores.push({
-        text: item.gestor,
-        value: item.gestor,
-        checked: false,
-        children: cartera
-      });
-    }
-
-    const itCategory = new TreeviewItem({
-      text: 'Soles',
-      value: 0,
-      checked: false,
-      children: gestores
-    });
-    return [itCategory];
-  }
-
-
   initQuery() {
     const toggler = document.getElementsByClassName('caret');
     let i;
