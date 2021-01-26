@@ -42,6 +42,7 @@ export class BitacoraGestionesComponent implements OnInit {
     decoupleChildFromParent: false,
     maxHeight: 400
   });
+
   $gestiones: GestorGestiones[] = [];
   $type: number;
 
@@ -143,4 +144,5 @@ export class BitacoraGestionesComponent implements OnInit {
       }
     );
   }
+
 }
