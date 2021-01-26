@@ -216,6 +216,11 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+          <label>Resumen 1</label>
+        </div>
+      </div>
       <div class="col-12"  *ngIf="$type == 1">
         <label>Moneda: Soles</label>
         <table  class="table table-bordered table-responsive">
@@ -235,14 +240,25 @@
           <tbody>
           <tr class="text-center" *ngFor="let item of itemsSoles; let i = index">
             <td>{{ item.gestor }}</td>
-            <td> 0.00</td>
-            <td> 0.00</td>
-            <td> 0.00</td>
-            <td> 0.00</td>
-            <td> 0.00</td>
-            <td> 0.00</td>
-            <td> 0.00</td>
-            <td> 0.00</td>
+            <td>{{ item.totalCobrar }}</td>
+            <td>{{ item.totalCobrado }}</td>
+            <td>{{ item.totalCobradoParcial }}</td>
+            <td>{{ item.totalCobradoCompleto }}</td>
+            <td>{{ item.totalNoPagado }}</td>
+            <td>{{ item.totalSaldoPorPagar }}</td>
+            <td>{{ item.nivelRecaudacion }}</td>
+            <td>{{ item.nivelSaldoPendiente }}</td>
+          </tr>
+          <tr class="text-center">
+            <td> &nbsp;</td>
+            <td>{{ $totalCobrar }}</td>
+            <td>{{ $totalCobrado }}</td>
+            <td>{{ $totalCobradoParcial }}</td>
+            <td>{{ $totalCobradoCompleto }}</td>
+            <td>{{ $totalNoPagado }}</td>
+            <td>{{ $totalSaldoPorPagar }}</td>
+            <td>{{ $nivelRecaudacion }}</td>
+            <td>{{ $nivelSaldoPendiente }}</td>
           </tr>
           </tbody>
         </table>
@@ -264,16 +280,107 @@
           </tr>
           </thead>
           <tbody>
+          <tr class="text-center" *ngFor="let item of itemsDolares; let i = index">
+            <td>{{ item.gestor }}</td>
+            <td>{{ item.totalCobrar }}</td>
+            <td>{{ item.totalCobrado }}</td>
+            <td>{{ item.totalCobradoParcial }}</td>
+            <td>{{ item.totalCobradoCompleto }}</td>
+            <td>{{ item.totalNoPagado }}</td>
+            <td>{{ item.totalSaldoPorPagar }}</td>
+            <td>{{ item.nivelRecaudacion }}</td>
+            <td>{{ item.nivelSaldoPendiente }}</td>
+          </tr>
+          <tr class="text-center">
+            <td> &nbsp;</td>
+            <td>{{ $totalCobrarDol }}</td>
+            <td>{{ $totalCobradoDol }}</td>
+            <td>{{ $totalCobradoParcialDol }}</td>
+            <td>{{ $totalCobradoCompletoDol }}</td>
+            <td>{{ $totalNoPagadoDol }}</td>
+            <td>{{ $totalSaldoPorPagarDol }}</td>
+            <td>{{ $nivelRecaudacionDol }}</td>
+            <td>{{ $nivelSaldoPendienteDol }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+          <label>Resumen cantidad</label>
+        </div>
+      </div>
+      <div class="col-12"  *ngIf="$type == 1">
+        <label>Moneda: Soles</label>
+        <table  class="table table-bordered table-responsive">
+          <thead>
+          <tr class="text-center">
+            <th>Gestor</th>
+            <th>Total a cobrar</th>
+            <th>Total cobrado</th>
+            <th>Total cobrado parcial</th>
+            <th>Total cobrado completo</th>
+            <th>Total no pagado</th>
+            <th>Nivel de recaudacion</th>
+          </tr>
+          </thead>
+          <tbody>
           <tr class="text-center" *ngFor="let item of itemsSoles; let i = index">
             <td>{{ item.gestor }}</td>
-            <td> 0.00</td>
-            <td> 0.00</td>
-            <td> 0.00</td>
-            <td> 0.00</td>
-            <td> 0.00</td>
-            <td> 0.00</td>
-            <td> 0.00</td>
-            <td> 0.00</td>
+            <td>{{ item.cantidadCobrar }}</td>
+            <td>{{ item.cantidadCobrado }}</td>
+            <td>{{ item.cantidadCobradoParcial }}</td>
+            <td>{{ item.cantidadCobradoCompleto }}</td>
+            <td>{{ item.cantidadNoPagada }}</td>
+            <td>{{ item.nivelRecaudacionCan }}</td>
+          </tr>
+          <tr class="text-center">
+            <td> &nbsp;</td>
+            <td>{{ $cantidadCobrar }}</td>
+            <td>{{ $cantidadCobrado }}</td>
+            <td>{{ $cantidadCobradoParcial }}</td>
+            <td>{{ $cantidadCobradoCompleto }}</td>
+            <td>{{ $cantidadNoPagada }}</td>
+            <td>{{ $nivelRecaudacionCan }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-12"  *ngIf="$type == 2">
+        <label>Moneda: Soles</label>
+        <table  class="table table-bordered table-responsive">
+          <thead>
+          <tr class="text-center">
+            <th>Gestor</th>
+            <th>Total a cobrar</th>
+            <th>Total cobrado</th>
+            <th>Total cobrado parcial</th>
+            <th>Total cobrado completo</th>
+            <th>Total no pagado</th>
+            <th>Nivel de recaudacion</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="text-center" *ngFor="let item of itemsDolares; let i = index">
+            <td>{{ item.gestor }}</td>
+            <td>{{ item.cantidadCobrar }}</td>
+            <td>{{ item.cantidadCobrado }}</td>
+            <td>{{ item.cantidadCobradoParcial }}</td>
+            <td>{{ item.cantidadCobradoCompleto }}</td>
+            <td>{{ item.cantidadNoPagada }}</td>
+            <td>{{ item.nivelRecaudacionCan }}</td>
+          </tr>
+          <tr class="text-center">
+            <td> &nbsp;</td>
+            <td>{{ $cantidadCobrarDol }}</td>
+            <td>{{ $cantidadCobradoDol }}</td>
+            <td>{{ $cantidadCobradoParcialDol }}</td>
+            <td>{{ $cantidadCobradoCompletoDol }}</td>
+            <td>{{ $cantidadNoPagadaDol }}</td>
+            <td>{{ $nivelRecaudacionCanDol }}</td>
           </tr>
           </tbody>
         </table>

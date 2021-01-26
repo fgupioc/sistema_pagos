@@ -6,8 +6,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ReportesService} from '../../../servicios/reportes/reportes.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import Swal from 'sweetalert2';
-import {GestorMoneda} from '../../../interfaces/reportes/bitacora-gestiones/gestor-moneda';
-import {GestorGestiones} from '../../../interfaces/reportes/bitacora-gestiones/gestor-gestiones';
 
 @Component({
   selector: 'app-resumen-resultados-por-gestor',
@@ -24,6 +22,36 @@ export class ResumenResultadosPorGestorComponent implements OnInit {
   itemsDolares: any[] = [];
   $gestiones: any[] = [];
   $type: number;
+
+  $totalCobrar = 0;
+  $totalCobrado = 0;
+  $totalCobradoParcial = 0;
+  $totalCobradoCompleto = 0;
+  $totalNoPagado = 0;
+  $totalSaldoPorPagar = 0;
+  $nivelRecaudacion = 0;
+  $nivelSaldoPendiente = 0;
+  $cantidadCobrar = 0;
+  $cantidadCobrado = 0;
+  $cantidadCobradoParcial = 0;
+  $cantidadCobradoCompleto = 0;
+  $cantidadNoPagada = 0;
+  $nivelRecaudacionCan = 0;
+
+  $totalCobrarDol = 0;
+  $totalCobradoDol = 0;
+  $totalCobradoParcialDol = 0;
+  $totalCobradoCompletoDol = 0;
+  $totalNoPagadoDol = 0;
+  $totalSaldoPorPagarDol = 0;
+  $nivelRecaudacionDol = 0;
+  $nivelSaldoPendienteDol = 0;
+  $cantidadCobrarDol = 0;
+  $cantidadCobradoDol = 0;
+  $cantidadCobradoParcialDol = 0;
+  $cantidadCobradoCompletoDol = 0;
+  $cantidadNoPagadaDol = 0;
+  $nivelRecaudacionCanDol = 0;
 
   constructor(
     private reportesService: ReportesService,
@@ -55,7 +83,7 @@ export class ResumenResultadosPorGestorComponent implements OnInit {
       res => {
         this.itemsSoles = res.itemsSoles;
         this.itemsDolares = res.itemsDolares;
-        console.log(this.itemsSoles);
+        this.calcular(this.itemsSoles, this.itemsDolares);
         setTimeout(() => this.initQuery(), 200);
         this.spinner.hide();
       },
@@ -91,7 +119,7 @@ export class ResumenResultadosPorGestorComponent implements OnInit {
 
   download() {
     const {start, finish} = this.formSearch.getRawValue();
-    this.reportesService.getUrlReporteBitacoraGestion(start, finish).subscribe(
+    this.reportesService.generarExcelResumenResultadosPorGestor(start, finish).subscribe(
       response => {
         const blob = new Blob([response],
           {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'});
@@ -102,7 +130,7 @@ export class ResumenResultadosPorGestorComponent implements OnInit {
           const a = document.createElement('a');
           a.href = objectUrl;
           a.target = '_blank';
-          a.download = 'reporte-bitacora-de-gestiones-' + new Date().getTime();
+          a.download = 'exportar-resumen-resultados-por-gestor-' + new Date().getTime();
           document.body.appendChild(a);
           a.click();
           setTimeout(() => {
@@ -111,5 +139,74 @@ export class ResumenResultadosPorGestorComponent implements OnInit {
         }
       }
     );
+  }
+
+  private calcular(itemsSoles: any[], itemsDolares: any[]) {
+    this.$totalCobrar = 0;
+    this.$totalCobrado = 0;
+    this.$totalCobradoParcial = 0;
+    this.$totalCobradoCompleto = 0;
+    this.$totalNoPagado = 0;
+    this.$totalSaldoPorPagar = 0;
+    this.$nivelRecaudacion = 0;
+    this.$nivelSaldoPendiente = 0;
+    this.$cantidadCobrar = 0;
+    this.$cantidadCobrado = 0;
+    this.$cantidadCobradoParcial = 0;
+    this.$cantidadCobradoCompleto = 0;
+    this.$cantidadNoPagada = 0;
+    this.$nivelRecaudacionCan = 0;
+
+
+    this.$totalCobrarDol = 0;
+    this.$totalCobradoDol = 0;
+    this.$totalCobradoParcialDol = 0;
+    this.$totalCobradoCompletoDol = 0;
+    this.$totalNoPagadoDol = 0;
+    this.$totalSaldoPorPagarDol = 0;
+    this.$nivelRecaudacionDol = 0;
+    this.$nivelSaldoPendienteDol = 0;
+    this.$cantidadCobrarDol = 0;
+    this.$cantidadCobradoDol = 0;
+    this.$cantidadCobradoParcialDol = 0;
+    this.$cantidadCobradoCompletoDol = 0;
+    this.$cantidadNoPagadaDol = 0;
+    this.$nivelRecaudacionCanDol = 0;
+
+    for (const item of itemsSoles) {
+      this.$totalCobrar += item.totalCobrar;
+      this.$totalCobrado += item.totalCobrado;
+      this.$totalCobradoParcial += item.totalCobradoParcial;
+      this.$totalCobradoCompleto += item.totalCobradoCompleto;
+      this.$totalNoPagado += item.totalNoPagado;
+      this.$totalSaldoPorPagar += item.totalSaldoPorPagar;
+      this.$nivelRecaudacion += item.nivelRecaudacion;
+      this.$nivelSaldoPendiente += item.nivelSaldoPendiente;
+
+      this.$cantidadCobrar += item.cantidadCobrar;
+      this.$cantidadCobrado += item.cantidadCobrado;
+      this.$cantidadCobradoParcial += item.cantidadCobradoParcial;
+      this.$cantidadCobradoCompleto += item.cantidadCobradoCompleto;
+      this.$cantidadNoPagada += item.cantidadNoPagada;
+      this.$nivelRecaudacionCan += item.nivelRecaudacionCan;
+
+    }
+
+    for (const item of itemsSoles) {
+      this.$totalCobrarDol += item.totalCobrar;
+      this.$totalCobradoDol += item.totalCobrado;
+      this.$totalCobradoParcialDol += item.totalCobradoParcial;
+      this.$totalCobradoCompletoDol += item.totalCobradoCompleto;
+      this.$totalNoPagadoDol += item.totalNoPagado;
+      this.$totalSaldoPorPagarDol += item.totalSaldoPorPagar;
+      this.$nivelRecaudacionDol += item.nivelRecaudacion;
+      this.$nivelSaldoPendienteDol += item.nivelSaldoPendiente;
+      this.$cantidadCobrarDol = item.cantidadCobrarDol;
+      this.$cantidadCobradoDol = item.cantidadCobradoDol;
+      this.$cantidadCobradoParcialDol = item.cantidadCobradoParcialDol;
+      this.$cantidadCobradoCompletoDol = item.cantidadCobradoCompletoDol;
+      this.$cantidadNoPagadaDol = item.cantidadNoPagadaDol;
+      this.$nivelRecaudacionCanDol = item.nivelRecaudacionCanDol;
+    }
   }
 }
