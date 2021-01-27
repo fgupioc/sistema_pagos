@@ -72,10 +72,6 @@ export class DetalleCarteraNoAsignadaComponent implements OnInit {
     }
   }
 
-  seleccionado(items: GestorGestiones[]) {
-
-  }
-
   selected(html: any) {
     if ($('.nested.tabla').has('.active')) {
       $('.nested.tabla').removeClass('active');
@@ -85,7 +81,7 @@ export class DetalleCarteraNoAsignadaComponent implements OnInit {
 
   download() {
     const {start, finish} = this.formSearch.getRawValue();
-    this.reportesService.getUrlReporteBitacoraGestion(start, finish).subscribe(
+    this.reportesService.generarExcelDetalleCarteraNoAsignada(start, finish).subscribe(
       response => {
         const blob = new Blob([response],
           {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'});
@@ -96,7 +92,7 @@ export class DetalleCarteraNoAsignadaComponent implements OnInit {
           const a = document.createElement('a');
           a.href = objectUrl;
           a.target = '_blank';
-          a.download = 'reporte-bitacora-de-gestiones-' + new Date().getTime();
+          a.download = 'detalle-cartera-no-asignada-' + new Date().getTime();
           document.body.appendChild(a);
           a.click();
           setTimeout(() => {

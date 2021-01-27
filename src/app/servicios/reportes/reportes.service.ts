@@ -20,8 +20,13 @@ export class ReportesService {
   getUrlRelacionGestionesRealizadas(start: any, finish: any): Observable<any> {
     return this.http.get(`${this.apiUrl}exportar-relacion-gestiones-realizadas/${start}/${finish}`, {responseType: 'arraybuffer'});
   }
+
   generarExcelResumenResultadosPorGestor(start: any, finish: any): Observable<any> {
     return this.http.get(`${this.apiUrl}exportar-resumen-resultados-por-gestor/${start}/${finish}`, {responseType: 'arraybuffer'});
+  }
+
+  generarExcelDetalleCarteraNoAsignada(start: any, finish: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}exportar-detalle-cartera-no-asignada/${start}/${finish}`, {responseType: 'arraybuffer'});
   }
 
   bitacoraGestiones(start: any, finish: any): Observable<any> {
