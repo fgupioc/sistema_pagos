@@ -183,7 +183,7 @@ const routes: Routes = [
             {path: 'bitacora-de-gestiones', component: BitacoraGestionesComponent},
             {path: 'relacion-gestiones-realizadas', component: RelacionGestionesRealizadasComponent},
             {path: 'resumen-de-resultados-por-gestor', component: ResumenResultadosPorGestorComponent},
-            {path: 'detalle-de-cartera-no-asignada', component: DetalleCarteraNoAsignadaComponent},
+            {path: 'detalle-cartera-no-asignada', component: DetalleCarteraNoAsignadaComponent},
           ]
         }
       ]

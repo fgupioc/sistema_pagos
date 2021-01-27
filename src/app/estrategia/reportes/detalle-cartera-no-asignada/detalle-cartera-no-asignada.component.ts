@@ -6,6 +6,7 @@ import {ReportesService} from '../../../servicios/reportes/reportes.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import Swal from 'sweetalert2';
+import {GestorGestiones} from "../../../interfaces/reportes/bitacora-gestiones/gestor-gestiones";
 
 @Component({
   selector: 'app-detalle-cartera-no-asignada',
@@ -51,10 +52,58 @@ export class DetalleCarteraNoAsignadaComponent implements OnInit {
       res => {
         this.itemsSoles = res.itemsSoles;
         this.itemsDolares = res.itemsDolares;
+        setTimeout(() => this.initQuery(), 200);
         this.spinner.hide();
       },
       err => this.spinner.hide()
     );
   }
 
+
+  initQuery() {
+    const toggler = document.getElementsByClassName('caret');
+    let i;
+
+    for (i = 0; i < toggler.length; i++) {
+      toggler[i].addEventListener('click', function() {
+        this.parentElement.querySelector('.nested').classList.toggle('active');
+        this.classList.toggle('caret-down');
+      });
+    }
+  }
+
+  seleccionado(items: GestorGestiones[]) {
+
+  }
+
+  selected(html: any) {
+    if ($('.nested.tabla').has('.active')) {
+      $('.nested.tabla').removeClass('active');
+    }
+    $(html).find('.nested.tabla').addClass('active');
+  }
+
+  download() {
+    const {start, finish} = this.formSearch.getRawValue();
+    this.reportesService.getUrlReporteBitacoraGestion(start, finish).subscribe(
+      response => {
+        const blob = new Blob([response],
+          {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'});
+        const objectUrl = (window.URL).createObjectURL(blob);
+        if (navigator.msSaveBlob) {
+          navigator.msSaveBlob(blob, 'companyUsers.xlsx');
+        } else {
+          const a = document.createElement('a');
+          a.href = objectUrl;
+          a.target = '_blank';
+          a.download = 'reporte-bitacora-de-gestiones-' + new Date().getTime();
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(() => {
+            document.body.removeChild(a);
+          }, 3000);
+        }
+      }
+    );
+  }
 }
