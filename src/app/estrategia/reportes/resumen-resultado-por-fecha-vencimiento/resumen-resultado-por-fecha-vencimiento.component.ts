@@ -1,18 +1,18 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {DataTableDirective} from 'angular-datatables';
-import {CONST} from '../../../comun/CONST';
 import {ReportesService} from '../../../servicios/reportes/reportes.service';
 import {NgxSpinnerService} from 'ngx-spinner';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {CONST} from '../../../comun/CONST';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-detalle-cartera-no-asignada',
-  templateUrl: './detalle-cartera-no-asignada.component.html',
-  styleUrls: ['./detalle-cartera-no-asignada.component.css']
+  selector: 'app-resumen-resultado-por-fecha-vencimiento',
+  templateUrl: './resumen-resultado-por-fecha-vencimiento.component.html',
+  styleUrls: ['./resumen-resultado-por-fecha-vencimiento.component.css']
 })
-export class DetalleCarteraNoAsignadaComponent implements OnInit {
+export class ResumenResultadoPorFechaVencimientoComponent implements OnInit {
   formSearch: FormGroup;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -47,11 +47,10 @@ export class DetalleCarteraNoAsignadaComponent implements OnInit {
 
   loadList(start, finish) {
     this.spinner.show();
-    this.reportesService.datosCarterasNoAsignadas(start, finish).subscribe(
+    this.reportesService.datosResumenResultadoPorFechaVecimiento(start, finish).subscribe(
       res => {
         this.itemsSoles = res.itemsSoles;
         this.itemsDolares = res.itemsDolares;
-        setTimeout(() => this.initQuery(), 200);
         this.spinner.hide();
       },
       err => this.spinner.hide()
@@ -59,46 +58,33 @@ export class DetalleCarteraNoAsignadaComponent implements OnInit {
   }
 
 
-  initQuery() {
-    const toggler = document.getElementsByClassName('caret');
-    let i;
-
-    for (i = 0; i < toggler.length; i++) {
-      toggler[i].addEventListener('click', function() {
-        this.parentElement.querySelector('.nested').classList.toggle('active');
-        this.classList.toggle('caret-down');
-      });
-    }
-  }
-
-  selected(html: any) {
-    if ($('.nested.tabla').has('.active')) {
-      $('.nested.tabla').removeClass('active');
-    }
-    $(html).find('.nested.tabla').addClass('active');
-  }
-
   download() {
     const {start, finish} = this.formSearch.getRawValue();
-    this.reportesService.generarExcelDetalleCarteraNoAsignada(start, finish).subscribe(
+    this.spinner.show();
+    this.reportesService.generarExcelResumenResultadoPorFechaVecimiento(start, finish).subscribe(
       response => {
         const blob = new Blob([response],
           {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'});
         const objectUrl = (window.URL).createObjectURL(blob);
         if (navigator.msSaveBlob) {
-          navigator.msSaveBlob(blob, 'companyUsers.xlsx');
+          navigator.msSaveBlob(blob, 'resumen-de-resultado-por-fecha-vencimiento.xlsx');
         } else {
           const a = document.createElement('a');
           a.href = objectUrl;
           a.target = '_blank';
-          a.download = 'detalle-cartera-no-asignada-' + new Date().getTime();
+          a.download = 'resumen-de-resultado-por-fecha-vencimiento-' + new Date().getTime();
           document.body.appendChild(a);
           a.click();
           setTimeout(() => {
             document.body.removeChild(a);
           }, 3000);
         }
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
       }
     );
   }
+
 }

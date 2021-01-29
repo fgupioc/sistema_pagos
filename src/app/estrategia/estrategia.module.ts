@@ -58,6 +58,7 @@ import { BitacoraGestionesComponent } from './reportes/bitacora-gestiones/bitaco
 import { RelacionGestionesRealizadasComponent } from './reportes/relacion-gestiones-realizadas/relacion-gestiones-realizadas.component';
 import { ResumenResultadosPorGestorComponent } from './reportes/resumen-resultados-por-gestor/resumen-resultados-por-gestor.component';
 import { DetalleCarteraNoAsignadaComponent } from './reportes/detalle-cartera-no-asignada/detalle-cartera-no-asignada.component';
+import { ResumenResultadoPorFechaVencimientoComponent } from './reportes/resumen-resultado-por-fecha-vencimiento/resumen-resultado-por-fecha-vencimiento.component';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -103,7 +104,8 @@ const ngWizardConfig: NgWizardConfig = {
     BitacoraGestionesComponent,
     RelacionGestionesRealizadasComponent,
     ResumenResultadosPorGestorComponent,
-    DetalleCarteraNoAsignadaComponent
+    DetalleCarteraNoAsignadaComponent,
+    ResumenResultadoPorFechaVencimientoComponent
   ],
   imports: [
     CommonModule,

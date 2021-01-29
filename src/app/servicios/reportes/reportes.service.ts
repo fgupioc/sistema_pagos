@@ -29,6 +29,11 @@ export class ReportesService {
     return this.http.get(`${this.apiUrl}exportar-detalle-cartera-no-asignada/${start}/${finish}`, {responseType: 'arraybuffer'});
   }
 
+
+  generarExcelResumenResultadoPorFechaVecimiento(start: any, finish: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}exportar-resumen-de-resultado-por-fecha-vencimiento/${start}/${finish}`, {responseType: 'arraybuffer'});
+  }
+
   bitacoraGestiones(start: any, finish: any): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}bitacora-de-gestiones`, {params: new HttpParams().set('start', start).set('finish', finish)});
   }
@@ -43,6 +48,10 @@ export class ReportesService {
 
   datosCarterasNoAsignadas(start: any, finish: any): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}datos-carteras-no-asignadas`, {params: new HttpParams().set('start', start).set('finish', finish)});
+  }
+
+  datosResumenResultadoPorFechaVecimiento(start: any, finish: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}resumen-de-resultado-por-fecha-vencimiento`, {params: new HttpParams().set('start', start).set('finish', finish)});
   }
 
   compromisosPagos(start: any, finish: any): Observable<any> {

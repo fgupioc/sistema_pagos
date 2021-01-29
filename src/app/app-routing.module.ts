@@ -48,6 +48,7 @@ import {BitacoraGestionesComponent} from './estrategia/reportes/bitacora-gestion
 import { RelacionGestionesRealizadasComponent } from './estrategia/reportes/relacion-gestiones-realizadas/relacion-gestiones-realizadas.component';
 import { ResumenResultadosPorGestorComponent } from './estrategia/reportes/resumen-resultados-por-gestor/resumen-resultados-por-gestor.component';
 import {DetalleCarteraNoAsignadaComponent} from './estrategia/reportes/detalle-cartera-no-asignada/detalle-cartera-no-asignada.component';
+import {ResumenResultadoPorFechaVencimientoComponent} from './estrategia/reportes/resumen-resultado-por-fecha-vencimiento/resumen-resultado-por-fecha-vencimiento.component';
 
 
 const A = Autorizacion;
@@ -184,6 +185,7 @@ const routes: Routes = [
             {path: 'relacion-gestiones-realizadas', component: RelacionGestionesRealizadasComponent},
             {path: 'resumen-de-resultados-por-gestor', component: ResumenResultadosPorGestorComponent},
             {path: 'detalle-cartera-no-asignada', component: DetalleCarteraNoAsignadaComponent},
+            {path: 'resumen-resultados-por-fecha-de-vencimiento', component: ResumenResultadoPorFechaVencimientoComponent},
           ]
         }
       ]
