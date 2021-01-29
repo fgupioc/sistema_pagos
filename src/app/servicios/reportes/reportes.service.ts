@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {CompromisoDePago} from '../../models/reportes/compromiso-de-pago';
 import {map} from 'rxjs/operators';
+import {PagosRealizadosPorDia} from '../../models/reportes/pagos-realizados-por-dia';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,11 @@ export class ReportesService {
 
   generarExcelCompromisoDePago(start: any, finish: any): Observable<any> {
     return this.http.get(`${this.apiUrl}exportar-compromisos-de-pagos/${start}/${finish}`, {responseType: 'arraybuffer'});
+  }
+
+
+  generarExcelPagoRealizadoPorDia(start: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}exportar-pagos-realizados-por-dia/${start}`, {responseType: 'arraybuffer'});
   }
 
   bitacoraGestiones(start: any, finish: any): Observable<any> {
@@ -77,8 +83,16 @@ export class ReportesService {
       }));
   }
 
-  pagosRealizadosPorDia(start: any, finish: any): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}pagos-realizados-por-dia`, {params: new HttpParams().set('start', start).set('finish', finish)});
+  pagosRealizadosPorDia(start: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}pagos-realizados-por-dia`, {params: new HttpParams().set('start', start)})
+      .pipe(map(res => {
+        let itemsSsole: PagosRealizadosPorDia[] = [];
+        if (res.itemsSoles) {
+          itemsSsole = res.itemsSoles.map(item => new PagosRealizadosPorDia(item));
+        }
+        res.itemsSoles = itemsSsole;
+        return res;
+      }));
   }
 
 

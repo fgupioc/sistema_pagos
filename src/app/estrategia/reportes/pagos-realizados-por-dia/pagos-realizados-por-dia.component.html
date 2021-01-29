@@ -1,0 +1,103 @@
+<div class="card">
+  <div class="card-header">
+    <h2 class="card-title text-uppercase">Pagos realizados por día</h2>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12 col-md-8 mx-auto">
+        <div class="form-inline" [formGroup]="formSearch">
+          <div class="form-group">
+            <label class=" d-block">Fecha Inicio</label>
+            <input type="date" formControlName="start" class="form-control" placeholder="Fecha Inicio" name="dpFromDate">
+          </div>
+          <div class="form-group d-block ml-4">
+            <label>&nbsp;</label>
+            <button class="btn btn-primary mr-4" (click)="search()"> <i class="fa fa-search"></i> Buscar</button>
+            <button (click)="download()" class="btn btn-outline-success" *ngIf="itemsSoles.length > 0 "><i class="fa fa-file-excel-o"></i> Exportar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="itemsSoles.length > 0 ">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" class="table table-bordered ">
+            <thead>
+            <tr class="text-center">
+              <td>N°</td>
+              <td>Codigo del socio</td>
+              <td>Nombres</td>
+              <td>Apellidos</td>
+              <td>Kardex</td>
+              <td>Moneda</td>
+              <td>Tipo de producto</td>
+              <td>Monto del préstamo</td>
+              <td>Deuda total</td>
+              <td>Saldo de capital</td>
+              <td>Fecha de vencimiento</td>
+              <td>Cantidad de cuota</td>
+              <td>Número de cuota del mes</td>
+              <td>Cantidad de cuotas vencidas</td>
+              <td>Monto de la cuota del mes</td>
+              <td>Monto de las cuotas vencidas</td>
+              <td>Total a pagar la fecha</td>
+              <td>Monto pagado</td>
+              <td>Monto pagado de cuotas vencidas</td>
+              <td>Monto pagado de cuotas adelantadas</td>
+              <td>Tipo de pago</td>
+              <td>Reprogramado</td>
+              <td>Tipo de socio</td>
+              <td>División</td>
+              <td>Banca</td>
+              <td>Sector economico</td>
+              <td>Modalidad de pago</td>
+              <td>Cantidad de IF</td>
+              <td>Líneas/Préstamos en IF</td>
+              <td>Deuda total de líneas en IF</td>
+              <td>Deuda total préstamos en IF</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center" *ngFor="let item of itemsSoles; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.socioCodigo }}</td>
+              <td>{{ item.socioNombres }}</td>
+              <td>{{ item.socioApellidos }}</td>
+              <td>{{ item.kardex }}</td>
+              <td>{{ item.moneda }}</td>
+              <td>{{ item.tipoProducto }}</td>
+              <td>{{ item.montoPrestamo }}</td>
+              <td>{{ item.deudaTotal }}</td>
+              <td>{{ item.saldoCapital }}</td>
+              <td>{{ item.fechaVencimiento | date : 'dd-MM-yyyy' }}</td>
+              <td>{{ item.cantidadCuotas }}</td>
+              <td>{{ item.numeroCuotaDelMes }}</td>
+              <td>{{ item.cantidadCuotasVencidas }}</td>
+              <td>{{ item.montoDeLaCuotaDelMes }}</td>
+              <td>{{ item.montoDeLasCuotasVencidas }}</td>
+              <td>{{ item.totalPagarFecha }}</td>
+              <td>{{ item.montoPagado }}</td>
+              <td>{{ item.montoPagadoDeCuotasVencidas }}</td>
+              <td>{{ item.montoPagadoDeCuotasAdelantadas }}</td>
+              <td>{{ item.tipoPago }}</td>
+              <td>{{ item.reprogramado }}</td>
+              <td>{{ item.tipoSocio }}</td>
+              <td>{{ item.division }}</td>
+              <td>{{ item.banca }}</td>
+              <td>{{ item.sectorEconomico }}</td>
+              <td>{{ item.modalidadPago }}</td>
+              <td>{{ item.institucionFinanciera }}</td>
+              <td>{{ item.lineasPrestamoIF }}</td>
+              <td>{{ item.deudaTotalLineasIF }}</td>
+              <td>{{ item.deudaTotalPrestamosIF }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner></ngx-spinner>
+
