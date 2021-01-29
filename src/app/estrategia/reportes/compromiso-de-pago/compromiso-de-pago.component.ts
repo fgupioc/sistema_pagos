@@ -84,7 +84,7 @@ export class CompromisoDePagoComponent implements OnInit {
   download() {
     const {start, finish} = this.formSearch.getRawValue();
     this.spinner.show();
-    this.reportesService.generarExcelResumenResultadoPorFechaVecimiento(start, finish).subscribe(
+    this.reportesService.generarExcelCompromisoDePago(start, finish).subscribe(
       response => {
         const blob = new Blob([response],
           {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'});
@@ -95,7 +95,7 @@ export class CompromisoDePagoComponent implements OnInit {
           const a = document.createElement('a');
           a.href = objectUrl;
           a.target = '_blank';
-          a.download = 'compromisosPagos-' + new Date().getTime();
+          a.download = 'compromisos-de-pagos-' + new Date().getTime();
           document.body.appendChild(a);
           a.click();
           setTimeout(() => {

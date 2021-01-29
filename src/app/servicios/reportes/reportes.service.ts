@@ -36,6 +36,10 @@ export class ReportesService {
     return this.http.get(`${this.apiUrl}exportar-resumen-de-resultado-por-fecha-vencimiento/${start}/${finish}`, {responseType: 'arraybuffer'});
   }
 
+  generarExcelCompromisoDePago(start: any, finish: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}exportar-compromisos-de-pagos/${start}/${finish}`, {responseType: 'arraybuffer'});
+  }
+
   bitacoraGestiones(start: any, finish: any): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}bitacora-de-gestiones`, {params: new HttpParams().set('start', start).set('finish', finish)});
   }
