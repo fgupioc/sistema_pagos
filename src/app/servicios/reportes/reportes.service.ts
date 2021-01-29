@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {CompromisoDePago} from '../../models/reportes/compromiso-de-pago';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -55,7 +57,20 @@ export class ReportesService {
   }
 
   compromisosPagos(start: any, finish: any): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}compromisos-pagos`, {params: new HttpParams().set('start', start).set('finish', finish)});
+    return this.http.get<any>(`${this.apiUrl}compromisos-de-pagos`, {params: new HttpParams().set('start', start).set('finish', finish)})
+      .pipe(map(res => {
+        let itemsSsole: CompromisoDePago[] = [];
+        let itemsDolares: CompromisoDePago[] = [];
+        if (res.itemsSoles) {
+          itemsSsole = res.itemsSoles.map(item => new CompromisoDePago(item));
+        }
+        if (res.itemsDolares) {
+          itemsDolares = res.itemsDolares.map(item => new CompromisoDePago(item));
+        }
+        res.itemsSoles = itemsSsole;
+        res.itemsDolares = itemsDolares;
+        return res;
+      }));
   }
 
   pagosRealizadosPorDia(start: any, finish: any): Observable<any> {

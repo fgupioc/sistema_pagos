@@ -49,6 +49,8 @@ import { RelacionGestionesRealizadasComponent } from './estrategia/reportes/rela
 import { ResumenResultadosPorGestorComponent } from './estrategia/reportes/resumen-resultados-por-gestor/resumen-resultados-por-gestor.component';
 import {DetalleCarteraNoAsignadaComponent} from './estrategia/reportes/detalle-cartera-no-asignada/detalle-cartera-no-asignada.component';
 import {ResumenResultadoPorFechaVencimientoComponent} from './estrategia/reportes/resumen-resultado-por-fecha-vencimiento/resumen-resultado-por-fecha-vencimiento.component';
+import { CompromisoPagoComponent } from './socio/views/respuestas/compromiso-pago/compromiso-pago.component';
+import { CompromisoDePagoComponent } from './estrategia/reportes/compromiso-de-pago/compromiso-de-pago.component';
 
 
 const A = Autorizacion;
@@ -186,6 +188,7 @@ const routes: Routes = [
             {path: 'resumen-de-resultados-por-gestor', component: ResumenResultadosPorGestorComponent},
             {path: 'detalle-cartera-no-asignada', component: DetalleCarteraNoAsignadaComponent},
             {path: 'resumen-resultados-por-fecha-de-vencimiento', component: ResumenResultadoPorFechaVencimientoComponent},
+            {path: 'compromiso-de-pago', component: CompromisoDePagoComponent},
           ]
         }
       ]

@@ -59,6 +59,7 @@ import { RelacionGestionesRealizadasComponent } from './reportes/relacion-gestio
 import { ResumenResultadosPorGestorComponent } from './reportes/resumen-resultados-por-gestor/resumen-resultados-por-gestor.component';
 import { DetalleCarteraNoAsignadaComponent } from './reportes/detalle-cartera-no-asignada/detalle-cartera-no-asignada.component';
 import { ResumenResultadoPorFechaVencimientoComponent } from './reportes/resumen-resultado-por-fecha-vencimiento/resumen-resultado-por-fecha-vencimiento.component';
+import { CompromisoDePagoComponent } from './reportes/compromiso-de-pago/compromiso-de-pago.component';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -105,7 +106,8 @@ const ngWizardConfig: NgWizardConfig = {
     RelacionGestionesRealizadasComponent,
     ResumenResultadosPorGestorComponent,
     DetalleCarteraNoAsignadaComponent,
-    ResumenResultadoPorFechaVencimientoComponent
+    ResumenResultadoPorFechaVencimientoComponent,
+    CompromisoDePagoComponent
   ],
   imports: [
     CommonModule,
