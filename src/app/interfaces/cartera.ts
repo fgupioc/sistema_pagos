@@ -19,6 +19,7 @@ export interface Cartera {
   userUpdate: number;
   campos: GrupoCampo[];
   gestiones: Gestion[];
+  carteraGestions: any[];
 }
 
 export interface Moneda {

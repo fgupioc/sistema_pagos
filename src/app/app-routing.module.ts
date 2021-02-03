@@ -52,6 +52,8 @@ import {ResumenResultadoPorFechaVencimientoComponent} from './estrategia/reporte
 import { CompromisoPagoComponent } from './socio/views/respuestas/compromiso-pago/compromiso-pago.component';
 import { CompromisoDePagoComponent } from './estrategia/reportes/compromiso-de-pago/compromiso-de-pago.component';
 import {PagosRealizadosPorDiaComponent} from './estrategia/reportes/pagos-realizados-por-dia/pagos-realizados-por-dia.component';
+import {GestionCarteraComponent} from './estrategia/cartera/gestion-cartera/gestion-cartera.component';
+import {GestionCarteraEditarComponent} from './estrategia/cartera/gestion-cartera-editar/gestion-cartera-editar.component';
 
 
 const A = Autorizacion;
@@ -125,10 +127,12 @@ const routes: Routes = [
                 {path: 'cargar-credito', component: CarteraCargarCreditoComponent},
                 {path: 'cargar-credito/socios/:cargaCreditoId', component: CarteraCargarCreditoSociosComponent},
                 {path: 'cargar-credito/creditos/:cargaCreditoId', component: CarteraCargarCreditoCreditosComponent},
-                {path: 'crear-gestion', component: ActualizarGestionComponent},
-                {path: 'editar-gestion', component: ActualizarGestionComponent},
+                {path: 'gestion', component: GestionCarteraComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.CARTERA_ACTUALIZAR]}},
+                {path: 'gestion-actualizar', component: GestionCarteraEditarComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.CARTERA_ACTUALIZAR]}},
               ]
             },
+            {path: 'crear-gestion', component: ActualizarGestionComponent},
+            {path: 'editar-gestion', component: ActualizarGestionComponent},
             {path: 'notificaciones', component: EnviarNotificionComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.NOTIFICACION_LISTAR]}},
             {path: 'asignacion-cartera', component: AsignacionCarteraComponent},
             {path: 'asignacion-cartera/:ejecutivoUuid/configuracion', component: AsignarEtapasEjecutivoComponent},

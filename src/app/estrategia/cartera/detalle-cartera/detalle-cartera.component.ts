@@ -103,15 +103,14 @@ export class DetalleCarteraComponent implements OnInit {
   ) {
     const state = this.router.getCurrentNavigation().extras.state;
     if (!isNullOrUndefined(state)) {
-      //this.cartera = state.cartera;
-      this.codCartera =  state.cartera.codCartera;
+      // this.cartera = state.cartera;
+      this.codCartera = state.cartera.codCartera;
     } else {
       this.router.navigateByUrl('/auth/estrategia/carteras');
     }
   }
 
   ngOnInit() {
-
     this.loadAreas();
     this.listarTipoProductos();
     this.listarTipoBancas();
@@ -168,7 +167,7 @@ export class DetalleCarteraComponent implements OnInit {
       userUpdate: [{value: '', disabled: true}],
       estado: [{value: '', disabled: true}],
       campos: [],
-      gestiones: []
+      carteraGestions: [],
     });
     this.formAdicional = this.formBuilder.group({
       listaCampos: ['', [Validators.required]],
@@ -176,7 +175,7 @@ export class DetalleCarteraComponent implements OnInit {
       valorInicial: [''],
       valorFinal: [''],
     });
-    //this.getGestiones();
+    // this.getGestiones();
   }
 
   listarMondas() {
@@ -218,12 +217,13 @@ export class DetalleCarteraComponent implements OnInit {
     );
   }
 
-  getGestiones() {
+  listarGestiones() {
     this.spinner.show();
-    this.carteraService.getGestiones(String(this.cartera.codCartera)).subscribe(
+    this.carteraService.getGestiones('2').subscribe(
       response => {
         if (response.exito) {
           this.gestiones = response.objeto;
+          console.log(response.objeto);
         }
         this.spinner.hide();
       }
@@ -599,7 +599,6 @@ export class DetalleCarteraComponent implements OnInit {
       res => {
         if (res.exito) {
           this.cartera = res.cartera;
-          this.gestiones = this.cartera.gestiones;
           if (this.cartera.campos.length > 0) {
             const items = this.convertObject(this.cartera.campos);
             this.formAdicional.controls.listaCampos.setValue(items.listaCampos);
