@@ -31,10 +31,6 @@ export class AsignacionCarteraService {
   ) {
   }
 
-  getCartera(nombre: string): Observable<Respuesta> {
-    return this.http.get<any>(`${urlBase}/${nombre}/cartera`);
-  }
-
   getCarteras(): Observable<Respuesta> {
     return this.http.get<any>(`${urlBase}/carteras`);
   }
@@ -47,83 +43,6 @@ export class AsignacionCarteraService {
     return this.http.get<any>(`${urlBase}/${uuid}/ejecutivo`);
   }
 
-  convertToTreeviewItem(cartera: Cartera): TreeviewItem[] {
-    const gestiones: ITreeViewItem[] = [];
-
-    cartera.gestiones.forEach(gestion => {
-      const etapas: ITreeViewItem[] = [];
-      gestion.etapas.forEach(etapa => {
-        etapas.push({
-          text: etapa.nombre,
-          value: String(etapa.codEtapa),
-          checked: false,
-        });
-      });
-
-      gestiones.push({
-        text: gestion.nombre,
-        value: String(gestion.codGestion),
-        children: etapas,
-      });
-    });
-    const root: ITreeViewItem = {
-      text: cartera.nombre,
-      value: String(cartera.codCartera),
-      children: gestiones,
-    };
-
-    const itCategory = new TreeviewItem(root);
-    return [itCategory];
-  }
-
-  listarCamposByCartera(codCartera: any): Observable<Respuesta> {
-    return this.http.get<any>(`${urlBase}/${codCartera}/campos`);
-  }
-
-  convertCamposToTreeviewItem(items: any[], codCartera: number): TreeviewItem[] {
-    const childrens: ITreeViewItem[] = [];
-    let campoName: string;
-    let codCampo: string;
-
-    items.forEach(i => {
-      codCampo = i.codCampo;
-      if (i.codCampo != CONST.TABLE_INT_MONTO) {
-        childrens.push({
-          text: i.descripcion,
-          value: i.codGrupCampo,
-          checked: false
-        });
-        campoName = i.codCampo == CONST.TABLE_STR_LISTA_PRODUCTO_ABACO ? 'Tipo Crédito' : 'Sede';
-      } else {
-        campoName = 'Monto';
-        const hasta = i.hasta ? ' a ' + i.hasta : '';
-        childrens.push({
-          text: i.desde + hasta,
-          value: i.codGrupCampo,
-          checked: false
-        });
-      }
-    });
-
-    const campos: ITreeViewItem[] = [{
-      text: campoName,
-      value: codCampo,
-      children: childrens
-    }];
-
-    const root: ITreeViewItem = {
-      text: 'Campos Agrupados',
-      value: String(codCartera),
-      children: campos,
-    };
-
-    const itCategory = new TreeviewItem(root);
-    return [itCategory];
-  }
-
-  listarCreditosByCarteraAndEjecutivo(codCartera: any, codUsuario: any): Observable<Respuesta> {
-    return this.http.get<any>(`${urlBase}/cartera/${codCartera}/ejecutivo/${codUsuario}`);
-  }
 
   listaTipoCreditos(): Observable<TablaMaestra[]> {
     return this.http.get<any>(`${urlMaestro}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_TIPO_DE_CREDITO_ABACO)});
@@ -131,10 +50,6 @@ export class AsignacionCarteraService {
 
   listaSedes(): Observable<TablaMaestra[]> {
     return this.http.get<any>(`${urlMaestro}listarElementosPorCodTable`, {params: new HttpParams().set('codTable', CONST.TABLE_STR_LISTA_SEDE)});
-  }
-
-  getAlbums() {
-    return this.http.get<any[]>('https://jsonplaceholder.typicode.com/albums');
   }
 
   listarSociosByCartera(codCartera: any): Observable<any> {
@@ -200,10 +115,6 @@ export class AsignacionCarteraService {
 
   buscarCreditoPorNroCredito(nroCredito): Observable<Respuesta> {
     return this.http.post<Respuesta>(`${urlBase}/buscarCreditoPorNroCredito`, {}, {params: new HttpParams().set('nroCredito', nroCredito)});
-  }
-
-  obtenerEtapasAsignaciones(codAsignacion): Observable<any[]> {
-    return this.http.post<any[]>(`${urlBase}/obtenerEtapasAsignaciones`, {}, {params: new HttpParams().set('codAsignacion', codAsignacion)});
   }
 
   buscarCreditoAsignacionAccion(creditoId, asignacionId): Observable<any> {

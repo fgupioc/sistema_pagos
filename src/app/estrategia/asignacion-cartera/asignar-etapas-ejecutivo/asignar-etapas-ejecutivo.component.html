@@ -56,7 +56,7 @@
               <div class="col-12">
                 <ul class="todo-list ui-sortable">
                   <li *ngFor="let item of etapas">
-                    <label class="container-radio">{{ item.nombre }}
+                    <label class="container-radio">{{ item.nombre }} [{{ item.desde }} a {{ item.hasta }}]
                       <input type="radio" name="tasks" (change)="checkSelected($event, item)">
                       <span class="checkmark"></span>
                     </label>
