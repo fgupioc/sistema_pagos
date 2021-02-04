@@ -23,8 +23,12 @@ export class CarteraService {
     return this.http.get<any>(`${this.apiUrl}abaco`);
   }
 
-  getGestiones(codCartera: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}obtener-gestiones`, {params: new HttpParams().set('codCartera', codCartera)});
+  getGestionesPorCartera(codCartera: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}obtener-gestiones-por-cartera`, {params: new HttpParams().set('codCartera', codCartera)});
+  }
+
+  getGestiones(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}obtener-gestiones`);
   }
 
   listarCampos(): Observable<any> {

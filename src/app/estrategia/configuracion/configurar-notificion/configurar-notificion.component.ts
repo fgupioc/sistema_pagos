@@ -45,7 +45,7 @@ export class ConfigurarNotificionComponent implements OnInit {
     this.formulario = this.formBuilder.group({
       codCartera: ['', Validators.required],
       codGestion: ['', Validators.required],
-      codEtapa: ['', Validators.required]
+      codCarEtapa: ['', Validators.required]
     });
   }
 
@@ -69,12 +69,12 @@ export class ConfigurarNotificionComponent implements OnInit {
 
   cambioCartera() {
     this.mensajes = [];
-    this.formulario.controls.codEtapa.setValue('');
+    this.formulario.controls.codCarEtapa.setValue('');
     this.formulario.controls.codGestion.setValue('');
     this.spinner.show();
     const codCartera = this.formulario.controls.codCartera.value;
     this.cartera = this.carteras.find(v => v.codCartera == codCartera);
-    this.carteraService.getGestiones(codCartera).subscribe(
+    this.carteraService.getGestionesPorCartera(codCartera).subscribe(
       response => {
         if (response.exito) {
           this.gestiones = response.objeto;
@@ -91,14 +91,14 @@ export class ConfigurarNotificionComponent implements OnInit {
     if (gestion) {
       this.etapas = gestion.etapas ? gestion.etapas : [];
     }
-    this.formulario.controls.codEtapa.setValue('');
+    this.formulario.controls.codCarEtapa.setValue('');
   }
 
   cambioEtapa() {
     this.spinner.show();
     this.mensajes = [];
-    const codEtapa = this.formulario.controls.codEtapa.value;
-    this.notificacionService.getNotificacionesPorEtapa(codEtapa).subscribe(
+    const codCarEtapa = this.formulario.controls.codCarEtapa.value;
+    this.notificacionService.getNotificacionesPorEtapa(codCarEtapa).subscribe(
       response => {
         this.mensajes = response;
         this.spinner.hide();
@@ -148,8 +148,8 @@ export class ConfigurarNotificionComponent implements OnInit {
 
   generarRango() {
     this.rangos = [];
-    const codEtapa = this.formulario.controls.codEtapa.value;
-    const etapaSelect: any = this.etapas.find(i => i.codEtapa == codEtapa);
+    const codCarEtapa = this.formulario.controls.codCarEtapa.value;
+    const etapaSelect: any = this.etapas.find(i => i.codEtapa == codCarEtapa);
     if (etapaSelect) {
       let c = 0;
       for (let i = etapaSelect.desde; i <= etapaSelect.hasta; i++) {

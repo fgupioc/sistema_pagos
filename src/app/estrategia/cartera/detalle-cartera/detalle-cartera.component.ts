@@ -220,7 +220,7 @@ export class DetalleCarteraComponent implements OnInit {
 
   listarGestiones() {
     this.spinner.show();
-    this.carteraService.getGestiones('2').subscribe(
+    this.carteraService.getGestiones().subscribe(
       response => {
         if (response.exito) {
           this.gestiones = response.objeto;

@@ -77,7 +77,7 @@ export class EnviarNotificionComponent implements OnInit {
     this.spinner.show();
     const codCartera = this.formulario.controls.codCartera.value;
     this.cartera = this.carteras.find(v => v.codCartera == codCartera);
-    this.carteraService.getGestiones(codCartera).subscribe(
+    this.carteraService.getGestionesPorCartera(codCartera).subscribe(
       response => {
         if (response.exito) {
           this.gestiones = response.objeto;
