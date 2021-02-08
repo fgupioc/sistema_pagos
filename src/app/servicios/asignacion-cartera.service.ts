@@ -152,4 +152,12 @@ export class AsignacionCarteraService {
   desactivarTareaComentario(actividadId: any): Observable<Respuesta> {
     return this.http.put<Respuesta>(`${urlBase}/desactivar-tarea-actividad`, {}, {params: new HttpParams().set('actividadId', actividadId)});
   }
+
+  listarEtapasPorCarteraGestion(codGestion: any) {
+    return this.http.get<any>(`${urlBase}/listarEtapasPorcarteraGestion`, {params: new HttpParams().set('id', codGestion)});
+  }
+
+  listarGestionesPorCartera(codCartera: any) {
+    return this.http.get<any>(`${urlBase}/listarGestionesPorCartera`, {params: new HttpParams().set('codCartera', codCartera)});
+  }
 }

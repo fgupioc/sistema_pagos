@@ -19,6 +19,8 @@ import {MaestroService} from '../../../servicios/sistema/maestro.service';
 import {Subject} from 'rxjs';
 import {DataTableDirective} from 'angular-datatables';
 import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
+import {CarteraGestion} from '../../../interfaces/asignacion-cartera/cartera-gestion';
+import {CarteraEtapa} from '../../../interfaces/asignacion-cartera/cartera-etapa';
 
 declare const $: any;
 
@@ -37,8 +39,8 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   carteras: Cartera[] = [];
   nombre: string;
   items: TreeviewItem[];
-  gestiones: Gestion[] = [];
-  etapas: Etapa[] = [];
+  gestiones: CarteraGestion[] = [];
+  etapas: CarteraEtapa[] = [];
 
   errors: string[] = [];
 
@@ -54,8 +56,8 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   /**********/
   ejecutivoSelected: any;
   carteraSelected: Cartera;
-  gestionSelected: Gestion;
-  etapasSelecionadas: Etapa[] = [];
+  gestionSelected: CarteraGestion;
+  etapasSelecionadas: CarteraEtapa[] = [];
   desde: any;
   hasta: any;
 
@@ -188,6 +190,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.asignacionService.getCarteras().subscribe(
       res => {
         if (res.exito && res.objeto) {
+          console.log(res.objeto);
           this.carteras = res.objeto as any[];
         } else {
           Swal.fire('Asignar', 'No se encontro la cartera o esta desactivada.', 'warning');
@@ -232,50 +235,57 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   }
 
   showGestion(cartera: Cartera, event?: Event) {
-    this.showSedes = true;
-    this.showTipoCredito = true;
-    this.showMontos = true;
-    this.gestionSelected = null;
-    this.etapasSelecionadas = [];
-    this.selectedSedes = [];
-    this.selectedTipoCreditos = [];
-    this.desde = null;
-    this.hasta = null;
-    this.frecuencia = null;
-    this.etapas = [];
-    this.sociosSeleccionados = [];
-    this.$creditos = [];
-    this.gestiones = cartera.gestiones;
-    this.carteraSelected = cartera;
-    this.$startDate = null;
-    this.$endDate = null;
-    this.$creditosCheched = [];
-    $('#daterange-btn .text-title').html(` Seleccione rango `);
+    this.spinner.show();
+    this.asignacionService.listarGestionesPorCartera(cartera.codCartera).subscribe(
+      gestiones => {
+        this.showSedes = true;
+        this.showTipoCredito = true;
+        this.showMontos = true;
+        this.gestionSelected = null;
+        this.etapasSelecionadas = [];
+        this.selectedSedes = [];
+        this.selectedTipoCreditos = [];
+        this.desde = null;
+        this.hasta = null;
+        this.frecuencia = null;
+        this.etapas = [];
+        this.sociosSeleccionados = [];
+        this.$creditos = [];
+        this.gestiones = gestiones;
+        this.carteraSelected = cartera;
+        this.$startDate = null;
+        this.$endDate = null;
+        this.$creditosCheched = [];
+        $('#daterange-btn .text-title').html(` Seleccione rango `);
 
-    if (cartera.campos[0].desde) {
-      this.showMontos = false;
-    } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_LISTA_PRODUCTO_ABACO) {
-      this.showProductos = false;
-    } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_LISTA_BANCA_ABACO) {
-      this.showBancas = false;
-    } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_TIPO_DIVISION_ABACO) {
-      this.showDivision = false;
-    } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_TIPO_COMERCIAL_ABACO) {
-      this.showComercios = false;
-    } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_TIPO_DE_SOCIO_ABACO) {
-      this.showSocios = false;
-    } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_CLASIFICACION_DEL_DEUDOR_ABACO) {
-      this.showClasificacionDeudor = false;
-    } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_LISTA_SEDE) {
-      this.showSedes = false;
-    } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_TIPO_DE_CREDITO_ABACO) {
-      this.showTipoCredito = false;
-    }
-    this.listarSociosByCartera(cartera.codCartera);
-    this.ngWizardService.next();
+        if (cartera.campos[0].desde) {
+          this.showMontos = false;
+        } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_LISTA_PRODUCTO_ABACO) {
+          this.showProductos = false;
+        } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_LISTA_BANCA_ABACO) {
+          this.showBancas = false;
+        } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_TIPO_DIVISION_ABACO) {
+          this.showDivision = false;
+        } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_TIPO_COMERCIAL_ABACO) {
+          this.showComercios = false;
+        } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_TIPO_DE_SOCIO_ABACO) {
+          this.showSocios = false;
+        } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_CLASIFICACION_DEL_DEUDOR_ABACO) {
+          this.showClasificacionDeudor = false;
+        } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_LISTA_SEDE) {
+          this.showSedes = false;
+        } else if (cartera.campos[0].codCampo == CONST.TABLE_STR_TIPO_DE_CREDITO_ABACO) {
+          this.showTipoCredito = false;
+        }
+        this.listarSociosByCartera(cartera.codCartera);
+        this.spinner.hide();
+        this.ngWizardService.next();
+      },
+      err => this.spinner.hide()
+    );
   }
 
-  showEtapa(gestion: Gestion, event?: Event) {
+  showEtapa(gestion: CarteraGestion, event?: Event) {
     this.etapasSelecionadas = [];
     this.selectedSedes = [];
     this.selectedTipoCreditos = [];
@@ -319,7 +329,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   }
 
 
-  checkSelected(event: any, item: Etapa) {
+  checkSelected(event: any, item: CarteraEtapa) {
     this.etapasSelecionadas = [];
     this.etapasSelecionadas.push(item);
     /*
@@ -388,7 +398,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.etapasSelecionadas.forEach(i => {
       etapaItems.push({
         codEtapa: i.codEtapa,
-        codGestion: i.codGestion
+        codGestion: i.codCarGestion
       });
     });
 
