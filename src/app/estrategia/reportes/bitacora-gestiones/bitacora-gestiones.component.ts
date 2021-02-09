@@ -122,6 +122,7 @@ export class BitacoraGestionesComponent implements OnInit {
   }
 
   download() {
+    this.spinner.show();
     const {start, finish} = this.formSearch.getRawValue();
     this.reportesService.getUrlReporteBitacoraGestion(start, finish).subscribe(
       response => {
@@ -141,6 +142,11 @@ export class BitacoraGestionesComponent implements OnInit {
             document.body.removeChild(a);
           }, 3000);
         }
+        this.spinner.hide();
+      }, 
+      err => {
+        console.error(err);
+        this.spinner.hide();
       }
     );
   }
