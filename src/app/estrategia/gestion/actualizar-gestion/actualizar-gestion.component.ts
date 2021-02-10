@@ -9,10 +9,11 @@ import {ToastrService} from 'ngx-toastr';
 import {isNullOrUndefined} from 'util';
 import {CONST} from '../../../comun/CONST';
 import {NgxSpinnerService} from 'ngx-spinner';
-import {Cartera} from '../../../interfaces/cartera';
+import {Cartera, Gestion} from '../../../interfaces/cartera';
 import {TablaMaestra} from '../../../interfaces/tabla-maestra';
 import {MaestroService} from '../../../servicios/sistema/maestro.service';
 import {FUNC} from '../../../comun/FUNC';
+import {GestionService} from '../../../servicios/estrategia/gestion.service';
 
 declare var $: any;
 
@@ -27,10 +28,11 @@ export class ActualizarGestionComponent implements OnInit {
   gestion: any;
   create: boolean;
   gestiones: any[] = [];
-  cartera: Cartera;
   areas: TablaMaestra[] = [];
   personaCreate: any;
   personaUpdate: any;
+  $etapas: any[] = [];
+  etapaEdit: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -39,20 +41,14 @@ export class ActualizarGestionComponent implements OnInit {
     public router: Router,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private maestroService: MaestroService
+    private maestroService: MaestroService,
+    private gestionService: GestionService
   ) {
-    if (this.router.getCurrentNavigation().extras.state !== undefined) {
-      if (this.router.getCurrentNavigation().extras.state.create) {
-        this.create = true;
-        this.cartera = this.router.getCurrentNavigation().extras.state.cartera;
-      } else {
-        this.gestion = this.router.getCurrentNavigation().extras.state.gestion;
-        this.cartera = this.router.getCurrentNavigation().extras.state.cartera;
-        this.create = false;
-      }
-      this.gestiones = this.router.getCurrentNavigation().extras.state.gestiones;
+    const state = router.getCurrentNavigation().extras.state;
+    if (state && !isNullOrUndefined(state.id)) {
+      this.obtenerGestion(state.id);
     } else {
-      this.router.navigate(['/auth/estrategia/carteras']);
+      router.navigateByUrl('/auth/configuracion/gestiones');
     }
   }
 
@@ -61,120 +57,21 @@ export class ActualizarGestionComponent implements OnInit {
     this.loadAreas();
 
     this.formGestion = this.formBuilder.group({
-      codGestion: [''],
-      codCartera: [''],
-      nombre: ['', [
-        Validators.required,
-        Validators.maxLength(100)
-      ]],
+      codArea: ['', [Validators.required]],
+      nombre: ['', [Validators.required]],
       desde: ['', [Validators.required]],
       hasta: ['', [Validators.required]],
-      codArea: ['', [Validators.required]],
       fechaCreacion: [{value: '', disabled: true}],
       fechaActualizacion: [{value: '', disabled: true}],
       userCreate: [{value: '', disabled: true}],
       userUpdate: [{value: '', disabled: true}],
-      estado: [''],
-      etapas: [null],
-      color: []
+      etapas: [],
+      codEtapaTemp: [],
+      desdeTemp: [],
+      hastaTemp: [],
     });
 
-    if (!this.create) {
-      this.usuariosGestion(this.gestion.codGestion);
-      this.formGestion.setValue(this.gestion);
-      this.formGestion.controls.fechaCreacion.setValue(FUNC.formatDate(this.gestion.fechaCreacion, 'd MMMM yy h:mm a'));
-      this.formGestion.controls.fechaActualizacion.setValue(FUNC.formatDate(this.gestion.fechaActualizacion, 'd MMMM yy h:mm a'));
-      this.etapas = this.gestion.etapas;
-    }
-    if (this.cartera) {
-      this.formGestion.controls.codCartera.setValue(this.cartera.codCartera);
-    }
-  }
 
-  guardar() {
-    const data: any = this.formGestion.getRawValue();
-    if (this.etapas.length === 0) {
-      Swal.fire('Nueva Gestion', 'Se necesita registrar etapas', 'error');
-      return;
-    }
-    const hasta = Number(this.formGestion.controls.hasta.value);
-    if (Number(this.etapas[this.etapas.length - 1].hasta) !== hasta) {
-      Swal.fire('Nueva Gestion', 'La estapas deben de cubrir todo el rango de los campos desde y hasta.', 'error');
-      return;
-    }
-
-    data.etapas = this.etapas;
-    this.spinner.show();
-    this.carteraService.crearGestion(data).subscribe(
-      response => {
-        if (response.exito) {
-          this.toastr.success('Se registro con exito.');
-          this.router.navigateByUrl('/auth/estrategia/carteras/detalle', {state: {cartera: this.cartera}});
-        } else {
-          Swal.fire('Registro', response.mensaje, 'error');
-        }
-        this.spinner.hide();
-      }
-    );
-  }
-
-  actualizar() {
-    const data: any = this.formGestion.getRawValue();
-    const c = this.etapas.filter(value => value.estado == '1');
-    if (c.length === 0) {
-      alert('Se necesita registrar etapas');
-      return;
-    }
-
-    const hasta = Number(this.formGestion.controls.hasta.value);
-    if (Number(c[c.length - 1].hasta) !== hasta) {
-      Swal.fire('Nueva Gestion', 'La estapas deben de cubrir todo el rango de los campos desde y hasta.', 'error');
-      return;
-    }
-    data.etapas = this.etapas;
-    data.fechaCreacion = null;
-    data.fechaActualizacion = null;
-    data.userCreate = null;
-    data.userUpdate = null;
-    this.spinner.show();
-    this.carteraService.actualizarGestion(data).subscribe(
-      response => {
-        if (response.exito) {
-          this.toastr.success('Se actualizo con exito.');
-          this.router.navigate(['/auth/estrategia/carteras']);
-        } else {
-          Swal.fire('Registro', response.mensaje, 'error');
-        }
-        this.spinner.hide();
-      }
-    );
-  }
-
-  nuevaEtapa() {
-    const modal = this.modalService.open(ActualizarEtapaComponent, {size: 'lg'});
-    modal.result.then(
-      this.closeModal.bind(this),
-      this.closeModal.bind(this)
-    );
-    modal.componentInstance.etapas = this.etapas;
-    modal.componentInstance.gestion = this.formGestion.getRawValue();
-  }
-
-  actualzarEtapa(i) {
-    const modal = this.modalService.open(ActualizarEtapaComponent, {size: 'lg'});
-    modal.result.then(
-      this.closeModal.bind(this),
-      this.closeModal.bind(this)
-    );
-    modal.componentInstance.etapas = this.etapas;
-    modal.componentInstance.index = i;
-    modal.componentInstance.create = false;
-    modal.componentInstance.gestion = this.formGestion.getRawValue();
-    modal.componentInstance.personaCreate = this.personaCreate;
-    modal.componentInstance.personaUpdate = this.personaUpdate;
-  }
-
-  closeModal(data) {
   }
 
   eliminar(item, i) {
@@ -255,28 +152,12 @@ export class ActualizarGestionComponent implements OnInit {
     }
   }
 
-  cambio(tipo: any) {
-    if (tipo == '1') {
-      $('.etapas').removeClass('active');
-      $('.gestion').addClass('active');
-      $('#etapas').removeClass('show active');
-      $('#gestion').addClass('show active');
-    } else {
-      $('.gestion').removeClass('active');
-      $('.etapas').addClass('active');
-      $('#etapas').addClass('show active');
-      $('#gestion').removeClass('show active');
-    }
-  }
-
   loadAreas() {
     this.spinner.show();
     this.maestroService.listaTablaAreas().subscribe(
       res => {
         this.areas = res;
-        if (this.create) {
-          this.spinner.hide();
-        }
+        this.spinner.hide();
       },
       err => {
         this.spinner.hide();
@@ -284,21 +165,120 @@ export class ActualizarGestionComponent implements OnInit {
     );
   }
 
-  usuariosGestion(codGestion: any) {
-    this.spinner.show();
-    this.carteraService.getUsuariosGestion(codGestion).subscribe(
+  private obtenerGestion(id: any) {
+    this.gestionService.buscarPorCodigo(id).subscribe(
       res => {
         if (res.exito) {
-          this.personaCreate = res.personaCreate ? res.personaCreate.alias : '';
-          this.personaUpdate = res.personaUpdate ? res.personaUpdate.alias : '';
-          this.formGestion.controls.userCreate.setValue(this.personaCreate);
-          this.formGestion.controls.userUpdate.setValue(this.personaUpdate);
+          this.gestion = res.objeto;
+          this.formGestion.controls.codArea.setValue(this.gestion.codArea);
+          this.formGestion.controls.nombre.setValue(this.gestion.nombre);
+          this.formGestion.controls.desde.setValue(this.gestion.desde);
+          this.formGestion.controls.hasta.setValue(this.gestion.hasta);
+          if (this.gestion.etapas.length > 0) {
+            this.$etapas = this.gestion.etapas;
+          }
+        }
+      }
+    );
+  }
+
+  get getEtapas(): any[] {
+    if (this.gestiones.length == 0) {
+      return [];
+    }
+    const items = this.gestiones.find(i => i.codGestion == this.gestion.codGestion);
+    return items ? items.etapas : [];
+  }
+
+  addEtapa() {
+    if (isNullOrUndefined(this.formGestion.controls.desdeTemp.value) || isNullOrUndefined(this.formGestion.controls.hastaTemp.value)) {
+      return;
+    }
+
+    if (this.etapaEdit) {
+      const index = this.$etapas.findIndex(i => i.codEtapa == this.etapaEdit.codEtapa);
+      if (index >= 0) {
+        this.$etapas[index].nombre = this.formGestion.controls.codEtapaTemp.value;
+        this.$etapas[index].desde = this.formGestion.controls.desdeTemp.value;
+        this.$etapas[index].hasta = this.formGestion.controls.hastaTemp.value;
+        this.$etapas[index].codigo = FUNC.slugGenerate(this.formGestion.controls.codEtapaTemp.value);
+        this.$etapas = this.$etapas.sort((a, b) => (a.desde > b.desde) ? 1 : ((b.desde > a.desde) ? -1 : 0));
+        this.formGestion.controls.codEtapaTemp.setValue('');
+        this.formGestion.controls.desdeTemp.setValue('');
+        this.formGestion.controls.hastaTemp.setValue('');
+        this.toastr.success('Etapa actualizada correctamente.');
+      }
+      this.etapaEdit = undefined;
+    } else {
+      const index = this.$etapas.findIndex(i => i.nombre == this.formGestion.controls.codEtapaTemp.value);
+      if (index >= 0) {
+        this.toastr.warning('El nombre de la etapa ya existe.');
+      } else {
+        this.$etapas.push({
+          codEtapa: null,
+          codGestion: this.gestion.codGestion,
+          nombre: this.formGestion.controls.codEtapaTemp.value,
+          codigo: FUNC.slugGenerate(this.formGestion.controls.codEtapaTemp.value),
+          color: null,
+          desde: this.formGestion.controls.desdeTemp.value,
+          estado: '1',
+          hasta: this.formGestion.controls.hastaTemp.value,
+          fechaActualizacion: null,
+          fechaCreacion: null,
+          userCreate: null,
+          userUpdate: null
+        });
+        this.$etapas = this.$etapas.sort((a, b) => (a.desde > b.desde) ? 1 : ((b.desde > a.desde) ? -1 : 0));
+        this.formGestion.controls.codEtapaTemp.setValue('');
+        this.formGestion.controls.desdeTemp.setValue('');
+        this.formGestion.controls.hastaTemp.setValue('');
+      }
+    }
+  }
+
+  estadoEtapa(etapa: any, estado: any) {
+    if (etapa.codEtapa) {
+      etapa.estado = estado;
+    } else {
+      this.$etapas = this.$etapas.filter(i => i.nombre != etapa.nombre);
+    }
+  }
+
+  agregar() {
+    if (this.$etapas.length == 0) {
+      this.toastr.warning('Debe ingresar al menos una etapa');
+      return;
+    }
+    const gestion = Object.assign({}, this.gestion);
+    const etapas = this.$etapas;
+    gestion.codArea = this.formGestion.controls.codArea.value;
+    gestion.nombre = this.formGestion.controls.nombre.value;
+    gestion.codGestion = this.gestion.codGestion;
+    gestion.desde = Number(this.formGestion.controls.desde.value);
+    gestion.hasta = Number(this.formGestion.controls.hasta.value);
+    gestion.etapas = etapas;
+    this.spinner.show();
+    this.gestionService.actualizarGestion(gestion).subscribe(
+      res => {
+        if (res.exito) {
+          Swal.fire('', res.mensaje, 'success');
+          this.router.navigateByUrl('/auth/configuracion/gestiones');
+        } else {
+          Swal.fire('', res.mensaje, 'warning');
         }
         this.spinner.hide();
       },
       err => {
         this.spinner.hide();
+        Swal.fire('', 'Ocurrio un error en el proceso.', 'warning');
       }
     );
+  }
+
+  editarItem(item: any) {
+    this.formGestion.controls.codEtapaTemp.setValue(item.nombre);
+    this.formGestion.controls.desdeTemp.setValue(item.desde);
+    this.formGestion.controls.hastaTemp.setValue(item.hasta);
+    this.etapaEdit = item;
   }
 }

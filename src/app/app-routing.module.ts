@@ -54,6 +54,7 @@ import { CompromisoDePagoComponent } from './estrategia/reportes/compromiso-de-p
 import {PagosRealizadosPorDiaComponent} from './estrategia/reportes/pagos-realizados-por-dia/pagos-realizados-por-dia.component';
 import {GestionCarteraComponent} from './estrategia/cartera/gestion-cartera/gestion-cartera.component';
 import {GestionCarteraEditarComponent} from './estrategia/cartera/gestion-cartera-editar/gestion-cartera-editar.component';
+import {ListarGestionesComponent} from './estrategia/configuracion/gestion/listar-gestiones/listar-gestiones.component';
 
 
 const A = Autorizacion;
@@ -131,8 +132,6 @@ const routes: Routes = [
                 {path: 'gestion-actualizar', component: GestionCarteraEditarComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.CARTERA_ACTUALIZAR]}},
               ]
             },
-            {path: 'crear-gestion', component: ActualizarGestionComponent},
-            {path: 'editar-gestion', component: ActualizarGestionComponent},
             {path: 'notificaciones', component: EnviarNotificionComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.NOTIFICACION_LISTAR]}},
             {path: 'asignacion-cartera', component: AsignacionCarteraComponent},
             {path: 'asignacion-cartera/:ejecutivoUuid/configuracion', component: AsignarEtapasEjecutivoComponent},
@@ -162,7 +161,10 @@ const routes: Routes = [
                 {path: 'enviar', component: EnviarNotificionComponent, canActivate: [CanAuthorityGuard], data: {send: true, autorizaciones: [A.ENVIAR_NOTIFICACION_LISTAR]}}
               ]
             },
-            {path: 'tipo-notificacion', component: TipoNotificacionComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.TIPO_NOTIFICACION_LISTAR]}}
+            {path: 'tipo-notificacion', component: TipoNotificacionComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.TIPO_NOTIFICACION_LISTAR]}},
+            {path: 'gestiones', component: ListarGestionesComponent},
+            {path: 'crear-gestion', component: ActualizarGestionComponent},
+            {path: 'gestiones/actualizar', component: ActualizarGestionComponent},
           ]
         },
         {

@@ -63,6 +63,7 @@ import { CompromisoDePagoComponent } from './reportes/compromiso-de-pago/comprom
 import { PagosRealizadosPorDiaComponent } from './reportes/pagos-realizados-por-dia/pagos-realizados-por-dia.component';
 import { GestionCarteraComponent } from './cartera/gestion-cartera/gestion-cartera.component';
 import { GestionCarteraEditarComponent } from './cartera/gestion-cartera-editar/gestion-cartera-editar.component';
+import { ListarGestionesComponent } from './configuracion/gestion/listar-gestiones/listar-gestiones.component';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -114,6 +115,7 @@ const ngWizardConfig: NgWizardConfig = {
     PagosRealizadosPorDiaComponent,
     GestionCarteraComponent,
     GestionCarteraEditarComponent,
+    ListarGestionesComponent,
   ],
   imports: [
     CommonModule,

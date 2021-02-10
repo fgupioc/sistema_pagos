@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header d-flex justify-content-lg-between">
+        <h6 class="p-0 m-0">Lista de Gestiones</h6>
+        <div class="card-tools">
+          <button class="btn btn-sm btn-outline-primary"><i class="fa fa-plus"></i> Nuevo</button>
+        </div>
+      </div>
+      <div class="card-body">
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+            <tr class="text-center">
+              <th scope="col">#</th>
+              <th scope="col">Gestión</th>
+              <th scope="col">Área</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Opciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ng-container *ngIf="gestiones.length > 0">
+              <tr class="text-center" *ngFor="let item of gestiones; let i = index;">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ item.nombre }}</td>
+                <td>{{ item.nombreArea }}</td>
+                <td>{{ item.estado == '1' ? 'Activo' : 'Inactivo' }}</td>
+                <td>
+                  <div class="btn-group">
+                    <button class="btn btn-sm btn-primary mr-2" (click)="showDetails(item)"><i class="fa fa-eye"></i></button>
+                    <button class="btn btn-sm btn-danger" *ngIf="item.estado == '1'" (click)="cambiarEstado(item, '1')"><i class="fa fa-trash"></i></button>
+                    <button  class="btn btn-sm btn-success" *ngIf="item.estado == '0'" (click)="cambiarEstado(item, '0')"><i class="fa fa-check"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-loading></app-loading>
+
