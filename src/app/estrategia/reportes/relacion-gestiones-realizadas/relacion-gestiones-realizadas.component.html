@@ -165,36 +165,30 @@
           <thead>
           <tr class="text-center">
             <th>Etapa</th>
-            <th *ngFor="let item of repSolEtapas">{{ item.etapa}}</th>
+            <th *ngFor="let item of repSolEtapas">{{ item.nombre}}</th>
             <th>Total</th>
           </tr>
           </thead>
           <tbody>
           <tr>
             <td>Total gestiones</td>
-            <td class="text-center"  *ngFor="let item of repSolEtapas">{{ item.total}}</td>
-            <td class="text-center">{{ getTotal(repSolEtapas) }}</td>
+            <td class="text-center"  *ngFor="let item of repSolEtapas">{{ item.totalGestiones }}</td>
+            <td class="text-center">{{ getCalcularTital(repSolEtapas, 'totalGestiones') }}</td>
           </tr>
           <tr>
             <td>Total créditos asignados</td>
-            <td class="text-center">0</td>
-            <td class="text-center">0</td>
-            <td class="text-center">0</td>
-            <td class="text-center">0</td>
+            <td class="text-center"  *ngFor="let item of repSolEtapas">{{ item.totalCreditosAsignados }}</td>
+            <td class="text-center">{{ getCalcularTital(repSolEtapas, 'totalCreditosAsignados') }}</td>
           </tr>
           <tr>
             <td>Total créditos sin gestión</td>
-            <td class="text-center">0</td>
-            <td class="text-center">0</td>
-            <td class="text-center">0</td>
-            <td class="text-center">0</td>
+            <td class="text-center"  *ngFor="let item of repSolEtapas">{{ item.totalCreditosSinGestion }}</td>
+            <td class="text-center">{{ getCalcularTital(repSolEtapas, 'totalCreditosSinGestion') }}</td>
           </tr>
           <tr>
             <td>Nivel de Gestión</td>
-            <td class="text-center">0</td>
-            <td class="text-center">0</td>
-            <td class="text-center">0</td>
-            <td class="text-center">0</td>
+            <td class="text-center"  *ngFor="let item of repSolEtapas">{{ item.nivelGestion }}%</td>
+            <td class="text-center">{{ calcularNivelGestion(repSolEtapas) }}%</td>
           </tr>
           </tbody>
         </table>
@@ -204,36 +198,30 @@
           <thead>
           <tr class="text-center">
             <th>Etapa</th>
-            <th *ngFor="let item of repDolEtapas">{{ item.etapa}}</th>
+            <th *ngFor="let item of repDolEtapas">{{ item.nombre}}</th>
             <th>Total</th>
           </tr>
           </thead>
           <tbody>
           <tr>
             <td>Total gestiones</td>
-            <td class="text-center"  *ngFor="let item of repDolEtapas">{{ item.total}}</td>
-            <td class="text-center">{{ getTotal(repDolEtapas) }}</td>
+            <td class="text-center"  *ngFor="let item of repDolEtapas">{{ item.totalGestiones }}</td>
+            <td class="text-center">{{ getCalcularTital(repDolEtapas, 'totalGestiones') }}</td>
           </tr>
           <tr>
             <td>Total créditos asignados</td>
-            <td class="text-center">0</td>
-            <td class="text-center">0</td>
-            <td class="text-center">0</td>
-            <td class="text-center">0</td>
+            <td class="text-center"  *ngFor="let item of repDolEtapas">{{ item.totalCreditosAsignados }}</td>
+            <td class="text-center">{{ getCalcularTital(repDolEtapas, 'totalCreditosAsignados') }}</td>
           </tr>
           <tr>
             <td>Total créditos sin gestión</td>
-            <td class="text-center">0</td>
-            <td class="text-center">0</td>
-            <td class="text-center">0</td>
-            <td class="text-center">0</td>
+            <td class="text-center"  *ngFor="let item of repDolEtapas">{{ item.totalCreditosSinGestion }}</td>
+            <td class="text-center">{{ getCalcularTital(repDolEtapas, 'totalCreditosSinGestion') }}</td>
           </tr>
           <tr>
             <td>Nivel de Gestión</td>
-            <td class="text-center">0</td>
-            <td class="text-center">0</td>
-            <td class="text-center">0</td>
-            <td class="text-center">0</td>
+            <td class="text-center"  *ngFor="let item of repDolEtapas">{{ item.nivelGestion }}%</td>
+            <td class="text-center">{{ calcularNivelGestion(repDolEtapas) }}%</td>
           </tr>
           </tbody>
         </table>

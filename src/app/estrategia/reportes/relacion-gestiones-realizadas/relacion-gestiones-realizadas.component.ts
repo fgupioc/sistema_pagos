@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import {GestorGestiones} from '../../../interfaces/reportes/bitacora-gestiones/gestor-gestiones';
 
 export interface Rep {
+  codEtapa: string;
   etapa: string;
   total: number;
 }
@@ -26,8 +27,9 @@ export class RelacionGestionesRealizadasComponent implements OnInit {
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
   itemSoles: any[] = [];
   itemDolares: any[] = [];
-  repSolEtapas: Rep[] = [];
-  repDolEtapas: Rep[] = [];
+  repSolEtapas: any[] = [];
+  repDolEtapas: any[] = [];
+  etapas: any[] = [];
 
   $gestiones: any[] = [];
   $type: number;
@@ -52,8 +54,15 @@ export class RelacionGestionesRealizadasComponent implements OnInit {
     this.reportesService.relacionGestionesRealizadas(start, finish).subscribe(
       res => {
         this.itemSoles = res.itemsSoles;
-        this.repSolEtapas = [];
-        this.repDolEtapas = [];
+        const etapas: any[] = res.etapas;
+        etapas.map(i => {
+          i.totalGestiones = 0;
+          i.totalCreditosAsignados = 0;
+          i.totalCreditosSinGestion = 0;
+          i.nivelGestion = 0;
+        });
+        this.repSolEtapas = etapas;
+        this.repDolEtapas = etapas;
         this.addElements(res.itemsSoles, this.repSolEtapas);
         this.addElements(res.itemsDolares, this.repDolEtapas);
 
@@ -73,22 +82,24 @@ export class RelacionGestionesRealizadasComponent implements OnInit {
     this.loadList(start, finish);
   }
 
-  addElements(itemsSoles: any[], array: Rep[]) {
+  addElements(itemsSoles: any[], array: any[]) {
     for (const item of itemsSoles) {
       for (const etapa of item.etapas) {
-        for (const cartera of etapa.carteras) {
-          const index = array.findIndex(i => i.etapa == etapa.etapa);
-          if (index == -1) {
-            array.push({
-              etapa: etapa.etapa,
-              total: Number(cartera.realizadas.totalGestiones)
-            });
-          } else {
-            array[index].total = array[index].total + Number(cartera.realizadas.totalGestiones);
-          }
+        const index = array.findIndex(i => i.codEtapa == etapa.codEtapa);
+        if (index >= 0) {
+          array[index].totalGestiones = array[index].totalGestiones + Number(etapa.totalGestiones);
+          array[index].totalCreditosAsignados = array[index].totalCreditosAsignados + Number(etapa.totalCreditosAsignados);
+          array[index].totalCreditosSinGestion = array[index].totalCreditosSinGestion + Number(etapa.totalCreditosSinGestion);
         }
       }
     }
+    array.map(i => {
+      if (i.totalCreditosAsignados == 0) {
+        i.nivelGestion = i.totalCreditosSinGestion == 0 ? 0 : 100;
+      } else {
+        i.nivelGestion = (1 - (i.totalCreditosSinGestion / i.totalCreditosAsignados)) * 100;
+      }
+    });
   }
 
   getTotal(array: Rep[]): number {
@@ -146,5 +157,31 @@ export class RelacionGestionesRealizadasComponent implements OnInit {
   seleccionado(items: GestorGestiones[]) {
     this.$gestiones = [];
     this.$gestiones = items;
+  }
+
+  getCalcularTital(repSolEtapas: any[], name: string) {
+    let sum = 0;
+    for (const item of repSolEtapas) {
+      sum += item[name];
+    }
+    return Math.round(sum);
+  }
+
+  calcularNivelGestion(repSolEtapas: any[]) {
+    let sum = 0;
+    let asignados = 0;
+    let sinGestion = 0;
+
+    for (const item of repSolEtapas) {
+      asignados += item.totalCreditosAsignados;
+      sinGestion += item.totalCreditosSinGestion;
+    }
+
+    if (sinGestion > 0) {
+      sum = (1 - (sinGestion / asignados)) * 100;
+    } else {
+      sum = asignados == 0 ? 100 : 0;
+    }
+    return Math.round(sum);
   }
 }
