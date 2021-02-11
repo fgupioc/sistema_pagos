@@ -55,6 +55,7 @@ import {PagosRealizadosPorDiaComponent} from './estrategia/reportes/pagos-realiz
 import {GestionCarteraComponent} from './estrategia/cartera/gestion-cartera/gestion-cartera.component';
 import {GestionCarteraEditarComponent} from './estrategia/cartera/gestion-cartera-editar/gestion-cartera-editar.component';
 import {ListarGestionesComponent} from './estrategia/configuracion/gestion/listar-gestiones/listar-gestiones.component';
+import {CrearGestionComponent} from './estrategia/gestion/crear-gestion/crear-gestion.component';
 
 
 const A = Autorizacion;
@@ -163,7 +164,7 @@ const routes: Routes = [
             },
             {path: 'tipo-notificacion', component: TipoNotificacionComponent, canActivate: [CanAuthorityGuard], data: {autorizaciones: [A.TIPO_NOTIFICACION_LISTAR]}},
             {path: 'gestiones', component: ListarGestionesComponent},
-            {path: 'crear-gestion', component: ActualizarGestionComponent},
+            {path: 'gestiones/registrar', component: CrearGestionComponent},
             {path: 'gestiones/actualizar', component: ActualizarGestionComponent},
           ]
         },

@@ -64,6 +64,7 @@ import { PagosRealizadosPorDiaComponent } from './reportes/pagos-realizados-por-
 import { GestionCarteraComponent } from './cartera/gestion-cartera/gestion-cartera.component';
 import { GestionCarteraEditarComponent } from './cartera/gestion-cartera-editar/gestion-cartera-editar.component';
 import { ListarGestionesComponent } from './configuracion/gestion/listar-gestiones/listar-gestiones.component';
+import { CrearGestionComponent } from './gestion/crear-gestion/crear-gestion.component';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -116,6 +117,7 @@ const ngWizardConfig: NgWizardConfig = {
     GestionCarteraComponent,
     GestionCarteraEditarComponent,
     ListarGestionesComponent,
+    CrearGestionComponent,
   ],
   imports: [
     CommonModule,

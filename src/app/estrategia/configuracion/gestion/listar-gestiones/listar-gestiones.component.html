@@ -4,7 +4,7 @@
       <div class="card-header d-flex justify-content-lg-between">
         <h6 class="p-0 m-0">Lista de Gestiones</h6>
         <div class="card-tools">
-          <button class="btn btn-sm btn-outline-primary"><i class="fa fa-plus"></i> Nuevo</button>
+          <button routerLink="/auth/configuracion/gestiones/registrar" class="btn btn-sm btn-outline-primary"><i class="fa fa-plus"></i> Nuevo Gestión</button>
         </div>
       </div>
       <div class="card-body">
@@ -26,12 +26,15 @@
                 <th scope="row">{{ i + 1 }}</th>
                 <td>{{ item.nombre }}</td>
                 <td>{{ item.nombreArea }}</td>
-                <td>{{ item.estado == '1' ? 'Activo' : 'Inactivo' }}</td>
+                <td>
+                  <span *ngIf="item.estado == '1'" class="badge badge-info">Activo</span>
+                  <span *ngIf="item.estado == '0'" class="badge badge-danger">Inactivo</span>
+                </td>
                 <td>
                   <div class="btn-group">
-                    <button class="btn btn-sm btn-primary mr-2" (click)="showDetails(item)"><i class="fa fa-eye"></i></button>
-                    <button class="btn btn-sm btn-danger" *ngIf="item.estado == '1'" (click)="cambiarEstado(item, '1')"><i class="fa fa-trash"></i></button>
-                    <button  class="btn btn-sm btn-success" *ngIf="item.estado == '0'" (click)="cambiarEstado(item, '0')"><i class="fa fa-check"></i></button>
+                    <button [disabled]="item.estado == '0'" class="btn btn-sm btn-primary mr-2" (click)="showDetails(item)"><i class="fa fa-eye"></i></button>
+                    <button class="btn btn-sm btn-danger" *ngIf="item.estado == '1'" (click)="cambiarEstado(item, '0')"><i class="fa fa-close"></i></button>
+                    <button  class="btn btn-sm btn-success" *ngIf="item.estado == '0'" (click)="cambiarEstado(item, '1')"><i class="fa fa-check"></i></button>
                   </div>
                 </td>
               </tr>
