@@ -69,7 +69,8 @@ export class EnviarNotificionComponent implements OnInit {
       ({objeto}) => {
         this.carteras = objeto;
         this.spinner.hide();
-      }
+      },
+      err => this.spinner.hide()
     );
   }
 
@@ -83,7 +84,8 @@ export class EnviarNotificionComponent implements OnInit {
           this.gestiones = response.objeto;
         }
         this.spinner.hide();
-      }
+      },
+      err => this.spinner.hide()
     );
   }
 
@@ -141,8 +143,8 @@ export class EnviarNotificionComponent implements OnInit {
     modal.componentInstance.notificaciones = this.notificaciones;
     modal.componentInstance.obj = {
       codCartera: this.formulario.controls.codCartera.value,
-      codGestion: etapa.codGestion,
-      codEtapa: etapa.codEtapa,
+      codGestion: etapa.codCarGestion,
+      codCarEtapa: etapa.id,
     };
     modal.componentInstance.rangos = this.rangos;
     modal.componentInstance.send = this.send;
@@ -176,7 +178,7 @@ export class EnviarNotificionComponent implements OnInit {
 
   showMensaje(gestion, item, noti, day) {
     this.spinner.show();
-    this.notificacionService.buscarNotificacionEtapa(gestion.codGestion, item.codEtapa, noti, day).subscribe(
+    this.notificacionService.buscarNotificacionEtapa(gestion.id, item.id, noti, day).subscribe(
       res => {
         const modal = this.modalService.open(CrearEtapaNotificionComponent, {size: 'lg', scrollable: true});
         modal.result.then(
@@ -206,7 +208,7 @@ export class EnviarNotificionComponent implements OnInit {
     let flag = false;
     item.notificacionEtapas.forEach(v => {
       const days = v.dias.split(',').map(x => Number(x));
-      if (days.includes(day) && item.codEtapa == v.codEtapa) {
+      if (days.includes(day) && item.id == v.codCarEtapa) {
         flag = true;
       }
     });

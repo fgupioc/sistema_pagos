@@ -33,9 +33,9 @@
             <div class="col-md-9">
                 <div class="form-group">
                     <label>Dias Disponibles</label> <br>
-                    <div class="w-100 d-flex justify-content-between">
+                    <div class="w-100 ">
                         <span *ngFor="let item of rangos">
-                            <span (click)="seleccionarDia(item)" class="badge badge-info position-relative d-flex justify-content-center cursor-pointer" style="font-size: 20px; color: white;">
+                            <span (click)="seleccionarDia(item)" class="badge badge-info position-relative justify-content-center cursor-pointer" style="font-size: 20px; color: white; min-width: 30px; margin: 0 5px 5px 0">
                                 {{ item }}
                                 <ng-template [ngIf]="dias.includes(item)" [ngIfElse]="noesta">
                                     <i [id]="'rango-'+item" class="fa fa-check position-absolute" style="color: #28a745; left: 5px;"></i>
