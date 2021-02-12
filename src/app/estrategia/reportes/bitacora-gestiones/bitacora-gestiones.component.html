@@ -60,7 +60,6 @@
                                     <th>Kardex</th>
                                     <th>Gestion</th>
                                     <th>Cobranza</th>
-                                    <th>Tipo Tarea</th>
                                     <th>Fecha Gestion</th>
                                     <th>Condición</th>
                                   </tr>
@@ -76,7 +75,6 @@
                                     <td>{{ item.kardex }}</td>
                                     <td>{{ item.tipoGestion }}</td>
                                     <td>{{ item.etapaCobranza }}</td>
-                                    <td>{{ item.tipoTarea }}</td>
                                     <td>{{ item.fechaGestion | date : 'dd/MM/yy HH:mm' }}</td>
                                     <td>{{ getNameCondition(item.condicion)}}</td>
                                   </tr>
