@@ -149,7 +149,7 @@ export class ConfigurarNotificionComponent implements OnInit {
   generarRango() {
     this.rangos = [];
     const codCarEtapa = this.formulario.controls.codCarEtapa.value;
-    const etapaSelect: any = this.etapas.find(i => i.codEtapa == codCarEtapa);
+    const etapaSelect: any = this.etapas.find(i => i.id == codCarEtapa);
     if (etapaSelect) {
       let c = 0;
       for (let i = etapaSelect.desde; i <= etapaSelect.hasta; i++) {
