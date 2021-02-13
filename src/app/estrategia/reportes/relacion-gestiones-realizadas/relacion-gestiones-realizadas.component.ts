@@ -119,6 +119,7 @@ export class RelacionGestionesRealizadasComponent implements OnInit {
 
 
   download() {
+    this.spinner.show();
     const {start, finish} = this.formSearch.getRawValue();
     this.reportesService.getUrlRelacionGestionesRealizadas(start, finish).subscribe(
       response => {
@@ -138,7 +139,9 @@ export class RelacionGestionesRealizadasComponent implements OnInit {
             document.body.removeChild(a);
           }, 3000);
         }
-      }
+        this.spinner.hide();
+      },
+      err => this.spinner.hide()
     );
   }
 
@@ -177,7 +180,7 @@ export class RelacionGestionesRealizadasComponent implements OnInit {
       sinGestion += item.totalCreditosSinGestion;
     }
 
-    if (sinGestion > 0) {
+    if (asignados > 0) {
       sum = (1 - (sinGestion / asignados)) * 100;
     } else {
       sum = asignados == 0 ? 100 : 0;
