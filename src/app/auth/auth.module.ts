@@ -8,7 +8,7 @@ import {AppRoutingModule} from '../app-routing.module';
 import {DashboardComponent} from '../dashboard/dashboard.component';
 import {MantenimientoModule} from '../mantenimiento/mantenimiento.module';
 import {NgxSpinnerModule} from 'ngx-spinner';
-import {ChartsModule, ThemeService} from 'ng2-charts';
+import {ComponentesModule} from '../componentes/componentes.module';
 
 @NgModule({
   declarations: [AuthComponent, DashboardComponent],
@@ -24,9 +24,8 @@ import {ChartsModule, ThemeService} from 'ng2-charts';
         AppRoutingModule,
         MantenimientoModule,
         NgxSpinnerModule,
-        ChartsModule
-    ],
-  providers:[ThemeService]
+        ComponentesModule,
+    ]
 })
 export class AuthModule {
 }

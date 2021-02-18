@@ -11,6 +11,8 @@ import { GestionarDireccionComponent } from './socio/gestionar-direccion/gestion
 import { GestionarTelefonoComponent } from './socio/gestionar-telefono/gestionar-telefono.component';
 import { GestionarCorreoComponent } from './socio/gestionar-correo/gestionar-correo.component';
 import { ShowImagenComponent } from './show-imagen/show-imagen.component';
+import { EstadoCarteraComponent } from './dashboard/estado-cartera/estado-cartera.component';
+import { ChartsModule, ThemeService } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,8 @@ import { ShowImagenComponent } from './show-imagen/show-imagen.component';
     GestionarDireccionComponent,
     GestionarTelefonoComponent,
     GestionarCorreoComponent,
-    ShowImagenComponent
+    ShowImagenComponent,
+    EstadoCarteraComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +30,8 @@ import { ShowImagenComponent } from './show-imagen/show-imagen.component';
     NgbModule,
     ReactiveFormsModule,
     MyPipesModule,
-    RouterModule
+    RouterModule,
+    ChartsModule
   ],
   entryComponents: [
     GestionarDireccionComponent,
@@ -35,8 +39,10 @@ import { ShowImagenComponent } from './show-imagen/show-imagen.component';
     GestionarCorreoComponent,
     ShowImagenComponent
   ],
-  exports: [
-    ShowImagenComponent
-  ]
+    exports: [
+        ShowImagenComponent,
+        EstadoCarteraComponent
+    ],
+  providers: [ThemeService]
 })
 export class ComponentesModule { }
