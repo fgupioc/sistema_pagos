@@ -163,9 +163,9 @@ export class GestionCarteraEditarComponent implements OnInit {
       }
     }
     this.$etapas = this.$etapas.sort((a, b) => (a.codEtapa > b.codEtapa) ? 1 : ((b.codEtapa > a.codEtapa) ? -1 : 0));
-    this.formGestion.controls.codEtapaTemp.setValue('');
-    this.formGestion.controls.desdeTemp.setValue('');
-    this.formGestion.controls.hastaTemp.setValue('');
+    this.formGestion.controls.codEtapaTemp.setValue(null);
+    this.formGestion.controls.desdeTemp.setValue(null);
+    this.formGestion.controls.hastaTemp.setValue(null);
   }
 
   removeEtapa(codEtapa: any) {

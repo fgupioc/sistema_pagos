@@ -33,7 +33,6 @@ export class GestionCarteraComponent implements OnInit {
     const data = router.getCurrentNavigation().extras.state;
     if (data && data.cartera) {
       this.cartera = data.cartera;
-      console.log(data.cartera);
       this.create = data.update || true;
     } else {
       router.navigateByUrl('/auth/estrategia/carteras');
@@ -177,9 +176,9 @@ export class GestionCarteraComponent implements OnInit {
       }
     }
     this.$etapas = this.$etapas.sort((a, b) => (a.codEtapa > b.codEtapa) ? 1 : ((b.codEtapa > a.codEtapa) ? -1 : 0));
-    this.formGestion.controls.codEtapaTemp.setValue('');
-    this.formGestion.controls.desdeTemp.setValue('');
-    this.formGestion.controls.hastaTemp.setValue('');
+    this.formGestion.controls.codEtapaTemp.setValue(null);
+    this.formGestion.controls.desdeTemp.setValue(null);
+    this.formGestion.controls.hastaTemp.setValue(null);
   }
 
   removeEtapa(codEtapa: any) {
