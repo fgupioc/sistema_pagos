@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions } from 'chart.js';
+import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-estado-cartera',
@@ -10,43 +11,27 @@ export class EstadoCarteraComponent implements OnInit {
   @Input() title: string;
   @Input() dataChart: any;
 
-  public barChartOptions: ChartOptions = {
+  public barChartOptions: any = {
     responsive: true,
     legend: { position: 'right' },
     title: {
       display: true,
       text: 'Soles (Miles)'
     },
+    scales: { xAxes: [{barPercentage: 0.3}], yAxes: [{}] },
     plugins: {
       datalabels: {
-        display: true,
+        anchor: 'center',
         align: 'center',
-        anchor: 'center'
-      }
-    },
-    animation: {
-      onComplete: function () {
-        var ctx = this.chart.ctx;
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        var chart = this;
-        var datasets = this.config.data.datasets;
+        color: 'black',
 
-        datasets.forEach(function (dataset: Array<any>, i: number) {
-          ctx.font = "14px Arial";
-          ctx.fillStyle = "Black";
-          chart.getDatasetMeta(i).data.forEach(function (p: any, j: any) {
-            ctx.fillText(datasets[i].data[j], p._model.x, p._model.y + 10);
-          });
-
-        });
       }
-    },
+    }
   };
   public barChartLabels: any[] = ['2021'];
   public barChartType: any = 'bar';
   public barChartLegend = true;
-  public barChartPlugins = [];
+  public barChartPlugins = [pluginDataLabels];
 
   public barChartData: ChartDataSets[] = [
     { data: [], label: 'Con atraso', stack: 'a', backgroundColor: '#ff6384' },
