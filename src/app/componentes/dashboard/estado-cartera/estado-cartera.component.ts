@@ -10,6 +10,7 @@ import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 export class EstadoCarteraComponent implements OnInit {
   @Input() title: string;
   @Input() dataChart: any;
+  @Input() year: any[];
 
   public barChartOptions: any = {
     responsive: true,
@@ -18,7 +19,7 @@ export class EstadoCarteraComponent implements OnInit {
       display: true,
       text: 'Soles (Miles)'
     },
-    scales: { xAxes: [{barPercentage: 0.3}], yAxes: [{}] },
+    scales: { xAxes: [], yAxes: [{}] },
     plugins: {
       datalabels: {
         anchor: 'center',
@@ -28,14 +29,14 @@ export class EstadoCarteraComponent implements OnInit {
       }
     }
   };
-  public barChartLabels: any[] = ['2021'];
+  public barChartLabels: any[] = [];
   public barChartType: any = 'bar';
   public barChartLegend = true;
   public barChartPlugins = [pluginDataLabels];
 
   public barChartData: ChartDataSets[] = [
-    { data: [], label: 'Con atraso', stack: 'a', backgroundColor: '#ff6384' },
-    { data: [], label: 'Al día', stack: 'a', backgroundColor: '#36a2eb' }
+    { data: [], label: 'Con atraso', stack: 'a', backgroundColor: '#ff6384', barPercentage: 0.3 },
+    { data: [], label: 'Al día', stack: 'a', backgroundColor: '#36a2eb', barPercentage: 0.3 }
   ];
 
   constructor() { }
@@ -43,6 +44,7 @@ export class EstadoCarteraComponent implements OnInit {
   ngOnInit() {
     this.barChartOptions.title.text = this.title;
     if (this.dataChart && this.barChartData.length) {
+      this.barChartLabels = this.year;
       this.barChartData[0].data = this.dataChart.atraso;
       this.barChartData[1].data = this.dataChart.dia ;
     }
