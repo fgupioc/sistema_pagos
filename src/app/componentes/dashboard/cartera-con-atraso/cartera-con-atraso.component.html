@@ -1,0 +1,72 @@
+<div class="card">
+    <div class="card-header">
+        Cartera con atraso (Saldo de capital)
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <app-chart-cartera-con-atraso></app-chart-cartera-con-atraso>
+            </div>
+            <div class="col-12">
+                <app-chart-cartera-con-atraso></app-chart-cartera-con-atraso>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="form-group text-center">
+                    <label class="font-weight-bold">Días de atraso según el monto del saldo capital</label>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table table-saldos">
+                        <thead>
+                            <tr class="text-center">
+                                <th width="43%">Soles</th>
+                                <th>Saldo de capital</th>
+                                <th width="43%">Dolares</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of saldosCapital">
+                                <td>
+                                    <div class="progress" style="height: 20px">
+                                        <div class="progress-bar bg-yellow" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-orange" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-danger-dark" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <span>{{ item.desde}} - {{ item.hasta != 0 ? item.hasta : 'más' }}</span>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 20px">
+                                        <div class="progress-bar bg-yellow" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-orange" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-danger-dark" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <div class="progress" style="height: 30px">
+                        <div class="progress-bar bg-yellow" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold; font-size: 16px;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">0 - 15 días</div>
+                        <div class="progress-bar bg-orange" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold; font-size: 16px;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">16 - 30 días</div>
+                        <div class="progress-bar bg-danger-dark" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold; font-size: 16px;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">31 a más días</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="form-group text-center">
+                    <label class="font-weight-bold">Días de atraso por sector económico</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

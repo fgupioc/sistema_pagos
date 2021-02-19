@@ -18,6 +18,8 @@ import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import { ChartEstadoCarteraComponent } from './dashboard/estado-cartera/chart-estado-cartera.component';
 import { ProgressEvaluacionCobranzaComponent } from './dashboard/evaluacion-cobranza/progress-evaluacion-cobranza.component';
 import { ComportamientoDePagoComponent } from './dashboard/comportamiento-de-pago/comportamiento-de-pago.component';
+import { CarteraConAtrasoComponent } from './dashboard/cartera-con-atraso/cartera-con-atraso.component';
+import { ChartCarteraConAtrasoComponent } from './dashboard/cartera-con-atraso/chart-cartera-con-atraso.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { ComportamientoDePagoComponent } from './dashboard/comportamiento-de-pag
     EvaluacionCobranzaComponent,
     ChartEstadoCarteraComponent,
     ProgressEvaluacionCobranzaComponent,
-    ComportamientoDePagoComponent
+    ComportamientoDePagoComponent,
+    CarteraConAtrasoComponent,
+    ChartCarteraConAtrasoComponent
   ],
   imports: [
     CommonModule,
@@ -49,12 +53,13 @@ import { ComportamientoDePagoComponent } from './dashboard/comportamiento-de-pag
     GestionarCorreoComponent,
     ShowImagenComponent
   ],
-    exports: [
-        ShowImagenComponent,
-        EstadoCarteraComponent,
-        EvaluacionCobranzaComponent,
-      ComportamientoDePagoComponent
-    ],
+  exports: [
+    ShowImagenComponent,
+    EstadoCarteraComponent,
+    EvaluacionCobranzaComponent,
+    ComportamientoDePagoComponent,
+    CarteraConAtrasoComponent
+  ],
   providers: [ThemeService]
 })
 export class ComponentesModule { }
