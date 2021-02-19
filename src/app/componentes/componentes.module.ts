@@ -13,6 +13,7 @@ import { GestionarCorreoComponent } from './socio/gestionar-correo/gestionar-cor
 import { ShowImagenComponent } from './show-imagen/show-imagen.component';
 import { EstadoCarteraComponent } from './dashboard/estado-cartera/estado-cartera.component';
 import { ChartsModule, ThemeService } from 'ng2-charts';
+import { EvaluacionCobranzaComponent } from './dashboard/evaluacion-cobranza/evaluacion-cobranza.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ChartsModule, ThemeService } from 'ng2-charts';
     GestionarTelefonoComponent,
     GestionarCorreoComponent,
     ShowImagenComponent,
-    EstadoCarteraComponent
+    EstadoCarteraComponent,
+    EvaluacionCobranzaComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +43,8 @@ import { ChartsModule, ThemeService } from 'ng2-charts';
   ],
     exports: [
         ShowImagenComponent,
-        EstadoCarteraComponent
+        EstadoCarteraComponent,
+        EvaluacionCobranzaComponent
     ],
   providers: [ThemeService]
 })
