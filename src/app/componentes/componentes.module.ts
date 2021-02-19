@@ -14,6 +14,7 @@ import { ShowImagenComponent } from './show-imagen/show-imagen.component';
 import { EstadoCarteraComponent } from './dashboard/estado-cartera/estado-cartera.component';
 import { ChartsModule, ThemeService } from 'ng2-charts';
 import { EvaluacionCobranzaComponent } from './dashboard/evaluacion-cobranza/evaluacion-cobranza.component';
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { EvaluacionCobranzaComponent } from './dashboard/evaluacion-cobranza/eva
     ReactiveFormsModule,
     MyPipesModule,
     RouterModule,
-    ChartsModule
+    ChartsModule,
+    ProgressbarModule.forRoot(),
   ],
   entryComponents: [
     GestionarDireccionComponent,

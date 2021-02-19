@@ -1,0 +1,19 @@
+.leyenda {
+    min-width: 258px;
+    max-width: 300px;
+    list-style: none;
+    padding: 0;
+}
+
+.leyenda .leyenda-item {
+    margin-bottom: 10px;
+}
+
+.leyenda .leyenda-item .progress {
+    height: 30px;
+}
+
+.leyenda .leyenda-item .progress .progress-bar {
+    font-size: 15px;
+    font-weight: 600;
+}
