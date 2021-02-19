@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CONST } from '../comun/CONST';
 import { EstadosCartera, GrupoCartera } from '../interfaces/dashboard/estados-cartera';
 import { DashboardService } from '../servicios/dashboard/dashboard.service';
+import {MaestroService} from '../servicios/sistema/maestro.service';
+import {TablaMaestra} from '../interfaces/tabla-maestra';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,11 +16,14 @@ export class DashboardComponent implements OnInit {
   sol: any;
   dolar: any;
   year: number[] = [];
+  productos: TablaMaestra[] = [];
   constructor(
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private maestroService: MaestroService
   ) { }
 
   ngOnInit() {
+    this.listarProductosAbaco();
     this.loadEstadoCarteras();
   }
 
@@ -46,5 +51,11 @@ export class DashboardComponent implements OnInit {
   }
 
 
-
+  private listarProductosAbaco() {
+    this.maestroService.listaTablaProductoAbaco().subscribe(
+      res => {
+        this.productos =  res;
+      }
+    );
+  }
 }
