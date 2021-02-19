@@ -1,61 +1,47 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ChartDataSets, ChartOptions } from 'chart.js';
-import * as pluginDataLabels from 'chartjs-plugin-datalabels';
-
+import { Component, OnInit } from '@angular/core';
+import { CONST } from 'src/app/comun/CONST';
+import { GrupoCartera } from '../../../interfaces/dashboard/estados-cartera';
+import { DashboardService } from '../../../servicios/dashboard/dashboard.service';
 @Component({
   selector: 'app-estado-cartera',
   templateUrl: './estado-cartera.component.html',
   styleUrls: ['./estado-cartera.component.css']
 })
 export class EstadoCarteraComponent implements OnInit {
-  @Input() title: string;
-  @Input() dataChart: any;
-  @Input() year: any[];
 
-  public barChartOptions: any = {
-    responsive: true,
-    legend: { position: 'right' },
-    title: {
-      display: true,
-      text: 'Soles (Miles)'
-    },
-    scales: { xAxes: [], yAxes: [{}] },
-    plugins: {
-      datalabels: {
-        anchor: 'center',
-        align: 'center',
-        color: 'black',
-
-      }
-    }
-  };
-  public barChartLabels: any[] = [];
-  public barChartType: any = 'bar';
-  public barChartLegend = true;
-  public barChartPlugins = [pluginDataLabels];
-
-  public barChartData: ChartDataSets[] = [
-    { data: [], label: 'Con atraso', stack: 'a', backgroundColor: '#ff6384', barPercentage: 0.3 },
-    { data: [], label: 'Al día', stack: 'a', backgroundColor: '#36a2eb', barPercentage: 0.3 }
-  ];
-
-  constructor() { }
+  carteras: GrupoCartera[] = [];
+  sol: any;
+  dolar: any;
+  year: number[] = [];
+  constructor(
+    private dashboardService: DashboardService
+  ) { }
 
   ngOnInit() {
-    this.barChartOptions.title.text = this.title;
-    if (this.dataChart && this.barChartData.length) {
-      this.barChartLabels = this.year;
-      this.barChartData[0].data = this.dataChart.atraso;
-      this.barChartData[1].data = this.dataChart.dia ;
-    }
-
-  }
-  // events
-  public chartClicked(e: any): void {
-    console.log(e);
+    this.loadEstadoCarteras();
   }
 
-  public chartHovered(e: any): void {
-    console.log(e);
+  loadEstadoCarteras() {
+    this.dashboardService.getEstadoLasCarteras().subscribe(
+      res => {
+        this.carteras = res.carteras;
+        if (this.carteras.length > 0) {
+          const item: GrupoCartera = this.carteras[0];
+          const sol = item.items.find(i => i.codMoneda == CONST.ENUM_MONEDA.SOL);
+          const dolar = item.items.find(i => i.codMoneda == CONST.ENUM_MONEDA.DOLAR);
+          this.year.push(item.year);
+          this.sol = {
+            atraso: sol ? [sol.atraso.toFixed(2)] : [],
+            dia: sol ? [sol.dia.toFixed(2)] : [],
+          };
+
+          this.dolar = {
+            atraso: dolar ? [dolar.atraso.toFixed(2)] : [],
+            dia: dolar ? [dolar.dia.toFixed(2)] : [],
+          };
+        }
+      }
+    );
   }
+
 }

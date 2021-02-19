@@ -1,0 +1,4 @@
+<div class="chart-wrapper">
+    <!--(chartHover)="chartHovered($event)"-->
+    <canvas baseChart class="chart" [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType" (chartClick)="chartClicked($event)"></canvas>
+</div>

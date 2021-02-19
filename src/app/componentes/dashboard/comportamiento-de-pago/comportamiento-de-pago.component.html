@@ -1,0 +1,43 @@
+<div class="card" *ngIf="productos.length > 0">
+    <div class="card-header">
+        Comportamiento de pago
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Leyenda</label>
+                    <ul class="leyenda">
+                        <li class="leyenda-item">
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Puntual</div>
+                            </div>
+                        </li>
+                        <li class="leyenda-item">
+                            <div class="progress">
+                                <div class="progress-bar bg-yellow" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Imputual</div>
+                            </div>
+                        </li>
+                        <li class="leyenda-item">
+                            <div class="progress">
+                                <div class="progress-bar bg-danger-dark" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Con atraso</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6" *ngFor="let item of productos">
+                <div class="form-group text-center">
+                    <label class="font-weight-bold">{{ item.descripcion }} - [total de créditos]</label>
+                    <div class="progress" style="height: 25px">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 33.33%" aria-valuenow="33.3" aria-valuemin="0" aria-valuemax="100">%</div>
+                        <div class="progress-bar bg-yellow" role="progressbar" style="width: 33.33%" aria-valuenow="33.3" aria-valuemin="0" aria-valuemax="100">%</div>
+                        <div class="progress-bar bg-danger-dark" role="progressbar" style="width: 33.33%" aria-valuenow="33.3" aria-valuemin="0" aria-valuemax="100">%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
