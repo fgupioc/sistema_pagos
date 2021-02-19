@@ -20,6 +20,7 @@ import { ProgressEvaluacionCobranzaComponent } from './dashboard/evaluacion-cobr
 import { ComportamientoDePagoComponent } from './dashboard/comportamiento-de-pago/comportamiento-de-pago.component';
 import { CarteraConAtrasoComponent } from './dashboard/cartera-con-atraso/cartera-con-atraso.component';
 import { ChartCarteraConAtrasoComponent } from './dashboard/cartera-con-atraso/chart-cartera-con-atraso.component';
+import { MotivoDeAtrasoComponent } from './dashboard/motivo-de-atraso/motivo-de-atraso.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ChartCarteraConAtrasoComponent } from './dashboard/cartera-con-atraso/c
     ProgressEvaluacionCobranzaComponent,
     ComportamientoDePagoComponent,
     CarteraConAtrasoComponent,
-    ChartCarteraConAtrasoComponent
+    ChartCarteraConAtrasoComponent,
+    MotivoDeAtrasoComponent
   ],
   imports: [
     CommonModule,
@@ -58,7 +60,8 @@ import { ChartCarteraConAtrasoComponent } from './dashboard/cartera-con-atraso/c
     EstadoCarteraComponent,
     EvaluacionCobranzaComponent,
     ComportamientoDePagoComponent,
-    CarteraConAtrasoComponent
+    CarteraConAtrasoComponent,
+    MotivoDeAtrasoComponent
   ],
   providers: [ThemeService]
 })
