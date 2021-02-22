@@ -1,0 +1,29 @@
+.table-record-atraso caption {
+    caption-side: top;
+    text-align: center;
+}
+
+.table-record-atraso thead,
+.table-record-atraso tbody tr td:first-child {
+    text-align: center;
+}
+
+.table-record-atraso thead tr th:first-child {
+    width: 10%;
+}
+
+.table-record-atraso tbody td {
+    padding: 0;
+    vertical-align: middle;
+    border-top: initial;
+}
+
+.table-record-atraso .progress {
+    border-radius: 0;
+}
+
+.table-record-atraso .progress .progress-bar {
+    font-size: 12px;
+    font-weight: bold;
+    color: black;
+}
