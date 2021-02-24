@@ -17,4 +17,8 @@ export class DashboardService {
     return this.http.get(`${this.apiUrl}estado-carteras`);
   }
 
+  getEvolucionCobranza(): Observable<any> {
+    return this.http.get(`${this.apiUrl}evolucion-cobranza`);
+  }
+
 }

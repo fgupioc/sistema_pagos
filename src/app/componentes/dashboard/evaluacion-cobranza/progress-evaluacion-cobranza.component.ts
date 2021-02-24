@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-progress-evaluacion-cobranza',
@@ -7,46 +7,46 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProgressEvaluacionCobranzaComponent implements OnInit {
 
-  stacked: any[] = [];
+  @Input() stacked: any[] = [];
+  clases: any[] = [
+    {
+      value: 20,
+      class: 'bg-danger-dark',
+      label: 'Perdida'
+    },
+    {
+      value: 20,
+      class: 'bg-danger',
+      label: 'Dudoso'
+    },
+    {
+      value: 20,
+      class: 'bg-orange',
+      label: 'Deficiente'
+    },
+    {
+      value: 20,
+      class: 'bg-yellow',
+      label: 'Con problema potencial'
+    },
+    {
+      value: 20,
+      class: 'bg-success',
+      label: 'Normal'
+    },
+  ];
 
   constructor() {
-    this.randomStacked();
   }
 
   ngOnInit(): void {
 
   }
 
-  randomStacked(): void {
-
-    this.stacked.push(
-      {
-        value: 20,
-        class: 'bg-danger-dark',
-        label: 'Perdida'
-      },
-      {
-        value: 20,
-        class: 'bg-danger',
-        label: 'Dudoso'
-      },
-      {
-        value: 20,
-        class: 'bg-orange',
-        label: 'Deficiente'
-      },
-      {
-        value: 20,
-        class: 'bg-yellow',
-        label: 'Con problema potencial'
-      },
-      {
-        value: 20,
-        class: 'bg-success',
-        label: 'Normal'
-      },
-    );
+  getClass(code: string) {
 
   }
+
+
 
 }

@@ -22,6 +22,8 @@ import { CarteraConAtrasoComponent } from './dashboard/cartera-con-atraso/carter
 import { ChartCarteraConAtrasoComponent } from './dashboard/cartera-con-atraso/chart-cartera-con-atraso.component';
 import { MotivoDeAtrasoComponent } from './dashboard/motivo-de-atraso/motivo-de-atraso.component';
 import { RecordDeAtrasoComponent } from './dashboard/record-de-atraso/record-de-atraso.component';
+import { ContactabilidadComponent } from './dashboard/contactabilidad/contactabilidad.component';
+import { ChartContactabilidadComponent } from './dashboard/chart-contactabilidad/chart-contactabilidad.component';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import { RecordDeAtrasoComponent } from './dashboard/record-de-atraso/record-de-
     CarteraConAtrasoComponent,
     ChartCarteraConAtrasoComponent,
     MotivoDeAtrasoComponent,
-    RecordDeAtrasoComponent
+    RecordDeAtrasoComponent,
+    ContactabilidadComponent,
+    ChartContactabilidadComponent
   ],
   imports: [
     CommonModule,
@@ -65,7 +69,8 @@ import { RecordDeAtrasoComponent } from './dashboard/record-de-atraso/record-de-
     ComportamientoDePagoComponent,
     CarteraConAtrasoComponent,
     MotivoDeAtrasoComponent,
-    RecordDeAtrasoComponent
+    RecordDeAtrasoComponent,
+    ContactabilidadComponent
   ],
   providers: [ThemeService]
 })
