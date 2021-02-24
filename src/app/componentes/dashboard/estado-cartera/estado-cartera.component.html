@@ -1,26 +1,29 @@
-<div class="card">
+<div class="animated fadeIn">
+  <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Estado de la cartera</h4>
+      <h4 class="card-title">Estado de la cartera</h4>
     </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col-12 col-md-4">
-                <div class="form-group">
-                    <label>Carteras</label>
-                    <select class="form-control">
-                          <option *ngFor="let item of carteras" [value]="item.codCartera">{{ item.cartera }}</option>
-                        </select>
-                    <small id="helpId" class="text-muted">Seleccione la cartera</small>
-                </div>
-            </div>
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <label>Carteras</label>
+            <select class="form-control">
+              <option *ngFor="let item of carteras" [value]="item.codCartera">{{ item.cartera }}</option>
+            </select>
+            <small id="helpId" class="text-muted">Seleccione la cartera</small>
+          </div>
         </div>
-        <div class="row">
-            <div class="col-12 col-md-6" *ngIf="sol">
-                <app-chart-estado-cartera title="Soles (Miles)" [dataChart]="sol" [year]="year"></app-chart-estado-cartera>
-            </div>
-            <div class="col-12 col-md-6" *ngIf="dolar">
-                <app-chart-estado-cartera title="Dolares (Miles)" [dataChart]="dolar" [year]="year"></app-chart-estado-cartera>
-            </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-6" *ngIf="sol">
+          <app-chart-estado-cartera title="Soles (Miles)" [dataChart]="sol" [year]="year"></app-chart-estado-cartera>
         </div>
+        <div class="col-12 col-md-6" *ngIf="dolar">
+          <app-chart-estado-cartera title="Dolares (Miles)" [dataChart]="dolar" [year]="year"></app-chart-estado-cartera>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
+<app-loading></app-loading>

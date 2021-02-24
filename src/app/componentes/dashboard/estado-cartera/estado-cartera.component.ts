@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CONST } from 'src/app/comun/CONST';
 import { GrupoCartera } from '../../../interfaces/dashboard/estados-cartera';
 import { DashboardService } from '../../../servicios/dashboard/dashboard.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 @Component({
   selector: 'app-estado-cartera',
   templateUrl: './estado-cartera.component.html',
@@ -14,7 +15,8 @@ export class EstadoCarteraComponent implements OnInit {
   dolar: any;
   year: number[] = [];
   constructor(
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -22,6 +24,7 @@ export class EstadoCarteraComponent implements OnInit {
   }
 
   loadEstadoCarteras() {
+    this.spinner.show();
     this.dashboardService.getEstadoLasCarteras().subscribe(
       res => {
         this.carteras = res.carteras;
@@ -40,6 +43,10 @@ export class EstadoCarteraComponent implements OnInit {
             dia: dolar ? [dolar.dia.toFixed(2)] : [],
           };
         }
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
       }
     );
   }

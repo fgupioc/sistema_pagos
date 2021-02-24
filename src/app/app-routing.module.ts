@@ -45,17 +45,24 @@ import {SupervisorAsignacionesComponent} from './estrategia/asignacion-cartera/s
 import {SupervisorCreditosComponent} from './estrategia/asignacion-cartera/supervisor-creditos/supervisor-creditos.component';
 import {SupervisorCreditoSocioComponent} from './estrategia/asignacion-cartera/supervisor-credito-socio/supervisor-credito-socio.component';
 import {BitacoraGestionesComponent} from './estrategia/reportes/bitacora-gestiones/bitacora-gestiones.component';
-import { RelacionGestionesRealizadasComponent } from './estrategia/reportes/relacion-gestiones-realizadas/relacion-gestiones-realizadas.component';
-import { ResumenResultadosPorGestorComponent } from './estrategia/reportes/resumen-resultados-por-gestor/resumen-resultados-por-gestor.component';
+import {RelacionGestionesRealizadasComponent} from './estrategia/reportes/relacion-gestiones-realizadas/relacion-gestiones-realizadas.component';
+import {ResumenResultadosPorGestorComponent} from './estrategia/reportes/resumen-resultados-por-gestor/resumen-resultados-por-gestor.component';
 import {DetalleCarteraNoAsignadaComponent} from './estrategia/reportes/detalle-cartera-no-asignada/detalle-cartera-no-asignada.component';
 import {ResumenResultadoPorFechaVencimientoComponent} from './estrategia/reportes/resumen-resultado-por-fecha-vencimiento/resumen-resultado-por-fecha-vencimiento.component';
-import { CompromisoPagoComponent } from './socio/views/respuestas/compromiso-pago/compromiso-pago.component';
-import { CompromisoDePagoComponent } from './estrategia/reportes/compromiso-de-pago/compromiso-de-pago.component';
+import {CompromisoPagoComponent} from './socio/views/respuestas/compromiso-pago/compromiso-pago.component';
+import {CompromisoDePagoComponent} from './estrategia/reportes/compromiso-de-pago/compromiso-de-pago.component';
 import {PagosRealizadosPorDiaComponent} from './estrategia/reportes/pagos-realizados-por-dia/pagos-realizados-por-dia.component';
 import {GestionCarteraComponent} from './estrategia/cartera/gestion-cartera/gestion-cartera.component';
 import {GestionCarteraEditarComponent} from './estrategia/cartera/gestion-cartera-editar/gestion-cartera-editar.component';
 import {ListarGestionesComponent} from './estrategia/configuracion/gestion/listar-gestiones/listar-gestiones.component';
 import {CrearGestionComponent} from './estrategia/gestion/crear-gestion/crear-gestion.component';
+import {EstadoCarteraComponent} from './componentes/dashboard/estado-cartera/estado-cartera.component';
+import {EvaluacionCobranzaComponent} from './componentes/dashboard/evaluacion-cobranza/evaluacion-cobranza.component';
+import {ComportamientoDePagoComponent} from './componentes/dashboard/comportamiento-de-pago/comportamiento-de-pago.component';
+import {CarteraConAtrasoComponent} from './componentes/dashboard/cartera-con-atraso/cartera-con-atraso.component';
+import {MotivoDeAtrasoComponent} from './componentes/dashboard/motivo-de-atraso/motivo-de-atraso.component';
+import {RecordDeAtrasoComponent} from './componentes/dashboard/record-de-atraso/record-de-atraso.component';
+import {ContactabilidadComponent} from './componentes/dashboard/contactabilidad/contactabilidad.component';
 
 
 const A = Autorizacion;
@@ -198,6 +205,18 @@ const routes: Routes = [
             {path: 'resumen-resultados-por-fecha-de-vencimiento', component: ResumenResultadoPorFechaVencimientoComponent},
             {path: 'compromiso-de-pago', component: CompromisoDePagoComponent},
             {path: 'pagos-realizados-por-dia', component: PagosRealizadosPorDiaComponent},
+          ]
+        },
+        {
+          path: 'dashboard',
+          children: [
+            {path: 'estado-de-cartera', component: EstadoCarteraComponent},
+            {path: 'evolucion-de-cobranza', component: EvaluacionCobranzaComponent},
+            {path: 'comportamiento-de-pago', component: ComportamientoDePagoComponent},
+            {path: 'cartera-con-atraso', component: CarteraConAtrasoComponent},
+            {path: 'motivo-de-atraso', component: MotivoDeAtrasoComponent},
+            {path: 'record-de-atraso', component: RecordDeAtrasoComponent},
+            {path: 'contactabilidad', component: ContactabilidadComponent},
           ]
         }
       ]
