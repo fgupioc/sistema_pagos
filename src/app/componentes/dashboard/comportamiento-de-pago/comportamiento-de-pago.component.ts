@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TablaMaestra } from '../../../interfaces/tabla-maestra';
 import { MaestroService } from '../../../servicios/sistema/maestro.service';
+import {DashboardService} from '../../../servicios/dashboard/dashboard.service';
 
 @Component({
   selector: 'app-comportamiento-de-pago',
@@ -8,9 +9,9 @@ import { MaestroService } from '../../../servicios/sistema/maestro.service';
   styleUrls: ['./comportamiento-de-pago.component.css']
 })
 export class ComportamientoDePagoComponent implements OnInit {
-  productos: TablaMaestra[] = [];
+  productos: any[] = [];
   constructor(
-    private maestroService: MaestroService,
+    private dashboardService: DashboardService
   ) { }
 
   ngOnInit() {
@@ -18,10 +19,16 @@ export class ComportamientoDePagoComponent implements OnInit {
   }
 
   private listarProductosAbaco() {
-    this.maestroService.listaTablaProductoAbaco().subscribe(
+    this.dashboardService.getComportamientoPago().subscribe(
       res => {
-        this.productos = res;
+        if (res.resulset) {
+          this.productos = res.resulset;
+        }
       }
     );
+  }
+
+  calcularPorcentaje(cant: any, total: any) {
+    return total == 0 ? 0 : (cant * 100) / total;
   }
 }

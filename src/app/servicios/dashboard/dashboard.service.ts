@@ -21,4 +21,7 @@ export class DashboardService {
     return this.http.get(`${this.apiUrl}evolucion-cobranza`);
   }
 
+  getComportamientoPago(): Observable<any> {
+    return this.http.get(`${this.apiUrl}comportamiento-pago`);
+  }
 }

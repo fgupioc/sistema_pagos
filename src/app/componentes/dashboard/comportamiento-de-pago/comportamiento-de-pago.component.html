@@ -31,11 +31,11 @@
       <div class="row">
         <div class="col-12 col-md-6" *ngFor="let item of productos">
           <div class="form-group text-center">
-            <label class="font-weight-bold">{{ item.descripcion }} - [total de créditos]</label>
+            <label class="font-weight-bold">{{ item.producto }} - total: {{  item.total }}</label>
             <div class="progress" style="height: 25px">
-              <div class="progress-bar bg-success" role="progressbar" style="width: 33.33%" aria-valuenow="33.3" aria-valuemin="0" aria-valuemax="100">%</div>
-              <div class="progress-bar bg-yellow" role="progressbar" style="width: 33.33%" aria-valuenow="33.3" aria-valuemin="0" aria-valuemax="100">%</div>
-              <div class="progress-bar bg-danger-dark" role="progressbar" style="width: 33.33%" aria-valuenow="33.3" aria-valuemin="0" aria-valuemax="100">%</div>
+              <div class="progress-bar bg-success" role="progressbar" style="width: 33.33%" aria-valuenow="33.3" aria-valuemin="0" aria-valuemax="100">{{ calcularPorcentaje(item.greenCantidad, item.total) }}%</div>
+              <div class="progress-bar bg-yellow" role="progressbar" style="width: 33.33%" aria-valuenow="33.3" aria-valuemin="0" aria-valuemax="100">{{ calcularPorcentaje(item.yellowCantidad, item.total) }}%</div>
+              <div class="progress-bar bg-danger-dark" role="progressbar" style="width: 33.33%" aria-valuenow="33.3" aria-valuemin="0" aria-valuemax="100">{{ calcularPorcentaje(item.redCantidad, item.total) }}%</div>
             </div>
           </div>
         </div>
