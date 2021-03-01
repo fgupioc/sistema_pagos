@@ -1026,6 +1026,10 @@ export class SupervisorCreditoSocioComponent implements OnInit {
 
   isCurrentDate(fecha: string, condicion: string) {
     const date = moment(fecha).format('YYYY-MM-DD');
+    if (condicion == '5') {
+      return 'table-success';
+    }
+
     if (this.dateDefault == date && condicion != '2') {
       return 'table-primary';
     }
@@ -1035,7 +1039,7 @@ export class SupervisorCreditoSocioComponent implements OnInit {
     if (moment().isAfter(fecha) && condicion != '2') {
       return 'table-danger';
     }
-    if (moment().isAfter(fecha) && condicion == '2') {
+    if (moment().isAfter(fecha) && (condicion == '2')) {
       return 'table-success';
     }
   }

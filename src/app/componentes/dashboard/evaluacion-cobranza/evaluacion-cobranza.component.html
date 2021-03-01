@@ -4,41 +4,37 @@
       Evolución de la cobranza del día
     </div>
     <div class="card-body">
-      <div class="row" *ngIf="clasificacionesAbaco.length > 0">
+      <div class="row item-border" *ngIf="clasificacionesAbaco.length > 0">
         <div class="col-12 col-md-12">
-          <div class="form-group">
-            ABACO
-          </div>
+          ABACO
         </div>
         <div class="col-12 col-md-6">
           <div class="form-group text-center">
             <label class="font-weight-bold">Soles (Miles)</label>
-            <app-progress-evaluacion-cobranza [stacked]="getSoles(clasificacionesAbaco)"></app-progress-evaluacion-cobranza>
+            <app-progress-evaluacion-cobranza [stacked]="getDataArray(clasificacionesAbaco, monSol)"></app-progress-evaluacion-cobranza>
           </div>
         </div>
         <div class="col-12 col-md-6">
           <div class="form-group text-center">
             <label class="font-weight-bold">Dolares (Miles)</label>
-            <app-progress-evaluacion-cobranza [stacked]="getDolare(clasificacionesAbaco)"></app-progress-evaluacion-cobranza>
+            <app-progress-evaluacion-cobranza [stacked]="getDataArray(clasificacionesAbaco, monDolar)"></app-progress-evaluacion-cobranza>
           </div>
         </div>
       </div>
-      <div class="row" *ngIf="clasificacionesCentralRiesgo.length > 0">
+      <div class="row item-border" *ngIf="clasificacionesCentralRiesgo.length > 0">
         <div class="col-12 col-md-12">
-          <div class="form-group">
-            Central de riesgo
-          </div>
+          Central de riesgo
         </div>
         <div class="col-12 col-md-6">
           <div class="form-group text-center">
             <label class="font-weight-bold">Soles (Miles)</label>
-            <app-progress-evaluacion-cobranza [stacked]="getSoles(clasificacionesCentralRiesgo)"></app-progress-evaluacion-cobranza>
+            <app-progress-evaluacion-cobranza [stacked]="getDataArray(clasificacionesCentralRiesgo, monSol)"></app-progress-evaluacion-cobranza>
           </div>
         </div>
         <div class="col-12 col-md-6">
           <div class="form-group text-center">
             <label class="font-weight-bold">Dolares (Miles)</label>
-            <app-progress-evaluacion-cobranza [stacked]="getDolare(clasificacionesCentralRiesgo)"></app-progress-evaluacion-cobranza>
+            <app-progress-evaluacion-cobranza [stacked]="getDataArray(clasificacionesCentralRiesgo, monDolar)"></app-progress-evaluacion-cobranza>
           </div>
         </div>
       </div>
@@ -79,3 +75,4 @@
     </div>
   </div>
 </div>
+<app-loading></app-loading>

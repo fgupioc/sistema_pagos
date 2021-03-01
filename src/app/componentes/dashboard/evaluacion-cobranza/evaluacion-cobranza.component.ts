@@ -3,6 +3,7 @@ import {DashboardService} from '../../../servicios/dashboard/dashboard.service';
 import {MaestroService} from '../../../servicios/sistema/maestro.service';
 import {TablaMaestra} from '../../../interfaces/tabla-maestra';
 import {CONST} from '../../../comun/CONST';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-evaluacion-cobranza',
@@ -10,15 +11,17 @@ import {CONST} from '../../../comun/CONST';
   styleUrls: ['./evaluacion-cobranza.component.css']
 })
 export class EvaluacionCobranzaComponent implements OnInit {
+  monSol = CONST.ENUM_MONEDA.SOL;
+  monDolar = CONST.ENUM_MONEDA.DOLAR;
 
   clasificaciones: TablaMaestra[] = [];
-
   clasificacionesAbaco: any[] = [];
   clasificacionesCentralRiesgo: any[] = [];
 
   constructor(
     private dashboardService: DashboardService,
-    private maestroService: MaestroService
+    private maestroService: MaestroService,
+    private spinner: NgxSpinnerService
   ) {
   }
 
@@ -29,11 +32,14 @@ export class EvaluacionCobranzaComponent implements OnInit {
 
 
   private loadData() {
+    this.spinner.show();
     this.dashboardService.getEvolucionCobranza().subscribe(
       res => {
         this.clasificacionesAbaco = res.clasificacionesAbaco;
         this.clasificacionesCentralRiesgo = res.clasificacionesCentralRiesgo;
-      }
+        this.spinner.hide();
+      },
+      error => this.spinner.hide()
     );
   }
 
@@ -43,53 +49,24 @@ export class EvaluacionCobranzaComponent implements OnInit {
     );
   }
 
-  getSoles(items: any[]): any[] {
+  getDataArray(items: any[], moneda: any): any[] {
     let array: any[] = [];
-    const soles: any[] = items.filter(i => i.codMoneda == CONST.ENUM_MONEDA.SOL);
-    for (const item of soles) {
-      array.push(
-        {
-          value: 100 / soles.length,
-          code: item.codClasificacion,
-          class: this.getClass(item.codClasificacion),
-          label: this.getNameClass(item.codClasificacion),
-          total: item.total
-        },
-      );
+    const soles: any[] = items.filter(i => i.codMoneda == moneda);
+    if (this.clasificaciones.length > 0) {
+      for (const c of this.clasificaciones) {
+        const item = soles.find(i => i.codClasificacion == c.codItem );
+        array.push(
+          {
+            value: 100 / this.clasificaciones.length,
+            code: item ? item.codClasificacion : null,
+            class: c.strValor,
+            label: c.descripcion,
+            total: item ? item.total : 0
+          },
+        );
+      }
     }
     return array;
   }
 
-  getDolare(items: any[]): any[] {
-    let array: any[] = [];
-    const dolares: any[] = items.filter(i => i.codMoneda == CONST.ENUM_MONEDA.DOLAR);
-    for (const item of dolares) {
-      array.push(
-        {
-          value: 100 / dolares.length,
-          code: item.codClasificacion,
-          class: this.getClass(item.codClasificacion),
-          label: this.getNameClass(item.codClasificacion),
-          total: item.total
-        },
-      );
-    }
-    return array;
-  }
-
-  getNameClass(code: string) {
-    if (this.clasificaciones.length == 0) {
-      return '';
-    }
-    const item = this.clasificaciones.find(i => i.codItem == code);
-    return item.descripcion || '';
-  }
-
-  getClass(code: string) {
-    if (this.clasificaciones.length == 0) {
-      return '';
-    }
-    const item = this.clasificaciones.find(i => i.codItem == code);
-    return item.strValor || '';
-  }
 }
