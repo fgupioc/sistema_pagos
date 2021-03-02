@@ -28,4 +28,8 @@ export class DashboardService {
   getCarteraConAtraso(): Observable<any> {
     return this.http.get(`${this.apiUrl}cartera-con-atraso`);
   }
+
+  getRecordAtraso(): Observable<any> {
+    return this.http.get(`${this.apiUrl}record-de-atraso`);
+  }
 }
