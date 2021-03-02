@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DashboardService} from '../../../servicios/dashboard/dashboard.service';
+import has = Reflect.has;
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-cartera-con-atraso',
@@ -9,35 +11,39 @@ import {DashboardService} from '../../../servicios/dashboard/dashboard.service';
 export class CarteraConAtrasoComponent implements OnInit {
 
   saldosCapital: any[] = [];
-  items: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+  sectores: any[] = ['001', '002', '003'];
   chartSoles: any[] = [];
   chartDolar: any[] = [];
   divisionDolar: any[] = [];
   divisionSoles: any[] = [];
+  diasAtrasoCarterasDolar: any[] = [];
+  diasAtrasoCarterasSoles: any[] = [];
 
   constructor(
-    private dashboardService: DashboardService
-  ) { }
+    private dashboardService: DashboardService,
+    private spinner: NgxSpinnerService
+  ) {
+  }
 
   ngOnInit() {
     this.loadData();
     this.saldosCapital.push(
-      { desde: 1, hasta: 1000 },
-      { desde: 1001, hasta: 5000 },
-      { desde: 5001, hasta: 10000 },
-      { desde: 10001, hasta: 25000 },
-      { desde: 25001, hasta: 50000 },
-      { desde: 50001, hasta: 75000 },
-      { desde: 75001, hasta: 100000 },
-      { desde: 1000001, hasta: 0 }
+      {desde: 1, hasta: 1000},
+      {desde: 1001, hasta: 5000},
+      {desde: 5001, hasta: 10000},
+      {desde: 10001, hasta: 25000},
+      {desde: 25001, hasta: 50000},
+      {desde: 50001, hasta: 75000},
+      {desde: 75001, hasta: 100000},
+      {desde: 1000001, hasta: null}
     );
   }
 
 
   private loadData() {
+    this.spinner.show();
     this.dashboardService.getCarteraConAtraso().subscribe(
       res => {
-        console.log(res);
         if (res.chartDolar) {
           this.chartDolar = [res.chartDolar.yellowCantidad, res.chartDolar.orangeCantidad, res.chartDolar.redCantidad];
         }
@@ -47,7 +53,39 @@ export class CarteraConAtrasoComponent implements OnInit {
         }
         this.divisionSoles = res.divisionSoles;
         this.divisionDolar = res.divisionDolar;
-      }
+        this.diasAtrasoCarterasSoles = res.diasAtrasoCarterasSoles;
+        this.diasAtrasoCarterasDolar = res.diasAtrasoCarterasDolar;
+        this.spinner.hide();
+      },
+      err => this.spinner.hide()
     );
+  }
+
+  calcularInfo(items: any[], item: any, desde: any, hasta: any) {
+    let result = [];
+    if (item.hasta != null) {
+      if (hasta != null) {
+        result = items.filter(i => i.saldoCapital >= item.desde && i.saldoCapital <= item.hasta && i.diasAtraso >= desde && i.diasAtraso <= hasta);
+      } else {
+        result = items.filter(i => i.saldoCapital >= item.desde && i.saldoCapital <= item.hasta && i.diasAtraso >= desde);
+      }
+    } else {
+      if (hasta != null) {
+        result = items.filter(i => i.saldoCapital >= item.desde && i.diasAtraso >= desde && i.diasAtraso <= hasta);
+      } else {
+        result = items.filter(i => i.saldoCapital >= item.desde && i.diasAtraso >= desde);
+      }
+    }
+    return result.length;
+  }
+
+  calcularSector(items: any[], item: any, desde: any, hasta: any) {
+    let result = [];
+    if (hasta != null) {
+      result  = items.filter(i => i.codigoSectorEconomico == item && i.diasAtraso >= desde && i.diasAtraso <= hasta);
+    } else {
+      result  = items.filter(i => i.codigoSectorEconomico == item && i.diasAtraso >= desde);
+    }
+    return result.length;
   }
 }

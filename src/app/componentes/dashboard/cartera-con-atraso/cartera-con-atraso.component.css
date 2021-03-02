@@ -9,8 +9,8 @@
 }
 
 .lista-sectores .sector-item {
-    max-width: 40px;
-    width: 40px;
+    max-width: 50px;
+    width: 50px;
     margin-right: 10px;
     display: inline-block;
     font-size: 20px;
@@ -21,6 +21,10 @@
     height: 35px;
 }
 
+tbody td .progress {
+  height: 30px;
+  font-size: 16px;
+}
 
 /*
   ##Device = Most of the Smartphones Mobiles (Portrait)
