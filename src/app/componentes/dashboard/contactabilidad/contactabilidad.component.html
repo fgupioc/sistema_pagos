@@ -10,10 +10,10 @@
                         % Contactabilidad por día (cartera con atraso)
                     </div>
                     <div class="form-group">
-                        <app-chart-contactabilidad></app-chart-contactabilidad>
+                        <app-chart-contactabilidad [pieChartData]="charSolesAtraso" title="Soles"></app-chart-contactabilidad>
                     </div>
                     <div class="form-group">
-                        <app-chart-contactabilidad></app-chart-contactabilidad>
+                        <app-chart-contactabilidad [pieChartData]="charDolarAtraso" title="Dolar"></app-chart-contactabilidad>
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
@@ -21,10 +21,10 @@
                         % Contactabilidad por día (cartera sin atraso)
                     </div>
                     <div class="form-group">
-                        <app-chart-contactabilidad></app-chart-contactabilidad>
+                        <app-chart-contactabilidad [pieChartData]="charSoles" title="Soles"></app-chart-contactabilidad>
                     </div>
                     <div class="form-group">
-                        <app-chart-contactabilidad></app-chart-contactabilidad>
+                        <app-chart-contactabilidad [pieChartData]="charDolar" title="Dolar"></app-chart-contactabilidad>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Color } from 'ng2-charts';
+import {Component, Input, OnInit} from '@angular/core';
+import {Color} from 'ng2-charts';
 
 @Component({
   selector: 'app-chart-contactabilidad',
@@ -7,13 +7,15 @@ import { Color } from 'ng2-charts';
   styleUrls: ['./chart-contactabilidad.component.css']
 })
 export class ChartContactabilidadComponent implements OnInit {
+  @Input() pieChartData: any[] = [];
+  @Input() title = '';
 
   public barChartOptions: any = {
     responsive: true,
-    legend: { position: 'right' },
+    legend: {position: 'right'},
     title: {
       display: true,
-      text: 'Soles (Miles)'
+      text: ''
     },
     plugins: {
       datalabels: {
@@ -24,17 +26,19 @@ export class ChartContactabilidadComponent implements OnInit {
 
   // Pie
   public pieChartLabels: string[] = ['Contados', 'No contactados', 'No respondieron'];
-  public pieChartData: number[] = [500, 150, 50];
   public pieChartType = 'pie';
   lineChartColours: Array<any> = [{
-    backgroundColor: ["#4dbd74","#20a8d8", "#dc3545"]
+    backgroundColor: ['#4dbd74', '#20a8d8', '#dc3545']
   }];
 
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
+    this.barChartOptions.title.text = this.title + ' (Miles)';
   }
+
   // events
   public chartClicked(e: any): void {
     console.log(e);

@@ -32,4 +32,8 @@ export class DashboardService {
   getRecordAtraso(): Observable<any> {
     return this.http.get(`${this.apiUrl}record-de-atraso`);
   }
+
+  getContactabilidad(): Observable<any> {
+    return this.http.get(`${this.apiUrl}contactabilidad`);
+  }
 }
