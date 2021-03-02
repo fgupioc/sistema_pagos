@@ -5,11 +5,11 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-12">
-                <app-chart-cartera-con-atraso></app-chart-cartera-con-atraso>
+            <div class="col-12" *ngIf="chartSoles.length > 0">
+                <app-chart-cartera-con-atraso [data]="chartSoles" [divisiones]="divisionSoles"></app-chart-cartera-con-atraso>
             </div>
-            <div class="col-12">
-                <app-chart-cartera-con-atraso></app-chart-cartera-con-atraso>
+            <div class="col-12" *ngIf="chartDolar.length> 0">
+                <app-chart-cartera-con-atraso [data]="chartDolar" [divisiones]="divisionDolar"></app-chart-cartera-con-atraso>
             </div>
         </div>
         <div class="row mt-5">

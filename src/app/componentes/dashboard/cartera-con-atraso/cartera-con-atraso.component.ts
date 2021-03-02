@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {DashboardService} from '../../../servicios/dashboard/dashboard.service';
 
 @Component({
   selector: 'app-cartera-con-atraso',
@@ -9,10 +10,17 @@ export class CarteraConAtrasoComponent implements OnInit {
 
   saldosCapital: any[] = [];
   items: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+  chartSoles: any[] = [];
+  chartDolar: any[] = [];
+  divisionDolar: any[] = [];
+  divisionSoles: any[] = [];
 
-  constructor() { }
+  constructor(
+    private dashboardService: DashboardService
+  ) { }
 
   ngOnInit() {
+    this.loadData();
     this.saldosCapital.push(
       { desde: 1, hasta: 1000 },
       { desde: 1001, hasta: 5000 },
@@ -26,4 +34,20 @@ export class CarteraConAtrasoComponent implements OnInit {
   }
 
 
+  private loadData() {
+    this.dashboardService.getCarteraConAtraso().subscribe(
+      res => {
+        console.log(res);
+        if (res.chartDolar) {
+          this.chartDolar = [res.chartDolar.yellowCantidad, res.chartDolar.orangeCantidad, res.chartDolar.redCantidad];
+        }
+
+        if (res.chartSoles) {
+          this.chartSoles = [res.chartSoles.yellowCantidad, res.chartSoles.orangeCantidad, res.chartSoles.redCantidad];
+        }
+        this.divisionSoles = res.divisionSoles;
+        this.divisionDolar = res.divisionDolar;
+      }
+    );
+  }
 }

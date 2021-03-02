@@ -24,4 +24,8 @@ export class DashboardService {
   getComportamientoPago(): Observable<any> {
     return this.http.get(`${this.apiUrl}comportamiento-pago`);
   }
+
+  getCarteraConAtraso(): Observable<any> {
+    return this.http.get(`${this.apiUrl}cartera-con-atraso`);
+  }
 }
