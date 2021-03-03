@@ -73,6 +73,7 @@ export class MisGestionesDetalleComponent implements OnInit {
 
 
   gestiones: TablaMaestra[] = [];
+  $respuestasBack: TablaMaestra[] = [];
   respuestas: TablaMaestra[] = [];
   tiposContacto: TablaMaestra[] = [];
   tipoDirecciones: TablaMaestra[] = [];
@@ -130,6 +131,8 @@ export class MisGestionesDetalleComponent implements OnInit {
   $codRespuesta = '';
   $tipoGestion = '';
   $duracion = 0;
+
+  $detalles: any[] = [];
 
   constructor(
     public auth: AutenticacionService,
@@ -319,7 +322,8 @@ export class MisGestionesDetalleComponent implements OnInit {
   listarTiposRespuestas() {
     this.tablaMaestraService.listarTiposRespuestas().subscribe(
       response => {
-        this.respuestas = response;
+        this.$respuestasBack = response;
+        this.respuestas = this.$respuestasBack.filter(i => i.intValor == 1 || i.intValor == 0);
       },
       error => console.log(error)
     );
@@ -347,7 +351,6 @@ export class MisGestionesDetalleComponent implements OnInit {
       res => {
         if (res.exito) {
           this.acciones = res.acciones;
-          console.log(res.acciones);
           this.collectionSize = this.acciones.length;
           this.refreshCountries();
         }
@@ -1184,7 +1187,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     this.$codRespuesta = '';
     this.$tipoGestion = '';
     this.$duracion = 0;
-    this.$condicion = '0'
+    this.$condicion = '0';
 
     if ($(`.item_${i}`).hasClass('hidden')) {
       $(`.item-detalle`).addClass('hidden');
@@ -1408,5 +1411,16 @@ export class MisGestionesDetalleComponent implements OnInit {
         this.spinner.hide();
       }
     );
+  }
+
+  cambioGestion(event: any) {
+    this.respuestas = this.$respuestasBack.filter(i => i.intValor == Number(event) || i.intValor == 0);
+    this.$detalles = [];
+  }
+
+  respuestaSeleccionada(event: any) {
+    this.$detalles = [];
+    const res = this.respuestas.find(i => i.codItem == event);
+    this.$detalles = res ? res.strValor.split(',') : [];
   }
 }

@@ -172,7 +172,7 @@
                             <div class="col-12">
                               <div class="form-group text-center mt-2">
                                 <button class="btn btn-sm btn-primary mr-2" [disabled]="formTarea.invalid" (click)="guardarTarea()">Guardar</button>
-                                <button class="btn btn-sm btn-danger" (click)="formTarea.reset(); showNewTask = false;">Cancelar</button>
+                                <button class="btn btn-sm btn-danger" (click)="formTarea.reset(); showNewTask = false; $detalles = []">Cancelar</button>
                               </div>
                             </div>
                           </div>
@@ -200,7 +200,7 @@
                               <br>
                               <br>
                               <label class="cursor-pointer">
-                              <input type="checkbox" formControlName="url"> Adjuntar URL Self Service
+                                <input type="checkbox" formControlName="url"> Adjuntar URL Self Service
                               </label>
                             </div>
                           </div>
@@ -258,7 +258,7 @@
                     <div class="col-12 col-md-6">
                       <div class="form-group">
                         <label>Tipo Gestión</label>
-                        <select class="form-control" formControlName="tipoGestion">
+                        <select class="form-control" formControlName="tipoGestion" (ngModelChange)="cambioGestion($event)">
                           <option *ngFor="let item of gestiones" [value]="item.codItem">{{ item.descripcion }}</option>
                         </select>
                       </div>
@@ -319,9 +319,14 @@
                     <div class="col-12 col-md-4">
                       <div class="form-group">
                         <label>Respuesta</label>
-                        <select class="form-control" formControlName="codRespuesta">
+                        <select class="form-control" formControlName="codRespuesta" (ngModelChange)="respuestaSeleccionada($event)">
                           <option *ngFor="let item of respuestas" [value]="item.codItem">{{ item.descripcion }}</option>
                         </select>
+                      </div>
+                      <div *ngIf="$detalles.length >0">
+                        <ol>
+                          <li *ngFor="let text of $detalles"><small>{{ text }}</small></li>
+                        </ol>
                       </div>
                     </div>
                     <ng-container *ngIf="showAcuerdoPago">
@@ -577,23 +582,23 @@
                                                   </div>
                                                 </div>
                                                 <ng-container *ngIf="$condicion == '1'">
-                                                <div class="col-12 col-md-6">
-                                                  <div class="form-group">
-                                                    <label>Tipo Gestión</label>
-                                                    <select class="form-control" [(ngModel)]="$tipoGestion">
-                                                      <option *ngFor="let obj of gestiones" [value]="obj.codItem">{{ obj.descripcion }}</option>
-                                                    </select>
+                                                  <div class="col-12 col-md-6">
+                                                    <div class="form-group">
+                                                      <label>Tipo Gestión</label>
+                                                      <select class="form-control" [(ngModel)]="$tipoGestion">
+                                                        <option *ngFor="let obj of gestiones" [value]="obj.codItem">{{ obj.descripcion }}</option>
+                                                      </select>
+                                                    </div>
                                                   </div>
-                                                </div>
-                                                <div class="col-12 col-md-6" *ngIf="item.tipoContacto == '2' || item.tipoContacto == '3'">
-                                                  <div class="form-group">
-                                                    <label>Seleccione Correo</label>
-                                                    <select class="form-control" [(ngModel)]="$target">
-                                                      <option value="">Seleccione</option>
-                                                      <option *ngFor="let emails of showEmails" [value]="emails.email">{{ emails.email }}</option>
-                                                    </select>
+                                                  <div class="col-12 col-md-6" *ngIf="item.tipoContacto == '2' || item.tipoContacto == '3'">
+                                                    <div class="form-group">
+                                                      <label>Seleccione Correo</label>
+                                                      <select class="form-control" [(ngModel)]="$target">
+                                                        <option value="">Seleccione</option>
+                                                        <option *ngFor="let emails of showEmails" [value]="emails.email">{{ emails.email }}</option>
+                                                      </select>
+                                                    </div>
                                                   </div>
-                                                </div>
                                                   <div class="col-12 col-md-6" *ngIf="item.tipoContacto == '1'">
                                                     <label>Número telefonico</label>
                                                     <div class="input-group">
@@ -618,20 +623,22 @@
                                                       </select>
                                                     </div>
                                                   </div>
-                                                <div class="col-12 col-md-6">
-                                                  <div class="form-group">
-                                                    <label>Respuesta</label>
-                                                    <select class="form-control" [(ngModel)]="$codRespuesta">
-                                                      <option *ngFor="let objs of respuestas" [value]="objs.codItem">{{ objs.descripcion }}</option>
-                                                    </select>
+                                                  <div class="col-12 col-md-6">
+                                                    <div class="form-group">
+                                                      <label>Respuesta</label>
+                                                      <select class="form-control" [(ngModel)]="$codRespuesta">
+                                                        <option *ngFor="let objs of respuestas" [value]="objs.codItem">{{ objs.descripcion }}</option>
+                                                      </select>
+                                                    </div>
                                                   </div>
-                                                </div>
                                                 </ng-container>
                                                 <ng-container *ngIf="$condicion != '0'">
-                                                <div class="col-12 mt-2" *ngIf="item.condicion == '0'">
-                                                  <button class="btn btn-sm btn-primary" *ngIf="$condicion == '1'" [disabled]="$codRespuesta.length == 0  || $tipoGestion.length == 0 || $target.length == 0 " (click)="actualizarTarea(item)">Actualizar</button>
-                                                  <button class="btn btn-sm btn-primary" *ngIf="$condicion == '2'" (click)="actualizarTarea(item)">Actualizar</button>
-                                                </div>
+                                                  <div class="col-12 mt-2" *ngIf="item.condicion == '0'">
+                                                    <button class="btn btn-sm btn-primary" *ngIf="$condicion == '1'" [disabled]="$codRespuesta.length == 0  || $tipoGestion.length == 0 || $target.length == 0 " (click)="actualizarTarea(item)">
+                                                      Actualizar
+                                                    </button>
+                                                    <button class="btn btn-sm btn-primary" *ngIf="$condicion == '2'" (click)="actualizarTarea(item)">Actualizar</button>
+                                                  </div>
                                                 </ng-container>
                                               </div>
                                             </ng-container>
