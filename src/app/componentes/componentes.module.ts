@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ListaSociosComponent } from './socio/lista-socios/lista-socios.component';
 import { ComunModule } from '../comun/comun.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MyPipesModule } from '../pipes/my-pipes.module';
 import { RouterModule } from '@angular/router';
 import { EditarSociosComponent } from './socio/editar-socios/editar-socios.component';
@@ -46,16 +46,17 @@ import { ChartContactabilidadComponent } from './dashboard/chart-contactabilidad
     ContactabilidadComponent,
     ChartContactabilidadComponent
   ],
-  imports: [
-    CommonModule,
-    ComunModule,
-    NgbModule,
-    ReactiveFormsModule,
-    MyPipesModule,
-    RouterModule,
-    ChartsModule,
-    ProgressbarModule.forRoot(),
-  ],
+    imports: [
+        CommonModule,
+        ComunModule,
+        NgbModule,
+        ReactiveFormsModule,
+        MyPipesModule,
+        RouterModule,
+        ChartsModule,
+        ProgressbarModule.forRoot(),
+        FormsModule,
+    ],
   entryComponents: [
     GestionarDireccionComponent,
     GestionarTelefonoComponent,

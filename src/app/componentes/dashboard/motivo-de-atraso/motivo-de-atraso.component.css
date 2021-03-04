@@ -1,3 +1,9 @@
 table td {
     vertical-align: middle;
 }
+
+.progress-bar {
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+}

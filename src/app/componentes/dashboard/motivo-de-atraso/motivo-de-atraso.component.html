@@ -1,55 +1,59 @@
 <div class="animated fadeIn">
-    <div class="card">
-        <div class="card-header">
-            Motivo de atraso
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <td width="50%">
-                                Falta de liquidez o flujo de caja
-                            </td>
-                            <td width="50%">
-                                <div class="progress" style="height: 30px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Salud (directa o indirecta al socio)
-                            </td>
-                            <td>
-                                <div class="progress" style="height: 30px;">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Caso fortuito
-                            </td>
-                            <td>
-                                <div class="progress" style="height: 30px;">
-                                    <div class="progress-bar bg-yellow" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Caso coyuntural
-                            </td>
-                            <td>
-                                <div class="progress" style="height: 30px;">
-                                    <div class="progress-bar bg-orange" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+  <div class="card">
+    <div class="card-header">
+      Motivo de atraso
     </div>
+    <div class="card-body" *ngIf="carteras.length > 0">
+      <div class="row">
+        <div class="col-6 col-md-3">
+          <div class="form-group">
+            <label>Carteras</label>
+            <select class="form-control" [(ngModel)]="selectCartera">
+              <option *ngFor="let item of carteras" [value]="item.codCartera">{{ item.nombre }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <label>Moneda</label>
+          <div class="input-group">
+            <select class="form-control" [(ngModel)]="selectMoneda">
+              <option *ngFor="let item of monedas" [value]="item.codItem">{{ item.descripcion }}</option>
+            </select>
+            <div class="input-group-prepend">
+              <button type="button" class="btn btn-info" (click)="loadData()">Buscar</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12" *ngIf="showData">
+          <div class="table-responsive" *ngIf="respuestas.length > 0">
+            <table class="table">
+              <tbody>
+              <tr *ngFor="let item of respuestas; let i = index">
+                <td width="50%">
+                  <ng-template #tipContent>
+                    <ol style="padding: 0 0 0 10px; text-align: justify; margin: 0">
+                      <li *ngFor="let item of getItems(item.strValor)"><small>{{ item }}</small></li>
+                    </ol>
+                  </ng-template>
+                  <span>{{ item.descripcion }} <span class="cursor-pointer" [ngbTooltip]="tipContent" placement="right" triggers="click:blur"><i class="fa fa-warning"></i></span></span>
+                </td>
+                <td width="50%">
+                  <div class="progress" style="height: 30px;">
+                    <div class="progress-bar {{ getClass(i) }}" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ item.total }}</div>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-12 mt-5" *ngIf="!showData">
+          <div class="form-group text-center">
+            <h3>No hay datos para mostrar</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+<app-loading></app-loading>

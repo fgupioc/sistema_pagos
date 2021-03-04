@@ -25,7 +25,7 @@ export class MaestroService {
     return this.http.get<any[]>(`${this.apiUrl}listarTiposDeUsuarios`);
   }
 
-  listarMondas(): Observable<any[]> {
+  listarMondas(): Observable<TablaMaestra[]> {
     return this.http.get<any[]>(`${this.apiUrl}listarMondas`);
   }
 

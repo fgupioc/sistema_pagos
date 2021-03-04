@@ -77,4 +77,9 @@ export class FUNC {
       return 'info';
     }
   }
+
+  static getClassBG(index: any) {
+    const items = ['bg-default', 'bg-success', 'bg-red', 'bg-yellow', 'bg-info', 'bg-danger-dark', 'bg-orange', 'bg-info-ligth', 'bg-brown', 'bg-brown-ligth'];
+    return items[index];
+  }
 }
