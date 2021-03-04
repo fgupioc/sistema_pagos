@@ -1,4 +1,4 @@
-<div class="progress" *ngIf="stacked.length > 0" style="height: 30px">
+<div class="progress" *ngIf="stacked.length > 0" style="height: 40px; font-size: 14px">
     <div *ngFor="let item of stacked"  class="progress-bar {{ item.class }}" placement="top" [ngbTooltip]="item.label" role="progressbar" [style.width]=" item.value +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0"
-         aria-valuemax="100">{{ item.label }} <br> <span>{{ item.total.toFixed(2) }}</span></div>
+         aria-valuemax="100">{{ item.label }} <br> <span>{{ item.total | mycurrency}}</span></div>
 </div>

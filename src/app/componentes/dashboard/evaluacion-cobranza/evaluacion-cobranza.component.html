@@ -1,42 +1,39 @@
-<div class="animated fadeIn">
-  <div class="card">
-    <div class="card-header">
-      Evolución de la cobranza del día
-    </div>
-    <div class="card-body">
-      <div class="row item-border" *ngIf="clasificacionesAbaco.length > 0">
-        <div class="col-12 col-md-12">
-          ABACO
-        </div>
-        <div class="col-12 col-md-6">
-          <div class="form-group text-center">
-            <label class="font-weight-bold">Soles (Miles)</label>
-            <app-progress-evaluacion-cobranza [stacked]="getDataArray(clasificacionesAbaco, monSol)"></app-progress-evaluacion-cobranza>
-          </div>
-        </div>
-        <div class="col-12 col-md-6">
-          <div class="form-group text-center">
-            <label class="font-weight-bold">Dolares (Miles)</label>
-            <app-progress-evaluacion-cobranza [stacked]="getDataArray(clasificacionesAbaco, monDolar)"></app-progress-evaluacion-cobranza>
-          </div>
-        </div>
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-4">
+      <div class="col-6 col-md-8">
+        <h3 class="m-0">  Evolución de la cobranza del día</h3>
+      </div><!-- /.col -->
+
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<div class="row">
+  <div class="col-12 col-md-6">
+    <div class="card">
+      <div class="card-header bg-white text-center">
+        <h5 class="font-weight-bold m-0">Soles (Miles)</h5>
       </div>
-      <div class="row item-border" *ngIf="clasificacionesCentralRiesgo.length > 0">
-        <div class="col-12 col-md-12">
-          Central de riesgo
-        </div>
-        <div class="col-12 col-md-6">
-          <div class="form-group text-center">
-            <label class="font-weight-bold">Soles (Miles)</label>
-            <app-progress-evaluacion-cobranza [stacked]="getDataArray(clasificacionesCentralRiesgo, monSol)"></app-progress-evaluacion-cobranza>
-          </div>
-        </div>
-        <div class="col-12 col-md-6">
-          <div class="form-group text-center">
-            <label class="font-weight-bold">Dolares (Miles)</label>
-            <app-progress-evaluacion-cobranza [stacked]="getDataArray(clasificacionesCentralRiesgo, monDolar)"></app-progress-evaluacion-cobranza>
-          </div>
-        </div>
+      <div class="card-body">
+        <label>ABACO</label>
+        <app-progress-evaluacion-cobranza [stacked]="getDataArray(clasificacionesAbaco, monSol)"></app-progress-evaluacion-cobranza>
+        <br>
+        <label>Central de riesgo</label>
+        <app-progress-evaluacion-cobranza [stacked]="getDataArray(clasificacionesCentralRiesgo, monSol)"></app-progress-evaluacion-cobranza>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div class="card">
+      <div class="card-header bg-white text-center">
+        <h5 class="font-weight-bold m-0">Dolares (Miles)</h5>
+      </div>
+      <div class="card-body">
+        <label>ABACO</label>
+        <app-progress-evaluacion-cobranza [stacked]="getDataArray(clasificacionesAbaco, monDolar)"></app-progress-evaluacion-cobranza>
+        <br>
+        <label>Central de riesgo</label>
+        <app-progress-evaluacion-cobranza [stacked]="getDataArray(clasificacionesCentralRiesgo, monDolar)"></app-progress-evaluacion-cobranza>
       </div>
     </div>
   </div>
