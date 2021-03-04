@@ -3,9 +3,7 @@ import {MaestroService} from '../../../servicios/sistema/maestro.service';
 import {TablaMaestra} from '../../../interfaces/tabla-maestra';
 import {FUNC} from '../../../comun/FUNC';
 import {Cartera} from '../../../interfaces/cartera';
-import {CarteraService} from '../../../servicios/estrategia/cartera.service';
 import {DashboardService} from '../../../servicios/dashboard/dashboard.service';
-import {CONST} from '../../../comun/CONST';
 import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
@@ -18,7 +16,7 @@ export class MotivoDeAtrasoComponent implements OnInit {
   carteras: Cartera[] = [];
   monedas: TablaMaestra[] = [];
   selectCartera: any;
-  selectMoneda: any;
+  selectMoneda = 'PEN';
   showData = false;
 
   constructor(
@@ -64,15 +62,19 @@ export class MotivoDeAtrasoComponent implements OnInit {
     this.dashboardService.listarCarteras().subscribe(
       res => {
         this.carteras = res;
+        if (this.carteras.length > 0) {
+          this.selectCartera = this.carteras[0].codCartera;
+          this.loadData(this.selectCartera, this.selectMoneda);
+        }
       }
     );
   }
 
-  loadData() {
+  loadData(selectCartera: any, selectMoneda: any) {
     this.showData = false;
     this.respuestas.map(i => i.total = 0);
     this.spinner.show();
-    this.dashboardService.getMotivoAtraso(this.selectCartera, this.selectMoneda).subscribe(
+    this.dashboardService.getMotivoAtraso(selectCartera, selectMoneda).subscribe(
       res => {
         if (res.exito && res.creditos.length > 0) {
           this.showData = true;
