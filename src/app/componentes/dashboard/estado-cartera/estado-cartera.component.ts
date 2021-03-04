@@ -4,6 +4,7 @@ import {GrupoCartera} from '../../../interfaces/dashboard/estados-cartera';
 import {DashboardService} from '../../../servicios/dashboard/dashboard.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {MyCurrencyPipe} from '../../../pipes/mycurrency.pipe';
+import {Cartera} from '../../../interfaces/cartera';
 
 @Component({
   selector: 'app-estado-cartera',
@@ -11,11 +12,12 @@ import {MyCurrencyPipe} from '../../../pipes/mycurrency.pipe';
   styleUrls: ['./estado-cartera.component.css']
 })
 export class EstadoCarteraComponent implements OnInit {
-
+  $carteras: Cartera[] = [];
   carteras: GrupoCartera[] = [];
-  sol: any;
+  sol;
   dolar: any;
   year: number[] = [];
+  selectCartera: any;
 
   constructor(
     private dashboardService: DashboardService,
@@ -25,12 +27,16 @@ export class EstadoCarteraComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadEstadoCarteras();
+    this.listarCarteras();
   }
 
-  loadEstadoCarteras() {
+  loadEstadoCarteras(carteraId: any) {
+    this.carteras = [];
+    this.year = [];
+    this.sol = null;
+    this.dolar  = null;
     this.spinner.show();
-    this.dashboardService.getEstadoLasCarteras().subscribe(
+    this.dashboardService.getEstadoLasCarteras(carteraId).subscribe(
       res => {
         this.carteras = res.carteras;
         if (this.carteras.length > 0) {
@@ -59,5 +65,17 @@ export class EstadoCarteraComponent implements OnInit {
     const res = this.fmt.transform(String(value));
     console.log(res);
     return res;
+  }
+
+  private listarCarteras() {
+    this.dashboardService.listarCarteras().subscribe(
+      res => {
+        this.$carteras = res;
+        if (this.$carteras.length > 0) {
+          this.selectCartera = this.$carteras[0].codCartera;
+          this.loadEstadoCarteras(this.selectCartera);
+        }
+      }
+    );
   }
 }

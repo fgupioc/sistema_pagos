@@ -14,20 +14,20 @@ export class DashboardService {
     this.apiUrl = `${environment.serverUrl}dashboard/`;
   }
 
-  getEstadoLasCarteras(): Observable<any> {
-    return this.http.get(`${this.apiUrl}estado-carteras`);
+  getEstadoLasCarteras(carteraId: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}estado-carteras`, {params: new HttpParams().set('carteraId', carteraId)});
   }
 
   getEvolucionCobranza(): Observable<any> {
     return this.http.get(`${this.apiUrl}evolucion-cobranza`);
   }
 
-  getComportamientoPago(): Observable<any> {
-    return this.http.get(`${this.apiUrl}comportamiento-pago`);
+  getComportamientoPago(carteraId: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}comportamiento-pago`, {params: new HttpParams().set('carteraId', carteraId)});
   }
 
-  getCarteraConAtraso(): Observable<any> {
-    return this.http.get(`${this.apiUrl}cartera-con-atraso`);
+  getCarteraConAtraso(carteraId: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}cartera-con-atraso`, {params: new HttpParams().set('carteraId', carteraId)});
   }
 
   getRecordAtraso(): Observable<any> {

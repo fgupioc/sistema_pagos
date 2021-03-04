@@ -9,13 +9,14 @@ export class ChartCarteraConAtrasoComponent implements OnInit {
 
   @Input() data: any[] = [];
   @Input() divisiones: any[] = [];
+  @Input() title = '';
 
   public barChartOptions: any = {
     responsive: true,
     legend: {position: 'right'},
     title: {
       display: true,
-      text: 'Soles (Miles)'
+      text: ''
     },
     plugins: {
       datalabels: {
@@ -38,6 +39,7 @@ export class ChartCarteraConAtrasoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.barChartOptions.title.text = this.title + ' (Miles)';
     if (this.data.length > 0) {
       this.pieChartData = this.data;
     }

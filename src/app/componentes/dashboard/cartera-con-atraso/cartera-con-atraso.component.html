@@ -1,122 +1,168 @@
-<div class="animated fadeIn">
-  <div class="card">
-    <div class="card-header">
-      Cartera con atraso (Saldo de capital)
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-6 col-md-8">
+        <h3 class="m-0">Cartera con atraso (Saldo de capital)</h3>
+      </div><!-- /.col -->
+      <div class="col-6 col-md-4">
+        <label>Carteras</label>
+        <div class="input-group mb-3">
+          <select class="form-control" [(ngModel)]="selectCartera">
+            <option *ngFor="let item of carteras" [value]="item.codCartera">{{ item.nombre }}</option>
+          </select>
+          <div class="input-group-prepend">
+            <button type="button" (click)="loadData(selectCartera)" class="btn btn-info"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+
+<div class="row">
+  <div class="col-12" *ngIf="chartSoles.length > 0">
+    <div class="card">
+      <div class="card-body">
+        <app-chart-cartera-con-atraso [data]="chartSoles" [divisiones]="divisionSoles" title="Soles"></app-chart-cartera-con-atraso>
+      </div>
     </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-12" *ngIf="chartSoles.length > 0">
-          <app-chart-cartera-con-atraso [data]="chartSoles" [divisiones]="divisionSoles"></app-chart-cartera-con-atraso>
-        </div>
-        <div class="col-12" *ngIf="chartDolar.length> 0">
-          <app-chart-cartera-con-atraso [data]="chartDolar" [divisiones]="divisionDolar"></app-chart-cartera-con-atraso>
-        </div>
+  </div>
+  <div class="col-12" *ngIf="chartDolar.length> 0">
+    <div class="card">
+      <div class="card-body">
+        <app-chart-cartera-con-atraso [data]="chartDolar" [divisiones]="divisionDolar" title="Dolares"></app-chart-cartera-con-atraso>
       </div>
-      <div class="row mt-5" *ngIf="diasAtrasoCarterasSoles.length > 0">
-        <div class="col-12">
-          <div class="form-group text-center">
-            <label class="font-weight-bold">Días de atraso según el monto del saldo capital</label>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="table-responsive">
-            <table class="table table-saldos">
-              <thead>
-              <tr class="text-center">
-                <th width="43%">Soles</th>
-                <th>Saldo de capital</th>
-                <th width="43%">Dolares</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let item of saldosCapital">
-                <td>
-                  <div class="progress">
-                    <div class="progress-bar bg-yellow" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
-                      {{ calcularInfo(diasAtrasoCarterasSoles, item, 0, 15) }}
-                    </div>
-                    <div class="progress-bar bg-orange" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
-                      {{ calcularInfo(diasAtrasoCarterasSoles, item, 16, 30) }}
-                    </div>
-                    <div class="progress-bar bg-danger-dark" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
-                      {{ calcularInfo(diasAtrasoCarterasSoles, item, 31, null) }}
-                    </div>
-                  </div>
-                </td>
-                <td class="text-center">
-                  <span>{{ item.desde}} - {{ item.hasta != null ? item.hasta : 'más' }}</span>
-                </td>
-                <td>
-                  <div class="progress">
-                    <div class="progress-bar bg-yellow" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
-                      {{ calcularInfo(diasAtrasoCarterasDolar, item, 0, 15) }}
-                    </div>
-                    <div class="progress-bar bg-orange" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
-                      {{ calcularInfo(diasAtrasoCarterasDolar, item, 16, 30) }}
-                    </div>
-                    <div class="progress-bar bg-danger-dark" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
-                      {{ calcularInfo(diasAtrasoCarterasDolar, item, 31, null) }}
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="form-group">
-            <div class="progress" style="height: 30px">
-              <div class="progress-bar bg-yellow" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold; font-size: 16px;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">0 - 15 días</div>
-              <div class="progress-bar bg-orange" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold; font-size: 16px;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">16 - 30 días</div>
-              <div class="progress-bar bg-danger-dark" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold; font-size: 16px;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">31 a más días
-              </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row" *ngIf="diasAtrasoCarterasSoles.length > 0">
+          <div class="col-12">
+            <div class="form-group text-center">
+              <label class="font-weight-bold">Días de atraso según el monto del saldo capital</label>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="row mt-5">
-        <div class="col-12">
-          <div class="form-group text-center">
-            <label class="font-weight-bold">Días de atraso por sector económico</label>
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-saldos">
+                <thead>
+                <tr class="text-center">
+                  <th width="42%">Soles</th>
+                  <th>Saldo de capital</th>
+                  <th width="42%">Dolares</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of saldosCapital">
+                  <td>
+                    <div class="progress">
+                      <div class="progress-bar bg-yellow" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
+                        {{ calcularInfo(diasAtrasoCarterasSoles, item, 0, 15) }}
+                      </div>
+                      <div class="progress-bar bg-orange" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
+                        {{ calcularInfo(diasAtrasoCarterasSoles, item, 16, 30) }}
+                      </div>
+                      <div class="progress-bar bg-danger-dark" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
+                        {{ calcularInfo(diasAtrasoCarterasSoles, item, 31, null) }}
+                      </div>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <span>{{ item.desde | mycurrency}} - {{ item.hasta != null ? (item.hasta | mycurrency) : 'más' }}</span>
+                  </td>
+                  <td>
+                    <div class="progress">
+                      <div class="progress-bar bg-yellow" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
+                        {{ calcularInfo(diasAtrasoCarterasDolar, item, 0, 15) }}
+                      </div>
+                      <div class="progress-bar bg-orange" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
+                        {{ calcularInfo(diasAtrasoCarterasDolar, item, 16, 30) }}
+                      </div>
+                      <div class="progress-bar bg-danger-dark" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
+                        {{ calcularInfo(diasAtrasoCarterasDolar, item, 31, null) }}
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-        <div class="col-12">
-          <div class="form-group">
-            <label>Soles (Miles)</label>
-            <div class="lista-sectores">
-              <div class="sector-item" *ngFor="let item of sectores">
-                <div class="bg-item bg-danger-dark">{{ calcularSector(diasAtrasoCarterasSoles, item, 31, null) }}</div>
-                <div class="bg-item bg-orange">{{ calcularSector(diasAtrasoCarterasSoles, item, 16, 30) }}</div>
-                <div class="bg-item bg-yellow">{{ calcularSector(diasAtrasoCarterasSoles, item, 1, 15) }}</div>
-                <div class="bg-item bg-white text-center">
-                  <span class="font-weight-bold">S{{ item }}</span>
+          <div class="col-12">
+            <div class="form-group">
+              <div class="progress" style="height: 30px">
+                <div class="progress-bar bg-yellow" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold; font-size: 16px;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">0 - 15 días</div>
+                <div class="progress-bar bg-orange" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold; font-size: 16px;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">16 - 30 días</div>
+                <div class="progress-bar bg-danger-dark" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold; font-size: 16px;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">31 a más días
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-12">
-          <div class="form-group">
-            <label>Dolares (Miles)</label>
-            <div class="lista-sectores">
-              <div class="sector-item" *ngFor="let item of sectores">
-                <div class="bg-item bg-danger-dark">{{ calcularSector(diasAtrasoCarterasDolar, item, 31, null) }}</div>
-                <div class="bg-item bg-orange">{{ calcularSector(diasAtrasoCarterasDolar, item, 16, 30) }}</div>
-                <div class="bg-item bg-yellow">{{ calcularSector(diasAtrasoCarterasDolar, item, 1, 15) }}</div>
-                <div class="bg-item bg-white text-center">
-                  <span class="font-weight-bold">S{{ item }}</span>
+        <div class="row" *ngIf="diasAtrasoCarterasSoles.length == 0">
+          <div class="col-12">
+            <div class="form-group text-center">
+              <label>No hay datos para mostrar</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12 col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group text-center">
+              <label class="font-weight-bold">Días de atraso por sector económico (Soles)</label>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <div class="lista-sectores">
+                <div class="sector-item" *ngFor="let item of sectores">
+                  <div class="bg-item bg-danger-dark">{{ calcularSector(diasAtrasoCarterasSoles, item, 31, null) }}</div>
+                  <div class="bg-item bg-orange">{{ calcularSector(diasAtrasoCarterasSoles, item, 16, 30) }}</div>
+                  <div class="bg-item bg-yellow">{{ calcularSector(diasAtrasoCarterasSoles, item, 1, 15) }}</div>
+                  <div class="bg-item bg-white text-center">
+                    <span class="font-weight-bold">S{{ item }}</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-12">
-          <div class="form-group">
-            <div class="progress" style="height: 30px">
-              <div class="progress-bar bg-yellow" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold; font-size: 16px;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">0 - 15 días</div>
-              <div class="progress-bar bg-orange" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold; font-size: 16px;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">16 - 30 días</div>
-              <div class="progress-bar bg-danger-dark" placement="top" role="progressbar" [style.width]="33.33 +'%'" style="color: black; font-weight: bold; font-size: 16px;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">31 a más días
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group text-center">
+              <label class="font-weight-bold">Días de atraso por sector económico (Dolares)</label>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <div class="lista-sectores">
+                <div class="sector-item" *ngFor="let item of sectores">
+                  <div class="bg-item bg-danger-dark">{{ calcularSector(diasAtrasoCarterasDolar, item, 31, null) }}</div>
+                  <div class="bg-item bg-orange">{{ calcularSector(diasAtrasoCarterasDolar, item, 16, 30) }}</div>
+                  <div class="bg-item bg-yellow">{{ calcularSector(diasAtrasoCarterasDolar, item, 1, 15) }}</div>
+                  <div class="bg-item bg-white text-center">
+                    <span class="font-weight-bold">S{{ item }}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -125,4 +171,5 @@
     </div>
   </div>
 </div>
+
 <app-loading></app-loading>

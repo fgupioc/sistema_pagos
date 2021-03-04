@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { TablaMaestra } from '../../../interfaces/tabla-maestra';
-import { MaestroService } from '../../../servicios/sistema/maestro.service';
 import {DashboardService} from '../../../servicios/dashboard/dashboard.service';
+import {Cartera} from '../../../interfaces/cartera';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-comportamiento-de-pago',
@@ -9,26 +9,44 @@ import {DashboardService} from '../../../servicios/dashboard/dashboard.service';
   styleUrls: ['./comportamiento-de-pago.component.css']
 })
 export class ComportamientoDePagoComponent implements OnInit {
+  carteras: Cartera[] = [];
   productos: any[] = [];
+  selectCartera: any;
   constructor(
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
-    this.listarProductosAbaco();
+    this.listarCarteras();
   }
 
-  private listarProductosAbaco() {
-    this.dashboardService.getComportamientoPago().subscribe(
+  private listarProductosAbaco(carteraId: any) {
+    this.spinner.show();
+    this.dashboardService.getComportamientoPago(carteraId).subscribe(
       res => {
         if (res.resulset) {
           this.productos = res.resulset;
+          this.spinner.hide();
         }
-      }
+      },
+      err => this.spinner.hide()
     );
   }
 
   calcularPorcentaje(cant: any, total: any) {
     return total == 0 ? 0 : (cant * 100) / total;
+  }
+
+  private listarCarteras() {
+    this.dashboardService.listarCarteras().subscribe(
+      res => {
+        this.carteras = res;
+        if (this.carteras.length > 0) {
+          this.selectCartera = this.carteras[0].codCartera;
+          this.listarProductosAbaco(this.selectCartera);
+        }
+      }
+    );
   }
 }

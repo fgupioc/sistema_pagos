@@ -5,18 +5,21 @@
         <h3 class="m-0">Estado de la cartera</h3>
       </div><!-- /.col -->
       <div class="col-6 col-md-4">
-        <div class="form-group">
-          <label>Carteras</label>
-          <select class="form-control">
-            <option *ngFor="let item of carteras" [value]="item.codCartera">{{ item.cartera }}</option>
+        <label>Carteras</label>
+        <div class="input-group mb-3">
+          <select class="form-control" [(ngModel)]="selectCartera">
+            <option *ngFor="let item of $carteras" [value]="item.codCartera">{{ item.nombre }}</option>
           </select>
+          <div class="input-group-prepend">
+            <button type="button" (click)="loadEstadoCarteras(selectCartera)" class="btn btn-info"><i class="fa fa-search"></i></button>
+          </div>
         </div>
-      </div><!-- /.col -->
+      </div>
     </div><!-- /.row -->
   </div><!-- /.container-fluid -->
 </div>
 
-<div class="row">
+<div class="row" *ngIf="sol || dolar">
   <div class="col-12 col-md-6" *ngIf="sol">
     <div class="card">
       <div class="card-body">
@@ -31,6 +34,17 @@
       <div class="card-body">
         <div class="position-relative mb-4">
           <app-chart-estado-cartera title="Dolares (Miles)" [dataChart]="dolar" [year]="year"></app-chart-estado-cartera>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 mt-5">
+    <div class="card">
+      <div class="card-body">
+        <div class="form-group text-center">
+          <h4>No hay daots para mostrar</h4>
         </div>
       </div>
     </div>
