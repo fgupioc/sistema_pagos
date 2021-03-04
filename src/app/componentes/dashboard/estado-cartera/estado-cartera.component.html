@@ -1,25 +1,35 @@
-<div class="animated fadeIn">
-  <div class="card">
-    <div class="card-header">
-      <h4 class="card-title">Estado de la cartera</h4>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-12 col-md-4">
-          <div class="form-group">
-            <label>Carteras</label>
-            <select class="form-control">
-              <option *ngFor="let item of carteras" [value]="item.codCartera">{{ item.cartera }}</option>
-            </select>
-            <small id="helpId" class="text-muted">Seleccione la cartera</small>
-          </div>
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-6 col-md-8">
+        <h3 class="m-0">Estado de la cartera</h3>
+      </div><!-- /.col -->
+      <div class="col-6 col-md-4">
+        <div class="form-group">
+          <label>Carteras</label>
+          <select class="form-control">
+            <option *ngFor="let item of carteras" [value]="item.codCartera">{{ item.cartera }}</option>
+          </select>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-md-6" *ngIf="sol">
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+
+<div class="row">
+  <div class="col-12 col-md-6" *ngIf="sol">
+    <div class="card">
+      <div class="card-body">
+        <div class="position-relative mb-4">
           <app-chart-estado-cartera title="Soles (Miles)" [dataChart]="sol" [year]="year"></app-chart-estado-cartera>
         </div>
-        <div class="col-12 col-md-6" *ngIf="dolar">
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-6" *ngIf="dolar">
+    <div class="card">
+      <div class="card-body">
+        <div class="position-relative mb-4">
           <app-chart-estado-cartera title="Dolares (Miles)" [dataChart]="dolar" [year]="year"></app-chart-estado-cartera>
         </div>
       </div>

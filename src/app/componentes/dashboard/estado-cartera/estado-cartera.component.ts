@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { CONST } from 'src/app/comun/CONST';
-import { GrupoCartera } from '../../../interfaces/dashboard/estados-cartera';
-import { DashboardService } from '../../../servicios/dashboard/dashboard.service';
+import {Component, OnInit} from '@angular/core';
+import {CONST} from 'src/app/comun/CONST';
+import {GrupoCartera} from '../../../interfaces/dashboard/estados-cartera';
+import {DashboardService} from '../../../servicios/dashboard/dashboard.service';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {MyCurrencyPipe} from '../../../pipes/mycurrency.pipe';
+
 @Component({
   selector: 'app-estado-cartera',
   templateUrl: './estado-cartera.component.html',
@@ -14,10 +16,13 @@ export class EstadoCarteraComponent implements OnInit {
   sol: any;
   dolar: any;
   year: number[] = [];
+
   constructor(
     private dashboardService: DashboardService,
-    private spinner: NgxSpinnerService
-  ) { }
+    private spinner: NgxSpinnerService,
+    private fmt: MyCurrencyPipe
+  ) {
+  }
 
   ngOnInit() {
     this.loadEstadoCarteras();
@@ -37,7 +42,6 @@ export class EstadoCarteraComponent implements OnInit {
             atraso: sol ? [sol.atraso.toFixed(2)] : [],
             dia: sol ? [sol.dia.toFixed(2)] : [],
           };
-
           this.dolar = {
             atraso: dolar ? [dolar.atraso.toFixed(2)] : [],
             dia: dolar ? [dolar.dia.toFixed(2)] : [],
@@ -51,4 +55,9 @@ export class EstadoCarteraComponent implements OnInit {
     );
   }
 
+  private getTransform(value: any) {
+    const res = this.fmt.transform(String(value));
+    console.log(res);
+    return res;
+  }
 }
