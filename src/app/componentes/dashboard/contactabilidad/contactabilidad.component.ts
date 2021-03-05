@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DashboardService} from '../../../servicios/dashboard/dashboard.service';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {Cartera} from '../../../interfaces/cartera';
 
 @Component({
   selector: 'app-contactabilidad',
@@ -26,6 +27,10 @@ export class ContactabilidadComponent implements OnInit {
   charSolesAtraso: any[] = [];
   charDolarAtraso: any[] = [];
 
+  selectCartera: any;
+  carteras: Cartera[] = [];
+
+
   constructor(
     private dashboardService: DashboardService,
     private spinner: NgxSpinnerService
@@ -33,12 +38,12 @@ export class ContactabilidadComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadData();
+    this.listarCarteras();
   }
 
-  private loadData() {
+  private loadData(carteraId: any) {
     this.spinner.show();
-    this.dashboardService.getContactabilidad().subscribe(
+    this.dashboardService.getContactabilidad(carteraId).subscribe(
       res => {
         this.contactadosSoles = res.contactadosSoles;
         this.contactadosDolar = res.contactadosDolar;
@@ -69,5 +74,36 @@ export class ContactabilidadComponent implements OnInit {
 
   calcularSumaMonto(items: any[]) {
     return items.length == 0 ? 0 : Object.values(items).reduce((t, {montoCuota}) => t + montoCuota, 0);
+  }
+
+  private listarCarteras() {
+    this.dashboardService.listarCarteras().subscribe(
+      res => {
+        this.carteras = res;
+        if (this.carteras.length > 0) {
+          this.selectCartera = this.carteras[0].codCartera;
+          this.loadData(this.selectCartera);
+        }
+      }
+    );
+  }
+
+  canSee(number: any) {
+    if (number == 1) {
+      return this.contactadosDolarAtraso.length == 0 &&
+        this.contactadosSolesAtraso.length == 0 &&
+        this.noContactadosDolarAtraso.length == 0 &&
+        this.noContactadosSolesAtraso.length == 0 &&
+        this.noRespondieronDolarAtraso.length == 0 &&
+        this.noRespondieronSolesAtraso.length == 0;
+    } else {
+      return this.contactadosDolar.length == 0 &&
+        this.contactadosSoles.length == 0 &&
+        this.noContactadosDolar.length == 0 &&
+        this.noContactadosSoles.length == 0 &&
+        this.noRespondieronDolar.length == 0 &&
+        this.noRespondieronSoles.length == 0;
+    }
+
   }
 }

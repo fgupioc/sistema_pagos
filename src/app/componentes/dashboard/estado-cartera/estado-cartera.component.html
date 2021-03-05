@@ -1,20 +1,20 @@
 <div class="content-header">
-    <div class="row mb-2">
-      <div class="col-12 col-md-8">
-        <h3 class="m-0">Estado de la cartera</h3>
-      </div><!-- /.col -->
-      <div class="col-12 col-md-4">
-        <label>Carteras</label>
-        <div class="input-group mb-3">
-          <select class="form-control" [(ngModel)]="selectCartera">
-            <option *ngFor="let item of $carteras" [value]="item.codCartera">{{ item.nombre }}</option>
-          </select>
-          <div class="input-group-prepend">
-            <button type="button" (click)="loadEstadoCarteras(selectCartera)" class="btn btn-info"><i class="fa fa-search"></i></button>
-          </div>
+  <div class="row mb-2">
+    <div class="col-12 col-md-8">
+      <h3 class="m-0">Estado de la cartera</h3>
+    </div><!-- /.col -->
+    <div class="col-12 col-md-4">
+      <label>Carteras</label>
+      <div class="input-group mb-3">
+        <select class="form-control" [(ngModel)]="selectCartera">
+          <option *ngFor="let item of $carteras" [value]="item.codCartera">{{ item.nombre }}</option>
+        </select>
+        <div class="input-group-prepend">
+          <button type="button" (click)="loadEstadoCarteras(selectCartera)" class="btn btn-info"><i class="fa fa-search"></i></button>
         </div>
       </div>
-    </div><!-- /.row -->
+    </div>
+  </div><!-- /.row -->
 </div>
 
 <div class="row" *ngIf="sol || dolar">
@@ -37,12 +37,12 @@
     </div>
   </div>
 </div>
-<div class="row">
+<div class="row" *ngIf="sol == null && dolar == null">
   <div class="col-12 mt-5">
     <div class="card">
       <div class="card-body">
         <div class="form-group text-center">
-          <h4>No hay daots para mostrar</h4>
+          <h4>No hay datos para mostrar</h4>
         </div>
       </div>
     </div>
