@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DashboardService} from '../../../servicios/dashboard/dashboard.service';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {Cartera} from '../../../interfaces/cartera';
 
 @Component({
   selector: 'app-record-de-atraso',
@@ -12,6 +13,9 @@ export class RecordDeAtrasoComponent implements OnInit {
   pagosAtrasoSoles: any[] = [];
   pagosDiaDolar: any[] = [];
   pagosDiaSoles: any[] = [];
+
+  selectCartera: any;
+  carteras: Cartera[] = [];
 
   alDia: any[] = [
     {label: '0 días', desde: 0, hasta: 0},
@@ -36,12 +40,12 @@ export class RecordDeAtrasoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadInfo();
+    this.listarCarteras();
   }
 
-  private loadInfo() {
+  private loadData(carteraId: any) {
     this.spinner.show();
-    this.dashboardService.getRecordAtraso().subscribe(
+    this.dashboardService.getRecordAtraso(carteraId).subscribe(
       res => {
         this.pagosAtrasoDolar = res.pagosAtrasoDolar;
         this.pagosAtrasoSoles = res.pagosAtrasoSoles;
@@ -62,4 +66,16 @@ export class RecordDeAtrasoComponent implements OnInit {
     }
     return array.length == 0 ? 0 : Object.values(array).reduce((t, {montoCuota}) => t + montoCuota, 0);
   }
+  private listarCarteras() {
+    this.dashboardService.listarCarteras().subscribe(
+      res => {
+        this.carteras = res;
+        if (this.carteras.length > 0) {
+          this.selectCartera = this.carteras[0].codCartera;
+          this.loadData(this.selectCartera);
+        }
+      }
+    );
+  }
+
 }
