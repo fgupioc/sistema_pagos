@@ -4,3 +4,39 @@
   padding: 10px 0;
   margin-bottom: 25px;
 }
+
+.c-callout-success {
+  border-left-color: #2eb85c !important;
+}
+
+.c-callout-warning {
+  border-left-color: #f9b115 !important;
+}
+
+.c-callout-danger {
+  border-left-color: #e55353 !important;
+}
+
+.c-callout-info {
+  border-left-color: #39f !important;
+}
+
+.c-callout {
+  border-left: 4px solid #d8dbe0;
+}
+
+.c-callout {
+  background-color: white;
+  position: relative;
+  padding: 0 1rem;
+  margin: 1rem 0;
+  border-radius: .25rem;
+}
+
+.c-callout ul {
+  padding-left: 20px;
+}
+
+.c-callout ul li {
+  text-align: justify;
+}

@@ -8,6 +8,35 @@
     </div><!-- /.row -->
   </div><!-- /.container-fluid -->
 </div>
+<div class="row" *ngIf="false">
+  <div class="col-12 col-md-6">
+    <div class="row">
+      <div class="col-6">
+        <div class="c-callout c-callout-info">
+          <ng-template #tipContent>
+            <ul>
+              <li>Las cuotas que vence el día de hoy de los créditos que estan al día.</li>
+              <li>Cuota vencida pendiente por pagar, ya sea una cuota o más cuotas. </li>
+              <li>Cuota vencida con un saldo pendiente por pagar, ya sea una cuota o más.</li>
+            </ul>
+          </ng-template>
+          <span class="text-muted">Proyectada <i class="fa fa-warning cursor-pointer"  placement="right" [ngbTooltip]="tipContent" triggers="click:blur"></i></span>
+          <div class="text-value-lg">0.00</div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="c-callout c-callout-success">
+          <ng-template #tipContent2>
+          <span class="text-justify">Los montos recibos o abanados por los socios según la calificación de créditos de ABACO y Central de riesgo</span>
+          </ng-template>
+          <span class="text-muted">Real <i class="fa fa-warning  cursor-pointer" placement="right" [ngbTooltip]="tipContent2" triggers="click:blur"></i></span>
+          <div class="text-value-lg">0.00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="row">
   <div class="col-12 col-md-6">
     <div class="card">

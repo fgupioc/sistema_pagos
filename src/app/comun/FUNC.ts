@@ -82,4 +82,8 @@ export class FUNC {
     const items = ['bg-default', 'bg-success', 'bg-red', 'bg-yellow', 'bg-info', 'bg-danger-dark', 'bg-orange', 'bg-info-ligth', 'bg-brown', 'bg-brown-ligth'];
     return items[index];
   }
+
+  static formatCurrency(value: any, toFixed = 2) {
+    return (value).toFixed(toFixed).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  }
 }

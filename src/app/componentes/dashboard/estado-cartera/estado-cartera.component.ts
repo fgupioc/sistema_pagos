@@ -45,12 +45,12 @@ export class EstadoCarteraComponent implements OnInit {
           const dolar = item.items.find(i => i.codMoneda == CONST.ENUM_MONEDA.DOLAR);
           this.year.push(item.year);
           this.sol = {
-            atraso: sol ? [sol.atraso.toFixed(2)] : [],
-            dia: sol ? [sol.dia.toFixed(2)] : [],
+            atraso: sol ? [sol.atraso] : [],
+            dia: sol ? [sol.dia] : [],
           };
           this.dolar = {
-            atraso: dolar ? [dolar.atraso.toFixed(2)] : [],
-            dia: dolar ? [dolar.dia.toFixed(2)] : [],
+            atraso: dolar ? [dolar.atraso] : [],
+            dia: dolar ? [dolar.dia] : [],
           };
         }
         this.spinner.hide();

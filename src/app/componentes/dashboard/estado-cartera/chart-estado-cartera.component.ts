@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ChartDataSets, ChartOptions } from 'chart.js';
+import {Component, Input, OnInit} from '@angular/core';
+import {ChartDataSets, ChartOptions} from 'chart.js';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
+import {FUNC} from '../../../comun/FUNC';
 
 @Component({
   selector: 'app-chart-estado-cartera',
@@ -14,18 +15,46 @@ export class ChartEstadoCarteraComponent implements OnInit {
 
   public barChartOptions: any = {
     responsive: true,
-    legend: { position: 'right' },
+    legend: {position: 'right'},
     title: {
       display: true,
       text: 'Soles (Miles)'
     },
-    scales: { xAxes: [], yAxes: [{}] },
+    tooltips: {
+      callbacks: {
+        label: (tooltipItem, data) => {
+          const label = data.datasets[tooltipItem.datasetIndex].label || '';
+          const value = tooltipItem.value || 0.00;
+          return label + ' ' +  FUNC.formatCurrency(Number(value), 2) ;
+        }
+      }
+    },
+    scales: {
+      xAxes: [],
+      yAxes: [
+        {
+          ticks: {
+            fontColor: '#000',
+            fontSize: 12,
+            callback: (value, index, labels) => {
+              return FUNC.formatCurrency(value, 2);
+            }
+          }
+        }
+      ]
+    },
     plugins: {
       datalabels: {
+        formatter: (value, ctx) => {
+          return FUNC.formatCurrency(value, 2);
+        },
         anchor: 'center',
         align: 'center',
         color: 'black',
-
+        font: {
+          weight: 'bold',
+          size: 12,
+        }
       }
     }
   };
@@ -35,11 +64,12 @@ export class ChartEstadoCarteraComponent implements OnInit {
   public barChartPlugins = [pluginDataLabels];
 
   public barChartData: ChartDataSets[] = [
-    { data: [], label: 'Con atraso', stack: 'a', backgroundColor: '#ff6384', barPercentage: 0.3 },
-    { data: [], label: 'Al día', stack: 'a', backgroundColor: '#36a2eb', barPercentage: 0.3 }
+    {data: [], label: 'Con atraso', stack: 'a', backgroundColor: '#ff6384', barPercentage: 0.3},
+    {data: [], label: 'Al día', stack: 'a', backgroundColor: '#36a2eb', barPercentage: 0.3}
   ];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
     this.barChartOptions.title.text = this.title;
@@ -50,6 +80,7 @@ export class ChartEstadoCarteraComponent implements OnInit {
     }
 
   }
+
   // events
   public chartClicked(e: any): void {
     console.log(e);
