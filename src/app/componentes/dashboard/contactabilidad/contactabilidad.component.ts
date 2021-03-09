@@ -41,7 +41,6 @@ export class ContactabilidadComponent implements OnInit {
   }
 
   private loadData(carteraId: any, fecha: any) {
-    console.log(fecha);
     this.spinner.show();
     this.dashboardService.getContactabilidad(carteraId, fecha).subscribe(
       res => {
@@ -54,7 +53,6 @@ export class ContactabilidadComponent implements OnInit {
         this.sumSolesAtraso = this.calcularSumaMonto(res.sinAtrasoSoles.creditos);
         this.charDolarAtraso = [res.sinAtrasoDolares.cantContactados, res.sinAtrasoDolares.cantNoContactados, res.sinAtrasoDolares.cantNoRespondieron];
         this.sumDolaresAtraso = this.calcularSumaMonto(res.sinAtrasoDolares.creditos);
-
         this.spinner.hide();
       },
       err => {
@@ -81,12 +79,4 @@ export class ContactabilidadComponent implements OnInit {
     );
   }
 
-
-  calcularPorcentaje(item: any, cant: any) {
-    const total = item.atrasoSoles.cantContactados + item.atrasoSoles.cantNoContactados + item.atrasoSoles.cantNoRespondieron;
-
-    if (total == 0) {
-      return 100;
-    }
-  }
 }
