@@ -14,7 +14,7 @@ export class ChartContactabilidadComponent implements OnInit {
     responsive: true,
     legend: {position: 'right'},
     title: {
-      display: true,
+      display: false,
       text: ''
     },
     plugins: {

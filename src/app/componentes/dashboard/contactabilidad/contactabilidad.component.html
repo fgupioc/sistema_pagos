@@ -1,80 +1,94 @@
 <div class="content-header">
-  <div class="row mb-2">
-    <div class="col-12 col-md-8">
-      <h3 class="m-0">Contactabilidad</h3>
-    </div><!-- /.col -->
-    <div class="col-12 col-md-4">
-      <div class="row">
-        <div class="col-12 col-md-6">
-          <label>Fecha:</label>
-          <div class="input-group mb-3">
-            <input type="date" [(ngModel)]="dateDefault" class="form-control">
-          </div>
+    <div class="row mb-2">
+        <div class="col-12 col-md-8">
+            <h3 class="m-0">Contactabilidad</h3>
         </div>
-        <div class="col-12 col-md-6">
-          <label>Carteras</label>
-          <div class="input-group mb-3">
-            <select class="form-control" [(ngModel)]="selectCartera">
+        <!-- /.col -->
+        <div class="col-12 col-md-4">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <label>Fecha:</label>
+                    <div class="input-group mb-3">
+                        <input type="date" [(ngModel)]="dateDefault" class="form-control">
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label>Carteras</label>
+                    <div class="input-group mb-3">
+                        <select class="form-control" [(ngModel)]="selectCartera">
               <option *ngFor="let item of carteras" [value]="item.codCartera">{{ item.nombre }}</option>
             </select>
-            <div class="input-group-prepend">
-              <button type="button" (click)="loadData(selectCartera, dateDefault)" class="btn btn-info"><i class="fa fa-search"></i></button>
+                        <div class="input-group-prepend">
+                            <button type="button" (click)="loadData(selectCartera, dateDefault)" class="btn btn-info"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
 
+        </div>
     </div>
-  </div><!-- /.row -->
+    <!-- /.row -->
 </div>
 
 <div class="row">
-  <div class="col-12 col-md-6">
-    <div class="card">
-      <div class="card-header bg-white text-center">
-        <h5 class="font-weight-bold mb-0">% Contactabilidad por día (cartera con atraso)</h5>
-      </div>
-      <div class="card-body">
-       <div class="row" *ngIf="!canSee(1)">
-         <div class="col-12">
-           <app-chart-contactabilidad [pieChartData]="charSolesAtraso" title="Soles"></app-chart-contactabilidad>
-         </div>
-         <div class="col-12">
-           <app-chart-contactabilidad [pieChartData]="charSoles" title="Soles"></app-chart-contactabilidad>
-         </div>
-       </div>
-        <div class="row" *ngIf="canSee(1)">
-          <div class="col-12">
-            <div class="form-group text-center">
-              <h4>No hay datos para mostrar</h4>
+    <div class="col-12 col-md-6">
+        <div class="card">
+            <div class="card-header bg-white text-center">
+                <h5 class="font-weight-bold mb-0">% Contactabilidad por día (cartera con atraso)</h5>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-12 col-md-6">
-    <div class="card">
-      <div class="card-header bg-white text-center">
-        <h5 class="font-weight-bold mb-0">% Contactabilidad por día (cartera sin atraso)</h5>
-      </div>
-      <div class="card-body">
-        <div class="row" *ngIf="true">
-          <div class="col-12">
-            <app-chart-contactabilidad [pieChartData]="charDolarAtraso" title="Dolar"></app-chart-contactabilidad>
-          </div>
-          <div class="col-12">
-            <app-chart-contactabilidad [pieChartData]="charDolar" title="Dolar"></app-chart-contactabilidad>
-          </div>
-        </div>
-        <div class="row" *ngIf="false">
-          <div class="col-12">
-            <div class="form-group text-center">
-              <h4>No hay datos para mostrar</h4>
+            <div class="card-body">
+                <div class="row" *ngIf="true">
+                    <div class="col-12" *ngIf="sumSolesAtraso">
+                        <div class="form-group text-center font-weight-bold">
+                            <label>{{sumSolesAtraso + ' Soles  (Miles)'}}</label>
+                            <app-chart-contactabilidad [pieChartData]="charSolesAtraso" [title]=""></app-chart-contactabilidad>
+                        </div>
+                    </div>
+                    <div class="col-12" *ngIf="sumSoles">
+                        <div class="form-group text-center font-weight-bold">
+                            <label>{{ sumSoles + ' Soles  (Miles)' }}}</label>
+                            <app-chart-contactabilidad [pieChartData]="charSoles" [title]=""></app-chart-contactabilidad>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="false">
+                    <div class="col-12">
+                        <div class="form-group text-center">
+                            <h4>No hay datos para mostrar</h4>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+    <div class="col-12 col-md-6">
+        <div class="card">
+            <div class="card-header bg-white text-center">
+                <h5 class="font-weight-bold mb-0">% Contactabilidad por día (cartera sin atraso)</h5>
+            </div>
+            <div class="card-body">
+                <div class="row" *ngIf="true">
+                    <div class="col-12" *ngIf="sumDolaresAtraso">
+                        <div class=" form-group text-center font-weight-bold">
+                            <label>{{ sumDolaresAtraso + ' Dolar  (Miles)' }}</label>
+                            <app-chart-contactabilidad [pieChartData]="charDolarAtraso" [title]=""></app-chart-contactabilidad>
+                        </div>
+                    </div>
+                    <div class="col-12" *ngIf="sumDolar">
+                        <div class="form-group text-center font-weight-bold">
+                            <label>{{ sumDolar + ' Dolar  (Miles)' }}</label>
+                            <app-chart-contactabilidad [pieChartData]="charDolar" [title]=""></app-chart-contactabilidad>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="false">
+                    <div class="col-12">
+                        <div class="form-group text-center">
+                            <h4>No hay datos para mostrar</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
