@@ -34,8 +34,8 @@ export class DashboardService {
     return this.http.get(`${this.apiUrl}record-de-atraso` , {params: new HttpParams().set('carteraId', carteraId)});
   }
 
-  getContactabilidad(carteraId: any): Observable<any> {
-    return this.http.get(`${this.apiUrl}contactabilidad`, {params: new HttpParams().set('carteraId', carteraId)});
+  getContactabilidad(carteraId: any, fecha: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}contactabilidad`, {params: new HttpParams().set('carteraId', carteraId).set('fecha', fecha)});
   }
 
   listarCarteras(): Observable<Cartera[]> {
