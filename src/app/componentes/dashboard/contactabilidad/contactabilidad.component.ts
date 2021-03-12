@@ -40,7 +40,7 @@ export class ContactabilidadComponent implements OnInit {
     this.listarCarteras();
   }
 
-  private loadData(carteraId: any, fecha: any) {
+  loadData(carteraId: any, fecha: any) {
     this.spinner.show();
     this.dashboardService.getContactabilidad(carteraId, fecha).subscribe(
       res => {

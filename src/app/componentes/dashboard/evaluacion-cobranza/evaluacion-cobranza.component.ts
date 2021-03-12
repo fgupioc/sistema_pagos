@@ -17,6 +17,11 @@ export class EvaluacionCobranzaComponent implements OnInit {
   clasificaciones: TablaMaestra[] = [];
   clasificacionesAbaco: any[] = [];
   clasificacionesCentralRiesgo: any[] = [];
+  sumProyectada = 0.00;
+  sumReal = 0.00;
+
+  sumProyectadaD = 0.00;
+  sumRealD = 0.00;
 
   constructor(
     private dashboardService: DashboardService,
@@ -37,6 +42,26 @@ export class EvaluacionCobranzaComponent implements OnInit {
       res => {
         this.clasificacionesAbaco = res.clasificacionesAbaco;
         this.clasificacionesCentralRiesgo = res.clasificacionesCentralRiesgo;
+        if (res.real.length > 0) {
+          for (const i of res.real) {
+            if (i.codigoMoneda == CONST.ENUM_MONEDA.SOL) {
+              this.sumReal += i.total;
+            }
+            if (i.codigoMoneda == CONST.ENUM_MONEDA.DOLAR) {
+              this.sumRealD += i.total;
+            }
+          }
+        }
+        if (res.proyectadas.length > 0) {
+          for (const i of res.proyectadas) {
+            if (i.codigoMoneda == CONST.ENUM_MONEDA.SOL) {
+              this.sumProyectada += i.total;
+            }
+            if (i.codigoMoneda == CONST.ENUM_MONEDA.DOLAR) {
+              this.sumProyectadaD += i.total;
+            }
+          }
+        }
         this.spinner.hide();
       },
       error => this.spinner.hide()
@@ -54,7 +79,7 @@ export class EvaluacionCobranzaComponent implements OnInit {
     const soles: any[] = items.filter(i => i.codMoneda == moneda);
     if (this.clasificaciones.length > 0) {
       for (const c of this.clasificaciones) {
-        const item = soles.find(i => i.codClasificacion == c.codItem );
+        const item = soles.find(i => i.codClasificacion == c.codItem);
         array.push(
           {
             value: 100 / this.clasificaciones.length,
