@@ -89,7 +89,6 @@ export class CrearEtapaNotificionComponent implements OnInit {
     this.obj.hora = this.form.controls.hora.value;
     this.obj.dias = this.dias.toString();
     this.obj.codCartera = this.cartera.codCartera;
-    console.log(this.obj);
     if (this.create) {
       this.spinner.show();
       this.notificacionService.guardarNotificacionEtapa(this.obj, this.send).subscribe(

@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    setTimeout(() => this.spinner.hide(), 300);
   }
 
   login() {

@@ -24,7 +24,9 @@
                 <ng-container *ngFor="let gestion of gestiones; let i = index;">
                   <tr width="10px" [attr.data-index]="i" data-has-detail-view="true" style="background: #d6d8db;">
                     <td class="text-center">
-                      <button *ngIf="gestion.etapas.length > 0" (click)="showDetalle(i)" [class]="'btnShow_'+i +' detail-icon btn btn-sm btn-info'" style="color: white;"><i class="fa fa-plus"></i></button>
+                      <button *ngIf="gestion.etapas.length > 0" (click)="showDetalle(i)" [class]="'btnShow_'+i +' detail-icon btn btn-sm btn-info'" style="color: white;">
+                        <i class="fa fa-plus"></i>
+                      </button>
                     </td>
                     <td width="90%">Gestion: {{ gestion.nombre }} - desde: {{gestion.desde}} a {{gestion.hasta}}</td>
                   </tr>
@@ -38,10 +40,14 @@
                               <ng-container *ngFor="let item of gestion.etapas; let c = index;">
                                 <tr [attr.data-index]="c" class="text-center">
                                   <td width="10px">
-                                    <button *ngIf="gestion.etapas.length > 0" (click)="showEtapaDetalle(c)" [class]="'btnShowEtapa_'+ c +' detail-etapa-icon btn btn-sm btn-success'"><i class="fa fa-plus"></i></button>
+                                    <button *ngIf="gestion.etapas.length > 0" (click)="showEtapaDetalle(c)" [class]="'btnShowEtapa_'+ c +' detail-etapa-icon btn btn-sm btn-success'">
+                                      <i class="fa fa-plus"></i>
+                                    </button>
                                   </td>
                                   <td width="90%" class="text-left">
-                                    <button class="btn btn-sm btn-outline-primary" *ngIf="AS.has(A.ENVIAR_NOTIFICACION_CREAR)" (click)="nuevoMensaje(item)"><i class="fa fa-envelope-o"></i></button>
+                                    <button class="btn btn-sm btn-outline-primary" *ngIf="AS.has(A.ENVIAR_NOTIFICACION_CREAR)" (click)="nuevoMensaje(item)">
+                                      <i class="fa fa-envelope-o"></i>
+                                    </button>
                                     Etapa: {{ item.nombre }} - desde: {{item.desde}} a {{item.hasta}}
                                   </td>
                                 </tr>
@@ -69,8 +75,9 @@
                                                 <td>{{ day }}</td>
                                                 <td *ngFor="let notify of notificaciones">
                                                   <ng-container *ngFor="let o of item.notificacionEtapas">
-                                                      <span class="badge badge-info cursor-pointer" style="font-size: 14px;" *ngIf="showNotify(o, day, notify)"
-                                                            (click)="showMensaje(gestion, item, notify.codTipoNotificacion, day)">Enviar Mensaje</span>
+                                                      <span class="badge badge-info cursor-pointer" placement="top" [ngbTooltip]="getTitleNotify(item, notify)" style="font-size: 14px;" *ngIf="showNotify(o, day, notify)"
+                                                            (click)="showMensaje(gestion, item, notify.codTipoNotificacion, day)">{{ getTitleNotify(item, notify).length > 15 ? getTitleNotify(item, notify).slice(0, 15) + '...' : getTitleNotify(item,
+                                                        notify)}}</span>
                                                   </ng-container>
                                                 </td>
                                               </ng-container>

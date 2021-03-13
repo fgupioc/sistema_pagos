@@ -199,7 +199,8 @@ export class EnviarNotificionComponent implements OnInit {
 
   showNotify(item: any, day: any, noty: any) {
     if (item.codTipoNotificacion == noty.codTipoNotificacion) {
-      return item.dias.includes(day);
+      const days = item.dias.split(',').map(x => Number(x));
+      return days.includes(day);
     }
     return false;
   }
@@ -213,5 +214,10 @@ export class EnviarNotificionComponent implements OnInit {
       }
     });
     return flag;
+  }
+
+  getTitleNotify(etapa: any, notify: any): string {
+    const item = etapa.notificacionEtapas.find(i => i.codTipoNotificacion == notify.codTipoNotificacion);
+    return item ? item.nombre : '';
   }
 }
