@@ -1,0 +1,85 @@
+<div class="card">
+    <div class="card-header">
+        <span *ngIf="credito" class="card-title text-uppercase font-weight-bold">Detalle del crédito {{ credito.nroCredito }}</span>
+        <span *ngIf="!credito" class="card-title text-uppercase font-weight-bold">No se encontro registro</span>
+        <div class="card-tools float-right">
+            <button type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/'+ejecutivoUuid+'/creditos-vencidos'">
+              <i class="fa fa-arrow-left"></i> Regresar
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row" *ngIf="credito">
+            <div class="col-12 col-md-4">
+                <div class="form-group">
+                    <label>Número de Crédito</label>
+                    <input type="text" class="form-control" [value]="credito.nroCredito" disabled>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="form-group">
+                    <label>Socio</label>
+                    <input type="text" class="form-control" [value]="credito.socioAlias" disabled>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="form-group">
+                    <label>Dias Atraso</label>
+                    <input type="text" class="form-control" [value]="credito.diasAtraso" disabled>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input cursor-pointer" id="fileInput" (change)="changeArchivo($event, labelInput)">
+                                    <label #labelInput class="custom-file-label" id="labelText" data-browse="Buscar" for="fileInput">Buscar archivo</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="input-group mb-3">
+                            <input [(ngModel)]="fileName" type="text" class="form-control" placeholder="Nombre del archivo">
+                            <div class="input-group-prepend">
+                                <button type="button" class="btn btn-info" (click)="subirArchivo(labelInput)">Subir</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <table class="table table-bordered">
+                        <caption style="caption-side:top;">Lista de recursos del socio</caption>
+                        <thead>
+                            <tr class="text-center">
+                                <th scope="col" width="10%">#</th>
+                                <th scope="col">Archivo</th>
+                                <th scope="col" width="15%">Fecha</th>
+                                <th scope="col" width="10%">Opción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of archivos; let i = index" class="text-center">
+                                <th scope="row">{{ i+1 }}</th>
+                                <td style="text-align: left;">{{ item.nombre }}</td>
+                                <td>{{ item.fechaRegistro | date: 'dd-MM-yyyy' }}</td>
+                                <td>
+                                    <button class="btn btn-sm bg-success"><i class="fa fa-download"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="!credito">
+            <div class="col-12 text-center">
+                <h5>No hay información</h5>
+            </div>
+        </div>
+    </div>
+</div>

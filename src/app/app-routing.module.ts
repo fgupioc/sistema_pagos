@@ -63,6 +63,8 @@ import {CarteraConAtrasoComponent} from './componentes/dashboard/cartera-con-atr
 import {MotivoDeAtrasoComponent} from './componentes/dashboard/motivo-de-atraso/motivo-de-atraso.component';
 import {RecordDeAtrasoComponent} from './componentes/dashboard/record-de-atraso/record-de-atraso.component';
 import {ContactabilidadComponent} from './componentes/dashboard/contactabilidad/contactabilidad.component';
+import { CreditosVencidosComponent } from './estrategia/asignacion-cartera/creditos-vencidos/creditos-vencidos.component';
+import {CreditoVencidoComponent} from './estrategia/asignacion-cartera/creditos-vencidos/credito-vencido.component';
 
 
 const A = Autorizacion;
@@ -147,6 +149,8 @@ const routes: Routes = [
             {path: 'asignacion-cartera/:ejecutivoUuid/listado/:asignacionUuid/detalle', component: EjecutivoCreditosComponent},
             {path: 'asignacion-cartera/:ejecutivoUuid/listado/:asignacionUuid/detalle/:nroCredito/socio', component: CreditoSocioComponent},
 
+            { path: 'asignacion-cartera/:ejecutivoUuid/creditos-vencidos', component: CreditosVencidosComponent },
+            { path: 'asignacion-cartera/:ejecutivoUuid/creditos-vencidos/:nroCredito/detalle', component: CreditoVencidoComponent },
             // gestor de cobranza
             {path: 'asignacion-cartera/mis-cartera-asignadas', component: EjecutivoAsignacionesComponent, data: {role: 'X'}},
             {path: 'asignacion-cartera/mis-cartera-asignadas/:asignacionUuid/detalle', component: EjecutivoCreditosComponent, data: {role: 'X'}},

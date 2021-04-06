@@ -160,4 +160,12 @@ export class AsignacionCarteraService {
   listarGestionesPorCartera(codCartera: any) {
     return this.http.get<any>(`${urlBase}/listarGestionesPorCartera`, {params: new HttpParams().set('codCartera', codCartera)});
   }
+
+  creditosVencidosPorEjecutivo(ejecutivoUuid: any) {
+    return this.http.get<any>(`${urlBase}/creditosVencidosPorEjecutivo`, { params: new HttpParams().set('ejecutivoUuid', ejecutivoUuid) });
+  }
+
+  buscarCreditoVencidosPorEjecutivo(ejecutivoUuid: any, numCredito: any) {
+    return this.http.get<any>(`${urlBase}/buscarCreditoVencidosPorEjecutivo`, { params: new HttpParams().set('ejecutivoUuid', ejecutivoUuid).set('numCredito', numCredito) });
+  }
 }

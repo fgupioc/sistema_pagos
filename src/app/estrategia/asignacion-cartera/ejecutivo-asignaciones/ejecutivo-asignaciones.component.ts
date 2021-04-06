@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AsignacionCarteraService} from '../../../servicios/asignacion-cartera.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {NgWizardService} from 'ng-wizard';
 import Swal from 'sweetalert2';
 import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
 import * as moment from 'moment';
@@ -58,6 +57,7 @@ export class EjecutivoAsignacionesComponent implements OnInit {
       res => {
         if (res.exito) {
           this.asignaciones = res.objeto as any[];
+          console.log(res.objeto)
           this.spinner.hide();
         } else {
           Swal.fire('Asignación de Cartera', 'EL Asesor de negocio no existe.', 'error');

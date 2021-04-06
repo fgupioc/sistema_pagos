@@ -65,6 +65,8 @@ import { GestionCarteraComponent } from './cartera/gestion-cartera/gestion-carte
 import { GestionCarteraEditarComponent } from './cartera/gestion-cartera-editar/gestion-cartera-editar.component';
 import { ListarGestionesComponent } from './configuracion/gestion/listar-gestiones/listar-gestiones.component';
 import { CrearGestionComponent } from './gestion/crear-gestion/crear-gestion.component';
+import { CreditosVencidosComponent } from './asignacion-cartera/creditos-vencidos/creditos-vencidos.component';
+import { CreditoVencidoComponent } from './asignacion-cartera/creditos-vencidos/credito-vencido.component';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -118,6 +120,8 @@ const ngWizardConfig: NgWizardConfig = {
     GestionCarteraEditarComponent,
     ListarGestionesComponent,
     CrearGestionComponent,
+    CreditosVencidosComponent,
+    CreditoVencidoComponent,
   ],
   imports: [
     CommonModule,
