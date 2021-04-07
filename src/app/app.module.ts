@@ -16,12 +16,11 @@ import {PublicoModule} from './publico/publico.module';
 import {ConfigService, configServiceInitializerFactory} from './servicios/seguridad/config.service';
 import {RouterModule} from '@angular/router';
 import {SocioModule} from './socio/socio.module';
-
 registerLocaleData(localePE, 'es-PE');
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

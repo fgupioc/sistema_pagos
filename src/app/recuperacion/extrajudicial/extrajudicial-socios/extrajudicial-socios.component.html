@@ -1,0 +1,76 @@
+<div class="card">
+    <div class="card-header">
+        <span class="card-title text-uppercase font-weight-bold">Lista de Socios</span>
+        <div class="card-tools float-right">
+            <button type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/recuperacion/extrajudicial/solicitudes'">
+        <i class="fa fa-arrow-left"></i> Regresar
+      </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Observación:</label>
+                    <textarea [(ngModel)]="mensaje" class="form-control" rows="5" placeholder="ingrese una observación"></textarea>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <span>
+                      <label class="switch switch-default switch-pill switch-success mr-2">
+                        <input type="checkbox" class="switch-input"  (change)="seleccionarTodos($event)" [checked]="socios.length == sociosSeleccionados.length">
+                        <span class="switch-label"></span>
+                    <span class="switch-handle"></span>
+                    </label>
+                    Seleccionar Todos</span>
+
+                    <button *ngIf="sociosSeleccionados.length > 0" class="btn btn-sm btn-success float-right" (click)="enviarSolicitud()">Rechazar solicitudes</button>
+                    <!--          <label class="cursor-pointer"><input type="checkbox" (change)="seleccionarTodos($event)" [checked]="creditos.length == creditosSeleccionados.length"> Seleccionar Todos</label>-->
+                    <!--          -->
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="table-responsive" *ngIf="socios.length > 0">
+                    <table datatable [dtOptions]="dtOptions" class="table table-responsive-sm table-bordered table-striped table-sm">
+                        <thead>
+                            <tr class="text-center">
+                                <th width="8%">#</th>
+                                <th>Socio</th>
+                                <th>Crédito</th>
+                                <th>Estado</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of socios; index as i; ">
+                                <td class="text-center">
+                                    <label class="contenedor-check">
+                              <input type="checkbox" [checked]="seleccionado(item)" (change)="seleccionarSocio($event, item)">
+                              <span class="checkmark"></span>
+                            </label>
+                                </td>
+                                <td>{{ item.socioAlias}}</td>
+                                <td class="text-center">{{ item.codCredito}}</td>
+                                <td class="text-center">
+                                    <b>Pendiente</b>
+                                    <!--
+                            <span class="badge" [ngClass]="estaActivo(0) ? 'badge-success' : 'badge-danger'">
+                              Pendiente
+                             </span>
+                             -->
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-success" (click)="irLink(item)">
+                              <i class="fa fa-eye"></i>
+                            </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

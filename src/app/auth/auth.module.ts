@@ -9,6 +9,7 @@ import {DashboardComponent} from '../dashboard/dashboard.component';
 import {MantenimientoModule} from '../mantenimiento/mantenimiento.module';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {ComponentesModule} from '../componentes/componentes.module';
+import { RecuperacionModule } from '../recuperacion/recuperacion.module';
 
 @NgModule({
   declarations: [AuthComponent, DashboardComponent],
@@ -25,6 +26,7 @@ import {ComponentesModule} from '../componentes/componentes.module';
         MantenimientoModule,
         NgxSpinnerModule,
         ComponentesModule,
+        RecuperacionModule
     ]
 })
 export class AuthModule {

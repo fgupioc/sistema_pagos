@@ -65,6 +65,11 @@ import {RecordDeAtrasoComponent} from './componentes/dashboard/record-de-atraso/
 import {ContactabilidadComponent} from './componentes/dashboard/contactabilidad/contactabilidad.component';
 import { CreditosVencidosComponent } from './estrategia/asignacion-cartera/creditos-vencidos/creditos-vencidos.component';
 import {CreditoVencidoComponent} from './estrategia/asignacion-cartera/creditos-vencidos/credito-vencido.component';
+import { ExtrajudicialCarterasComponent } from './recuperacion/extrajudicial/extrajudicial-carteras/extrajudicial-carteras.component';
+import { JudicialCarterasComponent } from './recuperacion/judicial/judicial-carteras/judicial-carteras.component';
+import { ExtrajudicialSolicitudCambioEstadoComponent } from './recuperacion/extrajudicial/extrajudicial-solicitud-cambio-estado/extrajudicial-solicitud-cambio-estado.component';
+import { ExtrajudicialSociosComponent } from './recuperacion/extrajudicial/extrajudicial-socios/extrajudicial-socios.component';
+import { ExtrajudicialSocioComponent } from './recuperacion/extrajudicial/extrajudicial-socio/extrajudicial-socio.component';
 
 
 const A = Autorizacion;
@@ -222,7 +227,22 @@ const routes: Routes = [
             {path: 'record-de-atraso', component: RecordDeAtrasoComponent},
             {path: 'contactabilidad', component: ContactabilidadComponent},
           ]
-        }
+        },
+        {
+          path: 'recuperacion',
+          children: [
+            {
+              path: 'extrajudicial',
+              children: [
+                {path: 'carteras', component: ExtrajudicialCarterasComponent},
+                { path: 'solicitudes', component: ExtrajudicialSolicitudCambioEstadoComponent },
+                { path: 'solicitudes/:solicitudUuid/socios', component: ExtrajudicialSociosComponent },
+                { path: 'solicitudes/:solicitudUuid/socios/creditos', component: ExtrajudicialSocioComponent},
+              ]
+            },
+            { path: 'judicial/solicitudes', component: JudicialCarterasComponent }
+          ]
+        },
       ]
     }], canActivate: [AuthGuard]
   },

@@ -9,18 +9,24 @@
         </div>
     </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col-12" *ngIf="creditos.length > 0">
+        <div class="row" *ngIf="creditos.length > 0">
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Observación:</label>
+                    <textarea [(ngModel)]="mensaje" class="form-control" rows="5" placeholder="ingrese una observación"></textarea>
+                </div>
+            </div>
+            <div class="col-12">
                 <div class="form-group">
                     <span>
-                      <label class="switch switch-default switch-pill switch-primary mr-2">
+                      <label class="switch switch-default switch-pill switch-success mr-2">
                         <input type="checkbox" class="switch-input"  (change)="seleccionarTodos($event)" [checked]="creditos.length == creditosSeleccionados.length">
                         <span class="switch-label"></span>
                     <span class="switch-handle"></span>
                     </label>
                     Seleccionar Todos</span>
 
-                    <button *ngIf="creditosSeleccionados.length > 0" class="btn btn-sm btn-success float-right">Enviar a Extrajudicial</button>
+                    <button *ngIf="creditosSeleccionados.length > 0" class="btn btn-sm btn-success float-right" (click)="enviarSolicitud()">Enviar a Extrajudicial</button>
                     <!--          <label class="cursor-pointer"><input type="checkbox" (change)="seleccionarTodos($event)" [checked]="creditos.length == creditosSeleccionados.length"> Seleccionar Todos</label>-->
                     <!--          -->
                 </div>
@@ -42,9 +48,9 @@
                             <tr class="text-center" *ngFor="let credito of creditos">
                                 <th scope="row">
                                     <label class="contenedor-check">
-                  <input type="checkbox" [checked]="seleccionado(credito)" (change)="seleccionarCredito($event, credito)">
-                  <span class="checkmark"></span>
-                </label>
+                                      <input type="checkbox" [checked]="seleccionado(credito)" (change)="seleccionarCredito($event, credito)">
+                                      <span class="checkmark"></span>
+                                    </label>
                                 </th>
                                 <td>{{ credito.cartera }}</td>
                                 <td>{{ credito.nroCredito }}</td>
