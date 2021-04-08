@@ -9,6 +9,7 @@ import { CreditoTemp } from '../../../interfaces/credito-temp';
 import { SocioArchivo } from 'src/app/interfaces/socio/socio-archivo';
 import { Solicitud } from '../../../interfaces/recuperacion/solicitud';
 import { ToastrService } from 'ngx-toastr';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-credito-vencido',
@@ -22,6 +23,9 @@ export class CreditoVencidoComponent implements OnInit {
   credito: CreditoTemp;
   fileName: any;
   file: any;
+
+  progreso = 0;
+
   archivos: SocioArchivo[] = [
     { id: 1, nombre: 'Solicitud', fechaRegistro: new Date() },
     { id: 2, nombre: 'Contrato', fechaRegistro: new Date() },
@@ -63,16 +67,29 @@ export class CreditoVencidoComponent implements OnInit {
 
   subirArchivo(labelInput: any) {
     if (this.file) {
+      /*
       this.archivos.push({
         id: this.archivos.length + 1,
         nombre: this.fileName ? (this.fileName.trim().length > 0 ? this.fileName : this.file.name ) : this.file.name,
         fechaRegistro: new Date(),
         extencion: FUNC.getFileExtension(this.file.name)
       });
-      document.getElementById(labelInput.id).innerHTML = 'Buscar archivo';
-      this.fileName = '';
-    }
+      */
 
+      this.extrajuducualService.subirArchivo(this.file, this.credito.socioId, this.fileName, FUNC.getFileExtension(this.file.name)).subscribe(
+        event => {
+          if(event.type === HttpEventType.UploadProgress) {
+            this.progreso = Math.round((event.loaded / event.total) * 100);
+          } else if(event.type === HttpEventType.Response) {
+            const res: any = event.body;
+            console.log(res);
+            document.getElementById(labelInput.id).innerHTML = 'Buscar archivo';
+            this.fileName = '';
+            this.progreso = 0;
+          }
+        }
+      );
+    }
   }
 
   changeArchivo(event: any, labelInput: any) {

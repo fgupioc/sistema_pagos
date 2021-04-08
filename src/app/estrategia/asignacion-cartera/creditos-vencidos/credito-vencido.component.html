@@ -54,6 +54,13 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-12" *ngIf="progreso > 0">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100" [style.width]=" progreso+'%'">
+                                {{progreso}}%
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-12">

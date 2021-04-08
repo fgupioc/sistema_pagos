@@ -28,7 +28,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
   isDtInitialized = false;
   @ViewChild(DataTableDirective, { static: false }) dtElement: DataTableDirective;
 
-  archivos: SocioArchivo[] = [
+  archivos: any[] = [
     { id: 1, nombre: 'Solicitud', fechaRegistro: new Date() },
     { id: 2, nombre: 'Contrato', fechaRegistro: new Date() },
     { id: 3, nombre: 'Pagares y garantias', fechaRegistro: new Date() },
