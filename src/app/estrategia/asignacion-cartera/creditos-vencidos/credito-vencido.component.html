@@ -29,6 +29,12 @@
                 </div>
             </div>
             <div class="col-12">
+                <div class="form-group">
+                    <quill-editor [styles]="{height: '200px'}" placeholder="Observación" [modules]="config" [(ngModel)]="mensaje" required>
+                    </quill-editor>
+                </div>
+            </div>
+            <div class="col-12">
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <div class="form-group">
@@ -73,6 +79,11 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group text-center">
+                    <button class="btn btn-sm btn-primary" (click)="enviarSolicitud()">Enviar Información del Socio</button>
                 </div>
             </div>
         </div>

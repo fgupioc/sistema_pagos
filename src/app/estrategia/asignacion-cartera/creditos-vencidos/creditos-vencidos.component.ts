@@ -5,7 +5,6 @@ import { AsignacionCarteraService } from '../../../servicios/asignacion-cartera.
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CreditoTemp } from 'src/app/interfaces/credito-temp';
 import { Solicitud } from '../../../interfaces/recuperacion/solicitud';
-import { SolicitudDetalle } from '../../../interfaces/recuperacion/solicitud-detalle';
 import { ExtrajudicialService } from '../../../servicios/recuperacion/extrajudicial.service';
 import { CONST } from '../../../comun/CONST';
 
@@ -17,11 +16,9 @@ import { CONST } from '../../../comun/CONST';
 export class CreditosVencidosComponent implements OnInit {
   asignacionUuid: string;
   ejecutivoUuid: string;
-  mensaje: string;
   creditos: CreditoTemp[] = [];
   ejecutivo: any;
   creditosSeleccionados: CreditoTemp[] = [];
-  config = CONST.C_CONF_EDITOR;
 
   constructor(
     private router: Router,
@@ -39,31 +36,6 @@ export class CreditosVencidosComponent implements OnInit {
   ngOnInit() {
   }
 
-  seleccionarTodos(event: any) {
-    this.creditosSeleccionados = [];
-    if (event.target.checked) {
-      this.creditosSeleccionados = this.creditos;
-    }
-  }
-
-  seleccionado(credito: CreditoTemp) {
-    return this.creditosSeleccionados.find(i => i.id == credito.id);
-  }
-
-  seleccionarCredito(event: any, credito: CreditoTemp) {
-
-    if (event.target.checked) {
-      const item = this.creditosSeleccionados.find(i => i.id == credito.id);
-      if (!item) {
-        this.creditosSeleccionados.push(credito);
-      }
-    } else {
-      this.creditosSeleccionados = this.creditosSeleccionados.filter(i => i.id != credito.id);
-    }
-
-    console.log(this.creditosSeleccionados);
-  }
-
   loadCreditos(uuid) {
     this.spinner.show();
     this.asignacionCarteraService.creditosVencidosPorEjecutivo(uuid).subscribe(
@@ -78,40 +50,5 @@ export class CreditosVencidosComponent implements OnInit {
     );
   }
 
-  enviarSolicitud() {
-    if(!this.mensaje) {
-      this.toastr.warning('Debe ingresar una observación');
-      return;
-    }
 
-    const detalles: SolicitudDetalle[] = [];
-
-    this.creditosSeleccionados.forEach( i => {
-      detalles.push({
-        socioId: i.socioId,
-        codCreditoPrincipal: i.id
-      });
-    });
-
-    const solicitud: Solicitud = {
-      mensaje: this.mensaje,
-      ejecutivoId: this.ejecutivo.id,
-      detalles
-    };
-
-    this.spinner.show();
-    this.extrajuducualService.registrarSolicitud(solicitud).subscribe(
-      res => {
-        if (res.exito) {
-          this.toastr.success(res.mensaje);
-          this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
-          this.spinner.hide();
-        } else {
-          this.toastr.warning(res.mensaje);
-          this.spinner.hide();
-        }
-      },
-      err => this.spinner.hide()
-    );
-  }
 }

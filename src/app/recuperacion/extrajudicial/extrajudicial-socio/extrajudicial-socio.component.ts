@@ -19,12 +19,21 @@ export class ExtrajudicialSocioComponent implements OnInit {
   socio: any;
   seccioSeleccionada = '1';
   creditos: any[] = [];
+  solicitud: any;
+  mensaje: string;
+  config = CONST.C_CONF_EDITOR;
 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   isDtInitialized = false;
   @ViewChild(DataTableDirective, { static: false }) dtElement: DataTableDirective;
 
+  archivos: SocioArchivo[] = [
+    { id: 1, nombre: 'Solicitud', fechaRegistro: new Date() },
+    { id: 2, nombre: 'Contrato', fechaRegistro: new Date() },
+    { id: 3, nombre: 'Pagares y garantias', fechaRegistro: new Date() },
+    { id: 4, nombre: 'Cronograma', fechaRegistro: new Date() },
+  ];
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -33,36 +42,20 @@ export class ExtrajudicialSocioComponent implements OnInit {
     private toastr: ToastrService
   ) {
     const { solicitudUuid } = activatedRoute.snapshot.params;
-    if (!solicitudUuid) {
-      router.navigateByUrl('/auth/recuperacion/extrajudicial/solicitudes');
-      return;
-    }
-
     this.solicitudUuid = solicitudUuid;
-    const state = router.getCurrentNavigation().extras.state;
-    if(!state) {
-      router.navigateByUrl('/auth/recuperacion/extrajudicial/solicitudes/' + solicitudUuid + '/socios');
-      return;
-    }
-
-    if (!state.itemId) {
-      router.navigateByUrl('/auth/recuperacion/extrajudicial/solicitudes/' + solicitudUuid + '/socios');
-      return;
-    }
-
-    this.itemId = state.itemId;
-    this.loadInfoSocio(solicitudUuid, state.itemId);
+    this.loadDetalle(solicitudUuid);
   }
 
   ngOnInit() {
     this.dtOptions = CONST.C_OBJ_DT_OPCIONES();
   }
 
-  loadInfoSocio(uuid, id: any) {
+  loadDetalle(uuid: string) {
     this.spinner.show();
-    this.extrajudicialService.buscarInformacionSocio(uuid, id).subscribe(
+    this.extrajudicialService.buscarDetalleSolicitud(uuid).subscribe(
       res => {
         if (res.exito) {
+          this.solicitud = res.solicitud;
           this.socio = res.socio;
           this.creditos = res.creditos;
           this.refreshDatatable();

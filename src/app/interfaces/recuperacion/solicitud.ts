@@ -1,11 +1,13 @@
-import { SolicitudDetalle } from "./solicitud-detalle";
 
 export interface Solicitud {
   mensaje: string;
-  detalles: SolicitudDetalle[];
+  codCreditoPrincipal: number;
+  codSolicitud?: string;
+  socioId?: number;
+  socioAlias?: string;
+  codCredito?: string;
   id?: number;
   uuid?: string;
-  codSolicitud?: string;
   gestorId?: number;
   ejecutivoId?: number;
   tipoSolicitud?: string;
@@ -14,4 +16,5 @@ export interface Solicitud {
   userCreate?: number;
   userUpdate?: number;
   estado?: string;
+  condicion?: string;
 }

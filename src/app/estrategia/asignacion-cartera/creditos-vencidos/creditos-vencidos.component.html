@@ -10,25 +10,6 @@
     </div>
     <div class="card-body">
         <div class="row" *ngIf="creditos.length > 0">
-            <div class="col-12 mb-4">
-                <quill-editor [styles]="{height: '200px'}" placeholder="Observación" [modules]="config" [(ngModel)]="mensaje" required>
-                </quill-editor>
-            </div>
-            <div class="col-12">
-                <div class="form-group">
-                    <span>
-                      <label class="switch switch-default switch-pill switch-success mr-2">
-                        <input type="checkbox" class="switch-input"  (change)="seleccionarTodos($event)" [checked]="creditos.length == creditosSeleccionados.length">
-                        <span class="switch-label"></span>
-                    <span class="switch-handle"></span>
-                    </label>
-                    Seleccionar Todos</span>
-
-                    <button *ngIf="creditosSeleccionados.length > 0" class="btn btn-sm btn-success float-right" (click)="enviarSolicitud()">Enviar a Extrajudicial</button>
-                    <!--          <label class="cursor-pointer"><input type="checkbox" (change)="seleccionarTodos($event)" [checked]="creditos.length == creditosSeleccionados.length"> Seleccionar Todos</label>-->
-                    <!--          -->
-                </div>
-            </div>
             <div class="col-12 mt-4">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
@@ -43,12 +24,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="text-center" *ngFor="let credito of creditos">
+                            <tr class="text-center" *ngFor="let credito of creditos; let i = index">
                                 <th scope="row">
-                                    <label class="contenedor-check">
-                                      <input type="checkbox" [checked]="seleccionado(credito)" (change)="seleccionarCredito($event, credito)">
-                                      <span class="checkmark"></span>
-                                    </label>
+                                    <span>{{ i+1 }}</span>
                                 </th>
                                 <td>{{ credito.cartera }}</td>
                                 <td>{{ credito.nroCredito }}</td>

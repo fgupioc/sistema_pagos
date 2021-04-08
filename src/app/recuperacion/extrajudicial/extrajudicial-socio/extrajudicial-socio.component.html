@@ -3,7 +3,8 @@
         <i class="fa fa-align-justify"></i>
         <span class="card-title text-uppercase font-weight-bold">Informacion del socio</span>
         <div class="card-tools float-right">
-
+            <button class="btn btn-sm btn-secondary mr-4">Rechazar</button>
+            <button class="btn btn-sm btn-success ">Aceptar</button>
         </div>
     </div>
     <div class="card-body">
@@ -34,9 +35,20 @@
             </div>
         </div>
         <div class="row">
-
+            <div class="col-12" *ngIf="solicitud">
+                <div class="form-group">
+                    <label>Comentario:</label>
+                    <div class="ql-container ql-snow" style="border-width: 0.5;">
+                        <div class="ql-editor" [innerHTML]="solicitud.mensaje">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 my-4">
+                <quill-editor [styles]="{height: '200px'}" placeholder="Observación" [modules]="config" [(ngModel)]="mensaje" required>
+                </quill-editor>
+            </div>
         </div>
-
         <div class="row">
             <div class="col-12">
                 <ngb-tabset [destroyOnHide]="false" [activeId]="1" (tabChange)="tabSeleccionado($event)">
@@ -210,6 +222,37 @@
                                                     <th scope="row">{{ i + 1 }}</th>
                                                     <td style="text-align: left">{{ direccion.nombreVia}}</td>
                                                     <td>{{ direccion.tipoDireccion }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Documentos" id="5">
+                        <ng-template ngbTabContent>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <table class="table table-bordered">
+                                            <caption style="caption-side:top;">Lista de recursos del socio</caption>
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th scope="col" width="10%">#</th>
+                                                    <th scope="col">Archivo</th>
+                                                    <th scope="col" width="15%">Fecha</th>
+                                                    <th scope="col" width="10%">Opción</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of archivos; let i = index" class="text-center">
+                                                    <th scope="row">{{ i+1 }}</th>
+                                                    <td style="text-align: left;">{{ item.nombre }}</td>
+                                                    <td>{{ item.fechaRegistro | date: 'dd-MM-yyyy' }}</td>
+                                                    <td>
+                                                        <button class="btn btn-sm bg-success"><i class="fa fa-download"></i></button>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>

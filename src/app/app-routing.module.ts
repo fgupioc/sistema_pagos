@@ -68,7 +68,6 @@ import {CreditoVencidoComponent} from './estrategia/asignacion-cartera/creditos-
 import { ExtrajudicialCarterasComponent } from './recuperacion/extrajudicial/extrajudicial-carteras/extrajudicial-carteras.component';
 import { JudicialCarterasComponent } from './recuperacion/judicial/judicial-carteras/judicial-carteras.component';
 import { ExtrajudicialSolicitudCambioEstadoComponent } from './recuperacion/extrajudicial/extrajudicial-solicitud-cambio-estado/extrajudicial-solicitud-cambio-estado.component';
-import { ExtrajudicialSociosComponent } from './recuperacion/extrajudicial/extrajudicial-socios/extrajudicial-socios.component';
 import { ExtrajudicialSocioComponent } from './recuperacion/extrajudicial/extrajudicial-socio/extrajudicial-socio.component';
 
 
@@ -236,8 +235,7 @@ const routes: Routes = [
               children: [
                 {path: 'carteras', component: ExtrajudicialCarterasComponent},
                 { path: 'solicitudes', component: ExtrajudicialSolicitudCambioEstadoComponent },
-                { path: 'solicitudes/:solicitudUuid/socios', component: ExtrajudicialSociosComponent },
-                { path: 'solicitudes/:solicitudUuid/socios/creditos', component: ExtrajudicialSocioComponent},
+                { path: 'solicitudes/:solicitudUuid/socio', component: ExtrajudicialSocioComponent }
               ]
             },
             { path: 'judicial/solicitudes', component: JudicialCarterasComponent }

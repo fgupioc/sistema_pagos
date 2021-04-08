@@ -12,7 +12,6 @@ import { Select2Module } from 'ng2-select2';
 import { ExtrajudicialCarterasComponent } from './extrajudicial/extrajudicial-carteras/extrajudicial-carteras.component';
 import { JudicialCarterasComponent } from './judicial/judicial-carteras/judicial-carteras.component';
 import { ExtrajudicialSolicitudCambioEstadoComponent } from './extrajudicial/extrajudicial-solicitud-cambio-estado/extrajudicial-solicitud-cambio-estado.component';
-import { ExtrajudicialSociosComponent } from './extrajudicial/extrajudicial-socios/extrajudicial-socios.component';
 import {RouterModule} from '@angular/router';
 import {TreeviewModule} from 'ngx-treeview';
 import { ExtrajudicialSocioComponent } from './extrajudicial/extrajudicial-socio/extrajudicial-socio.component';
@@ -23,7 +22,6 @@ import { QuillModule } from 'ngx-quill';
     ExtrajudicialCarterasComponent,
     JudicialCarterasComponent,
     ExtrajudicialSolicitudCambioEstadoComponent,
-    ExtrajudicialSociosComponent,
     ExtrajudicialSocioComponent
   ],
   imports: [
