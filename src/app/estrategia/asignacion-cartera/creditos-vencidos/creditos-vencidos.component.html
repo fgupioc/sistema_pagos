@@ -10,11 +10,9 @@
     </div>
     <div class="card-body">
         <div class="row" *ngIf="creditos.length > 0">
-            <div class="col-12">
-                <div class="form-group">
-                    <label>Observación:</label>
-                    <textarea [(ngModel)]="mensaje" class="form-control" rows="5" placeholder="ingrese una observación"></textarea>
-                </div>
+            <div class="col-12 mb-4">
+                <quill-editor [styles]="{height: '200px'}" placeholder="Observación" [modules]="config" [(ngModel)]="mensaje" required>
+                </quill-editor>
             </div>
             <div class="col-12">
                 <div class="form-group">

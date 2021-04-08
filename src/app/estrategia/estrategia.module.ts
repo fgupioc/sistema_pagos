@@ -67,6 +67,7 @@ import { ListarGestionesComponent } from './configuracion/gestion/listar-gestion
 import { CrearGestionComponent } from './gestion/crear-gestion/crear-gestion.component';
 import { CreditosVencidosComponent } from './asignacion-cartera/creditos-vencidos/creditos-vencidos.component';
 import { CreditoVencidoComponent } from './asignacion-cartera/creditos-vencidos/credito-vencido.component';
+import { QuillModule } from 'ngx-quill';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -140,7 +141,8 @@ const ngWizardConfig: NgWizardConfig = {
     BrowserModule,
     DndModule,
     NgxDropzoneModule,
-    DataTablesModule
+    DataTablesModule,
+    QuillModule.forRoot()
   ],
   exports: [
     CrearCarteraComponent,

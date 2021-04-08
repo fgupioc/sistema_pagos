@@ -16,7 +16,7 @@ import { ExtrajudicialSociosComponent } from './extrajudicial/extrajudicial-soci
 import {RouterModule} from '@angular/router';
 import {TreeviewModule} from 'ngx-treeview';
 import { ExtrajudicialSocioComponent } from './extrajudicial/extrajudicial-socio/extrajudicial-socio.component';
-
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
@@ -46,7 +46,8 @@ import { ExtrajudicialSocioComponent } from './extrajudicial/extrajudicial-socio
     ComponentesModule,
     NgbModule,
     Select2Module,
-    RouterModule
+    RouterModule,
+    QuillModule.forRoot()
   ],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

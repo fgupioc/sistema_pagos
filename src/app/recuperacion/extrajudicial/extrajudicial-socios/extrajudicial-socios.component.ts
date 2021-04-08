@@ -6,6 +6,7 @@ import {CONST} from '../../../comun/CONST';
 import { ExtrajudicialService } from '../../../servicios/recuperacion/extrajudicial.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SolicitudDetalle } from '../../../interfaces/recuperacion/solicitud-detalle';
+import { Solicitud } from '../../../interfaces/recuperacion/solicitud';
 
 @Component({
   selector: 'app-extrajudicial-socios',
@@ -21,6 +22,8 @@ export class ExtrajudicialSociosComponent implements OnInit {
   socios: SolicitudDetalle[] = [];
   sociosSeleccionados: any[] = [];
   mensaje: string;
+  solicitud: Solicitud;
+  config = CONST.C_CONF_EDITOR;
 
   constructor(
     private router: Router,
@@ -60,7 +63,9 @@ export class ExtrajudicialSociosComponent implements OnInit {
     this.extrajudicialService.buscarDetalleSolicitud(uuid).subscribe(
       res =>{
        if(res.exito) {
+         console.log(res);
          this.socios = res.detalle;
+         this.solicitud = res.solicitud;
          this.refreshDatatable();
        }
         this.spinner.hide();
@@ -99,6 +104,6 @@ export class ExtrajudicialSociosComponent implements OnInit {
   }
 
   enviarSolicitud() {
-
+    console.log(this.mensaje)
   }
 }

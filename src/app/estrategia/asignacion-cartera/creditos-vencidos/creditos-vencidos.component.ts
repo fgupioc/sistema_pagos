@@ -7,6 +7,7 @@ import { CreditoTemp } from 'src/app/interfaces/credito-temp';
 import { Solicitud } from '../../../interfaces/recuperacion/solicitud';
 import { SolicitudDetalle } from '../../../interfaces/recuperacion/solicitud-detalle';
 import { ExtrajudicialService } from '../../../servicios/recuperacion/extrajudicial.service';
+import { CONST } from '../../../comun/CONST';
 
 @Component({
   selector: 'app-creditos-vencidos',
@@ -20,6 +21,7 @@ export class CreditosVencidosComponent implements OnInit {
   creditos: CreditoTemp[] = [];
   ejecutivo: any;
   creditosSeleccionados: CreditoTemp[] = [];
+  config = CONST.C_CONF_EDITOR;
 
   constructor(
     private router: Router,

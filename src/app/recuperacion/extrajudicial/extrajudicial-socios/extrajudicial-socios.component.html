@@ -9,11 +9,18 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12" *ngIf="solicitud">
                 <div class="form-group">
-                    <label>Observación:</label>
-                    <textarea [(ngModel)]="mensaje" class="form-control" rows="5" placeholder="ingrese una observación"></textarea>
+                    <label>Comentario:</label>
+                    <div class="ql-container ql-snow" style="border-width: 0.5;">
+                        <div class="ql-editor" [innerHTML]="solicitud.mensaje">
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class="col-12 my-4">
+                <quill-editor [styles]="{height: '200px'}" placeholder="Observación" [modules]="config" [(ngModel)]="mensaje" required>
+                </quill-editor>
             </div>
             <div class="col-12">
                 <div class="form-group">
