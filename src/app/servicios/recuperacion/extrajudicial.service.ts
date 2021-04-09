@@ -25,8 +25,9 @@ export class ExtrajudicialService {
     return this.http.post<any>(`${urlBase}/registrar-solicitud`, solicitud);
   }
 
-  listarsolicitudes(): Observable<any> {
-    return this.http.get<any>(`${urlBase}/listar-solicitudes`);
+  listarsolicitudes(etapa: any): Observable<any> {
+
+    return this.http.get<any>(`${urlBase}/listar-solicitudes`, { params: new HttpParams().set('etapa', etapa) });
   }
 
   buscarDetalleSolicitud(uuid: any): Observable<any> {
@@ -54,4 +55,11 @@ export class ExtrajudicialService {
     return this.http.get(`${urlBase}/dowload-file/${fileName}`, { responseType: 'arraybuffer' });
   }
 
+  aceptarSolicitudExtrajudicial(uuid: any, msj: any): Observable<any> {
+    return this.http.post<any>(`${urlBase}/aceptar-solicitud-extrajudicial`, {}, { params: new HttpParams().set('uuid', uuid).set('msj', msj) });
+  }
+
+  observarSolicitudExtrajudicial(uuid: any, msj: any): Observable<any> {
+    return this.http.post<any>(`${urlBase}/observar-solicitud-extrajudicial`, {}, { params: new HttpParams().set('uuid', uuid).set('msj', msj) });
+  }
 }

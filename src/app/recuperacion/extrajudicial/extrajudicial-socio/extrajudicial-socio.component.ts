@@ -20,6 +20,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
   socio: any;
   seccioSeleccionada = '1';
   creditos: any[] = [];
+  seguimientos: any[] = [];
   solicitud: any;
   mensaje: string;
   config = CONST.C_CONF_EDITOR;
@@ -55,6 +56,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
           this.socio = res.socio;
           this.creditos = res.creditos;
           this.archivos = res.archivos;
+          this.seguimientos = res.seguimientos;
           this.refreshDatatable();
         }
         this.spinner.hide();
@@ -105,6 +107,42 @@ export class ExtrajudicialSocioComponent implements OnInit {
       err => {
         this.spinner.hide();
       }
+    );
+  }
+
+  aceptar() {
+
+    if (!this.mensaje || (this.mensaje && this.mensaje.trim().length == 0)) {
+      this.toastr.warning('Debe ingresar un comentario');
+      return;
+    }
+    this.spinner.show();
+    this.extrajudicialService.aceptarSolicitudExtrajudicial(this.solicitud.uuid, this.mensaje).subscribe(
+      res => {
+        if (res.exito) {
+          this.toastr.success(res.mensaje);
+        }
+        this.spinner.hide();
+      },
+      err => this.spinner.hide()
+    );
+  }
+
+  observar() {
+
+    if (!this.mensaje || (this.mensaje && this.mensaje.trim().length == 0)) {
+      this.toastr.warning('Debe ingresar un comentario');
+      return;
+    }
+    this.spinner.show();
+    this.extrajudicialService.observarSolicitudExtrajudicial(this.solicitud.uuid, this.mensaje).subscribe(
+      res => {
+        if (res.exito) {
+          this.toastr.success(res.mensaje);
+        }
+        this.spinner.hide();
+      },
+      err => this.spinner.hide()
     );
   }
 }

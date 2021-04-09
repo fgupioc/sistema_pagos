@@ -2,9 +2,9 @@
     <div class="card-header">
         <i class="fa fa-align-justify"></i>
         <span class="card-title text-uppercase font-weight-bold">Informacion del socio</span>
-        <div class="card-tools float-right">
-            <button class="btn btn-sm btn-secondary mr-4">Rechazar</button>
-            <button class="btn btn-sm btn-success ">Aceptar</button>
+        <div class="card-tools float-right" *ngIf="solicitud.condicion == 'N' || solicitud.condicion == 'M'">
+            <button class="btn btn-sm btn-secondary  mr-4" [disabled]="!mensaje" (click)="observar()">Rechazar</button>
+            <button class="btn btn-sm btn-success" [disabled]="!mensaje" (click)="aceptar()">Aceptar</button>
         </div>
     </div>
     <div class="card-body">
@@ -38,10 +38,14 @@
             <div class="col-12" *ngIf="solicitud">
                 <div class="form-group">
                     <label>Comentario:</label>
-                    <div class="ql-container ql-snow" style="border-width: 0.5;">
-                        <div class="ql-editor" [innerHTML]="solicitud.mensaje">
+                    <ng-container *ngFor="let item of seguimientos">
+                        <br>
+                        <span><b>{{ item.gestorAlias }}:</b></span>
+                        <div class="ql-container ql-snow mb-2" style="border-width: 0.5;">
+                            <div class="ql-editor" [innerHTML]="item.mensaje">
+                            </div>
                         </div>
-                    </div>
+                    </ng-container>
                 </div>
             </div>
             <div class="col-12 my-4">

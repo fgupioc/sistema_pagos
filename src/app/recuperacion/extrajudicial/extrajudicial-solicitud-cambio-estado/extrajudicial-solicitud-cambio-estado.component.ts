@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ExtrajudicialService } from '../../../servicios/recuperacion/extrajudicial.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CONST } from 'src/app/comun/CONST';
 
 @Component({
   selector: 'app-extrajudicial-solicitud-cambio-estado',
@@ -20,7 +21,7 @@ export class ExtrajudicialSolicitudCambioEstadoComponent implements OnInit {
 
   loadSolicitudes() {
     this.spinner.show();
-    this.extrajudicialService.listarsolicitudes().subscribe(
+    this.extrajudicialService.listarsolicitudes(CONST.C_SOLICITUD_EXTRAJUDICIAL).subscribe(
       res => {
       if (res.exito) {
         this.solicitudes = res.solicitudes;

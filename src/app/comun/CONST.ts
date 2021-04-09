@@ -130,6 +130,10 @@ export class CONST {
   public static C_STR_TIPO_DOCUMENTO_PAS = '7';
   public static C_STR_TIPO_DOCUMENTO_PNA = '11';
 
+  public static C_SOLICITUD_COBRANZA = "CO";
+  public static C_SOLICITUD_EXTRAJUDICIAL = "EJ";
+  public static C_SOLICITUD_JUDICIAL = "JU";
+
   public static ENUM_MONEDA = {
     SOL: 'PEN',
     DOLAR: 'USD',
