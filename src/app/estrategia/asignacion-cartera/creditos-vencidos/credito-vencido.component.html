@@ -71,6 +71,7 @@
                             <tr class="text-center">
                                 <th scope="col" width="10%">#</th>
                                 <th scope="col">Archivo</th>
+                                <th scope="col" width="15%">Tipo</th>
                                 <th scope="col" width="15%">Fecha</th>
                                 <th scope="col" width="10%">Opción</th>
                             </tr>
@@ -79,9 +80,10 @@
                             <tr *ngFor="let item of archivos; let i = index" class="text-center">
                                 <th scope="row">{{ i+1 }}</th>
                                 <td style="text-align: left;">{{ item.nombre }}</td>
-                                <td>{{ item.fechaRegistro | date: 'dd-MM-yyyy' }}</td>
+                                <td>{{ item.extension }}</td>
+                                <td>{{ item.fechaCreacion | date: 'dd-MM-yyyy' }}</td>
                                 <td>
-                                    <button class="btn btn-sm bg-success"><i class="fa fa-download"></i></button>
+                                    <button class="btn btn-sm bg-success" (click)="download(item)"><i class="fa fa-download"></i></button>
                                 </td>
                             </tr>
                         </tbody>

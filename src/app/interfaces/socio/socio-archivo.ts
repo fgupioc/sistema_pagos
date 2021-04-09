@@ -1,8 +1,12 @@
 export interface SocioArchivo {
+  comentario: string;
+  estado: string;
+  extension: string;
+  fechaCreacion: number;
+  id: number;
   nombre: string;
-  fechaRegistro: any;
-  extencion?: string;
-  id?: number;
-  path?: string;
-  fecha?: string;
+  path: string;
+  socioId: number;
+  tipo: string;
+  uuid: string;
 }

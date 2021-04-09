@@ -37,15 +37,21 @@ export class ExtrajudicialService {
     return this.http.get<any>(`${urlBase}/buscar-informacion-socio`, { params: new HttpParams().set('uuid', uuid).set('id', id) });
   }
 
-  subirArchivo(archivo: File, socioId: any, fileName: any, fileExtension: any) {
+  subirArchivo(archivo: File, socioId: any, fileName: any, fileExtension: any, type: any) {
     let formData = new FormData();
     formData.append('file', archivo);
     formData.append('socioId', socioId);
     formData.append('fileName', fileName);
     formData.append('fileExtension', fileExtension);
+    formData.append('type', type);
 
     const req = new HttpRequest('POST', `${urlBase}/upload-file`, formData, { reportProgress: true });
 
     return this.http.request(req);
   }
+
+  descargarArchivo(fileName: any): Observable<any> {
+    return this.http.get(`${urlBase}/dowload-file/${fileName}`, { responseType: 'arraybuffer' });
+  }
+
 }

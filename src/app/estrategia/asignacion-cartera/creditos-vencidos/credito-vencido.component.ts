@@ -26,12 +26,7 @@ export class CreditoVencidoComponent implements OnInit {
 
   progreso = 0;
 
-  archivos: SocioArchivo[] = [
-    { id: 1, nombre: 'Solicitud', fechaRegistro: new Date() },
-    { id: 2, nombre: 'Contrato', fechaRegistro: new Date() },
-    { id: 3, nombre: 'Pagares y garantias', fechaRegistro: new Date() },
-    { id: 4, nombre: 'Cronograma', fechaRegistro: new Date() },
-  ];
+  archivos: SocioArchivo[] = [];
   mensaje: string;
   config = CONST.C_CONF_EDITOR;
 
@@ -39,7 +34,7 @@ export class CreditoVencidoComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private asignacionCarteraService: AsignacionCarteraService,
-    private extrajuducualService: ExtrajudicialService,
+    private extrajudicialService: ExtrajudicialService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService
   ) {
@@ -58,6 +53,7 @@ export class CreditoVencidoComponent implements OnInit {
       res => {
         if (res.exito) {
           this.credito = res.credito;
+          this.archivos = res.archivos;
         }
         this.spinner.hide();
       },
@@ -67,22 +63,15 @@ export class CreditoVencidoComponent implements OnInit {
 
   subirArchivo(labelInput: any) {
     if (this.file) {
-      /*
-      this.archivos.push({
-        id: this.archivos.length + 1,
-        nombre: this.fileName ? (this.fileName.trim().length > 0 ? this.fileName : this.file.name ) : this.file.name,
-        fechaRegistro: new Date(),
-        extencion: FUNC.getFileExtension(this.file.name)
-      });
-      */
-
-      this.extrajuducualService.subirArchivo(this.file, this.credito.socioId, this.fileName, FUNC.getFileExtension(this.file.name)).subscribe(
+      this.extrajudicialService.subirArchivo(this.file, this.credito.socioId, this.fileName, FUNC.getFileExtension(this.file.name), this.file.type).subscribe(
         event => {
           if(event.type === HttpEventType.UploadProgress) {
             this.progreso = Math.round((event.loaded / event.total) * 100);
           } else if(event.type === HttpEventType.Response) {
             const res: any = event.body;
-            console.log(res);
+            if (res.archivo) {
+              this.archivos.push(res.archivo)
+            }
             document.getElementById(labelInput.id).innerHTML = 'Buscar archivo';
             this.fileName = '';
             this.progreso = 0;
@@ -112,10 +101,8 @@ export class CreditoVencidoComponent implements OnInit {
       ejecutivoId: this.credito.id,
     }
 
-
-    console.log(solicitud);
     this.spinner.show();
-    this.extrajuducualService.registrarSolicitud(solicitud).subscribe(
+    this.extrajudicialService.registrarSolicitud(solicitud).subscribe(
       res => {
         if (res.exito) {
           this.toastr.success(res.mensaje);
@@ -127,6 +114,34 @@ export class CreditoVencidoComponent implements OnInit {
         }
       },
       err => this.spinner.hide()
+    );
+  }
+
+  download(item: SocioArchivo) {
+    this.spinner.show();
+    this.extrajudicialService.descargarArchivo(item.path).subscribe(
+      response => {
+        const blob = new Blob([response],
+          { type: `${item.tipo};charset=UTF-8` });
+        const objectUrl = (window.URL).createObjectURL(blob);
+        if (navigator.msSaveBlob) {
+          navigator.msSaveBlob(blob, item.path);
+        } else {
+          const a = document.createElement('a');
+          a.href = objectUrl;
+          a.target = '_blank';
+          a.download = item.path;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(() => {
+            document.body.removeChild(a);
+          }, 3000);
+        }
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
+      }
     );
   }
 }
