@@ -38,4 +38,5 @@ export interface CreditoTemp {
   tipoServicio: string;
   tipoSocio: string;
   totalCuotas: number;
+  ejecutivoId: number;
 }

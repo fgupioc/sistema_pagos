@@ -69,6 +69,8 @@ import { ExtrajudicialCarterasComponent } from './recuperacion/extrajudicial/ext
 import { JudicialCarterasComponent } from './recuperacion/judicial/judicial-carteras/judicial-carteras.component';
 import { ExtrajudicialSolicitudCambioEstadoComponent } from './recuperacion/extrajudicial/extrajudicial-solicitud-cambio-estado/extrajudicial-solicitud-cambio-estado.component';
 import { ExtrajudicialSocioComponent } from './recuperacion/extrajudicial/extrajudicial-socio/extrajudicial-socio.component';
+import { SociosObservadosComponent } from './estrategia/asignacion-cartera/socios-observados/socios-observados.component';
+import { SocioLevantarObservacionComponent } from './estrategia/asignacion-cartera/socio-levantar-observacion/socio-levantar-observacion.component';
 
 
 const A = Autorizacion;
@@ -155,6 +157,10 @@ const routes: Routes = [
 
             { path: 'asignacion-cartera/:ejecutivoUuid/creditos-vencidos', component: CreditosVencidosComponent },
             { path: 'asignacion-cartera/:ejecutivoUuid/creditos-vencidos/:nroCredito/detalle', component: CreditoVencidoComponent },
+
+            { path: 'asignacion-cartera/:ejecutivoUuid/socios-observados', component: SociosObservadosComponent },
+            { path: 'asignacion-cartera/:ejecutivoUuid/socios-observados/:solicitudUuid/actualizar', component: SocioLevantarObservacionComponent },
+
             // gestor de cobranza
             {path: 'asignacion-cartera/mis-cartera-asignadas', component: EjecutivoAsignacionesComponent, data: {role: 'X'}},
             {path: 'asignacion-cartera/mis-cartera-asignadas/:asignacionUuid/detalle', component: EjecutivoCreditosComponent, data: {role: 'X'}},

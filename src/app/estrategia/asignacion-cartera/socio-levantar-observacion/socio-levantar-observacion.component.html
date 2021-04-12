@@ -2,9 +2,8 @@
     <div class="card-header">
         <i class="fa fa-align-justify"></i>
         <span class="card-title text-uppercase font-weight-bold">Informacion del socio</span>
-        <div class="card-tools float-right" *ngIf="solicitud.condicion == 'N' || solicitud.condicion == 'M'">
-            <button class="btn btn-sm btn-secondary  mr-4" [disabled]="!mensaje" (click)="observar()">Rechazar</button>
-            <button class="btn btn-sm btn-success" [disabled]="!mensaje" (click)="aceptar()">Aceptar</button>
+        <div class="card-tools float-right" *ngIf="solicitud.condicion == 'O'">
+            <button class="btn btn-sm btn-success" [disabled]="!mensaje" (click)="aceptar()">Enviar Informacion</button>
         </div>
     </div>
     <div class="card-body">
@@ -40,7 +39,7 @@
                     <label>Ultimo Comentario:</label>
                     <ng-container *ngIf="seguimientos.length > 0">
                         <br>
-                        <span><b>{{ seguimientos[0].gestorAlias }} {{ seguimientos[0].fechaCreacion | date: 'dd MMM yy HH:mm' }}:</b></span>
+                        <span><b>{{ seguimientos[0].gestorAlias }} {{ seguimientos[0].fechaCreacion | date: 'dd MMM yy HH:mm' }}::</b></span>
                         <div class="ql-container ql-snow mb-2" style="border-width: 0.5;">
                             <div class="ql-editor" [innerHTML]="seguimientos[0].mensaje">
                             </div>
@@ -237,6 +236,35 @@
                     <ngb-tab title="Documentos" id="5">
                         <ng-template ngbTabContent>
                             <div class="row">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input cursor-pointer" id="fileInput" (change)="changeArchivo($event, labelInput)">
+                                                        <label #labelInput class="custom-file-label" id="labelText" data-browse="Buscar" for="fileInput">Buscar archivo</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="input-group mb-3">
+                                                <input [(ngModel)]="fileName" type="text" class="form-control" placeholder="Nombre del archivo">
+                                                <div class="input-group-prepend">
+                                                    <button type="button" class="btn btn-info" (click)="subirArchivo(labelInput)">Subir</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12" *ngIf="progreso > 0">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100" [style.width]=" progreso+'%'">
+                                                    {{progreso}}%
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-12">
                                     <div class="form-group">
                                         <table class="table table-bordered">

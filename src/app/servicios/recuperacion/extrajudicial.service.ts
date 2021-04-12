@@ -62,4 +62,8 @@ export class ExtrajudicialService {
   observarSolicitudExtrajudicial(uuid: any, msj: any): Observable<any> {
     return this.http.post<any>(`${urlBase}/observar-solicitud-extrajudicial`, {}, { params: new HttpParams().set('uuid', uuid).set('msj', msj) });
   }
+
+  levantarObservarSolicitudCobranza(uuid: any, msj: any): Observable<any> {
+    return this.http.post<any>(`${urlBase}/levantar-observar-solicitud-cobranza`, {}, { params: new HttpParams().set('uuid', uuid).set('msj', msj) });
+  }
 }

@@ -23,7 +23,7 @@ export class CreditoVencidoComponent implements OnInit {
   credito: CreditoTemp;
   fileName: any;
   file: any;
-
+  ejecutivo: any;
   progreso = 0;
 
   archivos: SocioArchivo[] = [];
@@ -54,6 +54,7 @@ export class CreditoVencidoComponent implements OnInit {
         if (res.exito) {
           this.credito = res.credito;
           this.archivos = res.archivos;
+          this.ejecutivo = res.ejecutivo;
         }
         this.spinner.hide();
       },
@@ -98,7 +99,7 @@ export class CreditoVencidoComponent implements OnInit {
       socioId: this.credito.socioId,
       codCreditoPrincipal: this.credito.id,
       mensaje: this.mensaje,
-      ejecutivoId: this.credito.id,
+      ejecutivoId: this.ejecutivo.id
     }
 
     this.spinner.show();

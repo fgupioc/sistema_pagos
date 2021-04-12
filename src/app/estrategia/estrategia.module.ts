@@ -68,6 +68,8 @@ import { CrearGestionComponent } from './gestion/crear-gestion/crear-gestion.com
 import { CreditosVencidosComponent } from './asignacion-cartera/creditos-vencidos/creditos-vencidos.component';
 import { CreditoVencidoComponent } from './asignacion-cartera/creditos-vencidos/credito-vencido.component';
 import { QuillModule } from 'ngx-quill';
+import { SociosObservadosComponent } from './asignacion-cartera/socios-observados/socios-observados.component';
+import { SocioLevantarObservacionComponent } from './asignacion-cartera/socio-levantar-observacion/socio-levantar-observacion.component';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -123,6 +125,8 @@ const ngWizardConfig: NgWizardConfig = {
     CrearGestionComponent,
     CreditosVencidosComponent,
     CreditoVencidoComponent,
+    SociosObservadosComponent,
+    SocioLevantarObservacionComponent,
   ],
   imports: [
     CommonModule,
