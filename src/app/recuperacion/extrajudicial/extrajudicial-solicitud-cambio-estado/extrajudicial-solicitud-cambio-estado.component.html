@@ -1,7 +1,98 @@
+<div class="card-header">
+    Solicitudes de cambio de estado
+</div>
 <div class="card">
-    <div class="card-header">
-        Solicitudes de cambio de estado
+
+    <div class="card-body">
+        <div class="row" [formGroup]="formGroup">
+            <div class="col-12 col-md-4">
+                <div class="form-group">
+                    <label for="">Tipo</label>
+                    <select class="form-control" formControlName="tipoBusqueda" (ngModelChange)="changeType($event)">
+                                  <option value="1">N° Solicitud</option>
+                                  <option value="2">Gestor</option>
+                                  <option value="3">Fecha</option>
+                                  <option value="4">Estado</option>
+                                </select>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="row">
+                    <ng-container *ngIf="formGroup.controls.tipoBusqueda.value == '1'">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="">Número de Solicitud</label>
+                                <input type="text" class="form-control" formControlName="numeroSolicitud" placeholder="000000000" maxlength="9" [ngClass]="{
+                                              'is-invalid': numeroSolicitud.touched && numeroSolicitud.errors
+                                              }">
+                                <div class="invalid-feedback">
+                                    <span *ngIf="formGroupInvalid">{{ formGroupMsj }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="formGroup.controls.tipoBusqueda.value == '2'">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="">Gestores</label>
+                                <select class="form-control" formControlName="gestor">
+                                              <option value="">Seleccionar</option>
+                                              <option *ngFor="let item of ejecutivos" [value]="item.codUsuario">{{ item.alias }}</option>
+                                            </select>
+                                <div class="invalid-feedback">
+                                    <span *ngIf="formGroupInvalid">{{ formGroupMsj }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="formGroup.controls.tipoBusqueda.value == '3'">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="">Inicio</label>
+                                <input class="form-control" type="date" formControlName="inicio">
+                                <div class="invalid-feedback">
+                                    <span *ngIf="formGroupInvalid">{{ formGroupMsj }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="">Fin</label>
+                                <input class="form-control" type="date" formControlName="fin">
+                                <div class="invalid-feedback">
+                                    <span *ngIf="formGroupInvalid">{{ formGroupMsj2 }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="formGroup.controls.tipoBusqueda.value == '4'">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="">Estados</label>
+                                <select class="form-control" formControlName="condicion">
+                                               <option value="">Seleccionar</option>
+                                              <option *ngFor="let item of condiciones" [value]="item.codItem">{{ item.descripcion }}</option>
+                                            </select>
+                                <div class="invalid-feedback">
+                                    <span *ngIf="formGroupInvalid">{{ formGroupMsj }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="col-12 col-md-2">
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button class="btn btn-block btn-info" (click)="buscar()">Buscar</button>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+
+<div class="card">
+
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered">
@@ -21,7 +112,7 @@
                         <td>Franz Junior Gupioc Ventura</td>
                         <td>{{ item.codSolicitud }}</td>
                         <td>{{ item.fechaCreacion | date: 'dd-MM-yyyy' }}</td>
-                        <td>{{ item.condicion }}</td>
+                        <td>{{ item.condicionDescripcion }}</td>
                         <td>
                             <div class="btn-group">
                                 <button class="btn btn-sm btn-info mr-2" [routerLink]="'/auth/recuperacion/extrajudicial/solicitudes/'+ item.uuid +'/socio'"><i class="fa fa-list"></i></button>

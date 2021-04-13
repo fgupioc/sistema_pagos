@@ -36,6 +36,8 @@ export class SocioLevantarObservacionComponent implements OnInit {
 
   archivos: any[] = [];
   progreso = 0;
+  ejecutivoUuid: any;
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -43,8 +45,9 @@ export class SocioLevantarObservacionComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private toastr: ToastrService
   ) {
-    const { solicitudUuid } = activatedRoute.snapshot.params;
+    const { solicitudUuid, ejecutivoUuid } = activatedRoute.snapshot.params;
     this.solicitudUuid = solicitudUuid;
+    this.ejecutivoUuid = ejecutivoUuid;
     this.loadDetalle(solicitudUuid);
 
   }

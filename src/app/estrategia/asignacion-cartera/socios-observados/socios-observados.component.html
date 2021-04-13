@@ -1,6 +1,11 @@
 <div class="card">
     <div class="card-header">
         Solicitudes de cambio de estado
+        <div class="card-tools float-right">
+            <button type="button" class="btn btn-sm btn-primary" routerLink="/auth/estrategia/asignacion-cartera">
+              <i class="fa fa-arrow-left"></i> Regresar
+            </button>
+        </div>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -21,7 +26,7 @@
                         <td>Franz Junior Gupioc Ventura</td>
                         <td>{{ item.codSolicitud }}</td>
                         <td>{{ item.fechaCreacion | date: 'dd-MM-yyyy' }}</td>
-                        <td>{{ item.condicion }}</td>
+                        <td>{{ item.condicionDescripcion }}</td>
                         <td>
                             <div class="btn-group">
                                 <button class="btn btn-sm btn-info mr-2" [routerLink]="'/auth/estrategia/asignacion-cartera/'+ejecutivoUuid+'/socios-observados/'+ item.uuid +'/actualizar'"><i class="fa fa-list"></i></button>

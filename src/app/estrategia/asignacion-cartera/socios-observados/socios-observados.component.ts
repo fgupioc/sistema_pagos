@@ -28,7 +28,7 @@ export class SociosObservadosComponent implements OnInit {
 
   loadSolicitudes() {
     this.spinner.show();
-    this.extrajudicialService.listarsolicitudes(CONST.C_SOLICITUD_COBRANZA).subscribe(
+    this.extrajudicialService.listarsolicitudes(CONST.C_SOLICITUD_COBRANZA, '', '', '', '', '', '').subscribe(
       res => {
         if (res.exito) {
           this.solicitudes = res.solicitudes;

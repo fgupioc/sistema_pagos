@@ -25,9 +25,17 @@ export class ExtrajudicialService {
     return this.http.post<any>(`${urlBase}/registrar-solicitud`, solicitud);
   }
 
-  listarsolicitudes(etapa: any): Observable<any> {
-
-    return this.http.get<any>(`${urlBase}/listar-solicitudes`, { params: new HttpParams().set('etapa', etapa) });
+  listarsolicitudes(etapa: any, tipoBusqueda: any, numeroSolicitud: any, gestor: any, condicion: any, inicio: any, fin: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/listar-solicitudes`, {
+      params: new HttpParams()
+        .set('etapa', etapa)
+        .set('tipoBusqueda', tipoBusqueda)
+        .set('numeroSolicitud', numeroSolicitud)
+        .set('gestor', gestor)
+        .set('condicion', condicion)
+        .set('inicio', inicio)
+        .set('fin', fin)
+    });
   }
 
   buscarDetalleSolicitud(uuid: any): Observable<any> {
