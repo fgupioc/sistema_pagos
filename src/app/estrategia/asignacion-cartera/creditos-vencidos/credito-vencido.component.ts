@@ -10,6 +10,8 @@ import { SocioArchivo } from 'src/app/interfaces/socio/socio-archivo';
 import { Solicitud } from '../../../interfaces/recuperacion/solicitud';
 import { ToastrService } from 'ngx-toastr';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { TablaMaestra } from '../../../interfaces/tabla-maestra';
+import { MaestroService } from '../../../servicios/sistema/maestro.service';
 
 @Component({
   selector: 'app-credito-vencido',
@@ -30,13 +32,16 @@ export class CreditoVencidoComponent implements OnInit {
   mensaje: string;
   config = CONST.C_CONF_EDITOR;
 
+  listaChekList: TablaMaestra[] = [];
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private asignacionCarteraService: AsignacionCarteraService,
     private extrajudicialService: ExtrajudicialService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private maestroService: MaestroService
   ) {
     const { ejecutivoUuid, nroCredito } = activatedRoute.snapshot.params;
     this.ejecutivoUuid = ejecutivoUuid;
@@ -45,7 +50,17 @@ export class CreditoVencidoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.listarArchivosChekList();
   }
+
+  listarArchivosChekList() {
+    this.maestroService.listarElementosPorCodTable(CONST.TABLE_STR_LISTA_ARCIVOS_CHEkLIST).subscribe(
+      res => {
+        this.listaChekList = res;
+      }
+    )
+  }
+
 
   loadCredito(ejecutivoUuid, nroCredito) {
     this.spinner.show();

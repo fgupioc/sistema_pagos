@@ -3,6 +3,7 @@
         <span *ngIf="credito" class="card-title text-uppercase font-weight-bold">Detalle del crédito {{ credito.nroCredito }}</span>
         <span *ngIf="!credito" class="card-title text-uppercase font-weight-bold">No se encontro registro</span>
         <div class="card-tools float-right">
+            <button class="btn btn-sm btn-success mr-4" [disabled]="!mensaje" (click)="enviarSolicitud()">Enviar Información</button>
             <button type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/'+ejecutivoUuid+'/creditos-vencidos'">
               <i class="fa fa-arrow-left"></i> Regresar
             </button>
@@ -66,35 +67,51 @@
             <div class="col-12">
                 <div class="form-group">
                     <table class="table table-bordered">
-                        <caption style="caption-side:top;">Lista de recursos del socio</caption>
+                        <caption style="caption-side:top;">DOCUMENTOS DE SUSTENTO DEL CREDITO</caption>
                         <thead>
                             <tr class="text-center">
-                                <th scope="col" width="10%">#</th>
+                                <th scope="col" width="5%">#</th>
                                 <th scope="col">Archivo</th>
-                                <th scope="col" width="15%">Tipo</th>
-                                <th scope="col" width="15%">Fecha</th>
+                                <th scope="col" width="10%">Original</th>
+                                <th scope="col" width="10%">Impresión</th>
+                                <th scope="col" width="10%">Laserfiche</th>
                                 <th scope="col" width="10%">Opción</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of archivos; let i = index" class="text-center">
+                            <tr *ngFor="let item of listaChekList; let i = index" class="text-center">
                                 <th scope="row">{{ i+1 }}</th>
-                                <td style="text-align: left;">{{ item.nombre }}</td>
-                                <td>{{ item.extension }}</td>
-                                <td>{{ item.fechaCreacion | date: 'dd-MM-yyyy' }}</td>
+                                <td style="text-align: left;">{{ item.descripcion }}</td>
                                 <td>
-                                    <button class="btn btn-sm bg-success" (click)="download(item)"><i class="fa fa-download"></i></button>
+                                    <label class="switch switch-text switch-primary">
+                                        <input type="checkbox" class="switch-input" checked>
+                                        <span class="switch-label" data-on="SI" data-off="NO"></span>
+                                        <span class="switch-handle"></span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="switch switch-text switch-warning">
+                                        <input type="checkbox" class="switch-input" checked>
+                                        <span class="switch-label" data-on="SI" data-off="NO"></span>
+                                        <span class="switch-handle"></span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="switch switch-text switch-danger">
+                                        <input type="checkbox" class="switch-input" checked>
+                                        <span class="switch-label" data-on="SI" data-off="NO"></span>
+                                        <span class="switch-handle"></span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm bg-success"><i class="fa fa-search"></i></button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="col-12">
-                <div class="form-group text-center">
-                    <button class="btn btn-sm btn-primary" (click)="enviarSolicitud()">Enviar Información del Socio</button>
-                </div>
-            </div>
+
         </div>
         <div class="row" *ngIf="!credito">
             <div class="col-12 text-center">

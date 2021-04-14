@@ -10,6 +10,8 @@ import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { SocioArchivo } from '../../../interfaces/socio/socio-archivo';
 import { FUNC } from '../../../comun/FUNC';
 import { HttpEventType } from '@angular/common/http';
+import { MaestroService } from '../../../servicios/sistema/maestro.service';
+import { TablaMaestra } from '../../../interfaces/tabla-maestra';
 
 @Component({
   selector: 'app-socio-levantar-observacion',
@@ -38,22 +40,33 @@ export class SocioLevantarObservacionComponent implements OnInit {
   progreso = 0;
   ejecutivoUuid: any;
 
+  listaChekList: TablaMaestra[] = [];
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private extrajudicialService: ExtrajudicialService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private maestroService: MaestroService
   ) {
     const { solicitudUuid, ejecutivoUuid } = activatedRoute.snapshot.params;
     this.solicitudUuid = solicitudUuid;
     this.ejecutivoUuid = ejecutivoUuid;
     this.loadDetalle(solicitudUuid);
-
   }
 
   ngOnInit() {
     this.dtOptions = CONST.C_OBJ_DT_OPCIONES();
+    this.listarArchivosChekList();
+  }
+
+  listarArchivosChekList() {
+    this.maestroService.listarElementosPorCodTable(CONST.TABLE_STR_LISTA_ARCIVOS_CHEkLIST).subscribe(
+      res => {
+        this.listaChekList = res;
+      }
+    )
   }
 
   loadDetalle(uuid: string) {

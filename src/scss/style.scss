@@ -1190,3 +1190,7 @@ $value in $theme-colors {
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
+
+.switch.switch-text .switch-input:checked~.switch-handle {
+    left: 25px;
+}

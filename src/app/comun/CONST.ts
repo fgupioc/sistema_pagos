@@ -114,6 +114,7 @@ export class CONST {
   public static   TABLE_STR_TABLE_LISTA_AREAS = '37';
   public static  TABLE_STR_LISTA_TIPO_CLASIFICACIONES = '40';
   public static TABLE_STR_LISTA_TIPO_CONDICIONES_SOLICITUD = '41';
+  public static TABLE_STR_LISTA_ARCIVOS_CHEkLIST = '42';
 
   public static C_STR_ETAPA_EN_LISTA = '01'; // "MESSAGER";
   public static C_STR_ETAPA_EN_PROCESO = '02'; // "EMAIL";

@@ -3,7 +3,7 @@
         <i class="fa fa-align-justify"></i>
         <span class="card-title text-uppercase font-weight-bold">Informacion del socio</span>
         <div class="card-tools float-right" *ngIf="solicitud.condicion == 'O'">
-            <button class="btn btn-sm btn-success mr-4" [disabled]="!mensaje" (click)="aceptar()">Enviar Informacion</button>
+            <button class="btn btn-sm btn-success mr-4" [disabled]="!mensaje" (click)="aceptar()">Enviar Información</button>
             <button type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/'+ ejecutivoUuid +'/socios-observados'">
               <i class="fa fa-arrow-left"></i> Regresar
             </button>
@@ -236,57 +236,30 @@
                             </div>
                         </ng-template>
                     </ngb-tab>
-                    <ngb-tab title="Documentos" id="5">
+                    <ngb-tab title="ChekList" id="5">
                         <ng-template ngbTabContent>
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-12 col-md-6">
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="custom-file">
-                                                        <input type="file" class="custom-file-input cursor-pointer" id="fileInput" (change)="changeArchivo($event, labelInput)">
-                                                        <label #labelInput class="custom-file-label" id="labelText" data-browse="Buscar" for="fileInput">Buscar archivo</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <div class="input-group mb-3">
-                                                <input [(ngModel)]="fileName" type="text" class="form-control" placeholder="Nombre del archivo">
-                                                <div class="input-group-prepend">
-                                                    <button type="button" class="btn btn-info" (click)="subirArchivo(labelInput)">Subir</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12" *ngIf="progreso > 0">
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100" [style.width]=" progreso+'%'">
-                                                    {{progreso}}%
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
                                     <div class="form-group">
                                         <table class="table table-bordered">
-                                            <caption style="caption-side:top;">Lista de recursos del socio</caption>
+                                            <caption style="caption-side:top;">DOCUMENTOS DE SUSTENTO DEL CREDITO</caption>
                                             <thead>
                                                 <tr class="text-center">
                                                     <th scope="col" width="10%">#</th>
                                                     <th scope="col">Archivo</th>
-                                                    <th scope="col" width="15%">Tipo</th>
-                                                    <th scope="col" width="15%">Fecha</th>
+                                                    <th scope="col" width="15%">Original</th>
+                                                    <th scope="col" width="15%">Impresión</th>
+                                                    <th scope="col" width="15%">Laserfiche</th>
                                                     <th scope="col" width="10%">Opción</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr *ngFor="let item of archivos; let i = index" class="text-center">
+                                                <tr *ngFor="let item of listaChekList; let i = index" class="text-center">
                                                     <th scope="row">{{ i+1 }}</th>
-                                                    <td style="text-align: left;">{{ item.nombre }}</td>
-                                                    <td>{{ item.extension }}</td>
-                                                    <td>{{ item.fechaCreacion | date: 'dd-MM-yyyy' }}</td>
+                                                    <td style="text-align: left;">{{ item.descripcion }}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
                                                     <td>
                                                         <button class="btn btn-sm bg-success" (click)="download(item)"><i class="fa fa-download"></i></button>
                                                     </td>
