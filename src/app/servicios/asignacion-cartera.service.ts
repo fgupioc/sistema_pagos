@@ -26,6 +26,7 @@ export interface ITreeViewItem {
   providedIn: 'root'
 })
 export class AsignacionCarteraService {
+
   constructor(
     private http: HttpClient
   ) {
@@ -153,19 +154,31 @@ export class AsignacionCarteraService {
     return this.http.put<Respuesta>(`${urlBase}/desactivar-tarea-actividad`, {}, {params: new HttpParams().set('actividadId', actividadId)});
   }
 
-  listarEtapasPorCarteraGestion(codGestion: any) {
+  listarEtapasPorCarteraGestion(codGestion: any): Observable<any> {
     return this.http.get<any>(`${urlBase}/listarEtapasPorcarteraGestion`, {params: new HttpParams().set('id', codGestion)});
   }
 
-  listarGestionesPorCartera(codCartera: any) {
+  listarGestionesPorCartera(codCartera: any): Observable<any> {
     return this.http.get<any>(`${urlBase}/listarGestionesPorCartera`, {params: new HttpParams().set('codCartera', codCartera)});
   }
 
-  creditosVencidosPorEjecutivo(ejecutivoUuid: any) {
+  creditosVencidosPorEjecutivo(ejecutivoUuid: any): Observable<any> {
     return this.http.get<any>(`${urlBase}/creditosVencidosPorEjecutivo`, { params: new HttpParams().set('ejecutivoUuid', ejecutivoUuid) });
   }
 
-  buscarCreditoVencidosPorEjecutivo(ejecutivoUuid: any, numCredito: any) {
-    return this.http.get<any>(`${urlBase}/buscarCreditoVencidosPorEjecutivo`, { params: new HttpParams().set('ejecutivoUuid', ejecutivoUuid).set('numCredito', numCredito) });
+  buscarCreditoVencidosPorEjecutivoUuidAndCredito(ejecutivoUuid: any, numCredito: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/buscarCreditoVencidosPorEjecutivoUuidAndCredito`, { params: new HttpParams().set('ejecutivoUuid', ejecutivoUuid).set('numCredito', numCredito) });
+  }
+
+  buscarCreditosVencidosPorEjecutivoId(gestor: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/buscarCreditosVencidosPorEjecutivoId`, { params: new HttpParams().set('gestor', gestor) });
+  }
+
+  buscarCreditoVencidosPorNroCredito(nroCredito: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/buscarCreditoVencidosPorNroCredito`, { params: new HttpParams().set('numCredito', nroCredito) });
+  }
+
+  buscarCreditosVencidosPorCartera(carteraId: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/buscarCreditosVencidosPorCartera`, { params: new HttpParams().set('carteraId', carteraId) });
   }
 }

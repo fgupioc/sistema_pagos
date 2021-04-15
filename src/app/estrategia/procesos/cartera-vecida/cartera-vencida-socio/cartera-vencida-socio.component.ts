@@ -1,31 +1,31 @@
-import { ExtrajudicialService } from './../../../servicios/recuperacion/extrajudicial.service';
-import { CONST } from './../../../comun/CONST';
-import { FUNC } from './../../../comun/FUNC';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AsignacionCarteraService } from '../../../servicios/asignacion-cartera.service';
+import { CreditoTemp } from '../../../../interfaces/credito-temp';
+import { SocioArchivo } from '../../../../interfaces/socio/socio-archivo';
+import { CONST } from '../../../../comun/CONST';
+import { TablaMaestra } from '../../../../interfaces/tabla-maestra';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AsignacionCarteraService } from '../../../../servicios/asignacion-cartera.service';
+import { ExtrajudicialService } from '../../../../servicios/recuperacion/extrajudicial.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { CreditoTemp } from '../../../interfaces/credito-temp';
-import { SocioArchivo } from 'src/app/interfaces/socio/socio-archivo';
-import { Solicitud } from '../../../interfaces/recuperacion/solicitud';
 import { ToastrService } from 'ngx-toastr';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { TablaMaestra } from '../../../interfaces/tabla-maestra';
-import { MaestroService } from '../../../servicios/sistema/maestro.service';
+import { MaestroService } from '../../../../servicios/sistema/maestro.service';
+import { FUNC } from '../../../../comun/FUNC';
+import { HttpEventType } from '@angular/common/http';
+import { Solicitud } from '../../../../interfaces/recuperacion/solicitud';
 
 @Component({
-  selector: 'app-credito-vencido',
-  templateUrl: './credito-vencido.component.html',
-  styleUrls: ['./creditos-vencidos.component.css']
+  selector: 'app-cartera-vencida-socio',
+  templateUrl: './cartera-vencida-socio.component.html',
+  styleUrls: ['./cartera-vencida-socio.component.css']
 })
-export class CreditoVencidoComponent implements OnInit {
+export class CarteraVencidaSocioComponent implements OnInit {
   asignacionUuid: string;
   ejecutivoUuid: string;
   nroCredito: string;
   credito: CreditoTemp;
   fileName: any;
   file: any;
-  ejecutivo: any;
+  //ejecutivo: any;
   progreso = 0;
 
   archivos: SocioArchivo[] = [];
@@ -69,7 +69,7 @@ export class CreditoVencidoComponent implements OnInit {
         if (res.exito) {
           this.credito = res.credito;
           this.archivos = res.archivos;
-          this.ejecutivo = res.ejecutivo;
+          //this.ejecutivo = res.ejecutivo;
         }
         this.spinner.hide();
       },
@@ -81,9 +81,9 @@ export class CreditoVencidoComponent implements OnInit {
     if (this.file) {
       this.extrajudicialService.subirArchivo(this.file, this.credito.socioId, this.fileName, FUNC.getFileExtension(this.file.name), this.file.type).subscribe(
         event => {
-          if(event.type === HttpEventType.UploadProgress) {
+          if (event.type === HttpEventType.UploadProgress) {
             this.progreso = Math.round((event.loaded / event.total) * 100);
-          } else if(event.type === HttpEventType.Response) {
+          } else if (event.type === HttpEventType.Response) {
             const res: any = event.body;
             if (res.archivo) {
               this.archivos.push(res.archivo)
@@ -114,7 +114,7 @@ export class CreditoVencidoComponent implements OnInit {
       socioId: this.credito.socioId,
       codCreditoPrincipal: this.credito.id,
       mensaje: this.mensaje,
-      ejecutivoId: this.ejecutivo.id
+      ejecutivoId: this.credito.ejecutivoId
     }
 
     this.spinner.show();
@@ -122,7 +122,7 @@ export class CreditoVencidoComponent implements OnInit {
       res => {
         if (res.exito) {
           this.toastr.success(res.mensaje);
-          this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/${this.ejecutivoUuid}/creditos-vencidos`);
+          this.router.navigateByUrl(`/auth/procesos/cartera-vencida`);
           this.spinner.hide();
         } else {
           this.toastr.warning(res.mensaje);

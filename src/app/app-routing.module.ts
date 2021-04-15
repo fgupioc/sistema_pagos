@@ -71,6 +71,8 @@ import { ExtrajudicialSolicitudCambioEstadoComponent } from './recuperacion/extr
 import { ExtrajudicialSocioComponent } from './recuperacion/extrajudicial/extrajudicial-socio/extrajudicial-socio.component';
 import { SociosObservadosComponent } from './estrategia/asignacion-cartera/socios-observados/socios-observados.component';
 import { SocioLevantarObservacionComponent } from './estrategia/asignacion-cartera/socio-levantar-observacion/socio-levantar-observacion.component';
+import { CarterasVencidasComponent } from './estrategia/procesos/cartera-vecida/carteras-vencidas/carteras-vencidas.component';
+import { CarteraVencidaSocioComponent } from './estrategia/procesos/cartera-vecida/cartera-vencida-socio/cartera-vencida-socio.component';
 
 
 const A = Autorizacion;
@@ -245,6 +247,13 @@ const routes: Routes = [
               ]
             },
             { path: 'judicial/solicitudes', component: JudicialCarterasComponent }
+          ]
+        },
+        {
+          path: 'procesos',
+          children: [
+            { path: 'cartera-vencida', component: CarterasVencidasComponent },
+            { path: 'cartera-vencida/:ejecutivoUuid/:nroCredito/detalle', component: CarteraVencidaSocioComponent },
           ]
         },
       ]

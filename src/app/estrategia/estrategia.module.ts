@@ -70,6 +70,8 @@ import { CreditoVencidoComponent } from './asignacion-cartera/creditos-vencidos/
 import { QuillModule } from 'ngx-quill';
 import { SociosObservadosComponent } from './asignacion-cartera/socios-observados/socios-observados.component';
 import { SocioLevantarObservacionComponent } from './asignacion-cartera/socio-levantar-observacion/socio-levantar-observacion.component';
+import { CarterasVencidasComponent } from './procesos/cartera-vecida/carteras-vencidas/carteras-vencidas.component';
+import { CarteraVencidaSocioComponent } from './procesos/cartera-vecida/cartera-vencida-socio/cartera-vencida-socio.component';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -127,6 +129,8 @@ const ngWizardConfig: NgWizardConfig = {
     CreditoVencidoComponent,
     SociosObservadosComponent,
     SocioLevantarObservacionComponent,
+    CarterasVencidasComponent,
+    CarteraVencidaSocioComponent,
   ],
   imports: [
     CommonModule,
