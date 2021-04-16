@@ -85,20 +85,20 @@ export class ExtrajudicialSocioComponent implements OnInit {
   }
 
 
-  download(item: SocioArchivo) {
+  download(path: string, tipo: string) {
     this.spinner.show();
-    this.extrajudicialService.descargarArchivo(item.path).subscribe(
+    this.extrajudicialService.descargarArchivo(path).subscribe(
       response => {
         const blob = new Blob([response],
-          { type: `${item.tipo};charset=UTF-8` });
+          { type: `${tipo};charset=UTF-8` });
         const objectUrl = (window.URL).createObjectURL(blob);
         if (navigator.msSaveBlob) {
-          navigator.msSaveBlob(blob, item.path);
+          navigator.msSaveBlob(blob, path);
         } else {
           const a = document.createElement('a');
           a.href = objectUrl;
           a.target = '_blank';
-          a.download = item.path;
+          a.download = path;
           document.body.appendChild(a);
           a.click();
           setTimeout(() => {

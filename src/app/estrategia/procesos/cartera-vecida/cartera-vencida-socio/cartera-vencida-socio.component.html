@@ -52,7 +52,7 @@
                         <tbody>
                             <tr *ngFor="let item of listaChekList; let i = index" class="text-center">
                                 <th scope="row">{{ i+1 }}</th>
-                                <td style="text-align: left;">{{ item.descripcion }}</td>
+                                <td style="text-align: left;">{{ item.archivoDescripcion }}</td>
                                 <td>
                                     <label class="switch switch-text switch-primary">
                                         <input type="checkbox" class="switch-input" [checked]="item.original" (change)="changeCheck('original',item, $event)">
@@ -73,16 +73,25 @@
                                         <span class="switch-label" data-on="SI" data-off="NO"></span>
                                         <span class="switch-handle"></span>
                                     </label>
+                                    <input #inputFile type="file" style="display: none;" (change)="buscarArchivo($event, item)">
+                                    <small *ngIf="item.laserfich" style="display: block;" (click)="inputFile.click()"><a href="javascript:;">SUBIR</a></small>
                                 </td>
                                 <td>
-                                    <button class="btn btn-sm bg-success"><i class="fa fa-search"></i></button>
+                                    <button class="btn btn-sm bg-info" (click)="inputArchivo.click()"><i class="fa fa-upload" aria-hidden="true"></i></button>
+                                    <input #inputArchivo type="file" style="display: none;" (change)="uploadFile($event, item)">
+                                    <div *ngIf="progreso > 0 && item.codigoArchivo == $index">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100" [style.width]=" progreso+'%'">
+                                                {{progreso}}%
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-
         </div>
         <div class="row" *ngIf="!credito">
             <div class="col-12 text-center">

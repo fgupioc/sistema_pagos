@@ -34,6 +34,7 @@ export class CarteraVencidaSocioComponent implements OnInit {
   config = CONST.C_CONF_EDITOR;
 
   listaChekList: SolicitudArchivos[] = [];
+  $index: string;
 
   constructor(
     private router: Router,
@@ -62,14 +63,12 @@ export class CarteraVencidaSocioComponent implements OnInit {
         list.forEach(i => {
           this.listaChekList.push({
             codigoArchivo: i.codItem,
-            descripcion: i.descripcion,
+            archivoDescripcion: i.descripcion,
             original: false,
             impresion: false,
             laserfich: false,
           })
         });
-        console.log(this.listaChekList);
-
       }
     )
   }
@@ -177,5 +176,40 @@ export class CarteraVencidaSocioComponent implements OnInit {
 
   changeCheck(tipo: any, item: SolicitudArchivos, event: any) {
     item[tipo] = event.target.checked;
+  }
+
+  buscarArchivo(event: any, item: SolicitudArchivos) {
+    if (event.target.files[0]) {
+      const file = event.target.files[0];
+      console.log(file);
+    }
+  }
+
+  mostrarBuscador(imputHtml: HTMLButtonElement) {
+    imputHtml.click();
+  }
+
+  uploadFile(event: any, item: SolicitudArchivos) {
+    if (event.target.files[0]) {
+      this.$index = item.codigoArchivo;
+      const file = event.target.files[0];
+      this.extrajudicialService.subirArchivo(file, this.credito.socioId, item.archivoDescripcion, FUNC.getFileExtension(file.name), file.type).subscribe(
+        event => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progreso = Math.round((event.loaded / event.total) * 100);
+          } else if (event.type === HttpEventType.Response) {
+            const res: any = event.body;
+            if (res.archivo) {
+              item.urlDisco = res.archivo.path;
+              item.tipo = res.archivo.tipo;
+              item.extension = res.archivo.extension;
+            }
+
+            this.fileName = '';
+            this.progreso = 0;
+          }
+        }
+      );
+    }
   }
 }
