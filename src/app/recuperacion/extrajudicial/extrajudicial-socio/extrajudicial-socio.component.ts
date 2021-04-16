@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { CONST } from 'src/app/comun/CONST';
 import { SocioArchivo } from '../../../interfaces/socio/socio-archivo';
+import { SolicitudArchivos } from '../../../interfaces/recuperacion/solicitud-archivos';
 
 @Component({
   selector: 'app-extrajudicial-socio',
@@ -30,6 +31,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
   isDtInitialized = false;
   @ViewChild(DataTableDirective, { static: false }) dtElement: DataTableDirective;
 
+  solicitudArchivos: SolicitudArchivos[] = [];
   archivos: any[] = [];
   constructor(
     private router: Router,
@@ -57,6 +59,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
           this.creditos = res.creditos;
           this.archivos = res.archivos;
           this.seguimientos = res.seguimientos;
+          this.solicitudArchivos = res.solicitudArchivos;
           this.refreshDatatable();
         }
         this.spinner.hide();

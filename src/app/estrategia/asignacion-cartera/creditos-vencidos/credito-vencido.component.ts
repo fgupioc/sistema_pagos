@@ -114,7 +114,8 @@ export class CreditoVencidoComponent implements OnInit {
       socioId: this.credito.socioId,
       codCreditoPrincipal: this.credito.id,
       mensaje: this.mensaje,
-      ejecutivoId: this.ejecutivo.id
+      ejecutivoId: this.ejecutivo.id,
+      solicitudArchivos: []
     }
 
     this.spinner.show();

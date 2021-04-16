@@ -12,6 +12,7 @@ import { MaestroService } from '../../../../servicios/sistema/maestro.service';
 import { FUNC } from '../../../../comun/FUNC';
 import { HttpEventType } from '@angular/common/http';
 import { Solicitud } from '../../../../interfaces/recuperacion/solicitud';
+import { SolicitudArchivos } from 'src/app/interfaces/recuperacion/solicitud-archivos';
 
 @Component({
   selector: 'app-cartera-vencida-socio',
@@ -32,7 +33,7 @@ export class CarteraVencidaSocioComponent implements OnInit {
   mensaje: string;
   config = CONST.C_CONF_EDITOR;
 
-  listaChekList: TablaMaestra[] = [];
+  listaChekList: SolicitudArchivos[] = [];
 
   constructor(
     private router: Router,
@@ -56,7 +57,19 @@ export class CarteraVencidaSocioComponent implements OnInit {
   listarArchivosChekList() {
     this.maestroService.listarElementosPorCodTable(CONST.TABLE_STR_LISTA_ARCIVOS_CHEkLIST).subscribe(
       res => {
-        this.listaChekList = res;
+        this.listaChekList = [];
+        const list = res;
+        list.forEach(i => {
+          this.listaChekList.push({
+            codigoArchivo: i.codItem,
+            descripcion: i.descripcion,
+            original: false,
+            impresion: false,
+            laserfich: false,
+          })
+        });
+        console.log(this.listaChekList);
+
       }
     )
   }
@@ -114,7 +127,8 @@ export class CarteraVencidaSocioComponent implements OnInit {
       socioId: this.credito.socioId,
       codCreditoPrincipal: this.credito.id,
       mensaje: this.mensaje,
-      ejecutivoId: this.credito.ejecutivoId
+      ejecutivoId: this.credito.ejecutivoId,
+      solicitudArchivos: this.listaChekList
     }
 
     this.spinner.show();
@@ -159,5 +173,9 @@ export class CarteraVencidaSocioComponent implements OnInit {
         this.spinner.hide();
       }
     );
+  }
+
+  changeCheck(tipo: any, item: SolicitudArchivos, event: any) {
+    item[tipo] = event.target.checked;
   }
 }

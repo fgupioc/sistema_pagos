@@ -248,20 +248,28 @@
                                                 <tr class="text-center">
                                                     <th scope="col" width="10%">#</th>
                                                     <th scope="col">Archivo</th>
-                                                    <th scope="col" width="15%">Tipo</th>
-                                                    <th scope="col" width="15%">Fecha</th>
-                                                    <th scope="col" width="10%">Opción</th>
+                                                    <th scope="col" width="10%">Original</th>
+                                                    <th scope="col" width="10%">Impresión</th>
+                                                    <th scope="col" width="10%">Laserfiche</th>
+                                                    <th scope="col" width="10%">Tipo</th>
+                                                    <th scope="col" width="10%">Fecha</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr *ngFor="let item of archivos; let i = index" class="text-center">
+                                                <tr *ngFor="let item of solicitudArchivos; let i = index" class="text-center">
                                                     <th scope="row">{{ i+1 }}</th>
-                                                    <td style="text-align: left;">{{ item.nombre }}</td>
+                                                    <td style="text-align: left;">{{ item.archivoDescripcion }}</td>
+                                                    <td class="text-center">
+                                                        <span>{{ item.original ? 'SI' : 'NO' }}</span><br>
+                                                        <small *ngIf="item.original"><a href="javascript;">ver</a></small>
+                                                    </td>
+                                                    <td>{{ item.impresion ? 'SI' : 'NO' }}</td>
+                                                    <td>
+                                                        <span>{{ item.laserfich ? 'SI' : 'NO' }}</span><br>
+                                                        <small *ngIf="item.laserfich"><a href="javascript;">ver</a></small>
+                                                    </td>
                                                     <td>{{ item.extension }}</td>
                                                     <td>{{ item.fechaCreacion | date: 'dd-MM-yyyy' }}</td>
-                                                    <td>
-                                                        <button class="btn btn-sm bg-success" (click)="download(item)"><i class="fa fa-download"></i></button>
-                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>

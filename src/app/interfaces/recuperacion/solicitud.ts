@@ -1,3 +1,4 @@
+import { SolicitudArchivos } from './solicitud-archivos';
 
 export interface Solicitud {
   mensaje: string;
@@ -17,4 +18,5 @@ export interface Solicitud {
   userUpdate?: number;
   estado?: string;
   condicion?: string;
+  solicitudArchivos: SolicitudArchivos[]
 }

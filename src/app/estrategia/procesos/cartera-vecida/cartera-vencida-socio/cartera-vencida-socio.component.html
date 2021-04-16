@@ -36,35 +36,6 @@
                 </div>
             </div>
             <div class="col-12">
-                <div class="row">
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input cursor-pointer" id="fileInput" (change)="changeArchivo($event, labelInput)">
-                                    <label #labelInput class="custom-file-label" id="labelText" data-browse="Buscar" for="fileInput">Buscar archivo</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="input-group mb-3">
-                            <input [(ngModel)]="fileName" type="text" class="form-control" placeholder="Nombre del archivo">
-                            <div class="input-group-prepend">
-                                <button type="button" class="btn btn-info" (click)="subirArchivo(labelInput)">Subir</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12" *ngIf="progreso > 0">
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100" [style.width]=" progreso+'%'">
-                                {{progreso}}%
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
                 <div class="form-group">
                     <table class="table table-bordered">
                         <caption style="caption-side:top;">DOCUMENTOS DE SUSTENTO DEL CREDITO</caption>
@@ -84,21 +55,21 @@
                                 <td style="text-align: left;">{{ item.descripcion }}</td>
                                 <td>
                                     <label class="switch switch-text switch-primary">
-                                        <input type="checkbox" class="switch-input" checked>
+                                        <input type="checkbox" class="switch-input" [checked]="item.original" (change)="changeCheck('original',item, $event)">
                                         <span class="switch-label" data-on="SI" data-off="NO"></span>
                                         <span class="switch-handle"></span>
                                     </label>
                                 </td>
                                 <td>
                                     <label class="switch switch-text switch-warning">
-                                        <input type="checkbox" class="switch-input" checked>
+                                        <input type="checkbox" class="switch-input" [checked]="item.impresion" (change)="changeCheck('impresion',item, $event)">
                                         <span class="switch-label" data-on="SI" data-off="NO"></span>
                                         <span class="switch-handle"></span>
                                     </label>
                                 </td>
                                 <td>
                                     <label class="switch switch-text switch-danger">
-                                        <input type="checkbox" class="switch-input" checked>
+                                        <input type="checkbox" class="switch-input"  [checked]="item.laserfich" (change)="changeCheck('laserfich',item, $event)">
                                         <span class="switch-label" data-on="SI" data-off="NO"></span>
                                         <span class="switch-handle"></span>
                                     </label>
