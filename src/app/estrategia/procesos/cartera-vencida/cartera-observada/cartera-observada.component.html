@@ -1,0 +1,100 @@
+<div class="card">
+    <div class="card-header">
+        <span *ngIf="credito" class="card-title text-uppercase font-weight-bold">Detalle del crédito {{ credito.nroCredito }}</span>
+        <span *ngIf="!credito" class="card-title text-uppercase font-weight-bold">No se encontro registro</span>
+        <div class="card-tools float-right">
+            <button class="btn btn-sm btn-success mr-4" [disabled]="!mensaje" (click)="enviarSolicitud()">Enviar Información</button>
+            <button type="button" class="btn btn-sm btn-primary" routerLink="/auth/procesos/cartera-observada">
+              <i class="fa fa-arrow-left"></i> Regresar
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row" *ngIf="credito">
+            <div class="col-12 col-md-4">
+                <div class="form-group">
+                    <label>Número de Crédito</label>
+                    <input type="text" class="form-control" [value]="credito.nroCredito" disabled>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="form-group">
+                    <label>Socio</label>
+                    <input type="text" class="form-control" [value]="credito.socioAlias" disabled>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="form-group">
+                    <label>Dias Atraso</label>
+                    <input type="text" class="form-control" [value]="credito.diasAtraso" disabled>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <quill-editor [styles]="{height: '200px'}" placeholder="Observación" [modules]="config" [(ngModel)]="mensaje" required>
+                    </quill-editor>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <table class="table table-bordered">
+                        <caption style="caption-side:top;">DOCUMENTOS DE SUSTENTO DEL CREDITO</caption>
+                        <thead>
+                            <tr class="text-center">
+                                <th scope="col" width="5%">#</th>
+                                <th scope="col">Archivo</th>
+                                <th scope="col" width="10%">Original</th>
+                                <th scope="col" width="10%">Impresión</th>
+                                <th scope="col" width="10%">Laserfiche</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listaChekList; let i = index" class="text-center">
+                                <th scope="row">{{ i+1 }}</th>
+                                <td style="text-align: left;">{{ item.archivoDescripcion }}</td>
+                                <td>
+                                    <label class="switch switch-text switch-primary">
+                                        <input type="checkbox" class="switch-input" [checked]="item.original" (change)="changeCheck('original',item, $event)">
+                                        <span class="switch-label" data-on="SI" data-off="NO"></span>
+                                        <span class="switch-handle"></span>
+                                    </label>
+                                    <small *ngIf="item.original" style="display: block;" (click)="inputArchivo.click()"><a href="javascript:;">SUBIR</a></small>
+                                    <input #inputArchivo type="file" style="display: none;" (change)="uploadFile($event, item)">
+                                    <div *ngIf="progreso > 0 && item.codigoArchivo == $index">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100" [style.width]=" progreso+'%'">
+                                                {{progreso}}%
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <label class="switch switch-text switch-warning">
+                                        <input type="checkbox" class="switch-input" [checked]="item.impresion" (change)="changeCheck('impresion',item, $event)">
+                                        <span class="switch-label" data-on="SI" data-off="NO"></span>
+                                        <span class="switch-handle"></span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="switch switch-text switch-danger">
+                                        <input type="checkbox" class="switch-input"  [checked]="item.laserfich" (change)="changeCheck('laserfich',item, $event)">
+                                        <span class="switch-label" data-on="SI" data-off="NO"></span>
+                                        <span class="switch-handle"></span>
+                                    </label>
+                                    <input #inputFile type="file" style="display: none;" (change)="buscarArchivo($event, item, inputFile)">
+                                    <small *ngIf="item.laserfich" style="display: block;" (click)="inputFile.click()"><a href="javascript:;">SUBIR</a></small>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="!credito">
+            <div class="col-12 text-center">
+                <h5>No hay información</h5>
+            </div>
+        </div>
+    </div>
+</div>

@@ -71,8 +71,10 @@ import { ExtrajudicialSolicitudCambioEstadoComponent } from './recuperacion/extr
 import { ExtrajudicialSocioComponent } from './recuperacion/extrajudicial/extrajudicial-socio/extrajudicial-socio.component';
 import { SociosObservadosComponent } from './estrategia/asignacion-cartera/socios-observados/socios-observados.component';
 import { SocioLevantarObservacionComponent } from './estrategia/asignacion-cartera/socio-levantar-observacion/socio-levantar-observacion.component';
-import { CarterasVencidasComponent } from './estrategia/procesos/cartera-vecida/carteras-vencidas/carteras-vencidas.component';
-import { CarteraVencidaSocioComponent } from './estrategia/procesos/cartera-vecida/cartera-vencida-socio/cartera-vencida-socio.component';
+import { CarterasVencidasComponent } from './estrategia/procesos/cartera-vencida/carteras-vencidas/carteras-vencidas.component';
+import { CarteraVencidaSocioComponent } from './estrategia/procesos/cartera-vencida/cartera-vencida-socio/cartera-vencida-socio.component';
+import { CarteraObservadasComponent } from './estrategia/procesos/cartera-vencida/cartera-observadas/cartera-observadas.component';
+import { CarteraObservadaComponent } from './estrategia/procesos/cartera-vencida/cartera-observada/cartera-observada.component';
 
 
 const A = Autorizacion;
@@ -254,6 +256,8 @@ const routes: Routes = [
           children: [
             { path: 'cartera-vencida', component: CarterasVencidasComponent },
             { path: 'cartera-vencida/:ejecutivoUuid/:nroCredito/detalle', component: CarteraVencidaSocioComponent },
+            { path: 'cartera-observada', component: CarteraObservadasComponent },
+            { path: 'cartera-observada/:solicitudUuid/detalle', component: CarteraObservadaComponent },
           ]
         },
       ]

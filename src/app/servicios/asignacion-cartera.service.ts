@@ -181,4 +181,9 @@ export class AsignacionCarteraService {
   buscarCreditosVencidosPorCartera(carteraId: any): Observable<any> {
     return this.http.get<any>(`${urlBase}/buscarCreditosVencidosPorCartera`, { params: new HttpParams().set('carteraId', carteraId) });
   }
+
+
+  buscarSolicitudPorUuid(solicitudUuid: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/buscarSolicitudPorUuid`, { params: new HttpParams().set('solicitudUuid', solicitudUuid) });
+  }
 }

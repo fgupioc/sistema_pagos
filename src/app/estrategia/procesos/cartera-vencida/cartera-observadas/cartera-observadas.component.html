@@ -1,0 +1,34 @@
+<div class="card">
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col">#</th>
+                        <th scope="col">Gestor</th>
+                        <th scope="col">Solicitud</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center" *ngFor="let item of solicitudes; let i = index">
+                        <th scope="row">{{ i+1 }}</th>
+                        <td>Franz Junior Gupioc Ventura</td>
+                        <td>{{ item.codSolicitud }}</td>
+                        <td>{{ item.fechaCreacion | date: 'dd-MM-yyyy' }}</td>
+                        <td>{{ item.condicionDescripcion }}</td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-info mr-2" [routerLink]="'/auth/procesos/cartera-observada/'+ item.uuid +'/detalle'"><i class="fa fa-list"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<app-loading></app-loading>
