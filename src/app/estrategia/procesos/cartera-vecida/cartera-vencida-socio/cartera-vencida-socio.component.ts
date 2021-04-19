@@ -35,6 +35,7 @@ export class CarteraVencidaSocioComponent implements OnInit {
 
   listaChekList: SolicitudArchivos[] = [];
   $index: string;
+  category: any;
 
   constructor(
     private router: Router,
@@ -178,10 +179,17 @@ export class CarteraVencidaSocioComponent implements OnInit {
     item[tipo] = event.target.checked;
   }
 
-  buscarArchivo(event: any, item: SolicitudArchivos) {
+  buscarArchivo(event: any, item: SolicitudArchivos, inputFile: HTMLInputElement) {
     if (event.target.files[0]) {
-      const file = event.target.files[0];
-      console.log(file);
+      const value = event.target.value;
+
+      // this will return C:\fakepath\somefile.ext
+      console.log(value);
+
+      const files = event.target.files;
+
+      //this will return an ARRAY of File object
+      console.log(files);
     }
   }
 
@@ -208,7 +216,11 @@ export class CarteraVencidaSocioComponent implements OnInit {
             this.fileName = '';
             this.progreso = 0;
           }
-        }
+        },
+          err => {
+            this.progreso = 0;
+            this.toastr.error('Ocurrio un error en la carga del archivo.');
+          }
       );
     }
   }

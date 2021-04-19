@@ -252,7 +252,6 @@
                                                     <th scope="col" width="10%">Impresión</th>
                                                     <th scope="col" width="10%">Laserfiche</th>
                                                     <th scope="col" width="10%">Fecha</th>
-                                                    <th scope="col" width="10%">Opción</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -260,17 +259,15 @@
                                                     <th scope="row">{{ i+1 }}</th>
                                                     <td style="text-align: left;">{{ item.archivoDescripcion }}</td>
                                                     <td class="text-center">
-                                                        <span>{{ item.original ? 'SI' : 'NO' }}</span><br>
+                                                        <span>{{ item.original ? 'SI' : 'NO' }}</span>
+                                                        <small *ngIf="item.original" style="display: block;" (click)="download(item.urlDisco, item.tipo)"><a href="javascript:;">VER</a></small>
                                                     </td>
                                                     <td>{{ item.impresion ? 'SI' : 'NO' }}</td>
                                                     <td>
                                                         <span>{{ item.laserfich ? 'SI' : 'NO' }}</span><br>
-                                                        <small *ngIf="item.laserfich"><a href="javascript;">ver</a></small>
+                                                        <small *ngIf="item.laserfich"><a href="javascript:;">VER</a></small>
                                                     </td>
                                                     <td>{{ item.fechaCreacion | date: 'dd-MM-yyyy' }}</td>
-                                                    <td>
-                                                        <button *ngIf="item.urlDisco" class="btn btn-sm btn-primary" (click)="download(item.urlDisco, item.tipo)"><i class="fa fa-download"></i></button>
-                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
