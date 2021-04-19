@@ -1,100 +1,325 @@
-<div class="card">
+<div class="card section-credito-socio" *ngIf="socio">
     <div class="card-header">
-        <span *ngIf="credito" class="card-title text-uppercase font-weight-bold">Detalle del crédito {{ credito.nroCredito }}</span>
-        <span *ngIf="!credito" class="card-title text-uppercase font-weight-bold">No se encontro registro</span>
-        <div class="card-tools float-right">
-            <button class="btn btn-sm btn-success mr-4" [disabled]="!mensaje" (click)="enviarSolicitud()">Enviar Información</button>
-            <button type="button" class="btn btn-sm btn-primary" routerLink="/auth/procesos/cartera-observada">
+        <i class="fa fa-align-justify"></i>
+        <span class="card-title text-uppercase font-weight-bold">Informacion del socio</span>
+        <div class="card-tools float-right" *ngIf="solicitud.condicion == 'O'">
+            <button class="btn btn-sm btn-success mr-4" [disabled]="!mensaje" (click)="aceptar()">Enviar Información</button>
+            <button type="button" class="btn btn-sm btn-primary" routerLink="/auth/recuperacion/extrajudicial/solicitudes">
               <i class="fa fa-arrow-left"></i> Regresar
             </button>
         </div>
+
+
     </div>
     <div class="card-body">
-        <div class="row" *ngIf="credito">
-            <div class="col-12 col-md-4">
+        <div class="row" *ngIf="socio.personaNatural">
+            <div class="col-12 col-md-3">
                 <div class="form-group">
-                    <label>Número de Crédito</label>
-                    <input type="text" class="form-control" [value]="credito.nroCredito" disabled>
+                    <label>Primer Apellido</label>
+                    <input type="text" class="form-control" disabled [value]="socio.personaNatural.primerApellido">
                 </div>
             </div>
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-3">
                 <div class="form-group">
-                    <label>Socio</label>
-                    <input type="text" class="form-control" [value]="credito.socioAlias" disabled>
+                    <label>Segundo Apellido</label>
+                    <input type="text" class="form-control" disabled [value]="socio.personaNatural.segundoApellido">
                 </div>
             </div>
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-3">
                 <div class="form-group">
-                    <label>Dias Atraso</label>
-                    <input type="text" class="form-control" [value]="credito.diasAtraso" disabled>
+                    <label>Primer Nombre</label>
+                    <input type="text" class="form-control" disabled [value]="socio.personaNatural.primerNombre">
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-12 col-md-3">
                 <div class="form-group">
-                    <quill-editor [styles]="{height: '200px'}" placeholder="Observación" [modules]="config" [(ngModel)]="mensaje" required>
-                    </quill-editor>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="form-group">
-                    <table class="table table-bordered">
-                        <caption style="caption-side:top;">DOCUMENTOS DE SUSTENTO DEL CREDITO</caption>
-                        <thead>
-                            <tr class="text-center">
-                                <th scope="col" width="5%">#</th>
-                                <th scope="col">Archivo</th>
-                                <th scope="col" width="10%">Original</th>
-                                <th scope="col" width="10%">Impresión</th>
-                                <th scope="col" width="10%">Laserfiche</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of listaChekList; let i = index" class="text-center">
-                                <th scope="row">{{ i+1 }}</th>
-                                <td style="text-align: left;">{{ item.archivoDescripcion }}</td>
-                                <td>
-                                    <label class="switch switch-text switch-primary">
-                                        <input type="checkbox" class="switch-input" [checked]="item.original" (change)="changeCheck('original',item, $event)">
-                                        <span class="switch-label" data-on="SI" data-off="NO"></span>
-                                        <span class="switch-handle"></span>
-                                    </label>
-                                    <small *ngIf="item.original" style="display: block;" (click)="inputArchivo.click()"><a href="javascript:;">SUBIR</a></small>
-                                    <input #inputArchivo type="file" style="display: none;" (change)="uploadFile($event, item)">
-                                    <div *ngIf="progreso > 0 && item.codigoArchivo == $index">
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100" [style.width]=" progreso+'%'">
-                                                {{progreso}}%
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <label class="switch switch-text switch-warning">
-                                        <input type="checkbox" class="switch-input" [checked]="item.impresion" (change)="changeCheck('impresion',item, $event)">
-                                        <span class="switch-label" data-on="SI" data-off="NO"></span>
-                                        <span class="switch-handle"></span>
-                                    </label>
-                                </td>
-                                <td>
-                                    <label class="switch switch-text switch-danger">
-                                        <input type="checkbox" class="switch-input"  [checked]="item.laserfich" (change)="changeCheck('laserfich',item, $event)">
-                                        <span class="switch-label" data-on="SI" data-off="NO"></span>
-                                        <span class="switch-handle"></span>
-                                    </label>
-                                    <input #inputFile type="file" style="display: none;" (change)="buscarArchivo($event, item, inputFile)">
-                                    <small *ngIf="item.laserfich" style="display: block;" (click)="inputFile.click()"><a href="javascript:;">SUBIR</a></small>
-                                </td>
-
-                            </tr>
-                        </tbody>
-                    </table>
+                    <label>Segundo Nombre</label>
+                    <input type="text" class="form-control" disabled [value]="socio.personaNatural.segundoNombre">
                 </div>
             </div>
         </div>
-        <div class="row" *ngIf="!credito">
-            <div class="col-12 text-center">
-                <h5>No hay información</h5>
+        <div class="row" *ngIf="solicitud">
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Ultimo Comentario:</label>
+                    <ng-container *ngIf="seguimientos.length > 0">
+                        <br>
+                        <span><b>{{ seguimientos[0].gestorAlias }} {{ seguimientos[0].fechaCreacion | date: 'dd MMM yy HH:mm' }}:</b></span>
+                        <div class="ql-container ql-snow mb-2" style="border-width: 0.5;">
+                            <div class="ql-editor" [innerHTML]="seguimientos[0].mensaje">
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="col-12 my-4" *ngIf="solicitud.condicion != 'A'">
+                <quill-editor [styles]="{height: '200px'}" placeholder="Observación" [modules]="config" [(ngModel)]="mensaje" required>
+                </quill-editor>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <ngb-tabset [destroyOnHide]="false" [activeId]="1" (tabChange)="tabSeleccionado($event)">
+                    <ngb-tab title="Créditos" id="1">
+                        <ng-template ngbTabContent>
+                            <div class="row">
+                                <div class="col-12" *ngIf="creditos.length > 0">
+                                    <div class="form-group">
+                                        <label>Lista de Créditos</label>
+                                        <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped table-sm table-responsive">
+                                            <thead>
+                                                <tr>
+                                                    <tr class="text-center">
+                                                        <th scope="col" width="5%">#</th>
+                                                        <th> Opción</th>
+                                                        <th>Nro Crédito</th>
+                                                        <th>Moneda</th>
+                                                        <th>F. Desem</th>
+                                                        <th>Cap. Vig.</th>
+                                                        <th>Cap. Ven.(par. Mor.)</th>
+                                                        <th>Int. Cre. Fec.</th>
+                                                        <th>Estado</th>
+                                                        <th>Pro. Abaco</th>
+                                                        <th>Tip. Serv.</th>
+                                                        <th>Tip. Pro. Serv.</th>
+                                                        <th>Condición</th>
+                                                        <th>Fec. Repro.</th>
+                                                        <th>Refinanciado</th>
+                                                        <th>Importe Vencido</th>
+                                                        <th>Dias Venc.</th>
+                                                        <th>Fec. Venc.</th>
+                                                        <th>Tot. Cuotas</th>
+                                                        <th>Cuotas Pag.</th>
+                                                        <th>Cuotas Pen.</th>
+                                                        <th>Fec. Ult. Pag.</th>
+                                                        <th>Cuotas Atra.</th>
+                                                        <th>Mont. Atra.</th>
+                                                        <th>Fec. Cuo. Mes</th>
+                                                        <th>Mont. Cuo. Mes</th>
+                                                        <th>Calificación</th>
+                                                        <th>Gar. Liqu.</th>
+                                                        <th>Gar. Real</th>
+                                                        <th>Tasa</th>
+                                                        <th>División</th>
+                                                        <th>Banca</th>
+                                                        <th>Seg. Riesgo</th>
+                                                        <th>Sec. Econo.</th>
+                                                    </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let credito of creditos; let i = index" class="text-center">
+                                                    <th scope="row">{{ i + 1 }}</th>
+                                                    <td class="text-center">
+                                                        <div class="w-100 d-flex justify-content-center">
+                                                            <button class="btn btn-sm btn-primary mr-2"><i class="fa fa-eye"></i></button>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">{{ credito.nroCredito }}</td>
+                                                    <td class="text-center">{{ credito.desMoneda }}</td>
+                                                    <td class="text-center">{{ credito.fechaDesembolso | date: 'dd/MM/yyyy' }}</td>
+                                                    <td class="text-center">{{ credito.montoCredito }}</td>
+                                                    <td class="text-center">{{ credito.capitalVencido }}</td>
+                                                    <td class="text-center">{{ credito.interesCreditoFecha }}</td>
+                                                    <td class="text-center">{{ credito.estado }}</td>
+                                                    <td class="text-center">{{ credito.productoAbaco }}</td>
+                                                    <td class="text-center">{{ credito.tipoServicio }}</td>
+                                                    <td class="text-center">{{ credito.tipoProdcutoAbaco }}</td>
+                                                    <td class="text-center">{{ credito.condicion }}</td>
+                                                    <td class="text-center">{{ credito.fechaReprogramado | date: 'dd/MM/yyyy' }}</td>
+                                                    <td class="text-center">{{ credito.refinanciado }}</td>
+                                                    <td class="text-center">{{ credito.importeVencido }}</td>
+                                                    <td class="text-center">{{ credito.diasVencido }}</td>
+                                                    <td class="text-center">{{ credito.fechaVencimiento | date: 'dd/MM/yyyy' }}</td>
+                                                    <td class="text-center">{{ credito.totalCuotas }}</td>
+                                                    <td class="text-center">{{ credito.cuotasPagadas }}</td>
+                                                    <td class="text-center">{{ credito.cuotasPendientes }}</td>
+                                                    <td class="text-center">{{ credito.fechaUltimoPago | date: 'dd/MM/yyyy' }}</td>
+                                                    <td class="text-center">{{ credito.cuotasAtrasadas }}</td>
+                                                    <td class="text-center">{{ credito.montoAtrasadas }}</td>
+                                                    <td class="text-center">{{ credito.fechaCuotaMes | date: 'dd/MM/yyyy'}}</td>
+                                                    <td class="text-center">{{ credito.montoCuotaMes }}</td>
+                                                    <td class="text-center">{{ credito.calificacion }}</td>
+                                                    <td class="text-center">{{ credito.garantiaLiquida }}</td>
+                                                    <td class="text-center">{{ credito.garantiaReal }}</td>
+                                                    <td class="text-center">{{ credito.desTipoTasa }}</td>
+                                                    <td class="text-center">{{ credito.division }}</td>
+                                                    <td class="text-center">{{ credito.banca }}</td>
+                                                    <td class="text-center">{{ credito.segmentadoRiesgo }}</td>
+                                                    <td class="text-center">{{ credito.sectorEconomico }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Fijo/Movil" id="2">
+                        <ng-template ngbTabContent>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Número</th>
+                                                    <th scope="col">Operador</th>
+                                                    <th scope="col">Tipo</th>
+                                                    <th scope="col">Notificación</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let phone of socio.telefonos; let i = index" class="text-center">
+                                                    <th scope="row">{{ i + 1 }}</th>
+                                                    <td>{{ (phone.codCiudad ? phone.codCiudad +'-' : '') + phone.numero }}</td>
+                                                    <td>{{ phone.operadorDescripcion }}</td>
+                                                    <td>{{ phone.tipoUsoDescripcion }}</td>
+                                                    <td>{{ phone.tipoNotificacion }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Correo" id="3">
+                        <ng-template ngbTabContent>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Correo</th>
+                                                    <th scope="col">Tipo</th>
+                                                    <th scope="col">Notificación</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="text-center" *ngFor="let email of socio.correos; let i = index">
+                                                    <th scope="row">{{ i + 1 }}</th>
+                                                    <td>{{ email.email }}</td>
+                                                    <td>{{ email.tipoUsoDescripcion }}</td>
+                                                    <td>{{ email.tipoNotificacion }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Dirección" id="4">
+                        <ng-template ngbTabContent>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Descripcion</th>
+                                                    <th scope="col">Tipo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="text-center" *ngFor="let direccion of socio.direcciones; let i = index" style="font-size: 12px">
+                                                    <th scope="row">{{ i + 1 }}</th>
+                                                    <td style="text-align: left">{{ direccion.nombreVia}}</td>
+                                                    <td>{{ direccion.tipoDireccion }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Documentos" id="5">
+                        <ng-template ngbTabContent>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <table class="table table-bordered">
+                                            <caption style="caption-side:top;">DOCUMENTOS DE SUSTENTO DEL CREDITO</caption>
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th scope="col" width="5%">#</th>
+                                                    <th scope="col">Archivo</th>
+                                                    <th scope="col" width="10%">Original</th>
+                                                    <th scope="col" width="10%">Impresión</th>
+                                                    <th scope="col" width="10%">Laserfiche</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of solicitudArchivos; let i = index" class="text-center">
+                                                    <th scope="row">{{ i+1 }}</th>
+                                                    <td style="text-align: left;">{{ item.archivoDescripcion }}</td>
+                                                    <td>
+                                                        <label class="switch switch-text switch-primary">
+                                                            <input type="checkbox" class="switch-input" [checked]="item.original" (change)="changeCheck('original',item, $event)">
+                                                            <span class="switch-label" data-on="SI" data-off="NO"></span>
+                                                            <span class="switch-handle"></span>
+                                                        </label>
+                                                        <small *ngIf="item.original" style="display: block;" (click)="inputArchivo.click()"><a href="javascript:;">SUBIR</a></small>
+                                                        <input #inputArchivo type="file" style="display: none;" (change)="uploadFile($event, item)">
+                                                        <div *ngIf="progreso > 0 && item.codigoArchivo == $index">
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100" [style.width]=" progreso+'%'">
+                                                                    {{progreso}}%
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <label class="switch switch-text switch-warning">
+                                                            <input type="checkbox" class="switch-input" [checked]="item.impresion" (change)="changeCheck('impresion',item, $event)">
+                                                            <span class="switch-label" data-on="SI" data-off="NO"></span>
+                                                            <span class="switch-handle"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="switch switch-text switch-danger">
+                                                            <input type="checkbox" class="switch-input"  [checked]="item.laserfich" (change)="changeCheck('laserfich',item, $event)">
+                                                            <span class="switch-label" data-on="SI" data-off="NO"></span>
+                                                            <span class="switch-handle"></span>
+                                                        </label>
+                                                        <input #inputFile type="file" style="display: none;" (change)="buscarArchivo($event, item, inputFile)">
+                                                        <small *ngIf="item.laserfich" style="display: block;" (click)="inputFile.click()"><a href="javascript:;">SUBIR</a></small>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Comentarios" id="6">
+                        <ng-template ngbTabContent>
+                            <div class="row">
+                                <div class="col-12" *ngIf="solicitud">
+                                    <div class="form-group">
+                                        <ng-container *ngFor="let item of seguimientos">
+                                            <br>
+                                            <span><b>{{ item.gestorAlias }} {{ item.fechaCreacion | date: 'dd MMM yy HH:mm' }}:</b></span>
+                                            <div class="ql-container ql-snow mb-2" style="border-width: 0.5;">
+                                                <div class="ql-editor" [innerHTML]="item.mensaje">
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                </ngb-tabset>
             </div>
         </div>
     </div>
 </div>
+<app-loading></app-loading>

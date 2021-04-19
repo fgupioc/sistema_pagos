@@ -139,7 +139,7 @@ export class SocioLevantarObservacionComponent implements OnInit {
       return;
     }
     this.spinner.show();
-    this.extrajudicialService.levantarObservarSolicitudCobranza(this.solicitud.uuid, this.mensaje).subscribe(
+    this.extrajudicialService.levantarObservarSolicitudCobranza(this.solicitud).subscribe(
       res => {
         if (res.exito) {
           this.toastr.success(res.mensaje);

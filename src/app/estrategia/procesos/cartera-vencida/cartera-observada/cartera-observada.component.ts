@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CreditoTemp } from '../../../../interfaces/credito-temp';
 import { SocioArchivo } from '../../../../interfaces/socio/socio-archivo';
 import { CONST } from '../../../../comun/CONST';
@@ -13,6 +13,9 @@ import { FUNC } from '../../../../comun/FUNC';
 import { HttpEventType } from '@angular/common/http';
 import { Solicitud } from '../../../../interfaces/recuperacion/solicitud';
 import { SolicitudArchivos } from 'src/app/interfaces/recuperacion/solicitud-archivos';
+import { Subject } from 'rxjs';
+import { DataTableDirective } from 'angular-datatables';
+import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-cartera-observada',
@@ -21,25 +24,32 @@ import { SolicitudArchivos } from 'src/app/interfaces/recuperacion/solicitud-arc
 })
 export class CarteraObservadaComponent implements OnInit {
   solicitudUuid: string;
-  nroCredito: string;
-  credito: CreditoTemp;
-  fileName: any;
-  file: any;
-  //ejecutivo: any;
-  progreso = 0;
-
-  archivos: SocioArchivo[] = [];
+  itemId: string;
+  socio: any;
+  seccioSeleccionada = '1';
+  creditos: any[] = [];
+  seguimientos: any[] = [];
+  solicitud: any;
   mensaje: string;
   config = CONST.C_CONF_EDITOR;
 
-  listaChekList: SolicitudArchivos[] = [];
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
+  isDtInitialized = false;
+  @ViewChild(DataTableDirective, { static: false }) dtElement: DataTableDirective;
+
   $index: string;
   category: any;
+  progreso = 0;
+
+  solicitudArchivos: SolicitudArchivos[] = [];
+  archivos: any[] = [];
+  credito: CreditoTemp;
+  listaChekList: SolicitudArchivos[] = [];
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private asignacionCarteraService: AsignacionCarteraService,
     private extrajudicialService: ExtrajudicialService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -47,13 +57,14 @@ export class CarteraObservadaComponent implements OnInit {
   ) {
     const { solicitudUuid } = activatedRoute.snapshot.params;
     this.solicitudUuid = solicitudUuid;
-    console.log(solicitudUuid);
-    this.loadSolicitudPorUuid(solicitudUuid);
+    this.loadDetalle(solicitudUuid);
   }
 
   ngOnInit() {
+    this.dtOptions = CONST.C_OBJ_DT_OPCIONES();
     this.listarArchivosChekList();
   }
+
 
   listarArchivosChekList() {
     this.maestroService.listarElementosPorCodTable(CONST.TABLE_STR_LISTA_ARCIVOS_CHEkLIST).subscribe(
@@ -73,15 +84,19 @@ export class CarteraObservadaComponent implements OnInit {
     )
   }
 
-
-  loadSolicitudPorUuid(uuid) {
+  loadDetalle(uuid: string) {
     this.spinner.show();
-    this.asignacionCarteraService.buscarSolicitudPorUuid(uuid).subscribe(
+    this.extrajudicialService.buscarDetalleSolicitud(uuid).subscribe(
       res => {
         if (res.exito) {
-          this.credito = res.credito;
+          this.solicitud = res.solicitud;
+          this.socio = res.socio;
+          this.creditos = res.creditos;
           this.archivos = res.archivos;
-          //this.ejecutivo = res.ejecutivo;
+          this.seguimientos = res.seguimientos;
+          this.solicitudArchivos = res.solicitudArchivos;
+          this.credito = this.creditos.find(i => i.id = this.solicitud.codCreditoPrincipal);
+          this.refreshDatatable();
         }
         this.spinner.hide();
       },
@@ -89,77 +104,37 @@ export class CarteraObservadaComponent implements OnInit {
     );
   }
 
-  subirArchivo(labelInput: any) {
-    if (this.file) {
-      this.extrajudicialService.subirArchivo(this.file, this.credito.socioId, this.fileName, FUNC.getFileExtension(this.file.name), this.file.type).subscribe(
-        event => {
-          if (event.type === HttpEventType.UploadProgress) {
-            this.progreso = Math.round((event.loaded / event.total) * 100);
-          } else if (event.type === HttpEventType.Response) {
-            const res: any = event.body;
-            if (res.archivo) {
-              this.archivos.push(res.archivo)
-            }
-            document.getElementById(labelInput.id).innerHTML = 'Buscar archivo';
-            this.fileName = '';
-            this.progreso = 0;
-          }
-        }
-      );
+  tabSeleccionado(event: NgbTabChangeEvent) {
+    this.seccioSeleccionada = event.nextId;
+  }
+
+  refreshDatatable() {
+    if (this.isDtInitialized) {
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    } else {
+      this.isDtInitialized = true;
+      this.dtTrigger.next();
     }
   }
 
-  changeArchivo(event: any, labelInput: any) {
-    if (event.target.files[0]) {
-      this.file = event.target.files[0];
-      document.getElementById(labelInput.id).innerHTML = event.target.files[0].name;
-    }
-  }
 
-  enviarSolicitud() {
-    if (!this.mensaje) {
-      this.toastr.warning('Debe ingresar una observación');
-      return;
-    }
-
-    const solicitud: Solicitud = {
-      socioId: this.credito.socioId,
-      codCreditoPrincipal: this.credito.id,
-      mensaje: this.mensaje,
-      ejecutivoId: this.credito.ejecutivoId,
-      solicitudArchivos: this.listaChekList
-    }
-
+  download(path: string, tipo: string) {
     this.spinner.show();
-    this.extrajudicialService.registrarSolicitud(solicitud).subscribe(
-      res => {
-        if (res.exito) {
-          this.toastr.success(res.mensaje);
-          this.router.navigateByUrl(`/auth/procesos/cartera-vencida`);
-          this.spinner.hide();
-        } else {
-          this.toastr.warning(res.mensaje);
-          this.spinner.hide();
-        }
-      },
-      err => this.spinner.hide()
-    );
-  }
-
-  download(item: SocioArchivo) {
-    this.spinner.show();
-    this.extrajudicialService.descargarArchivo(item.path).subscribe(
+    this.extrajudicialService.descargarArchivo(path).subscribe(
       response => {
         const blob = new Blob([response],
-          { type: `${item.tipo};charset=UTF-8` });
+          { type: `${tipo};charset=UTF-8` });
         const objectUrl = (window.URL).createObjectURL(blob);
         if (navigator.msSaveBlob) {
-          navigator.msSaveBlob(blob, item.path);
+          navigator.msSaveBlob(blob, path);
         } else {
           const a = document.createElement('a');
           a.href = objectUrl;
           a.target = '_blank';
-          a.download = item.path;
+          a.download = path;
           document.body.appendChild(a);
           a.click();
           setTimeout(() => {
@@ -174,22 +149,38 @@ export class CarteraObservadaComponent implements OnInit {
     );
   }
 
-  changeCheck(tipo: any, item: SolicitudArchivos, event: any) {
-    item[tipo] = event.target.checked;
+  aceptar() {
+    if (!this.mensaje || (this.mensaje && this.mensaje.trim().length == 0)) {
+      this.toastr.warning('Debe ingresar un comentario');
+      return;
+    }
+
+    const solicitud: Solicitud = {
+      uuid: this.solicitud.uuid,
+      socioId: this.credito.socioId,
+      codCreditoPrincipal: this.credito.id,
+      mensaje: this.mensaje,
+      ejecutivoId: this.credito.ejecutivoId,
+      solicitudArchivos: this.solicitudArchivos
+    }
+
+    console.log(solicitud);
+
+    this.spinner.show();
+    this.extrajudicialService.levantarObservarSolicitudCobranza(solicitud).subscribe(
+      res => {
+        if (res.exito) {
+          this.toastr.success(res.mensaje);
+        }
+        this.spinner.hide();
+      },
+      err => this.spinner.hide()
+    );
   }
 
-  buscarArchivo(event: any, item: SolicitudArchivos, inputFile: HTMLInputElement) {
-    if (event.target.files[0]) {
-      const value = event.target.value;
 
-      // this will return C:\fakepath\somefile.ext
-      console.log(value);
-
-      const files = event.target.files;
-
-      //this will return an ARRAY of File object
-      console.log(files);
-    }
+  changeCheck(tipo: any, item: SolicitudArchivos, event: any) {
+    item[tipo] = event.target.checked;
   }
 
   mostrarBuscador(imputHtml: HTMLButtonElement) {
@@ -211,8 +202,6 @@ export class CarteraObservadaComponent implements OnInit {
               item.tipo = res.archivo.tipo;
               item.extension = res.archivo.extension;
             }
-
-            this.fileName = '';
             this.progreso = 0;
           }
         },
@@ -221,6 +210,21 @@ export class CarteraObservadaComponent implements OnInit {
           this.toastr.error('Ocurrio un error en la carga del archivo.');
         }
       );
+    }
+  }
+
+
+  buscarArchivo(event: any, item: SolicitudArchivos, inputFile: HTMLInputElement) {
+    if (event.target.files[0]) {
+      const value = event.target.value;
+
+      // this will return C:\fakepath\somefile.ext
+      console.log(value);
+
+      const files = event.target.files;
+
+      //this will return an ARRAY of File object
+      console.log(files);
     }
   }
 }
