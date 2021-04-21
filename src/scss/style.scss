@@ -1194,3 +1194,7 @@ $value in $theme-colors {
 .switch.switch-text .switch-input:checked~.switch-handle {
     left: 25px;
 }
+
+.textarea-resize-none {
+    resize: none;
+}

@@ -18,5 +18,7 @@ export interface Solicitud {
   userUpdate?: number;
   estado?: string;
   condicion?: string;
-  solicitudArchivos: SolicitudArchivos[]
+  solicitudArchivos: SolicitudArchivos[],
+  acontecimientos?: string;
+  comentarios?: string;
 }

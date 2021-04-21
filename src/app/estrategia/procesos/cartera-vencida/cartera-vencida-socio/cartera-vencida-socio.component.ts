@@ -32,6 +32,8 @@ export class CarteraVencidaSocioComponent implements OnInit {
   archivos: SocioArchivo[] = [];
   mensaje: string;
   config = CONST.C_CONF_EDITOR;
+  acontecimientos = '';
+  comentarios = '';
 
   listaChekList: SolicitudArchivos[] = [];
   $index: string;
@@ -128,7 +130,9 @@ export class CarteraVencidaSocioComponent implements OnInit {
       codCreditoPrincipal: this.credito.id,
       mensaje: this.mensaje,
       ejecutivoId: this.credito.ejecutivoId,
-      solicitudArchivos: this.listaChekList
+      solicitudArchivos: this.listaChekList,
+      acontecimientos: this.acontecimientos,
+      comentarios: this.comentarios
     }
 
     this.spinner.show();
@@ -217,11 +221,40 @@ export class CarteraVencidaSocioComponent implements OnInit {
             this.progreso = 0;
           }
         },
-          err => {
-            this.progreso = 0;
-            this.toastr.error('Ocurrio un error en la carga del archivo.');
-          }
+        err => {
+          this.progreso = 0;
+          this.toastr.error('Ocurrio un error en la carga del archivo.');
+        }
       );
     }
+  }
+
+  descargarFormato() {
+    this.spinner.show();
+    const times = new Date().getTime();
+    this.extrajudicialService.generarFormatoTransferenciaExtrajudicial(times, this.acontecimientos, this.comentarios, this.nroCredito).subscribe(
+      response => {
+        const blob = new Blob([response],{ type: 'application/pdf;charset=UTF-8' });
+        const objectUrl = (window.URL).createObjectURL(blob);
+        const nombre = `${this.nroCredito}_documento-transferencia-recuperacion.pdf`;
+        if (navigator.msSaveBlob) {
+          navigator.msSaveBlob(blob, nombre);
+        } else {
+          const a = document.createElement('a');
+          a.href = objectUrl;
+          a.target = '_blank';
+          a.download = nombre;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(() => {
+            document.body.removeChild(a);
+          }, 3000);
+        }
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
+      }
+    );
   }
 }

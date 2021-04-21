@@ -29,10 +29,16 @@
                     <input type="text" class="form-control" [value]="credito.diasAtraso" disabled>
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-12 col-md-6">
                 <div class="form-group">
-                    <quill-editor [styles]="{height: '200px'}" placeholder="Observación" [modules]="config" [(ngModel)]="mensaje" required>
-                    </quill-editor>
+                    <label>Acontecimientos importantes y resaltantes</label>
+                    <textarea class="form-control textarea-resize-none" rows="8" [(ngModel)]="acontecimientos"></textarea>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <label>Comentarios del Ejecutivo del Negocios</label>
+                    <textarea class="form-control textarea-resize-none" rows="8" [(ngModel)]="comentarios"></textarea>
                 </div>
             </div>
             <div class="col-12">
@@ -46,6 +52,7 @@
                                 <th scope="col" width="10%">Original</th>
                                 <th scope="col" width="10%">Impresión</th>
                                 <th scope="col" width="10%">Laserfiche</th>
+                                <th scope="col" width="10%">Opción</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -84,10 +91,21 @@
                                     <input #inputFile type="file" style="display: none;" (change)="buscarArchivo($event, item, inputFile)">
                                     <small *ngIf="item.laserfich" style="display: block;" (click)="inputFile.click()"><a href="javascript:;">SUBIR</a></small>
                                 </td>
-
+                                <td>
+                                    <ng-container *ngIf="item.codigoArchivo == '1'">
+                                        <button class="btn btn-primary" (click)="descargarFormato()"><i class="fa fa-download"></i></button>
+                                    </ng-container>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Observación<span class="text-danger">*</span>:</label>
+                    <quill-editor [styles]="{height: '200px'}" placeholder="Observación" [modules]="config" [(ngModel)]="mensaje" required>
+                    </quill-editor>
                 </div>
             </div>
         </div>

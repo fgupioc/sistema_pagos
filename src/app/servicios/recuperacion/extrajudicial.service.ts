@@ -74,4 +74,9 @@ export class ExtrajudicialService {
   levantarObservarSolicitudCobranza(solicitud: any): Observable<any> {
     return this.http.post<any>(`${urlBase}/levantar-observar-solicitud-cobranza`, solicitud);
   }
+
+  generarFormatoTransferenciaExtrajudicial(times: any, acontecimientos, comentarios, nroCredito): Observable<any> {
+    return this.http.get(`${urlBase}/generar-formato-transferencia-recuperacion`, { responseType: 'arraybuffer', params: new HttpParams().set('times', times).set('acontecimiento', acontecimientos).set('comentarios', comentarios).set('codCredito', nroCredito) });
+  }
+
 }
