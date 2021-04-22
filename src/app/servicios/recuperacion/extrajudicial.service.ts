@@ -83,8 +83,11 @@ export class ExtrajudicialService {
     return this.http.get<any>(`${urlBase}/buscarPropiedadesPorSocio`, { params: new HttpParams().set('socioId', socioId) });
   }
 
-
   generarExcelBusquedaPropiedadInmueblePorSocio(socioId: any): Observable<any> {
     return this.http.get(`${urlBase}/generar-excel-propiedad-inmueble-por-socio`, { responseType: 'arraybuffer', params: new HttpParams().set('socioId', socioId) });
+  }
+
+  generarExcelBusquedaPropiedadVehicularPorSocio(socioId: any): Observable<any> {
+    return this.http.get(`${urlBase}/generar-excel-propiedad-vehicular-por-socio`, { responseType: 'arraybuffer', params: new HttpParams().set('socioId', socioId) });
   }
 }
