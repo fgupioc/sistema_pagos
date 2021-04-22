@@ -170,4 +170,34 @@ export class ExtrajudicialSocioComponent implements OnInit {
       }
     )
   }
+
+  generarExcelInmueble() {
+    this.spinner.show();
+    this.extrajudicialService.generarExcelBusquedaPropiedadInmueblePorSocio(this.socio.id).subscribe(
+      response => {
+        const blob = new Blob([response],
+          { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+        const objectUrl = (window.URL).createObjectURL(blob);
+        if (navigator.msSaveBlob) {
+          navigator.msSaveBlob(blob, 'companyUsers.xlsx');
+        } else {
+          const a = document.createElement('a');
+          a.href = objectUrl;
+          a.target = '_blank';
+          a.download = 'lista-inmuebles-' + new Date().getTime();
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(() => {
+            document.body.removeChild(a);
+          }, 3000);
+        }
+        this.spinner.hide();
+      },
+      err => {
+        console.error(err);
+        this.spinner.hide();
+      }
+    );
+  }
+
 }

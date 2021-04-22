@@ -130,7 +130,7 @@ export class BitacoraGestionesComponent implements OnInit {
           {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'});
         const objectUrl = (window.URL).createObjectURL(blob);
         if (navigator.msSaveBlob) {
-          navigator.msSaveBlob(blob, 'companyUsers.xlsx');
+          navigator.msSaveBlob(blob, 'lista-inmuebles-' + new Date().getTime()+'.xlsx');
         } else {
           const a = document.createElement('a');
           a.href = objectUrl;
@@ -143,7 +143,7 @@ export class BitacoraGestionesComponent implements OnInit {
           }, 3000);
         }
         this.spinner.hide();
-      }, 
+      },
       err => {
         console.error(err);
         this.spinner.hide();
