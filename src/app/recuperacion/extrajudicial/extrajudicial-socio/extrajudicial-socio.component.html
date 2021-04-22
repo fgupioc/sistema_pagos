@@ -294,6 +294,89 @@
                             </div>
                         </ng-template>
                     </ngb-tab>
+                    <ngb-tab title="Propiedades" id="7">
+                        <ng-template ngbTabContent>
+                            <ngb-accordion [closeOthers]="true" activeIds="static-2">
+                                <ngb-panel id="static-2">
+                                    <ng-template ngbPanelTitle>
+                                        <span>Inmuebles</span>
+                                    </ng-template>
+                                    <ng-template ngbPanelContent>
+                                        <div class="row other-btns">
+                                            <div class="col-12">
+                                                <div class="form-group text-center">
+                                                    <button class="btn btn-social btn-instagram mr-4" (click)="buscarPropiedades(socio.id)"><i  class="fa fa-search"></i> Busqueda inmueble</button>
+                                                    <button class="btn btn-social btn-whatsapp mr-4"><i  class="fa fa-download"></i> Descargar inmueble</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <table class="table table-bordered">
+                                                        <caption>PROPIEDAD INMUEBLE DE LIMA</caption>
+                                                        <thead>
+                                                            <tr class="text-center">
+                                                                <th scope="col">#</th>
+                                                                <th scope="col">PARTIDA</th>
+                                                                <th scope="col">UBICACIÓN</th>
+                                                                <th scope="col">STATUS</th>
+                                                                <th scope="col">CARGAS O GRAVAMENES</th>
+                                                                <th scope="col">TITULO PENDIENTE</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr class="text-center" *ngFor="let item of inmuebles; let i = index">
+                                                                <th scope="row">{{ i + 1}}</th>
+                                                                <td>{{item.partida}}</td>
+                                                                <td style="text-align: left;">{{item.ubicacion}}</td>
+                                                                <td>{{item.estado}}</td>
+                                                                <td>{{item.cargos}}</td>
+                                                                <td>{{item.tituloPendiente}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-panel>
+                                <ngb-panel id="static-3" title="Vehicular">
+                                    <ng-template ngbPanelContent>
+                                        <div class="row other-btns" *ngIf="socio">
+                                            <div class="col-12">
+                                                <div class="form-group text-center">
+                                                    <button class="btn btn-social btn-instagram mr-4" (click)="buscarPropiedades(socio.id)"><i  class="fa fa-search"></i> Busqueda vehicular</button>
+                                                    <button class="btn btn-social btn-whatsapp mr-4"><i  class="fa fa-download"></i> Busqueda vehicular</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <table class="table table-bordered">
+                                                        <caption>PROPIEDAD VEHICULAR DE LIMA</caption>
+                                                        <thead>
+                                                            <tr class="text-center">
+                                                                <th scope="col" width="10%">#</th>
+                                                                <th scope="col" width="15%">PLACA</th>
+                                                                <th scope="col">DESCRIPCION</th>
+                                                                <th scope="col" width="20%">TITULO PENDIENTE</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr class="text-center" *ngFor="let item of vehicular; let i = index">
+                                                                <th scope="row">{{ i + 1}}</th>
+                                                                <td>{{item.placa}}</td>
+                                                                <td style="text-align: left;">{{item.descripcion ? (item.descripcion.length > 100 ? item.descripcion.slice(0, 100) + '...' : item.descripcion): ''}}</td>
+                                                                <td>{{item.tituloPendiente}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-panel>
+                            </ngb-accordion>
+                        </ng-template>
+                    </ngb-tab>
                 </ngb-tabset>
             </div>
         </div>

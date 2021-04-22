@@ -1198,3 +1198,83 @@ $value in $theme-colors {
 .textarea-resize-none {
     resize: none;
 }
+
+caption {
+    display: table-caption;
+    text-align: center;
+    caption-side: top;
+}
+
+.other-btns .btn {
+    border-radius: 3px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid transparent;
+}
+
+.other-btns .btn-linkedin {
+    color: #fff;
+    background-color: #007bb6;
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+.other-btns .btn-instagram {
+    color: #fff;
+    background-color: #3f729b;
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+.other-btns .btn-whatsapp {
+    color: #fff;
+    background-color: #25d366;
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+.other-btns .btn-social {
+    position: relative;
+    padding-left: 44px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.other-btns .btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    font-size: 14px;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.other-btns .btn-social> :first-child {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 32px;
+    line-height: 34px !important;
+    font-size: 1.6em !important;
+    text-align: center;
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.other-btns .btn-social .fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

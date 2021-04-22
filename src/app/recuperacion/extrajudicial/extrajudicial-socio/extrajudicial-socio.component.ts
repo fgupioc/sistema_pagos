@@ -33,6 +33,9 @@ export class ExtrajudicialSocioComponent implements OnInit {
 
   solicitudArchivos: SolicitudArchivos[] = [];
   archivos: any[] = [];
+  vehicular: any[] = [];
+  inmuebles: any[] = [];
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -60,6 +63,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
           this.archivos = res.archivos;
           this.seguimientos = res.seguimientos;
           this.solicitudArchivos = res.solicitudArchivos;
+          this.buscarPropiedades(this.socio.id);
           this.refreshDatatable();
         }
         this.spinner.hide();
@@ -147,5 +151,23 @@ export class ExtrajudicialSocioComponent implements OnInit {
       },
       err => this.spinner.hide()
     );
+  }
+
+  buscarPropiedades(socioId: any) {
+    this.vehicular = [];
+    this.inmuebles = [];
+    this.spinner.show();
+    this.extrajudicialService.buscarPropiedadesPorSocio(socioId).subscribe(
+      res => {
+        if(res.exito) {
+          this.vehicular = res.vehicular;
+          this.inmuebles = res.inmuebles;
+        }
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
+      }
+    )
   }
 }

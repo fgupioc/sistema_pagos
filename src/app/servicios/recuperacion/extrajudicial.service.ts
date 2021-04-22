@@ -79,4 +79,7 @@ export class ExtrajudicialService {
     return this.http.get(`${urlBase}/generar-formato-transferencia-recuperacion`, { responseType: 'arraybuffer', params: new HttpParams().set('times', times).set('acontecimiento', acontecimientos).set('comentarios', comentarios).set('codCredito', nroCredito) });
   }
 
+  buscarPropiedadesPorSocio(socioId: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/buscarPropiedadesPorSocio`, { params: new HttpParams().set('socioId', socioId) });
+  }
 }
