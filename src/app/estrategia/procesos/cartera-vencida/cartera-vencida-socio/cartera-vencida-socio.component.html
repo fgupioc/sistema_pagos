@@ -3,8 +3,10 @@
         <span *ngIf="credito" class="card-title text-uppercase font-weight-bold">Detalle del crédito {{ credito.nroCredito }}</span>
         <span *ngIf="!credito" class="card-title text-uppercase font-weight-bold">No se encontro registro</span>
         <div class="card-tools float-right">
-            <button class="btn btn-sm btn-success mr-4" [disabled]="!mensaje" (click)="enviarSolicitud()">Enviar Información</button>
-            <button type="button" class="btn btn-sm btn-primary" routerLink="/auth/procesos/cartera-vencida">
+            <button class="btn btn-sm btn-outline-primary mr-2" [disabled]="!mensaje" (click)="enviarSolicitud()">Enviar</button>
+            <button class="btn btn-sm btn-outline-success mr-2">Grabar</button>
+            <button *ngIf="listaChekList.length > 0" class="btn btn-sm btn-outline-info mr-2"  (click)="descargarFormato()">Formato</button>
+            <button type="button" class="btn btn-sm btn-outline-dark" routerLink="/auth/procesos/cartera-vencida">
               <i class="fa fa-arrow-left"></i> Regresar
             </button>
         </div>
@@ -52,7 +54,6 @@
                                 <th scope="col" width="10%">Original</th>
                                 <th scope="col" width="10%">Impresión</th>
                                 <th scope="col" width="10%">Laserfiche</th>
-                                <th scope="col" width="10%">Opción</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,15 +66,6 @@
                                         <span class="switch-label" data-on="SI" data-off="NO"></span>
                                         <span class="switch-handle"></span>
                                     </label>
-                                    <small *ngIf="item.original" style="display: block;" (click)="inputArchivo.click()"><a href="javascript:;">SUBIR</a></small>
-                                    <input #inputArchivo type="file" style="display: none;" (change)="uploadFile($event, item)">
-                                    <div *ngIf="progreso > 0 && item.codigoArchivo == $index">
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100" [style.width]=" progreso+'%'">
-                                                {{progreso}}%
-                                            </div>
-                                        </div>
-                                    </div>
                                 </td>
                                 <td>
                                     <label class="switch switch-text switch-warning">
@@ -81,6 +73,15 @@
                                         <span class="switch-label" data-on="SI" data-off="NO"></span>
                                         <span class="switch-handle"></span>
                                     </label>
+                                  <small *ngIf="item.impresion" style="display: block;" (click)="inputArchivo.click()"><a href="javascript:;">SUBIR</a></small>
+                                  <input #inputArchivo type="file" style="display: none;" (change)="uploadFile($event, item)">
+                                  <div *ngIf="progreso > 0 && item.codigoArchivo == $index">
+                                    <div class="progress">
+                                      <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100" [style.width]=" progreso+'%'">
+                                        {{progreso}}%
+                                      </div>
+                                    </div>
+                                  </div>
                                 </td>
                                 <td>
                                     <label class="switch switch-text switch-danger">
@@ -91,11 +92,7 @@
                                     <input #inputFile type="file" style="display: none;" (change)="buscarArchivo($event, item, inputFile)">
                                     <small *ngIf="item.laserfich" style="display: block;" (click)="inputFile.click()"><a href="javascript:;">SUBIR</a></small>
                                 </td>
-                                <td>
-                                    <ng-container *ngIf="item.codigoArchivo == '1'">
-                                        <button class="btn btn-primary" (click)="descargarFormato()"><i class="fa fa-download"></i></button>
-                                    </ng-container>
-                                </td>
+
                             </tr>
                         </tbody>
                     </table>
