@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { ExtrajudicialService } from '../../../servicios/recuperacion/extrajudicial.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CONST } from 'src/app/comun/CONST';
@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { MaestroService } from '../../../servicios/sistema/maestro.service';
 import { TablaMaestra } from '../../../interfaces/tabla-maestra';
 import { AsignacionCarteraService } from '../../../servicios/asignacion-cartera.service';
+import {DataTableDirective} from "angular-datatables";
 
 @Component({
   selector: 'app-extrajudicial-solicitud-cambio-estado',
@@ -23,6 +24,9 @@ export class ExtrajudicialSolicitudCambioEstadoComponent implements OnInit {
   dateDefault = moment(new Date()).format('YYYY-MM-DD');
   condiciones: TablaMaestra[] = [];
   ejecutivos: any[] = [];
+
+  dtOptions: DataTables.Settings = CONST.DATATABLE_ES();
+  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(
     private spinner: NgxSpinnerService,

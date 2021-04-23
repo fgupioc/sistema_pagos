@@ -1,0 +1,194 @@
+<div [formGroup]="form">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                <label>Tipo Gestión</label>
+                <select class="form-control" formControlName="tipoGestion" (ngModelChange)="cambioGestion($event)">
+                          <option *ngFor="let item of gestiones" [value]="item.codItem">{{ item.descripcion }}</option>
+                        </select>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <label>Tipo Contacto</label>
+            <div class="input-group">
+                <select class="form-control" formControlName="tipoContacto">
+                          <option *ngFor="let item of tiposContacto" [value]="item.codItem">{{ item.descripcion }}</option>
+                        </select>
+                <div class="input-group-btn">
+                    <button *ngIf="!showRespuesta" type="button" class="btn btn-info" (click)="iniciarGestion()">Iniciar</button>
+                    <button *ngIf="showRespuesta" type="button" class="btn btn-danger" (click)="cancelarGestion()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        <ng-container *ngIf="form.controls.tipoContacto.value == '1' && showRespuesta">
+            <div class="col-12 col-md-6">
+                <label>Número telefonico</label>
+                <div class="input-group">
+                    <select class="form-control" formControlName="telefono">
+                            <option value="">Seleccione</option>
+                            <option *ngFor="let item of showPhones" [value]="item.numero">{{ (item.codCiudad ? item.codCiudad + '-' : '') + item.numero }}</option>
+                          </select>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <label>Tiempo(seg)</label>
+                    <input Number class="form-control" placeholder="Tiempo transcurrido" formControlName="duracion">
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="form.controls.tipoContacto.value == '2' && showRespuesta">
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <label>Seleccione Correo</label>
+                    <select class="form-control" formControlName="correo">
+                            <option value="">Seleccione</option>
+                            <option *ngFor="let item of showEmails" [value]="item.email">{{ item.email }}</option>
+                          </select>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="form.controls.tipoContacto.value == '4' && showRespuesta">
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <label>Seleccione Dirección</label>
+                    <select class="form-control" formControlName="direccion">
+                            <option value="">Selecione</option>
+                            <option *ngFor="let item of direcciones" [value]="mostrarDireccion(item)">{{ mostrarDireccion(item)}}</option>
+                          </select>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="row" *ngIf="showRespuesta">
+        <div class="col-12 col-md-4">
+            <div class="form-group">
+                <label>Respuesta</label>
+                <select class="form-control" formControlName="codRespuesta" (ngModelChange)="respuestaSeleccionada($event)">
+                          <option *ngFor="let item of respuestas" [value]="item.codItem">{{ item.descripcion }}</option>
+                        </select>
+            </div>
+            <div *ngIf="$detalles.length >0">
+                <ol>
+                    <li *ngFor="let text of $detalles"><small>{{ text }}</small></li>
+                </ol>
+            </div>
+        </div>
+        <ng-container *ngIf="showAcuerdoPago">
+            <div class="col-12"></div>
+            <div class="col-12 col-md-4">
+                <ul class="list-group list-acuerdos">
+                    <li class="list-group-item cursor-pointer" [ngClass]="{'active': typeAcuerdo == 1}" (click)="typeAcuerdo = 1">AL DÍA</li>
+                    <li class="list-group-item cursor-pointer" [ngClass]="{'active': typeAcuerdo == 2}" (click)="typeAcuerdo = 2">PLAN DE PAGO</li>
+                    <li class="list-group-item cursor-pointer" [ngClass]="{'active': typeAcuerdo == 3}" (click)="typeAcuerdo = 3">TOTAL DE LA MORA</li>
+                    <li class="list-group-item cursor-pointer" [ngClass]="{'active': typeAcuerdo == 4}" (click)="typeAcuerdo = 4">ABONO</li>
+                </ul>
+            </div>
+            <ng-container *ngIf="typeAcuerdo == 1  || typeAcuerdo == 3 || typeAcuerdo == 4" [formGroup]="formRegistrarAcuerdo">
+                <div class="col-12 col-md-8">
+                    <div class="row">
+                        <div class="col-12" *ngIf="errors.length > 0">
+                            <div class="form-group">
+                                <div class="alert alert-danger" role="alert" *ngFor="let value of errors">
+                                    <span><b>.</b> {{ value }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-7">
+                            <div class="form-group">
+                                <label>Monto Acordado</label>
+                                <input CustomizeCurrency type="text" class="form-control" formControlName="montoAcordado">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-5">
+                            <div class="form-group">
+                                <label>Posibilidad Pagar</label>
+                                <select class="form-control" formControlName="posibilidadPago">
+                                  <option value="">Seleccione</option>
+                                  <option value="1">Alto</option>
+                                  <option value="2">Medio</option>
+                                  <option value="3">Bajo</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-7">
+                            <div class="form-group">
+                                <label>Fecha</label>
+                                <input type="date" class="form-control" formControlName="fechaInicio">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-5">
+                            <div class="form-group">
+                                <label>Hora</label>
+                                <input type="time" class="form-control" min="07:00" max="20:00" formControlName="horaIncio">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="typeAcuerdo == 2" [formGroup]="formPlanPago">
+                <div class="col-12 col-md-8">
+                    <div class="row">
+                        <div class="col-12" *ngIf="errors.length > 0">
+                            <div class="form-group">
+                                <div class="alert alert-danger" role="alert" *ngFor="let value of errors">
+                                    <span><b>.</b> {{ value }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Nombre del plan</label>
+                                <input SoloLetras Uppercase type="text" class="form-control" formControlName="descripcion">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Número de cuotas</label>
+                                <input Number type="text" class="form-control" formControlName="plazo">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Valor de cuotas</label>
+                                <input CustomizeCurrency type="text" class="form-control" formControlName="montoAcordado">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Intervalo cuotas (Días)</label>
+                                <input Number type="text" class="form-control" formControlName="intervalo">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Fecha inicio</label>
+                                <input type="date" class="form-control" formControlName="fechaInicio">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Posibilidad Pagar</label>
+                                <select class="form-control" formControlName="posibilidadPago">
+                                  <option value="">Seleccione</option>
+                                  <option value="1">Alto</option>
+                                  <option value="2">Medio</option>
+                                  <option value="3">Bajo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+        <div class="col-12 " [ngClass]="showAcuerdoPago ? 'col-md-12 mt-4' : 'col-md-8'">
+            <label>Comentario</label>
+            <div class="input-group">
+                <input type="text" class="form-control" formControlName="comentario">
+                <div class="input-group-btn">
+                    <button [disabled]="form.invalid" type="button" class="btn btn-info">Ingresar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

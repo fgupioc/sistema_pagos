@@ -84,7 +84,7 @@
             <div class="col-12 col-md-2">
                 <div class="form-group">
                     <label>&nbsp;</label>
-                    <button class="btn btn-block btn-info" (click)="buscar()">Buscar</button>
+                    <button class="btn btn-block btn-outline-info" (click)="buscar()">Buscar</button>
                 </div>
             </div>
         </div>
@@ -92,10 +92,9 @@
 </div>
 
 <div class="card">
-
     <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered">
+        <div class="table-responsive" *ngIf="solicitudes.length > 0">
+            <table datatable [dtOptions]="dtOptions"  class="table table-bordered table-hover">
                 <thead>
                     <tr class="text-center">
                         <th scope="col">#</th>
@@ -115,7 +114,7 @@
                         <td>{{ item.condicionDescripcion }}</td>
                         <td>
                             <div class="btn-group">
-                                <button class="btn btn-sm btn-info mr-2" [routerLink]="'/auth/recuperacion/extrajudicial/solicitudes/'+ item.uuid +'/socio'"><i class="fa fa-list"></i></button>
+                                <button class="btn btn-sm btn-outline-info mr-2" [routerLink]="'/auth/recuperacion/extrajudicial/solicitudes/'+ item.uuid +'/socio'"><i class="fa fa-arrow-right"></i></button>
                             </div>
                         </td>
                     </tr>
