@@ -59,7 +59,12 @@
         <div class="row">
             <div class="col-12">
                 <ngb-tabset [destroyOnHide]="false" [activeId]="1" (tabChange)="tabSeleccionado($event)">
-                    <ngb-tab title="Créditos" id="1">
+                    <ngb-tab title="Gestión" id="1">
+                        <ng-template ngbTabContent>
+                            <app-gestion-socio-registrar [telefonos]="socio.telefonos" [correos]="socio.correos" [direcciones]="socio.direcciones"></app-gestion-socio-registrar>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Créditos" id="2">
                         <ng-template ngbTabContent>
                             <div class="row">
                                 <div class="col-12" *ngIf="creditos.length > 0">
@@ -153,7 +158,7 @@
                             </div>
                         </ng-template>
                     </ngb-tab>
-                    <ngb-tab title="Fijo/Movil" id="2">
+                    <ngb-tab title="Fijo/Movil" id="3">
                         <ng-template ngbTabContent>
                             <div class="row">
                                 <div class="col-12">
@@ -183,7 +188,7 @@
                             </div>
                         </ng-template>
                     </ngb-tab>
-                    <ngb-tab title="Correo" id="3">
+                    <ngb-tab title="Correo" id="4">
                         <ng-template ngbTabContent>
                             <div class="row">
                                 <div class="col-12">
@@ -211,7 +216,7 @@
                             </div>
                         </ng-template>
                     </ngb-tab>
-                    <ngb-tab title="Dirección" id="4">
+                    <ngb-tab title="Dirección" id="5">
                         <ng-template ngbTabContent>
                             <div class="row">
                                 <div class="col-12">
@@ -237,7 +242,7 @@
                             </div>
                         </ng-template>
                     </ngb-tab>
-                    <ngb-tab title="Documentos" id="5">
+                    <ngb-tab title="Documentos" id="6">
                         <ng-template ngbTabContent>
                             <div class="row">
                                 <div class="col-12">
@@ -276,7 +281,7 @@
                             </div>
                         </ng-template>
                     </ngb-tab>
-                    <ngb-tab title="Comentarios" id="6">
+                    <ngb-tab title="Comentarios" id="7">
                         <ng-template ngbTabContent>
                             <div class="row">
                                 <div class="col-12" *ngIf="solicitud">
@@ -294,7 +299,7 @@
                             </div>
                         </ng-template>
                     </ngb-tab>
-                    <ngb-tab title="Propiedades" id="7">
+                    <ngb-tab title="Propiedades" id="8">
                         <ng-template ngbTabContent>
                             <ngb-accordion [closeOthers]="true" activeIds="static-2">
                                 <ngb-panel id="static-2">

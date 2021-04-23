@@ -16,13 +16,15 @@ import {RouterModule} from '@angular/router';
 import {TreeviewModule} from 'ngx-treeview';
 import { ExtrajudicialSocioComponent } from './extrajudicial/extrajudicial-socio/extrajudicial-socio.component';
 import { QuillModule } from 'ngx-quill';
+import { GestionSocioRegistrarComponent } from './extrajudicial/componentes/gestion/gestion-socio-registrar/gestion-socio-registrar.component';
 
 @NgModule({
   declarations: [
     ExtrajudicialCarterasComponent,
     JudicialCarterasComponent,
     ExtrajudicialSolicitudCambioEstadoComponent,
-    ExtrajudicialSocioComponent
+    ExtrajudicialSocioComponent,
+    GestionSocioRegistrarComponent
   ],
   imports: [
     CommonModule,
