@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { CreditoTemp } from '../../../../interfaces/credito-temp';
 import { TablaMaestra } from '../../../../interfaces/tabla-maestra';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -8,6 +8,8 @@ import { MaestroService } from '../../../../servicios/sistema/maestro.service';
 import { AsignacionCarteraService } from '../../../../servicios/asignacion-cartera.service';
 import { CONST } from 'src/app/comun/CONST';
 import { ToastrService } from 'ngx-toastr';
+import {Subject} from "rxjs";
+import {DataTableDirective} from "angular-datatables";
 
 @Component({
   selector: 'app-carteras-vencidas',
@@ -21,6 +23,9 @@ export class CarterasVencidasComponent implements OnInit {
   ejecutivos: any[] = [];
   carteras: any[] = [];
   ejecutivo: any;
+
+  dtOptions: DataTables.Settings = CONST.DATATABLE_ES();
+  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -37,8 +42,12 @@ export class CarterasVencidasComponent implements OnInit {
       filtro: ['1'],
       cartera: [''],
       gestor: [''],
+      desde: [{value:0, disabled: true}],
+      hasta: [],
     });
   }
+
+
 
   listarEjecutivos() {
     this.asignacionService.listarEjecutivos().subscribe(
@@ -55,11 +64,9 @@ export class CarterasVencidasComponent implements OnInit {
 
   listarCarteras() {
     this.spinner.show();
-    this.asignacionService.getCarteras().subscribe(
+    this.asignacionService.getCarterasConUltimaEtapaCobranza().subscribe(
       res => {
-        if (res.exito) {
-          this.carteras = res.objeto as any[];
-        }
+        this.carteras = res ;
         this.spinner.hide();
       },
       err => {
@@ -71,7 +78,7 @@ export class CarterasVencidasComponent implements OnInit {
 
   buscar() {
     this.creditos = [];
-    const { filtro, cartera, gestor} = this.formGroup.getRawValue();
+    const { filtro, cartera, gestor, desde, hasta} = this.formGroup.getRawValue();
     if ((filtro == '1' && !cartera) || (filtro == '1' && cartera.length == 0)) {
       this.toastr.warning('Debe seleccionar una cartera.');
       return;
@@ -82,9 +89,20 @@ export class CarterasVencidasComponent implements OnInit {
       return;
     }
 
-    this.spinner.show();
+
+    if (filtro == '1' && Number(desde) > 0 && Number(hasta) > 0 && Number(desde) >= Number(hasta)) {
+      this.toastr.warning('El día fin no puede ser menor al día de inicio.');
+      return;
+    }
+
+    if (filtro == '1' && Number(desde) == 0 && Number(hasta) > 0 ) {
+      this.toastr.warning('El día inicio es obligatorio.');
+      return;
+    }
+
     if (filtro == '1' && cartera && cartera.length > 0) {
-      this.asignacionService.buscarCreditosVencidosPorCartera(cartera).subscribe(
+      this.spinner.show();
+      this.asignacionService.buscarCreditosVencidosPorCartera(cartera, desde, hasta > 0 ? hasta : null).subscribe(
         res => {
           if (res.exito) {
             this.creditos = res.creditos;
@@ -99,6 +117,7 @@ export class CarterasVencidasComponent implements OnInit {
     }
 
     if (filtro == '2' && gestor && gestor.length > 0) {
+      this.spinner.show();
       this.asignacionService.buscarCreditosVencidosPorEjecutivoId(gestor).subscribe(
         res => {
           if (res.exito) {
@@ -117,6 +136,17 @@ export class CarterasVencidasComponent implements OnInit {
   changefiltro() {
     this.formGroup.controls.cartera.setValue('');
     this.formGroup.controls.gestor.setValue('');
+    this.formGroup.controls.desde.setValue('');
+    this.formGroup.controls.hasta.setValue('');
+    this.creditos = [];
+  }
+
+  changecartera(event: any) {
+    const item = this.carteras.find(i => i.codCartera == event);
+    this.formGroup.controls.desde.setValue(0);
+    if (item){
+      this.formGroup.controls.desde.setValue(item.hasta);
+    }
     this.creditos = [];
   }
 }

@@ -36,6 +36,10 @@ export class AsignacionCarteraService {
     return this.http.get<any>(`${urlBase}/carteras`);
   }
 
+  getCarterasConUltimaEtapaCobranza(): Observable<any[]> {
+    return this.http.get<any[]>(`${urlBase}/carterasConUltimaEtapa`);
+  }
+
   listarEjecutivos(): Observable<Respuesta> {
     return this.http.get<any>(`${urlBase}/ejecutivos`);
   }
@@ -178,12 +182,19 @@ export class AsignacionCarteraService {
     return this.http.get<any>(`${urlBase}/buscarCreditoVencidosPorNroCredito`, { params: new HttpParams().set('numCredito', nroCredito) });
   }
 
-  buscarCreditosVencidosPorCartera(carteraId: any): Observable<any> {
-    return this.http.get<any>(`${urlBase}/buscarCreditosVencidosPorCartera`, { params: new HttpParams().set('carteraId', carteraId) });
-  }
+  buscarCreditosVencidosPorCartera(carteraId: any, desde: any, hasta: any): Observable<any> {
+    let params = {};
+    if (hasta){
+      params = { params: new HttpParams().set('carteraId', carteraId).set('desde', desde).set('hasta', hasta) };
+    } else {
+      params = { params: new HttpParams().set('carteraId', carteraId).set('desde', desde)};
+    }
 
+    return this.http.get<any>(`${urlBase}/buscarCreditosVencidosPorCartera`, params);
+  }
 
   buscarSolicitudPorUuid(solicitudUuid: any): Observable<any> {
     return this.http.get<any>(`${urlBase}/buscarSolicitudPorUuid`, { params: new HttpParams().set('solicitudUuid', solicitudUuid) });
   }
+
 }
