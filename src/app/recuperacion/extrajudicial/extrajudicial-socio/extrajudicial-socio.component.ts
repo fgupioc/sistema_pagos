@@ -191,6 +191,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
             document.body.removeChild(a);
           }, 3000);
         }
+
         this.spinner.hide();
       },
       err => {
