@@ -1278,3 +1278,7 @@ caption {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.btn.disabled, .btn:disabled {
+  cursor: no-drop;
+}

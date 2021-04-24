@@ -25,6 +25,8 @@ export class ExtrajudicialSolicitudCambioEstadoComponent implements OnInit {
   condiciones: TablaMaestra[] = [];
   ejecutivos: any[] = [];
 
+  expediendesSeleccionados: any = [];
+
   dtOptions: DataTables.Settings = CONST.DATATABLE_ES();
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
@@ -144,5 +146,25 @@ export class ExtrajudicialSolicitudCambioEstadoComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+
+  seleccionarExpediente(event: any, item: any, checkInput: HTMLInputElement) {
+    if (item.condicion != 'A') {
+      checkInput.checked = false;
+      return;
+    }
+    const index = this.expediendesSeleccionados.findIndex(i => i.codSolicitud == item.codSolicitud);
+
+    if(event.target.checked) {
+      if (index == -1) {
+        this.expediendesSeleccionados.push(item);
+      }
+    } else {
+      if (index >= 0){
+        this.expediendesSeleccionados = this.expediendesSeleccionados.filter(i => i.codSolicitud != item.codSolicitud);
+      }
+    }
+
   }
 }

@@ -93,33 +93,50 @@
 
 <div class="card">
     <div class="card-body">
-        <div class="table-responsive" *ngIf="solicitudes.length > 0">
-            <table datatable [dtOptions]="dtOptions"  class="table table-bordered table-hover">
-                <thead>
-                    <tr class="text-center">
-                        <th scope="col">#</th>
-                        <th scope="col">Gestor</th>
-                        <th scope="col">Solicitud</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Opciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="text-center" *ngFor="let item of solicitudes; let i = index">
-                        <th scope="row">{{ i+1 }}</th>
-                        <td>Franz Junior Gupioc Ventura</td>
-                        <td>{{ item.codSolicitud }}</td>
-                        <td>{{ item.fechaCreacion | date: 'dd-MM-yyyy' }}</td>
-                        <td>{{ item.condicionDescripcion }}</td>
-                        <td>
-                            <div class="btn-group">
-                                <button class="btn btn-sm btn-outline-info mr-2" [routerLink]="'/auth/recuperacion/extrajudicial/solicitudes/'+ item.uuid +'/socio'"><i class="fa fa-arrow-right"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="row">
+          <div class="col-12" >
+            <div class="form-group text-right">
+              <button [disabled]="expediendesSeleccionados.length == 0" class="btn btn-outline-primary">Asignar Gestor</button>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <div class="table-responsive" *ngIf="solicitudes.length > 0">
+                <table datatable [dtOptions]="dtOptions"  class="table table-bordered table-hover">
+                  <thead>
+                  <tr class="text-center">
+                    <th scope="col">#</th>
+                    <th scope="col">Gestor</th>
+                    <th scope="col">Solicitud</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Opciones</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr class="text-center" *ngFor="let item of solicitudes; let i = index">
+                    <th scope="row">
+                      <label class="switch switch-text switch-primary">
+                        <input #checkInput type="checkbox" class="switch-input" (change)="seleccionarExpediente($event, item, checkInput)" [disabled]="item.condicion != 'A'">
+                        <span class="switch-label" data-on="SI" data-off="NO"></span>
+                        <span class="switch-handle"></span>
+                      </label>
+                    </th>
+                    <td>Franz Junior Gupioc Ventura</td>
+                    <td>{{ item.codSolicitud }}</td>
+                    <td>{{ item.fechaCreacion | date: 'dd-MM-yyyy' }}</td>
+                    <td>{{ item.condicionDescripcion }}</td>
+                    <td>
+                      <div class="btn-group">
+                        <button class="btn btn-sm btn-outline-info mr-2" [routerLink]="'/auth/recuperacion/extrajudicial/solicitudes/'+ item.uuid +'/socio'"><i class="fa fa-arrow-right"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
     </div>
 </div>
