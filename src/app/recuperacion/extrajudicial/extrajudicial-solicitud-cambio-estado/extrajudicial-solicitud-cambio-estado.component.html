@@ -97,11 +97,12 @@
             <div class="col-12 col-md-6"></div>
             <div class="col-12 col-md-6" *ngIf="expediendesSeleccionados.length > 0">
                 <div class="input-group mb-3">
-                    <select class="form-control">
+                    <select class="form-control" [(ngModel)]="gestorSeleccionado">
                     <option value="">Gestores</option>
+                      <option *ngFor="let item of gestores" [value]="item.codUsuario">{{ item.alias }}</option>
                   </select>
                     <div class="input-group-append">
-                        <button (click)="asignarEjecutivo()" class="btn btn-outline-primary">Asignar Gestor</button>
+                        <button [disabled]="gestorSeleccionado.length==0" (click)="asignarEjecutivo()" class="btn btn-outline-primary">Asignar Gestor</button>
                     </div>
                 </div>
             </div>
@@ -112,7 +113,7 @@
                             <thead>
                                 <tr class="text-center">
                                     <th scope="col">#</th>
-                                    <th scope="col">Gestor</th>
+                                    <th scope="col">Gestor Cobranza</th>
                                     <th scope="col">Solicitud</th>
                                     <th scope="col">Fecha</th>
                                     <th scope="col">Estado</th>
@@ -122,11 +123,11 @@
                             <tbody>
                                 <tr class="text-center" *ngFor="let item of solicitudes; let i = index">
                                     <th scope="row">
-                                        <label class="switch switch-text switch-primary">
-                        <input #checkInput type="checkbox" class="switch-input" (change)="seleccionarExpediente($event, item, checkInput)" [disabled]="item.condicion != 'A'">
-                        <span class="switch-label" data-on="SI" data-off="NO"></span>
-                        <span class="switch-handle"></span>
-                      </label>
+                                        <label class="switch switch-text switch-primary" *ngIf="!item.gestorId">
+                                          <input #checkInput type="checkbox" class="switch-input" (change)="seleccionarExpediente($event, item, checkInput)" [disabled]="item.condicion != 'A'">
+                                          <span class="switch-label" data-on="SI" data-off="NO"></span>
+                                          <span class="switch-handle"></span>
+                                        </label>
                                     </th>
                                     <td>Franz Junior Gupioc Ventura</td>
                                     <td>{{ item.codSolicitud }}</td>

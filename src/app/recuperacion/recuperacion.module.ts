@@ -17,7 +17,6 @@ import {TreeviewModule} from 'ngx-treeview';
 import { ExtrajudicialSocioComponent } from './extrajudicial/extrajudicial-socio/extrajudicial-socio.component';
 import { QuillModule } from 'ngx-quill';
 import { GestionSocioRegistrarComponent } from './extrajudicial/componentes/gestion/gestion-socio-registrar/gestion-socio-registrar.component';
-import { GestoresNegocioModalComponent } from './extrajudicial/componentes/gestion/gestores-negocio-modal/gestores-negocio-modal.component';
 
 @NgModule({
   declarations: [
@@ -25,8 +24,7 @@ import { GestoresNegocioModalComponent } from './extrajudicial/componentes/gesti
     JudicialCarterasComponent,
     ExtrajudicialSolicitudCambioEstadoComponent,
     ExtrajudicialSocioComponent,
-    GestionSocioRegistrarComponent,
-    GestoresNegocioModalComponent
+    GestionSocioRegistrarComponent
   ],
   imports: [
     CommonModule,
@@ -52,7 +50,6 @@ import { GestoresNegocioModalComponent } from './extrajudicial/componentes/gesti
     QuillModule.forRoot()
   ],
   entryComponents: [
-    GestoresNegocioModalComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

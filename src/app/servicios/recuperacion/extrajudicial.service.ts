@@ -21,6 +21,10 @@ export class ExtrajudicialService {
     return this.http.get<any>(`${urlBase}/listar-carteras`);
   }
 
+  getEjecutivos(): Observable<any> {
+    return this.http.get<any>(`${urlBase}/ejecutivos`);
+  }
+
   registrarSolicitud(solicitud: Solicitud): Observable<any> {
     return this.http.post<any>(`${urlBase}/registrar-solicitud`, solicitud);
   }
@@ -89,5 +93,9 @@ export class ExtrajudicialService {
 
   generarExcelBusquedaPropiedadVehicularPorSocio(socioId: any): Observable<any> {
     return this.http.get(`${urlBase}/generar-excel-propiedad-vehicular-por-socio`, { responseType: 'arraybuffer', params: new HttpParams().set('socioId', socioId) });
+  }
+
+  asignarGestorExpedientes(gestorId: any, expedientes: any[]): Observable<any> {
+    return this.http.post<any>(`${urlBase}/asignar-gestor-expedientes`, expedientes, {params: new HttpParams().set('gestorId', gestorId)});
   }
 }

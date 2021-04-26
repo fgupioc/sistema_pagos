@@ -128,6 +128,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
       res => {
         if (res.exito) {
           this.toastr.success(res.mensaje);
+          this.router.navigateByUrl('/auth/recuperacion/extrajudicial/solicitudes');
         }
         this.spinner.hide();
       },
@@ -146,6 +147,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
       res => {
         if (res.exito) {
           this.toastr.success(res.mensaje);
+          this.router.navigateByUrl('/auth/recuperacion/extrajudicial/solicitudes');
         }
         this.spinner.hide();
       },

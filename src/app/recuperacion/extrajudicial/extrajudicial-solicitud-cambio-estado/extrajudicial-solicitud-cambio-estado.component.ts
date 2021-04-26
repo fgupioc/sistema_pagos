@@ -9,8 +9,9 @@ import { MaestroService } from '../../../servicios/sistema/maestro.service';
 import { TablaMaestra } from '../../../interfaces/tabla-maestra';
 import { AsignacionCarteraService } from '../../../servicios/asignacion-cartera.service';
 import {DataTableDirective} from "angular-datatables";
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { GestoresNegocioModalComponent } from '../componentes/gestion/gestores-negocio-modal/gestores-negocio-modal.component';
+import {ToastrService} from "ngx-toastr";
+
+1
 
 @Component({
   selector: 'app-extrajudicial-solicitud-cambio-estado',
@@ -26,22 +27,26 @@ export class ExtrajudicialSolicitudCambioEstadoComponent implements OnInit {
   dateDefault = moment(new Date()).format('YYYY-MM-DD');
   condiciones: TablaMaestra[] = [];
   ejecutivos: any[] = [];
-
+  gestores: any[] = [];
+  gestorSeleccionado = '';
   expediendesSeleccionados: any = [];
 
   dtOptions: DataTables.Settings = CONST.DATATABLE_ES();
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
+  search = false;
+
   constructor(
+    private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private extrajudicialService: ExtrajudicialService,
     private formBuilder: FormBuilder,
     private maestroService: MaestroService,
     private asignacionService: AsignacionCarteraService,
-    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
+    this.listarGestoresRecuperacion();
     this.loadCondicion();
     this.listarEjecutivos();
     this.loadSolicitudes('', '', '', '', '', '');
@@ -133,7 +138,7 @@ export class ExtrajudicialSolicitudCambioEstadoComponent implements OnInit {
       this.formGroupInvalid = true;
       return;
     }
-
+    this.search = true;
     this.loadSolicitudes(tipoBusqueda, numeroSolicitud, gestor, condicion, inicio, fin);
 
   }
@@ -169,17 +174,54 @@ export class ExtrajudicialSolicitudCambioEstadoComponent implements OnInit {
       }
     }
 
+    if(this.expediendesSeleccionados.length == 0)
+      this.gestorSeleccionado = '';
   }
 
   asignarEjecutivo() {
-    const modal = this.modalService.open(GestoresNegocioModalComponent);
-    modal.result.then(
-      this.closeModal.bind(this),
-      this.closeModal.bind(this),
+    if(this.expediendesSeleccionados.length == 0) {
+      this.toastr.warning("Debe de seleccionar almenos un expediente.");
+      return;
+    }
+    if(this.gestorSeleccionado.trim().length == 0) {
+      this.toastr.warning("Debe de seleccionar un gestor.");
+      return;
+    }
+    this.spinner.show();
+    this.extrajudicialService.asignarGestorExpedientes(this.gestorSeleccionado, this.expediendesSeleccionados).subscribe(
+      res => {
+        if(res.exito){
+          this.toastr.success(res.mensaje);
+          if(this.search){
+            this.buscar();
+          } else {
+            this.loadSolicitudes('', '', '', '', '', '');
+          }
+          this.gestorSeleccionado = '';
+          this.expediendesSeleccionados = [];
+        } else {
+          this.toastr.warning(res.mensaje);
+          this.spinner.hide();
+        }
+      },
+      err => {
+        console.error(err);
+        this.spinner.hide();
+      }
     );
   }
 
-  closeModal(data: any) {
-    console.log(data);
+  private listarGestoresRecuperacion() {
+    this.extrajudicialService.getEjecutivos().subscribe(
+      res => {
+        if (res.exito) {
+          this.gestores = res.objeto as any[];
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
+
 }

@@ -56,10 +56,10 @@
                 </quill-editor>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="solicitud">
             <div class="col-12">
-                <ngb-tabset [destroyOnHide]="false" [activeId]="1" (tabChange)="tabSeleccionado($event)">
-                    <ngb-tab title="Gestión" id="1">
+                <ngb-tabset [destroyOnHide]="false" [activeId]="2" (tabChange)="tabSeleccionado($event)">
+                    <ngb-tab title="Gestión" id="1" *ngIf="solicitud.gestorId">
                         <ng-template ngbTabContent>
                             <app-gestion-socio-registrar [telefonos]="socio.telefonos" [correos]="socio.correos" [direcciones]="socio.direcciones"></app-gestion-socio-registrar>
                         </ng-template>
@@ -265,9 +265,11 @@
                                                     <td style="text-align: left;">{{ item.archivoDescripcion }}</td>
                                                     <td class="text-center">
                                                         <span>{{ item.original ? 'SI' : 'NO' }}</span>
-                                                        <small *ngIf="item.original" style="display: block;" (click)="download(item.urlDisco, item.tipo)"><a href="javascript:;">VER</a></small>
                                                     </td>
-                                                    <td>{{ item.impresion ? 'SI' : 'NO' }}</td>
+                                                    <td>
+                                                      {{ item.impresion ? 'SI' : 'NO' }}
+                                                      <small *ngIf="item.impresion" style="display: block;" (click)="download(item.urlDisco, item.tipo)"><a href="javascript:;">VER</a></small>
+                                                    </td>
                                                     <td>
                                                         <span>{{ item.laserfich ? 'SI' : 'NO' }}</span><br>
                                                         <small *ngIf="item.laserfich"><a href="javascript:;">VER</a></small>
@@ -299,7 +301,7 @@
                             </div>
                         </ng-template>
                     </ngb-tab>
-                    <ngb-tab title="Propiedades" id="8">
+                    <ngb-tab title="Propiedades" id="8" *ngIf="solicitud.gestorId">
                         <ng-template ngbTabContent>
                             <ngb-accordion [closeOthers]="true" activeIds="static-2">
                                 <ngb-panel id="static-2">
