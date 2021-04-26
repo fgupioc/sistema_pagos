@@ -9,6 +9,8 @@ import { MaestroService } from '../../../servicios/sistema/maestro.service';
 import { TablaMaestra } from '../../../interfaces/tabla-maestra';
 import { AsignacionCarteraService } from '../../../servicios/asignacion-cartera.service';
 import {DataTableDirective} from "angular-datatables";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GestoresNegocioModalComponent } from '../componentes/gestion/gestores-negocio-modal/gestores-negocio-modal.component';
 
 @Component({
   selector: 'app-extrajudicial-solicitud-cambio-estado',
@@ -36,6 +38,7 @@ export class ExtrajudicialSolicitudCambioEstadoComponent implements OnInit {
     private formBuilder: FormBuilder,
     private maestroService: MaestroService,
     private asignacionService: AsignacionCarteraService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -166,5 +169,17 @@ export class ExtrajudicialSolicitudCambioEstadoComponent implements OnInit {
       }
     }
 
+  }
+
+  asignarEjecutivo() {
+    const modal = this.modalService.open(GestoresNegocioModalComponent);
+    modal.result.then(
+      this.closeModal.bind(this),
+      this.closeModal.bind(this),
+    );
+  }
+
+  closeModal(data: any) {
+    console.log(data);
   }
 }

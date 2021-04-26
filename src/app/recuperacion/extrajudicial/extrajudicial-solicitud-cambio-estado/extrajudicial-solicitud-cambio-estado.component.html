@@ -7,7 +7,7 @@
         <div class="row" [formGroup]="formGroup">
             <div class="col-12 col-md-4">
                 <div class="form-group">
-                    <label for="">Tipo</label>
+                    <label>Tipo</label>
                     <select class="form-control" formControlName="tipoBusqueda" (ngModelChange)="changeType($event)">
                                   <option value="1">N° Solicitud</option>
                                   <option value="2">Gestor</option>
@@ -21,7 +21,7 @@
                     <ng-container *ngIf="formGroup.controls.tipoBusqueda.value == '1'">
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="">Número de Solicitud</label>
+                                <label>Número de Solicitud</label>
                                 <input type="text" class="form-control" formControlName="numeroSolicitud" placeholder="000000000" maxlength="9" [ngClass]="{
                                               'is-invalid': numeroSolicitud.touched && numeroSolicitud.errors
                                               }">
@@ -34,7 +34,7 @@
                     <ng-container *ngIf="formGroup.controls.tipoBusqueda.value == '2'">
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="">Gestores</label>
+                                <label>Gestores</label>
                                 <select class="form-control" formControlName="gestor">
                                               <option value="">Seleccionar</option>
                                               <option *ngFor="let item of ejecutivos" [value]="item.codUsuario">{{ item.alias }}</option>
@@ -48,7 +48,7 @@
                     <ng-container *ngIf="formGroup.controls.tipoBusqueda.value == '3'">
                         <div class="col-12 col-md-6">
                             <div class="form-group">
-                                <label for="">Inicio</label>
+                                <label>Inicio</label>
                                 <input class="form-control" type="date" formControlName="inicio">
                                 <div class="invalid-feedback">
                                     <span *ngIf="formGroupInvalid">{{ formGroupMsj }}</span>
@@ -57,7 +57,7 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="form-group">
-                                <label for="">Fin</label>
+                                <label>Fin</label>
                                 <input class="form-control" type="date" formControlName="fin">
                                 <div class="invalid-feedback">
                                     <span *ngIf="formGroupInvalid">{{ formGroupMsj2 }}</span>
@@ -68,7 +68,7 @@
                     <ng-container *ngIf="formGroup.controls.tipoBusqueda.value == '4'">
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="">Estados</label>
+                                <label>Estados</label>
                                 <select class="form-control" formControlName="condicion">
                                                <option value="">Seleccionar</option>
                                               <option *ngFor="let item of condiciones" [value]="item.codItem">{{ item.descripcion }}</option>
@@ -94,49 +94,55 @@
 <div class="card">
     <div class="card-body">
         <div class="row">
-          <div class="col-12" >
-            <div class="form-group text-right">
-              <button [disabled]="expediendesSeleccionados.length == 0" class="btn btn-outline-primary">Asignar Gestor</button>
+            <div class="col-12 col-md-6"></div>
+            <div class="col-12 col-md-6" *ngIf="expediendesSeleccionados.length > 0">
+                <div class="input-group mb-3">
+                    <select class="form-control">
+                    <option value="">Gestores</option>
+                  </select>
+                    <div class="input-group-append">
+                        <button (click)="asignarEjecutivo()" class="btn btn-outline-primary">Asignar Gestor</button>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-12">
-            <div class="form-group">
-              <div class="table-responsive" *ngIf="solicitudes.length > 0">
-                <table datatable [dtOptions]="dtOptions"  class="table table-bordered table-hover">
-                  <thead>
-                  <tr class="text-center">
-                    <th scope="col">#</th>
-                    <th scope="col">Gestor</th>
-                    <th scope="col">Solicitud</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Opciones</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr class="text-center" *ngFor="let item of solicitudes; let i = index">
-                    <th scope="row">
-                      <label class="switch switch-text switch-primary">
+            <div class="col-12">
+                <div class="form-group">
+                    <div class="table-responsive" *ngIf="solicitudes.length > 0">
+                        <table datatable [dtOptions]="dtOptions" class="table table-bordered table-hover">
+                            <thead>
+                                <tr class="text-center">
+                                    <th scope="col">#</th>
+                                    <th scope="col">Gestor</th>
+                                    <th scope="col">Solicitud</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="text-center" *ngFor="let item of solicitudes; let i = index">
+                                    <th scope="row">
+                                        <label class="switch switch-text switch-primary">
                         <input #checkInput type="checkbox" class="switch-input" (change)="seleccionarExpediente($event, item, checkInput)" [disabled]="item.condicion != 'A'">
                         <span class="switch-label" data-on="SI" data-off="NO"></span>
                         <span class="switch-handle"></span>
                       </label>
-                    </th>
-                    <td>Franz Junior Gupioc Ventura</td>
-                    <td>{{ item.codSolicitud }}</td>
-                    <td>{{ item.fechaCreacion | date: 'dd-MM-yyyy' }}</td>
-                    <td>{{ item.condicionDescripcion }}</td>
-                    <td>
-                      <div class="btn-group">
-                        <button class="btn btn-sm btn-outline-info mr-2" [routerLink]="'/auth/recuperacion/extrajudicial/solicitudes/'+ item.uuid +'/socio'"><i class="fa fa-arrow-right"></i></button>
-                      </div>
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
+                                    </th>
+                                    <td>Franz Junior Gupioc Ventura</td>
+                                    <td>{{ item.codSolicitud }}</td>
+                                    <td>{{ item.fechaCreacion | date: 'dd-MM-yyyy' }}</td>
+                                    <td>{{ item.condicionDescripcion }}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-outline-info mr-2" [routerLink]="'/auth/recuperacion/extrajudicial/solicitudes/'+ item.uuid +'/socio'"><i class="fa fa-arrow-right"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
     </div>
 </div>
