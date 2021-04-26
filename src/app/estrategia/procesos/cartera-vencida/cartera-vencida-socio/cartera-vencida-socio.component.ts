@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { CreditoTemp } from '../../../../interfaces/credito-temp';
-import { SocioArchivo } from '../../../../interfaces/socio/socio-archivo';
-import { CONST } from '../../../../comun/CONST';
-import { TablaMaestra } from '../../../../interfaces/tabla-maestra';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AsignacionCarteraService } from '../../../../servicios/asignacion-cartera.service';
-import { ExtrajudicialService } from '../../../../servicios/recuperacion/extrajudicial.service';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { ToastrService } from 'ngx-toastr';
-import { MaestroService } from '../../../../servicios/sistema/maestro.service';
-import { FUNC } from '../../../../comun/FUNC';
-import { HttpEventType } from '@angular/common/http';
-import { Solicitud } from '../../../../interfaces/recuperacion/solicitud';
-import { SolicitudArchivos } from 'src/app/interfaces/recuperacion/solicitud-archivos';
+import {Component, OnInit} from '@angular/core';
+import {CreditoTemp} from '../../../../interfaces/credito-temp';
+import {SocioArchivo} from '../../../../interfaces/socio/socio-archivo';
+import {CONST} from '../../../../comun/CONST';
+import {TablaMaestra} from '../../../../interfaces/tabla-maestra';
+import {Router, ActivatedRoute} from '@angular/router';
+import {AsignacionCarteraService} from '../../../../servicios/asignacion-cartera.service';
+import {ExtrajudicialService} from '../../../../servicios/recuperacion/extrajudicial.service';
+import {NgxSpinnerService} from 'ngx-spinner';
+import {ToastrService} from 'ngx-toastr';
+import {MaestroService} from '../../../../servicios/sistema/maestro.service';
+import {FUNC} from '../../../../comun/FUNC';
+import {HttpEventType} from '@angular/common/http';
+import {Solicitud} from '../../../../interfaces/recuperacion/solicitud';
+import {SolicitudArchivos} from 'src/app/interfaces/recuperacion/solicitud-archivos';
 
 @Component({
   selector: 'app-cartera-vencida-socio',
@@ -38,6 +38,7 @@ export class CarteraVencidaSocioComponent implements OnInit {
   listaChekList: SolicitudArchivos[] = [];
   $index: string;
   category: any;
+  temporal: Solicitud;
 
   constructor(
     private router: Router,
@@ -48,10 +49,11 @@ export class CarteraVencidaSocioComponent implements OnInit {
     private toastr: ToastrService,
     private maestroService: MaestroService
   ) {
-    const { ejecutivoUuid, nroCredito } = activatedRoute.snapshot.params;
+    const {ejecutivoUuid, nroCredito} = activatedRoute.snapshot.params;
     this.ejecutivoUuid = ejecutivoUuid;
     this.nroCredito = nroCredito;
     this.loadCredito(ejecutivoUuid, nroCredito);
+
   }
 
   ngOnInit() {
@@ -84,7 +86,27 @@ export class CarteraVencidaSocioComponent implements OnInit {
         if (res.exito) {
           this.credito = res.credito;
           this.archivos = res.archivos;
-          //this.ejecutivo = res.ejecutivo;
+          this.temporal = res.solicitudTemp;
+          if(this.temporal) {
+            this.acontecimientos = this.temporal.acontecimientos;
+            this.comentarios = this.temporal.comentarios;
+            this.mensaje = this.temporal.mensaje;
+            if (this.temporal.solicitudArchivos) {
+              this.listaChekList.forEach(i => {
+                const item = this.temporal.solicitudArchivos.find(o => o.codigoArchivo == i.codigoArchivo);
+                if (item) {
+                  i.comentario = item.comentario;
+                  i.extension = item.extension;
+                  i.impresion = item.impresion;
+                  i.laserfich = item.laserfich;
+                  i.original = item.original;
+                  i.tipo = item.tipo;
+                  i.urlDisco = item.urlDisco;
+                  i.urlLaserfich = item.urlLaserfich;
+                }
+              });
+            }
+          }
         }
         this.spinner.hide();
       },
@@ -156,7 +178,7 @@ export class CarteraVencidaSocioComponent implements OnInit {
     this.extrajudicialService.descargarArchivo(item.path).subscribe(
       response => {
         const blob = new Blob([response],
-          { type: `${item.tipo};charset=UTF-8` });
+          {type: `${item.tipo};charset=UTF-8`});
         const objectUrl = (window.URL).createObjectURL(blob);
         if (navigator.msSaveBlob) {
           navigator.msSaveBlob(blob, item.path);
@@ -180,6 +202,9 @@ export class CarteraVencidaSocioComponent implements OnInit {
   }
 
   changeCheck(tipo: any, item: SolicitudArchivos, event: any) {
+    item.original = false;
+    item.impresion = false;
+    item.laserfich = false;
     item[tipo] = event.target.checked;
   }
 
@@ -234,7 +259,7 @@ export class CarteraVencidaSocioComponent implements OnInit {
     const times = new Date().getTime();
     this.extrajudicialService.generarFormatoTransferenciaExtrajudicial(times, this.acontecimientos, this.comentarios, this.nroCredito).subscribe(
       response => {
-        const blob = new Blob([response],{ type: 'application/pdf;charset=UTF-8' });
+        const blob = new Blob([response], {type: 'application/pdf;charset=UTF-8'});
         const objectUrl = (window.URL).createObjectURL(blob);
         const nombre = `${this.nroCredito}_documento-transferencia-recuperacion.pdf`;
         if (navigator.msSaveBlob) {
@@ -257,4 +282,29 @@ export class CarteraVencidaSocioComponent implements OnInit {
       }
     );
   }
+
+  guardarTemporal() {
+    const solicitud: Solicitud = {
+      codCreditoPrincipal: this.credito.id,
+      nroCredito: this.credito.nroCredito,
+      mensaje: this.mensaje || '',
+      solicitudArchivos: this.listaChekList,
+      acontecimientos: this.acontecimientos,
+      comentarios: this.comentarios
+    }
+    this.spinner.show();
+    this.extrajudicialService.guardarSolicitudTemporal(solicitud).subscribe(
+      res => {
+        if (res.exito) {
+          this.toastr.success(res.mensaje);
+        }
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
+      }
+    );
+  }
+
 }
+

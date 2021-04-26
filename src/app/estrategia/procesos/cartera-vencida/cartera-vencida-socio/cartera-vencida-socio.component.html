@@ -4,7 +4,7 @@
         <span *ngIf="!credito" class="card-title text-uppercase font-weight-bold">No se encontro registro</span>
         <div class="card-tools float-right">
             <button class="btn btn-sm btn-outline-primary mr-2" [disabled]="!mensaje" (click)="enviarSolicitud()">Enviar</button>
-            <button class="btn btn-sm btn-outline-success mr-2">Grabar</button>
+            <button class="btn btn-sm btn-outline-success mr-2" (click)="guardarTemporal()">Grabar</button>
             <button *ngIf="listaChekList.length > 0" class="btn btn-sm btn-outline-info mr-2"  (click)="descargarFormato()">Formato</button>
             <button type="button" class="btn btn-sm btn-outline-dark" routerLink="/auth/procesos/cartera-vencida">
               <i class="fa fa-arrow-left"></i> Regresar

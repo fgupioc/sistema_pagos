@@ -98,4 +98,12 @@ export class ExtrajudicialService {
   asignarGestorExpedientes(gestorId: any, expedientes: any[]): Observable<any> {
     return this.http.post<any>(`${urlBase}/asignar-gestor-expedientes`, expedientes, {params: new HttpParams().set('gestorId', gestorId)});
   }
+
+  guardarSolicitudTemporal(solicitud: any): Observable<any> {
+    return this.http.post<any>(`${urlBase}/guardar-solicitud-temporal`, solicitud);
+  }
+
+  obtenerSolicitudTemporalPorNroCredito(nroCredito: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/obtener-solicitudTemporal-por-credito`, {params: new HttpParams().set('nroCredito', nroCredito)});
+  }
 }
