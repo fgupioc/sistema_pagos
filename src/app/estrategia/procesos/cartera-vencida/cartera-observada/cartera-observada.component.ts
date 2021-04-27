@@ -157,6 +157,7 @@ export class CarteraObservadaComponent implements OnInit {
 
     const solicitud: Solicitud = {
       uuid: this.solicitud.uuid,
+      nroCredito: this.solicitud.nroCredito,
       socioId: this.credito.socioId,
       codCreditoPrincipal: this.credito.id,
       mensaje: this.mensaje,
@@ -165,7 +166,7 @@ export class CarteraObservadaComponent implements OnInit {
     }
 
     console.log(solicitud);
-
+return;
     this.spinner.show();
     this.extrajudicialService.levantarObservarSolicitudCobranza(solicitud).subscribe(
       res => {
@@ -180,6 +181,9 @@ export class CarteraObservadaComponent implements OnInit {
 
 
   changeCheck(tipo: any, item: SolicitudArchivos, event: any) {
+    item.original = false;
+    item.impresion = false;
+    item.laserfich = false;
     item[tipo] = event.target.checked;
   }
 

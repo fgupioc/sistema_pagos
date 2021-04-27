@@ -112,6 +112,7 @@ export class CreditoVencidoComponent implements OnInit {
 
     const solicitud: Solicitud = {
       socioId: this.credito.socioId,
+      nroCredito: this.nroCredito,
       codCreditoPrincipal: this.credito.id,
       mensaje: this.mensaje,
       ejecutivoId: this.ejecutivo.id,

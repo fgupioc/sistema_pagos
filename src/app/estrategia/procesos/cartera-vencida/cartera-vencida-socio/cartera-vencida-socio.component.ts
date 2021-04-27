@@ -149,6 +149,7 @@ export class CarteraVencidaSocioComponent implements OnInit {
 
     const solicitud: Solicitud = {
       socioId: this.credito.socioId,
+      nroCredito: this.nroCredito,
       codCreditoPrincipal: this.credito.id,
       mensaje: this.mensaje,
       ejecutivoId: this.credito.ejecutivoId,

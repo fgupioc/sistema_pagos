@@ -21,5 +21,5 @@ export interface Solicitud {
   solicitudArchivos: SolicitudArchivos[],
   acontecimientos?: string;
   comentarios?: string;
-  nroCredito?: string;
+  nroCredito: string;
 }
