@@ -157,7 +157,7 @@ export class CarteraVencidaSocioComponent implements OnInit {
       acontecimientos: this.acontecimientos,
       comentarios: this.comentarios
     }
-
+    
     this.spinner.show();
     this.extrajudicialService.registrarSolicitud(solicitud).subscribe(
       res => {
@@ -293,18 +293,27 @@ export class CarteraVencidaSocioComponent implements OnInit {
       acontecimientos: this.acontecimientos,
       comentarios: this.comentarios
     }
-    this.spinner.show();
-    this.extrajudicialService.guardarSolicitudTemporal(solicitud).subscribe(
-      res => {
-        if (res.exito) {
-          this.toastr.success(res.mensaje);
-        }
-        this.spinner.hide();
-      },
-      err => {
-        this.spinner.hide();
+
+    FUNC.modalDialog({
+      title: 'Guardar cambios',
+      confirmButtonText: 'Si, Guardar',
+      cancelButtonText: 'Cancelar',
+      showCancelButton: true,
+      funSuccess: () => {
+        this.spinner.show();
+        this.extrajudicialService.guardarSolicitudTemporal(solicitud).subscribe(
+          res => {
+            if (res.exito) {
+              this.toastr.success(res.mensaje);
+            }
+            this.spinner.hide();
+          },
+          err => {
+            this.spinner.hide();
+          }
+        );
       }
-    );
+    });
   }
 
 }

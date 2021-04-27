@@ -200,6 +200,7 @@ export class CarteraObservadaComponent implements OnInit {
       res => {
         if (res.exito) {
           this.toastr.success(res.mensaje);
+          this.router.navigateByUrl('/auth/procesos/cartera-observada');
         }
         this.spinner.hide();
       },

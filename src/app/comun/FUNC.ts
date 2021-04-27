@@ -2,6 +2,8 @@ import {isNullOrUndefined} from 'util';
 import * as moment from 'moment';
 import 'moment/locale/es';
 import {CONST} from './CONST';
+import Swal from "sweetalert2";
+import {SweetInfo} from "../interfaces/sweet-info";
 
 export class FUNC {
   static generateSlug(value: string) {
@@ -85,5 +87,22 @@ export class FUNC {
 
   static formatCurrency(value: any, toFixed = 2) {
     return (value).toFixed(toFixed).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  }
+
+  static modalDialog(info: SweetInfo){
+    Swal.fire({
+      title: info.title,
+      text: info.text,
+      icon: 'warning',
+      showCancelButton: info.showCancelButton,
+      confirmButtonText: info.confirmButtonText,
+      cancelButtonText: info.cancelButtonText
+    }).then((result) => {
+      if (result.value) {
+       info.funSuccess();
+      }else {
+        info.funCancel()
+      }
+    })
   }
 }
