@@ -46,6 +46,10 @@ export class CarteraObservadaComponent implements OnInit {
   archivos: any[] = [];
   credito: CreditoTemp;
   listaChekList: SolicitudArchivos[] = [];
+  acontecimientos = '';
+  comentarios = '';
+  temporal: Solicitud;
+  nroCredito: string;
 
   constructor(
     private router: Router,
@@ -95,7 +99,33 @@ export class CarteraObservadaComponent implements OnInit {
           this.archivos = res.archivos;
           this.seguimientos = res.seguimientos;
           this.solicitudArchivos = res.solicitudArchivos;
-          this.credito = this.creditos.find(i => i.id = this.solicitud.codCreditoPrincipal);
+          this.credito = res.creditoPrincipal;
+          this.temporal = res.solicitudTemp;
+          this.nroCredito = this.credito.nroCredito;
+          this.acontecimientos = this.solicitud.acontecimientos;
+          this.comentarios = this.solicitud.comentarios;
+
+          if(this.temporal) {
+            this.acontecimientos = this.temporal.acontecimientos;
+            this.comentarios  =  this.temporal.comentarios;
+            this.mensaje = this.temporal.mensaje;
+            if (this.temporal.solicitudArchivos) {
+              this.solicitudArchivos.forEach(i => {
+                const item = this.temporal.solicitudArchivos.find(o => o.codigoArchivo == i.codigoArchivo);
+                if (item) {
+                  i.comentario = item.comentario;
+                  i.extension = item.extension;
+                  i.impresion = item.impresion;
+                  i.laserfich = item.laserfich;
+                  i.original = item.original;
+                  i.tipo = item.tipo;
+                  i.urlDisco = item.urlDisco;
+                  i.urlLaserfich = item.urlLaserfich;
+                }
+              });
+            }
+          }
+
           this.refreshDatatable();
         }
         this.spinner.hide();
@@ -157,7 +187,7 @@ export class CarteraObservadaComponent implements OnInit {
 
     const solicitud: Solicitud = {
       uuid: this.solicitud.uuid,
-      nroCredito: this.solicitud.nroCredito,
+      nroCredito: this.credito.nroCredito,
       socioId: this.credito.socioId,
       codCreditoPrincipal: this.credito.id,
       mensaje: this.mensaje,
@@ -165,8 +195,6 @@ export class CarteraObservadaComponent implements OnInit {
       solicitudArchivos: this.solicitudArchivos
     }
 
-    console.log(solicitud);
-return;
     this.spinner.show();
     this.extrajudicialService.levantarObservarSolicitudCobranza(solicitud).subscribe(
       res => {
@@ -230,5 +258,59 @@ return;
       //this will return an ARRAY of File object
       console.log(files);
     }
+  }
+
+
+  descargarFormato() {
+    this.spinner.show();
+    const times = new Date().getTime();
+    this.extrajudicialService.generarFormatoTransferenciaExtrajudicial(times, this.acontecimientos, this.comentarios, this.nroCredito).subscribe(
+      response => {
+        const blob = new Blob([response], {type: 'application/pdf;charset=UTF-8'});
+        const objectUrl = (window.URL).createObjectURL(blob);
+        const nombre = `${this.nroCredito}_documento-transferencia-recuperacion.pdf`;
+        if (navigator.msSaveBlob) {
+          navigator.msSaveBlob(blob, nombre);
+        } else {
+          const a = document.createElement('a');
+          a.href = objectUrl;
+          a.target = '_blank';
+          a.download = nombre;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(() => {
+            document.body.removeChild(a);
+          }, 3000);
+        }
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
+      }
+    );
+  }
+
+  guardarTemporal() {
+    const solicitud: Solicitud = {
+      codCreditoPrincipal: this.credito.id,
+      nroCredito: this.credito.nroCredito,
+      mensaje: this.mensaje || '',
+      solicitudArchivos: this.solicitudArchivos,
+      acontecimientos: this.acontecimientos,
+      comentarios: this.comentarios
+    }
+
+    this.spinner.show();
+    this.extrajudicialService.guardarSolicitudTemporal(solicitud).subscribe(
+      res => {
+        if (res.exito) {
+          this.toastr.success(res.mensaje);
+        }
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
+      }
+    );
   }
 }
