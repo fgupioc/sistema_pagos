@@ -13,20 +13,20 @@ export class EnviarSmsComponent implements OnInit {
   formSMS: FormGroup;
   @Input() showPhones: any[] = [];
   @Output() hideNewSMS = new EventEmitter<boolean>();
+  @Output() emitirSMS = new EventEmitter<any>();
 
   constructor(
     public auth: AutenticacionService,
     private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {
   }
 
   ngOnInit() {
-
     this.formSMS = this.formBuilder.group({
       telefono: ['', [Validators.required]],
-      mensaje: ['', [Validators.required, Validators.maxLength(150)]],
+      mensaje: ['', [Validators.required, Validators.maxLength(145)]],
     });
   }
 
@@ -45,7 +45,6 @@ export class EnviarSmsComponent implements OnInit {
     }
 
     const { telefono, mensaje } = this.formSMS.getRawValue();
-    console.log(telefono);
-    console.log(mensaje);
+    this.emitirSMS.emit({telefono, mensaje});
   }
 }

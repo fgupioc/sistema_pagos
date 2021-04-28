@@ -1,4 +1,11 @@
-import { Component, OnInit, ɵSWITCH_CHANGE_DETECTOR_REF_FACTORY__POST_R3__, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ɵSWITCH_CHANGE_DETECTOR_REF_FACTORY__POST_R3__,
+  Input,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { TablaMaestra } from '../../../../../interfaces/tabla-maestra';
 import { AutenticacionService } from '../../../../../servicios/seguridad/autenticacion.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -22,15 +29,11 @@ export class GestionSocioRegistrarComponent implements OnInit {
   @Input() telefonos: Telefono[] = [];
   @Input() correos: Email[] = [];
   @Input() direcciones: Direccion[] = [];
+  @Output() enviarSMS = new EventEmitter<any>();
 
   form: FormGroup;
   formPlanPago: FormGroup;
   formRegistrarAcuerdo: FormGroup;
-  formTarea: FormGroup;
-  formTelefono: FormGroup;
-  formEmail: FormGroup;
-  formDireccion: FormGroup;
-  formWhatsapp: FormGroup;
 
   gestiones: TablaMaestra[] = [];
   respuestas: TablaMaestra[] = [];
@@ -56,8 +59,7 @@ export class GestionSocioRegistrarComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
     private tablaMaestraService: MaestroService,
-    private eventosService: EventosService,
-    private modalService: NgbModal
+
   ) { }
 
   ngOnInit() {
