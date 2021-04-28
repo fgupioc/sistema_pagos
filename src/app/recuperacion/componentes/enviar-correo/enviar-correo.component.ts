@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AutenticacionService } from '../../../servicios/seguridad/autenticacion.service';
+import { CONST } from '../../../comun/CONST';
 
 @Component({
   selector: 'app-enviar-correo',
@@ -12,6 +13,7 @@ export class EnviarCorreoComponent implements OnInit {
   @Output() hideNewEmail = new EventEmitter<boolean>();
   formCorreo: FormGroup;
   $body: string;
+  config = CONST.C_CONF_EDITOR;
 
   constructor(
     public auth: AutenticacionService,
@@ -19,7 +21,8 @@ export class EnviarCorreoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.$body = `\n${this.auth.loggedUser.alias}\n${this.auth.loggedUser.email}\nEjecutivo de Negocio.`;
+    this.$body = `<p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p>${this.auth.loggedUser.alias}</p><p>${this.auth.loggedUser.email} </p><p>Ejecutivo de Negocio.< /p>`;
+
     this.formCorreo = this.formBuilder.group({
       asunto: ['', [Validators.required]],
       correo: ['', [Validators.required]],

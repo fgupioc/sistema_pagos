@@ -46,6 +46,9 @@ export class GestionSocioRegistrarComponent implements OnInit {
   dateDefault = moment(new Date()).format('YYYY-MM-DD');
   errors: string[] = [];
   showNewEmail = false;
+  showNewWhatsapp = false;
+  showNewSMS = false;
+
   constructor(
     public auth: AutenticacionService,
     private router: Router,

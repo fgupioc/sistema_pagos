@@ -14,19 +14,21 @@
             <input Uppercase class="form-control" type="text" formControlName="asunto">
         </div>
     </div>
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-md-4 mt-4">
         <div class="form-group">
-            <br>
-            <br>
-            <label class="cursor-pointer">
-              <input type="checkbox" formControlName="url"> Adjuntar URL Self Service
-            </label>
+            <label class="switch switch-text switch-primary">
+                <input type="checkbox" class="switch-input" formControlName="url">
+                <span class="switch-label" data-on="SI" data-off="NO"></span>
+                <span class="switch-handle"></span>
+            </label> Adjuntar URL Self Service
         </div>
+
     </div>
     <div class="col-12">
         <div class="form-group">
             <label>Cuerpo</label>
-            <textarea class="form-control" rows="4" formControlName="mensaje"></textarea>
+            <quill-editor [styles]="{height: '200px'}" placeholder="Observación" [modules]="config" formControlName="mensaje" required>
+            </quill-editor>
         </div>
     </div>
     <div class="col-12">

@@ -1,13 +1,13 @@
 <div class="row other-btns mb-3">
     <div class="col-12">
         <div class="form-group">
-            <a class="btn btn-social btn-instagram mr-4">
+            <a class="btn btn-social btn-instagram mr-4" (click)="showNewEmail = false; showNewWhatsapp = false; showNewSMS = true">
                 <i class="fa fa-commenting"></i> Enviar SMS
             </a>
-            <a class="btn btn-social btn-linkedin mr-4" (click)="showNewEmail = true">
+            <a class="btn btn-social btn-linkedin mr-4" (click)="showNewEmail = true; showNewWhatsapp = false; showNewSMS = false">
                 <i class="fa fa-envelope-o"></i> Enviar Correo
             </a>
-            <a class="btn btn-social btn-whatsapp mr-4">
+            <a class="btn btn-social btn-whatsapp mr-4" (click)="showNewEmail = false; showNewWhatsapp = true; showNewSMS = false">
                 <i class="fa fa-whatsapp"></i> Enviar Whatsapp
             </a>
 
@@ -16,6 +16,12 @@
     <div class="col-12">
         <div class="container-works mt-2" *ngIf="showNewEmail">
             <app-enviar-correo [showEmails]="showEmails" (hideNewEmail)="showNewEmail = $event"></app-enviar-correo>
+        </div>
+        <div class="container-works mt-2" *ngIf="showNewWhatsapp">
+            <app-enviar-whatsapp [showPhones]="showPhones" (hideNewWhatsapp)="showNewWhatsapp = $event"></app-enviar-whatsapp>
+        </div>
+        <div class="container-works mt-2" *ngIf="showNewSMS">
+            <app-enviar-sms [showPhones]="showPhones" (hideNewSMS)="showNewSMS = $event"></app-enviar-sms>
         </div>
     </div>
 </div>

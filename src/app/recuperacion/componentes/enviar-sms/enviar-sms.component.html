@@ -1,1 +1,33 @@
-<p>enviar-sms works!</p>
+<div class="row" [formGroup]="formSMS">
+    <div class="col-12 col-md-4">
+        <div class="form-group">
+            <label>Seleccione Número</label>
+            <select class="form-control" formControlName="telefono" [ngClass]=" { 'is-invalid': telefono.invalid && (telefono.dirty || telefono.touched)}">
+              <option value="">Seleccione</option>
+              <option *ngFor="let item of showPhones" [value]="item.numero">{{ item.numero }}</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)">
+                <span *ngIf="telefono.errors.required"> El campo número es obligatorio. <br></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="form-group">
+            <label>Cuerpo</label>
+
+            <textarea class="form-control" rows="4" formControlName="mensaje" [ngClass]=" { 'is-invalid': mensaje.invalid && (mensaje.dirty || mensaje.touched)}"></textarea>
+
+            <div class="invalid-feedback" *ngIf="mensaje.invalid && (mensaje.dirty || mensaje.touched)">
+                <span *ngIf="mensaje.errors.required"> El campo mensaje es obligatorio. <br></span>
+                <span *ngIf="mensaje.errors.maxlength"> El campo mensaje solo acepta hasta 150 caracteres.<br></span>
+            </div>
+
+        </div>
+        <div class="col-12">
+            <div class="form-group text-center mt-2">
+                <button class="btn btn-sm btn-primary mr-2" (click)="envirMensaje()" [disabled]="formSMS.invalid">Enviar</button>
+                <button class="btn btn-sm btn-danger" (click)="cancelar()">Cancelar</button>
+            </div>
+        </div>
+    </div>

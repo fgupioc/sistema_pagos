@@ -87,5 +87,5 @@ export class FUNC {
   static formatCurrency(value: any, toFixed = 2) {
     return (value).toFixed(toFixed).replace(/\d(?=(\d{3})+\.)/g, '$&,');
   }
-  
+
 }
