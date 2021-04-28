@@ -248,7 +248,9 @@ export class ExtrajudicialSocioComponent implements OnInit {
       this.spinner.show();
       this.extrajudicialService.enviarSMS(noty).subscribe(
         res => {
-          console.log(res);
+          if (res.exito) {
+            this.toastr.success(res.mensaje);
+          }
           this.spinner.hide();
         },
         err => this.spinner.hide()
