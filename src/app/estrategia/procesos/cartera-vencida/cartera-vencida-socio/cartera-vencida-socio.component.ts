@@ -13,6 +13,7 @@ import {FUNC} from '../../../../comun/FUNC';
 import {HttpEventType} from '@angular/common/http';
 import {Solicitud} from '../../../../interfaces/recuperacion/solicitud';
 import {SolicitudArchivos} from 'src/app/interfaces/recuperacion/solicitud-archivos';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-cartera-vencida-socio',
@@ -87,7 +88,7 @@ export class CarteraVencidaSocioComponent implements OnInit {
           this.credito = res.credito;
           this.archivos = res.archivos;
           this.temporal = res.solicitudTemp;
-          if(this.temporal) {
+          if (this.temporal) {
             this.acontecimientos = this.temporal.acontecimientos;
             this.comentarios = this.temporal.comentarios;
             this.mensaje = this.temporal.mensaje;
@@ -157,21 +158,32 @@ export class CarteraVencidaSocioComponent implements OnInit {
       acontecimientos: this.acontecimientos,
       comentarios: this.comentarios
     }
-    
-    this.spinner.show();
-    this.extrajudicialService.registrarSolicitud(solicitud).subscribe(
-      res => {
-        if (res.exito) {
-          this.toastr.success(res.mensaje);
-          this.router.navigateByUrl(`/auth/procesos/cartera-vencida`);
-          this.spinner.hide();
-        } else {
-          this.toastr.warning(res.mensaje);
-          this.spinner.hide();
-        }
-      },
-      err => this.spinner.hide()
-    );
+
+    Swal.fire({
+      title: '¿Enviar Expediente a recuperaciones?',
+      text: '',
+      icon: 'question',
+      confirmButtonText: 'Si, Enviar',
+      cancelButtonText: 'Cancelar',
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.value) {
+        this.spinner.show();
+        this.extrajudicialService.registrarSolicitud(solicitud).subscribe(
+          res => {
+            if (res.exito) {
+              this.toastr.success(res.mensaje);
+              this.router.navigateByUrl(`/auth/procesos/cartera-vencida`);
+              this.spinner.hide();
+            } else {
+              this.toastr.warning(res.mensaje);
+              this.spinner.hide();
+            }
+          },
+          err => this.spinner.hide()
+        );
+      }
+    });
   }
 
   download(item: SocioArchivo) {
@@ -294,12 +306,15 @@ export class CarteraVencidaSocioComponent implements OnInit {
       comentarios: this.comentarios
     }
 
-    FUNC.modalDialog({
+    Swal.fire({
       title: 'Guardar cambios',
+      text: '',
+      icon: 'warning',
       confirmButtonText: 'Si, Guardar',
       cancelButtonText: 'Cancelar',
       showCancelButton: true,
-      funSuccess: () => {
+    }).then((result) => {
+      if (result.value) {
         this.spinner.show();
         this.extrajudicialService.guardarSolicitudTemporal(solicitud).subscribe(
           res => {
