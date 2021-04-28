@@ -20,7 +20,7 @@ registerLocaleData(localePE, 'es-PE');
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

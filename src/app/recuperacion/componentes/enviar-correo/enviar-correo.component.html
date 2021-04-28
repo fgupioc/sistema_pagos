@@ -1,0 +1,38 @@
+<div class="row" [formGroup]="formCorreo">
+    <div class="col-12 col-md-4">
+        <div class="form-group">
+            <label>Seleccione Correo</label>
+            <select class="form-control" formControlName="correo">
+              <option value="">Seleccione</option>
+              <option *ngFor="let item of showEmails" [value]="item.email">{{ item.email }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-12 col-md-4">
+        <div class="form-group">
+            <label>Asunto</label>
+            <input Uppercase class="form-control" type="text" formControlName="asunto">
+        </div>
+    </div>
+    <div class="col-12 col-md-4">
+        <div class="form-group">
+            <br>
+            <br>
+            <label class="cursor-pointer">
+              <input type="checkbox" formControlName="url"> Adjuntar URL Self Service
+            </label>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-group">
+            <label>Cuerpo</label>
+            <textarea class="form-control" rows="4" formControlName="mensaje"></textarea>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-group text-center mt-2">
+            <button class="btn btn-sm btn-primary mr-2" [disabled]="formCorreo.invalid">Enviar</button>
+            <button class="btn btn-sm btn-danger" (click)="ocultar()">Cancelar</button>
+        </div>
+    </div>
+</div>

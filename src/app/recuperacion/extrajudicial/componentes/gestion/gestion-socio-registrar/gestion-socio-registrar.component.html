@@ -1,3 +1,24 @@
+<div class="row other-btns mb-3">
+    <div class="col-12">
+        <div class="form-group">
+            <a class="btn btn-social btn-instagram mr-4">
+                <i class="fa fa-commenting"></i> Enviar SMS
+            </a>
+            <a class="btn btn-social btn-linkedin mr-4" (click)="showNewEmail = true">
+                <i class="fa fa-envelope-o"></i> Enviar Correo
+            </a>
+            <a class="btn btn-social btn-whatsapp mr-4">
+                <i class="fa fa-whatsapp"></i> Enviar Whatsapp
+            </a>
+
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="container-works mt-2" *ngIf="showNewEmail">
+            <app-enviar-correo [showEmails]="showEmails" (hideNewEmail)="showNewEmail = $event"></app-enviar-correo>
+        </div>
+    </div>
+</div>
 <div [formGroup]="form">
     <div class="row">
         <div class="col-12 col-md-6">

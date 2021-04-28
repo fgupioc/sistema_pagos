@@ -17,6 +17,9 @@ import {TreeviewModule} from 'ngx-treeview';
 import { ExtrajudicialSocioComponent } from './extrajudicial/extrajudicial-socio/extrajudicial-socio.component';
 import { QuillModule } from 'ngx-quill';
 import { GestionSocioRegistrarComponent } from './extrajudicial/componentes/gestion/gestion-socio-registrar/gestion-socio-registrar.component';
+import { EnviarWhatsappComponent } from './componentes/enviar-whatsapp/enviar-whatsapp.component';
+import { EnviarSmsComponent } from './componentes/enviar-sms/enviar-sms.component';
+import { EnviarCorreoComponent } from './componentes/enviar-correo/enviar-correo.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,10 @@ import { GestionSocioRegistrarComponent } from './extrajudicial/componentes/gest
     JudicialCarterasComponent,
     ExtrajudicialSolicitudCambioEstadoComponent,
     ExtrajudicialSocioComponent,
-    GestionSocioRegistrarComponent
+    GestionSocioRegistrarComponent,
+    EnviarWhatsappComponent,
+    EnviarSmsComponent,
+    EnviarCorreoComponent
   ],
   imports: [
     CommonModule,
@@ -50,6 +56,8 @@ import { GestionSocioRegistrarComponent } from './extrajudicial/componentes/gest
     QuillModule.forRoot()
   ],
   entryComponents: [
+    EnviarWhatsappComponent,
+    EnviarSmsComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

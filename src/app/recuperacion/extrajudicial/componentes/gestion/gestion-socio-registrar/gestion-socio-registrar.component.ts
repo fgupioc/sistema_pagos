@@ -27,7 +27,6 @@ export class GestionSocioRegistrarComponent implements OnInit {
   formPlanPago: FormGroup;
   formRegistrarAcuerdo: FormGroup;
   formTarea: FormGroup;
-  formCorreo: FormGroup;
   formTelefono: FormGroup;
   formEmail: FormGroup;
   formDireccion: FormGroup;
@@ -46,7 +45,7 @@ export class GestionSocioRegistrarComponent implements OnInit {
 
   dateDefault = moment(new Date()).format('YYYY-MM-DD');
   errors: string[] = [];
-
+  showNewEmail = false;
   constructor(
     public auth: AutenticacionService,
     private router: Router,
@@ -109,7 +108,7 @@ export class GestionSocioRegistrarComponent implements OnInit {
   listarTiposContactos() {
     this.tablaMaestraService.listarTiposContactos().subscribe(
       res => {
-        this.tiposContacto = res.filter(i => i.codItem != '5');
+        this.tiposContacto = res.filter(i => i.codItem == '1' || i.codItem == '4' );
       },
       error => console.log(error)
     );
