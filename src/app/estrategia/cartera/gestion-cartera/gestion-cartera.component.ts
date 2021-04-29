@@ -65,10 +65,12 @@ export class GestionCarteraComponent implements OnInit {
   validarDesde() {
     this.formGestion.controls.hasta.setValue(0);
     const desde = Number(this.formGestion.controls.desde.value);
+
     if (this.create) {
       if (this.gestiones.length > 0) {
         let flag = true;
         this.gestiones.forEach(v => {
+          console.log(desde +" <= "+ v.hasta);
           if (desde <= v.hasta) {
             flag = false;
           }

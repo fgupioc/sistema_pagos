@@ -7,8 +7,8 @@ import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { CONST } from 'src/app/comun/CONST';
-import { SocioArchivo } from '../../../interfaces/socio/socio-archivo';
 import { SolicitudArchivos } from '../../../interfaces/recuperacion/solicitud-archivos';
+import {EnvioNotificacion} from "../../../interfaces/envio-notificacion";
 
 @Component({
   selector: 'app-extrajudicial-socio',
@@ -25,6 +25,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
   solicitud: any;
   mensaje: string;
   config = CONST.C_CONF_EDITOR;
+  creditoPrincipal: any;
 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -63,6 +64,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
           this.archivos = res.archivos;
           this.seguimientos = res.seguimientos;
           this.solicitudArchivos = res.solicitudArchivos;
+          this.creditoPrincipal = res.creditoPrincipal;
           this.buscarPropiedades(this.socio.id);
           this.refreshDatatable();
         }
@@ -230,5 +232,29 @@ export class ExtrajudicialSocioComponent implements OnInit {
         this.spinner.hide();
       }
     );
+  }
+
+  enviarSMS(data: any) {
+    if (data){
+      const {telefono, mensaje} = data;
+      const noty: EnvioNotificacion = {
+        telefono: telefono,
+        mensaje: mensaje,
+        codPersona: this.creditoPrincipal.id,
+        creditoId: this.creditoPrincipal.socioId,
+        asignacionId: this.solicitud.id,
+        numeroDia: this.creditoPrincipal.diasAtraso
+      }
+      this.spinner.show();
+      this.extrajudicialService.enviarSMS(noty).subscribe(
+        res => {
+          if (res.exito) {
+            this.toastr.success(res.mensaje);
+          }
+          this.spinner.hide();
+        },
+        err => this.spinner.hide()
+      );
+    }
   }
 }

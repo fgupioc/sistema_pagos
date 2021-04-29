@@ -31,7 +31,7 @@
           <div class="col-6 col-md-3">
             <div class="form-group">
               <label>Desde</label>
-              <input NumberInteger type="text" class="form-control" (change)="validarDesde()" formControlName="desde" [ngClass]="
+              <input NumberInteger type="text" class="form-control" formControlName="desde" [ngClass]="
                                     {
                                     'is-invalid': formGestion.controls['desde'].touched && formGestion.controls['desde'].errors,
                                     'is-valid': formGestion.controls['desde'].touched && !formGestion.controls['desde'].errors

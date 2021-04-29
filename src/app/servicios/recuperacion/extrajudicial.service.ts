@@ -43,11 +43,11 @@ export class ExtrajudicialService {
   }
 
   buscarDetalleSolicitud(uuid: any): Observable<any> {
-    return this.http.get<any>(`${urlBase}/detalle-solicitud`, { params: new HttpParams().set('uuid', uuid) });
+    return this.http.get<any>(`${urlBase}/detalle-solicitud`, {params: new HttpParams().set('uuid', uuid)});
   }
 
   buscarInformacionSocio(uuid: any, id: any): Observable<any> {
-    return this.http.get<any>(`${urlBase}/buscar-informacion-socio`, { params: new HttpParams().set('uuid', uuid).set('id', id) });
+    return this.http.get<any>(`${urlBase}/buscar-informacion-socio`, {params: new HttpParams().set('uuid', uuid).set('id', id)});
   }
 
   subirArchivo(archivo: File, socioId: any, fileName: any, fileExtension: any, type: any) {
@@ -58,21 +58,21 @@ export class ExtrajudicialService {
     formData.append('fileExtension', fileExtension);
     formData.append('type', type);
 
-    const req = new HttpRequest('POST', `${urlBase}/upload-file`, formData, { reportProgress: true });
+    const req = new HttpRequest('POST', `${urlBase}/upload-file`, formData, {reportProgress: true});
 
     return this.http.request(req);
   }
 
   descargarArchivo(fileName: any): Observable<any> {
-    return this.http.get(`${urlBase}/dowload-file/${fileName}`, { responseType: 'arraybuffer' });
+    return this.http.get(`${urlBase}/dowload-file/${fileName}`, {responseType: 'arraybuffer'});
   }
 
   aceptarSolicitudExtrajudicial(uuid: any, msj: any): Observable<any> {
-    return this.http.post<any>(`${urlBase}/aceptar-solicitud-extrajudicial`, {}, { params: new HttpParams().set('uuid', uuid).set('msj', msj) });
+    return this.http.post<any>(`${urlBase}/aceptar-solicitud-extrajudicial`, {}, {params: new HttpParams().set('uuid', uuid).set('msj', msj)});
   }
 
   observarSolicitudExtrajudicial(uuid: any, msj: any): Observable<any> {
-    return this.http.post<any>(`${urlBase}/observar-solicitud-extrajudicial`, {}, { params: new HttpParams().set('uuid', uuid).set('msj', msj) });
+    return this.http.post<any>(`${urlBase}/observar-solicitud-extrajudicial`, {}, {params: new HttpParams().set('uuid', uuid).set('msj', msj)});
   }
 
   levantarObservarSolicitudCobranza(solicitud: any): Observable<any> {
@@ -80,19 +80,28 @@ export class ExtrajudicialService {
   }
 
   generarFormatoTransferenciaExtrajudicial(times: any, acontecimientos, comentarios, nroCredito): Observable<any> {
-    return this.http.get(`${urlBase}/generar-formato-transferencia-recuperacion`, { responseType: 'arraybuffer', params: new HttpParams().set('times', times).set('acontecimiento', acontecimientos).set('comentarios', comentarios).set('codCredito', nroCredito) });
+    return this.http.get(`${urlBase}/generar-formato-transferencia-recuperacion`, {
+      responseType: 'arraybuffer',
+      params: new HttpParams().set('times', times).set('acontecimiento', acontecimientos).set('comentarios', comentarios).set('codCredito', nroCredito)
+    });
   }
 
   buscarPropiedadesPorSocio(socioId: any): Observable<any> {
-    return this.http.get<any>(`${urlBase}/buscarPropiedadesPorSocio`, { params: new HttpParams().set('socioId', socioId) });
+    return this.http.get<any>(`${urlBase}/buscarPropiedadesPorSocio`, {params: new HttpParams().set('socioId', socioId)});
   }
 
   generarExcelBusquedaPropiedadInmueblePorSocio(socioId: any): Observable<any> {
-    return this.http.get(`${urlBase}/generar-excel-propiedad-inmueble-por-socio`, { responseType: 'arraybuffer', params: new HttpParams().set('socioId', socioId) });
+    return this.http.get(`${urlBase}/generar-excel-propiedad-inmueble-por-socio`, {
+      responseType: 'arraybuffer',
+      params: new HttpParams().set('socioId', socioId)
+    });
   }
 
   generarExcelBusquedaPropiedadVehicularPorSocio(socioId: any): Observable<any> {
-    return this.http.get(`${urlBase}/generar-excel-propiedad-vehicular-por-socio`, { responseType: 'arraybuffer', params: new HttpParams().set('socioId', socioId) });
+    return this.http.get(`${urlBase}/generar-excel-propiedad-vehicular-por-socio`, {
+      responseType: 'arraybuffer',
+      params: new HttpParams().set('socioId', socioId)
+    });
   }
 
   asignarGestorExpedientes(gestorId: any, expedientes: any[]): Observable<any> {
@@ -105,5 +114,9 @@ export class ExtrajudicialService {
 
   obtenerSolicitudTemporalPorNroCredito(nroCredito: any): Observable<any> {
     return this.http.get<any>(`${urlBase}/obtener-solicitudTemporal-por-credito`, {params: new HttpParams().set('nroCredito', nroCredito)});
+  }
+
+  enviarSMS(noty: any): Observable<any> {
+    return this.http.post<any>(`${urlBase}/enviar-sms`, noty);
   }
 }
