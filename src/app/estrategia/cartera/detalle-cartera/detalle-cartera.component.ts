@@ -421,11 +421,15 @@ export class DetalleCarteraComponent implements OnInit {
     const seleced: Seleccionado = {};
     seleced.selectedOptionsIds = [];
     if (items.length == 1) {
-      items.forEach(v => {
-        seleced.listaCampos = v.codCampo;
-        seleced.valorInicial = v.desde;
-        seleced.valorFinal = v.hasta;
-      });
+      if (items[0].desde) {
+        seleced.listaCampos = items[0].codCampo;
+        seleced.valorInicial = items[0].desde;
+        seleced.valorFinal = items[0].hasta;
+      } else {
+        seleced.listaCampos = items[0].codCampo;
+        seleced.selectedOptionsIds.push(items[0].valor);
+      }
+
     } else {
       items.forEach(v => {
         seleced.listaCampos = v.codCampo;
