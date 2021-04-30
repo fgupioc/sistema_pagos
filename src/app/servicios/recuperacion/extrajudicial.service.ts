@@ -123,4 +123,12 @@ export class ExtrajudicialService {
   enviarWhatsApp(noty: any): Observable<any> {
     return this.http.post<any>(`${urlBase}/enviar-whatsapp`, noty);
   }
+
+  enviarCorreo(noty: any): Observable<any> {
+    return this.http.post<any>(`${urlBase}/enviar-email`, noty);
+  }
+
+  obtenerAccionesPorSolicitudUuuid(uuid: string): Observable<any> {
+    return this.http.get(`${urlBase}/buscar-gestiones-por-solicitud`, {params: new HttpParams().set('solicitudUuid', uuid)});
+  }
 }

@@ -28,6 +28,7 @@ export class GestionSocioRegistrarComponent implements OnInit {
   @Input() direcciones: Direccion[] = [];
   @Output() enviarSMS = new EventEmitter<any>();
   @Output() enviarWhatsApp = new EventEmitter<any>();
+  @Output() enviarCorreo = new EventEmitter<any>();
 
   form: FormGroup;
   formPlanPago: FormGroup;

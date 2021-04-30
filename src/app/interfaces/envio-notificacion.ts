@@ -14,4 +14,6 @@ export interface EnvioNotificacion {
   userCreate?: any;
   userUpdate?: any;
   departamento?: any;
+  tipoNotificacion?: any;
+  asunto?: any;
 }

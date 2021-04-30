@@ -49,6 +49,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
     const { solicitudUuid } = activatedRoute.snapshot.params;
     this.solicitudUuid = solicitudUuid;
     this.loadDetalle(solicitudUuid);
+    this.listarAcciones(solicitudUuid);
   }
 
   ngOnInit() {
@@ -73,6 +74,16 @@ export class ExtrajudicialSocioComponent implements OnInit {
         this.spinner.hide();
       },
       err => this.spinner.hide()
+    );
+  }
+
+  listarAcciones(uuid: string) {
+    this.extrajudicialService.obtenerAccionesPorSolicitudUuuid(uuid).subscribe(
+      res => {
+        if (res.exito) {
+          console.log(res.acciones);
+        }
+      }
     );
   }
 
@@ -286,4 +297,32 @@ export class ExtrajudicialSocioComponent implements OnInit {
       );
     }
   }
+
+  enviarCorreo(data: any) {
+    if (data){
+      const {asunto, correo, mensaje} = data;
+      const noty: EnvioNotificacion = {
+        correo: correo,
+        mensaje: mensaje,
+        asunto: asunto,
+        codPersona: this.creditoPrincipal.id,
+        creditoId: this.creditoPrincipal.socioId,
+        asignacionId: this.solicitud.id,
+        numeroDia: this.creditoPrincipal.diasAtraso
+      }
+      console.log(noty)
+      this.spinner.show();
+      this.extrajudicialService.enviarCorreo(noty).subscribe(
+        res => {
+          if (res.exito) {
+            this.toastr.success(res.mensaje);
+            this.eventosService.enviarNotifyEmitter.emit({ send: true });
+          }
+          this.spinner.hide();
+        },
+        err => this.spinner.hide()
+      );
+    }
+  }
+
 }

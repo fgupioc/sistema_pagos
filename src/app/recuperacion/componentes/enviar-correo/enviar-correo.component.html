@@ -2,16 +2,23 @@
     <div class="col-12 col-md-4">
         <div class="form-group">
             <label>Seleccione Correo</label>
-            <select class="form-control" formControlName="correo">
+            <select class="form-control" formControlName="correo" [ngClass]=" { 'is-invalid': correo.invalid && (correo.dirty || correo.touched)}">
               <option value="">Seleccione</option>
               <option *ngFor="let item of showEmails" [value]="item.email">{{ item.email }}</option>
             </select>
+          <div class="invalid-feedback" *ngIf="correo.invalid && (correo.dirty || correo.touched)">
+            <span *ngIf="correo.errors.required"> El campo correo es obligatorio. <br></span>
+          </div>
         </div>
     </div>
     <div class="col-12 col-md-4">
         <div class="form-group">
             <label>Asunto</label>
-            <input Uppercase class="form-control" type="text" formControlName="asunto">
+            <input Uppercase class="form-control" type="text" formControlName="asunto" [ngClass]=" { 'is-invalid': asunto.invalid && (asunto.dirty || asunto.touched)}">
+          <div class="invalid-feedback" *ngIf="asunto.invalid && (asunto.dirty || asunto.touched)">
+            <span *ngIf="asunto.errors.required"> El campo asunto es obligatorio. <br></span>
+            <span *ngIf="asunto.errors.maxlength"> El campo asunto acepta un máximo de 220 caracteres. <br></span>
+          </div>
         </div>
     </div>
     <div class="col-12 col-md-4 mt-4">
@@ -29,12 +36,15 @@
             <label>Cuerpo</label>
             <quill-editor [styles]="{height: '200px'}" placeholder="Observación" [modules]="config" formControlName="mensaje" required>
             </quill-editor>
+          <div class="invalid-feedback" *ngIf="mensaje.invalid && (mensaje.dirty || mensaje.touched)">
+            <span *ngIf="mensaje.errors.required"> El campo cuerpo es obligatorio. <br></span>
+          </div>
         </div>
     </div>
     <div class="col-12">
         <div class="form-group text-center mt-2">
-            <button class="btn btn-sm btn-primary mr-2" [disabled]="formCorreo.invalid">Enviar</button>
-            <button class="btn btn-sm btn-danger" (click)="ocultar()">Cancelar</button>
+            <button class="btn btn-sm btn-primary mr-2" [disabled]="formCorreo.invalid" (click)="envirMensaje()">Enviar</button>
+            <button class="btn btn-sm btn-danger" (click)="cancelar()">Cancelar</button>
         </div>
     </div>
 </div>

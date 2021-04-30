@@ -15,7 +15,7 @@
     </div>
     <div class="col-12">
         <div class="container-works mt-2" *ngIf="showNewEmail">
-            <app-enviar-correo [showEmails]="showEmails" (hideNewEmail)="showNewEmail = $event"></app-enviar-correo>
+            <app-enviar-correo [showEmails]="showEmails" (hideNewEmail)="showNewEmail = $event" (emitirCorreo)="enviarCorreo.emit($event)"></app-enviar-correo>
         </div>
         <div class="container-works mt-2" *ngIf="showNewWhatsapp">
             <app-enviar-whatsapp [showPhones]="showPhones" (hideNewWhatsapp)="showNewWhatsapp = $event" (emitirWhatsApp)="enviarWhatsApp.emit($event)"></app-enviar-whatsapp>
