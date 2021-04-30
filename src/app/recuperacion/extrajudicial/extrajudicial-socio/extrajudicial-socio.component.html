@@ -61,9 +61,7 @@
                 <ngb-tabset [destroyOnHide]="false" [activeId]="2" (tabChange)="tabSeleccionado($event)">
                     <ngb-tab title="Gestión" id="1" *ngIf="solicitud.gestorId">
                         <ng-template ngbTabContent>
-                            <app-gestion-socio-registrar
-                              (enviarSMS)="enviarSMS($event)"
-                              [telefonos]="socio.telefonos" [correos]="socio.correos" [direcciones]="socio.direcciones"></app-gestion-socio-registrar>
+                            <app-gestion-socio-registrar (enviarSMS)="enviarSMS($event)" (enviarWhatsApp)="enviarWhatsApp($event)" [telefonos]="socio.telefonos" [correos]="socio.correos" [direcciones]="socio.direcciones"></app-gestion-socio-registrar>
                         </ng-template>
                     </ngb-tab>
                     <ngb-tab title="Créditos" id="2">
@@ -269,8 +267,8 @@
                                                         <span>{{ item.original ? 'SI' : 'NO' }}</span>
                                                     </td>
                                                     <td>
-                                                      {{ item.impresion ? 'SI' : 'NO' }}
-                                                      <small *ngIf="item.impresion" style="display: block;" (click)="download(item.urlDisco, item.tipo)"><a href="javascript:;">VER</a></small>
+                                                        {{ item.impresion ? 'SI' : 'NO' }}
+                                                        <small *ngIf="item.impresion" style="display: block;" (click)="download(item.urlDisco, item.tipo)"><a href="javascript:;">VER</a></small>
                                                     </td>
                                                     <td>
                                                         <span>{{ item.laserfich ? 'SI' : 'NO' }}</span><br>

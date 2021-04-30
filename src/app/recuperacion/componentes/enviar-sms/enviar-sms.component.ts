@@ -3,6 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AutenticacionService } from '../../../servicios/seguridad/autenticacion.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { EventosService } from '../../../servicios/eventos.service';
 
 @Component({
   selector: 'app-enviar-sms',
@@ -20,6 +21,7 @@ export class EnviarSmsComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
+    private eventosService: EventosService
   ) {
   }
 
@@ -28,6 +30,7 @@ export class EnviarSmsComponent implements OnInit {
       telefono: ['', [Validators.required]],
       mensaje: ['', [Validators.required, Validators.maxLength(145)]],
     });
+    this.eventosService.enviarNotifyEmitter.subscribe(({ send }) => (send) ? this.cancelar() : ()=>{});
   }
 
   cancelar() {

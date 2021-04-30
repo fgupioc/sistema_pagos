@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  ɵSWITCH_CHANGE_DETECTOR_REF_FACTORY__POST_R3__,
   Input,
   Output,
   EventEmitter
@@ -12,8 +11,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MaestroService } from '../../../../../servicios/sistema/maestro.service';
-import { EventosService } from '../../../../../servicios/eventos.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Telefono } from '../../../../../interfaces/telefono';
 import { Email } from '../../../../../interfaces/email';
 import { Direccion } from '../../../../../interfaces/direccion';
@@ -30,6 +27,7 @@ export class GestionSocioRegistrarComponent implements OnInit {
   @Input() correos: Email[] = [];
   @Input() direcciones: Direccion[] = [];
   @Output() enviarSMS = new EventEmitter<any>();
+  @Output() enviarWhatsApp = new EventEmitter<any>();
 
   form: FormGroup;
   formPlanPago: FormGroup;

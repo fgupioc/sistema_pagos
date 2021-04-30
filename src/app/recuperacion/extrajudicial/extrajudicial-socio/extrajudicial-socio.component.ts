@@ -9,6 +9,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { CONST } from 'src/app/comun/CONST';
 import { SolicitudArchivos } from '../../../interfaces/recuperacion/solicitud-archivos';
 import {EnvioNotificacion} from "../../../interfaces/envio-notificacion";
+import { EventosService } from 'src/app/servicios/eventos.service';
 
 @Component({
   selector: 'app-extrajudicial-socio',
@@ -42,7 +43,8 @@ export class ExtrajudicialSocioComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private extrajudicialService: ExtrajudicialService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private eventosService: EventosService
   ) {
     const { solicitudUuid } = activatedRoute.snapshot.params;
     this.solicitudUuid = solicitudUuid;
@@ -250,6 +252,33 @@ export class ExtrajudicialSocioComponent implements OnInit {
         res => {
           if (res.exito) {
             this.toastr.success(res.mensaje);
+            this.eventosService.enviarNotifyEmitter.emit({ send: true });
+          }
+          this.spinner.hide();
+        },
+        err => this.spinner.hide()
+      );
+    }
+  }
+
+  enviarWhatsApp(data: any) {
+    if (data) {
+      const { telefono, mensaje } = data;
+      const noty: EnvioNotificacion = {
+        telefono: telefono,
+        mensaje: mensaje,
+        codPersona: this.creditoPrincipal.id,
+        creditoId: this.creditoPrincipal.socioId,
+        asignacionId: this.solicitud.id,
+        numeroDia: this.creditoPrincipal.diasAtraso
+      }
+
+      this.spinner.show();
+      this.extrajudicialService.enviarWhatsApp(noty).subscribe(
+        res => {
+          if (res.exito) {
+            this.toastr.success(res.mensaje);
+            this.eventosService.enviarNotifyEmitter.emit({ send: true });
           }
           this.spinner.hide();
         },

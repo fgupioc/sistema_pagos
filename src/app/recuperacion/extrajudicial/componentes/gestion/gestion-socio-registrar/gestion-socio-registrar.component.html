@@ -18,7 +18,7 @@
             <app-enviar-correo [showEmails]="showEmails" (hideNewEmail)="showNewEmail = $event"></app-enviar-correo>
         </div>
         <div class="container-works mt-2" *ngIf="showNewWhatsapp">
-            <app-enviar-whatsapp [showPhones]="showPhones" (hideNewWhatsapp)="showNewWhatsapp = $event"></app-enviar-whatsapp>
+            <app-enviar-whatsapp [showPhones]="showPhones" (hideNewWhatsapp)="showNewWhatsapp = $event" (emitirWhatsApp)="enviarWhatsApp.emit($event)"></app-enviar-whatsapp>
         </div>
         <div class="container-works mt-2" *ngIf="showNewSMS">
             <app-enviar-sms [showPhones]="showPhones" (hideNewSMS)="showNewSMS = $event" (emitirSMS)="enviarSMS.emit($event)"></app-enviar-sms>

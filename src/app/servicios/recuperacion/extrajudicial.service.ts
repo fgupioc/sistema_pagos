@@ -119,4 +119,8 @@ export class ExtrajudicialService {
   enviarSMS(noty: any): Observable<any> {
     return this.http.post<any>(`${urlBase}/enviar-sms`, noty);
   }
+
+  enviarWhatsApp(noty: any): Observable<any> {
+    return this.http.post<any>(`${urlBase}/enviar-whatsapp`, noty);
+  }
 }
