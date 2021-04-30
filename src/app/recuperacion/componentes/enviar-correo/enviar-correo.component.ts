@@ -28,7 +28,7 @@ export class EnviarCorreoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.$body = `<p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p>${this.auth.loggedUser.alias}</p><p>${this.auth.loggedUser.email} </p><p>Ejecutivo de Negocio.</p>`;
+    this.$body = `<p><br></p><p><br></p><p>${this.auth.loggedUser.alias}</p><p>${this.auth.loggedUser.email} </p><p>Ejecutivo de Negocio.</p>`;
 
     this.formCorreo = this.formBuilder.group({
       asunto: ['', [Validators.required, Validators.maxLength(220)]],

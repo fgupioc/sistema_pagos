@@ -1,15 +1,16 @@
-import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ExtrajudicialService } from '../../../servicios/recuperacion/extrajudicial.service';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { ToastrService } from 'ngx-toastr';
-import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { Subject } from 'rxjs';
-import { DataTableDirective } from 'angular-datatables';
-import { CONST } from 'src/app/comun/CONST';
-import { SolicitudArchivos } from '../../../interfaces/recuperacion/solicitud-archivos';
+import {Router, ActivatedRoute} from '@angular/router';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ExtrajudicialService} from '../../../servicios/recuperacion/extrajudicial.service';
+import {NgxSpinnerService} from 'ngx-spinner';
+import {ToastrService} from 'ngx-toastr';
+import {NgbTabChangeEvent} from '@ng-bootstrap/ng-bootstrap';
+import {Subject} from 'rxjs';
+import {DataTableDirective} from 'angular-datatables';
+import {CONST} from 'src/app/comun/CONST';
+import {SolicitudArchivos} from '../../../interfaces/recuperacion/solicitud-archivos';
 import {EnvioNotificacion} from "../../../interfaces/envio-notificacion";
-import { EventosService } from 'src/app/servicios/eventos.service';
+import {EventosService} from 'src/app/servicios/eventos.service';
+import {CreditoGestion} from "../../../interfaces/credito-gestion";
 
 @Component({
   selector: 'app-extrajudicial-socio',
@@ -31,12 +32,18 @@ export class ExtrajudicialSocioComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   isDtInitialized = false;
-  @ViewChild(DataTableDirective, { static: false }) dtElement: DataTableDirective;
+  @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
 
   solicitudArchivos: SolicitudArchivos[] = [];
   archivos: any[] = [];
   vehicular: any[] = [];
   inmuebles: any[] = [];
+  acciones: any[] = [];
+
+  page = 1;
+  pageSize = 10;
+  collectionSize = 0;
+  $acciones: any[];
 
   constructor(
     private router: Router,
@@ -46,7 +53,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
     private toastr: ToastrService,
     private eventosService: EventosService
   ) {
-    const { solicitudUuid } = activatedRoute.snapshot.params;
+    const {solicitudUuid} = activatedRoute.snapshot.params;
     this.solicitudUuid = solicitudUuid;
     this.loadDetalle(solicitudUuid);
     this.listarAcciones(solicitudUuid);
@@ -81,7 +88,9 @@ export class ExtrajudicialSocioComponent implements OnInit {
     this.extrajudicialService.obtenerAccionesPorSolicitudUuuid(uuid).subscribe(
       res => {
         if (res.exito) {
-          console.log(res.acciones);
+          this.acciones = res.acciones;
+          this.collectionSize = this.acciones.length;
+          this.refreshAcciones();
         }
       }
     );
@@ -109,7 +118,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
     this.extrajudicialService.descargarArchivo(path).subscribe(
       response => {
         const blob = new Blob([response],
-          { type: `${tipo};charset=UTF-8` });
+          {type: `${tipo};charset=UTF-8`});
         const objectUrl = (window.URL).createObjectURL(blob);
         if (navigator.msSaveBlob) {
           navigator.msSaveBlob(blob, path);
@@ -176,7 +185,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
     this.spinner.show();
     this.extrajudicialService.buscarPropiedadesPorSocio(socioId).subscribe(
       res => {
-        if(res.exito) {
+        if (res.exito) {
           this.vehicular = res.vehicular;
           this.inmuebles = res.inmuebles;
         }
@@ -193,10 +202,10 @@ export class ExtrajudicialSocioComponent implements OnInit {
     this.extrajudicialService.generarExcelBusquedaPropiedadInmueblePorSocio(this.socio.id).subscribe(
       response => {
         const blob = new Blob([response],
-          { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+          {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'});
         const objectUrl = (window.URL).createObjectURL(blob);
         if (navigator.msSaveBlob) {
-          navigator.msSaveBlob(blob, 'lista-inmuebles-' + new Date().getTime()+'.xlsx');
+          navigator.msSaveBlob(blob, 'lista-inmuebles-' + new Date().getTime() + '.xlsx');
         } else {
           const a = document.createElement('a');
           a.href = objectUrl;
@@ -223,7 +232,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
     this.extrajudicialService.generarExcelBusquedaPropiedadVehicularPorSocio(this.socio.id).subscribe(
       response => {
         const blob = new Blob([response],
-          { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+          {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'});
         const objectUrl = (window.URL).createObjectURL(blob);
         if (navigator.msSaveBlob) {
           navigator.msSaveBlob(blob, 'lista-vehicular-' + new Date().getTime() + '.xlsx');
@@ -248,7 +257,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
   }
 
   enviarSMS(data: any) {
-    if (data){
+    if (data) {
       const {telefono, mensaje} = data;
       const noty: EnvioNotificacion = {
         telefono: telefono,
@@ -263,7 +272,8 @@ export class ExtrajudicialSocioComponent implements OnInit {
         res => {
           if (res.exito) {
             this.toastr.success(res.mensaje);
-            this.eventosService.enviarNotifyEmitter.emit({ send: true });
+            this.eventosService.enviarNotifyEmitter.emit({send: true});
+            this.listarAcciones(this.solicitudUuid);
           }
           this.spinner.hide();
         },
@@ -274,7 +284,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
 
   enviarWhatsApp(data: any) {
     if (data) {
-      const { telefono, mensaje } = data;
+      const {telefono, mensaje} = data;
       const noty: EnvioNotificacion = {
         telefono: telefono,
         mensaje: mensaje,
@@ -289,7 +299,8 @@ export class ExtrajudicialSocioComponent implements OnInit {
         res => {
           if (res.exito) {
             this.toastr.success(res.mensaje);
-            this.eventosService.enviarNotifyEmitter.emit({ send: true });
+            this.eventosService.enviarNotifyEmitter.emit({send: true});
+            this.listarAcciones(this.solicitudUuid);
           }
           this.spinner.hide();
         },
@@ -299,7 +310,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
   }
 
   enviarCorreo(data: any) {
-    if (data){
+    if (data) {
       const {asunto, correo, mensaje} = data;
       const noty: EnvioNotificacion = {
         correo: correo,
@@ -316,7 +327,8 @@ export class ExtrajudicialSocioComponent implements OnInit {
         res => {
           if (res.exito) {
             this.toastr.success(res.mensaje);
-            this.eventosService.enviarNotifyEmitter.emit({ send: true });
+            this.eventosService.enviarNotifyEmitter.emit({send: true});
+            this.listarAcciones(this.solicitudUuid);
           }
           this.spinner.hide();
         },
@@ -325,4 +337,34 @@ export class ExtrajudicialSocioComponent implements OnInit {
     }
   }
 
+
+  showDetalle(i, item: any) {
+    console.log(item)
+    if ($(`.item_${i}`).hasClass('hidden')) {
+      $(`.item-detalle`).addClass('hidden');
+      $(`.item_${i}`).removeClass('hidden');
+    } else {
+      $(`.item-detalle`).addClass('hidden');
+    }
+
+    if ($(`.tr_${i}`).hasClass('table-primary')) {
+      $(`.tr_${i}`).removeClass('table-primary');
+    } else {
+      $(`#listaGestiones tbody tr`).removeClass('table-primary');
+      $(`.tr_${i}`).addClass('table-primary');
+    }
+
+  }
+
+  getComentario(item: any) {
+   const texto = item.comentario || '';
+   const msj = texto.replace(/<[^>]*>?/g, '');
+   return msj.length < 30 ? msj : msj.slice(0, 30) + '...' ;
+  }
+
+  refreshAcciones() {
+    this.$acciones = this.acciones
+      .map((item, i) => ({id: i + 1, ...item}))
+      .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
+  }
 }
