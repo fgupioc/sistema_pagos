@@ -1,4 +1,4 @@
-const URL = 'localhost';
+const URL = '192.168.0.106';
 const PORT = '9443';
 export const environment = {
   production: true,

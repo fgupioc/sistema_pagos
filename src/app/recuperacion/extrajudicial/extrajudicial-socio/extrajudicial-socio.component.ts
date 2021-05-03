@@ -10,7 +10,10 @@ import {CONST} from 'src/app/comun/CONST';
 import {SolicitudArchivos} from '../../../interfaces/recuperacion/solicitud-archivos';
 import {EnvioNotificacion} from "../../../interfaces/envio-notificacion";
 import {EventosService} from 'src/app/servicios/eventos.service';
-import { EjecutivoCredito } from '../../../models/ejecutivo-credito';
+import {EjecutivoCredito} from '../../../models/ejecutivo-credito';
+import Swal from "sweetalert2";
+import {AcuerdoPago} from "../../../interfaces/acuerdo-pago";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-extrajudicial-socio',
@@ -46,6 +49,10 @@ export class ExtrajudicialSocioComponent implements OnInit {
   $acciones: any[];
 
   creditoAsignado: EjecutivoCredito;
+  acuerdosPagoTemp: any[] = [];
+
+  acuerdosPago: AcuerdoPago[] = [];
+  dateDefault = moment(new Date()).format('YYYY-MM-DD');
 
   constructor(
     private router: Router,
@@ -78,6 +85,8 @@ export class ExtrajudicialSocioComponent implements OnInit {
           this.solicitudArchivos = res.solicitudArchivos;
           this.creditoPrincipal = res.creditoPrincipal;
           this.creditoAsignado = res.creditoAsignado;
+          this.creditoPrincipal.asignacionId = this.creditoAsignado.id;
+          this.acuerdosPago = res.acuerdoPagos;
           this.buscarPropiedades(this.socio.id);
           this.refreshDatatable();
         }
@@ -114,7 +123,6 @@ export class ExtrajudicialSocioComponent implements OnInit {
       this.dtTrigger.next();
     }
   }
-
 
   download(path: string, tipo: string) {
     this.spinner.show();
@@ -340,9 +348,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
     }
   }
 
-
   showDetalle(i, item: any) {
-    console.log(item)
     if ($(`.item_${i}`).hasClass('hidden')) {
       $(`.item-detalle`).addClass('hidden');
       $(`.item_${i}`).removeClass('hidden');
@@ -356,18 +362,59 @@ export class ExtrajudicialSocioComponent implements OnInit {
       $(`#listaGestiones tbody tr`).removeClass('table-primary');
       $(`.tr_${i}`).addClass('table-primary');
     }
+    this.acuerdosPagoTemp = [];
+    if (item.tipo == 1) {
+      if (item.codRespuesta == '008' || item.codRespuesta == '009') {
+        this.acuerdosPagoTemp = this.acuerdosPago.filter(value => String(value.grupo) == item.keyResp);
+      }
 
+    }
   }
 
-  getComentario(item: any) {
-   const texto = item.comentario || '';
-   const msj = texto.replace(/<[^>]*>?/g, '');
-   return msj.length < 30 ? msj : msj.slice(0, 30) + '...' ;
+  getComentario(coment: any) {
+    const texto = coment || '';
+    const msj = texto.replace(/<[^>]*>?/g, '');
+    return msj.length < 30 ? msj : msj.slice(0, 30) + '...';
   }
 
   refreshAcciones() {
     this.$acciones = this.acciones
       .map((item, i) => ({id: i + 1, ...item}))
       .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
+  }
+
+  enviarGestion(data: any) {
+    if (data) {
+      this.spinner.show();
+      this.extrajudicialService.registrarCreditoAsignacionAccion(data).subscribe(
+        res => {
+          if (res.exito) {
+            Swal.fire('Registrar Gestión', res.mensaje, 'success');
+            this.eventosService.enviarNotifyEmitter.emit({send: true});
+            this.listarAcciones(this.solicitudUuid);
+          }
+          this.spinner.hide();
+        },
+        err => {
+          this.spinner.hide();
+        }
+      );
+    }
+  }
+
+  isCurrentDate(fecha: string, condicion: string) {
+    const date = moment(fecha).format('YYYY-MM-DD');
+    if (this.dateDefault == date && condicion != '2') {
+      return 'table-primary';
+    }
+    if (this.dateDefault == date && condicion == '2') {
+      return 'table-success';
+    }
+    if (moment().isAfter(fecha) && condicion != '2') {
+      return 'table-danger';
+    }
+    if (moment().isAfter(fecha) && condicion == '2') {
+      return 'table-success';
+    }
   }
 }

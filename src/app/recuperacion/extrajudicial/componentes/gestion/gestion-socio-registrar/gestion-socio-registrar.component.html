@@ -213,7 +213,7 @@
             <div class="input-group">
                 <input type="text" class="form-control" formControlName="comentario">
                 <div class="input-group-btn">
-                    <button [disabled]="form.invalid" type="button" class="btn btn-info">Ingresar</button>
+                    <button [disabled]="form.invalid" type="button" (click)="ingresarGestion()" class="btn btn-info">Ingresar</button>
                 </div>
             </div>
         </div>

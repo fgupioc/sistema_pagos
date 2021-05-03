@@ -58,18 +58,21 @@
         </quill-editor>
       </div>
     </div>
-    <div class="row" *ngIf="solicitud">
+    <div class="row" *ngIf="solicitud && creditoPrincipal && creditoAsignado">
       <div class="col-12">
         <ngb-tabset [destroyOnHide]="false" [activeId]="2" (tabChange)="tabSeleccionado($event)">
           <ngb-tab title="Gestión" id="1" *ngIf="solicitud.gestorId">
             <ng-template ngbTabContent>
-              <app-gestion-socio-registrar (enviarSMS)="enviarSMS($event)"
-                                           (enviarWhatsApp)="enviarWhatsApp($event)"
-                                           (enviarCorreo)="enviarCorreo($event)"
-                                           [telefonos]="socio.telefonos" [correos]="socio.correos"
-                                           [direcciones]="socio.direcciones"></app-gestion-socio-registrar>
+              <app-gestion-socio-registrar
+                [credito]="creditoPrincipal"
+                (enviarGestion)="enviarGestion($event)"
+                (enviarSMS)="enviarSMS($event)"
+                (enviarWhatsApp)="enviarWhatsApp($event)"
+                (enviarCorreo)="enviarCorreo($event)"
+                [telefonos]="socio.telefonos" [correos]="socio.correos"
+                [direcciones]="socio.direcciones"></app-gestion-socio-registrar>
 
-              <div class="table-responsive">
+              <div class="table-responsive mt-4">
                 <table data-detail-view="true" class="table table-bordered" id="listaGestiones">
                   <thead>
                   <tr class="text-center">
@@ -104,39 +107,37 @@
                   </thead>
                   <tbody>
                   <ng-container *ngFor="let item of $acciones; let i = index;">
-                    <tr [attr.data-index]="i" data-has-detail-view="true" class="text-center cursor-pointer tr_{{i}}"
-                        (click)="showDetalle(i, item)">
+                    <tr [attr.data-index]="i" data-has-detail-view="true" class="text-center cursor-pointer tr_{{i}}" (click)="showDetalle(i, item)">
                       <td class="text-center">
-                        <ng-container *ngIf="item.tipo == 1"><span class="text-warning"><i class="fa fa-usd"
-                                                                                           aria-hidden="true"></i></span>
+                        <ng-container *ngIf="item.tipo == 1"><span class="text-warning">
+                          <i class="fa fa-usd" aria-hidden="true"></i>
+                        </span>
                         </ng-container>
-                        <ng-container *ngIf="item.tipo == 6"><span class="text-danger"><i class="fa fa-envelope"
-                                                                                          aria-hidden="true"></i></span>
+                        <ng-container *ngIf="item.tipo == 6"><span class="text-danger">
+                          <i class="fa fa-envelope" aria-hidden="true"></i>
+                        </span>
                         </ng-container>
-                        <ng-container *ngIf="item.tipo == 1"><span class="text-info"><i class="fa fa-bell"
-                                                                                        aria-hidden="true"></i></span>
+                        <ng-container *ngIf="item.tipo == 0"><span class="text-info">
+                          <i class="fa fa-bell" aria-hidden="true"></i>
+                        </span>
                         </ng-container>
-                        <ng-container *ngIf="item.tipo == 2"><span class="text-info"><i class="fa fa-comment"
-                                                                                        aria-hidden="true"></i></span>
+                        <ng-container *ngIf="item.tipo == 2"><span class="text-info">
+                          <i class="fa fa-comment" aria-hidden="true"></i>
+                        </span>
                         </ng-container>
-                        <ng-container *ngIf="item.tipo == 3"><span class="text-success"><i class="fa fa-whatsapp"
-                                                                                           aria-hidden="true"></i></span>
+                        <ng-container *ngIf="item.tipo == 3"><span class="text-success">
+                          <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                        </span>
                         </ng-container>
                       </td>
                       <td>
                         {{ item.gestionDescripcion }}
-                        <ng-container *ngIf="item.tipo == 0">
-                          <br>
-                          <small *ngIf="item.condicion == '0'" class="text-primary">PENDIENTE</small>
-                          <small *ngIf="item.condicion == '1'" class="text-success">CUMPLIDA</small>
-                          <small *ngIf="item.condicion == '2'" class="text-danger">PLAZO VENCIDO</small>
-                        </ng-container>
                       </td>
-                      <td>{{ item.target }}</td>
+                      <td>  {{ getComentario(item.target) }}</td>
                       <td>{{ item.respuestaDescripcion }}</td>
                       <td>
                         <ng-container *ngIf="item.comentario">
-                          {{ getComentario(item) }}
+                          {{ getComentario(item.comentario) }}
                         </ng-container>
                       </td>
                       <td> {{item.fechaRegistro | date: 'd/M/yyyy'}}</td>
@@ -158,7 +159,8 @@
                                   <th data-field="field0">
                                     <div class="th-inner sortable both">
                                           <span>{{ item.gestionDescripcion }}
-                                            <div class="fht-cell pull-right">{{item.fechaRegistro | date: 'MMMM y, EEEE d  h:mm a'}}
+                                            <div
+                                              class="fht-cell pull-right">{{item.fechaRegistro | date: 'MMMM y, EEEE d  h:mm a'}}
                                             </div>
                                           </span>
                                     </div>
@@ -172,9 +174,9 @@
                                       <span><b>Target: </b></span> {{ item.target }}
                                       <br>
                                       <ng-container *ngIf="item.tipo != 6">
-                                        <span if="item.tipo != 6"><b>Comentario: </b></span> {{ item.comentario }}
-                                        <br>
                                         <span><b>Usuario: </b></span> {{ item.ejecutivoNombre }}
+                                        <br>
+                                        <span *ngIf="item.tipo != 6"><b>Comentario: </b></span> {{ item.comentario }}
                                       </ng-container>
                                       <ng-container *ngIf="item.tipo == 6">
                                         <div class="ql-container ql-snow mb-2" style="border-width: 0.5px;">
@@ -194,7 +196,45 @@
                                 </tr>
                                 </tbody>
                               </table>
+                              <div class="table-responsive" *ngIf="acuerdosPagoTemp.length > 0">
+                                <table id="tabla-acuerdos2" class="table table-bordered table-hover">
+                                  <thead>
+                                  <tr class="text-center">
+                                    <th>Fecha</th>
+                                    <th>Monto</th>
+                                    <th>T. Acuerdo</th>
+                                    <th>Estado</th>
+                                    <th>Tipo</th>
+                                    <th>Cuota</th>
+                                    <th>Plazo</th>
+                                    <!--th>Opcipon</th-->
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  <tr *ngFor="let item of acuerdosPagoTemp" [class]="isCurrentDate(item.fechaInicio, item.condicion)" style="font-size: 12px; text-align: center">
+                                    <td>
+                                      {{ item.fechaInicio | date: 'dd/MM/yyyy' }}
+                                    </td>
+                                    <td>{{ item.montoAcordado  | currency: 'S/ ' }} </td>
+                                    <td>{{  item.tipoAcuerdo }}</td>
+                                    <td>{{ item.condicionNombre}}</td>
+                                    <td>{{ item.tipoAcuerdoNombre | uppercase}}</td>
+                                    <td>{{ item.cuota }}</td>
+                                    <td>{{ item.plazo }}</td>
+                                    <!--
+                              <td>
+                                <ng-container *ngIf="item.condicion != '5'">
 
+                                  <button *ngIf="conPermiso" [disabled]="isAfter(item.fechaInicio)" class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item)"><i class="fa fa-trash"></i></button>
+
+                                      </ng-container>
+
+                                    </td>
+                                    -->
+                                  </tr>
+                                  </tbody>
+                                </table>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -204,9 +244,9 @@
                   </ng-container>
                   </tbody>
                 </table>
+
                 <div class="d-flex justify-content-center p-2" *ngIf="acciones.length > 10">
-                  <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
-                                  (pageChange)="refreshAcciones()">
+                  <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshAcciones()">
                   </ngb-pagination>
                 </div>
               </div>

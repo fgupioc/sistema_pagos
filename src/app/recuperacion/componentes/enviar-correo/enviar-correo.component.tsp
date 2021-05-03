@@ -5,6 +5,7 @@ import {CONST} from '../../../comun/CONST';
 import {ToastrService} from "ngx-toastr";
 import {EventosService} from "../../../servicios/eventos.service";
 
+
 @Component({
   selector: 'app-enviar-correo',
   templateUrl: './enviar-correo.component.html',

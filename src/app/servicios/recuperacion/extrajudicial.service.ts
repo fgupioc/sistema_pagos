@@ -131,4 +131,8 @@ export class ExtrajudicialService {
   obtenerAccionesPorSolicitudUuuid(uuid: string): Observable<any> {
     return this.http.get(`${urlBase}/buscar-gestiones-por-solicitud`, {params: new HttpParams().set('solicitudUuid', uuid)});
   }
+
+  registrarCreditoAsignacionAccion(accion: any): Observable<any> {
+    return this.http.post<any>(`${urlBase}/registrar-accion-credito`, accion);
+  }
 }

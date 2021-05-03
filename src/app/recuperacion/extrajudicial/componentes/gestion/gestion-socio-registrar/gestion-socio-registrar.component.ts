@@ -16,6 +16,10 @@ import { Email } from '../../../../../interfaces/email';
 import { Direccion } from '../../../../../interfaces/direccion';
 import { CONST } from '../../../../../comun/CONST';
 import * as moment from 'moment';
+import {CreditoGestion} from "../../../../../interfaces/credito-gestion";
+import {AcuerdoPago} from "../../../../../interfaces/acuerdo-pago";
+import {FUNC} from "../../../../../comun/FUNC";
+import {EventosService} from "../../../../../servicios/eventos.service";
 
 @Component({
   selector: 'app-gestion-socio-registrar',
@@ -24,11 +28,13 @@ import * as moment from 'moment';
 })
 export class GestionSocioRegistrarComponent implements OnInit {
   @Input() telefonos: Telefono[] = [];
+  @Input() credito: any;
   @Input() correos: Email[] = [];
   @Input() direcciones: Direccion[] = [];
   @Output() enviarSMS = new EventEmitter<any>();
   @Output() enviarWhatsApp = new EventEmitter<any>();
   @Output() enviarCorreo = new EventEmitter<any>();
+  @Output() enviarGestion = new EventEmitter<any>();
 
   form: FormGroup;
   formPlanPago: FormGroup;
@@ -51,6 +57,7 @@ export class GestionSocioRegistrarComponent implements OnInit {
   showNewWhatsapp = false;
   showNewSMS = false;
 
+
   constructor(
     public auth: AutenticacionService,
     private router: Router,
@@ -58,6 +65,7 @@ export class GestionSocioRegistrarComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
     private tablaMaestraService: MaestroService,
+    private eventosService: EventosService
 
   ) { }
 
@@ -85,7 +93,6 @@ export class GestionSocioRegistrarComponent implements OnInit {
       fechaInicio: [this.dateDefault, [Validators.required]],
       horaIncio: ['', [Validators.required]],
     });
-
     this.formPlanPago = this.formBuilder.group({
       asignacionId: [],
       ejecutivoId: [],
@@ -98,6 +105,29 @@ export class GestionSocioRegistrarComponent implements OnInit {
       fechaInicio: [this.dateDefault, [Validators.required]],
       posibilidadPago: ['', [Validators.required]],
     });
+
+    this.eventosService.enviarNotifyEmitter.subscribe(({ send }) => (send) ? this.cancelar() : ()=>{});
+  }
+
+  cancelar() {
+    //this.listarAcciones(this.credito.id, this.credito.asignacionId);
+    //this.loadAcuerdosPagos(this.credito.asignacionId, this.auth.loggedUser.id, this.credito.socioId, this.credito.id);
+    this.form.reset({
+      tipoGestion: '001',
+      tipoContacto: '1',
+      telefono: '',
+      duracion: '',
+      correo: '',
+      direccion: '',
+      codRespuesta: '001',
+      comentario: '',
+    });
+    this.showRespuesta = false;
+    this.form.controls.tipoGestion.enable();
+    this.form.controls.tipoContacto.enable();
+    this.formPlanPago.reset();
+    this.formRegistrarAcuerdo.reset();
+    this.typeAcuerdo = null;
   }
 
   listarTiposGestiones() {
@@ -205,5 +235,92 @@ export class GestionSocioRegistrarComponent implements OnInit {
       },
       error => console.log(error)
     );
+  }
+
+  ingresarGestion() {
+    this.errors = [];
+    const data = this.form.getRawValue();
+    if (this.formRegistrarAcuerdo.invalid && this.showAcuerdoPago && [1, 3, 4].includes(this.typeAcuerdo)) {
+      this.errors.push('Debe llenar los datos obligatorios de acuerdo de pago. 1');
+      return;
+    }
+
+    if (this.formPlanPago.invalid && this.showAcuerdoPago && this.typeAcuerdo == 2) {
+      this.errors.push('Debe llenar los datos obligatorios de acuerdo de pago. 2');
+      return;
+    }
+
+    const gestion = this.gestiones.find(i => i.codItem == data.tipoGestion);
+    const contacto = this.tiposContacto.find(i => i.codItem == data.tipoContacto);
+    const respuesta = this.respuestas.find(i => i.codItem == data.codRespuesta);
+
+    let target = '';
+    if (data.telefono.length > 0) {
+      target = data.telefono;
+      if (data.duracion > 0) {
+        target += ` (${data.duracion}seg).`;
+      }
+    } else if (data.correo.length > 0) {
+      target = data.correo;
+    } else if (data.direccion.length > 0) {
+      target = data.direccion;
+    }
+
+    const accion: CreditoGestion = {
+      tipoGestion: data.tipoGestion,
+      tipoContacto: data.tipoContacto,
+      target,
+      codRespuesta: data.codRespuesta,
+      comentario: data.comentario,
+      duracion: data.duracion,
+      usuarioId: this.auth.loggedUser.id,
+      ejecutivoNombre: this.auth.loggedUser.alias,
+      gestionDescripcion: gestion ? gestion.descripcion : '',
+      contactoDescripcion: contacto ? contacto.descripcion : '',
+      respuestaDescripcion: respuesta ? respuesta.descripcion : '',
+      creditoId: this.credito.id,
+      asignacionId: this.credito.asignacionId,
+    };
+
+    let listAcuerdo: AcuerdoPago[] = [];
+    if (this.formRegistrarAcuerdo.valid && this.showAcuerdoPago && [1, 3, 4].includes(this.typeAcuerdo)) {
+      const acuerdoPago: AcuerdoPago = this.formRegistrarAcuerdo.getRawValue();
+      acuerdoPago.asignacionId = this.credito.asignacionId;
+      acuerdoPago.creditoId = this.credito.id;
+      acuerdoPago.ejecutivoId = this.auth.loggedUser.id;
+      acuerdoPago.socioId = this.credito.socioId;
+      acuerdoPago.tipoAcuerdo = this.typeAcuerdo;
+      acuerdoPago.descripcion = 'estandar';
+      listAcuerdo = [acuerdoPago];
+    }
+
+    if (this.formPlanPago.valid && this.showAcuerdoPago && this.typeAcuerdo == 2) {
+      const acuerdoPago: AcuerdoPago = this.formPlanPago.getRawValue();
+      acuerdoPago.asignacionId = this.credito.asignacionId;
+      acuerdoPago.creditoId = this.credito.id;
+      acuerdoPago.ejecutivoId = this.auth.loggedUser.id;
+      acuerdoPago.socioId = this.credito.socioId;
+      let start = acuerdoPago.fechaInicio;
+      for (let i = 1; i <= acuerdoPago.plazo; i++) {
+        const item = {
+          asignacionId: acuerdoPago.asignacionId,
+          creditoId: acuerdoPago.creditoId,
+          cuota: i,
+          descripcion: acuerdoPago.descripcion,
+          ejecutivoId: acuerdoPago.ejecutivoId,
+          fechaInicio: start,
+          intervalo: acuerdoPago.intervalo,
+          montoAcordado: acuerdoPago.montoAcordado,
+          plazo: acuerdoPago.plazo,
+          posibilidadPago: acuerdoPago.posibilidadPago,
+          socioId: acuerdoPago.socioId,
+          tipoAcuerdo: this.typeAcuerdo
+        };
+        listAcuerdo.push(item);
+        start = FUNC.addDays(item.fechaInicio, acuerdoPago.intervalo);
+      }
+    }
+    accion.acuerdosPago = listAcuerdo;
+    this.enviarGestion.emit(accion);
   }
 }
