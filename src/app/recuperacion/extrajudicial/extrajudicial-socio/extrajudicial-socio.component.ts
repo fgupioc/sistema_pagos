@@ -10,7 +10,7 @@ import {CONST} from 'src/app/comun/CONST';
 import {SolicitudArchivos} from '../../../interfaces/recuperacion/solicitud-archivos';
 import {EnvioNotificacion} from "../../../interfaces/envio-notificacion";
 import {EventosService} from 'src/app/servicios/eventos.service';
-import {CreditoGestion} from "../../../interfaces/credito-gestion";
+import { EjecutivoCredito } from '../../../models/ejecutivo-credito';
 
 @Component({
   selector: 'app-extrajudicial-socio',
@@ -45,6 +45,8 @@ export class ExtrajudicialSocioComponent implements OnInit {
   collectionSize = 0;
   $acciones: any[];
 
+  creditoAsignado: EjecutivoCredito;
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -75,6 +77,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
           this.seguimientos = res.seguimientos;
           this.solicitudArchivos = res.solicitudArchivos;
           this.creditoPrincipal = res.creditoPrincipal;
+          this.creditoAsignado = res.creditoAsignado;
           this.buscarPropiedades(this.socio.id);
           this.refreshDatatable();
         }
@@ -264,7 +267,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
         mensaje: mensaje,
         codPersona: this.creditoPrincipal.id,
         creditoId: this.creditoPrincipal.socioId,
-        asignacionId: this.solicitud.id,
+        asignacionId: this.creditoAsignado.id,
         numeroDia: this.creditoPrincipal.diasAtraso
       }
       this.spinner.show();
@@ -290,7 +293,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
         mensaje: mensaje,
         codPersona: this.creditoPrincipal.id,
         creditoId: this.creditoPrincipal.socioId,
-        asignacionId: this.solicitud.id,
+        asignacionId: this.creditoAsignado.id,
         numeroDia: this.creditoPrincipal.diasAtraso
       }
 
@@ -318,10 +321,10 @@ export class ExtrajudicialSocioComponent implements OnInit {
         asunto: asunto,
         codPersona: this.creditoPrincipal.id,
         creditoId: this.creditoPrincipal.socioId,
-        asignacionId: this.solicitud.id,
+        asignacionId: this.creditoAsignado.id,
         numeroDia: this.creditoPrincipal.diasAtraso
       }
-      console.log(noty)
+
       this.spinner.show();
       this.extrajudicialService.enviarCorreo(noty).subscribe(
         res => {
