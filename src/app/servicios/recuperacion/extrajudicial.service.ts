@@ -124,8 +124,8 @@ export class ExtrajudicialService {
     return this.http.post<any>(`${urlBase}/enviar-whatsapp`, noty);
   }
 
-  enviarCorreo(noty: any): Observable<any> {
-    return this.http.post<any>(`${urlBase}/enviar-email`, noty);
+  enviarCorreo(noty: any, url: any): Observable<any> {
+    return this.http.post<any>(`${urlBase}/enviar-email`, noty, { params: new HttpParams().set('url', url)});
   }
 
   obtenerAccionesPorSolicitudUuuid(uuid: string): Observable<any> {

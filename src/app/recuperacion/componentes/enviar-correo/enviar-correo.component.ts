@@ -63,8 +63,8 @@ export class EnviarCorreoComponent implements OnInit {
       return;
     }
 
-    const {asunto, correo, mensaje} = this.formCorreo.getRawValue();
-    this.emitirCorreo.emit({asunto, correo, mensaje});
+    const { asunto, correo, mensaje, url} = this.formCorreo.getRawValue();
+    this.emitirCorreo.emit({asunto, correo, mensaje, url});
   }
-   
+
 }

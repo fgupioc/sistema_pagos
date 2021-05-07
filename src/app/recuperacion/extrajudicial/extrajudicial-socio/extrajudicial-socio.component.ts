@@ -322,7 +322,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
 
   enviarCorreo(data: any) {
     if (data) {
-      const {asunto, correo, mensaje} = data;
+      const { asunto, correo, mensaje, url} = data;
       const noty: EnvioNotificacion = {
         correo: correo,
         mensaje: mensaje,
@@ -334,7 +334,7 @@ export class ExtrajudicialSocioComponent implements OnInit {
       }
 
       this.spinner.show();
-      this.extrajudicialService.enviarCorreo(noty).subscribe(
+      this.extrajudicialService.enviarCorreo(noty, url).subscribe(
         res => {
           if (res.exito) {
             this.toastr.success(res.mensaje);
