@@ -4,6 +4,7 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
+        "ssl": "ng serve --ssl true --ssl-key \"C:\\COGNITIVE SOFT\\DESARROLLO\\ABACO\\ssl\\server.key\" --ssl-cert \"C:\\COGNITIVE SOFT\\DESARROLLO\\ABACO\\ssl\\server.crt\"",
         "build": "ng build",
         "test": "ng test",
         "lint": "ng lint",
