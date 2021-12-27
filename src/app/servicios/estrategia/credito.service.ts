@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Respuesta} from '../../interfaces/Respuesta';
 import {Observable} from 'rxjs';
@@ -37,4 +37,5 @@ export class CreditoService {
   ejecutarCargas() {
     return this.http.post<Respuesta>(`${this.apiUrl}ejecutarCargas`, null);
   }
+
 }
