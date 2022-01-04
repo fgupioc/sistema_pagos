@@ -29,9 +29,7 @@ export class UsuarioComponent implements OnInit {
 
   ngOnInit() {
     this.dtOptions = CONST.DATATABLE_ES();
-    if (this.AS.has(this.A.USUARIO_LISTAR)) {
-      this.encuentraTodos();
-    }
+    this.encuentraTodos();
   }
 
   encuentraTodos() {

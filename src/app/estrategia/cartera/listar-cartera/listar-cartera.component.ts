@@ -30,9 +30,7 @@ export class ListarCarteraComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.AS.has(this.A.CARTERA_LISTAR)) {
-      this.getCarteras();
-    }
+    this.getCarteras();
   }
 
   private getCarteras() {

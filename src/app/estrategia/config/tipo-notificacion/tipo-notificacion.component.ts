@@ -29,9 +29,7 @@ export class TipoNotificacionComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.AS.has(this.A.TIPO_NOTIFICACION_LISTAR)) {
-      this.loadNotifications();
-    }
+    this.loadNotifications();
   }
 
   loadNotifications() {

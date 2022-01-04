@@ -32,9 +32,7 @@ export class RolComponent implements OnInit {
   ngOnInit() {
     this.dtOptions = CONST.C_OBJ_DT_OPCIONES();
     this.encuentraTodos();
-    if (this.AS.has(this.A.ROL_LISTAR)) {
-      this.encuentraTodos();
-    }
+    this.encuentraTodos();
   }
 
   encuentraTodos() {

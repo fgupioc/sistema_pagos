@@ -47,9 +47,7 @@ export class EnviarNotificionComponent implements OnInit {
 
   ngOnInit() {
     this.listarCartera();
-    if (this.AS.has(this.A.ENVIAR_NOTIFICACION_LISTAR)) {
-      this.listarNotificaciones();
-    }
+    this.listarNotificaciones();
     this.formulario = this.formBuilder.group({
       codCartera: ['', Validators.required]
     });
