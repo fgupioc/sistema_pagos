@@ -126,7 +126,7 @@ export class CONST {
   public static C_STR_CONDICION_RECORDATORIO_NO_COMPLETADA = '4'; // NO COMPLETADA
 
 
-  public static C_STR_TIPO_DOCUMENTO_DNI = '1';
+  public static C_STR_TIPO_DOCUMENTO_DNI = 'D';
   public static C_STR_TIPO_DOCUMENTO_CEX = '4';
   public static C_STR_TIPO_DOCUMENTO_RUC = '6';
   public static C_STR_TIPO_DOCUMENTO_PAS = '7';

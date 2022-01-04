@@ -1213,19 +1213,19 @@ caption {
 }
 
 .other-btns .btn-linkedin {
-    color: #fff;
+    color: #fff !important;
     background-color: #007bb6;
     border-color: rgba(0, 0, 0, 0.2);
 }
 
 .other-btns .btn-instagram {
-    color: #fff;
+    color: #fff !important;
     background-color: #3f729b;
     border-color: rgba(0, 0, 0, 0.2);
 }
 
 .other-btns .btn-whatsapp {
-    color: #fff;
+    color: #fff !important;
     background-color: #25d366;
     border-color: rgba(0, 0, 0, 0.2);
 }
@@ -1279,6 +1279,7 @@ caption {
     -moz-osx-font-smoothing: grayscale;
 }
 
-.btn.disabled, .btn:disabled {
-  cursor: no-drop;
+.btn.disabled,
+.btn:disabled {
+    cursor: no-drop;
 }
