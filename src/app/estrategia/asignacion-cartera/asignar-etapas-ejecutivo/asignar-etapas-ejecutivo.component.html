@@ -1,12 +1,17 @@
 <div class="card" *ngIf="ejecutivoSelected">
     <div class="card-header">
-        <i class="fa fa-align-justify"></i>
-        <span class="card-title text-uppercase font-weight-bold">Asignación de Cartera del Gestor : {{ ejecutivoSelected.alias }}</span>
-        <div class="card-tools float-right">
+        <div class="div">
+          <i class="fa fa-align-justify"></i>
+          <span class="card-title text-uppercase font-weight-bold">Asignación de Cartera del Gestor : {{ ejecutivoSelected.alias }}</span>
+          <div class="card-tools float-right">
             <button type="button" class="btn btn-sm btn-primary" routerLink="/auth/estrategia/asignacion-cartera">
-        <i class="fa fa-arrow-left"></i> Regresar
-      </button>
+              <i class="fa fa-arrow-left"></i> Regresar
+            </button>
+          </div>
         </div>
+      <div class="div" *ngIf="carteraSelected" style="font-size: 12px">
+        <span>Cartera: <b>{{ carteraSelected.nombre }}</b></span> <span *ngIf="gestionSelected"> Gestion: <b>{{ gestionSelected.nombre }}</b></span> <span *ngIf="etapasSelecionadas.length > 0"> Etapa: <b>{{ etapasSelecionadas[0].nombre }} [{{ etapasSelecionadas[0].desde }} a {{ etapasSelecionadas[0].hasta }} ]</b> </span>
+      </div>
     </div>
     <div class="card-body">
         <div class="row">
@@ -18,9 +23,9 @@
                                 <ul class="todo-list ui-sortable">
                                     <li *ngFor="let item of carteras">
                                         <span class="handle ui-sortable-handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
+                                          <i class="fa fa-ellipsis-v"></i>
+                                          <i class="fa fa-ellipsis-v"></i>
+                                        </span>
                                         <!--1<input type="checkbox" value="">-->
                                         <span class="text">{{ item.nombre }}</span>
                                         <div class="tools">
@@ -38,9 +43,9 @@
                                 <ul class="todo-list ui-sortable">
                                     <li *ngFor="let item of gestiones">
                                         <span class="handle ui-sortable-handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
+                                            <i class="fa fa-ellipsis-v"></i>
+                                            <i class="fa fa-ellipsis-v"></i>
+                                          </span>
                                         <!--1<input type="checkbox" value="">-->
                                         <span class="text">{{ item.nombre }}</span>
                                         <div class="tools">
@@ -57,12 +62,9 @@
                                 <ul class="todo-list ui-sortable">
                                     <li *ngFor="let item of etapas">
                                         <label class="container-radio">{{ item.nombre }} [{{ item.desde }} a {{ item.hasta }}]
-                      <input type="radio" name="tasks" (change)="checkSelected($event, item)">
-                      <span class="checkmark"></span>
-                    </label>
-                                        <!--
-                    <label class="text cursor-pointer"> <input type="checkbox" value="" (change)="checkSelected($event, item)"> {{ item.nombre }}</label>
-                    -->
+                                            <input type="radio" name="tasks" (change)="checkSelected($event, item)">
+                                            <span class="checkmark"></span>
+                                          </label>
                                     </li>
                                 </ul>
                             </div>
@@ -255,12 +257,12 @@
                                     <label>Seleccione frecuencia</label>
                                     <div class="form-group">
                                         <select class="form-control font-weight-bold" [(ngModel)]="$frec" (ngModelChange)="frecuenciaCambio($event)">
-                      <option value="">Seleccione rango</option>
-                      <option [value]="'semana'">Semanal <span *ngIf="$startDate && frecuencia == 'Semana'">[{{ $startDate }} a {{ $endDate }}]</span></option>
-                      <option [value]="'quincenal'">Quincenal <span *ngIf="$startDate && frecuencia == 'Quincenal'">[{{ $startDate }} a {{ $endDate }}]</span></option>
-                      <option [value]="'mensual'">Mensual <span *ngIf="$startDate && frecuencia == 'Mensual'">[{{ $startDate }} a {{ $endDate }}]</span></option>
-                      <option [value]="'personalizado'">Personalizado <span *ngIf="$startDate && frecuencia == 'Personalizado'">[{{ $startDate }} a {{ $endDate }}]</span></option>
-                    </select>
+                                          <option value="">Seleccione rango</option>
+                                          <option [value]="'semana'">Semanal <span *ngIf="$startDate && frecuencia == 'Semana'">[{{ $startDate }} a {{ $endDate }}]</span></option>
+                                          <option [value]="'quincenal'">Quincenal <span *ngIf="$startDate && frecuencia == 'Quincenal'">[{{ $startDate }} a {{ $endDate }}]</span></option>
+                                          <option [value]="'mensual'">Mensual <span *ngIf="$startDate && frecuencia == 'Mensual'">[{{ $startDate }} a {{ $endDate }}]</span></option>
+                                          <option [value]="'personalizado'">Personalizado <span *ngIf="$startDate && frecuencia == 'Personalizado'">[{{ $startDate }} a {{ $endDate }}]</span></option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -280,6 +282,16 @@
                                     </div>
                                 </div>
                             </div>
+                          <div class="col-12" *ngIf="$creditos.length > 0">
+                            <div class="form-group m-0">
+                              <label>
+                                <label class="switch">
+                                  <input type="checkbox" (change)="seleccionarTodos($event)">
+                                  <span class="slider"></span>
+                                </label> Seleccionar Todo
+                              </label>
+                            </div>
+                          </div>
                             <div class="col-12" *ngIf="$creditos.length > 0">
                                 <label *ngIf="$creditos.length > 0">Se encontro {{ $creditos.length }} creditos.</label>
                                 <div>
@@ -327,9 +339,9 @@
                                             <tr *ngFor="let o of $creditos; index as i; ">
                                                 <th scope="row">
                                                     <label class="container">
-                          <input type="checkbox" (change)="changeCheckCreditos($event, o)">
-                          <span class="checkmark"></span>
-                        </label>
+                                                      <input type="checkbox" (change)="changeCheckCreditos($event, o)" [checked]="isChecked(o)">
+                                                      <span class="checkmark"></span>
+                                                    </label>
                                                 </th>
                                                 <td class="text-center">{{ o.nroCredito }}</td>
                                                 <td class="text-center">{{ o.desMoneda }}</td>

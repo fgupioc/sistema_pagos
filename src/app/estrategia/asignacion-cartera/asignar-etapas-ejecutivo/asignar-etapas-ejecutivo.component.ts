@@ -190,7 +190,6 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.asignacionService.getCarteras().subscribe(
       res => {
         if (res.exito && res.objeto) {
-          console.log(res.objeto);
           this.carteras = res.objeto as any[];
         } else {
           Swal.fire('Asignar', 'No se encontro la cartera o esta desactivada.', 'warning');
@@ -332,15 +331,6 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
   checkSelected(event: any, item: CarteraEtapa) {
     this.etapasSelecionadas = [];
     this.etapasSelecionadas.push(item);
-    /*
-    const etapa = this.etapasSelecionadas.find(i => i.codEtapa == item.codEtapa);
-    if (event.target.checked) {
-      if (!etapa) {
-        this.etapasSelecionadas.push(item);
-      }
-    } else {
-      this.etapasSelecionadas = this.etapasSelecionadas.filter(i => i.codEtapa != item.codEtapa);
-    }*/
   }
 
   nextFinished() {
@@ -549,7 +539,6 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     } else {
       this.$creditosCheched = this.$creditosCheched.filter(i => i.id != credito.id);
     }
-    console.log(this.$creditosCheched);
   }
 
   getItemsCampos(campos: GrupoCampo[]) {
@@ -706,5 +695,19 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
       res => res.forEach(item => this.tipoCalificacionesDeudor.push({id: item.codItem, name: item.descripcion})),
       err => console.log(err)
     );
+  }
+
+  seleccionarTodos(e: any) {
+    if (this.$creditos.length > 0) {
+      if (e.target.checked) {
+        this.$creditosCheched = this.$creditos;
+      } else {
+        this.$creditosCheched = [];
+      }
+    }
+  }
+
+  isChecked(o: any): boolean {
+    return this.$creditosCheched.find(i => i.nroCredito == o.nroCredito);
   }
 }
