@@ -80,6 +80,7 @@ export class DetalleCarteraNoAsignadaComponent implements OnInit {
 
   download() {
     const {start, finish} = this.formSearch.getRawValue();
+    this.spinner.show();
     this.reportesService.generarExcelDetalleCarteraNoAsignada(start, finish).subscribe(
       response => {
         const blob = new Blob([response],
@@ -98,6 +99,10 @@ export class DetalleCarteraNoAsignadaComponent implements OnInit {
             document.body.removeChild(a);
           }, 3000);
         }
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
       }
     );
   }

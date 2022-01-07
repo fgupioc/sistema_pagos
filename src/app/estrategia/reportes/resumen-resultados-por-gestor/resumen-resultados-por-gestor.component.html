@@ -1,393 +1,393 @@
 <div class="card">
-  <div class="card-header">
-    <h2 class="card-title text-uppercase">Resumen resultados por gestor</h2>
-  </div>
-  <div class="card-body">
-    <div class="row">
-      <div class="col-12 col-md-8 mx-auto">
-        <div class="form-inline" [formGroup]="formSearch">
-          <div class="form-group">
-            <div class="form-inline">
-              <div class="form-group d-block">
-                <label class=" d-block">Fecha Inicio</label>
-                <div class="input-group">
-                  <input type="date" formControlName="start" class="form-control" placeholder="Fecha Inicio" name="dpFromDate">
+    <div class="card-header">
+        <h2 class="card-title text-uppercase">Resumen resultados por gestor</h2>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-md-8 mx-auto">
+                <div class="form-inline" [formGroup]="formSearch">
+                    <div class="form-group">
+                        <div class="form-inline">
+                            <div class="form-group d-block">
+                                <label class=" d-block">Fecha Inicio</label>
+                                <div class="input-group">
+                                    <input type="date" formControlName="start" class="form-control" placeholder="Fecha Inicio" name="dpFromDate">
 
+                                </div>
+                            </div>
+                            <div class="form-group  d-block ml-2">
+                                <label class=" d-block">Fecha Fin</label>
+                                <div class="input-group">
+                                    <input type="date" formControlName="finish" class="form-control" placeholder="Fecha Fin" name="dpToDate">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group d-block ml-4">
+                        <label>&nbsp;</label>
+                        <button class="btn btn-primary mr-4" (click)="search()"> <i class="fa fa-search"></i> Buscar</button>
+                        <button (click)="download()" class="btn btn-outline-success" *ngIf="itemsSoles.length > 0 || itemsDolares.length > 0"><i class="fa fa-file-excel-o"></i> Exportar</button>
+                    </div>
                 </div>
-              </div>
-              <div class="form-group  d-block ml-2">
-                <label class=" d-block">Fecha Fin</label>
-                <div class="input-group">
-                  <input type="date" formControlName="finish" class="form-control" placeholder="Fecha Fin" name="dpToDate">
-                </div>
-              </div>
             </div>
-          </div>
-          <div class="form-group d-block ml-4">
-            <label>&nbsp;</label>
-            <button class="btn btn-primary mr-4" (click)="search()"> <i class="fa fa-search"></i> Buscar</button>
-            <button (click)="download()" class="btn btn-outline-success" *ngIf="itemsSoles.length > 0 || itemsDolares.length > 0"><i class="fa fa-file-excel-o"></i> Exportar</button>
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <ul id="myUL">
-          <li (click)="$type = 1" *ngIf="itemsSoles.length > 0 ">
-            <span class="caret">Soles</span>
-            <ul class="nested">
-              <li>
-                <span class="caret">Gestores</span>
-                <ul class="nested">
-                  <li #lista *ngFor="let item of itemsSoles" (click)="selected(lista)">
-                    <span class="caret"><b>{{ item.gestor }}</b></span>
-                    <ul class="nested tabla">
-                      <li style="margin-left: -150px">
-                        <div class="col-12">
-                          <div class="form-group">
-                            <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
-                              <caption style="caption-side: top; text-align: center;">Gestor <b class="text-uppercase"></b></caption>
-                              <thead>
-                              <tr class="text-center">
-                                <th>#</th>
-                                <th>Kardex</th>
-                                <th>Código del socio</th>
-                                <th>Nombre del socio</th>
-                                <th>Apellidos del socio</th>
-                                <th>Tipo de DOI</th>
-                                <th>Número de DOI</th>
-                                <th>Cantidad de cuotas atrasadas</th>
-                                <th>Fecha ulitma cuota vencida</th>
-                                <th>Fecha del proximo vencimiento</th>
-                                <th>Fecha real de pago</th>
-                                <th>Monto por cobrar (S/)</th>
-                                <th>Monto cobrado (S/)</th>
-                                <th>Días de atraso</th>
-                                <th>Días de atraso acumulado</th>
-                                <th>Cantidad de cuotas pagadas con atraso</th>
-                                <th>Días de atraso en promiedio por cada cuota atrasada</th>
-                                <th>Cantidad de gestiones</th>
-                                <th>Gestiones acumuladas</th>
-                                <th>Acuerdo de pago</th>
-                                <th>Fecha a pagar el acuerdo</th>
-                                <th>Cantidad de acuerdos acumulado</th>
-                                <th>División</th>
-                                <th>Banca</th>
-                                <th>Etapa</th>
-                                <th>Tipo de producto</th>
-                                <th>Cartera asignada</th>
-                                <th>Gestor anterior</th>
+        <div class="row">
+            <div class="col-12">
+                <ul id="myUL">
+                    <li (click)="$type = 1" *ngIf="itemsSoles.length > 0 ">
+                        <span class="caret">Soles</span>
+                        <ul class="nested">
+                            <li>
+                                <span class="caret">Gestores</span>
+                                <ul class="nested">
+                                    <li #lista *ngFor="let item of itemsSoles" (click)="selected(lista)">
+                                        <span class="caret"><b>{{ item.gestor }}</b></span>
+                                        <ul class="nested tabla">
+                                            <li style="margin-left: -150px">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
+                                                            <caption style="caption-side: top; text-align: center;">Gestor <b class="text-uppercase"></b></caption>
+                                                            <thead>
+                                                                <tr class="text-center">
+                                                                    <th>#</th>
+                                                                    <th>Kardex</th>
+                                                                    <th>Código del socio</th>
+                                                                    <th>Nombre del socio</th>
+                                                                    <th>Apellidos del socio</th>
+                                                                    <th>Tipo de DOI</th>
+                                                                    <th>Número de DOI</th>
+                                                                    <th>Cantidad de cuotas atrasadas</th>
+                                                                    <th>Fecha ulitma cuota vencida</th>
+                                                                    <th>Fecha del proximo vencimiento</th>
+                                                                    <th>Fecha real de pago</th>
+                                                                    <th>Monto por cobrar (S/)</th>
+                                                                    <th>Monto cobrado (S/)</th>
+                                                                    <th>Días de atraso</th>
+                                                                    <th>Días de atraso acumulado</th>
+                                                                    <th>Cantidad de cuotas pagadas con atraso</th>
+                                                                    <th>Días de atraso en promiedio por cada cuota atrasada</th>
+                                                                    <th>Cantidad de gestiones</th>
+                                                                    <th>Gestiones acumuladas</th>
+                                                                    <th>Acuerdo de pago</th>
+                                                                    <th>Fecha a pagar el acuerdo</th>
+                                                                    <th>Cantidad de acuerdos acumulado</th>
+                                                                    <th>División</th>
+                                                                    <th>Banca</th>
+                                                                    <th>Etapa</th>
+                                                                    <th>Tipo de producto</th>
+                                                                    <th>Cartera asignada</th>
+                                                                    <th>Gestor anterior</th>
 
-                              </tr>
-                              </thead>
-                              <tbody>
-                              <tr class="text-center" *ngFor="let item of item.resultadosGestors; let i = index">
-                                <td>{{ i+1 }}</td>
-                                <td>{{ item.kardex }}</td>
-                                <td>{{ item.socioCodigo }}</td>
-                                <td>{{ item.socioNombres }}</td>
-                                <td>{{ item.socioApellidos }}</td>
-                                <td>{{ item.tipoDocumentoSocio }}</td>
-                                <td>{{ item.numeroDocumentoSocio }}</td>
-                                <td>{{ item.totalCuotasAtrasadas }}</td>
-                                <td>{{ item.fechaUltimaCuotaVencida }}</td>
-                                <td>{{ item.fechaProximoVencimineto }}</td>
-                                <td>{{ item.fechaRealPago }}</td>
-                                <td>{{ item.montoCobrar }}</td>
-                                <td>{{ item.montoCobrado }}</td>
-                                <td>{{ item.diasAtraso }}</td>
-                                <td>{{ item.diasAtrasoAcumulado }}</td>
-                                <td>{{ item.cantidadCuotasPagadasAtraso }}</td>
-                                <td>{{ item.diasAtrasoPromedioPorCuotaAtrasada }}</td>
-                                <td>{{ item.cantidadGestiones }}</td>
-                                <td>{{ item.gestionesAcumuladas }}</td>
-                                <td>{{ item.acuerdoPago }}</td>
-                                <td>{{ item.fechaPagarAcuerdo }}</td>
-                                <td>{{ item.cantidadAcuerdosAcumulados }}</td>
-                                <td>{{ item.division }}</td>
-                                <td>{{ item.banca }}</td>
-                                <td>{{ item.etapa }}</td>
-                                <td>{{ item.tipoProducto }}</td>
-                                <td>{{ item.cartera }}</td>
-                                <td>{{ item.responsableAnterior }}</td>
-                              </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </li>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr class="text-center" *ngFor="let item of item.resultadosGestors; let i = index">
+                                                                    <td>{{ i+1 }}</td>
+                                                                    <td>{{ item.kardex }}</td>
+                                                                    <td>{{ item.socioCodigo }}</td>
+                                                                    <td>{{ item.socioNombres }}</td>
+                                                                    <td>{{ item.socioApellidos }}</td>
+                                                                    <td>{{ item.tipoDocumentoSocio }}</td>
+                                                                    <td>{{ item.numeroDocumentoSocio }}</td>
+                                                                    <td>{{ item.totalCuotasAtrasadas }}</td>
+                                                                    <td>{{ item.fechaUltimaCuotaVencida }}</td>
+                                                                    <td>{{ item.fechaProximoVencimineto }}</td>
+                                                                    <td>{{ item.fechaRealPago }}</td>
+                                                                    <td>{{ item.montoCobrar }}</td>
+                                                                    <td>{{ item.montoCobrado }}</td>
+                                                                    <td>{{ item.diasAtraso }}</td>
+                                                                    <td>{{ item.diasAtrasoAcumulado }}</td>
+                                                                    <td>{{ item.cantidadCuotasPagadasAtraso }}</td>
+                                                                    <td>{{ item.diasAtrasoPromedioPorCuotaAtrasada }}</td>
+                                                                    <td>{{ item.cantidadGestiones }}</td>
+                                                                    <td>{{ item.gestionesAcumuladas }}</td>
+                                                                    <td>{{ item.acuerdoPago }}</td>
+                                                                    <td>{{ item.fechaPagarAcuerdo }}</td>
+                                                                    <td>{{ item.cantidadAcuerdosAcumulados }}</td>
+                                                                    <td>{{ item.division }}</td>
+                                                                    <td>{{ item.banca }}</td>
+                                                                    <td>{{ item.etapa }}</td>
+                                                                    <td>{{ item.tipoProducto }}</td>
+                                                                    <td>{{ item.cartera }}</td>
+                                                                    <td>{{ item.responsableAnterior }}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li (click)="$type = 1" *ngIf="itemsDolares.length > 0 ">
+                        <span class="caret">Dolares</span>
+                        <ul class="nested">
+                            <li>
+                                <span class="caret">Gestores</span>
+                                <ul class="nested">
+                                    <li #lista *ngFor="let item of itemsDolares" (click)="selected(lista)">
+                                        <span class="caret"><b>{{ item.gestor }}</b></span>
+                                        <ul class="nested tabla">
+                                            <li style="margin-left: -150px">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
+                                                            <caption style="caption-side: top; text-align: center;">Gestor <b class="text-uppercase"></b></caption>
+                                                            <thead>
+                                                                <tr class="text-center">
+                                                                    <th>#</th>
+                                                                    <th>Kardex</th>
+                                                                    <th>Código del socio</th>
+                                                                    <th>Nombre del socio</th>
+                                                                    <th>Apellidos del socio</th>
+                                                                    <th>Tipo de DOI</th>
+                                                                    <th>Número de DOI</th>
+                                                                    <th>Cantidad de cuotas atrasadas</th>
+                                                                    <th>Fecha ulitma cuota vencida</th>
+                                                                    <th>Fecha del proximo vencimiento</th>
+                                                                    <th>Fecha real de pago</th>
+                                                                    <th>Monto por cobrar (S/)</th>
+                                                                    <th>Monto cobrado (S/)</th>
+                                                                    <th>Días de atraso</th>
+                                                                    <th>Días de atraso acumulado</th>
+                                                                    <th>Cantidad de cuotas pagadas con atraso</th>
+                                                                    <th>Días de atraso en promiedio por cada cuota atrasada</th>
+                                                                    <th>Cantidad de gestiones</th>
+                                                                    <th>Gestiones acumuladas</th>
+                                                                    <th>Acuerdo de pago</th>
+                                                                    <th>Fecha a pagar el acuerdo</th>
+                                                                    <th>Cantidad de acuerdos acumulado</th>
+                                                                    <th>División</th>
+                                                                    <th>Banca</th>
+                                                                    <th>Etapa</th>
+                                                                    <th>Tipo de producto</th>
+                                                                    <th>Cartera asignada</th>
+                                                                    <th>Gestor anterior</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr class="text-center" *ngFor="let item of item.resultadosGestors; let i = index">
+                                                                    <td>{{ i+1 }}</td>
+                                                                    <td>{{ item.kardex }}</td>
+                                                                    <td>{{ item.socioCodigo }}</td>
+                                                                    <td>{{ item.socioNombres }}</td>
+                                                                    <td>{{ item.socioApellidos }}</td>
+                                                                    <td>{{ item.tipoDocumentoSocio }}</td>
+                                                                    <td>{{ item.numeroDocumentoSocio }}</td>
+                                                                    <td>{{ item.totalCuotasAtrasadas }}</td>
+                                                                    <td>{{ item.fechaUltimaCuotaVencida }}</td>
+                                                                    <td>{{ item.fechaProximoVencimineto }}</td>
+                                                                    <td>{{ item.fechaRealPago }}</td>
+                                                                    <td>{{ item.montoCobrar }}</td>
+                                                                    <td>{{ item.montoCobrado }}</td>
+                                                                    <td>{{ item.diasAtraso }}</td>
+                                                                    <td>{{ item.diasAtrasoAcumulado }}</td>
+                                                                    <td>{{ item.cantidadCuotasPagadasAtraso }}</td>
+                                                                    <td>{{ item.diasAtrasoPromedioPorCuotaAtrasada }}</td>
+                                                                    <td>{{ item.cantidadGestiones }}</td>
+                                                                    <td>{{ item.gestionesAcumuladas }}</td>
+                                                                    <td>{{ item.acuerdoPago }}</td>
+                                                                    <td>{{ item.fechaPagarAcuerdo }}</td>
+                                                                    <td>{{ item.cantidadAcuerdosAcumulados }}</td>
+                                                                    <td>{{ item.division }}</td>
+                                                                    <td>{{ item.banca }}</td>
+                                                                    <td>{{ item.etapa }}</td>
+                                                                    <td>{{ item.tipoProducto }}</td>
+                                                                    <td>{{ item.cartera }}</td>
+                                                                    <td>{{ item.responsableAnterior }}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
-              </li>
-            </ul>
-          </li>
-          <li (click)="$type = 1" *ngIf="itemsDolares.length > 0 ">
-            <span class="caret">Soles</span>
-            <ul class="nested">
-              <li>
-                <span class="caret">Gestores</span>
-                <ul class="nested">
-                  <li #lista *ngFor="let item of itemsDolares" (click)="selected(lista)">
-                    <span class="caret"><b>{{ item.gestor }}</b></span>
-                    <ul class="nested tabla">
-                      <li style="margin-left: -150px">
-                        <div class="col-12">
-                          <div class="form-group">
-                            <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
-                              <caption style="caption-side: top; text-align: center;">Gestor <b class="text-uppercase"></b></caption>
-                              <thead>
-                              <tr class="text-center">
-                                <th>#</th>
-                                <th>Kardex</th>
-                                <th>Código del socio</th>
-                                <th>Nombre del socio</th>
-                                <th>Apellidos del socio</th>
-                                <th>Tipo de DOI</th>
-                                <th>Número de DOI</th>
-                                <th>Cantidad de cuotas atrasadas</th>
-                                <th>Fecha ulitma cuota vencida</th>
-                                <th>Fecha del proximo vencimiento</th>
-                                <th>Fecha real de pago</th>
-                                <th>Monto por cobrar (S/)</th>
-                                <th>Monto cobrado (S/)</th>
-                                <th>Días de atraso</th>
-                                <th>Días de atraso acumulado</th>
-                                <th>Cantidad de cuotas pagadas con atraso</th>
-                                <th>Días de atraso en promiedio por cada cuota atrasada</th>
-                                <th>Cantidad de gestiones</th>
-                                <th>Gestiones acumuladas</th>
-                                <th>Acuerdo de pago</th>
-                                <th>Fecha a pagar el acuerdo</th>
-                                <th>Cantidad de acuerdos acumulado</th>
-                                <th>División</th>
-                                <th>Banca</th>
-                                <th>Etapa</th>
-                                <th>Tipo de producto</th>
-                                <th>Cartera asignada</th>
-                                <th>Gestor anterior</th>
-
-                              </tr>
-                              </thead>
-                              <tbody>
-                              <tr class="text-center" *ngFor="let item of item.resultadosGestors; let i = index">
-                                <td>{{ i+1 }}</td>
-                                <td>{{ item.kardex }}</td>
-                                <td>{{ item.socioCodigo }}</td>
-                                <td>{{ item.socioNombres }}</td>
-                                <td>{{ item.socioApellidos }}</td>
-                                <td>{{ item.tipoDocumentoSocio }}</td>
-                                <td>{{ item.numeroDocumentoSocio }}</td>
-                                <td>{{ item.totalCuotasAtrasadas }}</td>
-                                <td>{{ item.fechaUltimaCuotaVencida }}</td>
-                                <td>{{ item.fechaProximoVencimineto }}</td>
-                                <td>{{ item.fechaRealPago }}</td>
-                                <td>{{ item.montoCobrar }}</td>
-                                <td>{{ item.montoCobrado }}</td>
-                                <td>{{ item.diasAtraso }}</td>
-                                <td>{{ item.diasAtrasoAcumulado }}</td>
-                                <td>{{ item.cantidadCuotasPagadasAtraso }}</td>
-                                <td>{{ item.diasAtrasoPromedioPorCuotaAtrasada }}</td>
-                                <td>{{ item.cantidadGestiones }}</td>
-                                <td>{{ item.gestionesAcumuladas }}</td>
-                                <td>{{ item.acuerdoPago }}</td>
-                                <td>{{ item.fechaPagarAcuerdo }}</td>
-                                <td>{{ item.cantidadAcuerdosAcumulados }}</td>
-                                <td>{{ item.division }}</td>
-                                <td>{{ item.banca }}</td>
-                                <td>{{ item.etapa }}</td>
-                                <td>{{ item.tipoProducto }}</td>
-                                <td>{{ item.cartera }}</td>
-                                <td>{{ item.responsableAnterior }}</td>
-                              </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="form-group">
-          <label>Resumen 1</label>
+            </div>
         </div>
-      </div>
-      <div class="col-12"  *ngIf="$type == 1">
-        <label>Moneda: Soles</label>
-        <table  class="table table-bordered table-responsive">
-          <thead>
-          <tr class="text-center">
-            <th>Gestor</th>
-            <th>Total a cobrar</th>
-            <th>Total cobrado</th>
-            <th>Total cobrado parcial</th>
-            <th>Total cobrado completo</th>
-            <th>Total no pagado</th>
-            <th>Total saldos por pagar</th>
-            <th>Nivel de recaudacion</th>
-            <th>Nivel de saldos pendiente</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr class="text-center" *ngFor="let item of itemsSoles; let i = index">
-            <td>{{ item.gestor }}</td>
-            <td>{{ item.totalCobrar }}</td>
-            <td>{{ item.totalCobrado }}</td>
-            <td>{{ item.totalCobradoParcial }}</td>
-            <td>{{ item.totalCobradoCompleto }}</td>
-            <td>{{ item.totalNoPagado }}</td>
-            <td>{{ item.totalSaldoPorPagar }}</td>
-            <td>{{ item.nivelRecaudacion }}</td>
-            <td>{{ item.nivelSaldoPendiente }}</td>
-          </tr>
-          <tr class="text-center">
-            <td> &nbsp;</td>
-            <td>{{ $totalCobrar }}</td>
-            <td>{{ $totalCobrado }}</td>
-            <td>{{ $totalCobradoParcial }}</td>
-            <td>{{ $totalCobradoCompleto }}</td>
-            <td>{{ $totalNoPagado }}</td>
-            <td>{{ $totalSaldoPorPagar }}</td>
-            <td>{{ $nivelRecaudacion }}</td>
-            <td>{{ $nivelSaldoPendiente }}</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-12"  *ngIf="$type == 2">
-        <label>Moneda: Dolares</label>
-        <table  class="table table-bordered table-responsive">
-          <thead>
-          <tr class="text-center">
-            <th>Gestor</th>
-            <th>Total a cobrar</th>
-            <th>Total cobrado</th>
-            <th>Total cobrado parcial</th>
-            <th>Total cobrado completo</th>
-            <th>Total no pagado</th>
-            <th>Total saldos por pagar</th>
-            <th>Nivel de recaudacion</th>
-            <th>Nivel de saldos pendiente</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr class="text-center" *ngFor="let item of itemsDolares; let i = index">
-            <td>{{ item.gestor }}</td>
-            <td>{{ item.totalCobrar }}</td>
-            <td>{{ item.totalCobrado }}</td>
-            <td>{{ item.totalCobradoParcial }}</td>
-            <td>{{ item.totalCobradoCompleto }}</td>
-            <td>{{ item.totalNoPagado }}</td>
-            <td>{{ item.totalSaldoPorPagar }}</td>
-            <td>{{ item.nivelRecaudacion }}</td>
-            <td>{{ item.nivelSaldoPendiente }}</td>
-          </tr>
-          <tr class="text-center">
-            <td> &nbsp;</td>
-            <td>{{ $totalCobrarDol }}</td>
-            <td>{{ $totalCobradoDol }}</td>
-            <td>{{ $totalCobradoParcialDol }}</td>
-            <td>{{ $totalCobradoCompletoDol }}</td>
-            <td>{{ $totalNoPagadoDol }}</td>
-            <td>{{ $totalSaldoPorPagarDol }}</td>
-            <td>{{ $nivelRecaudacionDol }}</td>
-            <td>{{ $nivelSaldoPendienteDol }}</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Resumen 1</label>
+                </div>
+            </div>
+            <div class="col-12" *ngIf="$type == 1">
+                <label>Moneda: Soles</label>
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                        <tr class="text-center">
+                            <th>Gestor</th>
+                            <th>Total a cobrar</th>
+                            <th>Total cobrado</th>
+                            <th>Total cobrado parcial</th>
+                            <th>Total cobrado completo</th>
+                            <th>Total no pagado</th>
+                            <th>Total saldos por pagar</th>
+                            <th>Nivel de recaudacion</th>
+                            <th>Nivel de saldos pendiente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center" *ngFor="let item of itemsSoles; let i = index">
+                            <td>{{ item.gestor }}</td>
+                            <td>{{ item.totalCobrar }}</td>
+                            <td>{{ item.totalCobrado }}</td>
+                            <td>{{ item.totalCobradoParcial }}</td>
+                            <td>{{ item.totalCobradoCompleto }}</td>
+                            <td>{{ item.totalNoPagado }}</td>
+                            <td>{{ item.totalSaldoPorPagar }}</td>
+                            <td>{{ item.nivelRecaudacion }}</td>
+                            <td>{{ item.nivelSaldoPendiente }}</td>
+                        </tr>
+                        <tr class="text-center">
+                            <td> &nbsp;</td>
+                            <td>{{ $totalCobrar }}</td>
+                            <td>{{ $totalCobrado }}</td>
+                            <td>{{ $totalCobradoParcial }}</td>
+                            <td>{{ $totalCobradoCompleto }}</td>
+                            <td>{{ $totalNoPagado }}</td>
+                            <td>{{ $totalSaldoPorPagar }}</td>
+                            <td>{{ $nivelRecaudacion }}</td>
+                            <td>{{ $nivelSaldoPendiente }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12" *ngIf="$type == 2">
+                <label>Moneda: Dolares</label>
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                        <tr class="text-center">
+                            <th>Gestor</th>
+                            <th>Total a cobrar</th>
+                            <th>Total cobrado</th>
+                            <th>Total cobrado parcial</th>
+                            <th>Total cobrado completo</th>
+                            <th>Total no pagado</th>
+                            <th>Total saldos por pagar</th>
+                            <th>Nivel de recaudacion</th>
+                            <th>Nivel de saldos pendiente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center" *ngFor="let item of itemsDolares; let i = index">
+                            <td>{{ item.gestor }}</td>
+                            <td>{{ item.totalCobrar }}</td>
+                            <td>{{ item.totalCobrado }}</td>
+                            <td>{{ item.totalCobradoParcial }}</td>
+                            <td>{{ item.totalCobradoCompleto }}</td>
+                            <td>{{ item.totalNoPagado }}</td>
+                            <td>{{ item.totalSaldoPorPagar }}</td>
+                            <td>{{ item.nivelRecaudacion }}</td>
+                            <td>{{ item.nivelSaldoPendiente }}</td>
+                        </tr>
+                        <tr class="text-center">
+                            <td> &nbsp;</td>
+                            <td>{{ $totalCobrarDol }}</td>
+                            <td>{{ $totalCobradoDol }}</td>
+                            <td>{{ $totalCobradoParcialDol }}</td>
+                            <td>{{ $totalCobradoCompletoDol }}</td>
+                            <td>{{ $totalNoPagadoDol }}</td>
+                            <td>{{ $totalSaldoPorPagarDol }}</td>
+                            <td>{{ $nivelRecaudacionDol }}</td>
+                            <td>{{ $nivelSaldoPendienteDol }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="form-group">
-          <label>Resumen cantidad</label>
         </div>
-      </div>
-      <div class="col-12"  *ngIf="$type == 1">
-        <label>Moneda: Soles</label>
-        <table  class="table table-bordered table-responsive">
-          <thead>
-          <tr class="text-center">
-            <th>Gestor</th>
-            <th>Total a cobrar</th>
-            <th>Total cobrado</th>
-            <th>Total cobrado parcial</th>
-            <th>Total cobrado completo</th>
-            <th>Total no pagado</th>
-            <th>Nivel de recaudacion</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr class="text-center" *ngFor="let item of itemsSoles; let i = index">
-            <td>{{ item.gestor }}</td>
-            <td>{{ item.cantidadCobrar }}</td>
-            <td>{{ item.cantidadCobrado }}</td>
-            <td>{{ item.cantidadCobradoParcial }}</td>
-            <td>{{ item.cantidadCobradoCompleto }}</td>
-            <td>{{ item.cantidadNoPagada }}</td>
-            <td>{{ item.nivelRecaudacionCan }}</td>
-          </tr>
-          <tr class="text-center">
-            <td> &nbsp;</td>
-            <td>{{ $cantidadCobrar }}</td>
-            <td>{{ $cantidadCobrado }}</td>
-            <td>{{ $cantidadCobradoParcial }}</td>
-            <td>{{ $cantidadCobradoCompleto }}</td>
-            <td>{{ $cantidadNoPagada }}</td>
-            <td>{{ $nivelRecaudacionCan }}</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-12"  *ngIf="$type == 2">
-        <label>Moneda: Soles</label>
-        <table  class="table table-bordered table-responsive">
-          <thead>
-          <tr class="text-center">
-            <th>Gestor</th>
-            <th>Total a cobrar</th>
-            <th>Total cobrado</th>
-            <th>Total cobrado parcial</th>
-            <th>Total cobrado completo</th>
-            <th>Total no pagado</th>
-            <th>Nivel de recaudacion</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr class="text-center" *ngFor="let item of itemsDolares; let i = index">
-            <td>{{ item.gestor }}</td>
-            <td>{{ item.cantidadCobrar }}</td>
-            <td>{{ item.cantidadCobrado }}</td>
-            <td>{{ item.cantidadCobradoParcial }}</td>
-            <td>{{ item.cantidadCobradoCompleto }}</td>
-            <td>{{ item.cantidadNoPagada }}</td>
-            <td>{{ item.nivelRecaudacionCan }}</td>
-          </tr>
-          <tr class="text-center">
-            <td> &nbsp;</td>
-            <td>{{ $cantidadCobrarDol }}</td>
-            <td>{{ $cantidadCobradoDol }}</td>
-            <td>{{ $cantidadCobradoParcialDol }}</td>
-            <td>{{ $cantidadCobradoCompletoDol }}</td>
-            <td>{{ $cantidadNoPagadaDol }}</td>
-            <td>{{ $nivelRecaudacionCanDol }}</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Resumen cantidad</label>
+                </div>
+            </div>
+            <div class="col-12" *ngIf="$type == 1">
+                <label>Moneda: Soles</label>
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                        <tr class="text-center">
+                            <th>Gestor</th>
+                            <th>Total a cobrar</th>
+                            <th>Total cobrado</th>
+                            <th>Total cobrado parcial</th>
+                            <th>Total cobrado completo</th>
+                            <th>Total no pagado</th>
+                            <th>Nivel de recaudacion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center" *ngFor="let item of itemsSoles; let i = index">
+                            <td>{{ item.gestor }}</td>
+                            <td>{{ item.cantidadCobrar }}</td>
+                            <td>{{ item.cantidadCobrado }}</td>
+                            <td>{{ item.cantidadCobradoParcial }}</td>
+                            <td>{{ item.cantidadCobradoCompleto }}</td>
+                            <td>{{ item.cantidadNoPagada }}</td>
+                            <td>{{ item.nivelRecaudacionCan }}</td>
+                        </tr>
+                        <tr class="text-center">
+                            <td> &nbsp;</td>
+                            <td>{{ $cantidadCobrar }}</td>
+                            <td>{{ $cantidadCobrado }}</td>
+                            <td>{{ $cantidadCobradoParcial }}</td>
+                            <td>{{ $cantidadCobradoCompleto }}</td>
+                            <td>{{ $cantidadNoPagada }}</td>
+                            <td>{{ $nivelRecaudacionCan }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12" *ngIf="$type == 2">
+                <label>Moneda: Soles</label>
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                        <tr class="text-center">
+                            <th>Gestor</th>
+                            <th>Total a cobrar</th>
+                            <th>Total cobrado</th>
+                            <th>Total cobrado parcial</th>
+                            <th>Total cobrado completo</th>
+                            <th>Total no pagado</th>
+                            <th>Nivel de recaudacion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center" *ngFor="let item of itemsDolares; let i = index">
+                            <td>{{ item.gestor }}</td>
+                            <td>{{ item.cantidadCobrar }}</td>
+                            <td>{{ item.cantidadCobrado }}</td>
+                            <td>{{ item.cantidadCobradoParcial }}</td>
+                            <td>{{ item.cantidadCobradoCompleto }}</td>
+                            <td>{{ item.cantidadNoPagada }}</td>
+                            <td>{{ item.nivelRecaudacionCan }}</td>
+                        </tr>
+                        <tr class="text-center">
+                            <td> &nbsp;</td>
+                            <td>{{ $cantidadCobrarDol }}</td>
+                            <td>{{ $cantidadCobradoDol }}</td>
+                            <td>{{ $cantidadCobradoParcialDol }}</td>
+                            <td>{{ $cantidadCobradoCompletoDol }}</td>
+                            <td>{{ $cantidadNoPagadaDol }}</td>
+                            <td>{{ $nivelRecaudacionCanDol }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
+        </div>
     </div>
-  </div>
 </div>
 
 <ngx-spinner></ngx-spinner>

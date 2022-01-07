@@ -118,6 +118,7 @@ export class ResumenResultadosPorGestorComponent implements OnInit {
 
 
   download() {
+    this.spinner.show();
     const {start, finish} = this.formSearch.getRawValue();
     this.reportesService.generarExcelResumenResultadosPorGestor(start, finish).subscribe(
       response => {
@@ -137,6 +138,10 @@ export class ResumenResultadosPorGestorComponent implements OnInit {
             document.body.removeChild(a);
           }, 3000);
         }
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
       }
     );
   }

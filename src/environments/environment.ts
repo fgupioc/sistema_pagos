@@ -2,8 +2,8 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 const http = 'http';
-const URL = 'localhost';
-const PORT = '8443';
+const URL = '192.168.1.130';
+const PORT = '8080/icollectApi';
 export const environment = {
   production: false,
   serverUrl: `${http}://${URL}:${PORT}/api/`,
@@ -12,6 +12,7 @@ export const environment = {
   clientId: 'icollect',
   clientSecret: '$2a$10$owNcRMCTn/K.1IuVvkIpJOu6GD2/yHkQBqCCLyHw5x4ubrcc9WQNa'
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file
