@@ -1,47 +1,42 @@
 <div class="card">
-  <div class="card-body">
-    <form [formGroup]="formGroup">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="row">
-            <div class="col-md-4">
-              <div class="form-group">
-                <label for="nombre">Nombre *</label>
-                <input Uppercase type="text" id="nombre" placeholder="Nombre"
-                       class="form-control"
-                       formControlName="nombre" autocomplete="off"
-                       [ngClass]="
+    <div class="card-body">
+        <form [formGroup]="formGroup">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="nombre">Nombre *</label>
+                                <input Uppercase type="text" id="nombre" placeholder="Nombre" class="form-control" formControlName="nombre" autocomplete="off" [ngClass]="
                     {
                     'is-invalid': formGroup.controls['nombre'].touched && formGroup.controls['nombre'].errors,
                     'is-valid': formGroup.controls['nombre'].touched && !formGroup.controls['nombre'].errors
                      }
                     ">
-                <div class="invalid-feedback">
-                  <span *ngIf="formGroup.get('nombre').hasError('required')"> El campo primer nombre es obligatorio. <br></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label for="codEstado">Estado *</label>
-                <select id="codEstado" class="form-control" formControlName="codEstado"
-                        [ngClass]="
+                                <div class="invalid-feedback">
+                                    <span *ngIf="formGroup.get('nombre').hasError('required')"> El campo primer nombre es obligatorio. <br></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="codEstado">Estado *</label>
+                                <select id="codEstado" class="form-control" formControlName="codEstado" [ngClass]="
                       {
                       'is-invalid': formGroup.controls['codEstado'].touched && formGroup.controls['codEstado'].errors,
                       'is-valid': formGroup.controls['codEstado'].touched && !formGroup.controls['codEstado'].errors
-                       }"
-                >
+                       }">
                   <option *ngFor="let o of estados" [value]="o.codItem">{{o.descripcion}}</option>
                 </select>
-                <div class="invalid-feedback">
-                  <span *ngIf="formGroup.get('codEstado').hasError('required')">Obligatorio.</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-md-4">
-              <div class="form-group">
-                <label>Area</label>
-                <select name="codArea" class="form-control" formControlName="codArea" [ngClass]="
+                                <div class="invalid-feedback">
+                                    <span *ngIf="formGroup.get('codEstado').hasError('required')">Obligatorio.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="form-group">
+                                <label>Área</label>
+                                <select name="codArea" class="form-control" formControlName="codArea" [ngClass]="
                                     {
                                     'is-invalid': formGroup.controls['codArea'].touched && formGroup.controls['codArea'].errors,
                                     'is-valid': formGroup.controls['codArea'].touched && !formGroup.controls['codArea'].errors
@@ -50,152 +45,146 @@
                   <option value="">Seleccione</option>
                   <option *ngFor="let item of areas" [value]="item.codItem">{{ item.descripcion }}</option>
                 </select>
-                <div class="invalid-feedback">
-                  <span class="d-block" *ngIf="formGroup.get('codArea').hasError('required')"> El area es obligatorio.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <ul ngbNav #nav="ngbNav" class="nav-tabs">
-                <li ngbNavItem>
-                  <a ngbNavLink>Detalle</a>
-                  <ng-template ngbNavContent>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <table style="width: 100%;">
-                          <tr>
-                            <td></td>
-                            <th>Crea</th>
-                            <th>Modifica</th>
-                          </tr>
-                          <tr>
-                            <th>Usuario</th>
-                            <td>{{ rol.usuarioCreaDes }}</td>
-                            <td>{{ rol.usuarioActualizaDes }}</td>
-                          </tr>
-                          <tr>
-                            <th>Fecha</th>
-                            <td>{{ rol.fechaCreacion | date: 'dd/MM/yyyy' }}</td>
-                            <td>{{ rol.fechaActualizacion  | date: 'dd/MM/yyyy'}}</td>
-                          </tr>
-                          <tr>
-                            <th>Hora</th>
-                            <td>{{ rol.fechaCreacion | date: 'hh:mm:ss a' | lowercase}}</td>
-                            <td>{{ rol.fechaActualizacion  | date: 'hh:mm:ss a' | lowercase}}</td>
-                          </tr>
-                        </table>
-                      </div>
+                                <div class="invalid-feedback">
+                                    <span class="d-block" *ngIf="formGroup.get('codArea').hasError('required')"> El area es obligatorio.</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </ng-template>
-                </li>
-                <li ngbNavItem>
-                  <a ngbNavLink>Menu *</a>
-                  <ng-template ngbNavContent>
-                    <ngx-treeview [config]="config" [items]="items" (filterChange)="onFilterChange($event)"
-                                  (selectedChange)="onSelectedChange($event)" *ngIf="!cargandoMenu">
-                    </ngx-treeview>
-                    <br *ngIf="cargandoMenu">
-                    <label *ngIf="cargandoMenu">
+                    <div class="row">
+                        <div class="col-12">
+                            <ul ngbNav #nav="ngbNav" class="nav-tabs">
+                                <li ngbNavItem>
+                                    <a ngbNavLink>Detalle</a>
+                                    <ng-template ngbNavContent>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <table style="width: 100%;">
+                                                    <tr>
+                                                        <td></td>
+                                                        <th>Crea</th>
+                                                        <th>Modifica</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Usuario</th>
+                                                        <td>{{ rol.usuarioCreaDes }}</td>
+                                                        <td>{{ rol.usuarioActualizaDes }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Fecha</th>
+                                                        <td>{{ rol.fechaCreacion | date: 'dd/MM/yyyy' }}</td>
+                                                        <td>{{ rol.fechaActualizacion | date: 'dd/MM/yyyy'}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Hora</th>
+                                                        <td>{{ rol.fechaCreacion | date: 'hh:mm:ss a' | lowercase}}</td>
+                                                        <td>{{ rol.fechaActualizacion | date: 'hh:mm:ss a' | lowercase}}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </li>
+                                <li ngbNavItem>
+                                    <a ngbNavLink>Menú *</a>
+                                    <ng-template ngbNavContent>
+                                        <ngx-treeview [config]="config" [items]="items" (filterChange)="onFilterChange($event)" (selectedChange)="onSelectedChange($event)" *ngIf="!cargandoMenu">
+                                        </ngx-treeview>
+                                        <br *ngIf="cargandoMenu">
+                                        <label *ngIf="cargandoMenu">
                       <em>Cargando..., porfavor espere...</em>
                     </label>
-                  </ng-template>
-                </li>
-                <li ngbNavItem>
-                  <a ngbNavLink>Autorizaciones *</a>
-                  <ng-template ngbNavContent>
-                    <br *ngIf="cargandoMenu">
-                    <label *ngIf="cargandoMenu">
+                                    </ng-template>
+                                </li>
+                                <li ngbNavItem>
+                                    <a ngbNavLink>Autorizaciones *</a>
+                                    <ng-template ngbNavContent>
+                                        <br *ngIf="cargandoMenu">
+                                        <label *ngIf="cargandoMenu">
                       <em>Cargando..., porfavor espere...</em>
                     </label>
-                    <div *ngFor="let menu of menus;">
-                      <div *ngFor="let menuHijo of menu.children;">
-                        <div class="row" *ngIf="menuHijo.checked">
-                          <div class="col-sm-12">
-                            <strong>{{ menu.text }} | {{ menuHijo.text }}</strong>
-                          </div>
-                          <div class="col-sm-2" *ngFor="let a of menuHijo.autorizaciones">
-                            <div class="form-group">
-                              <div class="custom-control custom-checkbox">
-                                <!-- [checked]="menuHijo.checked"
+                                        <div *ngFor="let menu of menus;">
+                                            <div *ngFor="let menuHijo of menu.children;">
+                                                <div class="row" *ngIf="menuHijo.checked">
+                                                    <div class="col-sm-12">
+                                                        <strong>{{ menu.text }} | {{ menuHijo.text }}</strong>
+                                                    </div>
+                                                    <div class="col-sm-2" *ngFor="let a of menuHijo.autorizaciones">
+                                                        <div class="form-group">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <!-- [checked]="menuHijo.checked"
                                        (change)="onChangeCheckAutorizacion(menuHijo,a.id)" -->
-                                <input class="custom-control-input" type="checkbox"
-                                       [checked]=isSelectedAutorizacion(a.id)
-                                       (change)="onChangeCheckAutorizacion(menuHijo,a.id)"
-                                       id="customCheckbox_{{ menuHijo.value }}_{{a.id}}" value="{{ a.id }}">
-                                <label for="customCheckbox_{{ menuHijo.value }}_{{a.id}}"
-                                       class="custom-control-label">
+                                                                <input class="custom-control-input" type="checkbox" [checked]=isSelectedAutorizacion(a.id) (change)="onChangeCheckAutorizacion(menuHijo,a.id)" id="customCheckbox_{{ menuHijo.value }}_{{a.id}}" value="{{ a.id }}">
+                                                                <label for="customCheckbox_{{ menuHijo.value }}_{{a.id}}" class="custom-control-label">
                                   {{ a.titulo }}
                                 </label>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </ng-template>
-                </li>
-                <li ngbNavItem>
-                  <a ngbNavLink>Usuarios</a>
-                  <ng-template ngbNavContent>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <button class="btn btn-default" style="margin-right: 5px;" (click)="agregarUsuario()">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </li>
+                                <li ngbNavItem>
+                                    <a ngbNavLink>Usuarios</a>
+                                    <ng-template ngbNavContent>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button class="btn btn-default" style="margin-right: 5px;" (click)="agregarUsuario()">
                           <i class="fa fa-plus"></i> Agregar
                         </button>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="table-responsive">
-                          <table class="table table-responsive-sm table-bordered table-striped table-sm">
-                            <thead>
-                            <tr class="text-center">
-                              <th>#</th>
-                              <th>Alias</th>
-                              <th>Email</th>
-                              <th>Eliminar</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr *ngFor="let o of usuarios; let i = index;">
-                              <td>{{ i + 1 }}</td>
-                              <td>{{ o.alias }}</td>
-                              <td>{{ o.email}}</td>
-                              <td class="text-center">
-                                <button class="btn btn-sm btn-danger mr-2" (click)="eliminarUsuarioDelRol(o.id)"
-                                        title="Editar">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+                                                    <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                                                        <thead>
+                                                            <tr class="text-center">
+                                                                <th>#</th>
+                                                                <th>Alias</th>
+                                                                <th>Email</th>
+                                                                <th>Eliminar</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr *ngFor="let o of usuarios; let i = index;">
+                                                                <td>{{ i + 1 }}</td>
+                                                                <td>{{ o.alias }}</td>
+                                                                <td>{{ o.email}}</td>
+                                                                <td class="text-center">
+                                                                    <button class="btn btn-sm btn-danger mr-2" (click)="eliminarUsuarioDelRol(o.id)" title="Editar">
                                   <i class="fas fa-trash"></i>
                                 </button>
-                              </td>
-                            </tr>
-                            </tbody>
-                          </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="col-md-12 text-center" *ngIf="usuarios.length == 0">
+                                                    <samp>No hay datos</samp>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </li>
+                            </ul>
+                            <div [ngbNavOutlet]="nav"></div>
                         </div>
-                        <div class="col-md-12 text-center" *ngIf="usuarios.length == 0">
-                          <samp>No hay datos</samp>
-                        </div>
-                      </div>
                     </div>
-                  </ng-template>
-                </li>
-              </ul>
-              <div [ngbNavOutlet]="nav"></div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-  <div class="card-footer">
-    <button class="btn btn-default" style="margin-right: 5px;" (click)="regresar()">
+        </form>
+    </div>
+    <div class="card-footer">
+        <button class="btn btn-default" style="margin-right: 5px;" (click)="regresar()">
       <i class="fa fa-hand-point-left"></i> Regresar
     </button>
-    <button class="btn btn-info" (click)="actualizarRol()" [disabled]="formGroup.invalid || formGroup.pending">
+        <button class="btn btn-info" (click)="actualizarRol()" [disabled]="formGroup.invalid || formGroup.pending">
       <i class="fa fa-save"></i> Guardar
     </button>
-  </div>
+    </div>
 </div>
 <app-loading></app-loading>

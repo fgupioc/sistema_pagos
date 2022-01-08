@@ -1,14 +1,14 @@
 <div class="modal-header">
-  <h4 class="modal-title">Emails </h4>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
+    <h4 class="modal-title">Emails </h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-  <div class="row" [formGroup]="formulario">
-    <div class="col-4">
-      <div class="form-group">
-        <select class="form-control" formControlName="codTipoNotificacion" (ngModelChange)="cambioSelect()" [ngClass]="
+    <div class="row" [formGroup]="formulario">
+        <div class="col-4">
+            <div class="form-group">
+                <select class="form-control" formControlName="codTipoNotificacion" (ngModelChange)="cambioSelect()" [ngClass]="
             {
             'is-invalid': formulario.controls['codTipoNotificacion'].touched && formulario.controls['codTipoNotificacion'].errors
             }
@@ -16,52 +16,52 @@
           <option value="">Seleccione</option>
           <option *ngFor="let item of notificaciones" [value]="item.codTipoNotificacion">{{ item.nombre }}</option>
         </select>
-        <div class="invalid-feedback">
-          <span class="d-block" *ngIf="formulario.get('codTipoNotificacion').hasError('required')"> El tipo de notificacion es obligatorio.</span>
+                <div class="invalid-feedback">
+                    <span class="d-block" *ngIf="formulario.get('codTipoNotificacion').hasError('required')"> El tipo de notificación es obligatorio.</span>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="col-8">
-      <div class="input-group mb-3">
-        <input type="email" class="form-control" placeholder="Correo electrónico" formControlName="email" [ngClass]="
+        <div class="col-8">
+            <div class="input-group mb-3">
+                <input type="email" class="form-control" placeholder="Correo electrónico" formControlName="email" [ngClass]="
             {
             'is-invalid': formulario.controls['email'].touched && formulario.controls['email'].errors
             }
             ">
-        <div class="input-group-prepend">
-          <button *ngIf="create" type="button" class="btn btn-success" (click)="guardar()" [disabled]="formulario.invalid"><i class="fa fa-plus"></i></button>
-          <button *ngIf="!create" type="button" class="btn btn-primary" (click)="editar()" [disabled]="formulario.invalid"><i class="fa fa-edit"></i></button>
+                <div class="input-group-prepend">
+                    <button *ngIf="create" type="button" class="btn btn-success" (click)="guardar()" [disabled]="formulario.invalid"><i class="fa fa-plus"></i></button>
+                    <button *ngIf="!create" type="button" class="btn btn-primary" (click)="editar()" [disabled]="formulario.invalid"><i class="fa fa-edit"></i></button>
+                </div>
+                <div class="invalid-feedback">
+                    <span class="d-block" *ngIf="formulario.get('email').hasError('required')"> El corre electrónico es obligatorio.</span>
+                    <span class="d-block" *ngIf="formulario.get('email').hasError('email')">El correo electrónico no es válido.</span>
+                </div>
+            </div>
         </div>
-        <div class="invalid-feedback">
-          <span class="d-block" *ngIf="formulario.get('email').hasError('required')"> El corre electrónico es obligatorio.</span>
-          <span class="d-block" *ngIf="formulario.get('email').hasError('email')">El correo electrónico no es válido.</span>
+        <div class="col-12">
+            <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                <thead>
+                    <tr class="text-center">
+                        <th>#</th>
+                        <th>Tipo</th>
+                        <th>Email</th>
+                        <th>Opción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let o of emails; index as i; ">
+                        <td class="text-center">{{ i + 1 }}</td>
+                        <td class="text-center">{{ o.tipoNotificacion }}</td>
+                        <td class="text-center">{{ o.email }}</td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-primary" (click)="update(o)"><i class="fa fa-edit"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-      </div>
     </div>
-    <div class="col-12">
-      <table class="table table-responsive-sm table-bordered table-striped table-sm">
-        <thead>
-        <tr class="text-center">
-          <th>#</th>
-          <th>Tipo</th>
-          <th>Email</th>
-          <th>Opción</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let o of emails; index as i; ">
-          <td class="text-center">{{ i + 1 }}</td>
-          <td class="text-center">{{ o.tipoNotificacion }}</td>
-          <td class="text-center">{{ o.email }}</td>
-          <td class="text-center">
-            <button class="btn btn-sm btn-primary" (click)="update(o)"><i class="fa fa-edit"></i></button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
 </div>
 <div class="modal-footer d-flex justify-content-center">
-  <button type="button" class="btn btn-default" (click)="activeModal.close()">Cerrar</button>
+    <button type="button" class="btn btn-default" (click)="activeModal.close()">Cerrar</button>
 </div>

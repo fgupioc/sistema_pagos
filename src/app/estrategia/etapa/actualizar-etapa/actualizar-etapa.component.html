@@ -39,7 +39,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Desde:</label>
+                    <label>Días Desde:</label>
                     <input NumberInteger type="text" class="form-control" formControlName="desde" (change)="validarDesde()" [ngClass]="
                     {
                     'is-invalid': formEtapa.controls['desde'].touched && formEtapa.controls['desde'].errors,
@@ -54,7 +54,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Haste:</label>
+                    <label>Días Haste:</label>
                     <input NumberInteger type="text" class="form-control" formControlName="hasta" (change)="validarHasta()" [ngClass]="
                     {
                     'is-invalid': formEtapa.controls['hasta'].touched && formEtapa.controls['hasta'].errors,
@@ -68,37 +68,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label>Pistas de Auditoria</label>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Fecha Creación:</label>
-                    <input type="text" class="form-control" formControlName="fechaCreacion">
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Usuario Creador:</label>
-                    <input type="text" class="form-control" formControlName="userCreate">
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Fecha Actualización:</label>
-                    <input type="text" class="form-control" formControlName="fechaActualizacion">
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Usuario Actualiza:</label>
-                    <input type="text" class="form-control" formControlName="userUpdate">
-                </div>
-            </div>
-        </div>
+
     </div>
     <div class="modal-footer d-flex justify-content-center">
         <button [disabled]="formEtapa.invalid" *ngIf="create" type="button" class="btn btn-outline-info mr-2" (click)="guardar()">Guardar</button>

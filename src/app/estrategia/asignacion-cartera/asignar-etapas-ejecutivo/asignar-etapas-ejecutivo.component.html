@@ -1,17 +1,17 @@
 <div class="card" *ngIf="ejecutivoSelected">
     <div class="card-header">
         <div class="div">
-          <i class="fa fa-align-justify"></i>
-          <span class="card-title text-uppercase font-weight-bold">Asignación de Cartera del Gestor : {{ ejecutivoSelected.alias }}</span>
-          <div class="card-tools float-right">
-            <button type="button" class="btn btn-sm btn-primary" routerLink="/auth/estrategia/asignacion-cartera">
+            <i class="fa fa-align-justify"></i>
+            <span class="card-title text-uppercase font-weight-bold">Asignación de Cartera del Gestor : {{ ejecutivoSelected.alias }}</span>
+            <div class="card-tools float-right">
+                <button type="button" class="btn btn-sm btn-primary" routerLink="/auth/estrategia/asignacion-cartera">
               <i class="fa fa-arrow-left"></i> Regresar
             </button>
-          </div>
+            </div>
         </div>
-      <div class="div" *ngIf="carteraSelected" style="font-size: 12px">
-        <span>Cartera: <b>{{ carteraSelected.nombre }}</b></span> <span *ngIf="gestionSelected"> Gestion: <b>{{ gestionSelected.nombre }}</b></span> <span *ngIf="etapasSelecionadas.length > 0"> Etapa: <b>{{ etapasSelecionadas[0].nombre }} [{{ etapasSelecionadas[0].desde }} a {{ etapasSelecionadas[0].hasta }} ]</b> </span>
-      </div>
+        <div class="div" *ngIf="carteraSelected" style="font-size: 12px">
+            <span>Cartera: <b>{{ carteraSelected.nombre }}</b></span> <span *ngIf="gestionSelected"> Gestión: <b>{{ gestionSelected.nombre }}</b></span> <span *ngIf="etapasSelecionadas.length > 0"> Etapa: <b>{{ etapasSelecionadas[0].nombre }} [{{ etapasSelecionadas[0].desde }} a {{ etapasSelecionadas[0].hasta }} ]</b> </span>
+        </div>
     </div>
     <div class="card-body">
         <div class="row">
@@ -282,16 +282,16 @@
                                     </div>
                                 </div>
                             </div>
-                          <div class="col-12" *ngIf="$creditos.length > 0">
-                            <div class="form-group m-0">
-                              <label>
+                            <div class="col-12" *ngIf="$creditos.length > 0">
+                                <div class="form-group m-0">
+                                    <label>
                                 <label class="switch">
-                                  <input type="checkbox" (change)="seleccionarTodos($event)">
+                                  <input type="checkbox" (change)="seleccionarTodos($event)" [checked]="$creditosCheched.length == $creditos.length">
                                   <span class="slider"></span>
                                 </label> Seleccionar Todo
-                              </label>
+                                    </label>
+                                </div>
                             </div>
-                          </div>
                             <div class="col-12" *ngIf="$creditos.length > 0">
                                 <label *ngIf="$creditos.length > 0">Se encontro {{ $creditos.length }} creditos.</label>
                                 <div>
@@ -315,7 +315,7 @@
                                                 <th>Fec. Repro.</th>
                                                 <th>Refinanciado</th>
                                                 <th>Importe Vencido</th>
-                                                <th>Dias Venc.</th>
+                                                <th>Días Venc.</th>
                                                 <th>Fec. Venc.</th>
                                                 <th>Tot. Cuotas</th>
                                                 <th>Cuotas Pag.</th>
@@ -339,7 +339,7 @@
                                             <tr *ngFor="let o of $creditos; index as i; ">
                                                 <th scope="row">
                                                     <label class="container">
-                                                      <input type="checkbox" (change)="changeCheckCreditos($event, o)" [checked]="isChecked(o)">
+                                                      <input #inputAll type="checkbox" (change)="changeCheckCreditos($event, o, inputAll)" [checked]="isChecked(o)">
                                                       <span class="checkmark"></span>
                                                     </label>
                                                 </th>

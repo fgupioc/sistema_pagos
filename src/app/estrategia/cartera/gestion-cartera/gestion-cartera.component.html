@@ -1,20 +1,20 @@
 <div class="row">
-  <div class="col-lg-12" *ngIf="cartera">
-    <div class="card">
-      <div class="card-header d-flex justify-content-lg-between">
-        <h6 class="p-0 m-0">Gestion</h6>
-        <ol class="breadcrumb float-sm-right m-0 p-0 bg-transparent">
-          <li class="breadcrumb-item"><a href="#" routerLink="/auth">Home</a></li>
-          <li class="breadcrumb-item"><a href="javascript:;" (click)="router.navigateByUrl('/auth/estrategia/carteras/detalle', {state: {cartera: cartera}})">Cartera</a></li>
-          <li class="breadcrumb-item active">Gestion</li>
-        </ol>
-      </div>
-      <div class="card-body" [formGroup]="formGestion">
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <div class="form-group">
-              <label>Gestiones</label>
-              <select name="codArea" class="form-control" formControlName="codGestion" (ngModelChange)="selectedGestion($event)" [ngClass]="
+    <div class="col-lg-12" *ngIf="cartera">
+        <div class="card">
+            <div class="card-header d-flex justify-content-lg-between">
+                <h6 class="p-0 m-0">Gestión</h6>
+                <ol class="breadcrumb float-sm-right m-0 p-0 bg-transparent">
+                    <li class="breadcrumb-item"><a href="#" routerLink="/auth">Home</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:;" (click)="router.navigateByUrl('/auth/estrategia/carteras/detalle', {state: {cartera: cartera}})">Cartera</a></li>
+                    <li class="breadcrumb-item active">Gestión</li>
+                </ol>
+            </div>
+            <div class="card-body" [formGroup]="formGestion">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label>Gestiones</label>
+                            <select name="codArea" class="form-control" formControlName="codGestion" (ngModelChange)="selectedGestion($event)" [ngClass]="
                                     {
                                     'is-invalid': formGestion.controls['codGestion'].touched && formGestion.controls['codGestion'].errors,
                                     'is-valid': formGestion.controls['codGestion'].touched && !formGestion.controls['codGestion'].errors
@@ -23,129 +23,129 @@
                 <option value="">Seleccione</option>
                 <option *ngFor="let item of gestiones" [value]="item.codGestion">{{ item.nombre }}</option>
               </select>
-              <div class="invalid-feedback">
-                <span class="d-block" *ngIf="formGestion.get('codGestion').hasError('required')"> La gestion es obligatorio.</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-6 col-md-3">
-            <div class="form-group">
-              <label>Desde</label>
-              <input NumberInteger type="text" class="form-control" formControlName="desde" [ngClass]="
+                            <div class="invalid-feedback">
+                                <span class="d-block" *ngIf="formGestion.get('codGestion').hasError('required')"> La gestion es obligatorio.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="form-group">
+                            <label>Días Desde</label>
+                            <input NumberInteger type="text" class="form-control" formControlName="desde" [ngClass]="
                                     {
                                     'is-invalid': formGestion.controls['desde'].touched && formGestion.controls['desde'].errors,
                                     'is-valid': formGestion.controls['desde'].touched && !formGestion.controls['desde'].errors
                                     }
                                     ">
-              <div class="invalid-feedback">
-                <span class="d-block" *ngIf="formGestion.get('desde').hasError('required')"> El campo desde es obligatorio.</span>
-                <span class="d-block" *ngIf="formGestion.get('desde').hasError('maxlength')">El número máximo de caracteres es 100.</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-6 col-md-3">
-            <div class="form-group">
-              <label>Hasta</label>
-              <input NumberInteger type="text" class="form-control" (change)="validarHasta()" formControlName="hasta" [ngClass]="
+                            <div class="invalid-feedback">
+                                <span class="d-block" *ngIf="formGestion.get('desde').hasError('required')"> El campo desde es obligatorio.</span>
+                                <span class="d-block" *ngIf="formGestion.get('desde').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="form-group">
+                            <label>Días Hasta</label>
+                            <input NumberInteger type="text" class="form-control" (change)="validarHasta()" formControlName="hasta" [ngClass]="
                                     {
                                     'is-invalid': formGestion.controls['hasta'].touched && formGestion.controls['hasta'].errors,
                                     'is-valid': formGestion.controls['hasta'].touched && !formGestion.controls['hasta'].errors
                                     }
                                     ">
-              <div class="invalid-feedback">
-                <span class="d-block" *ngIf="formGestion.get('hasta').hasError('required')"> El campo hasta es obligatorio.</span>
-                <span class="d-block" *ngIf="formGestion.get('hasta').hasError('maxlength')">El número máximo de caracteres es 100.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row" *ngIf="gestion">
-          <div class="col-12 col-md-6">
-            <div class="form-group">
-              <label>Etapas</label>
-              <select class="form-control" formControlName="codEtapaTemp" (change)="selectedEtapa($event)">
+                            <div class="invalid-feedback">
+                                <span class="d-block" *ngIf="formGestion.get('hasta').hasError('required')"> El campo hasta es obligatorio.</span>
+                                <span class="d-block" *ngIf="formGestion.get('hasta').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="gestion">
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label>Etapas</label>
+                            <select class="form-control" formControlName="codEtapaTemp" (change)="selectedEtapa($event)">
                 <option *ngFor="let item of gestion.etapas" [value]="item.codEtapa">{{ item.nombre}}</option>
               </select>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="form-group">
+                            <label>Desde</label>
+                            <input NumberInteger type="text" formControlName="desdeTemp" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <label>Hasta</label>
+                        <div class="input-group">
+                            <input NumberInteger type="text" formControlName="hastaTemp" class="form-control">
+                            <div class="input-group-prepend">
+                                <button type="button" class="btn btn-success" (click)="addEtapa()"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12" *ngIf="$etapas.length > 0">
+                        <div class="form-group table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th scope="col">#</th>
+                                        <th scope="col">Etapa</th>
+                                        <th scope="col">Desde</th>
+                                        <th scope="col">Hasta</th>
+                                        <th scope="col">Opción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of $etapas; let i = index" class="text-center">
+                                        <th scope="row">{{ i+1 }}</th>
+                                        <td>{{ item.nombre }}</td>
+                                        <td>{{ item.desde }}</td>
+                                        <td>{{ item.hasta }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-danger" (click)="removeEtapa(item.codEtapa)"><i class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-group text-center">
+                            <button class="btn btn-primary" (click)="agregar()">Agregar Etapas</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Pistas de Auditoria</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Fecha Creación:</label>
+                            <input type="text" class="form-control" formControlName="fechaCreacion">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Usuario Creador:</label>
+                            <input type="text" class="form-control" formControlName="userCreate">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Fecha Actualización:</label>
+                            <input type="text" class="form-control" formControlName="fechaActualizacion">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Usuario Actualiza:</label>
+                            <input type="text" class="form-control" formControlName="userUpdate">
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-6 col-md-3">
-            <div class="form-group">
-              <label>Desde</label>
-              <input NumberInteger type="text" formControlName="desdeTemp" class="form-control" >
-            </div>
-          </div>
-          <div class="col-6 col-md-3">
-            <label>Hasta</label>
-            <div class="input-group">
-              <input NumberInteger type="text" formControlName="hastaTemp" class="form-control" >
-              <div class="input-group-prepend">
-                <button type="button" class="btn btn-success" (click)="addEtapa()"><i class="fa fa-plus"></i></button>
-              </div>
-            </div>
-          </div>
-          <div class="col-12" *ngIf="$etapas.length > 0">
-            <div class="form-group table-responsive">
-              <table class="table table-bordered">
-                <thead>
-                <tr class="text-center">
-                  <th scope="col">#</th>
-                  <th scope="col">Etapa</th>
-                  <th scope="col">Desde</th>
-                  <th scope="col">Hasta</th>
-                  <th scope="col">Opción</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let item of $etapas; let i = index" class="text-center">
-                  <th scope="row">{{ i+1 }}</th>
-                  <td>{{ item.nombre }}</td>
-                  <td>{{ item.desde }}</td>
-                  <td>{{ item.hasta }}</td>
-                  <td>
-                    <button class="btn btn-sm btn-danger" (click)="removeEtapa(item.codEtapa)"><i class="fa fa-trash"></i></button>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="form-group text-center">
-              <button class="btn btn-primary" (click)="agregar()">Agregar Etapas</button>
-            </div>
-          </div>
         </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="form-group">
-              <label>Pistas de Auditoria</label>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label>Fecha Creación:</label>
-              <input type="text" class="form-control" formControlName="fechaCreacion">
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label>Usuario Creador:</label>
-              <input type="text" class="form-control" formControlName="userCreate">
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label>Fecha Actualización:</label>
-              <input type="text" class="form-control" formControlName="fechaActualizacion">
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label>Usuario Actualiza:</label>
-              <input type="text" class="form-control" formControlName="userUpdate">
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 <app-loading></app-loading>

@@ -1,24 +1,23 @@
 <div class="modal-content">
-  <div class="modal-body" *ngIf="tarea">
-    <ngb-accordion [closeOthers]="true" activeIds="static-1" (panelChange)="leerComentarios($event)">
-      <ngb-panel id="static-1" title="Información">
-        <ng-template ngbPanelContent>
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <ng-container *ngIf="!editName">
-                  <div class="d-flex justify-content-between mb-2">
-                    <h3>{{$tarea.nombre}}</h3>
-                    <ng-container *ngIf="$tarea.estado == '1'">
-                      <button placement="top" ngbTooltip="Editar" *ngIf="!editName && auth.loggedUser.id == $tarea.usuarioId" class="btn btn-sm btn-outline-info"
-                              (click)="editName ? editName = false : editName = true"><i class="fa fa-edit"></i></button>
-                    </ng-container>
-                  </div>
-                </ng-container>
-                <ng-container *ngIf="editName">
-                  <input class="form-control" [(ngModel)]="$tarea.nombre" (blur)="editName = false">
-                </ng-container>
-                <small>En la lista <span>{{ getNameList }}</span>
+    <div class="modal-body" *ngIf="tarea">
+        <ngb-accordion [closeOthers]="true" activeIds="static-1" (panelChange)="leerComentarios($event)">
+            <ngb-panel id="static-1" title="Información">
+                <ng-template ngbPanelContent>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <ng-container *ngIf="!editName">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <h3>{{$tarea.nombre}}</h3>
+                                        <ng-container *ngIf="$tarea.estado == '1'">
+                                            <button placement="top" ngbTooltip="Editar" *ngIf="!editName && auth.loggedUser.id == $tarea.usuarioId" class="btn btn-sm btn-outline-info" (click)="editName ? editName = false : editName = true"><i class="fa fa-edit"></i></button>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="editName">
+                                    <input class="form-control" [(ngModel)]="$tarea.nombre" (blur)="editName = false">
+                                </ng-container>
+                                <small>En la lista <span>{{ getNameList }}</span>
                   <ng-container *ngIf="auth.loggedUser.id != $tarea.usuarioId || $tarea.estado != '1'">
                     <span class="ml-2 btn btn-sm btn-{{ getClassPriority }}">
                       <i class="fa fa-question-circle"></i> Prioridad {{ getNamePriority }}
@@ -37,385 +36,381 @@
                     </div>
                   </ng-container>
                 </small>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="form-group">
-                <div class="d-flex justify-content-between mb-2">
-                  <label>Descripción</label>
-                  <ng-container *ngIf="$tarea.estado == '1'">
-                  <button *ngIf="!editDescription" placement="top" ngbTooltip="Editar" class="btn btn-sm btn-outline-info" (click)="editDescription = true"><i class="fa fa-edit"></i></button>
-                  </ng-container>
-                </div>
-                <ng-container *ngIf="editDescription">
-                  <textarea [(ngModel)]="$tarea.descripcion" class="form-control" (blur)="editDescription = false" rows="4"></textarea>
-                </ng-container>
-                <ng-container *ngIf="!editDescription">
-                  <p>{{ $tarea.descripcion }}</p>
-                </ng-container>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="form-group">
-                <div class="d-flex justify-content-between mb-2">
-                  <label>Vencimiento</label>
-                  <button *ngIf="!editVencimiento && $tarea.estado =='1'" placement="top" ngbTooltip="Editar" class="btn btn-sm btn-outline-info" (click)="newVencimiento()"><i class="fa fa-edit"></i></button>
-                  <button *ngIf="editVencimiento" placement="top" ngbTooltip="Cerrar" (click)="editVencimiento = false" class="btn btn-sm btn-outline-primary position-absolute" style="right: 5px; top:0"><i class="fa fa-close"></i></button>
-                </div>
-                <ng-container *ngIf="!editVencimiento">
-                  <div class="d-flex justify-content-between">
-                    <label class="container" style="font-size: 16px; font-weight: bold">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <label>Descripción</label>
+                                    <ng-container *ngIf="$tarea.estado == '1'">
+                                        <button *ngIf="!editDescription" placement="top" ngbTooltip="Editar" class="btn btn-sm btn-outline-info" (click)="editDescription = true"><i class="fa fa-edit"></i></button>
+                                    </ng-container>
+                                </div>
+                                <ng-container *ngIf="editDescription">
+                                    <textarea [(ngModel)]="$tarea.descripcion" class="form-control" (blur)="editDescription = false" rows="4"></textarea>
+                                </ng-container>
+                                <ng-container *ngIf="!editDescription">
+                                    <p>{{ $tarea.descripcion }}</p>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <label>Vencimiento</label>
+                                    <button *ngIf="!editVencimiento && $tarea.estado =='1'" placement="top" ngbTooltip="Editar" class="btn btn-sm btn-outline-info" (click)="newVencimiento()"><i class="fa fa-edit"></i></button>
+                                    <button *ngIf="editVencimiento" placement="top" ngbTooltip="Cerrar" (click)="editVencimiento = false" class="btn btn-sm btn-outline-primary position-absolute" style="right: 5px; top:0"><i class="fa fa-close"></i></button>
+                                </div>
+                                <ng-container *ngIf="!editVencimiento">
+                                    <div class="d-flex justify-content-between">
+                                        <label class="container" style="font-size: 16px; font-weight: bold">
                       {{ $tarea.fechaVencimiento  | date : 'dd MMM yyyy' }}
                       a las {{ $tarea.horaVencimiento | slice : 0 : 5 }}
                       <input type="checkbox" [(ngModel)]="$tarea.checkFechaVencimiento" [disabled]="$tarea.estado != '1'">
                       <span class="checkmark"></span>
                     </label>
-                    <span class="pull-right-container" *ngIf="$tarea.estado == '1'">
+                                        <span class="pull-right-container" *ngIf="$tarea.estado == '1'">
                       <small *ngIf="checedCumplido == '0'" class="badge badge-info">PENDIENTE</small>
                       <small *ngIf="checedCumplido == '1'" class="badge badge-success">CUMPLIDA</small>
                       <small *ngIf="checedCumplido == '2'" class="badge badge-danger">PLAZO VENCIDO</small>
                     </span>
-                  </div>
-                </ng-container>
-                <ng-container *ngIf="editVencimiento">
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="form-group">
-                        <div class="text-center position-relative">
-                          <label>Cambiar fecha de vencimiento</label>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="editVencimiento">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <div class="text-center position-relative">
+                                                    <label>Cambiar fecha de vencimiento</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <label>Fecha</label>
+                                            <input type="date" class="form-control" [(ngModel)]="$tarea.fechaVencimiento" [disabled]="$tarea.estado != '1'">
+                                        </div>
+                                        <div class="col-6">
+                                            <label>Hora</label>
+                                            <input type="time" class="form-control" [(ngModel)]="$tarea.horaVencimiento" [disabled]="$tarea.estado != '1'">
+                                        </div>
+                                        <ng-container *ngIf="$tarea.estado == '1'">
+                                            <div class="col-12 mt-2">
+                                                <div class="form-group">
+                                                    <div class="d-flex justify-content-between">
+                                                        <button class="btn btn-sm btn-info" (click)="editVencimiento = false">Guardar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+                            </div>
                         </div>
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <label>Fecha</label>
-                      <input type="date" class="form-control" [(ngModel)]="$tarea.fechaVencimiento" [disabled]="$tarea.estado != '1'">
-                    </div>
-                    <div class="col-6">
-                      <label>Hora</label>
-                      <input type="time" class="form-control" [(ngModel)]="$tarea.horaVencimiento" [disabled]="$tarea.estado != '1'">
-                    </div>
-                    <ng-container *ngIf="$tarea.estado == '1'">
-                    <div class="col-12 mt-2">
-                      <div class="form-group">
-                        <div class="d-flex justify-content-between">
-                          <button class="btn btn-sm btn-info" (click)="editVencimiento = false">Guardar</button>
-                        </div>
-                      </div>
-                    </div>
-                    </ng-container>
-                  </div>
-                </ng-container>
-              </div>
-            </div>
-            <div class="col-12 col-md-6">
-              <div class="form-group">
-                <label class="container " style="font-size: 16px;">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label class="container " style="font-size: 16px;">
                   Recordar el
                   <input #checkRecord type="checkbox" [(ngModel)]="$tarea.checkFechaRecordatorio" (click)="changeRecordatorio($event, checkRecord)" [disabled]="$tarea.estado != '1'">
                   <span class="checkmark"></span>
                 </label>
-                <input #fechaRec [disabled]="!$tarea.checkFechaRecordatorio || $tarea.estado !='1'" type="date" class="form-control input-date mr-2" [(ngModel)]="$tarea.fechaRecordatorio" style="width: 140px"
-                       (ngModelChange)="chengeFehcaRecordatorio($event, fechaRec)">
-                <input [disabled]="!$tarea.checkFechaRecordatorio || $tarea.estado !='1'" type="time" class="form-control input-date" [(ngModel)]="$tarea.horaRecordatorio" style="width: 96px">
-              </div>
-            </div>
-            <div class="col-12 col-md-6">
-              <div class="form-group">
-                <label class="container" style="font-size: 16px;">
+                                <input #fechaRec [disabled]="!$tarea.checkFechaRecordatorio || $tarea.estado !='1'" type="date" class="form-control input-date mr-2" [(ngModel)]="$tarea.fechaRecordatorio" style="width: 140px" (ngModelChange)="chengeFehcaRecordatorio($event, fechaRec)">
+                                <input [disabled]="!$tarea.checkFechaRecordatorio || $tarea.estado !='1'" type="time" class="form-control input-date" [(ngModel)]="$tarea.horaRecordatorio" style="width: 96px">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label class="container" style="font-size: 16px;">
                   Notificación SMS
                   <input type="checkbox" [(ngModel)]="$tarea.notificacion" [disabled]="!$tarea.checkFechaRecordatorio">
                   <span class="checkmark"></span>
                 </label>
-                <label class="container" style="font-size: 16px;">
+                                <label class="container" style="font-size: 16px;">
                   Correo
                   <input type="checkbox" [(ngModel)]="$tarea.correo" [disabled]="!$tarea.checkFechaRecordatorio">
                   <span class="checkmark"></span>
                 </label>
-              </div>
-            </div>
-            <ng-container *ngIf="$tarea.recordatorio">
-              <div class="table-responsive">
-                <table class="table table-bordered table-hover">
-                  <thead>
-                  <tr class="text-center">
-                    <th>Actividad</th>
-                    <th>Fecha/hora</th>
-                    <th>Descrpción</th>
-                    <th>Mensaje</th>
-                    <th>Condición</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr [class]="isCurrentDate($tarea.recordatorio.fecha, $tarea.recordatorio.condicion)" style="font-size: 12px; text-align: center">
-                    <td>
-                      <ng-container *ngIf="!$tarea.recordatorio.observacion; else obsetvation">
-                        {{ getNameActividad($tarea.recordatorio.tipoActividad) }}
-                      </ng-container>
-                      <ng-template #obsetvation>
-                        <ng-template #tipContent><b>{{$tarea.recordatorio.observacion}}</b></ng-template>
-                        <span> <b triggers="click" [autoClose]="'outside'" [ngbTooltip]="tipContent" class="cursor-pointer" style="font-size: 18px"><i class="fa  fa-question-circle"></i></b> {{ getNameActividad($tarea.recordatorio.tipoActividad) }} </span>
-                      </ng-template>
-                    </td>
-                    <td> {{ $tarea.recordatorio.fecha | date: 'dd/MM/yyyy' }} {{ $tarea.recordatorio.hora   }}</td>
-                    <td> {{ getDescripcion($tarea.recordatorio) }}</td>
-                    <td style="text-align: left;"> {{ $tarea.recordatorio.comentario }}</td>
-                    <td> {{ getNameCondition($tarea.recordatorio.condicion) }}</td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-            </ng-container>
-            <ng-container *ngIf="!$tarea.recordatorio">
-              <ng-container *ngIf="creditos.length > 0">
-                <div class="col-12">
-                  <div class="form-group">
-                    <label>Créditos asignados</label>
-                    <select class="form-control" [(ngModel)]="creditoId" (ngModelChange)="changeCredito($event);" [disabled]="auth.loggedUser.id != $tarea.usuarioId || $tarea.estado !='1'">
+                            </div>
+                        </div>
+                        <ng-container *ngIf="$tarea.recordatorio">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th>Actividad</th>
+                                            <th>Fecha/Hora</th>
+                                            <th>Descrpción</th>
+                                            <th>Mensaje</th>
+                                            <th>Condición</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr [class]="isCurrentDate($tarea.recordatorio.fecha, $tarea.recordatorio.condicion)" style="font-size: 12px; text-align: center">
+                                            <td>
+                                                <ng-container *ngIf="!$tarea.recordatorio.observacion; else obsetvation">
+                                                    {{ getNameActividad($tarea.recordatorio.tipoActividad) }}
+                                                </ng-container>
+                                                <ng-template #obsetvation>
+                                                    <ng-template #tipContent><b>{{$tarea.recordatorio.observacion}}</b></ng-template>
+                                                    <span> <b triggers="click" [autoClose]="'outside'" [ngbTooltip]="tipContent" class="cursor-pointer" style="font-size: 18px"><i class="fa  fa-question-circle"></i></b> {{ getNameActividad($tarea.recordatorio.tipoActividad) }} </span>
+                                                </ng-template>
+                                            </td>
+                                            <td> {{ $tarea.recordatorio.fecha | date: 'dd/MM/yyyy' }} {{ $tarea.recordatorio.hora }}</td>
+                                            <td> {{ getDescripcion($tarea.recordatorio) }}</td>
+                                            <td style="text-align: left;"> {{ $tarea.recordatorio.comentario }}</td>
+                                            <td> {{ getNameCondition($tarea.recordatorio.condicion) }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="!$tarea.recordatorio">
+                            <ng-container *ngIf="creditos.length > 0">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Créditos asignados</label>
+                                        <select class="form-control" [(ngModel)]="creditoId" (ngModelChange)="changeCredito($event);" [disabled]="auth.loggedUser.id != $tarea.usuarioId || $tarea.estado !='1'">
                       <option value="">Seleccione</option>
                       <option *ngFor="let item of creditos" [value]="item.id">{{ item.alias }} - {{ item.nroCredito }}</option>
                     </select>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <ng-container *ngIf="socio" [formGroup]="formRecordatorio">
-                    <div class="row">
-                      <div class="col-12 col-md-6">
-                        <div class="form-group">
-                          <label>Seleccione la actividad</label>
-                          <select class="form-control" formControlName="tipoActividad" (ngModelChange)="showItem = $event">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <ng-container *ngIf="socio" [formGroup]="formRecordatorio">
+                                        <div class="row">
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Seleccione la actividad</label>
+                                                    <select class="form-control" formControlName="tipoActividad" (ngModelChange)="showItem = $event">
                             <option value="">Selecione</option>
                             <option *ngFor="let item of tipoActividades" [value]="item.codItem">{{ item.descripcion }}</option>
                           </select>
-                        </div>
-                      </div>
-                      <ng-container *ngIf="false">
-                      <div class="col-12 col-md-6" *ngIf="showItem == '1'">
-                        <div class="form-group">
-                          <label>Seleccione número</label>
-                          <select class="form-control" formControlName="numeroTelefono">
+                                                </div>
+                                            </div>
+                                            <ng-container *ngIf="false">
+                                                <div class="col-12 col-md-6" *ngIf="showItem == '1'">
+                                                    <div class="form-group">
+                                                        <label>Seleccione número</label>
+                                                        <select class="form-control" formControlName="numeroTelefono">
                             <option>Selecione</option>
                             <option *ngFor="let item of showPhones" [value]="item.numero">{{ (item.codCiudad ? item.codCiudad + '-' : '') + item.numero }}</option>
                           </select>
-                        </div>
-                      </div>
-                      <div class="col-12 col-md-6" *ngIf="showItem == '2'">
-                        <div class="form-group">
-                          <label>Seleccione Correo</label>
-                          <select class="form-control" formControlName="correo">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-6" *ngIf="showItem == '2'">
+                                                    <div class="form-group">
+                                                        <label>Seleccione Correo</label>
+                                                        <select class="form-control" formControlName="correo">
                             <option>Selecione</option>
                             <option *ngFor="let item of showEmails" [value]="item.email">{{ item.email }}</option>
                           </select>
-                        </div>
-                      </div>
-                      <ng-container *ngIf="showItem == '3'">
-                        <div class="col-12 col-md-6">
-                          <div class="form-group">
-                            <label>Seleccione Metodo</label>
-                            <select #metodo class="form-control" formControlName="tipoMetodo" (ngModelChange)="cambioTipoMetodo($event)">
+                                                    </div>
+                                                </div>
+                                                <ng-container *ngIf="showItem == '3'">
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Seleccione Metodo</label>
+                                                            <select #metodo class="form-control" formControlName="tipoMetodo" (ngModelChange)="cambioTipoMetodo($event)">
                               <option value="">Selecione</option>
                               <option *ngFor="let item of listadoMensaje" [value]="item.nombre">{{ item.nombre }}</option>
                             </select>
-                          </div>
-                        </div>
-                        <div class="col-12 col-md-6" *ngIf="showCellphones != ''">
-                          <div class="form-group">
-                            <label>Seleccione número</label>
-                            <select class="form-control" formControlName="numeroTelefono">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6" *ngIf="showCellphones != ''">
+                                                        <div class="form-group">
+                                                            <label>Seleccione número</label>
+                                                            <select class="form-control" formControlName="numeroTelefono">
                               <option value="">Selecione</option>
                               <option *ngFor="let item of $telefonos" [value]="item.numero">{{ item.numero }}</option>
                             </select>
-                          </div>
-                        </div>
-                      </ng-container>
-                      <div class="col-12 " *ngIf="showItem == '4'">
-                        <div class="form-group">
-                          <label>Seleccione Dirección</label>
-                          <select class="form-control" formControlName="direccion">
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                                <div class="col-12 " *ngIf="showItem == '4'">
+                                                    <div class="form-group">
+                                                        <label>Seleccione Dirección</label>
+                                                        <select class="form-control" formControlName="direccion">
                             <option>Selecione</option>
                             <option *ngFor="let item of showAddress" [value]="item.nombreVia">{{ item.nombreVia }}</option>
                           </select>
-                        </div>
-                      </div>
-                      <div class="col-12">
-                        <div class="form-group">
-                          <label>Comentario</label>
-                          <textarea class="form-control" formControlName="comentario"></textarea>
-                        </div>
-                      </div>
-                      </ng-container>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label>Comentario</label>
+                                                        <textarea class="form-control" formControlName="comentario"></textarea>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                        <ng-container *ngIf="$tarea.estado == '1'">
+                            <div class="col-12">
+                                <button type="button" class="btn btn-outline-primary mr-2" (click)="crear()">guardar</button>
+                            </div>
+                        </ng-container>
                     </div>
-                  </ng-container>
-                </div>
-              </ng-container>
-            </ng-container>
-            <ng-container *ngIf="$tarea.estado == '1'">
-            <div class="col-12">
-              <button type="button" class="btn btn-outline-primary mr-2" (click)="crear()">guardar</button>
-            </div>
-            </ng-container>
-          </div>
-        </ng-template>
-      </ngb-panel>
-      <ngb-panel id="002">
-        <ng-template ngbPanelTitle>
-          <span>Archivos Adjuntos</span>
-        </ng-template>
-        <ng-template ngbPanelContent>
-          <div class="row">
-            <div class="col-12">
-              <div class="d-flex justify-content-between mb-2">
-                <label>Adjuntos</label>
-                <ng-container *ngIf="$tarea.estado =='1'">
-                <button class="btn btn-sm btn-outline-info" (click)="showDropzone ? showDropzone = false : showDropzone = true"><i class="fa fa-eye"></i></button>
-                </ng-container>
-              </div>
-              <div class="form-group" *ngIf="showDropzone">
-                <!--  [accept]="'image/*'" -->
-                <div class="custom-dropzone" ngx-dropzone (change)="onSelect($event)">
-                  <ngx-dropzone-label>
-                    <div>
-                      <h2>Adjuntar archivos</h2>
-                    </div>
-                  </ngx-dropzone-label>
-                  <ng-container *ngFor="let f of files">
-                    <ng-container *ngIf="isFormatImage(f.type); else noImage">
-                      <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" [file]="f" [removable]="true" (removed)="onRemove(f)">
-                        <ngx-dropzone-label>{{  f.name | slice:0: 20 }}{{ f.name.length > 20 ? '...' : ''}}  ({{ f.type }})</ngx-dropzone-label>
-                      </ngx-dropzone-image-preview>
-                    </ng-container>
-                    <ng-template #noImage>
-                      <ngx-dropzone-preview [removable]="true" (removed)="onRemove(f)">
-                        <ngx-dropzone-label>{{  f.name | slice:0: 20 }}{{ f.name.length > 20 ? '...' : ''}}  ({{ f.type }})</ngx-dropzone-label>
-                      </ngx-dropzone-preview>
-                    </ng-template>
-                  </ng-container>
-                </div>
-                <button class="btn btn-outline-info mt-2" *ngIf="files.length > 0" (click)="subirArchivos()"><i class="fa fa-upload"></i> Subir Archivos</button>
-              </div>
-            </div>
-            <div class="col-12" *ngIf="progresos.length > 0">
-              <div class="form-group">
-                <div class="progress mb-2" *ngFor="let item of progresos">
-                  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [attr.aria-valuenow]="item.progress" aria-valuemin="0" [attr.aria-valuemax]="100" [style.width]="item.progress+'%'">
-                    {{ item.name }} {{ item.progress }}%
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="form-group">
-                <div class="container-images">
-                  <ng-container *ngFor="let file of archivos">
-                    <ng-container *ngIf="isImage(file.tipo); else nofile">
-                      <div class="image-cs">
-                        <a class="image-cs-preview"
-                           [href]="getUrl(file)"
-                           [ngStyle]="{'background-image': 'url(' + getUrl(file) + ')'}"
-                           style="background-color: #404736;">
-                        </a>
-                        <p class="image-cs-details">
-                          <span class="image-cs-name">{{ file.nombre}}</span>
-                          <span class="u-block quiet image-cs-details-title-options">
+                </ng-template>
+            </ngb-panel>
+            <ngb-panel id="002">
+                <ng-template ngbPanelTitle>
+                    <span>Archivos Adjuntos</span>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between mb-2">
+                                <label>Adjuntos</label>
+                                <ng-container *ngIf="$tarea.estado =='1'">
+                                    <button class="btn btn-sm btn-outline-info" (click)="showDropzone ? showDropzone = false : showDropzone = true"><i class="fa fa-eye"></i></button>
+                                </ng-container>
+                            </div>
+                            <div class="form-group" *ngIf="showDropzone">
+                                <!--  [accept]="'image/*'" -->
+                                <div class="custom-dropzone" ngx-dropzone (change)="onSelect($event)">
+                                    <ngx-dropzone-label>
+                                        <div>
+                                            <h2>Adjuntar archivos</h2>
+                                        </div>
+                                    </ngx-dropzone-label>
+                                    <ng-container *ngFor="let f of files">
+                                        <ng-container *ngIf="isFormatImage(f.type); else noImage">
+                                            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                                                <ngx-dropzone-label>{{ f.name | slice:0: 20 }}{{ f.name.length > 20 ? '...' : ''}} ({{ f.type }})</ngx-dropzone-label>
+                                            </ngx-dropzone-image-preview>
+                                        </ng-container>
+                                        <ng-template #noImage>
+                                            <ngx-dropzone-preview [removable]="true" (removed)="onRemove(f)">
+                                                <ngx-dropzone-label>{{ f.name | slice:0: 20 }}{{ f.name.length > 20 ? '...' : ''}} ({{ f.type }})</ngx-dropzone-label>
+                                            </ngx-dropzone-preview>
+                                        </ng-template>
+                                    </ng-container>
+                                </div>
+                                <button class="btn btn-outline-info mt-2" *ngIf="files.length > 0" (click)="subirArchivos()"><i class="fa fa-upload"></i> Subir Archivos</button>
+                            </div>
+                        </div>
+                        <div class="col-12" *ngIf="progresos.length > 0">
+                            <div class="form-group">
+                                <div class="progress mb-2" *ngFor="let item of progresos">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [attr.aria-valuenow]="item.progress" aria-valuemin="0" [attr.aria-valuemax]="100" [style.width]="item.progress+'%'">
+                                        {{ item.name }} {{ item.progress }}%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <div class="container-images">
+                                    <ng-container *ngFor="let file of archivos">
+                                        <ng-container *ngIf="isImage(file.tipo); else nofile">
+                                            <div class="image-cs">
+                                                <a class="image-cs-preview" [href]="getUrl(file)" [ngStyle]="{'background-image': 'url(' + getUrl(file) + ')'}" style="background-color: #404736;">
+                                                </a>
+                                                <p class="image-cs-details">
+                                                    <span class="image-cs-name">{{ file.nombre}}</span>
+                                                    <span class="u-block quiet image-cs-details-title-options">
                             <span>Añadido:
                               <span class="date past" [title]="file.fechaCreacion | date : 'dd MMM yyyy HH:mm'">{{ file.fechaCreacion | date : 'dd MMM yyyy HH:mm'  }}</span>
-                            </span>
-                          </span>
-                          <ng-container *ngIf="$tarea.estado =='1'">
-                          <span class="quiet" *ngIf="auth.loggedUser.id == file.usuarioId">
+                                                    </span>
+                                                    </span>
+                                                    <ng-container *ngIf="$tarea.estado =='1'">
+                                                        <span class="quiet" *ngIf="auth.loggedUser.id == file.usuarioId">
                             <a class="text-danger" href="javascript:;" (click)="eliminarArchivo(file)">
                               <i class="fa fa-trash"></i>
                               <span>Quitar portada</span>
-                            </a>
-                          </span>
-                          </ng-container>
-                        </p>
-                      </div>
-                    </ng-container>
-                    <ng-template #nofile>
-                      <div class="image-cs">
-                        <a class="image-cs-preview" [href]="getUrlDownload(file)" [title]="file.nombre">
-                          <span class="image-cs-preview-ext">{{ file.tipo }}</span>
-                        </a>
-                        <p class="image-cs-details">
-                          <span class="image-cs-name">{{ file.nombre }}</span>
-                          <span class="u-block quiet image-cs-details-title-options">
+                                                        </a>
+                                                        </span>
+                                                    </ng-container>
+                                                </p>
+                                            </div>
+                                        </ng-container>
+                                        <ng-template #nofile>
+                                            <div class="image-cs">
+                                                <a class="image-cs-preview" [href]="getUrlDownload(file)" [title]="file.nombre">
+                                                    <span class="image-cs-preview-ext">{{ file.tipo }}</span>
+                                                </a>
+                                                <p class="image-cs-details">
+                                                    <span class="image-cs-name">{{ file.nombre }}</span>
+                                                    <span class="u-block quiet image-cs-details-title-options">
                             <span>Añadido:
                               <span class="date past" [title]="file.fechaCreacion | date : 'dd MMM yyyy HH:mm'">{{ file.fechaCreacion | date : 'dd MMM yyyy HH:mm'  }}</span>
-                            </span>
-                          </span>
-                          <ng-container *ngIf="$tarea.estado =='1'">
-                          <span class="quiet" *ngIf="file.usuarioId == auth.loggedUser.id">
+                                                    </span>
+                                                    </span>
+                                                    <ng-container *ngIf="$tarea.estado =='1'">
+                                                        <span class="quiet" *ngIf="file.usuarioId == auth.loggedUser.id">
                            <a class="text-danger" href="javascript:;" (click)="eliminarArchivo(file)">
                               <i class="fa fa-trash"></i>
                               <span>Quitar portada</span>
-                           </a>
-                          </span>
-                          </ng-container>
-                        </p>
-                      </div>
-                    </ng-template>
-                  </ng-container>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ng-template>
-      </ngb-panel>
-      <ngb-panel id="003" title="Actividades">
-        <ng-template ngbPanelContent>
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <div class="d-flex justify-content-between mb-2">
-                  <label>Actividades</label>
-                </div>
-                <ng-container *ngIf="$tarea.estado == '1'">
-                  <div class="new-comment mb-4">
-                    <div class="member member-no-menu" *ngIf="userLoggedName">
-                      <span class="member-initials text-uppercase" [title]="userLoggedName">{{ userLoggedName | slice: 0:2 }}</span>
-                    </div>
-                    <div class="comment-frame">
-                      <textarea class="form-control" maxlength="224" placeholder="Escriba un comentario..." dir="auto" style="min-height: 50px" [(ngModel)]="comentario"></textarea>
-                      <ng-container *ngIf="comentario.trim().length > 0">
-                        <button class="btn btn-sm btn-outline-info mt-2" *ngIf="comentario.trim().length < 225" (click)="guardarCometario()">Guardar comentario</button>
-                        <span class="text-danger" *ngIf="comentario.trim().length > 225">Su comentario es demasiado largo.</span>
-                      </ng-container>
-                    </div>
-                  </div>
-                  <div class="body-comment">
-                    <div class="new-comment mb-2" *ngFor="let item of actividades">
-                      <div class="member member-no-menu">
-                        <span class="member-initials text-uppercase" [title]="item.alias">{{ item.alias | slice: 0:2 }}</span>
-                      </div>
-                      <div class="comment-frame">
-                        <div class="comment-item">
-                          <div class="">
-                            <h6 class="m-0 p-0">{{ item.alias }}</h6>
-                            <small>{{ item.fechaCreacion | date : 'dd MMM yyyy HH:mm' }}</small>
-                          </div>
-                          <p class="p-0 m-0">{{ item.comentario }}</p>
-                          <div class="" *ngIf="item.usuarioId == auth.loggedUser.id">
-                            <ng-container *ngIf="$tarea.estado =='1'">
-                            <a href="javascript:;" class="btn-link" (click)="desactivarActividad(item)">Eliminar</a>
-                            </ng-container>
-                          </div>
+                                                        </a>
+                                                        </span>
+                                                    </ng-container>
+                                                </p>
+                                            </div>
+                                        </ng-template>
+                                    </ng-container>
+                                </div>
+                            </div>
                         </div>
-                      </div>
                     </div>
-                  </div>
-                </ng-container>
-              </div>
-            </div>
-          </div>
-        </ng-template>
-      </ngb-panel>
-    </ngb-accordion>
-  </div>
-  <div class="modal-footer d-flex justify-content-center">
-    <ng-container *ngIf="$tarea.estado == '1'">
-      <button *ngIf="auth.loggedUser.id == $tarea.usuarioId" type="button" class="btn btn-danger mr-2" (click)="cancelarTarea()">Cancelar Tarea</button>
-    </ng-container>
-    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Cerrar</button>
-  </div>
+                </ng-template>
+            </ngb-panel>
+            <ngb-panel id="003" title="Actividades">
+                <ng-template ngbPanelContent>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <label>Actividades</label>
+                                </div>
+                                <ng-container *ngIf="$tarea.estado == '1'">
+                                    <div class="new-comment mb-4">
+                                        <div class="member member-no-menu" *ngIf="userLoggedName">
+                                            <span class="member-initials text-uppercase" [title]="userLoggedName">{{ userLoggedName | slice: 0:2 }}</span>
+                                        </div>
+                                        <div class="comment-frame">
+                                            <textarea class="form-control" maxlength="224" placeholder="Escriba un comentario..." dir="auto" style="min-height: 50px" [(ngModel)]="comentario"></textarea>
+                                            <ng-container *ngIf="comentario.trim().length > 0">
+                                                <button class="btn btn-sm btn-outline-info mt-2" *ngIf="comentario.trim().length < 225" (click)="guardarCometario()">Guardar comentario</button>
+                                                <span class="text-danger" *ngIf="comentario.trim().length > 225">Su comentario es demasiado largo.</span>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                    <div class="body-comment">
+                                        <div class="new-comment mb-2" *ngFor="let item of actividades">
+                                            <div class="member member-no-menu">
+                                                <span class="member-initials text-uppercase" [title]="item.alias">{{ item.alias | slice: 0:2 }}</span>
+                                            </div>
+                                            <div class="comment-frame">
+                                                <div class="comment-item">
+                                                    <div class="">
+                                                        <h6 class="m-0 p-0">{{ item.alias }}</h6>
+                                                        <small>{{ item.fechaCreacion | date : 'dd MMM yyyy HH:mm' }}</small>
+                                                    </div>
+                                                    <p class="p-0 m-0">{{ item.comentario }}</p>
+                                                    <div class="" *ngIf="item.usuarioId == auth.loggedUser.id">
+                                                        <ng-container *ngIf="$tarea.estado =='1'">
+                                                            <a href="javascript:;" class="btn-link" (click)="desactivarActividad(item)">Eliminar</a>
+                                                        </ng-container>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-panel>
+        </ngb-accordion>
+    </div>
+    <div class="modal-footer d-flex justify-content-center">
+        <ng-container *ngIf="$tarea.estado == '1'">
+            <button *ngIf="auth.loggedUser.id == $tarea.usuarioId" type="button" class="btn btn-danger mr-2" (click)="cancelarTarea()">Cancelar Tarea</button>
+        </ng-container>
+        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Cerrar</button>
+    </div>
 </div>
 <app-loading></app-loading>

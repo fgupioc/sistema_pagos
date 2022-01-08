@@ -1,102 +1,102 @@
 <div class="row">
-  <div class="col-lg-12">
-    <div class="card">
-      <div class="card-header">
-        <i class="fa fa-align-justify"></i>
-        <span class="card-title text-uppercase font-weight-bold">Creditos</span>
-      </div>
-      <div class="card-body">
-        <div>
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-responsive-sm table-bordered table-striped table-sm table-responsive">
-            <thead>
-            <tr class="text-center">
-              <th>#</th>
-              <th>Nro Crédito</th>
-              <th>Moneda</th>
-              <th>C. Socio</th>
-              <th>Socio</th>
-              <th>F. Desem</th>
-              <th>Cap. Vig.</th>
-              <th>Cap. Ven.(par. Mor.)</th>
-              <th>Int. Cre. Fec.</th>
-              <th>Estado</th>
-              <th>Pro. Abaco</th>
-              <th>Tip. Serv.</th>
-              <th>Tip. Pro. Serv.</th>
-              <th>Condición</th>
-              <th>Fec. Repro.</th>
-              <th>Refinanciado</th>
-              <th>Importe Vencido</th>
-              <th>Dias Venc.</th>
-              <th>Fec. Venc.</th>
-              <th>Tot. Cuotas</th>
-              <th>Cuotas Pag.</th>
-              <th>Cuotas Pen.</th>
-              <th>Fec. Ult. Pag.</th>
-              <th>Cuotas Atra.</th>
-              <th>Mont. Atra.</th>
-              <th>Fec. Cuo. Mes</th>
-              <th>Mont. Cuo. Mes</th>
-              <th>Calificación</th>
-              <th>Gar. Liqu.</th>
-              <th>Gar. Real</th>
-              <th>Tasa</th>
-              <th>División</th>
-              <th>Banca</th>
-              <th>Ejecutivo</th>
-              <th>Seg. Riesgo</th>
-              <th>Sec. Econo.</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let o of cretidosTemps; index as i; ">
-              <td class="text-center">{{ i + 1 }}</td>
-              <td class="text-center">{{ o.nroCredito }}</td>
-              <td class="text-center">{{ o.desMoneda }}</td>
-              <td class="text-center">{{ o.socioId }}</td>
-              <td class="text-center">{{ o.socioAlias }}</td>
-              <td class="text-center">{{ o.fechaDesembolso | date: 'dd/MM/yyyy' }}</td>
-              <td class="text-center">{{ o.montoCredito }}</td>
-              <td class="text-center">{{ o.capitalVencido }}</td>
-              <td class="text-center">{{ o.interesCreditoFecha }}</td>
-              <td class="text-center">{{ o.estado }}</td>
-              <td class="text-center">{{ o.productoAbaco }}</td>
-              <td class="text-center">{{ o.tipoServicio }}</td>
-              <td class="text-center">{{ o.tipoProdcutoAbaco }}</td>
-              <td class="text-center">{{ o.condicion }}</td>
-              <td class="text-center">{{ o.fechaReprogramado | date: 'dd/MM/yyyy' }}</td>
-              <td class="text-center">{{ o.refinanciado }}</td>
-              <td class="text-center">{{ o.importeVencido }}</td>
-              <td class="text-center">{{ o.diasVencido }}</td>
-              <td class="text-center">{{ o.fechaVencimiento | date: 'dd/MM/yyyy' }}</td>
-              <td class="text-center">{{ o.totalCuotas }}</td>
-              <td class="text-center">{{ o.cuotasPagadas }}</td>
-              <td class="text-center">{{ o.cuotasPendientes }}</td>
-              <td class="text-center">{{ o.fechaUltimoPago | date: 'dd/MM/yyyy' }}</td>
-              <td class="text-center">{{ o.cuotasAtrasadas }}</td>
-              <td class="text-center">{{ o.montoAtrasadas }}</td>
-              <td class="text-center">{{ o.fechaCuotaMes  | date: 'dd/MM/yyyy'}}</td>
-              <td class="text-center">{{ o.montoCuotaMes }}</td>
-              <td class="text-center">{{ o.calificacion }}</td>
-              <td class="text-center">{{ o.garantiaLiquida }}</td>
-              <td class="text-center">{{ o.garantiaReal }}</td>
-              <td class="text-center">{{ o.desTipoTasa }}</td>
-              <td class="text-center">{{ o.division }}</td>
-              <td class="text-center">{{ o.banca }}</td>
-              <td class="text-center">{{ o.ejecutivo }}</td>
-              <td class="text-center">{{ o.segmentadoRiesgo }}</td>
-              <td class="text-center">{{ o.sectorEconomico }}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="card-footer">
-        <button type="button" class="btn btn-primary mr-5px" (click)="regresar()"><i class="fa fa-hand-o-left"></i>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-align-justify"></i>
+                <span class="card-title text-uppercase font-weight-bold">Creditos</span>
+            </div>
+            <div class="card-body">
+                <div>
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-responsive-sm table-bordered table-striped table-sm table-responsive">
+                        <thead>
+                            <tr class="text-center">
+                                <th>#</th>
+                                <th>Nro Crédito</th>
+                                <th>Moneda</th>
+                                <th>C. Socio</th>
+                                <th>Socio</th>
+                                <th>F. Desem</th>
+                                <th>Cap. Vig.</th>
+                                <th>Cap. Ven.(par. Mor.)</th>
+                                <th>Int. Cre. Fec.</th>
+                                <th>Estado</th>
+                                <th>Pro. Abaco</th>
+                                <th>Tip. Serv.</th>
+                                <th>Tip. Pro. Serv.</th>
+                                <th>Condición</th>
+                                <th>Fec. Repro.</th>
+                                <th>Refinanciado</th>
+                                <th>Importe Vencido</th>
+                                <th>Días Venc.</th>
+                                <th>Fec. Venc.</th>
+                                <th>Tot. Cuotas</th>
+                                <th>Cuotas Pag.</th>
+                                <th>Cuotas Pen.</th>
+                                <th>Fec. Ult. Pag.</th>
+                                <th>Cuotas Atra.</th>
+                                <th>Mont. Atra.</th>
+                                <th>Fec. Cuo. Mes</th>
+                                <th>Mont. Cuo. Mes</th>
+                                <th>Calificación</th>
+                                <th>Gar. Liqu.</th>
+                                <th>Gar. Real</th>
+                                <th>Tasa</th>
+                                <th>División</th>
+                                <th>Banca</th>
+                                <th>Ejecutivo</th>
+                                <th>Seg. Riesgo</th>
+                                <th>Sec. Econo.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let o of cretidosTemps; index as i; ">
+                                <td class="text-center">{{ i + 1 }}</td>
+                                <td class="text-center">{{ o.nroCredito }}</td>
+                                <td class="text-center">{{ o.desMoneda }}</td>
+                                <td class="text-center">{{ o.socioId }}</td>
+                                <td class="text-center">{{ o.socioAlias }}</td>
+                                <td class="text-center">{{ o.fechaDesembolso | date: 'dd/MM/yyyy' }}</td>
+                                <td class="text-center">{{ o.montoCredito }}</td>
+                                <td class="text-center">{{ o.capitalVencido }}</td>
+                                <td class="text-center">{{ o.interesCreditoFecha }}</td>
+                                <td class="text-center">{{ o.estado }}</td>
+                                <td class="text-center">{{ o.productoAbaco }}</td>
+                                <td class="text-center">{{ o.tipoServicio }}</td>
+                                <td class="text-center">{{ o.tipoProdcutoAbaco }}</td>
+                                <td class="text-center">{{ o.condicion }}</td>
+                                <td class="text-center">{{ o.fechaReprogramado | date: 'dd/MM/yyyy' }}</td>
+                                <td class="text-center">{{ o.refinanciado }}</td>
+                                <td class="text-center">{{ o.importeVencido }}</td>
+                                <td class="text-center">{{ o.diasVencido }}</td>
+                                <td class="text-center">{{ o.fechaVencimiento | date: 'dd/MM/yyyy' }}</td>
+                                <td class="text-center">{{ o.totalCuotas }}</td>
+                                <td class="text-center">{{ o.cuotasPagadas }}</td>
+                                <td class="text-center">{{ o.cuotasPendientes }}</td>
+                                <td class="text-center">{{ o.fechaUltimoPago | date: 'dd/MM/yyyy' }}</td>
+                                <td class="text-center">{{ o.cuotasAtrasadas }}</td>
+                                <td class="text-center">{{ o.montoAtrasadas }}</td>
+                                <td class="text-center">{{ o.fechaCuotaMes | date: 'dd/MM/yyyy'}}</td>
+                                <td class="text-center">{{ o.montoCuotaMes }}</td>
+                                <td class="text-center">{{ o.calificacion }}</td>
+                                <td class="text-center">{{ o.garantiaLiquida }}</td>
+                                <td class="text-center">{{ o.garantiaReal }}</td>
+                                <td class="text-center">{{ o.desTipoTasa }}</td>
+                                <td class="text-center">{{ o.division }}</td>
+                                <td class="text-center">{{ o.banca }}</td>
+                                <td class="text-center">{{ o.ejecutivo }}</td>
+                                <td class="text-center">{{ o.segmentadoRiesgo }}</td>
+                                <td class="text-center">{{ o.sectorEconomico }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary mr-5px" (click)="regresar()"><i class="fa fa-hand-o-left"></i>
           Regresar
         </button>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <app-loading></app-loading>

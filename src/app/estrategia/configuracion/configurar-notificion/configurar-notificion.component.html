@@ -18,7 +18,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Seleccionar Gestion</label>
+                            <label>Seleccionar Gestión</label>
                             <select class="form-control" (change)="cambioGestion()" formControlName="codGestion">
                                 <option value="">Seleccione</option>
                                 <option *ngFor="let item of gestiones" [value]="item.codGestion">{{ item.nombre }}</option>
@@ -45,28 +45,32 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th scope="col">#</th>
-                                        <th scope="col">T. Mensaje</th>
-                                        <th scope="col">Dias</th>
-                                        <th scope="col">User Create</th>
+                                        <th scope="col">Tipo de Mensaje</th>
+                                        <th scope="col">Días</th>
+                                        <!--
+                                        <th scope="col">Usuario Creación</th>
                                         <th scope="col">F. Creación</th>
-                                        <th scope="col">User Edit</th>
+                                        <th scope="col">Usuario Actualización</th>
                                         <th scope="col">F. Actualización</th>
+                                    -->
                                         <th scope="col">Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <ng-container *ngFor="let item of mensajes">
+                                    <ng-container *ngFor="let item of mensajes; let i = index">
                                         <ng-container *ngIf="item.estado == '1'">
                                             <tr class="text-center">
-                                                <th scope="row">1</th>
+                                                <th scope="row">{{ i + 1 }}</th>
                                                 <td>{{ getNameTypeNotifi(item.codTipoNotificacion) }}</td>
                                                 <td>{{ item.dias }}</td>
+                                                <!--
                                                 <td>{{ item.userCreate }}</td>
                                                 <td>{{ item.fechaCreacion | date: 'dd/mm/yyyy' }}</td>
                                                 <td>{{ item.userUpdate }}</td>
                                                 <td>{{ item.fechaActualizacion | date: 'dd/mm/yyyy' }}</td>
+                                                  -->
                                                 <td>
-                                                    <button class="btn btn-primary btn-sm" *ngIf="AS.has(A.NOTIFICACION_ACTUALIZAR)" (click)="actualizarNotificacion(item)"><i class="fa fa-edit"></i></button>
+                                                    <button class="btn btn-primary btn-sm" placement="top" ngbTooltip="Editar" (click)="actualizarNotificacion(item)"><i class="fa fa-edit"></i></button>
                                                 </td>
                                             </tr>
                                         </ng-container>

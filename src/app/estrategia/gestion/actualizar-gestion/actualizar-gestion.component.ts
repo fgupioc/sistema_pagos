@@ -111,7 +111,7 @@ export class ActualizarGestionComponent implements OnInit {
           }
         });
         if (!flag) {
-          Swal.fire('Crear Gestion', 'La cantidad del campo desde no es valido.', 'error');
+          Swal.fire('Crear Gestión', 'La cantidad del campo desde no es valido.', 'error');
           this.formGestion.controls.desde.setValue(0);
           return;
         }
@@ -126,7 +126,7 @@ export class ActualizarGestionComponent implements OnInit {
           }
         });
         if (!flag) {
-          Swal.fire('Crear Gestion', 'La cantidad del campo desde no es valido.', 'error');
+          Swal.fire('Crear Gestión', 'La cantidad del campo desde no es valido.', 'error');
           this.formGestion.controls.desde.setValue(this.gestion.desde);
           return;
         }
@@ -139,13 +139,13 @@ export class ActualizarGestionComponent implements OnInit {
     const desde = Number(this.formGestion.controls.desde.value);
     if (this.create) {
       if (hasta <= desde) {
-        Swal.fire('Crear Gestion', 'La cantidad del campo hasta no es valido.', 'error');
+        Swal.fire('Crear Gestión', 'La cantidad del campo hasta no es valido.', 'error');
         this.formGestion.controls.hasta.setValue(0);
         return;
       }
     } else {
       if (hasta <= desde) {
-        Swal.fire('Crear Gestion', 'La cantidad del campo hasta no es valido.', 'error');
+        Swal.fire('Crear Gestión', 'La cantidad del campo hasta no es valido.', 'error');
         this.formGestion.controls.hasta.setValue(this.gestion.hasta);
         return;
       }

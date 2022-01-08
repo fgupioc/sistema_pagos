@@ -1,217 +1,189 @@
 <div class="row">
-  <div class="col-lg-12">
-    <div class="card">
-      <div class="card-header">
-        <i class="fa fa-align-justify"></i>
-        <span class="card-title text-uppercase font-weight-bold">Editar Usuario </span>
-      </div>
-      <div class="card-body">
-        <form [formGroup]="formGroup" (ngSubmit)="actualizarUsuario()">
-        <ul ngbNav #nav="ngbNav" class="nav-tabs">
-          <li ngbNavItem>
-            <a ngbNavLink>General</a>
-            <ng-template ngbNavContent>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-align-justify"></i>
+                <span class="card-title text-uppercase font-weight-bold">Editar Usuario </span>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="formGroup" (ngSubmit)="actualizarUsuario()">
+                    <ul ngbNav #nav="ngbNav" class="nav-tabs">
+                        <li ngbNavItem>
+                            <a ngbNavLink>General</a>
+                            <ng-template ngbNavContent>
 
-                <label><strong>DATOS GENERALES</strong></label>
-                <div class="row">
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="tipoDocIdentidad">Tipo Documento</label>
-                      <input type="text" id="tipoDocIdentidad" class="form-control"
-                             formControlName="tipoDocIdentidad">
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="numDocIdentidad">Número de Documento</label>
-                      <input type="text" id="numDocIdentidad" class="form-control"
-                             formControlName="numDocIdentidad">
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="primerNombre">Primer Nombre *</label>
-                      <input type="text" id="primerNombre" class="form-control" formControlName="primerNombre">
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="segundoNombre">Segundo Nombre</label>
-                      <input type="text" id="segundoNombre" class="form-control" formControlName="segundoNombre">
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="primerApellido">Apellido Paterno *</label>
-                      <input type="text" id="primerApellido" class="form-control"
-                             formControlName="primerApellido">
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="segundoApellido">Apellido Materno </label>
-                      <input type="text" id="segundoApellido" class="form-control"
-                             formControlName="segundoApellido">
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="sexo">Sexo *</label>
-                      <input type="text" id="sexo" class="form-control" formControlName="sexo">
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="fechaNacimiento">Fecha de Nacimiento *</label>
-                      <input type="text" id="fechaNacimiento" class="form-control"
-                             formControlName="fechaNacimiento">
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="estadoCivil">Estado Civil: </label>
-                      <input type="text" id="estadoCivil" class="form-control" formControlName="estadoCivil">
-                    </div>
-                  </div>
-                </div>
-                <label><strong>DATOS DE ACCESO</strong></label>
-                <div class="row">
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="rolId">Rol *</label>
-                      <select2 [data]="exampleData"
-                               [options]="options"
-                               [cssImport]="true"
-                               [value]="valoresElegidos"
-                               (valueChanged)="changed($event)"></select2>
-                      <select style="display: none;" multiple="multiple" id="rolId" class="form-control"
-                              formControlName="rolId"
-                              (change)="onChangeRolId()"
-                              [ngClass]="
+                                <label><strong>DATOS GENERALES</strong></label>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="tipoDocIdentidad">Tipo Documento</label>
+                                            <input type="text" id="tipoDocIdentidad" class="form-control" formControlName="tipoDocIdentidad">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="numDocIdentidad">Número de Documento</label>
+                                            <input type="text" id="numDocIdentidad" class="form-control" formControlName="numDocIdentidad">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="primerNombre">Primer Nombre *</label>
+                                            <input type="text" id="primerNombre" class="form-control" formControlName="primerNombre">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="segundoNombre">Segundo Nombre</label>
+                                            <input type="text" id="segundoNombre" class="form-control" formControlName="segundoNombre">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="primerApellido">Apellido Paterno *</label>
+                                            <input type="text" id="primerApellido" class="form-control" formControlName="primerApellido">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="segundoApellido">Apellido Materno </label>
+                                            <input type="text" id="segundoApellido" class="form-control" formControlName="segundoApellido">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="sexo">Sexo *</label>
+                                            <input type="text" id="sexo" class="form-control" formControlName="sexo">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="fechaNacimiento">Fecha de Nacimiento *</label>
+                                            <input type="text" id="fechaNacimiento" class="form-control" formControlName="fechaNacimiento">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="estadoCivil">Estado Civil: </label>
+                                            <input type="text" id="estadoCivil" class="form-control" formControlName="estadoCivil">
+                                        </div>
+                                    </div>
+                                </div>
+                                <label><strong>DATOS DE ACCESO</strong></label>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="rolId">Rol *</label>
+                                            <select2 [data]="exampleData" [options]="options" [cssImport]="true" [value]="valoresElegidos" (valueChanged)="changed($event)"></select2>
+                                            <select style="display: none;" multiple="multiple" id="rolId" class="form-control" formControlName="rolId" (change)="onChangeRolId()" [ngClass]="
                       {
                       'is-invalid': formGroup.controls['rolId'].touched && formGroup.controls['rolId'].errors,
                       'is-valid': formGroup.controls['rolId'].touched && !formGroup.controls['rolId'].errors
-                       }"
-                      >
+                       }">
                         <option *ngFor="let o of roles"
                                 [value]="o.id">{{o.nombre}}</option>
                       </select>
-                      <div class="invalid-feedback">
-                        <span *ngIf="formGroup.get('rolId').hasError('required')">Obligatorio.</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="email">Email *</label>
-                      <input type="email" id="email" placeholder="Email" class="form-control"
-                             formControlName="email" autocomplete="off" maxlength="300"
-                             [ngClass]="
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="formGroup.get('rolId').hasError('required')">Obligatorio.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="email">Email *</label>
+                                            <input type="email" id="email" placeholder="Email" class="form-control" formControlName="email" autocomplete="off" maxlength="300" [ngClass]="
                       {
                       'is-invalid': formGroup.controls['email'].touched && formGroup.controls['email'].errors,
                       'is-valid': formGroup.controls['email'].touched && !formGroup.controls['email'].errors && !formGroup.controls['email'].pending,
                       'is-warning': formGroup.controls['email'].pending
                      }">
-                      <div class="invalid-feedback">
-                        <span *ngIf="formGroup.get('email').hasError('required')">Obligatorio</span>
-                        <span *ngIf="formGroup.get('email').hasError('email')">Inválido</span>
-                        <span
-                          *ngIf="formGroup.get('email').hasError('emailTomado')">El email ha sido tomado</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="numeroCelular">Teléfono*</label>
-                      <input type="text" Number id="numeroCelular" placeholder="Teléfono" class="form-control"
-                             maxlength="9"
-                             formControlName="numeroCelular"
-                             [ngClass]="
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="formGroup.get('email').hasError('required')">Obligatorio</span>
+                                                <span *ngIf="formGroup.get('email').hasError('email')">Inválido</span>
+                                                <span *ngIf="formGroup.get('email').hasError('emailTomado')">El email ha sido tomado</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="numeroCelular">Teléfono*</label>
+                                            <input type="text" Number id="numeroCelular" placeholder="Teléfono" class="form-control" maxlength="9" formControlName="numeroCelular" [ngClass]="
                     {
                     'is-invalid': formGroup.controls['numeroCelular'].touched && formGroup.controls['numeroCelular'].errors,
                     'is-valid': formGroup.controls['numeroCelular'].touched && !formGroup.controls['numeroCelular'].errors
                      }
                     ">
-                      <div class="invalid-feedback">
-                        <span *ngIf="formGroup.get('numeroCelular').hasError('required')"> Obligatorio.</span>
-                        <span
-                          *ngIf="formGroup.get('numeroCelular').hasError('pattern')"> Solo acepta números.</span>
-                        <span
-                          *ngIf="formGroup.get('numeroCelular').hasError('maxlength')"> Solo acepta 9 caracteres.</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="codEstado">Estado *</label>
-                      <select id="codEstado" class="form-control" formControlName="codEstado"
-                              [ngClass]="
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="formGroup.get('numeroCelular').hasError('required')"> Obligatorio.</span>
+                                                <span *ngIf="formGroup.get('numeroCelular').hasError('pattern')"> Solo acepta números.</span>
+                                                <span *ngIf="formGroup.get('numeroCelular').hasError('maxlength')"> Solo acepta 9 caracteres.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="codEstado">Estado *</label>
+                                            <select id="codEstado" class="form-control" formControlName="codEstado" [ngClass]="
                       {
                       'is-invalid': formGroup.controls['codEstado'].touched && formGroup.controls['codEstado'].errors,
                       'is-valid': formGroup.controls['codEstado'].touched && !formGroup.controls['codEstado'].errors
-                       }"
-                      >
+                       }">
                         <option *ngFor="let o of estados" [value]="o.codItem">{{o.descripcion}}</option>
                       </select>
-                      <div class="invalid-feedback">
-                        <span *ngIf="formGroup.get('codEstado').hasError('required')">Obligatorio.</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="formGroup.get('codEstado').hasError('required')">Obligatorio.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>
                         <input type="checkbox" name="check" formControlName="inicioCierre">
                         Habilitado para cierre/inicio de día
                       </label>
-                    </div>
-                  </div>
-                </div>
-                <label><strong>CADUCIDAD DE SESIÓN</strong></label>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="fechaInicio">Desde el *</label>
-                      <input type="date" formControlName="fechaInicio" id="fechaInicio"
-                             class="form-control"
-                             [ngClass]="
+                                        </div>
+                                    </div>
+                                </div>
+                                <label><strong>CADUCIDAD DE SESIÓN</strong></label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="fechaInicio">Desde el *</label>
+                                            <input type="date" formControlName="fechaInicio" id="fechaInicio" class="form-control" [ngClass]="
                       {
                       'is-invalid': formGroup.controls['fechaInicio'].touched && formGroup.controls['fechaInicio'].errors,
                       'is-valid': formGroup.controls['fechaInicio'].touched && !formGroup.controls['fechaInicio'].errors
                        }">
-                      <div class="invalid-feedback">
-                        <span *ngIf="formGroup.get('fechaInicio').hasError('required')">Obligatorio.</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="fechaFinal">Hasta el *</label>
-                      <input type="date" formControlName="fechaFinal" id="fechaFinal" class="form-control"
-                             [ngClass]="
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="formGroup.get('fechaInicio').hasError('required')">Obligatorio.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="fechaFinal">Hasta el *</label>
+                                            <input type="date" formControlName="fechaFinal" id="fechaFinal" class="form-control" [ngClass]="
                       {
                       'is-invalid': formGroup.controls['fechaFinal'].touched && formGroup.controls['fechaFinal'].errors,
                       'is-valid': formGroup.controls['fechaFinal'].touched && !formGroup.controls['fechaFinal'].errors
                        }">
-                      <div class="invalid-feedback">
-                        <span *ngIf="formGroup.get('fechaFinal').hasError('required')">Obligatorio.</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="formGroup.get('fechaFinal').hasError('required')">Obligatorio.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-            </ng-template>
-          </li>
-          <li ngbNavItem>
-            <a ngbNavLink>Accesos</a>
-            <ng-template ngbNavContent>
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="rolElegidoId">Elija un rol *</label>
-                    <select id="rolElegidoId" class="form-control" formControlName="rolElegidoId"
-                            (change)="onChangeRolFiltradoId()"
-                            [ngClass]="{
+                            </ng-template>
+                        </li>
+                        <li ngbNavItem>
+                            <a ngbNavLink>Accesos</a>
+                            <ng-template ngbNavContent>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="rolElegidoId">Elija un rol *</label>
+                                            <select id="rolElegidoId" class="form-control" formControlName="rolElegidoId" (change)="onChangeRolFiltradoId()" [ngClass]="{
                                     'is-invalid': formGroup.controls['rolElegidoId'].touched && formGroup.controls['rolElegidoId'].errors,
                                     'is-valid': formGroup.controls['rolElegidoId'].touched && !formGroup.controls['rolElegidoId'].errors
                                      }">
@@ -219,86 +191,79 @@
                       <option *ngFor="let o of rolesElegidos"
                               [value]="o.id">{{o.nombre}}</option>
                     </select>
-                    <div class="invalid-feedback">
-                      <span *ngIf="formGroup.get('rolElegidoId').hasError('required')">Obligatorio.</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4 offset-4">
-                  <div class="form-group">
-                    <br>
-                    <button class="btn btn-sm btn-warning text-white mr-2"
-                            (click)="resturarAutorizacionesOriginales()">
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="formGroup.get('rolElegidoId').hasError('required')">Obligatorio.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 offset-4" *ngIf="false">
+                                        <div class="form-group">
+                                            <br>
+                                            <button class="btn btn-sm btn-warning text-white mr-2" (click)="resturarAutorizacionesOriginales()">
                       <i class="fas fa-sync"></i> Restaurar autorizaciones originales
                     </button>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <ngx-treeview [config]="config" [items]="items" (filterChange)="onFilterChange($event)"
-                              (selectedChange)="onSelectedChange($event)" *ngIf="!cargandoMenu">
-                </ngx-treeview>
-                <br *ngIf="cargandoMenu">
-                <label *ngIf="cargandoMenu">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <ngx-treeview [config]="config" [items]="items" (filterChange)="onFilterChange($event)" (selectedChange)="onSelectedChange($event)" *ngIf="!cargandoMenu">
+                                    </ngx-treeview>
+                                    <br *ngIf="cargandoMenu">
+                                    <label *ngIf="cargandoMenu">
                   <em>Cargando..., porfavor espere...</em>
                 </label>
-              </div>
-            </ng-template>
-          </li>
-          <li ngbNavItem>
-            <a ngbNavLink>Autorizaciones</a>
-            <ng-template ngbNavContent>
-              <div class="col-md-4 offset-8">
-                <div class="form-group">
-                  <br>
-                  <button class="btn btn-sm btn-warning text-white mr-2"
-                          (click)="resturarAutorizacionesOriginales()">
+                                </div>
+                            </ng-template>
+                        </li>
+                        <li ngbNavItem>
+                            <a ngbNavLink>Autorizaciones</a>
+                            <ng-template ngbNavContent>
+                                <div class="col-md-4 offset-8" *ngIf="false">
+                                    <div class="form-group">
+                                        <br>
+                                        <button class="btn btn-sm btn-warning text-white mr-2" (click)="resturarAutorizacionesOriginales()">
                     <i class="fas fa-sync"></i> Restaurar autorizaciones originales
                   </button>
-                </div>
-              </div>
-              <!--<em *ngIf="valoresMenus.length==0">Elija una opción del menu</em> -->
-              <div *ngIf="cargandoMenu">
-                <label><em>Cargando..., porfavor espere...</em></label>
-              </div>
-              <div *ngFor="let menu of menus;">
-                <div *ngFor="let menuHijo of menu.children;">
-                  <div class="row" *ngIf="menuHijo.checked">
-                    <div class="col-sm-12">
-                      <strong>{{ menu.text }} | {{ menuHijo.text }}</strong>
-                    </div>
-                    <div class="col-sm-2" *ngFor="let a of menuHijo.autorizaciones">
-                      <div class="form-group">
-                        <div class="custom-control custom-checkbox">
-                          <input class="custom-control-input" type="checkbox"
-                                 [checked]=isSelectedAutorizacion(a.id)
-                                 (change)="onChangeCheckAutorizacion(menuHijo,a.id)"
-                                 id="customCheckbox_{{ menuHijo.value }}_{{a.id}}" value="{{ a.id }}">
-                          <label for="customCheckbox_{{ menuHijo.value }}_{{a.id}}"
-                                 class="custom-control-label">
+                                    </div>
+                                </div>
+                                <!--<em *ngIf="valoresMenus.length==0">Elija una opción del menu</em> -->
+                                <div *ngIf="cargandoMenu">
+                                    <label><em>Cargando..., porfavor espere...</em></label>
+                                </div>
+                                <div *ngFor="let menu of menus;">
+                                    <div *ngFor="let menuHijo of menu.children;">
+                                        <div class="row" *ngIf="menuHijo.checked">
+                                            <div class="col-sm-12">
+                                                <strong>{{ menu.text }} | {{ menuHijo.text }}</strong>
+                                            </div>
+                                            <div class="col-sm-2" *ngFor="let a of menuHijo.autorizaciones">
+                                                <div class="form-group">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" type="checkbox" [checked]=isSelectedAutorizacion(a.id) (change)="onChangeCheckAutorizacion(menuHijo,a.id)" id="customCheckbox_{{ menuHijo.value }}_{{a.id}}" value="{{ a.id }}">
+                                                        <label for="customCheckbox_{{ menuHijo.value }}_{{a.id}}" class="custom-control-label">
                             {{ a.titulo }}
                           </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </ng-template>
-          </li>
-        </ul>
-        <div [ngbNavOutlet]="nav"></div>
-        </form>
-      </div>
-      <div class="card-footer">
-        <button type="button" class="btn btn-primary mr-5px" (click)="regresar()">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </li>
+                    </ul>
+                    <div [ngbNavOutlet]="nav"></div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary mr-5px" (click)="regresar()">
           <i class="fa fa-hand-o-left"></i> Regresar
         </button>
-        <button class="btn btn-instagram" (click)="actualizarUsuario()" [disabled]="formGroup.invalid || formGroup.pending">
+                <button class="btn btn-instagram" (click)="actualizarUsuario()" [disabled]="formGroup.invalid || formGroup.pending">
           <i class="fa fa-save"></i> Actualizar
         </button>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <app-loading></app-loading>

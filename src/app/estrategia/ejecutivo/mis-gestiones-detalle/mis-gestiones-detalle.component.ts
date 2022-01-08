@@ -871,19 +871,19 @@ export class MisGestionesDetalleComponent implements OnInit {
     phone.personaId = this.socio.id;
     const tel = this.socio.telefonos.find(v => v.codTipoNotificacion == phone.codTipoNotificacion && v.numero == phone.numero);
     if (tel) {
-      Swal.fire('Telefono', 'EL teléfono ya esta asociada a una notificación', 'warning');
+      Swal.fire('Teléfono', 'EL teléfono ya esta asociada a una notificación', 'warning');
       return;
     }
     this.spinner.show();
     this.telefonoService.guardar(phone).subscribe(
       res => {
         if (res.exito) {
-          Swal.fire('Telefono', res.mensaje, 'success');
+          Swal.fire('Teléfono', res.mensaje, 'success');
           this.resetFormTelefono();
           this.loadCredito();
           this.showNewPhone = false;
         } else {
-          Swal.fire('Telefono', res.mensaje, 'error');
+          Swal.fire('Teléfono', res.mensaje, 'error');
           this.spinner.hide();
         }
       },
@@ -982,7 +982,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     this.emailService.crear(emailDto).subscribe(
       res => {
         if (res && res.emailId) {
-          Swal.fire('Correo', 'Se registro el correo con éxito.', 'success');
+          Swal.fire('Correo', 'Se registró el correo con éxito.', 'success');
           this.formEmail.reset({
             codTipoNotificacion: '',
             email: '',

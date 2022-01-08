@@ -5,7 +5,7 @@
         <div class="card-tools float-right">
             <button class="btn btn-sm btn-outline-primary mr-2" [disabled]="!mensaje" (click)="enviarSolicitud()">Enviar</button>
             <button class="btn btn-sm btn-outline-success mr-2" (click)="guardarTemporal()">Grabar</button>
-            <button *ngIf="listaChekList.length > 0" class="btn btn-sm btn-outline-info mr-2"  (click)="descargarFormato()">Formato</button>
+            <button *ngIf="listaChekList.length > 0" class="btn btn-sm btn-outline-info mr-2" (click)="descargarFormato()">Formato</button>
             <button type="button" class="btn btn-sm btn-outline-dark" routerLink="/auth/procesos/cartera-vencida">
               <i class="fa fa-arrow-left"></i> Regresar
             </button>
@@ -27,7 +27,7 @@
             </div>
             <div class="col-12 col-md-4">
                 <div class="form-group">
-                    <label>Dias Atraso</label>
+                    <label>Días Atraso</label>
                     <input type="text" class="form-control" [value]="credito.diasAtraso" disabled>
                 </div>
             </div>
@@ -46,7 +46,7 @@
             <div class="col-12">
                 <div class="form-group">
                     <table class="table table-bordered">
-                        <caption style="caption-side:top;">DOCUMENTOS DE SUSTENTO DEL CREDITO</caption>
+                        <caption style="caption-side:top;">DOCUMENTOS DE SUSTENTO DEL CRÉDITO</caption>
                         <thead>
                             <tr class="text-center">
                                 <th scope="col" width="5%">#</th>
@@ -73,15 +73,15 @@
                                         <span class="switch-label" data-on="SI" data-off="NO"></span>
                                         <span class="switch-handle"></span>
                                     </label>
-                                  <small *ngIf="item.impresion" style="display: block;" (click)="inputArchivo.click()"><a href="javascript:;">SUBIR</a></small>
-                                  <input #inputArchivo type="file" style="display: none;" (change)="uploadFile($event, item)">
-                                  <div *ngIf="progreso > 0 && item.codigoArchivo == $index">
-                                    <div class="progress">
-                                      <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100" [style.width]=" progreso+'%'">
-                                        {{progreso}}%
-                                      </div>
+                                    <small *ngIf="item.impresion" style="display: block;" (click)="inputArchivo.click()"><a href="javascript:;">SUBIR</a></small>
+                                    <input #inputArchivo type="file" style="display: none;" (change)="uploadFile($event, item)">
+                                    <div *ngIf="progreso > 0 && item.codigoArchivo == $index">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100" [style.width]=" progreso+'%'">
+                                                {{progreso}}%
+                                            </div>
+                                        </div>
                                     </div>
-                                  </div>
                                 </td>
                                 <td>
                                     <label class="switch switch-text switch-danger">

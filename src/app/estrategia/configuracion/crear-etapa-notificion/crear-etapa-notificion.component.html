@@ -20,19 +20,14 @@
                         <option *ngFor="let item of notificaciones" [value]="item.codTipoNotificacion">{{ item.nombre }}</option>
                     </select>
                     <div class="invalid-feedback">
-                        <span class="d-block" *ngIf="form.get('codTipoNotificacion').hasError('required')"> El tipo de notificacion es obligatorio.</span>
+                        <span class="d-block" *ngIf="form.get('codTipoNotificacion').hasError('required')"> El tipo de notificación es obligatorio.</span>
                     </div>
                 </div>
             </div>
-            <!-- div class="col-md-3">
-                <div class="form-group">
-                    <label>Dias para enviar</label>
-                    <input ArrayDias class="form-control" formControlName="dias" (change)="validarDias()">
-                </div>
-            </div -->
+
             <div class="col-md-9">
                 <div class="form-group">
-                    <label>Dias Disponibles</label> <br>
+                    <label>Días Disponibles</label> <br>
                     <div class="w-100 ">
                         <span *ngFor="let item of rangos">
                             <span (click)="seleccionarDia(item)" class="badge badge-info position-relative justify-content-center cursor-pointer" style="font-size: 20px; color: white; min-width: 30px; margin: 0 5px 5px 0">
@@ -50,7 +45,7 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label>hora:</label>
+                    <label>Hora:</label>
                     <select class="form-control" formControlName="hora">
                         <option value="">Seleccione</option>
                         <option *ngFor="let item of horas" [value]="item">{{item}}:00</option>
@@ -59,7 +54,7 @@
             </div>
             <div class="col-md-9">
                 <div class="form-group">
-                    <label>Nombre</label>
+                    <label>Asunto:</label>
                     <input SoloLetras class="form-control" formControlName="nombre">
                 </div>
             </div>
@@ -85,7 +80,7 @@
                         <span class="badge badge-info text-white" style="font-size: 14px;">#debt#</span> Deuda Capital.
                         <span class="badge badge-info text-white" style="font-size: 14px;">#totalDebt#</span> Deuda Total.
                       <ng-container *ngIf="obj && obj.codTipoNotificacion == 6">
-                        <span class="badge badge-info text-white" style="font-size: 14px;">#URLSelfService#</span>  URL Self Service.
+                        <span class="badge badge-info text-white" style="font-size: 14px;">#URLSelfService#</span>  URL Autoservicio.
                       </ng-container>
                     </small>
                 </div>

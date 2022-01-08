@@ -1,219 +1,211 @@
 <div class="row" [formGroup]="formulario" id="tabsContent">
-  <div class="col-md-12">
-    <ngb-accordion [closeOthers]="true" activeIds="static-1">
-      <ngb-panel id="static-1">
-        <ng-template ngbPanelTitle>
-          <span>Datos Generales</span>
-        </ng-template>
-        <ng-template ngbPanelContent>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>Nombre:</label>
-                <input Uppercase type="text" class="form-control" formControlName="nombre" (keyup)="generateCode($event)" [ngClass]="
+    <div class="col-md-12">
+        <ngb-accordion [closeOthers]="true" activeIds="static-1">
+            <ngb-panel id="static-1">
+                <ng-template ngbPanelTitle>
+                    <span>Datos Generales</span>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Nombre:</label>
+                                <input Uppercase type="text" class="form-control" formControlName="nombre" (keyup)="generateCode($event)" [ngClass]="
                                             {
                                             'is-invalid': formulario.controls['nombre'].touched && formulario.controls['nombre'].errors,
                                             'is-valid': formulario.controls['nombre'].touched && !formulario.controls['nombre'].errors
                                             }
                                             ">
-                <div class="invalid-feedback">
-                  <span class="d-block" *ngIf="formulario.get('nombre').hasError('required')"> El nombre es obligatorio.</span>
-                  <span class="d-block" *ngIf="formulario.get('nombre').hasError('maxlength')">El número máximo de caracteres es 100.</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>Nombre Externo:</label>
-                <input Uppercase type="text" class="form-control" formControlName="nombreExterno" [ngClass]="
+                                <div class="invalid-feedback">
+                                    <span class="d-block" *ngIf="formulario.get('nombre').hasError('required')"> El nombre es obligatorio.</span>
+                                    <span class="d-block" *ngIf="formulario.get('nombre').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Nombre Externo:</label>
+                                <input Uppercase type="text" class="form-control" formControlName="nombreExterno" [ngClass]="
                                             {
                                             'is-invalid': formulario.controls['nombreExterno'].touched && formulario.controls['nombreExterno'].errors,
                                             'is-valid': formulario.controls['nombreExterno'].touched && !formulario.controls['nombreExterno'].errors
                                             }
                                             ">
-                <div class="invalid-feedback">
-                  <span class="d-block" *ngIf="formulario.get('nombreExterno').hasError('required')"> El nombre externo es obligatorio.</span>
-                  <span class="d-block" *ngIf="formulario.get('nombreExterno').hasError('maxlength')">El número máximo de caracteres es 100.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <h6>Parametros</h6>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Días Deudas Monto sin vencer:</label>
-                <input CustomizeInteger type="text" class="form-control" formControlName="diasDeudaSinVencer" [ngClass]="
+                                <div class="invalid-feedback">
+                                    <span class="d-block" *ngIf="formulario.get('nombreExterno').hasError('required')"> El nombre externo es obligatorio.</span>
+                                    <span class="d-block" *ngIf="formulario.get('nombreExterno').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <h6>Parámetros</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-4" *ngIf="false">
+                            <div class="form-group">
+                                <label>Días Deudas Monto sin vencer:</label>
+                                <input CustomizeInteger type="text" class="form-control" formControlName="diasDeudaSinVencer" [ngClass]="
                                             {
                                             'is-invalid': formulario.controls['diasDeudaSinVencer'].touched && formulario.controls['diasDeudaSinVencer'].errors,
                                             'is-valid': formulario.controls['diasDeudaSinVencer'].touched && !formulario.controls['diasDeudaSinVencer'].errors
                                             }
                                             ">
-                <div class="invalid-feedback">
-                  <span class="d-block" *ngIf="formulario.get('diasDeudaSinVencer').hasError('required')"> El Días Deudas Monto sin venceres es obligatorio.</span>
-                  <span class="d-block" *ngIf="formulario.get('diasDeudaSinVencer').hasError('maxlength')">El número máximo de caracteres es 100.</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Hora inicio:</label>
-                <input #initHour CustomizeInteger type="text" class="form-control" (ngModelChange)="changeInitHour($event, endHour)" formControlName="horaInicio" [ngClass]="
+                                <div class="invalid-feedback">
+                                    <span class="d-block" *ngIf="formulario.get('diasDeudaSinVencer').hasError('required')"> El Días Deudas Monto sin venceres es obligatorio.</span>
+                                    <span class="d-block" *ngIf="formulario.get('diasDeudaSinVencer').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Hora inicio:</label>
+                                <input #initHour CustomizeInteger type="text" class="form-control" (ngModelChange)="changeInitHour($event, endHour)" formControlName="horaInicio" [ngClass]="
                                             {
                                             'is-invalid': formulario.controls['horaInicio'].touched && formulario.controls['horaInicio'].errors,
                                             'is-valid': formulario.controls['horaInicio'].touched && !formulario.controls['horaInicio'].errors
                                             }
                                             ">
-                <div class="invalid-feedback">
-                  <span class="d-block" *ngIf="formulario.get('horaInicio').hasError('required')"> La Hora inicio es obligatorio.</span>
-                  <span class="d-block" *ngIf="formulario.get('horaInicio').hasError('maxlength')">El número máximo de caracteres es 100.</span>
-                  <span class="d-block" *ngIf="formulario.get('horaInicio').hasError('incorrect')">{{ mgsError }}</span>
+                                <div class="invalid-feedback">
+                                    <span class="d-block" *ngIf="formulario.get('horaInicio').hasError('required')"> La Hora inicio es obligatorio.</span>
+                                    <span class="d-block" *ngIf="formulario.get('horaInicio').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                                    <span class="d-block" *ngIf="formulario.get('horaInicio').hasError('incorrect')">{{ mgsError }}</span>
 
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Hora fin:</label>
-                <input #endHour CustomizeInteger type="text" class="form-control" formControlName="horaFin" (ngModelChange)="changeEndHour($event, initHour)" [ngClass]="
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Hora fin:</label>
+                                <input #endHour CustomizeInteger type="text" class="form-control" formControlName="horaFin" (ngModelChange)="changeEndHour($event, initHour)" [ngClass]="
                                             {
                                             'is-invalid': formulario.controls['horaFin'].touched && formulario.controls['horaFin'].errors,
                                             'is-valid': formulario.controls['horaFin'].touched && !formulario.controls['horaFin'].errors
                                             }
                                             ">
-                <div class="invalid-feedback">
-                  <span class="d-block" *ngIf="formulario.get('horaFin').hasError('required')"> La Hora fin es obligatorio.</span>
-                  <span class="d-block" *ngIf="formulario.get('horaFin').hasError('maxlength')">El número máximo de caracteres es 100.</span>
-                  <span class="d-block" *ngIf="formulario.get('horaFin').hasError('incorrect')">{{ mgsError }}</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>compromiso desde:</label>
-                <input #desde CustomizeInteger type="text" class="form-control" (ngModelChange)="changeDesde($event, hasta)" formControlName="compromisoDesde" [ngClass]="
+                                <div class="invalid-feedback">
+                                    <span class="d-block" *ngIf="formulario.get('horaFin').hasError('required')"> La Hora fin es obligatorio.</span>
+                                    <span class="d-block" *ngIf="formulario.get('horaFin').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                                    <span class="d-block" *ngIf="formulario.get('horaFin').hasError('incorrect')">{{ mgsError }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Compromiso Desde:</label>
+                                <input #desde CustomizeInteger type="text" class="form-control" (ngModelChange)="changeDesde($event, hasta)" formControlName="compromisoDesde" [ngClass]="
                                             {
                                             'is-invalid': formulario.controls['compromisoDesde'].touched && formulario.controls['compromisoDesde'].errors,
                                             'is-valid': formulario.controls['compromisoDesde'].touched && !formulario.controls['compromisoDesde'].errors
                                             }
                                             ">
-                <div class="invalid-feedback">
-                  <span class="d-block" *ngIf="formulario.get('compromisoDesde').hasError('required')"> El compromiso desde es obligatorio.</span>
-                  <span class="d-block" *ngIf="formulario.get('compromisoDesde').hasError('maxlength')">El número máximo de caracteres es 100.</span>
-                  <span class="d-block" *ngIf="formulario.get('compromisoDesde').hasError('incorrect')">{{ mgsError }}</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>compromiso hasta:</label>
-                <input #hasta CustomizeInteger type="text" class="form-control" (ngModelChange)="changeHasta($event, desde)" formControlName="compromisoHasta" [ngClass]="
+                                <div class="invalid-feedback">
+                                    <span class="d-block" *ngIf="formulario.get('compromisoDesde').hasError('required')"> El compromiso desde es obligatorio.</span>
+                                    <span class="d-block" *ngIf="formulario.get('compromisoDesde').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                                    <span class="d-block" *ngIf="formulario.get('compromisoDesde').hasError('incorrect')">{{ mgsError }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Compromiso Hasta:</label>
+                                <input #hasta CustomizeInteger type="text" class="form-control" (ngModelChange)="changeHasta($event, desde)" formControlName="compromisoHasta" [ngClass]="
                                             {
                                             'is-invalid': formulario.controls['compromisoHasta'].touched && formulario.controls['compromisoHasta'].errors,
                                             'is-valid': formulario.controls['compromisoHasta'].touched && !formulario.controls['compromisoHasta'].errors
                                             }
                                             ">
-                <div class="invalid-feedback">
-                  <span class="d-block" *ngIf="formulario.get('compromisoHasta').hasError('required')"> El compromiso hasta es obligatorio.</span>
-                  <span class="d-block" *ngIf="formulario.get('compromisoHasta').hasError('maxlength')">El número máximo de caracteres es 100.</span>
-                  <span class="d-block" *ngIf="formulario.get('compromisoHasta').hasError('incorrect')">{{ mgsError }}</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Días de Gestión:</label>
-                <input CustomizeInteger type="text" class="form-control" formControlName="diasGestion" [ngClass]="
+                                <div class="invalid-feedback">
+                                    <span class="d-block" *ngIf="formulario.get('compromisoHasta').hasError('required')"> El compromiso hasta es obligatorio.</span>
+                                    <span class="d-block" *ngIf="formulario.get('compromisoHasta').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                                    <span class="d-block" *ngIf="formulario.get('compromisoHasta').hasError('incorrect')">{{ mgsError }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" *ngIf="false">
+                            <div class="form-group">
+                                <label>Días de Gestión:</label>
+                                <input CustomizeInteger type="text" class="form-control" formControlName="diasGestion" [ngClass]="
                                             {
                                             'is-invalid': formulario.controls['diasGestion'].touched && formulario.controls['diasGestion'].errors,
                                             'is-valid': formulario.controls['diasGestion'].touched && !formulario.controls['diasGestion'].errors
                                             }
                                             ">
-                <div class="invalid-feedback">
-                  <span class="d-block" *ngIf="formulario.get('diasGestion').hasError('required')"> Los Días de Gestión es obligatorio.</span>
-                  <span class="d-block" *ngIf="formulario.get('diasGestion').hasError('maxlength')">El número máximo de caracteres es 100.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <label>Moneda:</label>
-            </div>
-            <div class="col-md-3">
-              <div class="form-group">
-                <ul class="list-group">
-                  <li class="list-group-item p-2" *ngFor="let item of monedas" style="border: none;">
-                    <label class="m-0 cursor-pointer">
+                                <div class="invalid-feedback">
+                                    <span class="d-block" *ngIf="formulario.get('diasGestion').hasError('required')"> Los Días de Gestión es obligatorio.</span>
+                                    <span class="d-block" *ngIf="formulario.get('diasGestion').hasError('maxlength')">El número máximo de caracteres es 100.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Moneda:</label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <ul class="list-group">
+                                    <li class="list-group-item p-2" *ngFor="let item of monedas" style="border: none;">
+                                        <label class="m-0 cursor-pointer">
                       <input type="checkbox" [value]="item.codItem" (change)="cambioMoneda($event, item)" [checked]="selecciodano(item)">
                       {{ item.descripcion }}
                     </label>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </ng-template>
-      </ngb-panel>
-      <ngb-panel id="static-2">
-        <ng-template ngbPanelTitle>
-          <span>Agrupar por campo</span>
-        </ng-template>
-        <ng-template ngbPanelContent >
-          <div class="row" [formGroup]="formAdicional">
-            <div class="col-12 col-md-6">
-              <label>Grupos:</label>
-              <div class="form-group">
-                <select formControlName="listaCampos" class="form-control" (change)="seleccionarTipo($event)">
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-panel>
+            <ngb-panel id="static-2">
+                <ng-template ngbPanelTitle>
+                    <span>Agrupar por campo</span>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                    <div class="row" [formGroup]="formAdicional">
+                        <div class="col-12 col-md-6">
+                            <label>Grupos:</label>
+                            <div class="form-group">
+                                <select formControlName="listaCampos" class="form-control" (change)="seleccionarTipo($event)">
                   <option value="">Seleccione</option>
                   <option *ngFor="let item of listaGrupos" [value]="item.codItem">{{ item.descripcion }}</option>
                 </select>
-              </div>
-            </div>
-            <div class="col-12 col-md-6" *ngIf="itemsSelected.length > 0">
-              <label>Lista de Elementos:</label>
-              <div class="form-group">
-                <ng-select
-                  [items]="itemsSelected"
-                  bindLabel="name"
-                  bindValue="id"
-                  labelForId="state"
-                  [multiple]="true"
-                  [placeholder]="placeholderSelect"
-                  clearAllText="Clear"
-                  formControlName="selectedOptionsIds">
-                </ng-select>
-              </div>
-            </div>
-            <div class="col-12 col-md-6" *ngIf="number">
-              <div class="row">
-                <div class="col-12 col-md-6">
-                  <label>Desde:</label>
-                  <div class="form-group">
-                    <input CustomizeCurrency type="text" class="form-control" placeholder="00000" formControlName="valorInicial">
-                  </div>
-                </div>
-                <div class="col-12 col-md-6">
-                  <label>Hasta:</label>
-                  <div class="form-group">
-                    <input CustomizeCurrency type="text" class="form-control" placeholder="00000" formControlName="valorFinal">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ng-template>
-      </ngb-panel>
-    </ngb-accordion>
-  </div>
-  <div class="col-md-12 mt-4">
-    <div class="form-group">
-      <button class="btn btn-lg btn-info" [disabled]="formulario.invalid || formAdicional.invalid" (click)="guardar()">Guardar</button>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6" *ngIf="itemsSelected.length > 0">
+                            <label>Lista de Elementos:</label>
+                            <div class="form-group">
+                                <ng-select [items]="itemsSelected" bindLabel="name" bindValue="id" labelForId="state" [multiple]="true" [placeholder]="placeholderSelect" clearAllText="Clear" formControlName="selectedOptionsIds">
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6" *ngIf="number">
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <label>Desde:</label>
+                                    <div class="form-group">
+                                        <input CustomizeCurrency type="text" class="form-control" placeholder="00000" formControlName="valorInicial">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label>Hasta:</label>
+                                    <div class="form-group">
+                                        <input CustomizeCurrency type="text" class="form-control" placeholder="00000" formControlName="valorFinal">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-panel>
+        </ngb-accordion>
     </div>
-  </div>
+    <div class="col-md-12 mt-4">
+        <div class="form-group">
+            <button class="btn btn-lg btn-info" [disabled]="formulario.invalid || formAdicional.invalid" (click)="guardar()">Guardar</button>
+        </div>
+    </div>
 </div>
 <app-loading></app-loading>

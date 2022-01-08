@@ -530,7 +530,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.sociosSeleccionados = this.sociosSeleccionados.filter(v => v.codUsuario != item.codUsuario);
   }
 
-  changeCheckCreditos(event: any, credito: any) {
+  changeCheckCreditos(event: any, credito: any, inputAll: HTMLInputElement) {
     const exist = this.$creditosCheched.find(i => i.id == credito.id);
     if (event.target.checked) {
       if (!exist) {

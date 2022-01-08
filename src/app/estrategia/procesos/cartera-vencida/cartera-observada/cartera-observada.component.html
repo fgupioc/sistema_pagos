@@ -1,11 +1,11 @@
 <div class="card section-credito-socio" *ngIf="socio">
     <div class="card-header">
         <i class="fa fa-align-justify"></i>
-        <span class="card-title text-uppercase font-weight-bold">Informacion del socio</span>
+        <span class="card-title text-uppercase font-weight-bold">Información del socio</span>
         <div class="card-tools float-right" *ngIf="solicitud.condicion == 'O'">
             <button class="btn btn-sm btn-outline-primary mr-2" [disabled]="!mensaje" (click)="aceptar()">Enviar</button>
-          <button class="btn btn-sm btn-outline-success mr-2" (click)="guardarTemporal()">Grabar</button>
-          <button *ngIf="listaChekList.length > 0" class="btn btn-sm btn-outline-info mr-2"  (click)="descargarFormato()">Formato</button>
+            <button class="btn btn-sm btn-outline-success mr-2" (click)="guardarTemporal()">Grabar</button>
+            <button *ngIf="listaChekList.length > 0" class="btn btn-sm btn-outline-info mr-2" (click)="descargarFormato()">Formato</button>
             <button type="button" class="btn btn-sm btn-outline-dark" routerLink="/auth/recuperacion/extrajudicial/solicitudes">
               <i class="fa fa-arrow-left"></i> Regresar
             </button>
@@ -41,18 +41,18 @@
             </div>
         </div>
         <div class="row" *ngIf="solicitud">
-          <div class="col-12 col-md-6">
-            <div class="form-group">
-              <label>Acontecimientos importantes y resaltantes</label>
-              <textarea class="form-control textarea-resize-none" rows="8" [(ngModel)]="acontecimientos"></textarea>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <label>Acontecimientos importantes y resaltantes</label>
+                    <textarea class="form-control textarea-resize-none" rows="8" [(ngModel)]="acontecimientos"></textarea>
+                </div>
             </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <div class="form-group">
-              <label>Comentarios del Ejecutivo del Negocios</label>
-              <textarea class="form-control textarea-resize-none" rows="8" [(ngModel)]="comentarios"></textarea>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <label>Comentarios del Ejecutivo del Negocios</label>
+                    <textarea class="form-control textarea-resize-none" rows="8" [(ngModel)]="comentarios"></textarea>
+                </div>
             </div>
-          </div>
             <div class="col-12">
                 <div class="form-group">
                     <label>Ultimo Comentario:</label>
@@ -100,7 +100,7 @@
                                                         <th>Fec. Repro.</th>
                                                         <th>Refinanciado</th>
                                                         <th>Importe Vencido</th>
-                                                        <th>Dias Venc.</th>
+                                                        <th>Días Venc.</th>
                                                         <th>Fec. Venc.</th>
                                                         <th>Tot. Cuotas</th>
                                                         <th>Cuotas Pag.</th>
