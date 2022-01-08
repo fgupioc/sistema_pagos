@@ -29,7 +29,7 @@
                         <input type="text" class="form-control" [value]="documentNumber" disabled>
                     </div>
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-4">
                     <div class="form-group">
                         <label>Etapa</label>
                         <input type="text" class="form-control" [value]="regla" disabled>
@@ -49,8 +49,14 @@
                 </div>
                 <div class="col-12 col-md-2">
                     <div class="form-group">
-                        <label>Monto</label>
-                        <input type="text" class="form-control" [value]="credito.montoCuota | currency : credito.codMoneda" disabled>
+                        <label>Monto Capital</label>
+                        <input type="text" class="form-control" [value]="credito.saldoCapital | currency : credito.codMoneda+' ' " disabled>
+                    </div>
+                </div>
+                <div class="col-12 col-md-2">
+                    <div class="form-group">
+                        <label>Monto Saldo</label>
+                        <input type="text" class="form-control" [value]="credito.saldoDeDeuda | currency : credito.codMoneda+' ' " disabled>
                     </div>
                 </div>
             </div>

@@ -335,7 +335,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
 
   nextFinished() {
     if (this.$creditosCheched.length == 0) {
-      Swal.fire('Asignación de credito', 'Debe seleccionar almenos un credito.', 'warning');
+      Swal.fire('Asignación de crédito', 'Debe seleccionar almenos un crédito.', 'warning');
       return;
     }
     const data: any = this.getData();
@@ -343,7 +343,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     this.asignacionService.asignarCreditosEjecutivo(this.ejecutivoSelected.codUsuario, data).subscribe(
       res => {
         if (res.exito) {
-          Swal.fire('Asignación de credito', res.mensaje, 'success');
+          Swal.fire('Asignación de crédito', res.mensaje, 'success');
           this.router.navigateByUrl('/auth/estrategia/asignacion-cartera');
         }
         this.spinner.hide();
@@ -709,5 +709,23 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
 
   isChecked(o: any): boolean {
     return this.$creditosCheched.find(i => i.nroCredito == o.nroCredito);
+  }
+
+  condicionDesc(value: any) {
+    return value == 0 ? "Sin Condición" : "Con Condición";
+  }
+
+  estadoDesc(value: any) {
+
+    switch (value) {
+      case '1':
+        return "VIGENTE";
+      case '2':
+        return "VENCIDO-CUOTAS";
+      case '5':
+        return "VENCIDO-SALDO";
+      default:
+        return "";
+    }
   }
 }
