@@ -80,6 +80,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   typeAcuerdo = 1;
   errors: string[] = [];
   dateDefault = moment(new Date()).format('YYYY-MM-DD');
+  hourDefault = moment().format('LT');
   codAcuedoPago = '008';
   codClienteComprometePago = '009';
   acuerdosPago: AcuerdoPago[] = [];
@@ -133,7 +134,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   $duracion = 0;
 
   $detalles: any[] = [];
-
+  $horario: any[] = [];
   constructor(
     public auth: AutenticacionService,
     private router: Router,
@@ -174,6 +175,14 @@ export class MisGestionesDetalleComponent implements OnInit {
     this.loadTipoNotificaciones();
     this.loadTipoUsoTelefono();
     this.loadTipoUsoEmail();
+
+    for (let index = 1; index <= 12; index++) {
+      if (index < 10) {
+        this.$horario.push('0'+index);
+      } else {
+        this.$horario.push(index);
+      }
+    }
 
     if (this.nroCredito) {
       this.loadCredito();
@@ -219,12 +228,18 @@ export class MisGestionesDetalleComponent implements OnInit {
       codActividad: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
       fechaVencimiento: ['', [Validators.required]],
-      horaVencimiento: ['', [Validators.required]],
+      horaVencimiento: [''],
       horaRecordatorio: [''],
       fechaRecordatorio: [''],
       checkFechaRecordatorio: [false],
       notificacion: [false],
       correo: [false],
+      horaA: [''],
+      minA: [''],
+      tiempoA: [''],
+      horaB: [''],
+      minB: [''],
+      tiempoB: [''],
     });
 
     this.formTelefono = this.formBuilder.group({
@@ -714,12 +729,19 @@ export class MisGestionesDetalleComponent implements OnInit {
       Swal.fire('Crear Tarea', 'Debe ingresar los campos obligatorios.', 'warning');
       return;
     }
-    const task: Tarea = this.formTarea.getRawValue();
+    const task: any = this.formTarea.getRawValue();
     task.etapaActual = CONST.C_STR_ETAPA_EN_LISTA;
     task.creditoId = this.credito.id;
     task.socioId = this.credito.socioId;
     task.asignacionId = this.credito.asignacionId;
     task.condicion = '0';
+
+    delete task.horaA;
+    delete task.horaB;
+    delete task.minA;
+    delete task.minB;
+    delete task.tiempoA;
+    delete task.tiempoB;
     this.spinner.show();
     this.gestionAdministrativaService.crearTarea(task.tableroTareaId, task).subscribe(
       res => {
@@ -740,11 +762,39 @@ export class MisGestionesDetalleComponent implements OnInit {
     );
   }
 
+  cambioFechaVencimient() {
+    const hora = Number(moment().format('h'));
+    const min = Number(moment().format('mm'));
+    const tiempo = moment().format('a');
+    const $horaS = ((hora + 1) < 10) ? '0'+ (hora + 1) : String(hora);
+    this.formTarea.controls.horaA.setValue($horaS);
+    this.formTarea.controls.minA.setValue(min >= 30 ? '30' : '00');
+    this.formTarea.controls.tiempoA.setValue(tiempo);
+    this.cambioHoraVencimient();
+  }
+
+  cambioHoraVencimient() {
+    const $hora = this.formTarea.controls.tiempoA.value == 'am' ? this.formTarea.controls.horaA.value : String(Number(this.formTarea.controls.horaA.value) + 12);
+    this.formTarea.controls.horaVencimiento.setValue(`${$hora}:${this.formTarea.controls.minA.value}`);
+    if (this.formTarea.controls.checkFechaRecordatorio.value) {
+      this.allHoraRecordatorio();
+    } else {
+      this.formTarea.controls.horaB.setValue('');
+      this.formTarea.controls.minB.setValue('');
+      this.formTarea.controls.tiempoB.setValue('');
+    }
+  }
+  cambioHoraRecordatorio() {
+    const $hora = this.formTarea.controls.tiempoB.value == 'am' ? this.formTarea.controls.horaB.value : String(Number(this.formTarea.controls.horaB.value) + 12);
+    this.formTarea.controls.horaRecordatorio.setValue(`${$hora}:${this.formTarea.controls.minB.value}`);
+  }
+
   changeRecordatorio(event: any) {
     if (event.target.checked) {
       if (this.formTarea.controls.fechaVencimiento.value && this.formTarea.controls.horaVencimiento.value) {
         this.formTarea.controls.fechaRecordatorio.setValue(this.formTarea.controls.fechaVencimiento.value);
         this.formTarea.controls.horaRecordatorio.setValue(this.getTime);
+        this.allHoraRecordatorio();
       } else {
         Swal.fire('Tarea', 'Debe ingresar una fecha de vencimiento y hora de vencimiento', 'warning');
         this.formTarea.controls.checkFechaRecordatorio.setValue(false);
@@ -753,6 +803,22 @@ export class MisGestionesDetalleComponent implements OnInit {
     } else {
       this.formTarea.controls.fechaRecordatorio.setValue(null);
       this.formTarea.controls.horaRecordatorio.setValue(null);
+      this.formTarea.controls.horaB.setValue('');
+      this.formTarea.controls.minB.setValue('');
+      this.formTarea.controls.tiempoB.setValue('');
+      this.formTarea.controls.notificacion.setValue(false);
+      this.formTarea.controls.correo.setValue(false);
+    }
+  }
+
+  allHoraRecordatorio() {
+    const $time = this.getTime.split(':');
+    this.formTarea.controls.horaB.setValue(Number($time[0]) > 12 ? ((Number($time[0]) - 12) < 10 ? '0'+(Number($time[0]) - 12) : String(Number($time[0]) - 12)) : $time[0]);
+    this.formTarea.controls.minB.setValue(this.formTarea.controls.minA.value == '00' ? '30' : '00');
+    if (Number($time[0]) > 12) {
+      this.formTarea.controls.tiempoB.setValue("pm");
+    } else {
+      this.formTarea.controls.tiempoB.setValue("am");
     }
   }
 

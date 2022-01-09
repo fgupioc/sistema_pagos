@@ -213,3 +213,19 @@ textarea {
     height: 240px;
     object-fit: cover;
 }
+
+.cont-time {
+    display: flex
+}
+
+.cont-time select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+    width: 50px;
+}
+
+.cont-time select::-ms-expand {
+    display: none;
+}

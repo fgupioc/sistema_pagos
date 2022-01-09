@@ -124,9 +124,9 @@
                                                                     <div class="form-group">
                                                                         <label>Seleccione la actividad</label>
                                                                         <select class="form-control" formControlName="codActividad">
-                                      <option value="">Selecione</option>
-                                      <option *ngFor="let item of tipoActividades" [value]="item.codItem">{{ item.descripcion }}</option>
-                                    </select>
+                                                                          <option value="">Selecione</option>
+                                                                          <option *ngFor="let item of tipoActividades" [value]="item.codItem">{{ item.descripcion }}</option>
+                                                                        </select>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -136,13 +136,29 @@
                                                                 <div class="col-12 col-md-6">
                                                                     <div class="form-group">
                                                                         <label>Fecha Vencimiento</label>
-                                                                        <input formControlName="fechaVencimiento" type="date" class="form-control input-date">
+                                                                        <input formControlName="fechaVencimiento" (change)="cambioFechaVencimient()" type="date" class="form-control input-date">
                                                                     </div>
+
                                                                 </div>
                                                                 <div class="col-12 col-md-6">
                                                                     <div class="form-group">
-                                                                        <label>&nbsp;</label>
-                                                                        <input formControlName="horaVencimiento" type="time" class="form-control input-date">
+                                                                        <label>Hora</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>Min</label>
+                                                                        <input formControlName="horaVencimiento" type="time" class="form-control input-date" style="display: none;">
+                                                                        <div class="form-group">
+                                                                            <div class="cont-time">
+                                                                                <select class="form-control" (change)="cambioHoraVencimient()" formControlName="horaA">
+                                                                                  <option *ngFor="let h of $horario" [value]="h">{{h}}</option>
+                                                                                </select>
+                                                                                <select class="form-control" formControlName="minA" (change)="cambioHoraVencimient()">
+                                                                                <option value="00">00</option>
+                                                                                  <option value="30">30</option>
+                                                                                </select>
+                                                                                <select class="form-control" formControlName="tiempoA" (change)="cambioHoraVencimient()">
+                                                                                  <option value="am">AM</option>
+                                                                                  <option value="pm">PM</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-12 col-md-6">
@@ -157,8 +173,23 @@
                                                                 </div>
                                                                 <div class="col-12 col-md-6">
                                                                     <div class="form-group">
-                                                                        <label style="margin-bottom: 14px;">&nbsp;</label>
-                                                                        <input formControlName="horaRecordatorio" type="time" class="form-control input-date">
+                                                                        <label>Hora</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>Min</label>
+                                                                        <input formControlName="horaRecordatorio" type="time" class="form-control input-date" style="display: none;">
+                                                                        <div class="form-group">
+                                                                            <div class="cont-time">
+                                                                                <select class="form-control" (change)="cambioHoraRecordatorio()" formControlName="horaB">
+                                                                                <option *ngFor="let h of $horario" [value]="h">{{h}}</option>
+                                                                              </select>
+                                                                                <select class="form-control" formControlName="minB" (change)="cambioHoraRecordatorio()">
+                                                                              <option value="00">00</option>
+                                                                                <option value="30">30</option>
+                                                                              </select>
+                                                                                <select class="form-control" formControlName="tiempoB" (change)="cambioHoraRecordatorio()">
+                                                                                <option value="am">AM</option>
+                                                                                <option value="pm">PM</option>
+                                                                              </select>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-12">
