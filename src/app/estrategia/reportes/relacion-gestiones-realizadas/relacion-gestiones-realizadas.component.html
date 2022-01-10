@@ -1,233 +1,233 @@
 <div class="card">
-  <div class="card-header">
-    <h2 class="card-title text-uppercase">Relación gestiones realizadas</h2>
-  </div>
-  <div class="card-body">
-    <div class="row">
-      <div class="col-12 col-md-8 mx-auto">
-        <div class="form-inline" [formGroup]="formSearch">
-          <div class="form-group">
-            <div class="form-inline">
-              <div class="form-group d-block">
-                <label class=" d-block">Fecha Inicio</label>
-                <div class="input-group">
-                  <input type="date" formControlName="start" class="form-control" placeholder="Fecha Inicio" name="dpFromDate">
+    <div class="card-header">
+        <h2 class="card-title text-uppercase">Relación gestiones realizadas</h2>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-md-8 mx-auto">
+                <div class="form-inline" [formGroup]="formSearch">
+                    <div class="form-group">
+                        <div class="form-inline">
+                            <div class="form-group d-block">
+                                <label class=" d-block">Fecha Inicio</label>
+                                <div class="input-group">
+                                    <input type="date" formControlName="start" class="form-control" placeholder="Fecha Inicio" name="dpFromDate">
 
+                                </div>
+                            </div>
+                            <div class="form-group  d-block ml-2">
+                                <label class=" d-block">Fecha Fin</label>
+                                <div class="input-group">
+                                    <input type="date" formControlName="finish" class="form-control" placeholder="Fecha Fin" name="dpToDate">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group d-block ml-4">
+                        <label>&nbsp;</label>
+                        <button class="btn btn-primary mr-4" (click)="search()"> <i class="fa fa-search"></i> Buscar</button>
+                        <button (click)="download()" class="btn btn-outline-success" *ngIf="itemSoles.length > 0 || itemDolares.length > 0"><i class="fa fa-file-excel-o"></i> Exportar</button>
+                    </div>
                 </div>
-              </div>
-              <div class="form-group  d-block ml-2">
-                <label class=" d-block">Fecha Fin</label>
-                <div class="input-group">
-                  <input type="date" formControlName="finish" class="form-control" placeholder="Fecha Fin" name="dpToDate">
-                </div>
-              </div>
             </div>
-          </div>
-          <div class="form-group d-block ml-4">
-            <label>&nbsp;</label>
-            <button class="btn btn-primary mr-4" (click)="search()"> <i class="fa fa-search"></i> Buscar</button>
-            <button (click)="download()" class="btn btn-outline-success" *ngIf="itemSoles.length > 0 || itemDolares.length > 0"><i class="fa fa-file-excel-o"></i> Exportar</button>
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="form-group">
-          <ul id="myUL">
-            <li (click)="$type = 1" *ngIf="itemSoles.length > 0 ">
-              <span class="caret">Soles</span>
-              <ul class="nested">
-                <li>
-                  <span class="caret">Gestores</span>
-                  <ul class="nested">
-                    <li *ngFor="let item of itemSoles"><span class="caret"> <b class="text-uppercase">{{ item.gestor }}</b></span>
-                      <ul class="nested">
-                        <li #lista *ngFor="let etapa of item.etapas " (click)="selected(lista)"><span class="caret"> <b class="text-uppercase">{{ etapa.etapa }}</b></span>
-                          <ul class="nested tabla">
-                            <li style="margin-left: -150px">
-                              <div class="col-12">
-                                <div class="form-group">
-                                  <div *ngFor="let cartera of etapa.carteras">
-                                    <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
-                                      <caption style="caption-side: top; text-align: center;">Etapa <b>{{ etapa.etapa }}</b></caption>
-                                      <thead>
-                                      <tr class="text-center">
-                                        <th>#</th>
-                                        <th>Cartera</th>
-                                        <th>LLamadas</th>
-                                        <th>WhatsApp</th>
-                                        <th>Correo</th>
-                                        <th>SMS</th>
-                                        <th>Visita</th>
-                                        <th>Carta</th>
-                                        <th>Compromiso de pago</th>
-                                        <th>Cargo en cuenta</th>
-                                        <th>Total Gestiones</th>
-                                      </tr>
-                                      </thead>
-                                      <tbody>
-                                      <tr class="text-center" *ngFor="let cartera of etapa.carteras; let i = index">
-                                        <td>{{ i + 1 }}</td>
-                                        <td>{{ cartera.cartera }}</td>
-                                        <td>{{ cartera.realizadas.totalLLamadas }}</td>
-                                        <td>{{ cartera.realizadas.totalWhatsApp }}</td>
-                                        <td>{{ cartera.realizadas.totalCorreos }}</td>
-                                        <td>{{ cartera.realizadas.totalSms }}</td>
-                                        <td>{{ cartera.realizadas.totalVisita }}</td>
-                                        <td>{{ cartera.realizadas.totalCarta }}</td>
-                                        <td>{{ cartera.realizadas.totalCompromisoPago }}</td>
-                                        <td>{{ cartera.realizadas.totalCargoCuenta }}</td>
-                                        <td>{{ cartera.realizadas.totalGestiones}}</td>
-                                      </tr>
-                                      </tbody>
-                                    </table>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <ul id="myUL">
+                        <li (click)="$type = 1" *ngIf="itemSoles.length > 0 ">
+                            <span class="caret">Soles</span>
+                            <ul class="nested">
+                                <li>
+                                    <span class="caret">Gestores</span>
+                                    <ul class="nested">
+                                        <li *ngFor="let item of itemSoles"><span class="caret"> <b class="text-uppercase">{{ item.gestor }}</b></span>
+                                            <ul class="nested">
+                                                <li #lista *ngFor="let etapa of item.etapas " (click)="selected(lista)"><span class="caret"> <b class="text-uppercase">{{ etapa.etapa }}</b></span>
+                                                    <ul class="nested tabla">
+                                                        <li style="margin-left: -150px">
+                                                            <div class="col-12">
+                                                                <div class="form-group">
+                                                                    <div *ngFor="let cartera of etapa.carteras">
+                                                                        <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
+                                                                            <caption style="caption-side: top; text-align: center;">Etapa <b>{{ etapa.etapa }}</b></caption>
+                                                                            <thead>
+                                                                                <tr class="text-center">
+                                                                                    <th>#</th>
+                                                                                    <th>Cartera</th>
+                                                                                    <th>LLamadas</th>
+                                                                                    <th>WhatsApp</th>
+                                                                                    <th>Correo</th>
+                                                                                    <th>SMS</th>
+                                                                                    <th>Visita</th>
+                                                                                    <th>Carta</th>
+                                                                                    <th>Compromiso de pago</th>
+                                                                                    <th>Cargo en cuenta</th>
+                                                                                    <th>Total Gestiones</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr class="text-center" *ngFor="let cartera of etapa.carteras; let i = index">
+                                                                                    <td>{{ i + 1 }}</td>
+                                                                                    <td>{{ cartera.cartera }}</td>
+                                                                                    <td>{{ cartera.realizadas.totalLLamadas }}</td>
+                                                                                    <td>{{ cartera.realizadas.totalWhatsApp }}</td>
+                                                                                    <td>{{ cartera.realizadas.totalCorreos }}</td>
+                                                                                    <td>{{ cartera.realizadas.totalSms }}</td>
+                                                                                    <td>{{ cartera.realizadas.totalVisita }}</td>
+                                                                                    <td>{{ cartera.realizadas.totalCarta }}</td>
+                                                                                    <td>{{ cartera.realizadas.totalCompromisoPago }}</td>
+                                                                                    <td>{{ cartera.realizadas.totalCargoCuenta }}</td>
+                                                                                    <td>{{ cartera.realizadas.totalGestiones}}</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li (click)="$type = 2" *ngIf="itemDolares.length > 0 ">
-              <span class="caret">Soles</span>
-              <ul class="nested">
-                <li>
-                  <span class="caret">Gestores</span>
-                  <ul class="nested">
-                    <li *ngFor="let item of itemDolares"><span class="caret"> <b class="text-uppercase">{{ item.gestor }}</b></span>
-                      <ul class="nested">
-                        <li #lista *ngFor="let etapa of item.etapas " (click)="selected(lista)"><span class="caret"> <b class="text-uppercase">{{ etapa.etapa }}</b></span>
-                          <ul class="nested tabla">
-                            <li style="margin-left: -150px">
-                              <div class="col-12">
-                                <div class="form-group">
-                                  <div *ngFor="let cartera of etapa.carteras">
-                                    <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
-                                      <caption style="caption-side: top; text-align: center;">Etapa <b>{{ etapa.etapa }}</b></caption>
-                                      <thead>
-                                      <tr class="text-center">
-                                        <th>#</th>
-                                        <th>Cartera</th>
-                                        <th>LLamadas</th>
-                                        <th>WhatsApp</th>
-                                        <th>Correo</th>
-                                        <th>SMS</th>
-                                        <th>Visita</th>
-                                        <th>Carta</th>
-                                        <th>Compromiso de pago</th>
-                                        <th>Cargo en cuenta</th>
-                                        <th>Total Gestiones</th>
-                                      </tr>
-                                      </thead>
-                                      <tbody>
-                                      <tr class="text-center" *ngFor="let cartera of etapa.carteras; let i = index">
-                                        <td>{{ i + 1 }}</td>
-                                        <td>{{ cartera.cartera }}</td>
-                                        <td>{{ cartera.realizadas.totalLLamadas }}</td>
-                                        <td>{{ cartera.realizadas.totalWhatsApp }}</td>
-                                        <td>{{ cartera.realizadas.totalCorreos }}</td>
-                                        <td>{{ cartera.realizadas.totalSms }}</td>
-                                        <td>{{ cartera.realizadas.totalVisita }}</td>
-                                        <td>{{ cartera.realizadas.totalCarta }}</td>
-                                        <td>{{ cartera.realizadas.totalCompromisoPago }}</td>
-                                        <td>{{ cartera.realizadas.totalCargoCuenta }}</td>
-                                        <td>{{ cartera.realizadas.totalGestiones}}</td>
-                                      </tr>
-                                      </tbody>
-                                    </table>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
+                        <li (click)="$type = 2" *ngIf="itemDolares.length > 0 ">
+                            <span class="caret">Dolares</span>
+                            <ul class="nested">
+                                <li>
+                                    <span class="caret">Gestores</span>
+                                    <ul class="nested">
+                                        <li *ngFor="let item of itemSoles"><span class="caret"> <b class="text-uppercase">{{ item.gestor }}</b></span>
+                                            <ul class="nested">
+                                                <li #lista2 *ngFor="let etapa of item.etapas " (click)="selected(lista2)"><span class="caret"> <b class="text-uppercase">{{ etapa.etapa }}</b></span>
+                                                    <ul class="nested tabla">
+                                                        <li style="margin-left: -150px">
+                                                            <div class="col-12">
+                                                                <div class="form-group">
+                                                                    <div *ngFor="let cartera of etapa.carteras">
+                                                                        <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
+                                                                            <caption style="caption-side: top; text-align: center;">Etapa <b>{{ etapa.etapa }}</b></caption>
+                                                                            <thead>
+                                                                                <tr class="text-center">
+                                                                                    <th>#</th>
+                                                                                    <th>Cartera</th>
+                                                                                    <th>LLamadas</th>
+                                                                                    <th>WhatsApp</th>
+                                                                                    <th>Correo</th>
+                                                                                    <th>SMS</th>
+                                                                                    <th>Visita</th>
+                                                                                    <th>Carta</th>
+                                                                                    <th>Compromiso de pago</th>
+                                                                                    <th>Cargo en cuenta</th>
+                                                                                    <th>Total Gestiones</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr class="text-center" *ngFor="let cartera of etapa.carteras; let i = index">
+                                                                                    <td>{{ i + 1 }}</td>
+                                                                                    <td>{{ cartera.cartera }}</td>
+                                                                                    <td>{{ cartera.realizadas.totalLLamadas }}</td>
+                                                                                    <td>{{ cartera.realizadas.totalWhatsApp }}</td>
+                                                                                    <td>{{ cartera.realizadas.totalCorreos }}</td>
+                                                                                    <td>{{ cartera.realizadas.totalSms }}</td>
+                                                                                    <td>{{ cartera.realizadas.totalVisita }}</td>
+                                                                                    <td>{{ cartera.realizadas.totalCarta }}</td>
+                                                                                    <td>{{ cartera.realizadas.totalCompromisoPago }}</td>
+                                                                                    <td>{{ cartera.realizadas.totalCargoCuenta }}</td>
+                                                                                    <td>{{ cartera.realizadas.totalGestiones}}</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-          </ul>
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <br>
+        <br>
 
-    <div class="row">
-      <div class="col-12" *ngIf="$type == 1 && repSolEtapas.length >0">
-        <table class="table table-bordered">
-          <thead>
-          <tr class="text-center">
-            <th>Etapa</th>
-            <th *ngFor="let item of repSolEtapas">{{ item.nombre}}</th>
-            <th>Total</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td>Total gestiones</td>
-            <td class="text-center"  *ngFor="let item of repSolEtapas">{{ item.totalGestiones }}</td>
-            <td class="text-center">{{ getCalcularTital(repSolEtapas, 'totalGestiones') }}</td>
-          </tr>
-          <tr>
-            <td>Total créditos asignados</td>
-            <td class="text-center"  *ngFor="let item of repSolEtapas">{{ item.totalCreditosAsignados }}</td>
-            <td class="text-center">{{ getCalcularTital(repSolEtapas, 'totalCreditosAsignados') }}</td>
-          </tr>
-          <tr>
-            <td>Total créditos sin gestión</td>
-            <td class="text-center"  *ngFor="let item of repSolEtapas">{{ item.totalCreditosSinGestion }}</td>
-            <td class="text-center">{{ getCalcularTital(repSolEtapas, 'totalCreditosSinGestion') }}</td>
-          </tr>
-          <tr>
-            <td>Nivel de Gestión</td>
-            <td class="text-center"  *ngFor="let item of repSolEtapas">{{ item.nivelGestion }}%</td>
-            <td class="text-center">{{ calcularNivelGestion(repSolEtapas) }}%</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-12" *ngIf="$type == 2 && repDolEtapas.length >0">
-        <table class="table table-bordered">
-          <thead>
-          <tr class="text-center">
-            <th>Etapa</th>
-            <th *ngFor="let item of repDolEtapas">{{ item.nombre}}</th>
-            <th>Total</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td>Total gestiones</td>
-            <td class="text-center"  *ngFor="let item of repDolEtapas">{{ item.totalGestiones }}</td>
-            <td class="text-center">{{ getCalcularTital(repDolEtapas, 'totalGestiones') }}</td>
-          </tr>
-          <tr>
-            <td>Total créditos asignados</td>
-            <td class="text-center"  *ngFor="let item of repDolEtapas">{{ item.totalCreditosAsignados }}</td>
-            <td class="text-center">{{ getCalcularTital(repDolEtapas, 'totalCreditosAsignados') }}</td>
-          </tr>
-          <tr>
-            <td>Total créditos sin gestión</td>
-            <td class="text-center"  *ngFor="let item of repDolEtapas">{{ item.totalCreditosSinGestion }}</td>
-            <td class="text-center">{{ getCalcularTital(repDolEtapas, 'totalCreditosSinGestion') }}</td>
-          </tr>
-          <tr>
-            <td>Nivel de Gestión</td>
-            <td class="text-center"  *ngFor="let item of repDolEtapas">{{ item.nivelGestion }}%</td>
-            <td class="text-center">{{ calcularNivelGestion(repDolEtapas) }}%</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+        <div class="row">
+            <div class="col-12" *ngIf="$type == 1 && repSolEtapas.length >0">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="text-center">
+                            <th>Etapa</th>
+                            <th *ngFor="let item of repSolEtapas">{{ item.nombre}}</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Total gestiones</td>
+                            <td class="text-center" *ngFor="let item of repSolEtapas">{{ item.totalGestiones }}</td>
+                            <td class="text-center">{{ getCalcularTital(repSolEtapas, 'totalGestiones') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total créditos asignados</td>
+                            <td class="text-center" *ngFor="let item of repSolEtapas">{{ item.totalCreditosAsignados }}</td>
+                            <td class="text-center">{{ getCalcularTital(repSolEtapas, 'totalCreditosAsignados') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total créditos sin gestión</td>
+                            <td class="text-center" *ngFor="let item of repSolEtapas">{{ item.totalCreditosSinGestion }}</td>
+                            <td class="text-center">{{ getCalcularTital(repSolEtapas, 'totalCreditosSinGestion') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Nivel de Gestión</td>
+                            <td class="text-center" *ngFor="let item of repSolEtapas">{{ item.nivelGestion }}%</td>
+                            <td class="text-center">{{ calcularNivelGestion(repSolEtapas) }}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12" *ngIf="$type == 2 && repDolEtapas.length >0">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="text-center">
+                            <th>Etapa</th>
+                            <th *ngFor="let item of repDolEtapas">{{ item.nombre}}</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Total gestiones</td>
+                            <td class="text-center" *ngFor="let item of repDolEtapas">{{ item.totalGestiones }}</td>
+                            <td class="text-center">{{ getCalcularTital(repDolEtapas, 'totalGestiones') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total créditos asignados</td>
+                            <td class="text-center" *ngFor="let item of repDolEtapas">{{ item.totalCreditosAsignados }}</td>
+                            <td class="text-center">{{ getCalcularTital(repDolEtapas, 'totalCreditosAsignados') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total créditos sin gestión</td>
+                            <td class="text-center" *ngFor="let item of repDolEtapas">{{ item.totalCreditosSinGestion }}</td>
+                            <td class="text-center">{{ getCalcularTital(repDolEtapas, 'totalCreditosSinGestion') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Nivel de Gestión</td>
+                            <td class="text-center" *ngFor="let item of repDolEtapas">{{ item.nivelGestion }}%</td>
+                            <td class="text-center">{{ calcularNivelGestion(repDolEtapas) }}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <ngx-spinner></ngx-spinner>

@@ -259,3 +259,20 @@ textarea {
 .container input:disabled ~ .checkmark:after {
   display: none;
 }
+
+
+.cont-time {
+  display: flex
+}
+
+.cont-time select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
+  width: 50px;
+}
+
+.cont-time select::-ms-expand {
+  display: none;
+}

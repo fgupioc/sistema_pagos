@@ -54,6 +54,8 @@ export class RelacionGestionesRealizadasComponent implements OnInit {
     this.reportesService.relacionGestionesRealizadas(start, finish).subscribe(
       res => {
         this.itemSoles = res.itemsSoles;
+        this.itemDolares = res.itemsDolares;
+
         const etapas: any[] = res.etapas;
         etapas.map(i => {
           i.totalGestiones = 0;

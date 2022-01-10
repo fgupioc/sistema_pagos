@@ -135,6 +135,7 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   $detalles: any[] = [];
   $horario: any[] = [];
+
   constructor(
     public auth: AutenticacionService,
     private router: Router,
@@ -178,7 +179,7 @@ export class MisGestionesDetalleComponent implements OnInit {
 
     for (let index = 1; index <= 12; index++) {
       if (index < 10) {
-        this.$horario.push('0'+index);
+        this.$horario.push('0' + index);
       } else {
         this.$horario.push(index);
       }
@@ -766,7 +767,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     const hora = Number(moment().format('h'));
     const min = Number(moment().format('mm'));
     const tiempo = moment().format('a');
-    const $horaS = ((hora + 1) < 10) ? '0'+ (hora + 1) : String(hora);
+    const $horaS = ((hora + 1) < 10) ? '0' + (hora + 1) : String(hora);
     this.formTarea.controls.horaA.setValue($horaS);
     this.formTarea.controls.minA.setValue(min >= 30 ? '30' : '00');
     this.formTarea.controls.tiempoA.setValue(tiempo);
@@ -784,6 +785,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       this.formTarea.controls.tiempoB.setValue('');
     }
   }
+
   cambioHoraRecordatorio() {
     const $hora = this.formTarea.controls.tiempoB.value == 'am' ? this.formTarea.controls.horaB.value : String(Number(this.formTarea.controls.horaB.value) + 12);
     this.formTarea.controls.horaRecordatorio.setValue(`${$hora}:${this.formTarea.controls.minB.value}`);
@@ -813,12 +815,12 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   allHoraRecordatorio() {
     const $time = this.getTime.split(':');
-    this.formTarea.controls.horaB.setValue(Number($time[0]) > 12 ? ((Number($time[0]) - 12) < 10 ? '0'+(Number($time[0]) - 12) : String(Number($time[0]) - 12)) : $time[0]);
+    this.formTarea.controls.horaB.setValue(Number($time[0]) > 12 ? ((Number($time[0]) - 12) < 10 ? '0' + (Number($time[0]) - 12) : String(Number($time[0]) - 12)) : $time[0]);
     this.formTarea.controls.minB.setValue(this.formTarea.controls.minA.value == '00' ? '30' : '00');
     if (Number($time[0]) > 12) {
-      this.formTarea.controls.tiempoB.setValue("pm");
+      this.formTarea.controls.tiempoB.setValue('pm');
     } else {
-      this.formTarea.controls.tiempoB.setValue("am");
+      this.formTarea.controls.tiempoB.setValue('am');
     }
   }
 

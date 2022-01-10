@@ -63,6 +63,13 @@ export class ModalNuevaTareasComponent implements OnInit {
   progresos: any[] = [];
   archivos: TareaArchivo[] = [];
   role: string;
+  horaA: any;
+  minA: any;
+  tiempoA: any;
+  horaB: any;
+  minB: any;
+  tiempoB: any;
+  $horario: any[] = [];
 
   constructor(
     public auth: AutenticacionService,
@@ -84,6 +91,13 @@ export class ModalNuevaTareasComponent implements OnInit {
     this.listarTipoActividades();
     this.loadTipoNotificaciones();
     this.loadEstadosRecordatorios();
+    for (let index = 1; index <= 12; index++) {
+      if (index < 10) {
+        this.$horario.push('0' + index);
+      } else {
+        this.$horario.push(index);
+      }
+    }
     this.formRecordatorio = this.formBuilder.group({
       asignacionId: [],
       ejecutivoId: [],
@@ -117,6 +131,7 @@ export class ModalNuevaTareasComponent implements OnInit {
         this.$tarea.fechaVencimiento = moment(task.fechaVencimiento).format('YYYY-MM-DD');
         this.$tarea.fechaRecordatorio = moment(task.fechaRecordatorio).format('YYYY-MM-DD');
       }
+      this.allHoraRecordatorio();
     }
   }
 
@@ -126,17 +141,7 @@ export class ModalNuevaTareasComponent implements OnInit {
       Swal.fire('Actualizar Tarea', 'El nombre de la tarea es obligatorio', 'warning');
       return;
     }
-    /*
-    if (this.role) {
-      this.$tarea.recordatorio = this.formRecordatorio.getRawValue();
-      this.$tarea.recordatorio.socioId = this.socio.id;
-      this.$tarea.recordatorio.creditoId = this.credito.id;
-      this.$tarea.recordatorio.ejecutivoId = this.ejecutivoId;
-      this.$tarea.recordatorio.asignacionId = this.credito.asignacionId;
-      this.$tarea.recordatorio.fecha = moment().format('YYYY-MM-DD');
-      this.$tarea.recordatorio.hora = moment().format('HH:mm');
-    }
-*/
+
     this.$tarea.codActividad = this.formRecordatorio.controls.tipoActividad.value;
     if (!this.$tarea.checkFechaRecordatorio) {
       this.$tarea.fechaRecordatorio = null;
@@ -178,7 +183,7 @@ export class ModalNuevaTareasComponent implements OnInit {
     if (event.target.checked) {
       if (this.$tarea.fechaVencimiento && this.$tarea.horaVencimiento) {
         this.$tarea.fechaRecordatorio = this.$tarea.fechaVencimiento;
-        this.$tarea.horaRecordatorio = this.getTime;
+        this.allHoraRecordatorio();
       } else {
         Swal.fire('Tarea', 'Debe ingresar una fecha de vencimiento y hora de vencimiento', 'warning');
         element.checked = false;
@@ -187,21 +192,50 @@ export class ModalNuevaTareasComponent implements OnInit {
     } else {
       this.$tarea.fechaRecordatorio = null;
       this.$tarea.horaRecordatorio = null;
+      this.horaB = '';
+      this.minB = '';
+      this.tiempoB = '';
     }
   }
 
   newVencimiento() {
+    const time = moment(new Date()).add(1, 'hours').format('HH:mm');
+    const hora = time.split(':');
+    this.tiempoA = 'am';
+    if (Number(hora[0]) > 12) {
+      this.tiempoA = 'pm';
+    }
+    this.horaA = hora[0];
+    this.minA = '00';
+    if (Number(hora[1]) > 30) {
+      this.minA = '30';
+    }
+
     if (!this.tarea.fechaVencimiento) {
       this.tarea.fechaVencimiento = moment(new Date()).format('YYYY-MM-DD');
-      this.tarea.horaVencimiento = moment(new Date()).add(1, 'hours').format('HH:mm');
-      this.$tarea.fechaVencimiento = moment(new Date()).format('YYYY-MM-DD');
-      this.$tarea.horaVencimiento = moment(new Date()).add(1, 'hours').format('HH:mm');
+      if (this.$tarea.horaVencimiento) {
+        const $hora = this.$tarea.horaVencimiento.split(':');
+        this.tarea.horaVencimiento = `${$hora[0]}:${$hora[1]}`;
+        if (Number($hora[0]) > 12) {
+          this.tiempoA = 'pm';
+        } else {
+          this.tiempoA = 'am';
+        }
+      } else {
+        this.tarea.horaVencimiento = `${this.horaA}:${this.minA}`;
+        if (Number(this.horaA) > 12) {
+          this.tiempoA = 'pm';
+        } else {
+          this.tiempoA = 'am';
+        }
+      }
       this.editVencimiento = false;
     } else {
       this.$tarea.fechaVencimiento = moment(this.tarea.fechaVencimiento).format('YYYY-MM-DD');
       this.editVencimiento = true;
     }
   }
+
 
   get checedCumplido() {
     if (this.estaFechaVencida() && !this.$tarea.checkFechaVencimiento) {
@@ -572,7 +606,6 @@ export class ModalNuevaTareasComponent implements OnInit {
     } else {
       return '09:00';
     }
-
   }
 
   cancelarTarea() {
@@ -620,4 +653,37 @@ export class ModalNuevaTareasComponent implements OnInit {
       );
     }
   }
+
+  cambioHoraVencimient() {
+    const $hora = (this.tiempoA == 'am') ? this.horaA : String(Number(this.horaA) + 12);
+    this.$tarea.horaVencimiento = `${$hora}:${this.minA}`;
+    if (this.$tarea.checkFechaRecordatorio) {
+      this.allHoraRecordatorio();
+    } else {
+      this.horaB = '';
+      this.minB = '';
+      this.tiempoB = '';
+    }
+  }
+
+  allHoraRecordatorio() {
+    if (this.$tarea.horaVencimiento) {
+      const $time = this.$tarea.horaVencimiento.split(':');
+      this.horaB = (Number($time[0]) > 12 ? ((Number($time[0]) - 12) < 10 ? '0' + (Number($time[0]) - 12) : String(Number($time[0]) - 12)) : $time[0]);
+      this.minB = (this.minA == '00') ? '30' : '00';
+      if (Number($time[0]) > 12) {
+        this.tiempoB = 'pm';
+      } else {
+        this.tiempoB = 'am';
+      }
+      this.$tarea.horaRecordatorio = `${this.horaB}:${this.minB}`;
+    }
+
+  }
+
+  cambioHoraRecordatorio() {
+    const $hora = this.tiempoB == 'am' ? this.horaB : String(Number(this.horaB) + 12);
+    this.$tarea.horaRecordatorio = `${$hora}:${this.minB}`;
+  }
+
 }

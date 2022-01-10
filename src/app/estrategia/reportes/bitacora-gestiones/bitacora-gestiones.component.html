@@ -99,7 +99,50 @@
                                 <ul class="nested">
                                     <li *ngFor="let item of itemsDolares"><span class="caret"> <b class="text-uppercase">{{ item.gestor }}</b></span>
                                         <ul class="nested">
-                                            <li *ngFor="let cartera of item.carteras "><a href="javascript:;" (click)="seleccionado(cartera.gestiones)"><b>{{ cartera.cartera }}</b></a></li>
+                                            <!--<li *ngFor="let cartera of item.carteras "><a href="javascript:;" (click)="seleccionado(cartera.gestiones)"><b>{{ cartera.cartera }}</b></a>-->
+                                            <li #lista2 *ngFor="let cartera of item.carteras " (click)="selected(lista2)"><span class="caret"> <b class="text-uppercase">{{ cartera.cartera }}</b></span>
+                                                <ul class="nested tabla">
+                                                    <li style="margin-left: -150px">
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <table datatable [dtOptions]="dtOptions" class="table table-bordered table-responsive">
+                                                                    <caption style="caption-side: top; text-align: center;">Cartera <b>{{ cartera.cartera }}</b>; Gestor <b>{{ item.gestor }}</b></caption>
+                                                                    <thead>
+                                                                        <tr class="text-center">
+                                                                            <th>#</th>
+                                                                            <th>Código del Socio</th>
+                                                                            <th>Nombres del Socio</th>
+                                                                            <th>Apellidos del Socio</th>
+                                                                            <th>Tipo Doc. Socio</th>
+                                                                            <th>Número Doc. Socio</th>
+                                                                            <th>Kardex</th>
+                                                                            <th>Gestión</th>
+                                                                            <th>Cobranza</th>
+                                                                            <th>Fecha Gestión</th>
+                                                                            <th>Condición</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr class="text-center" *ngFor="let item of cartera.gestiones; let i = index">
+                                                                            <td>{{ i + 1 }}</td>
+                                                                            <td>{{ item.socioCodigo }}</td>
+                                                                            <td>{{ item.socioNombres }}</td>
+                                                                            <td>{{ item.socioApellidos }}</td>
+                                                                            <td>{{ item.tipoDocumentoSocio }}</td>
+                                                                            <td>{{ item.numeroDocumentoSocio }}</td>
+                                                                            <td>{{ item.kardex }}</td>
+                                                                            <td>{{ item.tipoGestion }}</td>
+                                                                            <td>{{ item.etapaCobranza }}</td>
+                                                                            <td>{{ item.fechaGestion | date : 'dd/MM/yy HH:mm' }}</td>
+                                                                            <td>{{ getNameCondition(item.condicion)}}</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </li>
                                         </ul>
                                     </li>
                                 </ul>
