@@ -2,18 +2,18 @@
     <div class="col-lg-12" *ngIf="cartera">
         <div class="card">
             <div class="card-header d-flex justify-content-lg-between">
-                <h6 class="p-0 m-0">Gestión</h6>
+                <h6 class="p-0 m-0">Etapa</h6>
                 <ol class="breadcrumb float-sm-right m-0 p-0 bg-transparent">
                     <li class="breadcrumb-item"><a href="#" routerLink="/auth">Home</a></li>
                     <li class="breadcrumb-item"><a href="javascript:;" (click)="router.navigateByUrl('/auth/estrategia/carteras/detalle', {state: {cartera: cartera}})">Cartera</a></li>
-                    <li class="breadcrumb-item active">Gestión</li>
+                    <li class="breadcrumb-item active">Etapa</li>
                 </ol>
             </div>
             <div class="card-body" [formGroup]="formGestion">
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label>Gestiones</label>
+                            <label>Etapas</label>
                             <input type="text" formControlName="codGestion" class="form-control">
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                 <div class="row" *ngIf="getEtapas.length >0">
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label>Etapas</label>
+                            <label>Sub Etapas</label>
                             <select class="form-control" formControlName="codEtapaTemp" (change)="selectedEtapa($event)">
                 <option *ngFor="let item of getEtapas" [value]="item.codEtapa">{{ item.nombre}}</option>
               </select>
@@ -78,7 +78,7 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th scope="col">#</th>
-                                        <th scope="col">Etapa</th>
+                                        <th scope="col">Sub Etapa</th>
                                         <th scope="col">Días Desde</th>
                                         <th scope="col">Días Hasta</th>
                                         <th scope="col">Opción</th>

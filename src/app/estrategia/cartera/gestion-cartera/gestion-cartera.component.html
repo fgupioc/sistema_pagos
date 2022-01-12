@@ -2,18 +2,18 @@
     <div class="col-lg-12" *ngIf="cartera">
         <div class="card">
             <div class="card-header d-flex justify-content-lg-between">
-                <h6 class="p-0 m-0">Gestión</h6>
+                <h6 class="p-0 m-0">Etapa</h6>
                 <ol class="breadcrumb float-sm-right m-0 p-0 bg-transparent">
                     <li class="breadcrumb-item"><a href="#" routerLink="/auth">Home</a></li>
                     <li class="breadcrumb-item"><a href="javascript:;" (click)="router.navigateByUrl('/auth/estrategia/carteras/detalle', {state: {cartera: cartera}})">Cartera</a></li>
-                    <li class="breadcrumb-item active">Gestión</li>
+                    <li class="breadcrumb-item active">Etapa</li>
                 </ol>
             </div>
             <div class="card-body" [formGroup]="formGestion">
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label>Gestiones</label>
+                            <label>Etapas</label>
                             <select name="codArea" class="form-control" formControlName="codGestion" (ngModelChange)="selectedGestion($event)" [ngClass]="
                                     {
                                     'is-invalid': formGestion.controls['codGestion'].touched && formGestion.controls['codGestion'].errors,
@@ -62,7 +62,7 @@
                 <div class="row" *ngIf="gestion">
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label>Etapas</label>
+                            <label>Sub Etapas</label>
                             <select class="form-control" formControlName="codEtapaTemp" (change)="selectedEtapa($event)">
                 <option *ngFor="let item of gestion.etapas" [value]="item.codEtapa">{{ item.nombre}}</option>
               </select>
@@ -89,7 +89,7 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th scope="col">#</th>
-                                        <th scope="col">Etapa</th>
+                                        <th scope="col">Sub Etapa</th>
                                         <th scope="col">Desde</th>
                                         <th scope="col">Hasta</th>
                                         <th scope="col">Opción</th>
@@ -113,7 +113,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" *ngIf="false">
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Pistas de Auditoria</label>

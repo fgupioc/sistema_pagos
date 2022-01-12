@@ -179,13 +179,15 @@ export class CrearCarteraComponent implements OnInit {
     data.nombreExterno = FUNC.generateSlug(data.nombre);
     const obj = this.formAdicional.getRawValue();
     data.campos = this.reverseConvertObject(obj);
+    data.diasDeudaSinVencer = 0;
+    data.diasGestion = 0;
     this.spinner.show();
     this.carteraService.crearCartera(data).subscribe(
       res => {
         if (res.exito) {
           Swal.fire('Crear Cartera', 'Se registro la cartera correctamente.', 'success');
           const cart: Cartera = res.objeto as Cartera;
-          this.router.navigate(['/auth/estrategia/carteras/crear-gestion'], {state: {create: true, cartera: cart, gestiones: []}});
+          this.router.navigate(['/auth/estrategia/carteras/detalle'], {state: {create: true, cartera: cart, gestiones: []}});
         } else {
           this.toastr.error('Ocurrio un error.', 'Actualizar Cartera');
         }
