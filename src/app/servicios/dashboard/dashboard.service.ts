@@ -39,10 +39,10 @@ export class DashboardService {
   }
 
   listarCarteras(): Observable<Cartera[]> {
-    return this.http.get<any>(`${this.apiUrl}/listar-carteras`);
+    return this.http.get<any>(`${this.apiUrl}listar-carteras`);
   }
 
   getMotivoAtraso(carteraId: any, codMoneda: any): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/motivo-de-atraso`, {params: new HttpParams().set('carteraId', carteraId).set('codMoneda', codMoneda)});
+    return this.http.get<any>(`${this.apiUrl}motivo-de-atraso`, {params: new HttpParams().set('carteraId', carteraId).set('codMoneda', codMoneda)});
   }
 }
