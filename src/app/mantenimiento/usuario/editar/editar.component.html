@@ -6,8 +6,8 @@
                 <span class="card-title text-uppercase font-weight-bold">Editar Usuario </span>
             </div>
             <div class="card-body">
-                <form [formGroup]="formGroup" (ngSubmit)="actualizarUsuario()">
-                    <ul ngbNav #nav="ngbNav" class="nav-tabs">
+                <form [formGroup]="formGroup"  (ngSubmit)="actualizarUsuario()">
+                    <ul ngbNav #nav="ngbNav" [destroyOnHide]="false" class="nav-tabs">
                         <li ngbNavItem>
                             <a ngbNavLink>General</a>
                             <ng-template ngbNavContent>

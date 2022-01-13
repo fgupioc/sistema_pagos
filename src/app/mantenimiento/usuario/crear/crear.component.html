@@ -7,7 +7,7 @@
             </div>
             <div class="card-body">
                 <form [formGroup]="formGroup" (ngSubmit)="crearUsuario()">
-                    <ul ngbNav #nav="ngbNav" class="nav-tabs">
+                    <ul ngbNav #nav="ngbNav" [destroyOnHide]="false" class="nav-tabs">
                         <li ngbNavItem>
                             <a ngbNavLink>General</a>
                             <ng-template ngbNavContent>
