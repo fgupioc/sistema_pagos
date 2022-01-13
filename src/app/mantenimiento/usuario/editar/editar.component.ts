@@ -301,7 +301,7 @@ export class UsuarioEditarComponent implements OnInit {
     });
   }
 
-  changed(data: { value: string[] }) {
+  changed(data: any) {
     // Convert array string to array number
     const rolesElegidosIds: number[] = data.value.map(x => +x);
 

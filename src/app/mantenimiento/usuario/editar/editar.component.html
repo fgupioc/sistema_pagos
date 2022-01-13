@@ -30,24 +30,24 @@
                                         <div class="form-group">
                                             <label for="numDocIdentidad">Número de Documento *</label>
                                             <input Uppercase type="text" id="numDocIdentidad" placeholder="Número documento" class="form-control" autocomplete="off" formControlName="numDocIdentidad" [maxLength]="maximoValor" (blur)="buscarPersonaPorDocId()" [ngClass]="
-          {
-          'is-invalid': formGroup.controls['numDocIdentidad'].touched && formGroup.controls['numDocIdentidad'].errors,
-          'is-valid': formGroup.controls['numDocIdentidad'].touched && !formGroup.controls['numDocIdentidad'].errors
-           }
-          ">
+                                              {
+                                              'is-invalid': formGroup.controls['numDocIdentidad'].touched && formGroup.controls['numDocIdentidad'].errors,
+                                              'is-valid': formGroup.controls['numDocIdentidad'].touched && !formGroup.controls['numDocIdentidad'].errors
+                                               }
+                                              ">
                                             <div class="invalid-feedback">
                                                 <span *ngIf="formGroup.get('numDocIdentidad').hasError('required')">
-                      Número de documento de identidad es obligatorio
-                    </span>
+                                                  Número de documento de identidad es obligatorio
+                                                </span>
                                                 <span *ngIf="formGroup.get('numDocIdentidad').hasError('minlength')">
-                      {{messageDocIdInvalid}}
-                    </span>
+                                                  {{messageDocIdInvalid}}
+                                                </span>
                                                 <span *ngIf="formGroup.get('numDocIdentidad').hasError('personaConUsuario')">
-                      {{errorPersonaConUsuario}}
-                    </span>
+                                                  {{errorPersonaConUsuario}}
+                                                </span>
                                                 <span *ngIf="formGroup.get('numDocIdentidad').hasError('pattern')">
-                      {{ messagePattern }}
-                    </span>
+                                                  {{ messagePattern }}
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -126,13 +126,13 @@
                                             <label for="rolId">Rol *</label>
                                             <select2 [data]="exampleData" [options]="options" [cssImport]="true" [value]="valoresElegidos" (valueChanged)="changed($event)"></select2>
                                             <select style="display: none;" multiple="multiple" id="rolId" class="form-control" formControlName="rolId" (change)="onChangeRolId()" [ngClass]="
-                      {
-                      'is-invalid': formGroup.controls['rolId'].touched && formGroup.controls['rolId'].errors,
-                      'is-valid': formGroup.controls['rolId'].touched && !formGroup.controls['rolId'].errors
-                       }">
-                        <option *ngFor="let o of roles"
-                                [value]="o.id">{{o.nombre}}</option>
-                      </select>
+                                              {
+                                              'is-invalid': formGroup.controls['rolId'].touched && formGroup.controls['rolId'].errors,
+                                              'is-valid': formGroup.controls['rolId'].touched && !formGroup.controls['rolId'].errors
+                                               }">
+                                                <option *ngFor="let o of roles"
+                                                        [value]="o.id">{{o.nombre}}</option>
+                                              </select>
                                             <div class="invalid-feedback">
                                                 <span *ngIf="formGroup.get('rolId').hasError('required')">Obligatorio.</span>
                                             </div>
@@ -142,11 +142,11 @@
                                         <div class="form-group">
                                             <label for="email">Email *</label>
                                             <input type="email" id="email" placeholder="Email" class="form-control" formControlName="email" autocomplete="off" maxlength="300" [ngClass]="
-                      {
-                      'is-invalid': formGroup.controls['email'].touched && formGroup.controls['email'].errors,
-                      'is-valid': formGroup.controls['email'].touched && !formGroup.controls['email'].errors && !formGroup.controls['email'].pending,
-                      'is-warning': formGroup.controls['email'].pending
-                     }">
+                                              {
+                                              'is-invalid': formGroup.controls['email'].touched && formGroup.controls['email'].errors,
+                                              'is-valid': formGroup.controls['email'].touched && !formGroup.controls['email'].errors && !formGroup.controls['email'].pending,
+                                              'is-warning': formGroup.controls['email'].pending
+                                             }">
                                             <div class="invalid-feedback">
                                                 <span *ngIf="formGroup.get('email').hasError('required')">Obligatorio</span>
                                                 <span *ngIf="formGroup.get('email').hasError('email')">Inválido</span>
@@ -158,11 +158,11 @@
                                         <div class="form-group">
                                             <label for="numeroCelular">Teléfono*</label>
                                             <input type="text" Number id="numeroCelular" placeholder="Teléfono" class="form-control" maxlength="9" formControlName="numeroCelular" [ngClass]="
-                    {
-                    'is-invalid': formGroup.controls['numeroCelular'].touched && formGroup.controls['numeroCelular'].errors,
-                    'is-valid': formGroup.controls['numeroCelular'].touched && !formGroup.controls['numeroCelular'].errors
-                     }
-                    ">
+                                              {
+                                              'is-invalid': formGroup.controls['numeroCelular'].touched && formGroup.controls['numeroCelular'].errors,
+                                              'is-valid': formGroup.controls['numeroCelular'].touched && !formGroup.controls['numeroCelular'].errors
+                                               }
+                                              ">
                                             <div class="invalid-feedback">
                                                 <span *ngIf="formGroup.get('numeroCelular').hasError('required')"> Obligatorio.</span>
                                                 <span *ngIf="formGroup.get('numeroCelular').hasError('pattern')"> Solo acepta números.</span>
@@ -174,12 +174,12 @@
                                         <div class="form-group">
                                             <label for="codEstado">Estado *</label>
                                             <select id="codEstado" class="form-control" formControlName="codEstado" [ngClass]="
-                      {
-                      'is-invalid': formGroup.controls['codEstado'].touched && formGroup.controls['codEstado'].errors,
-                      'is-valid': formGroup.controls['codEstado'].touched && !formGroup.controls['codEstado'].errors
-                       }">
-                        <option *ngFor="let o of estados" [value]="o.codItem">{{o.descripcion}}</option>
-                      </select>
+                                              {
+                                              'is-invalid': formGroup.controls['codEstado'].touched && formGroup.controls['codEstado'].errors,
+                                              'is-valid': formGroup.controls['codEstado'].touched && !formGroup.controls['codEstado'].errors
+                                               }">
+                                                <option *ngFor="let o of estados" [value]="o.codItem">{{o.descripcion}}</option>
+                                              </select>
                                             <div class="invalid-feedback">
                                                 <span *ngIf="formGroup.get('codEstado').hasError('required')">Obligatorio.</span>
                                             </div>
@@ -193,10 +193,10 @@
                                         <div class="form-group">
                                             <label for="fechaInicio">Desde el *</label>
                                             <input type="date" formControlName="fechaInicio" id="fechaInicio" class="form-control" [ngClass]="
-                      {
-                      'is-invalid': formGroup.controls['fechaInicio'].touched && formGroup.controls['fechaInicio'].errors,
-                      'is-valid': formGroup.controls['fechaInicio'].touched && !formGroup.controls['fechaInicio'].errors
-                       }">
+                                              {
+                                              'is-invalid': formGroup.controls['fechaInicio'].touched && formGroup.controls['fechaInicio'].errors,
+                                              'is-valid': formGroup.controls['fechaInicio'].touched && !formGroup.controls['fechaInicio'].errors
+                                               }">
                                             <div class="invalid-feedback">
                                                 <span *ngIf="formGroup.get('fechaInicio').hasError('required')">Obligatorio.</span>
                                             </div>
@@ -206,10 +206,10 @@
                                         <div class="form-group">
                                             <label for="fechaFinal">Hasta el *</label>
                                             <input type="date" formControlName="fechaFinal" id="fechaFinal" class="form-control" [ngClass]="
-                      {
-                      'is-invalid': formGroup.controls['fechaFinal'].touched && formGroup.controls['fechaFinal'].errors,
-                      'is-valid': formGroup.controls['fechaFinal'].touched && !formGroup.controls['fechaFinal'].errors
-                       }">
+                                                {
+                                                'is-invalid': formGroup.controls['fechaFinal'].touched && formGroup.controls['fechaFinal'].errors,
+                                                'is-valid': formGroup.controls['fechaFinal'].touched && !formGroup.controls['fechaFinal'].errors
+                                                 }">
                                             <div class="invalid-feedback">
                                                 <span *ngIf="formGroup.get('fechaFinal').hasError('required')">Obligatorio.</span>
                                             </div>
