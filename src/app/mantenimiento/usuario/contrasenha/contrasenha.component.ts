@@ -42,8 +42,8 @@ export class UsuarioContrasenhaComponent implements OnInit {
   actualizarContrasenha() {
     if (this.formGroup.valid) {
       const usuario = {
-        id: this.usuarioId,
-        contrasenha: this.formGroup.get('contrasenha').value
+        codUsuario: this.usuarioId,
+        contrasenia: this.formGroup.get('contrasenha').value
       };
       this.spinner.show();
       this.usuarioService.actualizarContrasenha(usuario).subscribe(
@@ -61,7 +61,7 @@ export class UsuarioContrasenhaComponent implements OnInit {
   }
 
   regresar() {
-    this.router.navigate(['/auth/mantenimiento/usuario']);
+    this.router.navigate(['/auth/seguridad/usuario']);
   }
 
   verificarContrasenhasIguales() {

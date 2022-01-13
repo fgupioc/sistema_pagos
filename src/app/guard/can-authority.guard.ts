@@ -17,7 +17,7 @@ export class CanAuthorityGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const authoritiesInput = next.data.autorizaciones as Array<string>;
-    let find = false;
+    let find = true;
     for (const authority of authoritiesInput) {
       if (this.authorities.findIndex(auto => auto == authority) >= 0) {
         find = true;

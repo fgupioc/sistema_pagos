@@ -1,54 +1,49 @@
 <div class="row">
-  <div class="col-lg-12">
-    <div class="card">
-      <div class="card-header">
-        <i class="fa fa-align-justify"></i>
-        <span class="card-title text-uppercase font-weight-bold">Lista de usuarios </span>
-        <button class="btn btn-success btn-sm pull-right" style="margin-bottom: 4px" (click)="crear()" *ngIf="AS.has(A.USUARIO_CREAR)">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-align-justify"></i>
+                <span class="card-title text-uppercase font-weight-bold">Lista de usuarios </span>
+                <button class="btn btn-success btn-sm pull-right" style="margin-bottom: 4px" (click)="crear()" *ngIf="AS.has(A.USUARIO_CREAR)">
           <i class="fa fa-plus"></i> Nuevo Usuario
         </button>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
-               class="table table-responsive-sm table-bordered table-striped table-sm">
-          <thead>
-          <tr class="text-center">
-            <th>#</th>
-            <th>Alias</th>
-            <th>Email</th>
-            <th>Estado</th>
-            <th>Opciones</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let usuario of usuarios; index as i; ">
-            <td class="text-center">{{ i + 1 }}</td>
-            <td class="text-center">{{ usuario.alias}}</td>
-            <td class="text-center">{{ usuario.email}}</td>
-            <td class="text-center">
-              <span class="badge" [ngClass]="estaActivo(usuario.codEstado) ? 'badge-success' : 'badge-danger'">
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-responsive-sm table-bordered table-striped table-sm">
+                        <thead>
+                            <tr class="text-center">
+                                <th>#</th>
+                                <th>Alias</th>
+                                <th>Email</th>
+                                <th>Estado</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let usuario of usuarios; index as i; ">
+                                <td class="text-center">{{ i + 1 }}</td>
+                                <td class="text-center">{{ usuario.alias}}</td>
+                                <td class="text-center">{{ usuario.email}}</td>
+                                <td class="text-center">
+                                    <span class="badge" [ngClass]="estaActivo(usuario.codEstado) ? 'badge-success' : 'badge-danger'">
                 {{ usuario.desEstado}}
               </span>
-            </td>
-            <td class="text-center">
-              <button (click)="editar(usuario.id)" class="btn btn-instagram btn-sm mr-5px"  *ngIf="AS.has(A.USUARIO_ACTUALIZAR)" type="button"
-                      style="margin-bottom: 4px"
-                      placement="bottom" ngbTooltip="Actualizar Usuario">
+                                </td>
+                                <td class="text-center">
+                                    <button (click)="editar(usuario.id)" class="btn btn-instagram btn-sm mr-5px" *ngIf="AS.has(A.USUARIO_ACTUALIZAR)" type="button" style="margin-bottom: 4px" placement="bottom" ngbTooltip="Actualizar Usuario">
                 <i class="fa fa-pencil"></i>
               </button>
-              <button (click)="actualizarContrasenha(usuario)"  *ngIf="AS.has(A.USUARIO_ACTUALIZAR_CONTRASENHA)" class="btn btn-warning btn-sm mr-5px" type="button"
-                      style="margin-bottom: 4px"
-                      placement="bottom" ngbTooltip="Actualizar Contraseña">
-                <i class="fa fa-key text-white"></i>
-              </button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+                                    <button (click)="actualizarContrasenha(usuario)" class="btn btn-warning btn-sm mr-5px" type="button" style="margin-bottom: 4px" placement="bottom" ngbTooltip="Actualizar Contraseña">
+                                          <i class="fa fa-key text-white"></i>
+                                        </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 <app-loading></app-loading>

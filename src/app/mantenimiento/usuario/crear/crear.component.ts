@@ -45,7 +45,7 @@ export class UsuarioCrearComponent implements OnInit {
   errorPersonaConUsuario = '';
   items: TreeviewItem[];
   valoresMenus: number[] = [];
-  private messageDocIdInvalid = '';
+   messageDocIdInvalid = '';
   messagePattern: string;
   config = TreeviewConfig.create({
     hasAllCheckBox: true,
@@ -71,10 +71,10 @@ export class UsuarioCrearComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       tipoDocIdentidad: ['', [Validators.required]],
       numDocIdentidad: ['', [Validators.required, Validators.minLength(this.maximoValor), Validators.pattern('^\\d+$')]],
-      primerNombre: ['', [Validators.required, Validators.pattern(CONST.REG_EXP_SOLO_LETRAS)]],
-      segundoNombre: ['', [Validators.pattern(CONST.REG_EXP_SOLO_LETRAS)]],
-      primerApellido: ['', [Validators.required, Validators.pattern(CONST.REG_EXP_SOLO_LETRAS)]],
-      segundoApellido: ['', [Validators.pattern(CONST.REG_EXP_SOLO_LETRAS)]],
+      primerNombre: ['', [Validators.required, ]],
+      segundoNombre: [''],
+      primerApellido: ['', [Validators.required, ]],
+      segundoApellido: [''],
       numeroCelular: ['', [Validators.required, Validators.pattern('^\\d+$'), Validators.maxLength(9)]],
       estadoCivil: [''],
       sexo: ['', [Validators.required]],

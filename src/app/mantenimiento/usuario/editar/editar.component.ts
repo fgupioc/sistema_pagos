@@ -1,3 +1,4 @@
+import { PersonaService } from './../../../servicios/persona.service';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MaestroService} from '../../../servicios/sistema/maestro.service';
@@ -28,7 +29,7 @@ export class UsuarioEditarComponent implements OnInit {
   @ViewChild(TreeviewComponent, {static: false}) treeviewComponent: TreeviewComponent;
   public exampleData: Array<Select2OptionData> = [];
   public options: Select2Options;
-
+  errorPersonaConUsuario: any;
   usuarioAEditar;
   menus = [];
   menusInicializacion = [];
@@ -48,13 +49,21 @@ export class UsuarioEditarComponent implements OnInit {
     decoupleChildFromParent: false,
     maxHeight: 400
   });
+  personaId = 0;
+  loading = true;
+  tipoEstadosCivil = [];
+  listaDoi = [];
+  maximoValor = 8;
+  messageDocIdInvalid = '';
+  messagePattern: string;
+  listaSexo = [];
 
   constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService,
               private usuarioUnicoService: UsuarioUnicoService,
               private toastr: ToastrService, private router: Router, private rutaActiva: ActivatedRoute,
               private rolService: RolService,
               private usuarioService: UsuarioService, private maestroService: MaestroService,
-              private menuService: MenuService) {
+              private menuService: MenuService,private personaService: PersonaService) {
     const state = this.router.getCurrentNavigation().extras.state;
     if (state === undefined || state.usuarioId === undefined) {
       this.regresar();
@@ -68,16 +77,23 @@ export class UsuarioEditarComponent implements OnInit {
       placeholder: 'Selecciona un rol...',
       width: '100%'
     };
+    this.listarTipoSexos();
+    this.listarTipoDocumentos();
+    this.listarTipoEstadosCivil();
+    this.listarRolesActivos();
+    this.listarTiposDeUsuarios();
+    this.listarEstadosDeRegistro();
+
     this.formGroup = this.formBuilder.group({
-      tipoDocIdentidad: [{value: '', disabled: true}, false],
-      numDocIdentidad: [{value: '', disabled: true}, false],
-      primerNombre: [{value: '', disabled: true}, false],
-      segundoNombre: [{value: '', disabled: true}, false],
-      primerApellido: [{value: '', disabled: true}, false],
-      segundoApellido: [{value: '', disabled: true}, false],
-      estadoCivil: [{value: '', disabled: true}, false],
-      sexo: [{value: '', disabled: true}, false],
-      fechaNacimiento: [{value: '', disabled: true}, false],
+      tipoDocIdentidad: ['', false],
+      numDocIdentidad: ['', false],
+      primerNombre: ['', false],
+      segundoNombre: ['', false],
+      primerApellido: ['', false],
+      segundoApellido: ['', false],
+      estadoCivil: ['', false],
+      sexo: ['', false],
+      fechaNacimiento: ['', false],
 
       numeroCelular: ['', [Validators.required, Validators.pattern('^\\d+$'), Validators.maxLength(9)]],
       email: ['', {
@@ -92,9 +108,28 @@ export class UsuarioEditarComponent implements OnInit {
       codEstado: ['', [Validators.required]],
       inicioCierre: [false]
     });
-    this.listarRolesActivos();
-    this.listarTiposDeUsuarios();
-    this.listarEstadosDeRegistro();
+
+  }
+
+  listarTipoSexos() {
+    this.maestroService.listarTipoSexos().subscribe(
+      result => {
+        this.listaSexo = result;
+      }
+    );
+  }
+
+
+  listarTipoEstadosCivil() {
+    this.maestroService.listarTipoEstadosCivil().subscribe(response => this.tipoEstadosCivil = response);
+  }
+
+  listarTipoDocumentos() {
+    this.maestroService.listarTipoDocumentos().subscribe(
+      result => {
+        this.listaDoi = result;
+      }
+    );
   }
 
   resturarAutorizacionesOriginales() {
@@ -248,7 +283,7 @@ export class UsuarioEditarComponent implements OnInit {
         this.formGroup.get('segundoApellido').setValue(usuario.segundoApellido);
         this.formGroup.get('estadoCivil').setValue(usuario.desEstadoCivil);
         this.formGroup.get('sexo').setValue(usuario.desSexo);
-        this.formGroup.get('fechaNacimiento').setValue(this.datePipe.transform(usuario.fechaNacimiento, 'dd/MM/yyyy'));
+        this.formGroup.get('fechaNacimiento').setValue(this.datePipe.transform(usuario.fechaNacimiento, 'yyyy-MM-dd'));
 
         this.formGroup.get('numeroCelular').setValue(usuario.numeroCelular);
         this.formGroup.get('email').setValue(usuario.email);
@@ -315,7 +350,109 @@ export class UsuarioEditarComponent implements OnInit {
     // console.log(this.rolesElegidos);
     */
   }
+  onChangeTypeDocument() {
+    const typoDoc: string = this.formGroup.get('tipoDocIdentidad').value;
 
+    this.formGroup.patchValue({numDocIdentidad: ''});
+    this.getValidateDocumentIdentity(typoDoc, '');
+  }
+
+  getValidateDocumentIdentity(typeDocId: string, numberDocId: string): boolean {
+    let value = true;
+    this.maximoValor = 8;
+    if (typeDocId) {
+      switch (typeDocId) {
+        case '1': // DNI
+          this.maximoValor = 8;
+          this.messageDocIdInvalid = 'El número de documento debe tener 8 dígitos';
+          this.messagePattern = 'El número de documento solo acepta números.';
+          this.formGroup.get('numDocIdentidad').setValidators(
+            Validators.compose([
+              Validators.required,
+              Validators.pattern(CONST.C_STR_EXP_REGULAR_NUMERO),
+              Validators.minLength(8),
+            ]),
+          );
+          break;
+        case '4': // CARNET DE EXTRANJERIA
+          this.maximoValor = 12;
+          this.messageDocIdInvalid = 'El número de documento debe tener hasta 12 caracteres';
+          this.messagePattern = 'El número de documento solo acepta números y letras.';
+          this.formGroup.get('numDocIdentidad').setValidators(
+            Validators.compose([
+              Validators.required,
+              Validators.minLength(2),
+              Validators.pattern(CONST.C_STR_EXP_REGULAR_NUMERO_LETRAS)
+            ]),
+          );
+          break;
+        case '6': // RUC
+          this.maximoValor = 11;
+          this.messageDocIdInvalid = 'El número de documento debe tener 11 dígitos';
+          this.messagePattern = 'El número de documento solo acepta números.';
+          this.formGroup.get('numDocIdentidad').setValidators(
+            Validators.compose([
+              Validators.required,
+              Validators.minLength(11),
+              Validators.pattern(CONST.C_STR_EXP_REGULAR_NUMERO),
+            ]),
+          );
+          break;
+        case '7': //  PASAPORTE
+          this.maximoValor = 12;
+          this.messageDocIdInvalid = 'El número de documento debe tener hasta 12 caracteres';
+          this.messagePattern = 'El número de documento solo acepta números y letras.';
+          this.formGroup.get('numDocIdentidad').setValidators(
+            Validators.compose([
+              Validators.required,
+              Validators.minLength(2),
+              Validators.pattern(CONST.C_STR_EXP_REGULAR_NUMERO_LETRAS)
+            ]),
+          );
+          break;
+        case '11': //  PARTIDA DE NACIMIENTO
+          this.maximoValor = 15;
+          this.messageDocIdInvalid = 'El número de documento debe tener hasta 15 caracteres';
+          this.messagePattern = 'El número de documento solo acepta números y letras.';
+          this.formGroup.get('numDocIdentidad').setValidators(
+            Validators.compose([
+              Validators.required,
+              Validators.minLength(2),
+              Validators.pattern(CONST.C_STR_EXP_REGULAR_NUMERO_LETRAS)
+            ]),
+          );
+          break;
+        /*
+      case '00': // OTROS NUMEROS
+        this.maximoValor = 15;
+        this.messageDocIdInvalid = 'El número de documento debe tener hasta 15 caracteres';
+        this.formGroup.get('numDocIdentidad').setValidators(
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(2),
+            Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$')
+          ]),
+        );
+        break;
+      case 'A': // Cedula diplomatica de indetidad
+        this.maximoValor = 15;
+        this.messageDocIdInvalid = 'El número de documento debe tener hasta 15 caracteres';
+        this.formGroup.get('numDocIdentidad').setValidators(
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(2),
+            Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$')
+          ]),
+        );
+        break;
+         */
+      }
+    } else {
+      value = false;
+    }
+
+    return value;
+  }
   onChangeRolFiltradoId() {
     // console.log(this.rolesElegidos);
     const rolId: number = this.formGroup.get('rolElegidoId').value || 0;
@@ -377,6 +514,7 @@ export class UsuarioEditarComponent implements OnInit {
         this.menusInicializacion = JSON.parse(JSON.stringify(menus));
         this.menus = menus;
         this.marcarCheckboxArbol();
+        this.loading = false;
       });
     } else {
       this.menus = JSON.parse(JSON.stringify(this.menusInicializacion));
@@ -477,10 +615,34 @@ export class UsuarioEditarComponent implements OnInit {
         inicioCierre: this.formGroup.get('inicioCierre').value,
         codEstado: this.formGroup.get('codEstado').value,
       };
+
+      const persona = {
+        id: this.usuarioId,
+        alias: '',
+        fechaNacimiento: this.formGroup.get('fechaNacimiento').value
+      }
+
+      const personaNatural = {
+        codPersona: this.usuarioId,
+        primerApellido: this.formGroup.get('primerApellido').value,
+        segundoApellido: this.formGroup.get('segundoApellido').value,
+        primerNombre: this.formGroup.get('primerNombre').value,
+        segundoNombre: this.formGroup.get('segundoNombre').value,
+        sexo: this.formGroup.get('sexo').value,
+        estadoCivil: this.formGroup.get('estadoCivil').value,
+      };
+
+      const personaIdentificacion = {
+        tipoDocumento: this.formGroup.get('tipoDocIdentidad').value,
+        numeroDocumento: this.formGroup.get('numDocIdentidad').value,
+      };
+
       const usuarioActualizar = {
         usuario,
-        roles: this.rolesElegidos
-        // guardarConMenu: !this.cargandoMenu
+        roles: this.rolesElegidos,
+        personaNatural,
+        persona,
+        personaIdentificacion
       };
 
       this.spinner.show();
@@ -501,5 +663,82 @@ export class UsuarioEditarComponent implements OnInit {
 
   desactivarActualizar() {
     return this.formGroup.invalid || this.formGroup.pending || this.cargandoMenu;
+  }
+
+  buscarPersonaPorDocId() {
+    const tipDoi: string = this.formGroup.get('tipoDocIdentidad').value;
+    const numDoi: string = this.formGroup.get('numDocIdentidad').value;
+
+    console.log(tipDoi, numDoi);
+
+    this.personaId = 0;
+
+    if (this.formGroup.get('tipoDocIdentidad').valid && this.formGroup.get('numDocIdentidad').valid) {
+      this.personaService.buscarPersonaPorDocId(tipDoi, numDoi).subscribe(
+        result => {
+          if (result != null) {
+            if (result.codigo == CONST.C_STR_CODIGO_ERROR) {
+              this.errorPersonaConUsuario = result.mensaje;
+              this.formGroup.get('numDocIdentidad').setErrors({personaConUsuario: true}); // Error temporal
+            } else {
+              if (result.objeto != null) {
+                const objeto = result.objeto;
+                this.personaId = objeto.personaId;
+                this.formGroup.get('primerNombre').disable();
+                this.formGroup.get('primerNombre').setValue(objeto.primerNombre);
+                this.formGroup.get('segundoNombre').disable();
+                this.formGroup.get('segundoNombre').setValue(objeto.segundoNombre);
+                this.formGroup.get('primerApellido').disable();
+                this.formGroup.get('primerApellido').setValue(objeto.primerApellido);
+                this.formGroup.get('segundoApellido').disable();
+                this.formGroup.get('segundoApellido').setValue(objeto.segundoApellido);
+                this.formGroup.get('sexo').disable();
+                this.formGroup.get('sexo').setValue(objeto.codSexo);
+                this.formGroup.get('estadoCivil').disable();
+                this.formGroup.get('estadoCivil').setValue(objeto.estadoCivil);
+                this.formGroup.get('fechaNacimiento').disable();
+                this.formGroup.get('fechaNacimiento').setValue(this.datePipe.transform(objeto.fechaNacimiento, 'yyyy-MM-dd'));
+                if (objeto.correo != null) {
+                  this.formGroup.get('email').setValue(objeto.correo);
+                  this.formGroup.get('email').disable();
+                }
+                if (objeto.telefonoMovil != null) {
+                  this.formGroup.get('numeroCelular').setValue(objeto.telefonoMovil);
+                  this.formGroup.get('numeroCelular').disable();
+                }
+              }
+            }
+          } else {
+            this.formGroup.get('primerNombre').enable();
+            this.formGroup.get('segundoNombre').enable();
+            this.formGroup.get('primerApellido').enable();
+            this.formGroup.get('segundoApellido').enable();
+            this.formGroup.get('sexo').enable();
+            this.formGroup.get('estadoCivil').enable();
+            this.formGroup.get('fechaNacimiento').enable();
+            this.formGroup.get('email').enable();
+            this.formGroup.get('numeroCelular').enable();
+
+            this.formGroup.get('primerNombre').setValue('');
+            this.formGroup.get('segundoNombre').setValue('');
+            this.formGroup.get('primerApellido').setValue('');
+            this.formGroup.get('segundoApellido').setValue('');
+            this.formGroup.get('sexo').setValue('');
+            this.formGroup.get('estadoCivil').setValue('');
+            this.formGroup.get('fechaNacimiento').setValue('');
+            this.formGroup.get('email').setValue('');
+            this.formGroup.get('numeroCelular').setValue('');
+          }
+        }
+      );
+    } else {
+      this.formGroup.get('primerNombre').setValue('');
+      this.formGroup.get('segundoNombre').setValue('');
+      this.formGroup.get('primerApellido').setValue('');
+      this.formGroup.get('segundoApellido').setValue('');
+      this.formGroup.get('sexo').setValue('');
+      this.formGroup.get('estadoCivil').setValue('');
+      this.formGroup.get('fechaNacimiento').setValue('');
+    }
   }
 }
