@@ -1,4 +1,4 @@
-import { PersonaService } from './../../../servicios/persona.service';
+import {PersonaService} from './../../../servicios/persona.service';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MaestroService} from '../../../servicios/sistema/maestro.service';
@@ -57,13 +57,14 @@ export class UsuarioEditarComponent implements OnInit {
   messageDocIdInvalid = '';
   messagePattern: string;
   listaSexo = [];
+  menuInit: any[] = [];
 
   constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService,
               private usuarioUnicoService: UsuarioUnicoService,
               private toastr: ToastrService, private router: Router, private rutaActiva: ActivatedRoute,
               private rolService: RolService,
               private usuarioService: UsuarioService, private maestroService: MaestroService,
-              private menuService: MenuService,private personaService: PersonaService) {
+              private menuService: MenuService, private personaService: PersonaService) {
     const state = this.router.getCurrentNavigation().extras.state;
     if (state === undefined || state.usuarioId === undefined) {
       this.regresar();
@@ -256,19 +257,19 @@ export class UsuarioEditarComponent implements OnInit {
         const valoresTemp: string[] = [];
 
         this.rolesElegidos = [];
-        console.log(usuario);
         usuario.roles.forEach(rolUsu => {
           const rol = this.roles.find(rolObj => rolObj.id == rolUsu.id);
+
           if (rol) {
-            // Asignamos autorizaciones del usuario a los roles activos
-            rol.autorizacionesOriginales = JSON.parse(JSON.stringify(rolUsu.usuarioRolMenuAutoris));
-            rol.autorizacionesModificadas = rolUsu.usuarioRolMenuAutoris;
-            rolesMarcados.push(rol.id);
-            this.rolesElegidos.push(rol);
+            this.rolesElegidos.push({
+              autorizacionesOriginales: rolUsu.rolMenuAutoris,
+              autorizacionesModificadas: rolUsu.usuarioRolMenuAutoris,
+              id: rol.id
+            });
+
             valoresTemp.push(rol.id.toString());
           }
         });
-
         this.valoresElegidos = valoresTemp;
         if (usuario.roles.length > 0) {
           this.formGroup.get('rolElegidoId').setValue(usuario.roles[0].id);
@@ -313,7 +314,7 @@ export class UsuarioEditarComponent implements OnInit {
         const rolEnUsuario = this.usuarioAEditar.roles.find(rolEnusuario => rolEnusuario.id == rolElegido.id);
         if (rolEnUsuario) {
           // Asignamos autorizaciones del usuario a los roles activos
-          rolElegido.autorizacionesOriginales = rolEnUsuario.usuarioRolMenuAutoris;
+          rolElegido.autorizacionesOriginales = rolEnUsuario.rolMenuAutoris;
           rolElegido.autorizacionesModificadas = JSON.parse(JSON.stringify(rolEnUsuario.usuarioRolMenuAutoris));
         } else {
           rolElegido.autorizacionesOriginales = [];
@@ -336,20 +337,9 @@ export class UsuarioEditarComponent implements OnInit {
   }
 
   onChangeRolId() {
-    /*
-    const rolesMarcados: number[] = this.formGroup.get('rolId').value;
-    // console.log(rolesMarcados);
-    this.rolesElegidos = [];
 
-    rolesMarcados.forEach(item => {
-      const rol = this.roles.find(rolMarcado => rolMarcado.id == item);
-      if (rol) {
-        this.rolesElegidos.push(rol);
-      }
-    });
-    // console.log(this.rolesElegidos);
-    */
   }
+
   onChangeTypeDocument() {
     const typoDoc: string = this.formGroup.get('tipoDocIdentidad').value;
 
@@ -453,73 +443,87 @@ export class UsuarioEditarComponent implements OnInit {
 
     return value;
   }
+
   onChangeRolFiltradoId() {
-    // console.log(this.rolesElegidos);
     const rolId: number = this.formGroup.get('rolElegidoId').value || 0;
     if (rolId > 0) {
       const rol: Rol = this.rolesElegidos.find(rolObj => rolObj.id == rolId);
-      // console.log(rol);
       if (rol && rol.autorizacionesOriginales.length == 0 && rol.autorizacionesModificadas.length == 0) {
         // Si no tiene autorizaciones del usuario, jalar las autorizaciones del rol
+
         this.cargandoMenu = true;
         this.rolService.autorizaciones(rolId).subscribe(res => {
           rol.autorizacionesOriginales = res;
+          res.forEach(i => {
+            const item = this.menuInit.find(x => x == i.menuId);
+            if (!item) {
+              this.menuInit.push(i.menuId);
+            }
+          });
+
           if (rol.autorizacionesModificadas.length == 0) {
             rol.autorizacionesModificadas = JSON.parse(JSON.stringify(res));
           }
-          // console.log(this.rolesElegidos);
           this.encuentraTodosArbol();
         });
-        /*
-        rol.autorizacionesOriginales = res;
-        if (rol.autorizacionesModificadas == null) {
-          rol.autorizacionesModificadas = JSON.parse(JSON.stringify(res));
-        }
-        // console.log(this.rolesElegidos);
-        */
       } else {
-        this.encuentraTodosArbol();
-      }
 
-      // Si usuario.roles esta vacio, ir al servidor y jalar las autorizaciones del rol elegido
-      /*
-      if (this.usuarioAEditar.roles.length == 0) {
-        this.cargandoMenu = true;
-        this.rolService.autorizaciones(rolId).subscribe(res => {
-          const rol: Rol = this.rolesElegidos.find(rolObj => rolObj.id == rolId);
-          if (rol) {
-            rol.autorizacionesOriginales = res;
-            if (rol.autorizacionesModificadas == null) {
-              rol.autorizacionesModificadas = JSON.parse(JSON.stringify(res));
-            }
-            // console.log(this.rolesElegidos);
-          }
-          this.encuentraTodosArbol();
-        });
-      } else {
         this.encuentraTodosArbol();
       }
-      */
     }
   }
 
   encuentraTodosArbol() {
     this.cargandoMenu = true;
-    // console.log('menusInicializacion');
-    // console.log(this.menusInicializacion);
     if (this.menusInicializacion.length == 0) {
+      this.spinner.show();
       this.menuService.encuentraTodosArbol().subscribe(menus => {
-        // console.log('menus');
-        // console.log(menus);
         this.menusInicializacion = JSON.parse(JSON.stringify(menus));
-        this.menus = menus;
+        // this.menus = menus;
+        const ids = [];
+        this.rolesElegidos.forEach(i => {
+          i.autorizacionesOriginales.forEach(a => {
+            ids.push(a.menuId);
+          });
+        });
+
+        this.menus = this.crearMenusOriginales(menus, ids);
         this.marcarCheckboxArbol();
         this.loading = false;
-      });
+        this.spinner.hide();
+      }, err => this.spinner.hide());
     } else {
-      this.menus = JSON.parse(JSON.stringify(this.menusInicializacion));
+      this.menus = this.crearMenusOriginales(JSON.parse(JSON.stringify(this.menusInicializacion)), this.menuInit);
       this.marcarCheckboxArbol();
     }
+  }
+
+  crearMenusOriginales(menus: any[], ids: any[]): any[] {
+    const menss = [];
+
+    menus.forEach(m => {
+      const subMenu = [];
+      m.children.forEach(sm => {
+        if (ids.includes(sm.value)) {
+          subMenu.push(sm);
+        }
+      });
+      if (subMenu.length > 0) {
+        menss.push({
+          autorizaciones: m.autorizaciones,
+          checked: m.checked,
+          children: subMenu,
+          codEstado: m.codEstado,
+          collapsed: m.collapsed,
+          disabled: m.disabled,
+          jerarquia: m.jerarquia,
+          text: m.text,
+          ultimo: m.ultimo,
+          value: m.value
+        });
+      }
+    });
+    return menss;
   }
 
   marcarCheckboxArbol() {
@@ -550,6 +554,8 @@ export class UsuarioEditarComponent implements OnInit {
               }
             }
             menusChildrenTemp.push(menuChildren);
+          } else {
+            menusChildrenTemp.push(menuChildren);
           }
         }
         if (menusChildrenTemp.length > 0) {
@@ -558,7 +564,6 @@ export class UsuarioEditarComponent implements OnInit {
         }
       }
       this.menus = JSON.parse(JSON.stringify(menusTemp));
-      // this.menusInicializacion = JSON.parse(JSON.stringify(menusTemp));
       this.items = menusTemp.map(value => {
         return new TreeviewItem(value);
       });
@@ -620,7 +625,7 @@ export class UsuarioEditarComponent implements OnInit {
         id: this.usuarioId,
         alias: '',
         fechaNacimiento: this.formGroup.get('fechaNacimiento').value
-      }
+      };
 
       const personaNatural = {
         codPersona: this.usuarioId,
@@ -645,6 +650,18 @@ export class UsuarioEditarComponent implements OnInit {
         personaIdentificacion
       };
 
+      const sinAuths = [];
+      this.rolesElegidos.forEach(m => {
+        if (m.autorizacionesOriginales.length == 0) {
+          sinAuths.push(m.nombre);
+        }
+      });
+
+      if (sinAuths.length > 0) {
+        Swal.fire('', 'Debe seleccionar los accesos y autorizaciones para [' + sinAuths.toString() + ']', 'warning');
+        return;
+      }
+
       this.spinner.show();
       this.usuarioService.actualizar(usuarioActualizar).subscribe(
         respuesta => {
@@ -668,8 +685,6 @@ export class UsuarioEditarComponent implements OnInit {
   buscarPersonaPorDocId() {
     const tipDoi: string = this.formGroup.get('tipoDocIdentidad').value;
     const numDoi: string = this.formGroup.get('numDocIdentidad').value;
-
-    console.log(tipDoi, numDoi);
 
     this.personaId = 0;
 

@@ -45,7 +45,7 @@ export class UsuarioCrearComponent implements OnInit {
   errorPersonaConUsuario = '';
   items: TreeviewItem[];
   valoresMenus: number[] = [];
-   messageDocIdInvalid = '';
+  messageDocIdInvalid = '';
   messagePattern: string;
   config = TreeviewConfig.create({
     hasAllCheckBox: true,
@@ -71,9 +71,9 @@ export class UsuarioCrearComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       tipoDocIdentidad: ['', [Validators.required]],
       numDocIdentidad: ['', [Validators.required, Validators.minLength(this.maximoValor), Validators.pattern('^\\d+$')]],
-      primerNombre: ['', [Validators.required, ]],
+      primerNombre: ['', [Validators.required,]],
       segundoNombre: [''],
-      primerApellido: ['', [Validators.required, ]],
+      primerApellido: ['', [Validators.required,]],
       segundoApellido: [''],
       numeroCelular: ['', [Validators.required, Validators.pattern('^\\d+$'), Validators.maxLength(9)]],
       estadoCivil: [''],
@@ -274,11 +274,13 @@ export class UsuarioCrearComponent implements OnInit {
   encuentraTodosArbol() {
     this.cargandoMenu = true;
     if (this.menusInicializacion.length == 0) {
+      setTimeout(() => this.spinner.show(), 10);
       this.menuService.encuentraTodosArbol().subscribe(menus => {
         this.menusInicializacion = JSON.parse(JSON.stringify(menus));
         this.menus = menus;
         this.marcarCheckboxArbol();
-      });
+        this.spinner.hide();
+      }, err => this.spinner.hide());
     } else {
       this.menus = JSON.parse(JSON.stringify(this.menusInicializacion));
       this.marcarCheckboxArbol();
@@ -349,18 +351,25 @@ export class UsuarioCrearComponent implements OnInit {
   onChangeRolFiltradoId() {
     const rolId: number = this.formGroup.get('rolElegidoId').value || 0;
     if (rolId > 0) {
+      this.spinner.show();
       this.cargandoMenu = true;
-      this.rolService.autorizaciones(rolId).subscribe(res => {
-        const rol: any = this.rolesElegidos.find(rolObj => rolObj.id == rolId);
-        if (rol) {
-          rol.autorizacionesOriginales = res;
-          if (rol.autorizacionesModificadas == null) {
-            rol.autorizacionesModificadas = JSON.parse(JSON.stringify(res));
+      this.rolService.autorizaciones(rolId).subscribe(
+        res => {
+          const rol: any = this.rolesElegidos.find(rolObj => rolObj.id == rolId);
+          if (rol) {
+            rol.autorizacionesOriginales = res;
+            if (rol.autorizacionesModificadas == null) {
+              rol.autorizacionesModificadas = JSON.parse(JSON.stringify(res));
+            }
+            console.log(this.rolesElegidos);
           }
-          console.log(this.rolesElegidos);
+          this.encuentraTodosArbol();
+          this.spinner.hide();
+        },
+        err => {
+          this.spinner.hide();
         }
-        this.encuentraTodosArbol();
-      });
+      );
     }
   }
 
@@ -421,7 +430,7 @@ export class UsuarioCrearComponent implements OnInit {
   isSelectedAutorizacion(autorizacionId) {
     const rolId: number = this.formGroup.get('rolElegidoId').value || 0;
     const rol: any = this.rolesElegidos.find(rolObj => rolObj.id == rolId);
-    if (rol) {
+    if (rol && rol.autorizacionesModificadas && rol.autorizacionesModificadas.length > 0) {
       return rol.autorizacionesModificadas.findIndex(item => item.autorizacionId == autorizacionId) >= 0;
       // return rol.autorizacionesModificadas.indexOf(autorizacionId) >= 0;
       // rolMenuAutoris = rol.autorizacionesModificadas;

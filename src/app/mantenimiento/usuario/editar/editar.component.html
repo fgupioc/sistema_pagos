@@ -227,13 +227,13 @@
                                         <div class="form-group">
                                             <label for="rolElegidoId">Elija un rol *</label>
                                             <select id="rolElegidoId" class="form-control" formControlName="rolElegidoId" (change)="onChangeRolFiltradoId()" [ngClass]="{
-                                    'is-invalid': formGroup.controls['rolElegidoId'].touched && formGroup.controls['rolElegidoId'].errors,
-                                    'is-valid': formGroup.controls['rolElegidoId'].touched && !formGroup.controls['rolElegidoId'].errors
-                                     }">
-                      <option [value]="">Elija un rol</option>
-                      <option *ngFor="let o of rolesElegidos"
-                              [value]="o.id">{{o.nombre}}</option>
-                    </select>
+                                                            'is-invalid': formGroup.controls['rolElegidoId'].touched && formGroup.controls['rolElegidoId'].errors,
+                                                            'is-valid': formGroup.controls['rolElegidoId'].touched && !formGroup.controls['rolElegidoId'].errors
+                                                             }">
+                                              <option [value]="">Elija un rol</option>
+                                              <option *ngFor="let o of rolesElegidos"
+                                                      [value]="o.id">{{o.nombre}}</option>
+                                            </select>
                                             <div class="invalid-feedback">
                                                 <span *ngIf="formGroup.get('rolElegidoId').hasError('required')">Obligatorio.</span>
                                             </div>
