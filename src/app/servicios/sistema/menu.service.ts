@@ -20,6 +20,10 @@ export class MenuService {
     return this.http.get<any[]>(`${this.apiUrl}encuentraTodosArbol`);
   }
 
+  encuentraTodosArbolPorId(rolId: any): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}obtenerAutorizacionesPorRol/${rolId}`);
+  }
+
   accesos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}accesos`);
   }

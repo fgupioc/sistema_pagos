@@ -239,14 +239,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 offset-4" *ngIf="false">
-                                        <div class="form-group">
-                                            <br>
-                                            <button class="btn btn-sm btn-warning text-white mr-2" (click)="resturarAutorizacionesOriginales()">
-                      <i class="fas fa-sync"></i> Restaurar autorizaciones originales
-                    </button>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <ngx-treeview [config]="config" [items]="items" (filterChange)="onFilterChange($event)" (selectedChange)="onSelectedChange($event)" *ngIf="!cargandoMenu">
@@ -261,14 +253,6 @@
                         <li ngbNavItem>
                             <a ngbNavLink>Autorizaciones</a>
                             <ng-template ngbNavContent>
-                                <div class="col-md-4 offset-8" *ngIf="false">
-                                    <div class="form-group">
-                                        <br>
-                                        <button class="btn btn-sm btn-warning text-white mr-2" (click)="resturarAutorizacionesOriginales()">
-                    <i class="fas fa-sync"></i> Restaurar autorizaciones originales
-                  </button>
-                                    </div>
-                                </div>
                                 <!--<em *ngIf="valoresMenus.length==0">Elija una opción del menu</em> -->
                                 <div *ngIf="cargandoMenu">
                                     <label><em>Cargando..., porfavor espere...</em></label>

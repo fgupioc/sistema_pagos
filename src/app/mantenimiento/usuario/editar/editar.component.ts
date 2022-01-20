@@ -133,17 +133,6 @@ export class UsuarioEditarComponent implements OnInit {
     );
   }
 
-  resturarAutorizacionesOriginales() {
-    const rolId: number = this.formGroup.get('rolElegidoId').value || 0;
-    if (rolId > 0) {
-      const rol: any = this.rolesElegidos.find(rolObj => rolObj.id == rolId);
-      if (rol) {
-        rol.autorizacionesModificadas = JSON.parse(JSON.stringify(rol.autorizacionesOriginales));
-      }
-      this.encuentraTodosArbol();
-    }
-  }
-
   listarRolesActivos() {
     this.rolService.listarActivos().subscribe(res => {
       this.roles = res;
@@ -199,7 +188,7 @@ export class UsuarioEditarComponent implements OnInit {
   }
 
   onFilterChange(value: string) {
-    // console.log('filter:', value);
+
   }
 
   isSelectedAutorizacion(autorizacionId) {
@@ -215,7 +204,6 @@ export class UsuarioEditarComponent implements OnInit {
   }
 
   onChangeCheckAutorizacion(menu: any, autorizacionId: number) {
-    // console.log(menu, autorizacionId);
     const rolId: number = this.formGroup.get('rolElegidoId').value || 0;
     const rol: any = this.rolesElegidos.find(rolObj => rolObj.id == rolId);
     if (rol) {
@@ -223,14 +211,6 @@ export class UsuarioEditarComponent implements OnInit {
 
       const autoriDelMenu = menu.autorizaciones.find(auto => auto.id == autorizacionId);
       if (index == -1) {
-        /*
-        const autoriOri = rol.autorizacionesOriginales.find(auto => auto.autorizacionId == autorizacionId);
-        if (autoriOri) {
-          rol.autorizacionesModificadas.push(autoriOri);
-        }
-        */
-        // rol.autorizacionesModificadas.push(autorizacionId);
-
         if (autoriDelMenu) {
           const newAuto = {rolId: Number(rolId), menuId: menu.value, autorizacionId};
           rol.autorizacionesModificadas.push(newAuto);
@@ -243,7 +223,6 @@ export class UsuarioEditarComponent implements OnInit {
         rol.autorizacionesModificadas.splice(index, 1);
       }
     }
-    // console.log('rol', rol);
   }
 
   obtenerUsuario() {
@@ -329,11 +308,9 @@ export class UsuarioEditarComponent implements OnInit {
     // tine vaalor y si este esta en el listado de roles elegidos
 
     if ((!rolElegidoId2 || (this.rolesElegidos.findIndex(obj => obj.id == rolElegidoId2) < 0)) && this.rolesElegidos.length > 0) {
-      // console.log('valor inicial ' + rolElegidoId2 + ' valor final ' + this.rolesElegidos[0].id);
       this.formGroup.get('rolElegidoId').setValue(this.rolesElegidos[0].id);
       this.onChangeRolFiltradoId();
     }
-    // console.log('roles elegidos', this.rolesElegidos);
   }
 
   onChangeRolId() {
@@ -412,30 +389,6 @@ export class UsuarioEditarComponent implements OnInit {
             ]),
           );
           break;
-        /*
-      case '00': // OTROS NUMEROS
-        this.maximoValor = 15;
-        this.messageDocIdInvalid = 'El número de documento debe tener hasta 15 caracteres';
-        this.formGroup.get('numDocIdentidad').setValidators(
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(2),
-            Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$')
-          ]),
-        );
-        break;
-      case 'A': // Cedula diplomatica de indetidad
-        this.maximoValor = 15;
-        this.messageDocIdInvalid = 'El número de documento debe tener hasta 15 caracteres';
-        this.formGroup.get('numDocIdentidad').setValidators(
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(2),
-            Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$')
-          ]),
-        );
-        break;
-         */
       }
     } else {
       value = false;
@@ -450,7 +403,6 @@ export class UsuarioEditarComponent implements OnInit {
       const rol: Rol = this.rolesElegidos.find(rolObj => rolObj.id == rolId);
       if (rol && rol.autorizacionesOriginales.length == 0 && rol.autorizacionesModificadas.length == 0) {
         // Si no tiene autorizaciones del usuario, jalar las autorizaciones del rol
-
         this.cargandoMenu = true;
         this.rolService.autorizaciones(rolId).subscribe(res => {
           rol.autorizacionesOriginales = res;
@@ -464,38 +416,23 @@ export class UsuarioEditarComponent implements OnInit {
           if (rol.autorizacionesModificadas.length == 0) {
             rol.autorizacionesModificadas = JSON.parse(JSON.stringify(res));
           }
-          this.encuentraTodosArbol();
+          this.encuentraTodosArbolPorId(rolId);
         });
       } else {
-
-        this.encuentraTodosArbol();
+        this.encuentraTodosArbolPorId(rolId);
       }
     }
   }
 
-  encuentraTodosArbol() {
-    this.cargandoMenu = true;
-    if (this.menusInicializacion.length == 0) {
-      this.spinner.show();
-      this.menuService.encuentraTodosArbol().subscribe(menus => {
-        this.menusInicializacion = JSON.parse(JSON.stringify(menus));
-        // this.menus = menus;
-        const ids = [];
-        this.rolesElegidos.forEach(i => {
-          i.autorizacionesOriginales.forEach(a => {
-            ids.push(a.menuId);
-          });
-        });
 
-        this.menus = this.crearMenusOriginales(menus, ids);
-        this.marcarCheckboxArbol();
-        this.loading = false;
-        this.spinner.hide();
-      }, err => this.spinner.hide());
-    } else {
-      this.menus = this.crearMenusOriginales(JSON.parse(JSON.stringify(this.menusInicializacion)), this.menuInit);
+  encuentraTodosArbolPorId(rolId: any) {
+    setTimeout(() => this.spinner.show(), 10);
+    this.menuService.encuentraTodosArbolPorId(rolId).subscribe(menus => {
+      this.menus = menus;
       this.marcarCheckboxArbol();
-    }
+      this.loading = false;
+      this.spinner.hide();
+    }, err => this.spinner.hide());
   }
 
   crearMenusOriginales(menus: any[], ids: any[]): any[] {
@@ -529,11 +466,8 @@ export class UsuarioEditarComponent implements OnInit {
   marcarCheckboxArbol() {
     // alert('menus cargados');
     const rolId: number = this.formGroup.get('rolElegidoId').value || 0;
-    // console.log('rolId :' + rolId);
-    // // console.log(this.rolesElegidos);
     if (rolId > 0) {
       const rol: any = this.rolesElegidos.find(rolObj => rolObj.id == rolId);
-      // console.log(rol);
       const rolMenuAutoris = rol.autorizacionesModificadas;
       const menusTemp = [];
       for (const menu of this.menus) {

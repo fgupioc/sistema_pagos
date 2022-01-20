@@ -18,7 +18,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Seleccionar Gestión</label>
+                            <label>Seleccionar Etapa</label>
                             <select class="form-control" (change)="cambioGestion()" formControlName="codGestion">
                                 <option value="">Seleccione</option>
                                 <option *ngFor="let item of gestiones" [value]="item.codGestion">{{ item.nombre }}</option>
@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Seleccionar Etapa</label>
+                            <label>Seleccionar SubEtapa</label>
                             <select class="form-control" (change)="cambioEtapa()" formControlName="codCarEtapa">
                                 <option value="">Seleccione</option>
                                 <option *ngFor="let item of etapas" [value]="item.id">{{ item.nombre }}</option>
