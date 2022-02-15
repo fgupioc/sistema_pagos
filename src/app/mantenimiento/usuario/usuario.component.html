@@ -16,6 +16,7 @@
                                 <th>#</th>
                                 <th>Alias</th>
                                 <th>Email</th>
+                                <th width="30%">Roles</th>
                                 <th>Estado</th>
                                 <th>Opciones</th>
                             </tr>
@@ -25,6 +26,11 @@
                                 <td class="text-center">{{ i + 1 }}</td>
                                 <td class="text-center">{{ usuario.alias}}</td>
                                 <td class="text-center">{{ usuario.email}}</td>
+                                <td class="text-center">
+                                    <ng-container *ngFor="let item of usuario.roles">
+                                        <span class="badge badge-primary text-white" style="font-size: 11px;">{{ item.nombre }}</span>
+                                    </ng-container>
+                                </td>
                                 <td class="text-center">
                                     <span class="badge" [ngClass]="estaActivo(usuario.codEstado) ? 'badge-success' : 'badge-danger'">
                                       {{ usuario.desEstado}}
