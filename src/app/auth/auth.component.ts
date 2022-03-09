@@ -61,7 +61,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   encuentraTodossNavItemPorUsuario() {
     this.spinner.show();
     this.menuService.encuentraTodossNavItemPorUsuario().subscribe(navItems => {
-      this.navItems = navItems;
+      this.navItems = navItems.filter(i => i.children.length > 0 );
       this.spinner.hide();
     }, error => this.spinner.hide());
   }
