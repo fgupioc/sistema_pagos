@@ -142,17 +142,21 @@ export class RolCrearComponent implements OnInit {
 
   onSelectedChange($event: any[]) {
     this.valoresMenus = $event;
+    let values: any[] = [];
     this.menus.forEach(menu => menu.children.forEach(hijo => hijo.checked = false));
     if (this.valoresMenus.length > 0) {
       this.valoresMenus.forEach(valor1 => {
         this.menus.forEach(valor2 => {
           const item = valor2.children.find(hijo => hijo.value == valor1);
           if (item) {
+            item.autorizaciones.forEach(e => e.checked = true );
+            values = values.concat(item.autorizaciones.map(i => i.id));
             item.checked = true;
           }
         });
       });
     }
+    this.autorizacionesElegidos = values;
   }
 
   listarAutorizaciones(menuId: string) {
@@ -199,7 +203,6 @@ export class RolCrearComponent implements OnInit {
       const usuariosElegidos = [];
       this.usuarios.forEach(user => usuariosElegidos.push(user.id));
       const rolNuevo = {rol, rolMenuAutoris, usuarioIds: usuariosElegidos};
-
       this.spinner.show();
       this.rolService.guardar(rolNuevo).subscribe(
         respuesta => {
@@ -216,10 +219,6 @@ export class RolCrearComponent implements OnInit {
   }
 
   desactivarGuardar() {
-    console.log(this.formGroup.invalid);
-    console.log(this.formGroup.pending);
-    console.log(this.valoresMenus);
-    console.log(this.autorizacionesElegidos);
     return this.formGroup.invalid || this.formGroup.pending || this.valoresMenus.length == 0 || this.autorizacionesElegidos.length == 0;
   }
 

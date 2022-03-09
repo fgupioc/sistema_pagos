@@ -79,12 +79,10 @@
                                         <div class="col-sm-2" *ngFor="let a of menuHijo.autorizaciones">
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox">
-                                                    <!-- [checked]="menuHijo.checked"
-                                 (change)="onChangeCheckAutorizacion(menuHijo,a.id)" -->
                                                     <input class="custom-control-input" type="checkbox" [checked]=isSelectedAutorizacion(a.id) (change)="onChangeCheckAutorizacion(menuHijo,a.id)" id="customCheckbox_{{ menuHijo.value }}_{{a.id}}" value="{{ a.id }}">
                                                     <label for="customCheckbox_{{ menuHijo.value }}_{{a.id}}" class="custom-control-label">
-                            {{ a.titulo }}
-                          </label>
+                                                      {{ a.titulo }}
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
