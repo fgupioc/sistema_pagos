@@ -35,7 +35,7 @@ export class ComportamientoDePagoComponent implements OnInit {
   }
 
   calcularPorcentaje(cant: any, total: any) {
-    return total == 0 ? 0 : (cant * 100) / total;
+    return total == 0 ? 0 : ((cant * 100) / total).toFixed(2);
   }
 
   private listarCarteras() {
