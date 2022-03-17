@@ -44,6 +44,7 @@ import {TareaActividad} from '../../../interfaces/tarea-actividad';
   styleUrls: ['./credito-socio.component.css']
 })
 export class CreditoSocioComponent implements OnInit {
+  dtOptions: DataTables.Settings = {};
   urlBaseFotos = environment.signinUrl + '/archivo/images/';
   urlBaseImagenTicket = environment.signinUrl + '/archivo/images-ticket/';
   userLoggedName = '';
@@ -142,6 +143,8 @@ export class CreditoSocioComponent implements OnInit {
     config.backdrop = 'static';
     config.keyboard = false;
     this.userLoggedName = auth.loggedUser.alias;
+    this.dtOptions = CONST.C_OBJ_DT_OPCIONES();
+    this.dtOptions.order = [[0, 'asc']];
     const {role} = activatedRoute.snapshot.data;
     if (role) {
       this.role = role;
@@ -1071,6 +1074,18 @@ export class CreditoSocioComponent implements OnInit {
     if (moment().isAfter(fecha) && condicion == '2') {
       return 'table-success';
     }
+  }
+
+  isPay(cuota: any) {
+    if (cuota.fechaUltimoPago) {
+      const date = moment(cuota.fechaUltimoPago).format('YYYY-MM-DD');
+      const date2 = moment(cuota.fechaVcmto).format('YYYY-MM-DD');
+      if (moment(date).isAfter(date2)) {
+        return 'table-danger';
+      }
+      return 'table-success';
+    }
+
   }
 
   isAfter(fecha) {

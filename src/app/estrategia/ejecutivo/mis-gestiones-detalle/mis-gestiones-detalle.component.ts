@@ -1,51 +1,52 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { GestionAdministrativaService } from "../../../servicios/gestion-administrativa.service";
-import { Credito } from "../../../interfaces/credito";
-import { FUNC } from "../../../comun/FUNC";
-import { Cartera, Etapa } from "../../../interfaces/cartera";
-import { NgxSpinnerService } from "ngx-spinner";
-import Swal from "sweetalert2";
-import { Persona } from "../../../interfaces/Persona";
-import { CONST } from "../../../comun/CONST";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Telefono } from "../../../interfaces/telefono";
-import { Email } from "../../../interfaces/email";
-import { Direccion } from "../../../interfaces/direccion";
-import { TablaMaestra } from "../../../interfaces/tabla-maestra";
-import { MaestroService } from "../../../servicios/sistema/maestro.service";
-import { CreditoGestion } from "../../../interfaces/credito-gestion";
-import { AutenticacionService } from "../../../servicios/seguridad/autenticacion.service";
-import * as moment from "moment";
-import { AcuerdoPago } from "../../../interfaces/acuerdo-pago";
-import { AsignacionCarteraService } from "../../../servicios/asignacion-cartera.service";
-import { EjecutivoCartera } from "../../../models/ejecutivo-cartera";
-import { Tarea } from "../../../interfaces/tarea";
-import { EjecutivoAsignacion } from "../../../interfaces/ejecutivo-asignacion";
-import { EventosService } from "../../../servicios/eventos.service";
-import { TelefonoService } from "../../../servicios/telefono.service";
-import { isNullOrUndefined } from "util";
-import { TipoNotificacion } from "../../../models/tipo-notificacion";
-import { TipoNotificacionService } from "../../../servicios/tipo-notificacion.service";
-import { EmailService } from "../../../servicios/email.service";
-import { UbigeoService } from "../../../servicios/sistema/ubigeo.service";
-import { DireccionService } from "../../../servicios/direccion.service";
-import { Ubigeo } from "../../../interfaces/ubigeo";
-import { TareaActividad } from "../../../interfaces/tarea-actividad";
-import { environment } from "../../../../environments/environment";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { ShowImagenComponent } from "../../../componentes/show-imagen/show-imagen.component";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {GestionAdministrativaService} from '../../../servicios/gestion-administrativa.service';
+import {Credito} from '../../../interfaces/credito';
+import {FUNC} from '../../../comun/FUNC';
+import {Cartera, Etapa} from '../../../interfaces/cartera';
+import {NgxSpinnerService} from 'ngx-spinner';
+import Swal from 'sweetalert2';
+import {Persona} from '../../../interfaces/Persona';
+import {CONST} from '../../../comun/CONST';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Telefono} from '../../../interfaces/telefono';
+import {Email} from '../../../interfaces/email';
+import {Direccion} from '../../../interfaces/direccion';
+import {TablaMaestra} from '../../../interfaces/tabla-maestra';
+import {MaestroService} from '../../../servicios/sistema/maestro.service';
+import {CreditoGestion} from '../../../interfaces/credito-gestion';
+import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
+import * as moment from 'moment';
+import {AcuerdoPago} from '../../../interfaces/acuerdo-pago';
+import {AsignacionCarteraService} from '../../../servicios/asignacion-cartera.service';
+import {EjecutivoCartera} from '../../../models/ejecutivo-cartera';
+import {Tarea} from '../../../interfaces/tarea';
+import {EjecutivoAsignacion} from '../../../interfaces/ejecutivo-asignacion';
+import {EventosService} from '../../../servicios/eventos.service';
+import {TelefonoService} from '../../../servicios/telefono.service';
+import {isNullOrUndefined} from 'util';
+import {TipoNotificacion} from '../../../models/tipo-notificacion';
+import {TipoNotificacionService} from '../../../servicios/tipo-notificacion.service';
+import {EmailService} from '../../../servicios/email.service';
+import {UbigeoService} from '../../../servicios/sistema/ubigeo.service';
+import {DireccionService} from '../../../servicios/direccion.service';
+import {Ubigeo} from '../../../interfaces/ubigeo';
+import {TareaActividad} from '../../../interfaces/tarea-actividad';
+import {environment} from '../../../../environments/environment';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ShowImagenComponent} from '../../../componentes/show-imagen/show-imagen.component';
 
 declare var $: any;
 
 @Component({
-  selector: "app-mis-gestiones-detalle",
-  templateUrl: "./mis-gestiones-detalle.component.html",
-  styleUrls: ["./mis-gestiones-detalle.component.css"],
+  selector: 'app-mis-gestiones-detalle',
+  templateUrl: './mis-gestiones-detalle.component.html',
+  styleUrls: ['./mis-gestiones-detalle.component.css'],
 })
 export class MisGestionesDetalleComponent implements OnInit {
-  urlBaseFotos = environment.signinUrl + "/archivo/images/";
-  urlBaseImagenTicket = environment.signinUrl + "/archivo/images-ticket/";
+  dtOptions: DataTables.Settings = {};
+  urlBaseFotos = environment.signinUrl + '/archivo/images/';
+  urlBaseImagenTicket = environment.signinUrl + '/archivo/images-ticket/';
   page = 1;
   pageSize = 10;
   collectionSize = 0;
@@ -78,10 +79,10 @@ export class MisGestionesDetalleComponent implements OnInit {
   tipoDirecciones: TablaMaestra[] = [];
   typeAcuerdo = 1;
   errors: string[] = [];
-  dateDefault = moment(new Date()).format("YYYY-MM-DD");
-  hourDefault = moment().format("LT");
-  codAcuedoPago = "008";
-  codClienteComprometePago = "009";
+  dateDefault = moment(new Date()).format('YYYY-MM-DD');
+  hourDefault = moment().format('LT');
+  codAcuedoPago = '008';
+  codClienteComprometePago = '009';
   acuerdosPago: AcuerdoPago[] = [];
   estadosRecordatorio: TablaMaestra[] = [];
   listaAcuerdos: TablaMaestra[] = [];
@@ -93,13 +94,13 @@ export class MisGestionesDetalleComponent implements OnInit {
   $body: string;
   showNewPhone = false;
 
-  typePhone = "01";
+  typePhone = '01';
   max = 9;
   $fijo = 2;
   $movil = 1;
-  $sectionName = "Sección";
-  $zoneName = "Zona";
-  $sectorName = "Sector";
+  $sectionName = 'Sección';
+  $zoneName = 'Zona';
+  $sectorName = 'Sector';
 
   tipoNotificaciones: TipoNotificacion[] = [];
   tiposUsoTelefono: TablaMaestra[] = [];
@@ -117,9 +118,9 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   acuerdosPagoTemp: AcuerdoPago[] = [];
 
-  $condicion = "0";
-  userLoggedName = "";
-  comentario = "";
+  $condicion = '0';
+  userLoggedName = '';
+  comentario = '';
   actividades: any[];
   msgSending = false;
   iniciarTarea = false;
@@ -127,9 +128,9 @@ export class MisGestionesDetalleComponent implements OnInit {
   cargandoImagenes = false;
   pagos: any[] = [];
   showNewWhatsapp = false;
-  $target = "";
-  $codRespuesta = "";
-  $tipoGestion = "";
+  $target = '';
+  $codRespuesta = '';
+  $tipoGestion = '';
   $duracion = 0;
 
   $detalles: any[] = [];
@@ -153,8 +154,10 @@ export class MisGestionesDetalleComponent implements OnInit {
     private direccionService: DireccionService,
     private modalService: NgbModal
   ) {
+    this.dtOptions = CONST.C_OBJ_DT_OPCIONES();
+    this.dtOptions.order = [[0, 'asc']];
     activatedRoute.params.subscribe(
-      ({ nroCredito }) => (this.nroCredito = nroCredito)
+      ({nroCredito}) => (this.nroCredito = nroCredito)
     );
     this.userLoggedName = auth.loggedUser.alias;
   }
@@ -180,7 +183,7 @@ export class MisGestionesDetalleComponent implements OnInit {
 
     for (let index = 1; index <= 12; index++) {
       if (index < 10) {
-        this.$horario.push("0" + index);
+        this.$horario.push('0' + index);
       } else {
         this.$horario.push(index);
       }
@@ -190,24 +193,24 @@ export class MisGestionesDetalleComponent implements OnInit {
       this.loadCredito();
     }
     this.form = this.formBuilder.group({
-      tipoGestion: ["001", Validators.required],
-      tipoContacto: ["1", Validators.required],
-      telefono: [""],
-      duracion: [""],
-      correo: [""],
-      direccion: [""],
-      codRespuesta: ["001", Validators.required],
-      comentario: ["", Validators.required],
+      tipoGestion: ['001', Validators.required],
+      tipoContacto: ['1', Validators.required],
+      telefono: [''],
+      duracion: [''],
+      correo: [''],
+      direccion: [''],
+      codRespuesta: ['001', Validators.required],
+      comentario: ['', Validators.required],
     });
     this.formRegistrarAcuerdo = this.formBuilder.group({
       asignacionId: [],
       ejecutivoId: [],
       socioId: [],
       creditoId: [],
-      montoAcordado: ["", [Validators.required]],
-      posibilidadPago: ["", [Validators.required]],
+      montoAcordado: ['', [Validators.required]],
+      posibilidadPago: ['', [Validators.required]],
       fechaInicio: [this.dateDefault, [Validators.required]],
-      horaIncio: ["", [Validators.required]],
+      horaIncio: ['', [Validators.required]],
     });
 
     this.formPlanPago = this.formBuilder.group({
@@ -215,78 +218,78 @@ export class MisGestionesDetalleComponent implements OnInit {
       ejecutivoId: [],
       socioId: [],
       creditoId: [],
-      descripcion: ["", [Validators.required]],
+      descripcion: ['', [Validators.required]],
       plazo: [null, [Validators.required]],
       montoAcordado: [null, [Validators.required]],
       intervalo: [null, [Validators.required]],
       fechaInicio: [this.dateDefault, [Validators.required]],
-      posibilidadPago: ["", [Validators.required]],
+      posibilidadPago: ['', [Validators.required]],
     });
 
     this.formTarea = this.formBuilder.group({
-      tableroTareaId: ["", [Validators.required]],
-      nombre: ["", [Validators.required]],
+      tableroTareaId: ['', [Validators.required]],
+      nombre: ['', [Validators.required]],
       prioridad: [0, [Validators.required]],
-      codActividad: ["", [Validators.required]],
-      descripcion: ["", [Validators.required]],
-      fechaVencimiento: ["", [Validators.required]],
-      horaVencimiento: [""],
-      horaRecordatorio: [""],
-      fechaRecordatorio: [""],
+      codActividad: ['', [Validators.required]],
+      descripcion: ['', [Validators.required]],
+      fechaVencimiento: ['', [Validators.required]],
+      horaVencimiento: [''],
+      horaRecordatorio: [''],
+      fechaRecordatorio: [''],
       checkFechaRecordatorio: [false],
       notificacion: [false],
       correo: [false],
-      horaA: [""],
-      minA: [""],
-      tiempoA: [""],
-      horaB: [""],
-      minB: [""],
-      tiempoB: [""],
+      horaA: [''],
+      minA: [''],
+      tiempoA: [''],
+      horaB: [''],
+      minB: [''],
+      tiempoB: [''],
     });
 
     this.formTelefono = this.formBuilder.group({
       tipo: [this.$movil, Validators.required],
-      operador: ["", Validators.required],
-      numero: ["", [Validators.required, Validators.minLength(this.max)]],
-      codCiudad: [""],
-      codTipoNotificacion: ["", [Validators.required]],
-      codUso: ["", [Validators.required]],
+      operador: ['', Validators.required],
+      numero: ['', [Validators.required, Validators.minLength(this.max)]],
+      codCiudad: [''],
+      codTipoNotificacion: ['', [Validators.required]],
+      codUso: ['', [Validators.required]],
     });
 
     this.formEmail = this.formBuilder.group({
-      email: ["", [Validators.required, Validators.email]],
-      codTipoNotificacion: ["", [Validators.required]],
-      codUso: ["", [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      codTipoNotificacion: ['', [Validators.required]],
+      codUso: ['', [Validators.required]],
     });
 
     this.formDireccion = this.formBuilder.group({
-      tipoDireccion: ["", Validators.required],
-      tipoVivienda: ["", Validators.required],
-      tipoVia: ["", Validators.required],
-      nombreVia: ["", Validators.required],
-      numero: [""],
-      manzana: [""],
-      lote: [""],
-      tipoSeccion: [""],
-      numeroSeccion: [""],
-      tipoZona: ["", Validators.required],
-      nombreZona: ["", Validators.required],
-      tipoSector: [""],
-      nombreSector: [""],
-      departamento: ["", Validators.required],
-      provincia: ["", Validators.required],
-      distrito: ["", Validators.required],
+      tipoDireccion: ['', Validators.required],
+      tipoVivienda: ['', Validators.required],
+      tipoVia: ['', Validators.required],
+      nombreVia: ['', Validators.required],
+      numero: [''],
+      manzana: [''],
+      lote: [''],
+      tipoSeccion: [''],
+      numeroSeccion: [''],
+      tipoZona: ['', Validators.required],
+      nombreZona: ['', Validators.required],
+      tipoSector: [''],
+      nombreSector: [''],
+      departamento: ['', Validators.required],
+      provincia: ['', Validators.required],
+      distrito: ['', Validators.required],
     });
 
     this.$body = `\n${this.auth.loggedUser.alias}\n${this.auth.loggedUser.email}\nEjecutivo de Negocio.`;
     this.formCorreo = this.formBuilder.group({
-      asunto: ["", [Validators.required]],
-      correo: ["", [Validators.required]],
+      asunto: ['', [Validators.required]],
+      correo: ['', [Validators.required]],
       mensaje: [this.$body, [Validators.required]],
       url: [false],
     });
     this.formWhatsapp = this.formBuilder.group({
-      telefono: ["", [Validators.required]],
+      telefono: ['', [Validators.required]],
       mensaje: [this.$body, [Validators.required]],
       url: [false],
     });
@@ -354,7 +357,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   listarTiposContactos() {
     this.tablaMaestraService.listarTiposContactos().subscribe(
       (response) => {
-        this.tiposContacto = response.filter((i) => i.codItem != "3");
+        this.tiposContacto = response.filter((i) => i.codItem != '3');
       },
       (error) => console.log(error)
     );
@@ -399,18 +402,18 @@ export class MisGestionesDetalleComponent implements OnInit {
             );
             this.listarAcciones(this.credito.id, this.credito.asignacionId);
           } else {
-            Swal.fire("Credito", res.mensaje, "error");
+            Swal.fire('Credito', res.mensaje, 'error');
             this.router.navigateByUrl(
-              "/auth/gestion-administrativa/mis-gestiones"
+              '/auth/gestion-administrativa/mis-gestiones'
             );
             this.spinner.hide();
           }
         },
         (err) => {
           this.spinner.hide();
-          Swal.fire("Credito", "Ocurrio un error", "error");
+          Swal.fire('Credito', 'Ocurrio un error', 'error');
           this.router.navigateByUrl(
-            "/auth/gestion-administrativa/mis-gestiones"
+            '/auth/gestion-administrativa/mis-gestiones'
           );
         }
       );
@@ -422,15 +425,15 @@ export class MisGestionesDetalleComponent implements OnInit {
         const docmento = this.socio.documentosIdentidad.find(
           (i) => i.tipoDocumento == CONST.C_STR_TIPO_DOCUMENTO_DNI
         );
-        return docmento ? docmento.tipoDocumentoDescripcion : "";
+        return docmento ? docmento.tipoDocumentoDescripcion : '';
       } else {
         const docmento = this.socio.documentosIdentidad.find(
           (i) => i.tipoDocumento == CONST.C_STR_TIPO_DOCUMENTO_RUC
         );
-        return docmento ? docmento.tipoDocumentoDescripcion : "";
+        return docmento ? docmento.tipoDocumentoDescripcion : '';
       }
     } else {
-      return "";
+      return '';
     }
   }
 
@@ -440,15 +443,15 @@ export class MisGestionesDetalleComponent implements OnInit {
         const docmento = this.socio.documentosIdentidad.find(
           (i) => i.tipoDocumento == CONST.C_STR_TIPO_DOCUMENTO_DNI
         );
-        return docmento ? docmento.numeroDocumento : "";
+        return docmento ? docmento.numeroDocumento : '';
       } else {
         const docmento = this.socio.documentosIdentidad.find(
           (i) => i.tipoDocumento == CONST.C_STR_TIPO_DOCUMENTO_RUC
         );
-        return docmento ? docmento.numeroDocumento : "";
+        return docmento ? docmento.numeroDocumento : '';
       }
     } else {
-      return "";
+      return '';
     }
   }
 
@@ -456,7 +459,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     if (this.etapa) {
       return `${this.etapa.nombre}(${this.etapa.desde} a ${this.etapa.hasta})`;
     } else {
-      return "";
+      return '';
     }
   }
 
@@ -468,14 +471,14 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   cancelarGestion() {
     this.form.reset({
-      tipoGestion: "001",
-      tipoContacto: "1",
-      telefono: "",
-      duracion: "",
-      correo: "",
-      direccion: "",
-      codRespuesta: "001",
-      comentario: "",
+      tipoGestion: '001',
+      tipoContacto: '1',
+      telefono: '',
+      duracion: '',
+      correo: '',
+      direccion: '',
+      codRespuesta: '001',
+      comentario: '',
     });
     this.showRespuesta = false;
     this.form.controls.tipoGestion.enable();
@@ -520,32 +523,32 @@ export class MisGestionesDetalleComponent implements OnInit {
   }
 
   mostrarDireccion(dir: Direccion): string {
-    let address = "";
+    let address = '';
     if (dir.tipoVia) {
       address = this.getNombreTipoVia(dir.tipoVia);
     }
 
     if (dir.nombreVia) {
-      address += address != "" ? " " + dir.nombreVia : dir.nombreVia;
+      address += address != '' ? ' ' + dir.nombreVia : dir.nombreVia;
     }
 
     if (dir.numero) {
-      address += address != "" ? " NRO " + dir.numero : "NRO " + dir.numero;
+      address += address != '' ? ' NRO ' + dir.numero : 'NRO ' + dir.numero;
     }
 
     if (dir.manzana) {
-      address += address != "" ? " MZA " + dir.manzana : "MZA " + dir.manzana;
+      address += address != '' ? ' MZA ' + dir.manzana : 'MZA ' + dir.manzana;
     }
 
     if (dir.lote) {
-      address += address != "" ? " LOTE " + dir.lote : "LOTE " + dir.lote;
+      address += address != '' ? ' LOTE ' + dir.lote : 'LOTE ' + dir.lote;
     }
     return address;
   }
 
   private getNombreTipoVia(tipoVia: string) {
     const item = this.tipoVias.find((i) => i.codItem == tipoVia);
-    return item ? item.descripcion : "";
+    return item ? item.descripcion : '';
   }
 
   registrarGestion() {
@@ -557,7 +560,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       [1, 3, 4].includes(this.typeAcuerdo)
     ) {
       this.errors.push(
-        "Debe llenar los datos obligatorios de acuerdo de pago. 1"
+        'Debe llenar los datos obligatorios de acuerdo de pago. 1'
       );
       return;
     }
@@ -568,7 +571,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       this.typeAcuerdo == 2
     ) {
       this.errors.push(
-        "Debe llenar los datos obligatorios de acuerdo de pago. 2"
+        'Debe llenar los datos obligatorios de acuerdo de pago. 2'
       );
       return;
     }
@@ -581,7 +584,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       (i) => i.codItem == data.codRespuesta
     );
 
-    let target = "";
+    let target = '';
     if (data.telefono.length > 0) {
       target = data.telefono;
       if (data.duracion > 0) {
@@ -602,9 +605,9 @@ export class MisGestionesDetalleComponent implements OnInit {
       duracion: data.duracion,
       usuarioId: this.auth.loggedUser.id,
       ejecutivoNombre: this.auth.loggedUser.alias,
-      gestionDescripcion: gestion ? gestion.descripcion : "",
-      contactoDescripcion: contacto ? contacto.descripcion : "",
-      respuestaDescripcion: respuesta ? respuesta.descripcion : "",
+      gestionDescripcion: gestion ? gestion.descripcion : '',
+      contactoDescripcion: contacto ? contacto.descripcion : '',
+      respuestaDescripcion: respuesta ? respuesta.descripcion : '',
       creditoId: this.credito.id,
       asignacionId: this.credito.asignacionId,
     };
@@ -621,7 +624,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       acuerdoPago.ejecutivoId = this.auth.loggedUser.id;
       acuerdoPago.socioId = this.credito.socioId;
       acuerdoPago.tipoAcuerdo = this.typeAcuerdo;
-      acuerdoPago.descripcion = "estandar";
+      acuerdoPago.descripcion = 'estandar';
       listAcuerdo = [acuerdoPago];
     }
 
@@ -662,7 +665,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       .subscribe(
         (res) => {
           if (res.exito) {
-            Swal.fire("Registrar Gestión", res.mensaje, "success");
+            Swal.fire('Registrar Gestión', res.mensaje, 'success');
             this.listarAcciones(this.credito.id, this.credito.asignacionId);
             this.loadAcuerdosPagos(
               this.credito.asignacionId,
@@ -671,14 +674,14 @@ export class MisGestionesDetalleComponent implements OnInit {
               this.credito.id
             );
             this.form.reset({
-              tipoGestion: "001",
-              tipoContacto: "1",
-              telefono: "",
-              duracion: "",
-              correo: "",
-              direccion: "",
-              codRespuesta: "001",
-              comentario: "",
+              tipoGestion: '001',
+              tipoContacto: '1',
+              telefono: '',
+              duracion: '',
+              correo: '',
+              direccion: '',
+              codRespuesta: '001',
+              comentario: '',
             });
             this.showRespuesta = false;
             this.form.controls.tipoGestion.enable();
@@ -722,29 +725,29 @@ export class MisGestionesDetalleComponent implements OnInit {
   }
 
   isCurrentDate(fecha: string, condicion: string) {
-    const date = moment(fecha).format("YYYY-MM-DD");
-    if (this.dateDefault == date && condicion != "2") {
-      return "table-primary";
+    const date = moment(fecha).format('YYYY-MM-DD');
+    if (this.dateDefault == date && condicion != '2') {
+      return 'table-primary';
     }
-    if (this.dateDefault == date && condicion == "2") {
-      return "table-success";
+    if (this.dateDefault == date && condicion == '2') {
+      return 'table-success';
     }
-    if (moment().isAfter(fecha) && condicion != "2") {
-      return "table-danger";
+    if (moment().isAfter(fecha) && condicion != '2') {
+      return 'table-danger';
     }
-    if (moment().isAfter(fecha) && condicion == "2") {
-      return "table-success";
+    if (moment().isAfter(fecha) && condicion == '2') {
+      return 'table-success';
     }
   }
 
   getNameCondition(condicion: any) {
     const item = this.estadosRecordatorio.find((i) => i.codItem == condicion);
-    return item ? item.descripcion : "";
+    return item ? item.descripcion : '';
   }
 
   getNameTipoAcuerdo(condicion: any) {
     const item = this.listaAcuerdos.find((i) => i.codItem == condicion);
-    return item ? item.descripcion : "";
+    return item ? item.descripcion : '';
   }
 
   get conPermiso() {
@@ -752,20 +755,20 @@ export class MisGestionesDetalleComponent implements OnInit {
   }
 
   isAfter(fecha) {
-    return moment(this.dateDefault).isAfter(moment(fecha).format("YYYY-MM-DD"));
+    return moment(this.dateDefault).isAfter(moment(fecha).format('YYYY-MM-DD'));
   }
 
   eliminarAcuerdoPago(item: AcuerdoPago) {
     if (this.isAfter(item.fechaInicio)) {
-      Swal.fire("Acuerdo de Pago", "No es posible eliminar.", "warning");
+      Swal.fire('Acuerdo de Pago', 'No es posible eliminar.', 'warning');
       return;
     }
     Swal.fire({
-      title: "Eliminar Acurdo de pago?",
-      icon: "warning",
+      title: 'Eliminar Acurdo de pago?',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: "Si, Eliminar",
-      cancelButtonText: "Cancelar",
+      confirmButtonText: 'Si, Eliminar',
+      cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
         this.asignacionCarteraService
@@ -773,7 +776,7 @@ export class MisGestionesDetalleComponent implements OnInit {
           .subscribe(
             (res) => {
               if (res.exito) {
-                Swal.fire("Información de Socio", res.mensaje, "success");
+                Swal.fire('Información de Socio', res.mensaje, 'success');
                 this.loadAcuerdosPagos(
                   this.credito.asignacionId,
                   this.auth.loggedUser.id,
@@ -781,7 +784,7 @@ export class MisGestionesDetalleComponent implements OnInit {
                   this.credito.id
                 );
               } else {
-                Swal.fire("Información de Socio", res.mensaje, "error");
+                Swal.fire('Información de Socio', res.mensaje, 'error');
               }
               this.spinner.hide();
             },
@@ -794,9 +797,9 @@ export class MisGestionesDetalleComponent implements OnInit {
   guardarTarea() {
     if (this.formTarea.invalid) {
       Swal.fire(
-        "Crear Tarea",
-        "Debe ingresar los campos obligatorios.",
-        "warning"
+        'Crear Tarea',
+        'Debe ingresar los campos obligatorios.',
+        'warning'
       );
       return;
     }
@@ -805,7 +808,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     task.creditoId = this.credito.id;
     task.socioId = this.credito.socioId;
     task.asignacionId = this.credito.asignacionId;
-    task.condicion = "0";
+    task.condicion = '0';
 
     delete task.horaA;
     delete task.horaB;
@@ -824,33 +827,33 @@ export class MisGestionesDetalleComponent implements OnInit {
             this.showNewTask = false;
             // this.eventosService.leerNotifyEmitter.emit({tipo: '04'});
             this.$opneClass = true;
-            this.updateNotifications({ tipo: "04" });
+            this.updateNotifications({tipo: '04'});
           } else {
-            Swal.fire("Crear Tarea", res.mensaje, "error");
+            Swal.fire('Crear Tarea', res.mensaje, 'error');
           }
           this.spinner.hide();
         },
         (err) => {
           this.spinner.hide();
-          Swal.fire("Crear Tarea", "Ocurrio un error", "error");
+          Swal.fire('Crear Tarea', 'Ocurrio un error', 'error');
         }
       );
   }
 
   cambioFechaVencimient() {
-    const hora = Number(moment().format("h"));
-    const min = Number(moment().format("mm"));
-    const tiempo = moment().format("a");
-    const $horaS = hora + 1 < 10 ? "0" + (hora + 1) : String(hora);
+    const hora = Number(moment().format('h'));
+    const min = Number(moment().format('mm'));
+    const tiempo = moment().format('a');
+    const $horaS = hora + 1 < 10 ? '0' + (hora + 1) : String(hora);
     this.formTarea.controls.horaA.setValue($horaS);
-    this.formTarea.controls.minA.setValue(min >= 30 ? "30" : "00");
+    this.formTarea.controls.minA.setValue(min >= 30 ? '30' : '00');
     this.formTarea.controls.tiempoA.setValue(tiempo);
     this.cambioHoraVencimient();
   }
 
   cambioHoraVencimient() {
     const $hora =
-      this.formTarea.controls.tiempoA.value == "am"
+      this.formTarea.controls.tiempoA.value == 'am'
         ? this.formTarea.controls.horaA.value
         : String(Number(this.formTarea.controls.horaA.value) + 12);
     this.formTarea.controls.horaVencimiento.setValue(
@@ -859,15 +862,15 @@ export class MisGestionesDetalleComponent implements OnInit {
     if (this.formTarea.controls.checkFechaRecordatorio.value) {
       this.allHoraRecordatorio();
     } else {
-      this.formTarea.controls.horaB.setValue("");
-      this.formTarea.controls.minB.setValue("");
-      this.formTarea.controls.tiempoB.setValue("");
+      this.formTarea.controls.horaB.setValue('');
+      this.formTarea.controls.minB.setValue('');
+      this.formTarea.controls.tiempoB.setValue('');
     }
   }
 
   cambioHoraRecordatorio() {
     const $hora =
-      this.formTarea.controls.tiempoB.value == "am"
+      this.formTarea.controls.tiempoB.value == 'am'
         ? this.formTarea.controls.horaB.value
         : String(Number(this.formTarea.controls.horaB.value) + 12);
     this.formTarea.controls.horaRecordatorio.setValue(
@@ -888,9 +891,9 @@ export class MisGestionesDetalleComponent implements OnInit {
         this.allHoraRecordatorio();
       } else {
         Swal.fire(
-          "Tarea",
-          "Debe ingresar una fecha de vencimiento y hora de vencimiento",
-          "warning"
+          'Tarea',
+          'Debe ingresar una fecha de vencimiento y hora de vencimiento',
+          'warning'
         );
         this.formTarea.controls.checkFechaRecordatorio.setValue(false);
         return;
@@ -898,30 +901,30 @@ export class MisGestionesDetalleComponent implements OnInit {
     } else {
       this.formTarea.controls.fechaRecordatorio.setValue(null);
       this.formTarea.controls.horaRecordatorio.setValue(null);
-      this.formTarea.controls.horaB.setValue("");
-      this.formTarea.controls.minB.setValue("");
-      this.formTarea.controls.tiempoB.setValue("");
+      this.formTarea.controls.horaB.setValue('');
+      this.formTarea.controls.minB.setValue('');
+      this.formTarea.controls.tiempoB.setValue('');
       this.formTarea.controls.notificacion.setValue(false);
       this.formTarea.controls.correo.setValue(false);
     }
   }
 
   allHoraRecordatorio() {
-    const $time = this.getTime.split(":");
+    const $time = this.getTime.split(':');
     this.formTarea.controls.horaB.setValue(
       Number($time[0]) > 12
         ? Number($time[0]) - 12 < 10
-          ? "0" + (Number($time[0]) - 12)
-          : String(Number($time[0]) - 12)
+        ? '0' + (Number($time[0]) - 12)
+        : String(Number($time[0]) - 12)
         : $time[0]
     );
     this.formTarea.controls.minB.setValue(
-      this.formTarea.controls.minA.value == "00" ? "30" : "00"
+      this.formTarea.controls.minA.value == '00' ? '30' : '00'
     );
     if (Number($time[0]) > 12) {
-      this.formTarea.controls.tiempoB.setValue("pm");
+      this.formTarea.controls.tiempoB.setValue('pm');
     } else {
-      this.formTarea.controls.tiempoB.setValue("am");
+      this.formTarea.controls.tiempoB.setValue('am');
     }
   }
 
@@ -947,7 +950,7 @@ export class MisGestionesDetalleComponent implements OnInit {
         Number(this.formTarea.controls.horaVencimiento.value.slice(0, 2)) - 1;
       return time < 10 ? `0${time}:00` : `${time}:00`;
     } else {
-      return "09:00";
+      return '09:00';
     }
   }
 
@@ -958,24 +961,25 @@ export class MisGestionesDetalleComponent implements OnInit {
         (res) => {
           this.misTableros = res;
         },
-        (err) => {}
+        (err) => {
+        }
       );
   }
 
   crearTablero() {
     Swal.fire({
-      title: "Ingrese un nombre",
-      input: "text",
+      title: 'Ingrese un nombre',
+      input: 'text',
       inputAttributes: {
-        autocapitalize: "off",
+        autocapitalize: 'off',
       },
       showCancelButton: true,
-      confirmButtonText: "Crear",
-      cancelButtonText: "Cancelar",
+      confirmButtonText: 'Crear',
+      cancelButtonText: 'Cancelar',
       showLoaderOnConfirm: false,
       inputValidator: (value) => {
         if (!value) {
-          return "El nombre es obligatorio.";
+          return 'El nombre es obligatorio.';
         }
       },
     }).then((result) => {
@@ -984,21 +988,21 @@ export class MisGestionesDetalleComponent implements OnInit {
           nombre: result.value,
           slug: FUNC.slugGenerate(result.value),
           ejecutivoId: this.auth.loggedUser.id,
-          visibilidad: "01",
+          visibilidad: '01',
         };
         this.spinner.show();
         this.gestionAdministrativaService.crearAsignacionTarea(data).subscribe(
           (res) => {
             if (res.exito) {
-              Swal.fire("Crear Nuevo Tablero", res.mensaje, "success");
+              Swal.fire('Crear Nuevo Tablero', res.mensaje, 'success');
               this.listarTablero();
             } else {
-              Swal.fire("Crear Nuevo Tablero", res.mensaje, "error");
+              Swal.fire('Crear Nuevo Tablero', res.mensaje, 'error');
             }
             this.spinner.hide();
           },
           (err) => {
-            Swal.fire("Crear Nuevo Tablero", "Ocurrio un error", "error");
+            Swal.fire('Crear Nuevo Tablero', 'Ocurrio un error', 'error');
           }
         );
       }
@@ -1007,11 +1011,11 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   guardarCorreo() {
     if (this.formCorreo.invalid) {
-      Swal.fire("Enviar Correo", "Debe ingresar todos los datos.", "warning");
+      Swal.fire('Enviar Correo', 'Debe ingresar todos los datos.', 'warning');
       return;
     }
 
-    const { asunto, url, ...correo } = this.formCorreo.getRawValue();
+    const {asunto, url, ...correo} = this.formCorreo.getRawValue();
     correo.creditoId = this.credito.id;
     correo.codPersona = this.credito.socioId;
     correo.asignacionId = this.credito.asignacionId;
@@ -1022,21 +1026,21 @@ export class MisGestionesDetalleComponent implements OnInit {
       .subscribe(
         (res) => {
           if (res.exito) {
-            Swal.fire("Envio de Correo", res.mensaje, "success");
+            Swal.fire('Envio de Correo', res.mensaje, 'success');
             this.formCorreo.reset({
-              aunto: "",
-              correo: "",
+              aunto: '',
+              correo: '',
               mensaje: this.$body,
             });
             this.listarAcciones(this.credito.id, this.credito.asignacionId);
             this.showNewEmail = false;
           } else {
-            Swal.fire("Envio de Correo", res.mensaje, "error");
+            Swal.fire('Envio de Correo', res.mensaje, 'error');
           }
           this.spinner.hide();
         },
         (err) => {
-          Swal.fire("Envio de Correo", "Ocurrio un error", "success");
+          Swal.fire('Envio de Correo', 'Ocurrio un error', 'success');
           this.spinner.hide();
         }
       );
@@ -1044,7 +1048,7 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   getNameTipoDireccion(tipoDireccion: string) {
     const item = this.tipoDirecciones.find((i) => i.codItem == tipoDireccion);
-    return item ? item.descripcion : "";
+    return item ? item.descripcion : '';
   }
 
   guardarTetefono() {
@@ -1057,9 +1061,9 @@ export class MisGestionesDetalleComponent implements OnInit {
     );
     if (tel) {
       Swal.fire(
-        "Teléfono",
-        "EL teléfono ya esta asociada a una notificación",
-        "warning"
+        'Teléfono',
+        'EL teléfono ya esta asociada a una notificación',
+        'warning'
       );
       return;
     }
@@ -1067,12 +1071,12 @@ export class MisGestionesDetalleComponent implements OnInit {
     this.telefonoService.guardar(phone).subscribe(
       (res) => {
         if (res.exito) {
-          Swal.fire("Teléfono", res.mensaje, "success");
+          Swal.fire('Teléfono', res.mensaje, 'success');
           this.resetFormTelefono();
           this.loadCredito();
           this.showNewPhone = false;
         } else {
-          Swal.fire("Teléfono", res.mensaje, "error");
+          Swal.fire('Teléfono', res.mensaje, 'error');
           this.spinner.hide();
         }
       },
@@ -1083,14 +1087,14 @@ export class MisGestionesDetalleComponent implements OnInit {
   resetFormTelefono() {
     this.formTelefono.reset();
     this.formTelefono.controls.tipo.setValue(this.$movil);
-    this.formTelefono.controls.codCiudad.setValue("");
-    this.formTelefono.controls.codTipoNotificacion.setValue("");
-    this.formTelefono.controls.codUso.setValue("");
+    this.formTelefono.controls.codCiudad.setValue('');
+    this.formTelefono.controls.codTipoNotificacion.setValue('');
+    this.formTelefono.controls.codUso.setValue('');
   }
 
   cambioSelectTelefono() {
     const select = this.formTelefono.controls.codTipoNotificacion.value;
-    if (isNullOrUndefined(select) || select == "") {
+    if (isNullOrUndefined(select) || select == '') {
       this.formTelefono.controls.numero.reset();
       this.formTelefono.controls.codCiudad.reset();
     }
@@ -1142,8 +1146,8 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   cambioSelectEmails() {
     const select = this.formEmail.controls.codTipoNotificacion.value;
-    if (isNullOrUndefined(select) || select == "") {
-      this.formEmail.controls.email.setValue("");
+    if (isNullOrUndefined(select) || select == '') {
+      this.formEmail.controls.email.setValue('');
     }
   }
 
@@ -1155,10 +1159,10 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   guardarEmail() {
     if (this.formEmail.invalid) {
-      Swal.fire("Correo", "Debe ingresar los datos obligatorios", "warning");
+      Swal.fire('Correo', 'Debe ingresar los datos obligatorios', 'warning');
       return;
     }
-    const { codTipoNotificacion, email, codUso } = this.formEmail.getRawValue();
+    const {codTipoNotificacion, email, codUso} = this.formEmail.getRawValue();
     const notity = this.tipoNotificaciones.find(
       (v) => v.codTipoNotificacion == codTipoNotificacion
     );
@@ -1167,9 +1171,9 @@ export class MisGestionesDetalleComponent implements OnInit {
     );
     if (correo) {
       Swal.fire(
-        "Correo",
-        "El correo ya se encuentra registrado para el tipo de notificación seleccionada.",
-        "warning"
+        'Correo',
+        'El correo ya se encuentra registrado para el tipo de notificación seleccionada.',
+        'warning'
       );
       return;
     }
@@ -1184,16 +1188,16 @@ export class MisGestionesDetalleComponent implements OnInit {
     this.emailService.crear(emailDto).subscribe(
       (res) => {
         if (res && res.emailId) {
-          Swal.fire("Correo", "Se registró el correo con éxito.", "success");
+          Swal.fire('Correo', 'Se registró el correo con éxito.', 'success');
           this.formEmail.reset({
-            codTipoNotificacion: "",
-            email: "",
-            codUso: "",
+            codTipoNotificacion: '',
+            email: '',
+            codUso: '',
           });
           this.loadCredito();
           this.showNewEmail = false;
         } else {
-          Swal.fire("Correo", "No se pudo registrar el correo.", "error");
+          Swal.fire('Correo', 'No se pudo registrar el correo.', 'error');
           this.spinner.hide();
         }
       },
@@ -1256,7 +1260,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     } else {
       this.formDireccion.controls.lote.clearValidators();
       this.formDireccion.controls.lote.updateValueAndValidity();
-      this.formDireccion.controls.lote.setValue("");
+      this.formDireccion.controls.lote.setValue('');
     }
   }
 
@@ -1271,12 +1275,12 @@ export class MisGestionesDetalleComponent implements OnInit {
       );
       this.formDireccion.controls.numeroSeccion.updateValueAndValidity();
       const item = this.tipoSecciones.find((v) => v.codItem == value);
-      this.$sectionName = item ? item.descripcion : "Sección";
+      this.$sectionName = item ? item.descripcion : 'Sección';
     } else {
       this.formDireccion.controls.numeroSeccion.clearValidators();
       this.formDireccion.controls.numeroSeccion.updateValueAndValidity();
-      this.formDireccion.controls.numeroSeccion.setValue("");
-      this.$sectionName = "Sección";
+      this.formDireccion.controls.numeroSeccion.setValue('');
+      this.$sectionName = 'Sección';
     }
   }
 
@@ -1284,9 +1288,9 @@ export class MisGestionesDetalleComponent implements OnInit {
     const value = event.target.value;
     if (Number(value) !== 0) {
       const item = this.tipoZonas.find((v) => v.codItem == value);
-      this.$zoneName = item ? item.descripcion : "Zona";
+      this.$zoneName = item ? item.descripcion : 'Zona';
     } else {
-      this.$zoneName = "Zona";
+      this.$zoneName = 'Zona';
     }
   }
 
@@ -1298,12 +1302,12 @@ export class MisGestionesDetalleComponent implements OnInit {
       );
       this.formDireccion.controls.nombreSector.updateValueAndValidity();
       const item = this.tiposSectores.find((v) => v.codItem == value);
-      this.$sectorName = item ? item.descripcion : "Sector";
+      this.$sectorName = item ? item.descripcion : 'Sector';
     } else {
       this.formDireccion.controls.nombreSector.clearValidators();
       this.formDireccion.controls.nombreSector.updateValueAndValidity();
-      this.formDireccion.controls.nombreSector.setValue("");
-      this.$sectorName = "Sector";
+      this.formDireccion.controls.nombreSector.setValue('');
+      this.$sectorName = 'Sector';
     }
   }
 
@@ -1344,34 +1348,34 @@ export class MisGestionesDetalleComponent implements OnInit {
   guardarDireccion() {
     if (this.formDireccion.invalid) {
       Swal.fire(
-        "Direccion",
-        "Debe ingresar los datos obligatorios.",
-        "warning"
+        'Direccion',
+        'Debe ingresar los datos obligatorios.',
+        'warning'
       );
       return;
     }
     this.spinner.show();
-    const { departamento, distrito, provincia, ...address } =
+    const {departamento, distrito, provincia, ...address} =
       this.formDireccion.getRawValue();
     address.personaId = this.socio.id;
     address.ubigeo = `${departamento}${distrito}${provincia}`;
     this.direccionService.guardar(address).subscribe(
       (res) => {
         if (res.exito) {
-          Swal.fire("Dirección", res.mensaje, "success");
-          this.$sectionName = "Sección";
-          this.$zoneName = "Zona";
-          this.$sectorName = "Sector";
+          Swal.fire('Dirección', res.mensaje, 'success');
+          this.$sectionName = 'Sección';
+          this.$zoneName = 'Zona';
+          this.$sectorName = 'Sector';
           this.formDireccion.reset();
           this.loadCredito();
           this.showNewAddress = false;
         } else {
-          Swal.fire("Dirección", res.mensaje, "error");
+          Swal.fire('Dirección', res.mensaje, 'error');
           this.spinner.hide();
         }
       },
       (err) => {
-        Swal.fire("Dirección", err.mensaje, "error");
+        Swal.fire('Dirección', err.mensaje, 'error');
         this.spinner.hide();
       }
     );
@@ -1379,7 +1383,7 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   refreshCountries() {
     this.countries = this.acciones
-      .map((country, i) => ({ id_: i + 1, ...country }))
+      .map((country, i) => ({id_: i + 1, ...country}))
       .slice(
         (this.page - 1) * this.pageSize,
         (this.page - 1) * this.pageSize + this.pageSize
@@ -1389,36 +1393,36 @@ export class MisGestionesDetalleComponent implements OnInit {
   showDetalle(i, item: CreditoGestion) {
     this.archivos = [];
     this.pagos = [];
-    this.$target = "";
-    this.$codRespuesta = "";
-    this.$tipoGestion = "";
+    this.$target = '';
+    this.$codRespuesta = '';
+    this.$tipoGestion = '';
     this.$duracion = 0;
-    this.$condicion = "0";
+    this.$condicion = '0';
 
-    if ($(`.item_${i}`).hasClass("hidden")) {
-      $(`.item-detalle`).addClass("hidden");
-      $(`.item_${i}`).removeClass("hidden");
+    if ($(`.item_${i}`).hasClass('hidden')) {
+      $(`.item-detalle`).addClass('hidden');
+      $(`.item_${i}`).removeClass('hidden');
     } else {
-      $(`.item-detalle`).addClass("hidden");
+      $(`.item-detalle`).addClass('hidden');
     }
 
-    if ($(`.tr_${i}`).hasClass("table-primary")) {
-      $(`.tr_${i}`).removeClass("table-primary");
+    if ($(`.tr_${i}`).hasClass('table-primary')) {
+      $(`.tr_${i}`).removeClass('table-primary');
       this.$opneClass = false;
     } else {
-      $(`#listaGestiones tbody tr`).removeClass("table-primary");
-      $(`.tr_${i}`).addClass("table-primary");
+      $(`#listaGestiones tbody tr`).removeClass('table-primary');
+      $(`.tr_${i}`).addClass('table-primary');
       this.$opneClass = true;
     }
     this.acuerdosPagoTemp = [];
     if (item.tipo == 1) {
-      if (item.codRespuesta == "008" || item.codRespuesta == "009") {
+      if (item.codRespuesta == '008' || item.codRespuesta == '009') {
         this.acuerdosPagoTemp = this.acuerdosPago.filter(
           (value) => String(value.grupo) == item.keyResp
         );
       }
 
-      if (item.tipoContacto == "5") {
+      if (item.tipoContacto == '5') {
         this.leerAccionPorTarea(item.id);
       }
     }
@@ -1447,24 +1451,24 @@ export class MisGestionesDetalleComponent implements OnInit {
       .subscribe(
         (res) => {
           if (res.exito) {
-            this.$target = "";
-            this.$codRespuesta = "";
-            this.$tipoGestion = "";
+            this.$target = '';
+            this.$codRespuesta = '';
+            this.$tipoGestion = '';
             this.$duracion = 0;
-            Swal.fire("Actualizar Tarea", res.mensaje, "success");
+            Swal.fire('Actualizar Tarea', res.mensaje, 'success');
             // this.eventosService.leerNotifyEmitter.emit({tipo: '04', id: item.id});
             this.$opneClass = true;
-            this.updateNotifications({ tipo: "04", id: item.id });
-            this.$condicion = "0";
+            this.updateNotifications({tipo: '04', id: item.id});
+            this.$condicion = '0';
             this.listarAcciones(this.credito.id, this.credito.asignacionId);
             this.spinner.hide();
           } else {
-            Swal.fire("Actualizar Tarea", res.mensaje, "error");
+            Swal.fire('Actualizar Tarea', res.mensaje, 'error');
             this.spinner.hide();
           }
         },
         (err) => {
-          Swal.fire("Actualizar Tarea", "Ocurrio un error", "error");
+          Swal.fire('Actualizar Tarea', 'Ocurrio un error', 'error');
           this.spinner.hide();
         }
       );
@@ -1491,9 +1495,9 @@ export class MisGestionesDetalleComponent implements OnInit {
   guardarCometario(tareaId) {
     if (this.comentario.trim().length == 0) {
       Swal.fire(
-        "Crear Comentario",
-        "Debe ingresar un comentario valido.",
-        "warning"
+        'Crear Comentario',
+        'Debe ingresar un comentario valido.',
+        'warning'
       );
       return;
     }
@@ -1506,8 +1510,8 @@ export class MisGestionesDetalleComponent implements OnInit {
     this.gestionAdministrativaService.crearTareaComentario(comment).subscribe(
       (res) => {
         if (res.exito) {
-          this.comentario = "";
-          Swal.fire("Crear Comentario", res.mensaje, "success");
+          this.comentario = '';
+          Swal.fire('Crear Comentario', res.mensaje, 'success');
           this.listarActividadPorTarea(tareaId);
         }
         this.spinner.hide();
@@ -1522,11 +1526,11 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   desactivarActividad(tareaId) {
     Swal.fire({
-      text: "Estas segura de eliminar la actividad?",
-      icon: "warning",
+      text: 'Estas segura de eliminar la actividad?',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: "Si, Eliminar",
-      cancelButtonText: "Cancelar",
+      confirmButtonText: 'Si, Eliminar',
+      cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
         this.spinner.show();
@@ -1535,20 +1539,20 @@ export class MisGestionesDetalleComponent implements OnInit {
           .subscribe(
             (res) => {
               if (res.exito) {
-                Swal.fire("Actividad", res.mensaje, "success");
+                Swal.fire('Actividad', res.mensaje, 'success');
                 this.spinner.hide();
                 this.listarActividadPorTarea(tareaId);
               } else {
                 Swal.fire(
-                  "Actividad",
-                  res.mensaje ? res.mensaje : "Error en el proceso",
-                  "error"
+                  'Actividad',
+                  res.mensaje ? res.mensaje : 'Error en el proceso',
+                  'error'
                 );
                 this.spinner.hide();
               }
             },
             (err) => {
-              Swal.fire("Actividad", "Error en el proceso", "error");
+              Swal.fire('Actividad', 'Error en el proceso', 'error');
               this.spinner.hide();
             }
           );
@@ -1561,17 +1565,17 @@ export class MisGestionesDetalleComponent implements OnInit {
     this.gestionAdministrativaService.iniciarTarea(item.id).subscribe(
       (res) => {
         if (res.exito) {
-          item.codRespuesta = "02";
+          item.codRespuesta = '02';
           // this.eventosService.leerNotifyEmitter.emit({tipo: '04'});
           this.$opneClass = true;
-          this.updateNotifications({ tipo: "04" });
+          this.updateNotifications({tipo: '04'});
         } else {
-          Swal.fire("Iniciar Tarea", res.mensaje ? res.mensaje : "", "error");
+          Swal.fire('Iniciar Tarea', res.mensaje ? res.mensaje : '', 'error');
         }
         this.iniciarTarea = false;
       },
       (err) => {
-        Swal.fire("Iniciar Tarea", "Ocurrio un error en el proceso.", "error");
+        Swal.fire('Iniciar Tarea', 'Ocurrio un error en el proceso.', 'error');
         this.iniciarTarea = false;
       }
     );
@@ -1583,7 +1587,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       .subscribe((res) => {
         if (res.exito) {
           // this.eventosService.leerNotifyEmitter.emit({tipo: '04', id});
-          this.updateNotifications({ tipo: "04", id });
+          this.updateNotifications({tipo: '04', id});
         }
       });
   }
@@ -1599,7 +1603,7 @@ export class MisGestionesDetalleComponent implements OnInit {
             this.pagos = res.pagos as any[];
           }
           // this.eventosService.leerNotifyEmitter.emit({tipo: '05', id});
-          this.updateNotifications({ tipo: "05", id });
+          this.updateNotifications({tipo: '05', id});
         }
         this.cargandoImagenes = false;
       },
@@ -1617,16 +1621,16 @@ export class MisGestionesDetalleComponent implements OnInit {
   }
 
   generarCeros(numero: string, ceros: number) {
-    return String(numero).padStart(ceros, "0");
+    return String(numero).padStart(ceros, '0');
   }
 
   eviarWhatsapp() {
     if (this.formWhatsapp.invalid) {
-      Swal.fire("Enviar Whatsapp", "Debe ingresar todos los datos.", "warning");
+      Swal.fire('Enviar Whatsapp', 'Debe ingresar todos los datos.', 'warning');
       return;
     }
 
-    const { url, ...whatsapp } = this.formWhatsapp.getRawValue();
+    const {url, ...whatsapp} = this.formWhatsapp.getRawValue();
     whatsapp.creditoId = this.credito.id;
     whatsapp.codPersona = this.credito.socioId;
     whatsapp.asignacionId = this.credito.asignacionId;
@@ -1637,17 +1641,17 @@ export class MisGestionesDetalleComponent implements OnInit {
       .subscribe(
         (res) => {
           if (res.exito) {
-            Swal.fire("Envio de Whatsapp", res.mensaje, "success");
-            this.formWhatsapp.reset({ numero: "", mensaje: this.$body });
+            Swal.fire('Envio de Whatsapp', res.mensaje, 'success');
+            this.formWhatsapp.reset({numero: '', mensaje: this.$body});
             this.listarAcciones(this.credito.id, this.credito.asignacionId);
             this.showNewWhatsapp = false;
           } else {
-            Swal.fire("Envio de Whatsapp", res.mensaje, "error");
+            Swal.fire('Envio de Whatsapp', res.mensaje, 'error');
           }
           this.spinner.hide();
         },
         (err) => {
-          Swal.fire("Envio de Whatsapp", "Ocurrio un error", "error");
+          Swal.fire('Envio de Whatsapp', 'Ocurrio un error', 'error');
           this.spinner.hide();
         }
       );
@@ -1663,7 +1667,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   respuestaSeleccionada(event: any) {
     this.$detalles = [];
     const res = this.respuestas.find((i) => i.codItem == event);
-    this.$detalles = res ? res.strValor.split(",") : [];
+    this.$detalles = res ? res.strValor.split(',') : [];
   }
 
   updateNotifications(data: any) {
@@ -1672,6 +1676,17 @@ export class MisGestionesDetalleComponent implements OnInit {
       console.log(data);
       this.eventosService.leerNotifyEmitter.emit(data);
       this.$opneClass = false;
+    }
+
+  }
+  isPay(cuota: any) {
+    if (cuota.fechaUltimoPago) {
+      const date = moment(cuota.fechaUltimoPago).format('YYYY-MM-DD');
+      const date2 = moment(cuota.fechaVcmto).format('YYYY-MM-DD');
+      if (moment(date).isAfter(date2)) {
+        return 'table-danger';
+      }
+      return 'table-success';
     }
 
   }

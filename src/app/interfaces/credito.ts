@@ -102,4 +102,5 @@ export interface Credito {
   usuarioUltimaModificacionRegistro?: string;
   zonaCobranza?: string;
   asignacionId?: number;
+  cronogramas?: any[];
 }

@@ -1146,7 +1146,38 @@
                             </div>
                         </ng-template>
                     </ngb-tab>
+                  <ngb-tab>
+                    <ng-template ngbTabTitle>Cronograma</ng-template>
+                    <ng-template ngbTabContent>
+                      <div class="table-responsive" *ngIf="credito?.cronogramas.length > 0">
+                        <table datatable [dtOptions]="dtOptions" class="table table-bordered ">
+                          <thead>
+                          <tr class="text-center">
+                            <th>Num. Cuota</th>
+                            <th>Monto Cuota</th>
+                            <th>Interes</th>
+                            <th>Fecha Vencimiento</th>
+                            <th>Fecha Pago</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr *ngFor="let item of credito.cronogramas" [class]="isPay(item)" style="font-size: 12px; text-align: center">
 
+                            <td>{{ item.nroCuota }} </td>
+                            <td>{{ item.cuotaTotal | currency: credito.codMoneda+ ' ' }} </td>
+                            <td>{{ item.interes | currency: credito.codMoneda+ ' ' }} </td>
+                            <td>
+                              <span *ngIf="item.fechaVcmto">{{ item.fechaVcmto | date: 'dd/MM/yyyy' }}</span>
+                            </td>
+                            <td>
+                              <span *ngIf="item.fechaUltimoPago">{{ item.fechaUltimoPago | date: 'dd/MM/yyyy' }}</span>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </ng-template>
+                  </ngb-tab>
                 </ngb-tabset>
             </div>
         </div>
