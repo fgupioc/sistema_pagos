@@ -190,6 +190,7 @@ export class CreditoSocioComponent implements OnInit {
   }
 
   ngOnInit() {
+    setTimeout(() => this.spinner.show(), 1);
     this.listarTipoDirecciones();
     this.listarTipoviviendas();
     this.listarTipoVias();
@@ -1014,8 +1015,6 @@ export class CreditoSocioComponent implements OnInit {
       codTipoNotificacion: ['', [Validators.required]],
       codUso: ['', [Validators.required]],
     });
-
-    setTimeout(() => this.spinner.show(), 200);
     this.buscarSocioById(this.credito.socioId);
     if (this.asignacionId && this.ejecutivoId) {
       this.loadRecordatorios(this.asignacionId, this.ejecutivoId, this.credito.socioId, this.credito.id);
@@ -1394,11 +1393,8 @@ export class CreditoSocioComponent implements OnInit {
           this.collectionSize = this.acciones.length;
           this.refreshCountries();
         }
-        this.spinner.hide();
       },
       error => {
-        console.log(error);
-        this.spinner.hide();
       }
     );
   }
@@ -1407,8 +1403,10 @@ export class CreditoSocioComponent implements OnInit {
     this.asignacionCarteraService.listarTableroTareasPorEjecutivo(ejecutivoId).subscribe(
       res => {
         this.misTableros = res;
+        this.spinner.hide();
       },
       err => {
+        this.spinner.hide();
       }
     );
   }
