@@ -794,166 +794,6 @@ export class MisGestionesDetalleComponent implements OnInit {
     });
   }
 
-  guardarTarea() {
-    if (this.formTarea.invalid) {
-      Swal.fire(
-        'Crear Tarea',
-        'Debe ingresar los campos obligatorios.',
-        'warning'
-      );
-      return;
-    }
-    const task: any = this.formTarea.getRawValue();
-    task.etapaActual = CONST.C_STR_ETAPA_EN_LISTA;
-    task.creditoId = this.credito.id;
-    task.socioId = this.credito.socioId;
-    task.asignacionId = this.credito.asignacionId;
-    task.condicion = '0';
-
-    delete task.horaA;
-    delete task.horaB;
-    delete task.minA;
-    delete task.minB;
-    delete task.tiempoA;
-    delete task.tiempoB;
-    this.spinner.show();
-    this.gestionAdministrativaService
-      .crearTarea(task.tableroTareaId, task)
-      .subscribe(
-        (res) => {
-          if (res.exito) {
-            this.formTarea.reset();
-            this.listarAcciones(this.credito.id, this.credito.asignacionId);
-            this.showNewTask = false;
-            // this.eventosService.leerNotifyEmitter.emit({tipo: '04'});
-            this.$opneClass = true;
-            this.updateNotifications({tipo: '04'});
-          } else {
-            Swal.fire('Crear Tarea', res.mensaje, 'error');
-          }
-          this.spinner.hide();
-        },
-        (err) => {
-          this.spinner.hide();
-          Swal.fire('Crear Tarea', 'Ocurrio un error', 'error');
-        }
-      );
-  }
-
-  cambioFechaVencimient() {
-    const hora = Number(moment().format('h'));
-    const min = Number(moment().format('mm'));
-    const tiempo = moment().format('a');
-    const $horaS = hora + 1 < 10 ? '0' + (hora + 1) : String(hora);
-    this.formTarea.controls.horaA.setValue($horaS);
-    this.formTarea.controls.minA.setValue(min >= 30 ? '30' : '00');
-    this.formTarea.controls.tiempoA.setValue(tiempo);
-    this.cambioHoraVencimient();
-  }
-
-  cambioHoraVencimient() {
-    const $hora =
-      this.formTarea.controls.tiempoA.value == 'am'
-        ? this.formTarea.controls.horaA.value
-        : String(Number(this.formTarea.controls.horaA.value) + 12);
-    this.formTarea.controls.horaVencimiento.setValue(
-      `${$hora}:${this.formTarea.controls.minA.value}`
-    );
-    if (this.formTarea.controls.checkFechaRecordatorio.value) {
-      this.allHoraRecordatorio();
-    } else {
-      this.formTarea.controls.horaB.setValue('');
-      this.formTarea.controls.minB.setValue('');
-      this.formTarea.controls.tiempoB.setValue('');
-    }
-  }
-
-  cambioHoraRecordatorio() {
-    const $hora =
-      this.formTarea.controls.tiempoB.value == 'am'
-        ? this.formTarea.controls.horaB.value
-        : String(Number(this.formTarea.controls.horaB.value) + 12);
-    this.formTarea.controls.horaRecordatorio.setValue(
-      `${$hora}:${this.formTarea.controls.minB.value}`
-    );
-  }
-
-  changeRecordatorio(event: any) {
-    if (event.target.checked) {
-      if (
-        this.formTarea.controls.fechaVencimiento.value &&
-        this.formTarea.controls.horaVencimiento.value
-      ) {
-        this.formTarea.controls.fechaRecordatorio.setValue(
-          this.formTarea.controls.fechaVencimiento.value
-        );
-        this.formTarea.controls.horaRecordatorio.setValue(this.getTime);
-        this.allHoraRecordatorio();
-      } else {
-        Swal.fire(
-          'Tarea',
-          'Debe ingresar una fecha de vencimiento y hora de vencimiento',
-          'warning'
-        );
-        this.formTarea.controls.checkFechaRecordatorio.setValue(false);
-        return;
-      }
-    } else {
-      this.formTarea.controls.fechaRecordatorio.setValue(null);
-      this.formTarea.controls.horaRecordatorio.setValue(null);
-      this.formTarea.controls.horaB.setValue('');
-      this.formTarea.controls.minB.setValue('');
-      this.formTarea.controls.tiempoB.setValue('');
-      this.formTarea.controls.notificacion.setValue(false);
-      this.formTarea.controls.correo.setValue(false);
-    }
-  }
-
-  allHoraRecordatorio() {
-    const $time = this.getTime.split(':');
-    this.formTarea.controls.horaB.setValue(
-      Number($time[0]) > 12
-        ? Number($time[0]) - 12 < 10
-        ? '0' + (Number($time[0]) - 12)
-        : String(Number($time[0]) - 12)
-        : $time[0]
-    );
-    this.formTarea.controls.minB.setValue(
-      this.formTarea.controls.minA.value == '00' ? '30' : '00'
-    );
-    if (Number($time[0]) > 12) {
-      this.formTarea.controls.tiempoB.setValue('pm');
-    } else {
-      this.formTarea.controls.tiempoB.setValue('am');
-    }
-  }
-
-  chengeFehcaRecordatorio(event: any) {
-    if (
-      moment(this.formTarea.controls.fechaVencimiento.value).isBefore(event)
-    ) {
-      this.formTarea.controls.fechaRecordatorio.setValue(
-        this.formTarea.controls.fechaVencimiento.value
-      );
-    } else {
-      if (moment().isAfter(event)) {
-        // this.formTarea.controls.fechaRecordatorio.setValue(moment().format('YYYY-MM-DD'));
-      } else {
-        // this.formTarea.controls.fechaRecordatorio.setValue(event);
-      }
-    }
-  }
-
-  get getTime() {
-    if (this.formTarea.controls.horaVencimiento.value) {
-      const time =
-        Number(this.formTarea.controls.horaVencimiento.value.slice(0, 2)) - 1;
-      return time < 10 ? `0${time}:00` : `${time}:00`;
-    } else {
-      return '09:00';
-    }
-  }
-
   listarTablero() {
     this.gestionAdministrativaService
       .listarTableroTareasPorEjecutivo()
@@ -964,49 +804,6 @@ export class MisGestionesDetalleComponent implements OnInit {
         (err) => {
         }
       );
-  }
-
-  crearTablero() {
-    Swal.fire({
-      title: 'Ingrese un nombre',
-      input: 'text',
-      inputAttributes: {
-        autocapitalize: 'off',
-      },
-      showCancelButton: true,
-      confirmButtonText: 'Crear',
-      cancelButtonText: 'Cancelar',
-      showLoaderOnConfirm: false,
-      inputValidator: (value) => {
-        if (!value) {
-          return 'El nombre es obligatorio.';
-        }
-      },
-    }).then((result) => {
-      if (result.value) {
-        const data: EjecutivoAsignacion = {
-          nombre: result.value,
-          slug: FUNC.slugGenerate(result.value),
-          ejecutivoId: this.auth.loggedUser.id,
-          visibilidad: '01',
-        };
-        this.spinner.show();
-        this.gestionAdministrativaService.crearAsignacionTarea(data).subscribe(
-          (res) => {
-            if (res.exito) {
-              Swal.fire('Crear Nuevo Tablero', res.mensaje, 'success');
-              this.listarTablero();
-            } else {
-              Swal.fire('Crear Nuevo Tablero', res.mensaje, 'error');
-            }
-            this.spinner.hide();
-          },
-          (err) => {
-            Swal.fire('Crear Nuevo Tablero', 'Ocurrio un error', 'error');
-          }
-        );
-      }
-    });
   }
 
   guardarCorreo() {
@@ -1679,6 +1476,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     }
 
   }
+
   isPay(cuota: any) {
     if (cuota.fechaUltimoPago) {
       const date = moment(cuota.fechaUltimoPago).format('YYYY-MM-DD');
@@ -1688,6 +1486,36 @@ export class MisGestionesDetalleComponent implements OnInit {
       }
       return 'table-success';
     }
+  }
 
+  saveTask(data: any) {
+    if (!data.showNewTask) {
+      this.showNewTask = data.showNewTask;
+      this.$detalles = [];
+    }
+    if (data.task) {
+      this.spinner.show();
+      this.gestionAdministrativaService
+        .crearTarea(data.task.tableroTareaId, data.task)
+        .subscribe(
+          (res) => {
+            if (res.exito) {
+              this.formTarea.reset();
+              this.listarAcciones(this.credito.id, this.credito.asignacionId);
+              this.showNewTask = false;
+              // this.eventosService.leerNotifyEmitter.emit({tipo: '04'});
+              this.$opneClass = true;
+              this.updateNotifications({tipo: '04'});
+            } else {
+              Swal.fire('Crear Tarea', res.mensaje, 'error');
+            }
+            this.spinner.hide();
+          },
+          (err) => {
+            this.spinner.hide();
+            Swal.fire('Crear Tarea', 'Ocurrio un error', 'error');
+          }
+        );
+    }
   }
 }

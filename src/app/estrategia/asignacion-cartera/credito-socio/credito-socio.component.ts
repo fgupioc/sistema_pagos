@@ -54,7 +54,6 @@ export class CreditoSocioComponent implements OnInit {
   formTelefono: FormGroup;
   formCorreo: FormGroup;
   formDireccion: FormGroup;
-  formTarea: FormGroup;
 
   credito: Credito;
   nroCredito: any;
@@ -1039,20 +1038,6 @@ export class CreditoSocioComponent implements OnInit {
       distrito: ['', Validators.required],
     });
 
-    this.formTarea = this.formBuilder.group({
-      tableroTareaId: ['', [Validators.required]],
-      nombre: ['', [Validators.required]],
-      prioridad: [0, [Validators.required]],
-      codActividad: ['', [Validators.required]],
-      descripcion: ['', [Validators.required]],
-      fechaVencimiento: ['', [Validators.required]],
-      horaVencimiento: ['', [Validators.required]],
-      horaRecordatorio: [''],
-      fechaRecordatorio: [''],
-      checkFechaRecordatorio: [false],
-      notificacion: [false],
-      correo: [false],
-    });
     this.refreshCountries();
   }
 
@@ -1123,116 +1108,6 @@ export class CreditoSocioComponent implements OnInit {
 
   get conPermiso() {
     return moment().isBetween(this.campania.startDate, this.campania.endDate);
-  }
-
-  crearTablero() {
-    Swal.fire({
-      title: 'Ingrese un nombre',
-      input: 'text',
-      inputAttributes: {
-        autocapitalize: 'off'
-      },
-      showCancelButton: true,
-      confirmButtonText: 'Crear',
-      cancelButtonText: 'Cancelar',
-      showLoaderOnConfirm: false,
-      inputValidator: (value) => {
-        if (!value) {
-          return 'El nombre es obligatorio.';
-        }
-      }
-    }).then((result) => {
-      if (result.value) {
-        const data: EjecutivoAsignacion = {
-          nombre: result.value,
-          slug: FUNC.slugGenerate(result.value),
-          ejecutivoId: this.ejecutivoId,
-          visibilidad: '01',
-        };
-        this.spinner.show();
-        this.asignacionCarteraService.crearAsignacionTarea(data).subscribe(
-          res => {
-            if (res.exito) {
-              Swal.fire('Crear Nuevo Tablero', res.mensaje, 'success');
-              this.listarTablero(this.ejecutivoId);
-            } else {
-              Swal.fire('Crear Nuevo Tablero', res.mensaje, 'error');
-            }
-            this.spinner.hide();
-          },
-          err => {
-            Swal.fire('Crear Nuevo Tablero', 'Ocurrio un error', 'error');
-          }
-        );
-      }
-    });
-  }
-
-  changeRecordatorio(event: any) {
-    if (event.target.checked) {
-      if (this.formTarea.controls.fechaVencimiento.value && this.formTarea.controls.horaVencimiento.value) {
-        this.formTarea.controls.fechaRecordatorio.setValue(this.formTarea.controls.fechaVencimiento.value);
-        this.formTarea.controls.horaRecordatorio.setValue(this.getTime);
-      } else {
-        Swal.fire('Tarea', 'Debe ingresar una fecha de vencimiento y hora de vencimiento', 'warning');
-        this.formTarea.controls.checkFechaRecordatorio.setValue(false);
-        return;
-      }
-    } else {
-      this.formTarea.controls.fechaRecordatorio.setValue(null);
-      this.formTarea.controls.horaRecordatorio.setValue(null);
-    }
-  }
-
-  get getTime() {
-    if (this.formTarea.controls.horaVencimiento.value) {
-      const time = Number(this.formTarea.controls.horaVencimiento.value.slice(0, 2)) - 1;
-      return time < 10 ? `0${time}:00` : `${time}:00`;
-    } else {
-      return '09:00';
-    }
-  }
-
-  chengeFehcaRecordatorio(event: any) {
-    if (moment(this.formTarea.controls.fechaVencimiento.value).isBefore(event)) {
-      this.formTarea.controls.fechaRecordatorio.setValue(this.formTarea.controls.fechaVencimiento.value);
-    } else {
-      if (moment().isAfter(event)) {
-        // this.formTarea.controls.fechaRecordatorio.setValue(moment().format('YYYY-MM-DD'));
-      } else {
-        // this.formTarea.controls.fechaRecordatorio.setValue(event);
-      }
-    }
-  }
-
-  guardarTarea() {
-    if (this.formTarea.invalid) {
-      Swal.fire('Crear Tarea', 'Debe ingresar los campos obligatorios.', 'warning');
-      return;
-    }
-    const task: Tarea = this.formTarea.getRawValue();
-    task.etapaActual = CONST.C_STR_ETAPA_EN_LISTA;
-    task.creditoId = this.credito.id;
-    task.socioId = this.credito.socioId;
-    task.asignacionId = this.credito.asignacionId;
-    task.condicion = '0';
-    this.spinner.show();
-    this.asignacionCarteraService.crearTarea(task.tableroTareaId, task).subscribe(
-      res => {
-        if (res.exito) {
-          this.formTarea.reset();
-          this.listarAcciones(this.credito.id, this.credito.asignacionId);
-          this.showNewTask = false;
-        } else {
-          Swal.fire('Crear Tarea', res.mensaje, 'error');
-        }
-        this.spinner.hide();
-      },
-      err => {
-        this.spinner.hide();
-        Swal.fire('Crear Tarea', 'Ocurrio un error', 'error');
-      }
-    );
   }
 
   refreshCountries() {
@@ -1409,5 +1284,29 @@ export class CreditoSocioComponent implements OnInit {
         this.spinner.hide();
       }
     );
+  }
+
+  saveTask(data: any) {
+    if (!data.showNewTask) {
+      this.showNewTask = data.showNewTask;
+    }
+    if (data.task) {
+      this.spinner.show();
+      this.asignacionCarteraService.crearTarea(data.task.tableroTareaId, data.task).subscribe(
+        res => {
+          if (res.exito) {
+            this.listarAcciones(this.credito.id, this.credito.asignacionId);
+            this.showNewTask = false;
+          } else {
+            Swal.fire('Crear Tarea', res.mensaje, 'error');
+          }
+          this.spinner.hide();
+        },
+        err => {
+          this.spinner.hide();
+          Swal.fire('Crear Tarea', 'Ocurrio un error', 'error');
+        }
+      );
+    }
   }
 }

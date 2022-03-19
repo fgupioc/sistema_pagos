@@ -74,6 +74,7 @@ import { CarterasVencidasComponent } from './procesos/cartera-vencida/carteras-v
 import { CarteraVencidaSocioComponent } from './procesos/cartera-vencida/cartera-vencida-socio/cartera-vencida-socio.component';
 import { CarteraObservadasComponent } from './procesos/cartera-vencida/cartera-observadas/cartera-observadas.component';
 import { CarteraObservadaComponent } from './procesos/cartera-vencida/cartera-observada/cartera-observada.component';
+import { GestionarTareaComponent } from './componentes/gestionar-tarea/gestionar-tarea.component';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -135,6 +136,7 @@ const ngWizardConfig: NgWizardConfig = {
     CarteraVencidaSocioComponent,
     CarteraObservadasComponent,
     CarteraObservadaComponent,
+    GestionarTareaComponent,
   ],
   imports: [
     CommonModule,
