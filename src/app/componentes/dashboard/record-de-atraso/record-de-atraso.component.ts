@@ -43,7 +43,7 @@ export class RecordDeAtrasoComponent implements OnInit {
     this.listarCarteras();
   }
 
-  private loadData(carteraId: any) {
+  loadData(carteraId: any) {
     this.spinner.show();
     this.dashboardService.getRecordAtraso(carteraId).subscribe(
       res => {

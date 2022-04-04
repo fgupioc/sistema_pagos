@@ -61,7 +61,7 @@
         </div>
         <div [class]="typePhone == $movil ? 'col-6' : 'col-4'">
             <div class="input-group mb-3">
-                <input Number type="text" class="form-control" placeholder="Número Telefóno" [maxlength]="max" formControlName="numero" [ngClass]="
+                <input Number type="text" class="form-control" placeholder="Número Telefóno" [maxlength]="getMax()" formControlName="numero" [ngClass]="
             {
             'is-invalid': formulario.controls['numero'].touched && formulario.controls['numero'].errors
             }

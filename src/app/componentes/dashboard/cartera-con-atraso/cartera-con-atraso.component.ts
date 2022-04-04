@@ -43,7 +43,7 @@ export class CarteraConAtrasoComponent implements OnInit {
   }
 
 
-  private loadData(carteraId: any) {
+  loadData(carteraId: any) {
     this.chartDolar = [];
     this.chartSoles = [];
     this.spinner.show();

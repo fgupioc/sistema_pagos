@@ -21,8 +21,8 @@ export class SocioListTelefonosComponent implements OnInit {
   formulario: FormGroup;
   typePhone = '01';
   max = 9;
-  $fijo = 2;
-  $movil = 1;
+  $fijo = '2';
+  $movil = '1';
   create = true;
 
   constructor(
@@ -157,5 +157,9 @@ export class SocioListTelefonosComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  getMax(): string {
+    return String(this.max);
   }
 }

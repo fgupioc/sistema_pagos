@@ -10,11 +10,11 @@ import {MenuService} from '../../../servicios/sistema/menu.service';
 import {DatePipe} from '@angular/common';
 import Swal from 'sweetalert2';
 import {CONST} from '../../../comun/CONST';
-import {UsuarioUnicoService} from '../../../validaciones/usuario-unico.directive';
 import {PersonaService} from '../../../servicios/persona.service';
 import {Select2OptionData} from 'ng2-select2';
 import {Rol} from '../../../interfaces/rol';
 import {RolService} from '../../../servicios/rol.service';
+import {UsuarioUnicoService} from '../../../validaciones/usuario-unico.service';
 
 @Component({
   selector: 'app-usuario-crear',

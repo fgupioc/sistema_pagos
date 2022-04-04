@@ -12,10 +12,10 @@ import {MenuService} from '../../../servicios/sistema/menu.service';
 import {DefaultTreeviewI18n} from '../../../../lib/default-treeview-i18n';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CONST} from '../../../comun/CONST';
-import {UsuarioUnicoService} from '../../../validaciones/usuario-unico.directive';
 import {Select2OptionData} from 'ng2-select2';
 import {Rol} from '../../../interfaces/rol';
 import {RolService} from '../../../servicios/rol.service';
+import {UsuarioUnicoService} from '../../../validaciones/usuario-unico.service';
 
 @Component({
   selector: 'app-usuario-editar',

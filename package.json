@@ -8,11 +8,12 @@
         "build": "ng build",
         "test": "ng test",
         "lint": "ng lint",
-        "e2e": "ng e2e"
+        "e2e": "ng e2e",
+        "build-prod": "node --max_old_space_size=100000 ./node_modules/@angular/cli/bin/ng build --prod --configuration production --aot=true --buildOptimizer=true --output-hashing=all"
     },
     "private": true,
     "dependencies": {
-        "@agm/core": "^3.0.0-beta.0",
+        "@agm/core": "^1.1.0",
         "@angular/animations": "~8.0.3",
         "@angular/common": "~8.0.3",
         "@angular/compiler": "~8.0.3",

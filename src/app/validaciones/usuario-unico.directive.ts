@@ -9,8 +9,18 @@ import {map} from 'rxjs/operators';
   providers: [{provide: NG_ASYNC_VALIDATORS, useExisting: UsuarioUnicoDirective, multi: true}]
 })
 export class UsuarioUnicoDirective implements AsyncValidator {
+  usuarioService: UsuarioService;
+  usuarioId: number;
 
-  constructor(private usuarioService: UsuarioService, private usuarioId: number) {
+  constructor() {
+  }
+
+  public setUsuarioService(usuarioService: UsuarioService) {
+    this.usuarioService = usuarioService;
+  }
+
+  public setUsuarioId(usuarioId: number) {
+    this.usuarioId = usuarioId;
   }
 
   validate(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
@@ -19,17 +29,5 @@ export class UsuarioUnicoDirective implements AsyncValidator {
           return resp.exito ? null : {emailTomado: true};
         })
       );
-  }
-}
-
-@Injectable({providedIn: 'root'})
-export class UsuarioUnicoService implements AsyncValidator {
-  constructor(private usuarioService: UsuarioService) {
-  }
-
-  // @ts-ignore
-  validate(usuarioId: number, control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
-    const usuarioUnicoDirective = new UsuarioUnicoDirective(this.usuarioService, usuarioId);
-    return usuarioUnicoDirective.validate(control);
   }
 }

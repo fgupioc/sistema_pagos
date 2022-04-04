@@ -12,11 +12,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AutorizacionService} from '../../servicios/autorizacion.service';
 import {CONST} from '../../comun/CONST';
-import {RolUnicoService} from '../../validaciones/rol-unico.directive';
 import Swal from 'sweetalert2';
 import {Rol} from '../../interfaces/rol';
 import {RolBuscarUsuarioComponent} from '../rol-buscar-usuario/rol-buscar-usuario.component';
 import {TablaMaestra} from '../../interfaces/tabla-maestra';
+import {RolUnicoService} from '../../validaciones/rol-unico.service';
 
 declare const $: any;
 

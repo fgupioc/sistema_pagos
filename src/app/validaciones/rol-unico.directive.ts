@@ -10,8 +10,18 @@ import {CONST} from '../comun/CONST';
   providers: [{provide: NG_ASYNC_VALIDATORS, useExisting: RolUnicoDirective, multi: true}]
 })
 export class RolUnicoDirective implements AsyncValidator {
+  rolService: RolService;
+  rolId: number;
 
-  constructor(private rolService: RolService, private rolId: number) {
+  constructor() {
+  }
+
+  public setRolService(rolService: RolService) {
+    this.rolService = rolService;
+  }
+
+  public setRolId(rolId: number) {
+    this.rolId = rolId;
   }
 
   validate(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
@@ -20,17 +30,5 @@ export class RolUnicoDirective implements AsyncValidator {
           return resp.codigo == CONST.C_STR_CODIGO_SUCCESS ? null : {rolTomado: true};
         })
       );
-  }
-}
-
-@Injectable({providedIn: 'root'})
-export class RolUnicoService implements AsyncValidator {
-  constructor(private rolService: RolService) {
-  }
-
-  // @ts-ignore
-  validate(rolId: number, control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
-    const rolUnicoDirective = new RolUnicoDirective(this.rolService, rolId);
-    return rolUnicoDirective.validate(control);
   }
 }

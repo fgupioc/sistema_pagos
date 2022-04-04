@@ -36,7 +36,7 @@ export class RolBuscarUsuarioComponent implements OnInit {
     this.dtOptions = CONST.C_OBJ_DT_OPCIONES();
   }
 
-  private buscarUsuarios() {
+  buscarUsuarios() {
     this.listaUsuarios = [];
     this.spinner.show();
     this.buscarIni();

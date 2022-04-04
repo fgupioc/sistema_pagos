@@ -5,7 +5,6 @@ import {Usuario} from '../../interfaces/Usuario';
 import {TreeviewConfig, TreeviewItem} from 'ngx-treeview';
 import {RolService} from '../../servicios/rol.service';
 import {MaestroService} from '../../servicios/sistema/maestro.service';
-import {RolUnicoService} from '../../validaciones/rol-unico.directive';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {ToastrService} from 'ngx-toastr';
 import {MenuService} from '../../servicios/sistema/menu.service';
@@ -16,6 +15,7 @@ import {CONST} from '../../comun/CONST';
 import {RolBuscarUsuarioComponent} from '../rol-buscar-usuario/rol-buscar-usuario.component';
 import {Rol} from '../../interfaces/rol';
 import {TablaMaestra} from '../../interfaces/tabla-maestra';
+import {RolUnicoService} from '../../validaciones/rol-unico.service';
 
 @Component({
   selector: 'app-rol-editar',

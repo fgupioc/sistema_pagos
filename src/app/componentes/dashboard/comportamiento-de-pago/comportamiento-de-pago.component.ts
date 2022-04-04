@@ -21,7 +21,7 @@ export class ComportamientoDePagoComponent implements OnInit {
     this.listarCarteras();
   }
 
-  private listarProductosAbaco(carteraId: any) {
+  listarProductosAbaco(carteraId: any) {
     this.spinner.show();
     this.dashboardService.getComportamientoPago(carteraId).subscribe(
       res => {
