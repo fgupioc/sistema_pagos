@@ -75,6 +75,8 @@ import { CarteraVencidaSocioComponent } from './procesos/cartera-vencida/cartera
 import { CarteraObservadasComponent } from './procesos/cartera-vencida/cartera-observadas/cartera-observadas.component';
 import { CarteraObservadaComponent } from './procesos/cartera-vencida/cartera-observada/cartera-observada.component';
 import { GestionarTareaComponent } from './componentes/gestionar-tarea/gestionar-tarea.component';
+import {UsuarioUnicoService} from '../validaciones/usuario-unico.directive';
+import {RolUnicoService} from '../validaciones/rol-unico.directive';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -182,7 +184,9 @@ const ngWizardConfig: NgWizardConfig = {
     ModalTableroNuevaTareaComponent
   ],
   providers: [
-    AsignacionCarteraService
+    AsignacionCarteraService,
+    UsuarioUnicoService,
+    RolUnicoService,
   ]
 })
 export class EstrategiaModule {

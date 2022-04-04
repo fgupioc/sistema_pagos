@@ -15,7 +15,7 @@ import {CONST} from '../../comun/CONST';
 import {RolBuscarUsuarioComponent} from '../rol-buscar-usuario/rol-buscar-usuario.component';
 import {Rol} from '../../interfaces/rol';
 import {TablaMaestra} from '../../interfaces/tabla-maestra';
-import {RolUnicoService} from '../../validaciones/rol-unico.service';
+import {RolUnicoService} from '../../validaciones/rol-unico.directive';
 
 @Component({
   selector: 'app-rol-editar',

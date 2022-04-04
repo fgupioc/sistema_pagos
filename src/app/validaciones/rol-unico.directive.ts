@@ -32,3 +32,17 @@ export class RolUnicoDirective implements AsyncValidator {
       );
   }
 }
+
+@Injectable({providedIn: 'root'})
+export class RolUnicoService implements AsyncValidator {
+  constructor(private rolService: RolService) {
+  }
+
+  // @ts-ignore
+  validate(rolId: number, control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
+    const rolUnicoDirective = new RolUnicoDirective();
+    rolUnicoDirective.setRolService(this.rolService);
+    rolUnicoDirective.setRolId(rolId);
+    return rolUnicoDirective.validate(control);
+  }
+}

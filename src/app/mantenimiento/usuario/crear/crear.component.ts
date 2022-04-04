@@ -14,7 +14,7 @@ import {PersonaService} from '../../../servicios/persona.service';
 import {Select2OptionData} from 'ng2-select2';
 import {Rol} from '../../../interfaces/rol';
 import {RolService} from '../../../servicios/rol.service';
-import {UsuarioUnicoService} from '../../../validaciones/usuario-unico.service';
+import {UsuarioUnicoService} from '../../../validaciones/usuario-unico.directive';
 
 @Component({
   selector: 'app-usuario-crear',

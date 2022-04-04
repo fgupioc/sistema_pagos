@@ -16,7 +16,7 @@ import Swal from 'sweetalert2';
 import {Rol} from '../../interfaces/rol';
 import {RolBuscarUsuarioComponent} from '../rol-buscar-usuario/rol-buscar-usuario.component';
 import {TablaMaestra} from '../../interfaces/tabla-maestra';
-import {RolUnicoService} from '../../validaciones/rol-unico.service';
+import {RolUnicoService} from '../../validaciones/rol-unico.directive';
 
 declare const $: any;
 
