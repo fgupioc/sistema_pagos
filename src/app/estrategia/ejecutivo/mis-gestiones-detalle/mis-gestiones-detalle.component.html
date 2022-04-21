@@ -885,6 +885,7 @@
                                                         <th scope="col">Operador</th>
                                                         <th scope="col">Tipo</th>
                                                         <th scope="col">Notificación</th>
+                                                        <th scope="col">Opciones</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -894,6 +895,9 @@
                                                         <td>{{ phone.operadorDescripcion }}</td>
                                                         <td>{{ phone.tipoUsoDescripcion }}</td>
                                                         <td>{{ phone.tipoNotificacion }}</td>
+                                                        <td>
+                                                          <button class="btn btn-sm btn-danger" (click)="eliminarTelefono(phone)"><i class="fa fa-trash"></i></button>
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>

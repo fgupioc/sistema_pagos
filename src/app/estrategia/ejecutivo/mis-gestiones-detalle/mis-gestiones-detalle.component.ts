@@ -851,34 +851,65 @@ export class MisGestionesDetalleComponent implements OnInit {
   guardarTetefono() {
     const phone: Telefono = this.formTelefono.getRawValue();
     phone.personaId = this.socio.id;
-    const tel = this.socio.telefonos.find(
-      (v) =>
-        v.codTipoNotificacion == phone.codTipoNotificacion &&
-        v.numero == phone.numero
-    );
-    if (tel) {
-      Swal.fire(
-        'Teléfono',
-        'EL teléfono ya esta asociada a una notificación',
-        'warning'
+    if (Number(phone.codTipoNotificacion) != CONST.C_INT_SMS) {
+      const tel = this.socio.telefonos.find(
+        (v) =>
+          v.codTipoNotificacion == phone.codTipoNotificacion && v.numero == phone.numero
       );
-      return;
+      if (tel) {
+        Swal.fire(
+          'Teléfono',
+          'EL teléfono ya esta asociada a una notificación',
+          'warning'
+        );
+        return;
+      }
+      this.spinner.show();
+      this.telefonoService.guardar(phone).subscribe(
+        (res) => {
+          if (res.exito) {
+            Swal.fire('Teléfono', res.mensaje, 'success');
+            this.resetFormTelefono();
+            // this.loadCredito();
+            this.listarTelefonos();
+            this.showNewPhone = false;
+          } else {
+            Swal.fire('Teléfono', res.mensaje, 'error');
+            this.spinner.hide();
+          }
+        },
+        () => this.spinner.hide()
+      );
+    } else {
+      const tel = this.socio.telefonos.find(
+        (v) =>
+          v.codTipoNotificacion == phone.codTipoNotificacion
+      );
+      if (tel) {
+        Swal.fire(
+          'Teléfono',
+          'Ya existe registrado un teléfono con el tipo de notificación SMS',
+          'warning'
+        );
+        return;
+      }
+      this.spinner.show();
+      this.telefonoService.guardar(phone).subscribe(
+        (res) => {
+          if (res.exito) {
+            Swal.fire('Teléfono', res.mensaje, 'success');
+            this.resetFormTelefono();
+            // this.loadCredito();
+            this.listarTelefonos();
+            this.showNewPhone = false;
+          } else {
+            Swal.fire('Teléfono', res.mensaje, 'error');
+            this.spinner.hide();
+          }
+        },
+        () => this.spinner.hide()
+      );
     }
-    this.spinner.show();
-    this.telefonoService.guardar(phone).subscribe(
-      (res) => {
-        if (res.exito) {
-          Swal.fire('Teléfono', res.mensaje, 'success');
-          this.resetFormTelefono();
-          this.loadCredito();
-          this.showNewPhone = false;
-        } else {
-          Swal.fire('Teléfono', res.mensaje, 'error');
-          this.spinner.hide();
-        }
-      },
-      () => this.spinner.hide()
-    );
   }
 
   resetFormTelefono() {
@@ -1517,5 +1548,35 @@ export class MisGestionesDetalleComponent implements OnInit {
           }
         );
     }
+  }
+
+  eliminarTelefono(phone: Telefono) {
+    this.spinner.show();
+    this.telefonoService.eliminar(phone).subscribe(
+      res => {
+        if (res.exito) {
+          Swal.fire('', res.mensaje, 'success');
+          this.socio.telefonos = this.socio.telefonos.filter(i => i.codTipoNotificacion != phone.codTipoNotificacion && i.telefonoId != phone.telefonoId);
+        } else {
+          Swal.fire('', res.mensaje, 'warning');
+        }
+        this.spinner.hide();
+      },
+      err => {
+        Swal.fire('', 'Ocurrio un error', 'error');
+        this.spinner.hide();
+      }
+    );
+  }
+
+  listarTelefonos() {
+    this.telefonoService.porSocioId(this.socio.id).subscribe(
+      res => {
+        this.spinner.hide();
+        this.socio.telefonos = [];
+        this.socio.telefonos = res.filter(i => i.tipoNotificacion != null);
+      },
+      err => this.spinner.hide()
+    );
   }
 }
