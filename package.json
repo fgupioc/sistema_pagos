@@ -9,7 +9,8 @@
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
-        "build-prod": "ng build --prod --configuration desa"
+        "build-desa": "ng build --base-href \"/cobranzaWeb/\" --prod --configuration desa && grunt war",
+        "build-prod": "ng build --base-href \"/cobranzaWeb/\" --prod --configuration prod && grunt war"
     },
     "private": true,
     "dependencies": {
