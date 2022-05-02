@@ -1,5 +1,5 @@
 const http = 'http';
-const URL = '192.168.1.130';
+const URL = '192.168.1.72';
 const PORT = '8080/icollectApi';
 export const environment = {
   production: true,
