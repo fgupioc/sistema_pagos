@@ -1,0 +1,67 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title">Buscar Socio!</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">X</button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12" [formGroup]="form">
+        <div class="input-group mb-3">
+          <div class="input-group-append">
+            <select class="form-control" formControlName="type" (ngModelChange)="changeType()">
+              <option value="1">Número Documento</option>
+              <option value="2">Código Socio</option>
+              <option value="3">Número Crédito</option>
+            </select>
+          </div>
+
+          <input NumberInteger type="text" class="form-control" formControlName="number" maxlength="11" [ngClass]="{
+                            'is-invalid': number.touched && number.errors,
+                            'is-valid': number.touched && !number.errors
+                             }">
+          <div class="input-group-prepend">
+            <button type="button" class="btn btn-primary" [disabled]="form.invalid" (click)="findSocio()">Buscar</button>
+          </div>
+          <div class="invalid-feedback">
+            <span *ngIf="number.hasError('required')">El valor es requerido.</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+            <tr class="text-center">
+              <th>C. Socio</th>
+              <th>Socio</th>
+              <th>Crédito</th>
+              <th>Ejecutivo</th>
+              <th>Fecha</th>
+              <th>Opciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let socio of socios; index as i; " style="font-size: 11px">
+              <td class="text-center">{{ socio.codigoSocio}}</td>
+              <td class="text-center">{{ socio.socio}}</td>
+              <td class="text-center">{{ socio.numeroCredito}}</td>
+              <td class="text-center">{{ socio.ejecutivo}}</td>
+              <td class="text-center">{{ socio.inicio}} a {{ socio.fin}}</td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-primary" placement="top" ngbTooltip="ir" (click)="ir(socio)"><i class="fa fa-arrow-right"></i></button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-12 text-center" *ngIf="socios.length == 0">
+          <samp>No hay datos</samp>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cerrar</button>
+  </div>
+</div>
+<ngx-spinner [fullScreen]="false" [name]="'findSocio'"></ngx-spinner>

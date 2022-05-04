@@ -77,6 +77,7 @@ import { CarteraObservadaComponent } from './procesos/cartera-vencida/cartera-ob
 import { GestionarTareaComponent } from './componentes/gestionar-tarea/gestionar-tarea.component';
 import {UsuarioUnicoService} from '../validaciones/usuario-unico.directive';
 import {RolUnicoService} from '../validaciones/rol-unico.directive';
+import { ModalBuscarSocioAsignacionComponent } from './componentes/modals/modal-buscar-socio-asignacion/modal-buscar-socio-asignacion.component';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -139,6 +140,7 @@ const ngWizardConfig: NgWizardConfig = {
     CarteraObservadasComponent,
     CarteraObservadaComponent,
     GestionarTareaComponent,
+    ModalBuscarSocioAsignacionComponent,
   ],
   imports: [
     CommonModule,
@@ -181,7 +183,8 @@ const ngWizardConfig: NgWizardConfig = {
     ModalAgregarCreditoComponent,
     ModalAsignarEstadoRecordatorioComponent,
     ModalNuevaTareasComponent,
-    ModalTableroNuevaTareaComponent
+    ModalTableroNuevaTareaComponent,
+    ModalBuscarSocioAsignacionComponent
   ],
   providers: [
     AsignacionCarteraService,

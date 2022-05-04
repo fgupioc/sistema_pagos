@@ -38,4 +38,7 @@ export class CreditoService {
     return this.http.post<Respuesta>(`${this.apiUrl}ejecutarCargas`, null);
   }
 
+  buscarSocioEnAsignaciones(data: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}buscarSocioEnAsignaciones`, {params: new HttpParams().set('type', data.type).set('number', data.number)});
+  }
 }

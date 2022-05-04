@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AsignacionCarteraService} from '../../servicios/asignacion-cartera.service';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ModalBuscarSocioAsignacionComponent} from '../componentes/modals/modal-buscar-socio-asignacion/modal-buscar-socio-asignacion.component';
+
 @Component({
   selector: 'app-asignacion-carter',
   templateUrl: './asignacion-cartera.component.html',
@@ -11,7 +14,8 @@ export class AsignacionCarteraComponent implements OnInit {
 
   constructor(
     private spinner: NgxSpinnerService,
-    private asignacionService: AsignacionCarteraService
+    private asignacionService: AsignacionCarteraService,
+    private modalService: NgbModal
   ) {
   }
 
@@ -36,4 +40,7 @@ export class AsignacionCarteraComponent implements OnInit {
     );
   }
 
+  findSocio() {
+    this.modalService.open(ModalBuscarSocioAsignacionComponent, {scrollable: true, size: 'lg'});
+  }
 }
