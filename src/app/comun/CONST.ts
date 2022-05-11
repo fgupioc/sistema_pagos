@@ -19,6 +19,9 @@ export class CONST {
   public static S_ESTADO_REG_ACTIVO = '1';
   public static S_ESTADO_REG_INACTIVO = '2';
 
+  public static S_ESTADO_ACTIVO = '1';
+  public static S_ESTADO_INACTIVO = '0';
+
   public static DATATABLE_ES() {
     return {
       language: {

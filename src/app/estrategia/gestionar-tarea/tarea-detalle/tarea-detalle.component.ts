@@ -159,7 +159,8 @@ export class TareaDetalleComponent implements OnInit {
   showDetail(item: Tarea) {
     const modal = this.modalService.open(ModalNuevaTareasComponent, {size: 'lg'});
     modal.componentInstance.tarea = item;
-    modal.componentInstance.creditos = this.$creditos;
+    // modal.componentInstance.creditos = this.$creditos;
+    modal.componentInstance.creditosAll = this.$creditos;
     modal.componentInstance.ejecutivoId = this.tarjeta.ejecutivoId;
     modal.componentInstance.role = this.role;
     modal.result.then(
@@ -176,7 +177,7 @@ export class TareaDetalleComponent implements OnInit {
   }
 
   loadCreditosPorEjecutivo(ejecutivoId: string) {
-    this.gestionAdministrativaService.onteberCreditosPorEjecutivo(ejecutivoId).subscribe(
+    this.gestionAdministrativaService.onteberCreditosDeAsignacionesPorEjecutivo(ejecutivoId).subscribe(
       res => {
         if (res.exito) {
           if (res.objeto) {

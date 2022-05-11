@@ -43,6 +43,7 @@ export class ModalNuevaTareasComponent implements OnInit {
   editDescription = false;
   editVencimiento = false;
   creditos: Credito[] = [];
+  creditosAll: Credito[] = [];
   credito: Credito;
   tipoActividades: TablaMaestra[] = [];
   estadosRecordatorio: TablaMaestra[] = [];
@@ -88,6 +89,7 @@ export class ModalNuevaTareasComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loadCreditos(this.ejecutivoId);
     this.listarTipoActividades();
     this.loadTipoNotificaciones();
     this.loadEstadosRecordatorios();
@@ -119,7 +121,8 @@ export class ModalNuevaTareasComponent implements OnInit {
       this.$tarea = task;
       this.creditoId = this.tarea.creditoId;
       if (this.tarea.creditoId) {
-        this.credito = this.creditos.find(i => i.id == this.tarea.creditoId);
+        this.credito = this.creditosAll.find(i => i.id == this.tarea.creditoId);
+        this.creditos.push(this.credito);
       }
       if (this.$tarea.socioId) {
         this.obtenerSocio(this.$tarea.socioId);
@@ -686,4 +689,23 @@ export class ModalNuevaTareasComponent implements OnInit {
     this.$tarea.horaRecordatorio = `${$hora}:${this.minB}`;
   }
 
+  loadCreditos(ejecutivoId: any) {
+    if (ejecutivoId) {
+      this.gestionAdministrativaService.onteberCreditosDeAsignacionesActivasPorEjecutivo(ejecutivoId).subscribe(
+        res => {
+          if (res.exito) {
+            if (res.objeto) {
+              this.creditos = res.objeto as Credito[];
+            }
+          }
+          this.spinner.hide();
+        },
+        err => {
+          Swal.fire('Tareas', 'El tablero de tareas no existe', 'error');
+          this.spinner.hide();
+        }
+      );
+    }
+
+  }
 }

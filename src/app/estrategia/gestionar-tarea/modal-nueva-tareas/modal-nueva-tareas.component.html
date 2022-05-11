@@ -247,7 +247,7 @@
                           <label>Seleccione la actividad</label>
                           <select class="form-control" formControlName="tipoActividad" (ngModelChange)="showItem = $event">
                             <option value="">Selecione</option>
-                            <option *ngFor="let item of tipoActividades" [value]="item.codItem">{{ item.descripcion }}</option>
+                            <option *ngFor="let item of tipoActividades" [value]="item.codItem">{{ item.strValor }}</option>
                           </select>
                         </div>
                       </div>

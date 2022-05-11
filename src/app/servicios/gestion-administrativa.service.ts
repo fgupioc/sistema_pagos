@@ -140,4 +140,12 @@ export class GestionAdministrativaService {
   guardarEnvioWhatsapp(data: any, url?: any): Observable<any> {
     return this.http.post<any>(`${urlBase}/envio-whatsapp-gestion`, data, {params: new HttpParams().set('url', url)});
   }
+
+  onteberCreditosDeAsignacionesActivasPorEjecutivo(ejecutivoId: string): Observable<Respuesta> {
+    return this.http.get<Respuesta>(`${urlBase}/onteberCreditosDeAsignacionesActivasPorEjecutivo`, {params: new HttpParams().set('ejecutivoId', ejecutivoId)});
+  }
+
+  onteberCreditosDeAsignacionesPorEjecutivo(ejecutivoId: string): Observable<Respuesta> {
+    return this.http.get<Respuesta>(`${urlBase}/onteberCreditosDeAsignacionesPorEjecutivo`, {params: new HttpParams().set('ejecutivoId', ejecutivoId)});
+  }
 }

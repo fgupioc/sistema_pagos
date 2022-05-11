@@ -44,10 +44,10 @@
                             <app-chart-contactabilidad [pieChartData]="charSolesAtraso" [title]=""></app-chart-contactabilidad>
                         </div>
                     </div>
-                    <div class="col-12" *ngIf="sumSoles">
+                    <div class="col-12" *ngIf="sumDolaresAtraso">
                         <div class="form-group text-center font-weight-bold">
-                            <label>{{ sumSoles + ' Soles  (Miles)' }}</label>
-                            <app-chart-contactabilidad [pieChartData]="charSoles" [title]=""></app-chart-contactabilidad>
+                            <label>{{ sumDolaresAtraso + ' Dolar  (Miles)' }}</label>
+                            <app-chart-contactabilidad [pieChartData]="charDolarAtraso" [title]=""></app-chart-contactabilidad>
                         </div>
                     </div>
                 </div>
@@ -68,10 +68,10 @@
             </div>
             <div class="card-body">
                 <div class="row" *ngIf="true">
-                    <div class="col-12" *ngIf="sumDolaresAtraso">
+                    <div class="col-12" *ngIf="sumSoles">
                         <div class=" form-group text-center font-weight-bold">
-                            <label>{{ sumDolaresAtraso + ' Dolar  (Miles)' }}</label>
-                            <app-chart-contactabilidad [pieChartData]="charDolarAtraso" [title]=""></app-chart-contactabilidad>
+                            <label>{{ sumSoles + ' Sol  (Miles)' }}</label>
+                            <app-chart-contactabilidad [pieChartData]="charSoles" [title]=""></app-chart-contactabilidad>
                         </div>
                     </div>
                     <div class="col-12" *ngIf="sumDolar">

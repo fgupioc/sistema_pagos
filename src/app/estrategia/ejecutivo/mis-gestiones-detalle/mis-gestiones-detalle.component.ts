@@ -136,6 +136,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   $detalles: any[] = [];
   $horario: any[] = [];
   $opneClass = false;
+  tipoContactoDesc = 'llamadas';
 
   constructor(
     public auth: AutenticacionService,
@@ -341,7 +342,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       (response) => {
         this.$respuestasBack = response;
         this.respuestas = this.$respuestasBack.filter(
-          (i) => i.intValor == 1 || i.intValor == 0
+          (i) => (i.intValor == 1 || i.intValor == 0) && i.codEstado == CONST.S_ESTADO_ACTIVO
         );
       },
       (error) => console.log(error)
@@ -357,7 +358,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   listarTiposContactos() {
     this.tablaMaestraService.listarTiposContactos().subscribe(
       (response) => {
-        this.tiposContacto = response.filter((i) => i.codItem != '3');
+        this.tiposContacto = response.filter((i) => i.codEstado == CONST.S_ESTADO_ACTIVO);
       },
       (error) => console.log(error)
     );
@@ -1264,7 +1265,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     if (!this.$condicion) {
       return;
     }
-
+    const target = this.$target || 'Tarea';
     this.spinner.show();
     this.gestionAdministrativaService
       .actualizarTareaCondicion(
@@ -1272,7 +1273,7 @@ export class MisGestionesDetalleComponent implements OnInit {
         this.$condicion,
         item.comentario,
         this.$tipoGestion,
-        this.$target,
+        target,
         this.$codRespuesta,
         this.$duracion
       )
@@ -1487,7 +1488,7 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   cambioGestion(event: any) {
     this.respuestas = this.$respuestasBack.filter(
-      (i) => i.intValor == Number(event) || i.intValor == 0
+      (i) => i.intValor == Number(event)
     );
     this.$detalles = [];
   }
@@ -1499,9 +1500,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   }
 
   updateNotifications(data: any) {
-    console.log(this.$opneClass);
     if (this.$opneClass) {
-      console.log(data);
       this.eventosService.leerNotifyEmitter.emit(data);
       this.$opneClass = false;
     }
@@ -1578,5 +1577,11 @@ export class MisGestionesDetalleComponent implements OnInit {
       },
       err => this.spinner.hide()
     );
+  }
+
+  obtenerTipoContacto() {
+    const tipo = this.form.controls.tipoContacto.value;
+    const item: TablaMaestra = this.tiposContacto.find(i => i.codItem == tipo);
+    this.tipoContactoDesc = item ? item.descripcion || '' : '';
   }
 }

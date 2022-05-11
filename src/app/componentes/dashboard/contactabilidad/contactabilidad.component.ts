@@ -44,15 +44,15 @@ export class ContactabilidadComponent implements OnInit {
     this.spinner.show();
     this.dashboardService.getContactabilidad(carteraId, fecha).subscribe(
       res => {
-        this.charSoles = [res.atrasoSoles.cantContactados, res.atrasoSoles.cantNoContactados, res.atrasoSoles.cantNoRespondieron];
-        this.sumSoles = this.calcularSumaMonto(res.atrasoSoles.creditos);
-        this.charDolar = [res.atrasoDolares.cantContactados, res.atrasoDolares.cantNoContactados, res.atrasoDolares.cantNoRespondieron];
-        this.sumDolar = this.calcularSumaMonto(res.atrasoDolares.creditos);
+        this.charSoles = [res.sinAtrasoSoles.cantContactados, res.sinAtrasoSoles.cantNoContactados, res.sinAtrasoSoles.cantNoRespondieron];
+        this.sumSoles = this.calcularSumaMonto(res.sinAtrasoSoles.creditos);
+        this.charDolar = [res.sinAtrasoDolares.cantContactados, res.sinAtrasoDolares.cantNoContactados, res.sinAtrasoDolares.cantNoRespondieron];
+        this.sumDolar = this.calcularSumaMonto(res.sinAtrasoDolares.creditos);
 
-        this.charSolesAtraso = [res.sinAtrasoSoles.cantContactados, res.sinAtrasoSoles.cantNoContactados, res.sinAtrasoSoles.cantNoRespondieron];
-        this.sumSolesAtraso = this.calcularSumaMonto(res.sinAtrasoSoles.creditos);
-        this.charDolarAtraso = [res.sinAtrasoDolares.cantContactados, res.sinAtrasoDolares.cantNoContactados, res.sinAtrasoDolares.cantNoRespondieron];
-        this.sumDolaresAtraso = this.calcularSumaMonto(res.sinAtrasoDolares.creditos);
+        this.charSolesAtraso = [res.atrasoSoles.cantContactados, res.atrasoSoles.cantNoContactados, res.atrasoSoles.cantNoRespondieron];
+        this.sumSolesAtraso = this.calcularSumaMonto(res.atrasoSoles.creditos);
+        this.charDolarAtraso = [res.atrasoDolares.cantContactados, res.atrasoDolares.cantNoContactados, res.atrasoDolares.cantNoRespondieron];
+        this.sumDolaresAtraso = this.calcularSumaMonto(res.atrasoDolares.creditos);
         this.spinner.hide();
       },
       err => {

@@ -10,7 +10,8 @@
         "lint": "ng lint",
         "e2e": "ng e2e",
         "build-desa": "ng build --base-href \"/cobranzaWeb/\" --prod --configuration desa && grunt war",
-        "build-prod": "ng build --base-href \"/cobranzaWeb/\" --prod --configuration prod && grunt war"
+        "build-prod": "ng build --base-href \"/cobranzaWeb/\" --prod --configuration prod && grunt war",
+        "build-clean": "rm -R dist\\ && rm -r warFile\\"
     },
     "private": true,
     "dependencies": {
