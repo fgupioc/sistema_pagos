@@ -9,16 +9,32 @@
                 <div class="row">
                     <div class="col-12 col-md-3">
                         <div class="form-group">
-                            <label>Etapas</label>
-                            <input Uppercase type="text" formControlName="nombre" class="form-control">
+                            <label>Etapas*</label>
+                            <input Uppercase type="text" formControlName="nombre" class="form-control"  [ngClass]="
+                                    {
+                                    'is-invalid': formGestion.controls['nombre'].touched && formGestion.controls['nombre'].errors,
+                                    'is-valid': formGestion.controls['nombre'].touched && !formGestion.controls['nombre'].errors
+                                    }
+                                    ">
+                          <div class="invalid-feedback">
+                            <span class="d-block" *ngIf="formGestion.get('nombre').hasError('required')"> El campo nombre es obligatorio.</span>
+                          </div>
                         </div>
                     </div>
                     <div class="col-12 col-md-3">
                         <div class="form-group">
-                            <label>Área</label>
-                            <select formControlName="codArea" class="form-control">
-                <option *ngFor="let item of areas" [value]="item.codItem">{{ item.descripcion }}</option>
-              </select>
+                            <label>Área*</label>
+                            <select formControlName="codArea" class="form-control"[ngClass]="
+                                    {
+                                    'is-invalid': formGestion.controls['codArea'].touched && formGestion.controls['codArea'].errors,
+                                    'is-valid': formGestion.controls['codArea'].touched && !formGestion.controls['codArea'].errors
+                                    }
+                                    ">
+                              <option *ngFor="let item of areas" [value]="item.codItem">{{ item.descripcion }}</option>
+                            </select>
+                          <div class="invalid-feedback">
+                            <span class="d-block" *ngIf="formGestion.get('codArea').hasError('required')"> El campo área es obligatorio.</span>
+                          </div>
                         </div>
                     </div>
                     <div class="col-6 col-md-3">
@@ -38,7 +54,7 @@
                     </div>
                     <div class="col-6 col-md-3">
                         <div class="form-group">
-                            <label>Días Hasta</label>
+                            <label>Días Hasta*</label>
                             <input NumberInteger type="text" class="form-control" (change)="validarHasta()" formControlName="hasta" [ngClass]="
                                     {
                                     'is-invalid': formGestion.controls['hasta'].touched && formGestion.controls['hasta'].errors,
@@ -68,11 +84,11 @@
                     <div class="col-6 col-md-3">
                         <label>Días Hasta</label>
                         <div class="input-group">
-                            <input NumberInteger type="text" formControlName="hastaTemp" class="form-control">
+                            <input NumberInteger type="text" formControlName="hastaTemp" class="form-control" (change)="validarHastaTemp()">
                             <div class="input-group-prepend">
-                                <button type="button" class="btn btn-success" (click)="addEtapa()">
-                  <i class="fa fa-plus"></i>
-                </button>
+                                <button type="button" class="btn btn-success" [disabled]="isDisable()"  (click)="addEtapa()">
+                                <i class="fa fa-plus"></i>
+                              </button>
                             </div>
                         </div>
                     </div>
@@ -95,7 +111,7 @@
                                         <td>{{ item.desde }}</td>
                                         <td>{{ item.hasta }}</td>
                                         <td>
-                                            <button class="btn btn-sm btn-danger" (click)="estadoEtapa(item, '0')"><i class="fa fa-close"></i></button>
+                                            <button class="btn btn-sm btn-danger" (click)="removeEtapa(item, i)"><i class="fa fa-close"></i></button>
                                         </td>
                                     </tr>
                                 </tbody>
