@@ -2,8 +2,8 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 const http = 'http';
-const URL = '192.168.1.130';
-const PORT = '8080/icollectApi';
+const URL = 'localhost';
+const PORT = '9443/icollectApi';
 export const environment = {
   production: false,
   serverUrl: `${http}://${URL}:${PORT}/api/`,

@@ -33,6 +33,7 @@ export class ActualizarGestionComponent implements OnInit {
   personaUpdate: any;
   $etapas: any[] = [];
   etapaEdit: any;
+  $gestiones: Gestion[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -53,7 +54,7 @@ export class ActualizarGestionComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.listarGestiones();
     this.loadAreas();
 
     this.formGestion = this.formBuilder.group({
@@ -172,8 +173,10 @@ export class ActualizarGestionComponent implements OnInit {
           this.gestion = res.objeto;
           this.formGestion.controls.codArea.setValue(this.gestion.codArea);
           this.formGestion.controls.nombre.setValue(this.gestion.nombre);
-          this.formGestion.controls.desde.setValue(this.gestion.desde);
-          this.formGestion.controls.hasta.setValue(this.gestion.hasta);
+          this.desde.setValue(this.gestion.desde);
+          this.hasta.setValue(this.gestion.hasta);
+          this.desde.disable();
+          this.hasta.disable();
           if (this.gestion.etapas.length > 0) {
             this.$etapas = this.gestion.etapas;
           }
@@ -192,8 +195,33 @@ export class ActualizarGestionComponent implements OnInit {
 
   addEtapa() {
     if (isNullOrUndefined(this.formGestion.controls.desdeTemp.value) || isNullOrUndefined(this.formGestion.controls.hastaTemp.value)) {
+      this.toastr.warning('Debe ingresar el intervalo de días de la subetapa.');
       return;
     }
+
+    if (this.codEtapaTemp.value.length == 0) {
+      this.toastr.warning('Debe ingresar un nombre de la subetapa.');
+      return;
+    }
+
+    const ultimo = Number(this.hasta.value);
+    const ultimoTemp = Number(this.desdeTemp.value);
+    if (ultimoTemp > ultimo) {
+      Swal.fire('', 'La cantidad no es valida.', 'warning');
+      this.hastaTemp.setValue(ultimo);
+      return;
+    }
+
+    if (this.$etapas.length > 0) {
+      const last = this.$etapas[this.$etapas.length - 1];
+      if (Number(last.hasta) == ultimoTemp) {
+        Swal.fire('', 'No hay días disponibles', 'warning');
+        this.hastaTemp.setValue(ultimo);
+        this.hastaTemp.disable();
+        return;
+      }
+    }
+
 
     if (this.etapaEdit) {
       const index = this.$etapas.findIndex(i => i.codEtapa == this.etapaEdit.codEtapa);
@@ -245,12 +273,22 @@ export class ActualizarGestionComponent implements OnInit {
   }
 
   agregar() {
-    if (this.$etapas.length == 0) {
-      this.toastr.warning('Debe ingresar al menos una etapa');
+    if (this.formGestion.invalid) {
+      this.toastr.warning('Debe ingresar los datos obligatorios.');
       return;
     }
-    const gestion = Object.assign({}, this.gestion);
+    if (this.$etapas.length == 0) {
+      this.toastr.warning('Debe ingresar al menos una subetapa');
+      return;
+    }
     const etapas = this.$etapas;
+    const ultima = this.$etapas[this.$etapas.length - 1];
+    if (Number(ultima.hasta) < Number(this.hasta.value)) {
+      Swal.fire('', `Debe ocupar todos los días disponible de la etapa [${this.desde.value} - ${this.hasta.value}], se quedo en : ${ultima.hasta}.`, 'warning');
+      return;
+    }
+
+    const gestion = Object.assign({}, this.gestion);
     gestion.codArea = this.formGestion.controls.codArea.value;
     gestion.nombre = this.formGestion.controls.nombre.value;
     gestion.codGestion = this.gestion.codGestion;
@@ -279,6 +317,51 @@ export class ActualizarGestionComponent implements OnInit {
     this.formGestion.controls.codEtapaTemp.setValue(item.nombre);
     this.formGestion.controls.desdeTemp.setValue(item.desde);
     this.formGestion.controls.hastaTemp.setValue(item.hasta);
+    this.hastaTemp.enable();
     this.etapaEdit = item;
+  }
+
+  get desde() {
+    return this.formGestion.controls.desde;
+  }
+
+  get hasta() {
+    return this.formGestion.controls.hasta;
+  }
+
+  get desdeTemp() {
+    return this.formGestion.controls.desdeTemp;
+  }
+
+  get hastaTemp() {
+    return this.formGestion.controls.hastaTemp;
+  }
+
+  get codEtapaTemp() {
+    return this.formGestion.controls.codEtapaTemp;
+  }
+
+  listarGestiones() {
+    this.gestionService.listar().subscribe(
+      res => {
+        if (res.exito) {
+          this.$gestiones = res.objeto as any[];
+          if (this.$gestiones.length > 0) {
+            const ultima = this.$gestiones[this.$gestiones.length - 1];
+            if (ultima) {
+              this.desde.setValue(Number(ultima.hasta) + 1);
+              this.desde.disable();
+            }
+          }
+        }
+      },
+      err => {
+      }
+    );
+  }
+
+  isDisable() {
+    return !!isNullOrUndefined(this.codEtapaTemp.value);
+
   }
 }

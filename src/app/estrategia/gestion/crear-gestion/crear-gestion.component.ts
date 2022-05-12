@@ -203,7 +203,7 @@ export class CrearGestionComponent implements OnInit {
       hasta: Number(this.formGestion.controls.hasta.value),
       etapas,
     };
-    return;
+
     this.spinner.show();
     this.gestionService.crearGestion(gestion).subscribe(
       res => {

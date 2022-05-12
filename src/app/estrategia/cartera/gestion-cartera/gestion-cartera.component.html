@@ -20,9 +20,9 @@
                                     'is-valid': formGestion.controls['codGestion'].touched && !formGestion.controls['codGestion'].errors
                                     }
                                     ">
-                <option value="">Seleccione</option>
-                <option *ngFor="let item of gestiones" [value]="item.codGestion">{{ item.nombre }}</option>
-              </select>
+                                    <option value="">Seleccione</option>
+                                    <option *ngFor="let item of gestiones" [value]="item.codGestion">{{ item.nombre }}</option>
+                                  </select>
                             <div class="invalid-feedback">
                                 <span class="d-block" *ngIf="formGestion.get('codGestion').hasError('required')"> La gestion es obligatorio.</span>
                             </div>
@@ -77,7 +77,7 @@
                     <div class="col-6 col-md-3">
                         <label>Hasta</label>
                         <div class="input-group">
-                            <input NumberInteger type="text" formControlName="hastaTemp" class="form-control">
+                            <input NumberInteger type="text" formControlName="hastaTemp" (change)="validarHastaTemp()" class="form-control">
                             <div class="input-group-prepend">
                                 <button type="button" class="btn btn-success" (click)="addEtapa()"><i class="fa fa-plus"></i></button>
                             </div>
@@ -102,7 +102,7 @@
                                         <td>{{ item.desde }}</td>
                                         <td>{{ item.hasta }}</td>
                                         <td>
-                                            <button class="btn btn-sm btn-danger" (click)="removeEtapa(item.codEtapa)"><i class="fa fa-trash"></i></button>
+                                            <button class="btn btn-sm btn-danger" (click)="removeEtapa(item.codEtapa , i)"><i class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
                                 </tbody>
