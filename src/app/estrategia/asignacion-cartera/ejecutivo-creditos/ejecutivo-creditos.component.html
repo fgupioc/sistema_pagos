@@ -1,178 +1,202 @@
 <div class="card">
-    <div class="card-header">
-        <i class="fa fa-align-justify"></i>
-        <span class="card-title text-uppercase font-weight-bold">Información de la Asignación</span>
-        <div class="card-tools float-right">
-            <button *ngIf="!role" type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/' + ejecutivoUuid + '/listado'">
+  <div class="card-header">
+    <i class="fa fa-align-justify"></i>
+    <span class="card-title text-uppercase font-weight-bold">Información de la Asignación</span>
+    <div class="card-tools float-right">
+      <button *ngIf="!role" type="button" class="btn btn-sm btn-primary"
+              [routerLink]="'/auth/estrategia/asignacion-cartera/' + ejecutivoUuid + '/listado'">
         <i class="fa fa-arrow-left"></i> Regresar
       </button>
-            <button *ngIf="role" type="button" class="btn btn-sm btn-primary" [routerLink]="'/auth/estrategia/asignacion-cartera/mis-cartera-asignadas'">
+      <button *ngIf="role" type="button" class="btn btn-sm btn-primary"
+              [routerLink]="'/auth/estrategia/asignacion-cartera/mis-cartera-asignadas'">
         <i class="fa fa-arrow-left"></i> Regresar
       </button>
-        </div>
     </div>
-    <div class="card-body">
-        <div class="row" *ngIf="campania">
-            <div class="col-6 col-md-4">
-                <div class="form-group">
-                    <label>Gestor de Cobranza</label>
-                    <input class="form-control" [value]="ejecutivoNombre" disabled>
-                </div>
-            </div>
-            <div class="col-6 col-md-2">
-                <div class="form-group">
-                    <label>Frecuencia</label>
-                    <input class="form-control" [value]="campania.frecuencia" disabled>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="form-group">
-                    <label>Inicio</label>
-                    <input type="date" class="form-control" [value]="campania.startDate| date: 'yyyy-MM-dd'" disabled>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="form-group">
-                    <label>Fin</label>
-                    <input type="date" class="form-control" [value]="campania.endDate| date: 'yyyy-MM-dd'" disabled>
-                </div>
-            </div>
-            <div class="col-12 col-md-4" *ngIf="campania.etapaItems.length > 0">
-                <div class="form-group">
-                    <label>Etapas</label>
-                    <ul class="lista-etapas">
-                        <li *ngFor="let item of campania.etapaItems"> {{ item.nombreGestion }} - {{ item.nombreEtapa }} [{{ item.desde }} a {{ item.hasta }}] </li>
-                    </ul>
-                </div>
-            </div>
+  </div>
+  <div class="card-body">
+    <div class="row" *ngIf="campania">
+      <div class="col-6 col-md-4">
+        <div class="form-group">
+          <label>Gestor de Cobranza</label>
+          <input class="form-control" [value]="ejecutivoNombre" disabled>
+        </div>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="form-group">
+          <label>Frecuencia</label>
+          <input class="form-control" [value]="campania.frecuencia" disabled>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="form-group">
+          <label>Inicio</label>
+          <input type="date" class="form-control" [value]="campania.startDate| date: 'yyyy-MM-dd'" disabled>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="form-group">
+          <label>Fin</label>
+          <input type="date" class="form-control" [value]="campania.endDate| date: 'yyyy-MM-dd'" disabled>
+        </div>
+      </div>
+      <div class="col-12 col-md-4" *ngIf="campania.etapaItems.length > 0">
+        <div class="form-group">
+          <label>Etapas</label>
+          <ul class="lista-etapas">
+            <li *ngFor="let item of campania.etapaItems"> {{ item.nombreGestion }} - {{ item.nombreEtapa }}
+              [{{ item.desde }} a {{ item.hasta }}]
+            </li>
+          </ul>
+        </div>
+      </div>
 
-            <div class="col-12 col-md-2" *ngIf="tipoCreditos.length > 0">
-                <div class="form-group">
-                    <label>Tipo Crédito</label>
-                    <ul>
-                        <li *ngFor="let item of tipoCreditos"> {{ item.descripction }}</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-12 col-md-2" *ngIf="sedes.length > 0">
-                <div class="form-group">
-                    <label>Sedes</label>
-                    <ul>
-                        <li *ngFor="let item of sedes"> {{ item.descripction }}</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-12 col-md-4" *ngIf="montos.length > 0">
-                <div class="form-group">
-                    <label>Monto</label>
-                    <ul>
-                        <li *ngFor="let item of montos"> {{ item.descripction }}</li>
-                    </ul>
-                </div>
-            </div>
+      <div class="col-12 col-md-2" *ngIf="tipoCreditos.length > 0">
+        <div class="form-group">
+          <label>Tipo Crédito</label>
+          <ul>
+            <li *ngFor="let item of tipoCreditos"> {{ item.descripction }}</li>
+          </ul>
         </div>
-        <div class="row">
-            <div class="col-12" *ngIf="!role">
-                <button *ngIf="conPermiso" class="btn btn-primary" (click)="agregarCredito()"><i class="fa fa-plus"></i> Agregar Crédito</button>
-            </div>
-            <div class="col-12 mt-4">
-                <div class="form-group">
-                    <div class="">
-                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-striped table-sm table-responsive">
-                            <caption style="caption-side: top; text-align: center;">Lista de créditos</caption>
-                            <thead>
-                                <tr>
-                                    <tr class="text-center">
-                                        <th scope="col" width="5%">#</th>
-                                        <th> Opción</th>
-                                        <th>Nro Crédito</th>
-                                        <th>Moneda</th>
-                                        <th>C. Socio</th>
-                                        <th>Socio</th>
-                                        <th>F. Desem</th>
-                                        <th>Cap. Vig.</th>
-                                        <th>Cap. Ven.(par. Mor.)</th>
-                                        <th>Int. Cre. Fec.</th>
-                                        <th>Estado</th>
-                                        <th>Pro. Abaco</th>
-                                        <th>Tip. Serv.</th>
-                                        <th>Tip. Pro. Serv.</th>
-                                        <th>Condición</th>
-                                        <th>Fec. Repro.</th>
-                                        <th>Refinanciado</th>
-                                        <th>Importe Vencido</th>
-                                        <th>Días Venc.</th>
-                                        <th>Fec. Venc.</th>
-                                        <th>Tot. Cuotas</th>
-                                        <th>Cuotas Pag.</th>
-                                        <th>Cuotas Pen.</th>
-                                        <th>Fec. Ult. Pag.</th>
-                                        <th>Cuotas Atra.</th>
-                                        <th>Mont. Atra.</th>
-                                        <th>Fec. Cuo. Mes</th>
-                                        <th>Mont. Cuo. Mes</th>
-                                        <th>Calificación</th>
-                                        <th>Gar. Liqu.</th>
-                                        <th>Gar. Real</th>
-                                        <th>Tasa</th>
-                                        <th>División</th>
-                                        <th>Banca</th>
-                                        <th>Seg. Riesgo</th>
-                                        <th>Sec. Econo.</th>
-                                    </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let credito of creditos; let i = index" class="text-center">
-                                    <th scope="row">{{ i + 1 }}</th>
-                                    <td class="text-center">
-                                        <div class="w-100 d-flex justify-content-center">
-                                            <button class="btn btn-sm btn-primary mr-2" (click)="irCliente(credito)"><i class="fa fa-eye"></i></button>
-                                            <ng-container *ngIf="!role">
-                                                <button *ngIf="conPermiso" class="btn btn-sm btn-danger mr-2" (click)="eliminarCredito(credito)"><i class="fa fa-trash"></i></button>
-                                            </ng-container>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">{{ credito.nroCredito }}</td>
-                                    <td class="text-center">{{ credito.desMoneda }}</td>
-                                    <td class="text-center">{{ credito.socioId }}</td>
-                                    <td class="text-center">{{ credito.socioAlias }}</td>
-                                    <td class="text-center">{{ credito.fechaDesembolso | date: 'dd/MM/yyyy' }}</td>
-                                    <td class="text-center">{{ credito.montoCredito }}</td>
-                                    <td class="text-center">{{ credito.capitalVencido }}</td>
-                                    <td class="text-center">{{ credito.interesCreditoFecha }}</td>
-                                    <td class="text-center">{{ credito.estado }}</td>
-                                    <td class="text-center">{{ credito.productoAbaco }}</td>
-                                    <td class="text-center">{{ credito.tipoServicio }}</td>
-                                    <td class="text-center">{{ credito.tipoProdcutoAbaco }}</td>
-                                    <td class="text-center">{{ credito.condicion }}</td>
-                                    <td class="text-center">{{ credito.fechaReprogramado | date: 'dd/MM/yyyy' }}</td>
-                                    <td class="text-center">{{ credito.refinanciado }}</td>
-                                    <td class="text-center">{{ credito.importeVencido }}</td>
-                                    <td class="text-center">{{ credito.diasVencido }}</td>
-                                    <td class="text-center">{{ credito.fechaVencimiento | date: 'dd/MM/yyyy' }}</td>
-                                    <td class="text-center">{{ credito.totalCuotas }}</td>
-                                    <td class="text-center">{{ credito.cuotasPagadas }}</td>
-                                    <td class="text-center">{{ credito.cuotasPendientes }}</td>
-                                    <td class="text-center">{{ credito.fechaUltimoPago | date: 'dd/MM/yyyy' }}</td>
-                                    <td class="text-center">{{ credito.cuotasAtrasadas }}</td>
-                                    <td class="text-center">{{ credito.montoAtrasadas }}</td>
-                                    <td class="text-center">{{ credito.fechaCuotaMes | date: 'dd/MM/yyyy'}}</td>
-                                    <td class="text-center">{{ credito.montoCuotaMes }}</td>
-                                    <td class="text-center">{{ credito.calificacion }}</td>
-                                    <td class="text-center">{{ credito.garantiaLiquida }}</td>
-                                    <td class="text-center">{{ credito.garantiaReal }}</td>
-                                    <td class="text-center">{{ credito.desTipoTasa }}</td>
-                                    <td class="text-center">{{ credito.division }}</td>
-                                    <td class="text-center">{{ credito.banca }}</td>
-                                    <td class="text-center">{{ credito.segmentadoRiesgo }}</td>
-                                    <td class="text-center">{{ credito.sectorEconomico }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div class="col-12 col-md-2" *ngIf="sedes.length > 0">
+        <div class="form-group">
+          <label>Sedes</label>
+          <ul>
+            <li *ngFor="let item of sedes"> {{ item.descripction }}</li>
+          </ul>
         </div>
+      </div>
+      <div class="col-12 col-md-4" *ngIf="montos.length > 0">
+        <div class="form-group">
+          <label>Monto</label>
+          <ul>
+            <li *ngFor="let item of montos"> {{ item.descripction }}</li>
+          </ul>
+        </div>
+      </div>
     </div>
+    <div class="row">
+      <div class="col-12" *ngIf="!role">
+        <button *ngIf="conPermiso" class="btn btn-primary" (click)="agregarCredito()"><i class="fa fa-plus"></i> Agregar
+          Crédito
+        </button>
+      </div>
+      <div class="col-12 mt-4">
+        <div class="form-group">
+          <div class="">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                   class="table table-bordered table-striped table-sm table-responsive">
+              <caption style="caption-side: top; text-align: center;">Lista de créditos</caption>
+              <thead>
+              <tr>
+              <tr class="text-center">
+                <th scope="col" width="5%">#</th>
+                <th> Opción</th>
+                <th>Nro Crédito</th>
+                <th>Moneda</th>
+                <th>C. Socio</th>
+                <th>Socio</th>
+                <th>F. Desem</th>
+                <th>Cap. Vig.</th>
+                <th>Cap. Ven.(par. Mor.)</th>
+                <th>Int. Cre. Fec.</th>
+                <th>Estado</th>
+                <th>Pro. Abaco</th>
+                <th>Tip. Serv.</th>
+                <th>Tip. Pro. Serv.</th>
+                <th>Condición</th>
+                <th>Fec. Repro.</th>
+                <th>Refinanciado</th>
+                <th>Importe Vencido</th>
+                <th>Días Venc.</th>
+                <th>Fec. Venc.</th>
+                <th>Tot. Cuotas</th>
+                <th>Cuotas Pag.</th>
+                <th>Cuotas Pen.</th>
+                <th>Fec. Ult. Pag.</th>
+                <th>Cuotas Atra.</th>
+                <th>Mont. Atra.</th>
+                <th>Fec. Cuo. Mes</th>
+                <th>Mont. Cuo. Mes</th>
+                <th>Calificación</th>
+                <th>Gar. Liqu.</th>
+                <th>Gar. Real</th>
+                <th>Tasa</th>
+                <th>División</th>
+                <th>Banca</th>
+                <th>Seg. Riesgo</th>
+                <th>Sec. Econo.</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let credito of creditos; let i = index" class="text-center">
+                <th scope="row">{{ i + 1 }}</th>
+                <td class="text-center">
+                  <div class="w-100 d-flex justify-content-center">
+                    <button class="btn btn-sm btn-primary mr-2" (click)="irCliente(credito)"><i class="fa fa-eye"></i>
+                    </button>
+                    <ng-container *ngIf="!role">
+                      <button *ngIf="conPermiso" class="btn btn-sm btn-danger mr-2" (click)="eliminarCredito(credito)">
+                        <i class="fa fa-trash"></i></button>
+                    </ng-container>
+                  </div>
+                </td>
+                <td class="text-center">{{ credito.nroCredito }}</td>
+                <td class="text-center">{{ credito.desMoneda }}</td>
+                <td class="text-center">{{ credito.socioId }}</td>
+                <td class="text-center">
+                  <span placement="top" [ngbTooltip]="credito.socioAlias"
+                        [title]="credito.socioAlias">{{ FUNC.recortarString(credito.socioAlias, 8) }}</span>
+                </td>
+                <td class="text-center">{{ credito.fechaDesembolso | date: 'dd/MM/yyyy' }}</td>
+                <td class="text-center">{{ credito.montoCredito }}</td>
+                <td class="text-center">{{ credito.capitalVencido }}</td>
+                <td class="text-center">{{ credito.interesCreditoFecha }}</td>
+                <td class="text-center">{{ FUNC.estadoDesc(credito.estado) }}</td>
+                <td class="text-center">
+                  <span placement="top" [ngbTooltip]="credito.productoAbaco"
+                        [title]="credito.productoAbaco">{{ FUNC.recortarString(credito.productoAbaco, 8) }}</span>
+                </td>
+                <td class="text-center">
+                  <span placement="top" [ngbTooltip]="credito.tipoServicio"
+                        [title]="credito.tipoServicio">{{ FUNC.recortarString(credito.tipoServicio, 8) }}</span>
+                </td>
+                <td class="text-center">
+                  <span placement="top" [ngbTooltip]="credito.tipoProdcutoAbaco"
+                        [title]="credito.tipoProdcutoAbaco">{{ FUNC.recortarString(credito.tipoProdcutoAbaco, 8) }}</span>
+                </td>
+                <td class="text-center">
+                  <span placement="top" [ngbTooltip]="FUNC.condicionDesc(credito.condicion)"
+                        [title]="FUNC.condicionDesc(credito.condicion)">{{ FUNC.recortarString(FUNC.condicionDesc(credito.condicion), 8) }}</span>
+                </td>
+                <td class="text-center">{{ credito.fechaReprogramado | date: 'dd/MM/yyyy' }}</td>
+                <td class="text-center">{{ credito.refinanciado }}</td>
+                <td class="text-center">{{ credito.importeVencido }}</td>
+                <td class="text-center">{{ credito.diasVencido }}</td>
+                <td class="text-center">{{ credito.fechaVencimiento | date: 'dd/MM/yyyy' }}</td>
+                <td class="text-center">{{ credito.totalCuotas }}</td>
+                <td class="text-center">{{ credito.cuotasPagadas }}</td>
+                <td class="text-center">{{ credito.cuotasPendientes }}</td>
+                <td class="text-center">{{ credito.fechaUltimoPago | date: 'dd/MM/yyyy' }}</td>
+                <td class="text-center">{{ credito.cuotasAtrasadas }}</td>
+                <td class="text-center">{{ credito.montoAtrasadas }}</td>
+                <td class="text-center">{{ credito.fechaCuotaMes | date: 'dd/MM/yyyy'}}</td>
+                <td class="text-center">{{ credito.montoCuotaMes }}</td>
+                <td class="text-center">{{ credito.calificacion }}</td>
+                <td class="text-center">{{ credito.garantiaLiquida }}</td>
+                <td class="text-center">{{ credito.garantiaReal }}</td>
+                <td class="text-center">{{ credito.desTipoTasa }}</td>
+                <td class="text-center">{{ credito.division }}</td>
+                <td class="text-center">{{ credito.banca }}</td>
+                <td class="text-center">{{ credito.segmentadoRiesgo }}</td>
+                <td class="text-center">{{ credito.sectorEconomico }}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <ngx-spinner></ngx-spinner>

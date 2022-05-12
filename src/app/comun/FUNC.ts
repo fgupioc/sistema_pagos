@@ -2,7 +2,7 @@ import {isNullOrUndefined} from 'util';
 import * as moment from 'moment';
 import 'moment/locale/es';
 import {CONST} from './CONST';
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 export class FUNC {
   static generateSlug(value: any) {
@@ -88,4 +88,28 @@ export class FUNC {
     return (value).toFixed(toFixed).replace(/\d(?=(\d{3})+\.)/g, '$&,');
   }
 
+  static recortarString(value: string, cantidad: number): string {
+    if (isNullOrUndefined(value)) {
+      return '';
+    }
+    return value.slice(0, cantidad).trim() + (value.trim().length > cantidad ? '...' : '');
+  }
+
+  static condicionDesc(value: any) {
+    return value == 0 ? 'Sin Condición' : 'Con Condición';
+  }
+
+  static estadoDesc(value: any) {
+
+    switch (value) {
+      case '1':
+        return 'VIGENTE';
+      case '2':
+        return 'VENCIDO-CUOTAS';
+      case '5':
+        return 'VENCIDO-SALDO';
+      default:
+        return '';
+    }
+  }
 }

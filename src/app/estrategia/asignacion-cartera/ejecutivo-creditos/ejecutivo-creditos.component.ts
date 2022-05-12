@@ -12,6 +12,7 @@ import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.s
 import * as moment from 'moment';
 import {Subject} from 'rxjs';
 import {DataTableDirective} from 'angular-datatables';
+import {FUNC} from '../../../comun/FUNC';
 
 export interface InfoCampo {
   descripction: string;
@@ -37,7 +38,7 @@ export class EjecutivoCreditosComponent implements OnInit {
   sedes: InfoCampo[] = [];
   montos: InfoCampo[] = [];
   role: string;
-
+  FUNC = FUNC;
   constructor(
     private auth: AutenticacionService,
     private spinner: NgxSpinnerService,
@@ -211,4 +212,6 @@ export class EjecutivoCreditosComponent implements OnInit {
       this.dtTrigger.next();
     }
   }
+
+
 }

@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 import {ModalAgregarCreditoComponent} from '../modal-agregar-credito/modal-agregar-credito.component';
 import * as moment from 'moment';
 import {InfoCampo} from '../ejecutivo-creditos/ejecutivo-creditos.component';
+import {FUNC} from '../../../comun/FUNC';
 
 @Component({
   selector: 'app-supervisor-creditos',
@@ -33,7 +34,7 @@ export class SupervisorCreditosComponent implements OnInit {
   sedes: InfoCampo[] = [];
   montos: InfoCampo[] = [];
   role: string;
-
+  FUNC = FUNC;
   constructor(
     private auth: AutenticacionService,
     private spinner: NgxSpinnerService,

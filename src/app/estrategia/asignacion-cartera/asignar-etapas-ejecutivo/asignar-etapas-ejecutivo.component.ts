@@ -21,6 +21,7 @@ import {DataTableDirective} from 'angular-datatables';
 import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
 import {CarteraGestion} from '../../../interfaces/asignacion-cartera/cartera-gestion';
 import {CarteraEtapa} from '../../../interfaces/asignacion-cartera/cartera-etapa';
+import {FUNC} from '../../../comun/FUNC';
 
 declare const $: any;
 
@@ -30,7 +31,7 @@ declare const $: any;
   styleUrls: ['./asignar-etapas-ejecutivo.component.css']
 })
 export class AsignarEtapasEjecutivoComponent implements OnInit {
-
+  FUNC = FUNC;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   isDtInitialized = false;
@@ -516,7 +517,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     });
   }
 
-  selecionarSocio(item: SocioCredito, select: NgSelectComponent) {
+  selecionarSocio(item: any, select: NgSelectComponent) {
     if (item) {
       const exits = this.sociosSeleccionados.find(v => v.codUsuario == item.codUsuario);
       if (!exits) {
@@ -711,21 +712,4 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     return this.$creditosCheched.find(i => i.nroCredito == o.nroCredito);
   }
 
-  condicionDesc(value: any) {
-    return value == 0 ? "Sin Condición" : "Con Condición";
-  }
-
-  estadoDesc(value: any) {
-
-    switch (value) {
-      case '1':
-        return "VIGENTE";
-      case '2':
-        return "VENCIDO-CUOTAS";
-      case '5':
-        return "VENCIDO-SALDO";
-      default:
-        return "";
-    }
-  }
 }

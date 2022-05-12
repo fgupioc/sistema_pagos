@@ -346,16 +346,26 @@
                                                 <td class="text-center">{{ o.nroCredito }}</td>
                                                 <td class="text-center">{{ o.desMoneda }}</td>
                                                 <td class="text-center">{{ o.socioId }}</td>
-                                                <td class="text-center">{{ o.socioAlias }}</td>
+                                              <td class="text-center">
+                                                <span placement="top" [ngbTooltip]="o.socioAlias" [title]="o.socioAlias">{{ FUNC.recortarString(o.socioAlias, 6) }}</span>
+                                              </td>
                                                 <td class="text-center">{{ o.fechaDesembolso | date: 'dd/MM/yyyy' }}</td>
                                                 <td class="text-center">{{ o.montoCredito | currency : ' ' }}</td>
                                                 <td class="text-center">{{ o.capitalVencido | currency : ' ' }}</td>
                                                 <td class="text-center">{{ o.interesCreditoFecha | currency : ' '}}</td>
-                                                <td class="text-center">{{ estadoDesc(o.estado) }}</td>
-                                                <td class="text-center">{{ o.productoAbaco }}</td>
-                                                <td class="text-center">{{ o.tipoServicio }}</td>
-                                                <td class="text-center">{{ o.tipoProdcutoAbaco }}</td>
-                                                <td class="text-center">{{ condicionDesc(o.condicion) }}</td>
+                                              <td class="text-center">{{ FUNC.estadoDesc(o.estado) }}</td>
+                                              <td class="text-center">
+                                                <span placement="top" [ngbTooltip]="o.productoAbaco" [title]="o.productoAbaco">{{ FUNC.recortarString(o.productoAbaco, 8) }}</span>
+                                              </td>
+                                              <td class="text-center">
+                                                <span placement="top" [ngbTooltip]="o.tipoServicio" [title]="o.tipoServicio">{{ FUNC.recortarString(o.tipoServicio, 8) }}</span>
+                                              </td>
+                                              <td class="text-center">
+                                                <span placement="top" [ngbTooltip]="o.tipoProdcutoAbaco" [title]="o.tipoProdcutoAbaco">{{ FUNC.recortarString(o.tipoProdcutoAbaco, 8) }}</span>
+                                              </td>
+                                              <td class="text-center">
+                                                <span placement="top" [ngbTooltip]="FUNC.condicionDesc(o.condicion)" [title]="FUNC.condicionDesc(o.condicion)">{{ FUNC.recortarString(FUNC.condicionDesc(o.condicion), 8) }}</span>
+                                              </td>
                                                 <td class="text-center">{{ o.fechaReprogramado | date: 'dd/MM/yyyy' }}</td>
                                                 <td class="text-center">{{ o.refinanciado }}</td>
                                                 <td class="text-center">{{ o.importeVencido | currency : ' ' }}</td>
@@ -373,8 +383,12 @@
                                                 <td class="text-center">{{ o.garantiaLiquida }}</td>
                                                 <td class="text-center">{{ o.garantiaReal }}</td>
                                                 <td class="text-center">{{ o.desTipoTasa }}</td>
-                                                <td class="text-center">{{ o.division }}</td>
-                                                <td class="text-center">{{ o.banca }}</td>
+                                              <td class="text-center">
+                                                <span placement="top" [ngbTooltip]="o.division" [title]="o.division">{{ FUNC.recortarString(o.division, 13) }}</span>
+                                              </td>
+                                              <td class="text-center">
+                                                <span placement="top" [ngbTooltip]="o.banca" [title]="o.banca">{{ FUNC.recortarString(o.banca, 12) }}</span>
+                                              </td>
                                                 <td class="text-center">{{ o.segmentadoRiesgo }}</td>
                                                 <td class="text-center">{{ o.sectorEconomico }}</td>
                                             </tr>

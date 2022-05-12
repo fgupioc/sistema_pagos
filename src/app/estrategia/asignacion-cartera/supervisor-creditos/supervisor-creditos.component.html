@@ -132,16 +132,30 @@
                                     <td class="text-center">{{ credito.nroCredito }}</td>
                                     <td class="text-center">{{ credito.desMoneda }}</td>
                                     <td class="text-center">{{ credito.socioId }}</td>
-                                    <td class="text-center">{{ credito.socioAlias }}</td>
+                                    <td class="text-center">
+                                      <span placement="top" [ngbTooltip]="credito.socioAlias" [title]="credito.socioAlias">{{ FUNC.recortarString(credito.socioAlias, 8) }}</span>
+                                    </td>
                                     <td class="text-center">{{ credito.fechaDesembolso | date: 'dd/MM/yyyy' }}</td>
                                     <td class="text-center">{{ credito.montoCredito }}</td>
                                     <td class="text-center">{{ credito.capitalVencido }}</td>
                                     <td class="text-center">{{ credito.interesCreditoFecha }}</td>
-                                    <td class="text-center">{{ credito.estado }}</td>
-                                    <td class="text-center">{{ credito.productoAbaco }}</td>
-                                    <td class="text-center">{{ credito.tipoServicio }}</td>
-                                    <td class="text-center">{{ credito.tipoProdcutoAbaco }}</td>
-                                    <td class="text-center">{{ credito.condicion }}</td>
+                                  <td class="text-center">{{ FUNC.estadoDesc(credito.estado) }}</td>
+                                  <td class="text-center">
+                  <span placement="top" [ngbTooltip]="credito.productoAbaco"
+                        [title]="credito.productoAbaco">{{ FUNC.recortarString(credito.productoAbaco, 8) }}</span>
+                                  </td>
+                                  <td class="text-center">
+                  <span placement="top" [ngbTooltip]="credito.tipoServicio"
+                        [title]="credito.tipoServicio">{{ FUNC.recortarString(credito.tipoServicio, 8) }}</span>
+                                  </td>
+                                  <td class="text-center">
+                  <span placement="top" [ngbTooltip]="credito.tipoProdcutoAbaco"
+                        [title]="credito.tipoProdcutoAbaco">{{ FUNC.recortarString(credito.tipoProdcutoAbaco, 8) }}</span>
+                                  </td>
+                                  <td class="text-center">
+                  <span placement="top" [ngbTooltip]="FUNC.condicionDesc(credito.condicion)"
+                        [title]="FUNC.condicionDesc(credito.condicion)">{{ FUNC.recortarString(FUNC.condicionDesc(credito.condicion), 8) }}</span>
+                                  </td>
                                     <td class="text-center">{{ credito.fechaReprogramado | date: 'dd/MM/yyyy' }}</td>
                                     <td class="text-center">{{ credito.refinanciado }}</td>
                                     <td class="text-center">{{ credito.importeVencido }}</td>
