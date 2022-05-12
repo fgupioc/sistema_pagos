@@ -1309,4 +1309,41 @@ export class CreditoSocioComponent implements OnInit {
       );
     }
   }
+
+
+  get typeDocumentDescription() {
+    if (this.socio) {
+      if (this.socio.personaNatural) {
+        const docmento = this.socio.documentosIdentidad.find(
+          (i) => i.tipoDocumento == CONST.C_STR_TIPO_DOCUMENTO_DNI
+        );
+        return docmento ? docmento.tipoDocumentoDescripcion : '';
+      } else {
+        const docmento = this.socio.documentosIdentidad.find(
+          (i) => i.tipoDocumento == CONST.C_STR_TIPO_DOCUMENTO_RUC
+        );
+        return docmento ? docmento.tipoDocumentoDescripcion : '';
+      }
+    } else {
+      return '';
+    }
+  }
+
+  get documentNumber() {
+    if (this.socio) {
+      if (this.socio.personaNatural) {
+        const docmento = this.socio.documentosIdentidad.find(
+          (i) => i.tipoDocumento == CONST.C_STR_TIPO_DOCUMENTO_DNI
+        );
+        return docmento ? docmento.numeroDocumento : '';
+      } else {
+        const docmento = this.socio.documentosIdentidad.find(
+          (i) => i.tipoDocumento == CONST.C_STR_TIPO_DOCUMENTO_RUC
+        );
+        return docmento ? docmento.numeroDocumento : '';
+      }
+    } else {
+      return '';
+    }
+  }
 }

@@ -13,25 +13,38 @@
     </div>
     <div class="card-body" *ngIf="socio && campania">
         <div class="row" *ngIf="socio.personaNatural">
+          <div class="col-12 col-md-3">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" class="form-control" disabled [value]="socio.personaNatural.primerNombre">
+            </div>
+          </div>
             <div class="col-12 col-md-3">
                 <div class="form-group">
-                    <label>Primer Apellido</label>
-                    <input type="text" class="form-control" disabled [value]="socio.personaNatural.primerApellido">
+                    <label>Apellidos</label>
+                    <input type="text" class="form-control" disabled [value]="socio.personaNatural.primerApellido + ' ' + socio.personaNatural.segundoApellido">
                 </div>
             </div>
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-3" *ngIf="false">
                 <div class="form-group">
                     <label>Segundo Apellido</label>
                     <input type="text" class="form-control" disabled [value]="socio.personaNatural.segundoApellido">
                 </div>
             </div>
-            <div class="col-12 col-md-3">
-                <div class="form-group">
-                    <label>Primer Nombre</label>
-                    <input type="text" class="form-control" disabled [value]="socio.personaNatural.primerNombre">
-                </div>
+
+          <div class="col-12 col-md-3">
+            <div class="form-group">
+              <label>T. Documento</label>
+              <input type="text" class="form-control" [value]="typeDocumentDescription" disabled>
             </div>
-            <div class="col-12 col-md-3">
+          </div>
+          <div class="col-12 col-md-3">
+            <div class="form-group">
+              <label>N. Documento</label>
+              <input type="text" class="form-control" [value]="documentNumber" disabled>
+            </div>
+          </div>
+            <div class="col-12 col-md-3" *ngIf="false">
                 <div class="form-group">
                     <label>Segundo Nombre</label>
                     <input type="text" class="form-control" disabled [value]="socio.personaNatural.segundoNombre">
@@ -42,25 +55,25 @@
             <div class="col-12 col-md-3">
                 <div class="frorm-group">
                     <label>Monto Crédito</label>
-                    <input type="text" class="form-control" [value]="credito.montoCredito | currency : getCodeMoney" disabled>
+                    <input type="text" class="form-control text-right" [value]="credito.montoCredito | currency : getCodeMoney" disabled>
                 </div>
             </div>
             <div class="col-12 col-md-3">
                 <div class="frorm-group">
                     <label>Monto Cuota</label>
-                    <input type="text" class="form-control" [value]="credito.montoCuota | currency : getCodeMoney" disabled>
+                    <input type="text" class="form-control text-right" [value]="credito.montoCuota | currency : getCodeMoney" disabled>
                 </div>
             </div>
             <div class="col-12 col-md-3">
                 <div class="frorm-group">
                     <label>Saldo Capital</label>
-                    <input type="text" class="form-control" [value]="credito.saldoCapital | currency : getCodeMoney" disabled>
+                    <input type="text" class="form-control text-right" [value]="credito.saldoCapital | currency : getCodeMoney" disabled>
                 </div>
             </div>
             <div class="col-12 col-md-3">
                 <div class="frorm-group">
                     <label>Saldo de Deuda</label>
-                    <input type="text" class="form-control" [value]="credito.saldoDeDeuda | currency : getCodeMoney" disabled>
+                    <input type="text" class="form-control text-right" [value]="credito.saldoDeDeuda | currency : getCodeMoney" disabled>
                 </div>
             </div>
         </div>

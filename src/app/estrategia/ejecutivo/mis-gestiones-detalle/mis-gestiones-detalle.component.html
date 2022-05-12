@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-12 col-md-5">
                     <div class="form-group">
-                        <label>Cliente</label>
+                        <label>Socio</label>
                         <input type="text" class="form-control" [value]="credito.alias" disabled>
                     </div>
                 </div>
@@ -50,13 +50,13 @@
                 <div class="col-12 col-md-2">
                     <div class="form-group">
                         <label>Monto Capital</label>
-                        <input type="text" class="form-control" [value]="credito.saldoCapital | currency : credito.codMoneda+' ' " disabled>
+                        <input type="text" class="form-control text-right" [value]="credito.saldoCapital | currency : credito.codMoneda+' ' " disabled>
                     </div>
                 </div>
                 <div class="col-12 col-md-2">
                     <div class="form-group">
                         <label>Monto Saldo</label>
-                        <input type="text" class="form-control" [value]="credito.saldoDeDeuda | currency : credito.codMoneda+' ' " disabled>
+                        <input type="text" class="form-control text-right" [value]="credito.saldoDeDeuda | currency : credito.codMoneda+' ' " disabled>
                     </div>
                 </div>
             </div>
