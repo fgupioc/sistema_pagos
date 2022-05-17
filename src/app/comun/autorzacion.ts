@@ -10,6 +10,16 @@ export class Autorizacion {
   public static ETAPA_DISABLE = 'disable';
   public static ETAPA_MENU = 'Configuracion';
   public static ETAPA_SUBMENU = 'Etapas';
+
+  public static NOTIFY_AUTO_LISTA = 'list';
+  public static NOTIFY_AUTO_NUEVO = 'new';
+  public static NOTIFY_AUTO_DETALLE = 'details';
+  public static NOTIFY_AUTO_ACTUALIZAR = 'update';
+  public static NOTIFY_AUTO_DISABLE = 'disable';
+  public static NOTIFY_AUTO_MENU = 'Configuracion';
+  public static NOTIFY_AUTO_SUBMENU = 'Etapas';
+
+
   // MANTENIMIENTO
   public static TIPO_USUARIO_CODE = '201051';
 

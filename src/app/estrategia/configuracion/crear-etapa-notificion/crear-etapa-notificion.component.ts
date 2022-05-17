@@ -7,6 +7,8 @@ import Swal from 'sweetalert2';
 import {ToastrService} from 'ngx-toastr';
 import {ReturnStatement} from '@angular/compiler';
 import {Cartera} from '../../../interfaces/cartera';
+import {Autorizacion} from '../../../comun/autorzacion';
+import {MenuService} from '../../../servicios/sistema/menu.service';
 
 declare const $: any;
 
@@ -28,13 +30,15 @@ export class CrearEtapaNotificionComponent implements OnInit {
   send = false;
   day: string;
   $rangos = [];
+  A = Autorizacion;
 
   constructor(
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private notificacionService: NotificacionService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public menuService: MenuService
   ) {
   }
 

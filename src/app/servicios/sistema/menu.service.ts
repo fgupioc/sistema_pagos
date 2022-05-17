@@ -86,4 +86,8 @@ export class MenuService {
   hasShowEtapa(auth: string): boolean {
     return  this.hasShow(Autorizacion.ETAPA_MENU, Autorizacion.ETAPA_SUBMENU, auth);
   }
+
+  hasShowNotifyAuto(auth: string): boolean {
+    return  this.hasShow(Autorizacion.NOTIFY_AUTO_MENU, Autorizacion.NOTIFY_AUTO_SUBMENU, auth);
+  }
 }

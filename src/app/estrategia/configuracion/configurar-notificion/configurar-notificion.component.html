@@ -36,7 +36,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <button class="btn btn-sm btn-outline-info" (click)="nuevaNotificacion()" *ngIf="AS.has(A.NOTIFICACION_CREAR)" [disabled]="formulario.invalid">Nuevo Notificación</button>
+                            <button class="btn btn-sm btn-outline-info" (click)="nuevaNotificacion()" *ngIf="menuService.hasShowEtapa(A.NOTIFY_AUTO_NUEVO)" [disabled]="formulario.invalid">Nuevo Notificación</button>
                         </div>
                     </div>
                     <div class="col-md-12" *ngIf="mensajes.length > 0">
@@ -70,7 +70,7 @@
                                                 <td>{{ item.fechaActualizacion | date: 'dd/mm/yyyy' }}</td>
                                                   -->
                                                 <td>
-                                                    <button class="btn btn-primary btn-sm" placement="top" ngbTooltip="Editar" (click)="actualizarNotificacion(item)"><i class="fa fa-edit"></i></button>
+                                                    <button *ngIf="menuService.hasShowEtapa(A.NOTIFY_AUTO_ACTUALIZAR)" class="btn btn-primary btn-sm" placement="top" ngbTooltip="Editar" (click)="actualizarNotificacion(item)"><i class="fa fa-edit"></i></button>
                                                 </td>
                                             </tr>
                                         </ng-container>

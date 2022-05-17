@@ -9,6 +9,7 @@ import {isNullOrUndefined} from 'util';
 import {Cartera} from '../../../interfaces/cartera';
 import {Autorizacion} from '../../../comun/autorzacion';
 import {AuthorityService} from '../../../servicios/authority.service';
+import {MenuService} from '../../../servicios/sistema/menu.service';
 
 @Component({
   selector: 'app-configurar-notificion',
@@ -34,15 +35,18 @@ export class ConfigurarNotificionComponent implements OnInit {
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
     public modalService: NgbModal,
-    public AS: AuthorityService
+    public AS: AuthorityService,
+    public menuService: MenuService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
 
   ngOnInit() {
-    this.listarCartera();
-    this.listarNotificaciones();
+    if (this.menuService.hasShowNotifyAuto(this.A.NOTIFY_AUTO_LISTA)) {
+      this.listarCartera();
+      this.listarNotificaciones();
+    }
     this.formulario = this.formBuilder.group({
       codCartera: ['', Validators.required],
       codGestion: ['', Validators.required],
