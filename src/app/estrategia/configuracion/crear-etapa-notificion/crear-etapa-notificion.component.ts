@@ -27,6 +27,7 @@ export class CrearEtapaNotificionComponent implements OnInit {
   horas: any[] = [];
   send = false;
   day: string;
+  $rangos = [];
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -110,27 +111,6 @@ export class CrearEtapaNotificionComponent implements OnInit {
         }
       );
     }
-  }
-
-  validarDias() {
-    const dias = this.form.controls.dias.value;
-    const $dias = dias.split(',');
-    const days: any[] = [];
-
-    $dias.forEach(v => {
-      if (isNaN(Number(v))) {
-        this.toastr.error('El valor ingresado no es valido.');
-        return;
-      }
-
-      const existe = this.rangos.includes(Number(v));
-      if (existe) {
-        days.push(Number(v));
-      } else {
-        this.toastr.error('El día ingresado no se encuantra en los rangos de dias disponible.');
-        return;
-      }
-    });
   }
 
   seleccionarDia(item) {

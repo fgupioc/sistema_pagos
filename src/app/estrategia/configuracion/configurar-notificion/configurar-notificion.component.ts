@@ -25,6 +25,7 @@ export class ConfigurarNotificionComponent implements OnInit {
   notificaciones: any[] = [];
   mensajes: any[] = [];
   rangos: any[] = [];
+  $rangos: any[] = [];
 
   constructor(
     config: NgbModalConfig,
@@ -123,6 +124,7 @@ export class ConfigurarNotificionComponent implements OnInit {
     modal.componentInstance.notificaciones = this.notificaciones;
     modal.componentInstance.obj = this.formulario.getRawValue();
     modal.componentInstance.rangos = this.rangos;
+    modal.componentInstance.$rangos = this.$rangos;
     modal.componentInstance.send = false;
   }
 
@@ -137,6 +139,7 @@ export class ConfigurarNotificionComponent implements OnInit {
     modal.componentInstance.obj = item;
     modal.componentInstance.create = false;
     modal.componentInstance.rangos = this.rangos;
+    modal.componentInstance.$rangos = this.$rangos;
     modal.componentInstance.send = false;
   }
 
@@ -148,16 +151,40 @@ export class ConfigurarNotificionComponent implements OnInit {
 
   generarRango() {
     this.rangos = [];
+    this.$rangos = [];
     const codCarEtapa = this.formulario.controls.codCarEtapa.value;
     const etapaSelect: any = this.etapas.find(i => i.id == codCarEtapa);
-    const hasta = (etapaSelect.hasta >= 1000) ?  100 : etapaSelect.hasta;
-    const desde = (etapaSelect.hasta >= 1000) ?  0 : etapaSelect.desde;
+    const hasta = (etapaSelect.hasta >= 1000) ? 100 : etapaSelect.hasta;
+    const desde = (etapaSelect.hasta >= 1000) ? 0 : etapaSelect.desde;
     if (etapaSelect) {
-      let c = 0;
-      for (let i = desde; i <= hasta; i++) {
-        c++;
-        this.rangos.push(c);
+      if (etapaSelect.desde > 0) {
+        let c = 0;
+        for (let i = desde; i <= hasta; i++) {
+          c++;
+          this.rangos.push(c);
+          this.$rangos.push({
+            dia: i,
+            rango: c
+          });
+        }
+      } else {
+        for (let i = desde; i <= hasta; i++) {
+          const t = i == 0 ? 0 : (i * -1) ;
+          this.rangos.push(t);
+          this.$rangos.push({
+            dia: i,
+            rango: t
+          });
+        }
       }
+    }
+  }
+
+  obtenerDia(desde: number, dia: number) {
+    if (desde > 0) {
+      return dia;
+    } else {
+      return (dia * -1) + 1;
     }
   }
 }

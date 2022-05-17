@@ -263,7 +263,6 @@ export class GestionCarteraComponent implements OnInit {
     gestion.desde = Number(this.formGestion.controls.desde.value);
     gestion.hasta = Number(this.formGestion.controls.hasta.value);
     gestion.etapas = etapas;
-    return;
     this.spinner.show();
     this.carteraService.agregarGestionCartera(gestion, this.cartera.codCartera).subscribe(
       res => {

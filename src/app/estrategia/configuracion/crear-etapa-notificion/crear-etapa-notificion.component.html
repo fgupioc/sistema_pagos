@@ -29,14 +29,15 @@
                 <div class="form-group">
                     <label>Días Disponibles</label> <br>
                     <div class="w-100 ">
-                        <span *ngFor="let item of rangos">
-                            <span (click)="seleccionarDia(item)" class="badge badge-info position-relative justify-content-center cursor-pointer" style="font-size: 20px; color: white; min-width: 30px; margin: 0 5px 5px 0">
-                                {{ item }}
-                                <ng-template [ngIf]="dias.includes(item)" [ngIfElse]="noesta">
-                                    <i [id]="'rango-'+item" class="fa fa-check position-absolute" style="color: #28a745; left: 5px;"></i>
+                        <span *ngFor="let item of $rangos">
+                            <span (click)="seleccionarDia(item.rango)" class="badge badge-info position-relative justify-content-center cursor-pointer" style="font-size: 25px; color: white; min-width: 40px; height: 40px; margin: 0 5px 5px 0">
+                                <span>{{ item.rango }}</span>
+                                  <small class="position-absolute" style="font-size: 10px; bottom: 2px; left: 5px; font-weight: bold;">{{ item.dia }}</small>
+                                <ng-template [ngIf]="dias.includes(item.rango)" [ngIfElse]="noesta">
+                                    <i [id]="'rango-'+item.rango" class="fa fa-check position-absolute" style="color: #28a745; left: 10px;"></i>
                                 </ng-template>
                                 <ng-template #noesta>
-                                    <i [id]="'rango-'+item" class="fa fa-check position-absolute hidden" style="color: #28a745; left: 5px;"></i>
+                                    <i [id]="'rango-'+item.rango" class="fa fa-check position-absolute hidden" style="color: #28a745; left: 10px;"></i>
                                 </ng-template>
                             </span>
                         </span>
