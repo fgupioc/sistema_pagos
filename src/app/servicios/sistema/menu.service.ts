@@ -90,4 +90,8 @@ export class MenuService {
   hasShowNotifyAuto(auth: string): boolean {
     return  this.hasShow(Autorizacion.NOTIFY_AUTO_MENU, Autorizacion.NOTIFY_AUTO_SUBMENU, auth);
   }
+
+  hasShowCartera(auth: string): boolean {
+    return  this.hasShow(Autorizacion.CARTERA_MENU, Autorizacion.CARTERA_SUBMENU, auth);
+  }
 }

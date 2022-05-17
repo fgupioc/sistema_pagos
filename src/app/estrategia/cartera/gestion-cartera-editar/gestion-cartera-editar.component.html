@@ -68,7 +68,7 @@
                         <div class="input-group">
                             <input NumberInteger type="text" formControlName="hastaTemp" class="form-control">
                             <div class="input-group-prepend">
-                                <button type="button" class="btn btn-success" (click)="addEtapa()"><i class="fa fa-plus"></i></button>
+                                <button type="button" class="btn btn-success" *ngIf="menuService.hasShowCartera(A.CARTERA_ADD_ETAPAS)" (click)="addEtapa()"><i class="fa fa-plus"></i></button>
                             </div>
                         </div>
                     </div>
@@ -91,14 +91,14 @@
                                         <td>{{ item.desde }}</td>
                                         <td>{{ item.hasta }}</td>
                                         <td>
-                                            <button class="btn btn-sm btn-danger" (click)="removeEtapa(item.codEtapa)"><i class="fa fa-trash"></i></button>
+                                            <button *ngIf="menuService.hasShowCartera(A.CARTERA_UPDATE_ETAPAS)" class="btn btn-sm btn-danger" (click)="removeEtapa(item.codEtapa)"><i class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="form-group text-center">
-                            <button class="btn btn-primary" (click)="agregar()">Actualizar Etapas</button>
+                            <button class="btn btn-primary" *ngIf="menuService.hasShowCartera(A.CARTERA_UPDATE_ETAPAS)" (click)="agregar()">Actualizar Etapas</button>
                         </div>
                     </div>
                 </div>

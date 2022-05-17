@@ -13,6 +13,8 @@ import {GrupoCampo} from '../../../interfaces/grupo-campo';
 import {MultiSelect, Seleccionado} from '../detalle-cartera/detalle-cartera.component';
 import {CONST} from '../../../comun/CONST';
 import {TablaMaestra} from '../../../interfaces/tabla-maestra';
+import {MenuService} from '../../../servicios/sistema/menu.service';
+import {Autorizacion} from '../../../comun/autorzacion';
 
 declare var $: any;
 
@@ -23,6 +25,7 @@ declare var $: any;
   styleUrls: ['./crear-cartera.component.css']
 })
 export class CrearCarteraComponent implements OnInit {
+  public A = Autorizacion;
   formulario: FormGroup;
   formAdicional: FormGroup;
   monedas: any[] = [];
@@ -86,7 +89,8 @@ export class CrearCarteraComponent implements OnInit {
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private maestroService: MaestroService
+    private maestroService: MaestroService,
+    public menuService: MenuService
   ) {
   }
 

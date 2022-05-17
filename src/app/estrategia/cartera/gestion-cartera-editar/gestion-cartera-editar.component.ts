@@ -7,6 +7,8 @@ import {ToastrService} from 'ngx-toastr';
 import {NgxSpinnerService} from 'ngx-spinner';
 import Swal from 'sweetalert2';
 import {isNullOrUndefined} from 'util';
+import {MenuService} from '../../../servicios/sistema/menu.service';
+import {Autorizacion} from '../../../comun/autorzacion';
 
 @Component({
   selector: 'app-gestion-cartera-editar',
@@ -14,7 +16,7 @@ import {isNullOrUndefined} from 'util';
   styleUrls: ['./gestion-cartera-editar.component.css']
 })
 export class GestionCarteraEditarComponent implements OnInit {
-
+  public A = Autorizacion;
   formGestion: FormGroup;
   cartera: Cartera;
   create = true;
@@ -29,7 +31,8 @@ export class GestionCarteraEditarComponent implements OnInit {
     private carteraService: CarteraService,
     public router: Router,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    public menuService: MenuService
   ) {
     const data = router.getCurrentNavigation().extras.state;
     if (data && data.cartera) {
@@ -42,7 +45,10 @@ export class GestionCarteraEditarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.listarGestiones();
+    if (this.menuService.hasShowCartera(this.A.CARTERA_SHOW_ETAPAS)) {
+      this.listarGestiones();
+    }
+
     this.formGestion = this.formBuilder.group({
       codGestion: [{value: '', disabled: true}],
       desde: ['', [Validators.required]],

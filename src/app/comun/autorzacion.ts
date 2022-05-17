@@ -20,6 +20,18 @@ export class Autorizacion {
   public static NOTIFY_AUTO_SUBMENU = 'Etapas';
 
 
+  public static CARTERA_LISTA = 'list';
+  public static CARTERA_NUEVO = 'new';
+  public static CARTERA_DETALLE = 'details';
+  public static CARTERA_ACTUALIZAR = 'update';
+  public static CARTERA_DISABLE = 'disable';
+  public static CARTERA_ADD_ETAPAS = 'add_etapas';
+  public static CARTERA_SHOW_ETAPAS = 'show_etapas';
+  public static CARTERA_UPDATE_ETAPAS = 'update_etapas';
+  public static CARTERA_MENU = 'Estrategia Segmentacion';
+  public static CARTERA_SUBMENU = 'Cartera';
+
+
   // MANTENIMIENTO
   public static TIPO_USUARIO_CODE = '201051';
 

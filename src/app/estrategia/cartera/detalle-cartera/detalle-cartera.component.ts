@@ -12,6 +12,8 @@ import {FUNC} from '../../../comun/FUNC';
 import {TablaMaestra} from '../../../interfaces/tabla-maestra';
 import {GrupoCampo} from '../../../interfaces/grupo-campo';
 import {CONST} from '../../../comun/CONST';
+import {Autorizacion} from '../../../comun/autorzacion';
+import {MenuService} from '../../../servicios/sistema/menu.service';
 
 export interface MultiSelect {
   id: string;
@@ -31,7 +33,7 @@ export interface Seleccionado {
   styleUrls: ['./detalle-cartera.component.css']
 })
 export class DetalleCarteraComponent implements OnInit {
-
+  public A = Autorizacion;
   formulario: FormGroup;
   cartera: Cartera;
   gestiones: any[] = [];
@@ -99,7 +101,8 @@ export class DetalleCarteraComponent implements OnInit {
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private maestroService: MaestroService
+    private maestroService: MaestroService,
+    public menuService: MenuService
   ) {
     const state = this.router.getCurrentNavigation().extras.state;
     if (!isNullOrUndefined(state)) {

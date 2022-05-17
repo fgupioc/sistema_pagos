@@ -9,6 +9,7 @@ import {isNullOrUndefined} from 'util';
 import Swal from 'sweetalert2';
 import {Autorizacion} from '../../../comun/autorzacion';
 import {AuthorityService} from '../../../servicios/authority.service';
+import {MenuService} from '../../../servicios/sistema/menu.service';
 
 @Component({
   selector: 'app-listar-cartera',
@@ -25,12 +26,14 @@ export class ListarCarteraComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private maestroService: MaestroService,
-    public AS: AuthorityService
+    public menuService: MenuService
   ) {
   }
 
   ngOnInit() {
-    this.getCarteras();
+    if (this.menuService.hasShowCartera(this.A.CARTERA_LISTA)){
+      this.getCarteras();
+    }
   }
 
   private getCarteras() {

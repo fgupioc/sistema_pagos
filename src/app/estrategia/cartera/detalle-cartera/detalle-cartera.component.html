@@ -255,7 +255,7 @@
                     </div>
                     <div class="col-md-12 mt-4">
                         <div class="form-group">
-                            <button class="btn btn-lg btn-info" [disabled]="formulario.invalid || formAdicional.invalid" (click)="guardar()">Guardar</button>
+                            <button *ngIf="menuService.hasShowCartera(A.CARTERA_ACTUALIZAR)" class="btn btn-lg btn-info" [disabled]="formulario.invalid || formAdicional.invalid" (click)="guardar()">Actualizar</button>
                         </div>
                     </div>
                 </div>
@@ -264,7 +264,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <button class="btn btn-outline-info btn-sm" (click)="router.navigate(['/auth/estrategia/carteras/gestion'], { state: {cartera: cartera} })"><i class="fa fa-plus"></i> Agregar etapa</button>
+                            <button *ngIf="menuService.hasShowCartera(A.CARTERA_ADD_ETAPAS)" class="btn btn-outline-info btn-sm" (click)="router.navigate(['/auth/estrategia/carteras/gestion'], { state: {cartera: cartera} })"><i class="fa fa-plus"></i> Agregar etapa</button>
                         </div>
                     </div>
                     <div class="col-md-12" *ngIf="cartera.carteraGestions.length > 0">
@@ -286,7 +286,7 @@
                                         <td>{{ item.gestion.nombre }}</td>
                                         <td>{{ item.desde }} a {{ item.hasta }}</td>
                                         <td class="text-center">
-                                            <button class="btn btn-sm btn-info mr-2" (click)="router.navigate([ '/auth/estrategia/carteras/gestion-actualizar'], { state: {gestion: item, cartera: cartera} })"><i class="fa fa-edit"></i></button>
+                                            <button *ngIf="menuService.hasShowCartera(A.CARTERA_UPDATE_ETAPAS)" class="btn btn-sm btn-info mr-2" (click)="router.navigate([ '/auth/estrategia/carteras/gestion-actualizar'], { state: {gestion: item, cartera: cartera} })"><i class="fa fa-edit"></i></button>
                                             <!--button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button-->
                                         </td>
                                     </tr>

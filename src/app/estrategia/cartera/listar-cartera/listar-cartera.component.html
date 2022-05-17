@@ -8,7 +8,7 @@
                 </ol>
             </div>
             <div class="card-body">
-                <button class="btn btn-sm btn-outline-primary mb-4" routerLink="/auth/estrategia/carteras/crear">Nuevo Cartera</button>
+                <button *ngIf="menuService.hasShowCartera(A.CARTERA_NUEVO)" class="btn btn-sm btn-outline-primary mb-4" routerLink="/auth/estrategia/carteras/crear">Nuevo Cartera</button>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
@@ -29,9 +29,11 @@
                                     <td>{{ item.estado == '1' ? 'Activo' : 'Inactivo' }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <button class="btn btn-sm btn-primary mr-2" placement="top" ngbTooltip="Editar" (click)="showDetails(item)"><i class="fa fa-eye"></i></button>
-                                            <button *ngIf="item.estado == '1'" placement="top" ngbTooltip="Desactivar" class="btn btn-sm btn-danger" (click)="cambiarEstado(item, '1')"><i class="fa fa-trash"></i></button>
-                                            <button *ngIf="item.estado == '0'" placement="top" ngbTooltip="Activar" class="btn btn-sm btn-success" (click)="cambiarEstado(item, '0')"><i class="fa fa-check"></i></button>
+                                            <button *ngIf="menuService.hasShowCartera(A.CARTERA_ACTUALIZAR)" class="btn btn-sm btn-primary mr-2" placement="top" ngbTooltip="Editar" (click)="showDetails(item)"><i class="fa fa-eye"></i></button>
+                                            <ng-container *ngIf="menuService.hasShowCartera(A.CARTERA_DISABLE)">
+                                              <button *ngIf="item.estado == '1'" placement="top" ngbTooltip="Desactivar" class="btn btn-sm btn-danger" (click)="cambiarEstado(item, '1')"><i class="fa fa-trash"></i></button>
+                                              <button *ngIf="item.estado == '0'" placement="top" ngbTooltip="Activar" class="btn btn-sm btn-success" (click)="cambiarEstado(item, '0')"><i class="fa fa-check"></i></button>
+                                            </ng-container>
                                         </div>
                                     </td>
                                 </tr>
