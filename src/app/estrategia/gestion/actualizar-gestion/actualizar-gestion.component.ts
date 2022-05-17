@@ -14,6 +14,8 @@ import {TablaMaestra} from '../../../interfaces/tabla-maestra';
 import {MaestroService} from '../../../servicios/sistema/maestro.service';
 import {FUNC} from '../../../comun/FUNC';
 import {GestionService} from '../../../servicios/estrategia/gestion.service';
+import {MenuService} from '../../../servicios/sistema/menu.service';
+import {Autorizacion} from '../../../comun/autorzacion';
 
 declare var $: any;
 
@@ -34,6 +36,7 @@ export class ActualizarGestionComponent implements OnInit {
   $etapas: any[] = [];
   etapaEdit: any;
   $gestiones: Gestion[] = [];
+  A = Autorizacion;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -43,7 +46,8 @@ export class ActualizarGestionComponent implements OnInit {
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
-    private gestionService: GestionService
+    private gestionService: GestionService,
+    public menuService: MenuService
   ) {
     const state = router.getCurrentNavigation().extras.state;
     if (state && !isNullOrUndefined(state.id)) {
@@ -54,8 +58,10 @@ export class ActualizarGestionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.listarGestiones();
-    this.loadAreas();
+    if (this.menuService.hasShowEtapa(this.A.ETAPA_LISTA)) {
+      this.listarGestiones();
+      this.loadAreas();
+    }
 
     this.formGestion = this.formBuilder.group({
       codArea: ['', [Validators.required]],

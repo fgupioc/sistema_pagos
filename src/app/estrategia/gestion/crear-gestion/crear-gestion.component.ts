@@ -13,6 +13,8 @@ import Swal from 'sweetalert2';
 import {CONST} from '../../../comun/CONST';
 import {FUNC} from '../../../comun/FUNC';
 import {Gestion} from '../../../interfaces/cartera';
+import {MenuService} from '../../../servicios/sistema/menu.service';
+import {Autorizacion} from '../../../comun/autorzacion';
 
 @Component({
   selector: 'app-crear-gestion',
@@ -28,6 +30,7 @@ export class CrearGestionComponent implements OnInit {
   personaUpdate: any;
   $etapas: any[] = [];
   $gestiones: Gestion[] = [];
+  A = Autorizacion;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,15 +40,17 @@ export class CrearGestionComponent implements OnInit {
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
-    private gestionService: GestionService
+    private gestionService: GestionService,
+    public menuService: MenuService
   ) {
 
   }
 
   ngOnInit() {
-
-    this.loadAreas();
-    this.listarGestiones();
+    if (this.menuService.hasShowEtapa(this.A.ETAPA_LISTA)) {
+      this.listarGestiones();
+      this.loadAreas();
+    }
 
     this.formGestion = this.formBuilder.group({
       codArea: ['', [Validators.required]],

@@ -24,6 +24,7 @@ export class AutenticacionService {
   private logoutSubject: Subject<string>;
   logout$: Observable<string>;
   private userLoading = false;
+  private menus: any[] = [];
 
   constructor(
     private http: HttpClient,
@@ -101,22 +102,6 @@ export class AutenticacionService {
     this.logoutSubject.next(msg);
     return this.router.navigate(['/login']);
   }
-
-  /*
-  currentUserUpdateForceLogout(user: Usuario): boolean {
-    // console.log(`force update of logged user ${user.email}`);
-    if (user.email !== this.loggedUserSubject.value.email || user.role !== this.loggedUserSubject.value.role) {
-      this.logout('Changed email or role of the current user: forced logout');
-      return true;
-    }
-    this.accessTokenSubject.next(this.accessTokenSubject.value);
-    return false;
-  }
-
-  hasRole(role: string): Observable<boolean> {
-    return this.loggedUser$.pipe(map(loggedUser => loggedUser && loggedUser.role === Role[role]));
-  }
- */
 
   private extractLoggedUser(accessToken): Observable<Usuario> {
     if (accessToken) {
@@ -216,5 +201,14 @@ export class AutenticacionService {
 
   misNotificacione(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrlUsuario}mis-notificaciones`);
+  }
+
+  public setMenu(menus: any) {
+    this.menus = [];
+    this.menus = menus;
+  }
+
+  public get getMenus() {
+    return this.menus;
   }
 }

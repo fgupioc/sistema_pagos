@@ -4,6 +4,9 @@ import {environment} from '../../../environments/environment';
 import {TreeviewItem} from 'ngx-treeview';
 import {Observable} from 'rxjs';
 import {Menu} from '../../interfaces/Menu';
+import {AuthorityService} from '../authority.service';
+import {AutenticacionService} from '../seguridad/autenticacion.service';
+import {Autorizacion} from '../../comun/autorzacion';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +15,7 @@ export class MenuService {
 
   apiUrl: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private auth: AutenticacionService) {
     this.apiUrl = `${environment.serverUrl}menu/`;
   }
 
@@ -61,4 +64,26 @@ export class MenuService {
     return this.http.post<any>(`${this.apiUrl}guardar`, accesoUDto);
   }
 
+  findMenuByUserEmail(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + '/findMenuByUserEmail');
+  }
+
+
+  public hasShow(menu: any, submenu: any, auth: any): boolean {
+    const $menu = this.auth.getMenus.find(i => i.name == menu);
+    if ($menu) {
+      const $submenu = $menu.children.find(e => e.name == submenu);
+      if ($submenu) {
+        const $auht = $submenu.authorizations.find(o => o.auth == auth);
+        if ($auht) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  hasShowEtapa(auth: string): boolean {
+    return  this.hasShow(Autorizacion.ETAPA_MENU, Autorizacion.ETAPA_SUBMENU, auth);
+  }
 }

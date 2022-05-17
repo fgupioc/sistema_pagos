@@ -5,6 +5,8 @@ import {Router} from '@angular/router';
 import Swal from 'sweetalert2';
 import {isNullOrUndefined} from 'util';
 import {CONST} from '../../../../comun/CONST';
+import {MenuService} from '../../../../servicios/sistema/menu.service';
+import {Autorizacion} from '../../../../comun/autorzacion';
 
 @Component({
   selector: 'app-listar-gestiones',
@@ -13,16 +15,20 @@ import {CONST} from '../../../../comun/CONST';
 })
 export class ListarGestionesComponent implements OnInit {
   gestiones: any[] = [];
+  A = Autorizacion;
 
   constructor(
     private spinner: NgxSpinnerService,
     private gestionService: GestionService,
-    private router: Router
+    private router: Router,
+    public menuService: MenuService
   ) {
   }
 
   ngOnInit() {
-    this.listarGestiones();
+    if (this.menuService.hasShowEtapa(this.A.ETAPA_LISTA)) {
+      this.listarGestiones();
+    }
   }
 
   listarGestiones() {

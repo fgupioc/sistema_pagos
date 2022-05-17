@@ -4,7 +4,7 @@
             <div class="card-header d-flex justify-content-lg-between">
                 <h6 class="p-0 m-0">Lista de Etapas</h6>
                 <div class="card-tools">
-                    <button routerLink="/auth/configuracion/gestiones/registrar" class="btn btn-sm btn-outline-primary"><i class="fa fa-plus"></i> Nuevo Etapa</button>
+                    <button *ngIf="menuService.hasShowEtapa(this.A.ETAPA_NUEVO)" routerLink="/auth/configuracion/gestiones/registrar" class="btn btn-sm btn-outline-primary"><i class="fa fa-plus"></i> Nuevo Etapa</button>
                 </div>
             </div>
             <div class="card-body">
@@ -36,9 +36,11 @@
                                     </td>
                                     <td>
                                         <div class="btn-group">
-                                            <button [disabled]="item.estado == '0'" class="btn btn-sm btn-primary mr-2" placement="top" ngbTooltip="Detalle" (click)="showDetails(item)"><i class="fa fa-eye"></i></button>
-                                            <button class="btn btn-sm btn-danger" *ngIf="item.estado == '1'" placement="top" ngbTooltip="Desactivar" (click)="cambiarEstado(item, '0')"><i class="fa fa-close"></i></button>
-                                            <button class="btn btn-sm btn-success" *ngIf="item.estado == '0'" placement="top" ngbTooltip="Activar" (click)="cambiarEstado(item, '1')"><i class="fa fa-check"></i></button>
+                                            <button *ngIf="menuService.hasShowEtapa(this.A.ETAPA_DETALLE)" [disabled]="item.estado == '0'" class="btn btn-sm btn-primary mr-2" placement="top" ngbTooltip="Detalle" (click)="showDetails(item)"><i class="fa fa-eye"></i></button>
+                                           <ng-container *ngIf="menuService.hasShowEtapa(this.A.ETAPA_DISABLE)">
+                                             <button class="btn btn-sm btn-danger" *ngIf="item.estado == '1'" placement="top" ngbTooltip="Desactivar" (click)="cambiarEstado(item, '0')"><i class="fa fa-close"></i></button>
+                                             <button class="btn btn-sm btn-success" *ngIf="item.estado == '0'" placement="top" ngbTooltip="Activar" (click)="cambiarEstado(item, '1')"><i class="fa fa-check"></i></button>
+                                           </ng-container>
                                         </div>
                                     </td>
                                 </tr>

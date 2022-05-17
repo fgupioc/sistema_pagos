@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {EventosService} from '../servicios/eventos.service';
 import {MyNotification} from '../interfaces/my-notification';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {INavData} from '@coreui/angular/lib/sidebar/app-sidebar-nav';
 
 @Component({
   selector: 'app-auth',
@@ -60,10 +61,22 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   encuentraTodossNavItemPorUsuario() {
     this.spinner.show();
-    this.menuService.encuentraTodossNavItemPorUsuario().subscribe(navItems => {
-      this.navItems = navItems.filter(i => i.children.length > 0 );
-      this.spinner.hide();
-    }, error => this.spinner.hide());
+    // this.menuService.encuentraTodossNavItemPorUsuario().subscribe(navItems => {
+    //   this.navItems = navItems.filter(i => i.children.length > 0 );
+    //   this.spinner.hide();
+    // }, error => this.spinner.hide());
+    console.log(this.authService.loggedUser.email);
+    this.menuService.findMenuByUserEmail().subscribe(
+      res => {
+        this.navItems = res;
+        this.authService.setMenu(res);
+        setTimeout(() => this.loadMenu(), 1);
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
+      }
+    );
   }
 
   logout() {
@@ -120,5 +133,9 @@ export class AuthComponent implements OnInit, OnDestroy {
         break;
     }
     return type;
+  }
+
+  loadMenu() {
+    $('.nav-item.nav-dropdown').removeClass('open');
   }
 }
