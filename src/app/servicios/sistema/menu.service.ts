@@ -110,4 +110,15 @@ export class MenuService {
   hasShowCargaManual(auth: string): boolean {
     return  this.hasShow(Autorizacion.CARGA_MANUAL_MENU, Autorizacion.CARGA_MANUAL_SUBMENU, auth);
   }
+
+  hasShowTarea(auth: string): boolean {
+    return  this.hasShow(Autorizacion.TAREA_MENU, Autorizacion.TAREA_SUBMENU, auth);
+  }
+
+  hasShowMisTarea(auth: string): boolean {
+    return  this.hasShow(Autorizacion.MIS_TAREA_MENU, Autorizacion.MIS_TAREA_SUBMENU, auth);
+  }
+  hasShowMisGestiones(auth: string): boolean {
+    return  this.hasShow(Autorizacion.MIS_GESTIONES_MENU, Autorizacion.MIS_GESTIONES_SUBMENU, auth);
+  }
 }

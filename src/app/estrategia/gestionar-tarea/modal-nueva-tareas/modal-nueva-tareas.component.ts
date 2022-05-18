@@ -26,6 +26,8 @@ import {HttpEventType} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 import {TareaArchivo} from '../../../interfaces/tarea-archivo';
 import {EventosService} from '../../../servicios/eventos.service';
+import {Autorizacion} from '../../../comun/autorzacion';
+import {MenuService} from '../../../servicios/sistema/menu.service';
 
 const urlBaseFotos = environment.signinUrl + '/upload/';
 
@@ -71,6 +73,7 @@ export class ModalNuevaTareasComponent implements OnInit {
   minB: any;
   tiempoB: any;
   $horario: any[] = [];
+  A = Autorizacion;
 
   constructor(
     public auth: AutenticacionService,
@@ -83,7 +86,8 @@ export class ModalNuevaTareasComponent implements OnInit {
     private formBuilder: FormBuilder,
     private tipoNotificacionService: TipoNotificacionService,
     private gestionAdministrativaService: GestionAdministrativaService,
-    private eventosService: EventosService
+    private eventosService: EventosService,
+    public menuS: MenuService
   ) {
     this.userLoggedName = auth.loggedUser.alias;
   }

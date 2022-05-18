@@ -58,6 +58,23 @@ export class Autorizacion {
   public static CARGA_MANUAL_MENU = 'Procesos';
   public static CARGA_MANUAL_SUBMENU = 'Carga Manual';
 
+  public static TAREA_NEW_TABLERO = 'new_tablero';
+  public static TAREA_ADD_TAREA = 'add_tarea';
+  public static TAREA_SHOW_TABLERO = 'show_tablero';
+  public static TAREA_SHOW_TAREA = 'show_tarea';
+  public static TAREA_ADD_FILE = 'add_files';
+  public static TAREA_ADD_COMMITS = 'add_commits';
+  public static TAREA_MENU = 'Gestion Administrativa';
+  public static TAREA_SUBMENU = 'Tareas';
+
+  public static MIS_TAREA_SHOW = 'show';
+  public static MIS_TAREA_MENU = 'Gestion Administrativa';
+  public static MIS_TAREA_SUBMENU = 'Mis Tareas';
+
+  public static MIS_GESTIONES_SHOW = 'show';
+  public static MIS_GESTIONES_MENU = 'Gestion Administrativa';
+  public static MIS_GESTIONES_SUBMENU = 'Mis Gestiones';
+
   // MANTENIMIENTO
   public static TIPO_USUARIO_CODE = '201051';
 

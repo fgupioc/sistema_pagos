@@ -56,7 +56,7 @@
                             <span *ngIf="item.socio"> {{ item.socio.alias | slice:0:25 }} {{ item.socio.alias.length > 25 ? '...' : '' }}</span>
                           </small>
                         </div>
-                        <div class="item-tools">
+                        <div class="item-tools" *ngIf="menuS.hasShowTarea(A.TAREA_SHOW_TAREA)">
                           <div class="btn btn-sm btn-outline-primary" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
                         </div>
                       </div>
@@ -76,7 +76,7 @@
               </ng-container>
             </div>
           </div>
-          <ng-container>
+          <ng-container *ngIf="menuS.hasShowTarea(A.TAREA_ADD_TAREA)">
             <a *ngIf="!newTask" class="open-card-composer cursor-pointer" (click)="newTask = true;">
               <i class="fa fa-plus"></i><span class="box-title"> Añada una Tarea</span>
             </a>
@@ -126,7 +126,7 @@
                           </small>
                         </div>
                         <div class="item-tools">
-                          <div class="btn btn-sm btn-outline-primary" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
+                          <div class="btn btn-sm btn-outline-primary" *ngIf="menuS.hasShowTarea(A.TAREA_SHOW_TAREA)" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
                         </div>
                       </div>
                     </div>
@@ -181,7 +181,7 @@
                           </small>
                         </div>
                         <div class="item-tools">
-                          <div class="btn btn-sm btn-outline-success" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
+                          <div class="btn btn-sm btn-outline-success" *ngIf="menuS.hasShowTarea(A.TAREA_SHOW_TAREA)" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
                         </div>
                       </div>
                     </div>

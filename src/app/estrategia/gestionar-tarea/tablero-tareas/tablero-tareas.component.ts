@@ -6,6 +6,8 @@ import {AsignacionCarteraService} from '../../../servicios/asignacion-cartera.se
 import {ActivatedRoute, Router} from '@angular/router';
 import {GestionAdministrativaService} from '../../../servicios/gestion-administrativa.service';
 import {EjecutivoAsignacion} from '../../../interfaces/ejecutivo-asignacion';
+import {Autorizacion} from '../../../comun/autorzacion';
+import {MenuService} from '../../../servicios/sistema/menu.service';
 
 @Component({
   selector: 'app-tablero-tareas',
@@ -15,6 +17,7 @@ import {EjecutivoAsignacion} from '../../../interfaces/ejecutivo-asignacion';
 export class TableroTareasComponent implements OnInit {
   ejecutivos: any[] = [];
   asignaciones: EjecutivoAsignacion[] = [];
+  A = Autorizacion;
 
   constructor(
     public modalService: NgbModal,
@@ -23,6 +26,7 @@ export class TableroTareasComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private gestionAdministrativaService: GestionAdministrativaService,
+    public menuS: MenuService
   ) {
   }
 

@@ -12,6 +12,8 @@ import {Tarea} from '../../../interfaces/tarea';
 import {CONST} from '../../../comun/CONST';
 import {FUNC} from '../../../comun/FUNC';
 import {EventosService} from '../../../servicios/eventos.service';
+import {Autorizacion} from '../../../comun/autorzacion';
+import {MenuService} from '../../../servicios/sistema/menu.service';
 
 @Component({
   selector: 'app-tarea-detalle',
@@ -31,6 +33,7 @@ export class TareaDetalleComponent implements OnInit {
   taskName: string;
   $creditos: Credito[] = [];
   role: string;
+  A = Autorizacion;
 
   constructor(
     private gestionAdministrativaService: GestionAdministrativaService,
@@ -39,7 +42,8 @@ export class TareaDetalleComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private eventosService: EventosService
+    private eventosService: EventosService,
+    public menuS: MenuService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;

@@ -316,7 +316,7 @@
               </ng-container>
             </ng-container>
             <ng-container *ngIf="$tarea.estado == '1' && $tarea.etapaActual != '03'">
-              <div class="col-12">
+              <div class="col-12" *ngIf="menuS.hasShowTarea(A.TAREA_ADD_TAREA)">
                 <button type="button" class="btn btn-outline-primary mr-2" (click)="crear()">Guardar Tarea</button>
               </div>
             </ng-container>
@@ -329,7 +329,7 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="row">
-            <div class="col-12">
+            <div class="col-12" *ngIf="menuS.hasShowTarea(A.TAREA_ADD_FILE)">
               <div class="d-flex justify-content-between mb-2">
                 <label>Adjuntos</label>
                 <ng-container *ngIf="$tarea.estado =='1'">
@@ -396,17 +396,16 @@
                             <span>Añadido:
                               <span class="date past"
                                     [title]="file.fechaCreacion | date : 'dd MMM yyyy HH:mm'">{{ file.fechaCreacion | date : 'dd MMM yyyy HH:mm'  }}</span>
-                                                    </span>
-                                                    </span>
-                          <ng-container *ngIf="$tarea.estado =='1'">
-                                                        <span class="quiet"
-                                                              *ngIf="auth.loggedUser.id == file.usuarioId">
-                            <a class="text-danger" href="javascript:;" (click)="eliminarArchivo(file)">
-                              <i class="fa fa-trash"></i>
-                              <span>Quitar portada</span>
-                                                        </a>
-                                                        </span>
-                          </ng-container>
+                              </span>
+                          </span>
+                            <ng-container *ngIf="$tarea.estado =='1'">
+                                      <span class="quiet" *ngIf="auth.loggedUser.id == file.usuarioId">
+                                      <a *ngIf="menuS.hasShowTarea(A.TAREA_ADD_FILE)" class="text-danger" href="javascript:;" (click)="eliminarArchivo(file)">
+                                        <i class="fa fa-trash"></i>
+                                        <span>Quitar portada</span>
+                                      </a>
+                                      </span>
+                            </ng-container>
                         </p>
                       </div>
                     </ng-container>
@@ -451,7 +450,7 @@
                   <label>Actividades</label>
                 </div>
                 <ng-container *ngIf="$tarea.estado == '1'">
-                  <div class="new-comment mb-4">
+                  <div class="new-comment mb-4" *ngIf="menuS.hasShowTarea(A.TAREA_ADD_COMMITS)">
                     <div class="member member-no-menu" *ngIf="userLoggedName">
                       <span class="member-initials text-uppercase"
                             [title]="userLoggedName">{{ userLoggedName | slice: 0:2 }}</span>
@@ -482,7 +481,7 @@
                           <p class="p-0 m-0">{{ item.comentario }}</p>
                           <div class="" *ngIf="item.usuarioId == auth.loggedUser.id">
                             <ng-container *ngIf="$tarea.estado =='1'">
-                              <a href="javascript:;" class="btn-link" (click)="desactivarActividad(item)">Eliminar</a>
+                              <a href="javascript:;" class="btn-link" *ngIf="menuS.hasShowTarea(A.TAREA_ADD_COMMITS)" (click)="desactivarActividad(item)">Eliminar</a>
                             </ng-container>
                           </div>
                         </div>
