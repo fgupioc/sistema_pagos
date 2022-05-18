@@ -35,6 +35,8 @@ import {TareaActividad} from '../../../interfaces/tarea-actividad';
 import {environment} from '../../../../environments/environment';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ShowImagenComponent} from '../../../componentes/show-imagen/show-imagen.component';
+import {Autorizacion} from '../../../comun/autorzacion';
+import {MenuService} from '../../../servicios/sistema/menu.service';
 
 declare var $: any;
 
@@ -137,6 +139,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   $horario: any[] = [];
   $opneClass = false;
   tipoContactoDesc = 'llamadas';
+  A = Autorizacion;
 
   constructor(
     public auth: AutenticacionService,
@@ -153,7 +156,8 @@ export class MisGestionesDetalleComponent implements OnInit {
     private emailService: EmailService,
     private ubigeoService: UbigeoService,
     private direccionService: DireccionService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    public menuS: MenuService
   ) {
     this.dtOptions = CONST.C_OBJ_DT_OPCIONES();
     this.dtOptions.order = [[0, 'asc']];
@@ -164,23 +168,25 @@ export class MisGestionesDetalleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.listarTipoDirecciones();
-    this.listarTipoviviendas();
-    this.listarTipoSecciones();
-    this.listarTipoZonas();
-    this.listarTipoSectores();
-    this.listarDepartamentos();
-    this.listarTipoVias();
-    this.listarTiposGestiones();
-    this.listarTiposRespuestas();
-    this.listarTiposContactos();
-    this.loadEstadosRecordatorios();
-    this.loadlistaAcuerdos();
-    this.listarTipoActividades();
-    this.listarTablero();
-    this.loadTipoNotificaciones();
-    this.loadTipoUsoTelefono();
-    this.loadTipoUsoEmail();
+    if (this.menuS.hasShowMisGestiones(this.A.MIS_GESTIONES_SHOW)) {
+      this.listarTipoDirecciones();
+      this.listarTipoviviendas();
+      this.listarTipoSecciones();
+      this.listarTipoZonas();
+      this.listarTipoSectores();
+      this.listarDepartamentos();
+      this.listarTipoVias();
+      this.listarTiposGestiones();
+      this.listarTiposRespuestas();
+      this.listarTiposContactos();
+      this.loadEstadosRecordatorios();
+      this.loadlistaAcuerdos();
+      this.listarTipoActividades();
+      this.listarTablero();
+      this.loadTipoNotificaciones();
+      this.loadTipoUsoTelefono();
+      this.loadTipoUsoEmail();
+    }
 
     for (let index = 1; index <= 12; index++) {
       if (index < 10) {
@@ -190,7 +196,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       }
     }
 
-    if (this.nroCredito) {
+    if (this.nroCredito && this.menuS.hasShowMisGestiones(this.A.MIS_GESTIONES_SHOW)) {
       this.loadCredito();
     }
     this.form = this.formBuilder.group({

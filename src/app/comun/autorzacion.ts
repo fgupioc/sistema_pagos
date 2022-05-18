@@ -72,6 +72,20 @@ export class Autorizacion {
   public static MIS_TAREA_SUBMENU = 'Mis Tareas';
 
   public static MIS_GESTIONES_SHOW = 'show';
+  public static MIS_GESTIONES_SHOW_CREDITO = 'show_credito';
+  public static MIS_GESTIONES_ADD_TAREA = 'add_tarea';
+  public static MIS_GESTIONES_ADD_TABLERO = 'add_tablero';
+  public static MIS_GESTIONES_SEND_EMAIL = 'send_email';
+  public static MIS_GESTIONES_URL_SELFTSERVICE = 'url_selfservice';
+  public static MIS_GESTIONES_SEND_WHATSAPP = 'send_whatsapp';
+  public static MIS_GESTIONES_NEW_GESTION = 'new_gestion';
+  public static MIS_GESTIONES_ADD_PHONE = 'add_phone';
+  public static MIS_GESTIONES_REMOVE_PHONE = 'remove_phone';
+  public static MIS_GESTIONES_NEW_EMAIL = 'new_email';
+  public static MIS_GESTIONES_REMOVE_EMAIL = 'remove_email';
+  public static MIS_GESTIONES_ADD_ADDRESS = 'add_address';
+  public static MIS_GESTIONES_REMOVE_COMPROMISO = 'remove_compromiso';
+  public static MIS_GESTIONES_NEW_COMPROMISO_PAGO = 'new_compromiso_pago';
   public static MIS_GESTIONES_MENU = 'Gestion Administrativa';
   public static MIS_GESTIONES_SUBMENU = 'Mis Gestiones';
 

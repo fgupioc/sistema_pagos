@@ -70,13 +70,13 @@
                                 <section [formGroup]="form">
                                     <div class="row other-btns mb-3">
                                         <div class="col-12">
-                                            <a class="btn btn-social btn-instagram mr-4" (click)="showNewTask = true; showNewEmail = false; showNewWhatsapp = false">
+                                            <a *ngIf="menuS.hasShowMisGestiones(A.MIS_GESTIONES_ADD_TAREA)" class="btn btn-social btn-instagram mr-4" (click)="showNewTask = true; showNewEmail = false; showNewWhatsapp = false">
                                                 <i class="fa fa-bell-o"></i> Programar Tarea
                                             </a>
-                                            <a class="btn btn-social btn-linkedin mr-4" (click)="showNewTask = false; showNewEmail = true;  showNewWhatsapp = false">
+                                            <a *ngIf="menuS.hasShowMisGestiones(A.MIS_GESTIONES_SEND_EMAIL)" class="btn btn-social btn-linkedin mr-4" (click)="showNewTask = false; showNewEmail = true;  showNewWhatsapp = false">
                                                 <i class="fa fa-envelope-o"></i> Enviar Correo
                                             </a>
-                                            <a class="btn btn-social btn-whatsapp mr-4" (click)="showNewTask = false;  showNewEmail = false; showNewWhatsapp = true;">
+                                            <a *ngIf="menuS.hasShowMisGestiones(A.MIS_GESTIONES_SEND_WHATSAPP)" class="btn btn-social btn-whatsapp mr-4" (click)="showNewTask = false;  showNewEmail = false; showNewWhatsapp = true;">
                                                 <i class="fa fa-whatsapp"></i> Enviar Whatsapp
                                             </a>
 
@@ -84,7 +84,7 @@
                                         <div class="col-12">
                                             <div class="container-works mt-2" *ngIf="showNewTask">
                                               <ng-container *ngIf="credito ">
-                                                <app-gestionar-tarea [misTableros]="misTableros" [credito]="credito" [ejecutivoId]="auth.loggedUser.id" [showNewTask]="showNewTask" (tareaEventEmitter)=saveTask($event)></app-gestionar-tarea>
+                                                <app-gestionar-tarea [misTableros]="misTableros" [addTablero]="menuS.hasShowMisGestiones(A.MIS_GESTIONES_ADD_TABLERO)" [credito]="credito" [ejecutivoId]="auth.loggedUser.id" [showNewTask]="showNewTask" (tareaEventEmitter)=saveTask($event)></app-gestionar-tarea>
                                               </ng-container>
                                             </div>
                                             <div class="container-works mt-2" *ngIf="showNewEmail">
@@ -93,9 +93,9 @@
                                                         <div class="form-group">
                                                             <label>Seleccione Correo</label>
                                                             <select class="form-control" formControlName="correo">
-                                <option value="">Seleccione</option>
-                                <option *ngFor="let item of showEmails" [value]="item.email">{{ item.email }}</option>
-                              </select>
+                                                              <option value="">Seleccione</option>
+                                                              <option *ngFor="let item of showEmails" [value]="item.email">{{ item.email }}</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-md-4">
@@ -105,12 +105,12 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-md-4">
-                                                        <div class="form-group">
+                                                        <div class="form-group" *ngIf="menuS.hasShowMisGestiones(A.MIS_GESTIONES_URL_SELFTSERVICE)">
                                                             <br>
                                                             <br>
                                                             <label class="cursor-pointer">
-                                <input type="checkbox" formControlName="url"> Adjuntar URL Self Service
-                              </label>
+                                                              <input type="checkbox" formControlName="url"> Adjuntar URL Self Service
+                                                            </label>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
@@ -119,7 +119,7 @@
                                                             <textarea class="form-control" rows="4" formControlName="mensaje"></textarea>
                                                         </div>
                                                     </div>
-                                                    <div class="col-12">
+                                                    <div class="col-12" *ngIf="menuS.hasShowMisGestiones(A.MIS_GESTIONES_ADD_TAREA)">
                                                         <div class="form-group text-center mt-2">
                                                             <button class="btn btn-sm btn-primary mr-2" [disabled]="formCorreo.invalid" (click)="guardarCorreo()">Enviar</button>
                                                             <button class="btn btn-sm btn-danger" (click)="formCorreo.reset({aunto: '', correo: '',mensaje: $body}); showNewEmail = false;">Cancelar</button>
@@ -133,9 +133,9 @@
                                                         <div class="form-group">
                                                             <label>Seleccione Número</label>
                                                             <select class="form-control" formControlName="telefono">
-                                <option value="">Seleccione</option>
-                                <option *ngFor="let item of showPhones" [value]="item.numero">{{ item.numero }}</option>
-                              </select>
+                                                              <option value="">Seleccione</option>
+                                                              <option *ngFor="let item of showPhones" [value]="item.numero">{{ item.numero }}</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-md-4" *ngIf="false">
@@ -143,8 +143,8 @@
                                                             <br>
                                                             <br>
                                                             <label class="cursor-pointer">
-                                <input type="checkbox" formControlName="url"> Adjuntar URL Self Service
-                              </label>
+                                                                <input type="checkbox" formControlName="url"> Adjuntar URL Self Service
+                                                              </label>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
@@ -154,7 +154,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
-                                                        <div class="form-group text-center mt-2">
+                                                        <div class="form-group text-center mt-2" *ngIf="menuS.hasShowMisGestiones(A.MIS_GESTIONES_SEND_WHATSAPP)">
                                                             <button class="btn btn-sm btn-primary mr-2" [disabled]="formWhatsapp.invalid" (click)="eviarWhatsapp()">Enviar</button>
                                                             <button class="btn btn-sm btn-danger" (click)="formWhatsapp.reset({numero: '',mensaje: $body}); showNewEmail = false;">Cancelar</button>
                                                         </div>
@@ -179,7 +179,7 @@
                                             <select class="form-control" formControlName="tipoContacto" (ngModelChange)="obtenerTipoContacto()">
                                               <option *ngFor="let item of tiposContacto" [value]="item.codItem">{{ item.strValor }}</option>
                                             </select>
-                                            <div class="input-group-prepend">
+                                            <div class="input-group-prepend" *ngIf="menuS.hasShowMisGestiones(A.MIS_GESTIONES_NEW_GESTION)">
                                               <button *ngIf="!showRespuesta" type="button" class="btn btn-info" (click)="iniciarGestion()">Iniciar</button>
                                               <button *ngIf="showRespuesta" type="button" class="btn btn-danger" (click)="cancelarGestion()">Cancelar</button>
                                             </div>
@@ -240,7 +240,7 @@
                                                 </ol>
                                             </div>
                                         </div>
-                                        <ng-container *ngIf="showAcuerdoPago">
+                                        <ng-container *ngIf="showAcuerdoPago && menuS.hasShowMisGestiones(A.MIS_GESTIONES_NEW_COMPROMISO_PAGO)">
                                             <div class="col-12"></div>
                                             <div class="col-12 col-md-4">
                                                 <ul class="list-group list-acuerdos">
@@ -733,7 +733,7 @@
                                                 <td>{{ item.plazo }}</td>
                                                 <td>
                                                     <ng-container *ngIf="item.condicion != '5'">
-                                                        <button *ngIf="conPermiso" [disabled]="isAfter(item.fechaInicio)" class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item)"><i class="fa fa-trash"></i></button>
+                                                        <button *ngIf="conPermiso && menuS.hasShowMisGestiones(A.MIS_GESTIONES_REMOVE_COMPROMISO)" [disabled]="isAfter(item.fechaInicio)" class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item)"><i class="fa fa-trash"></i></button>
                                                     </ng-container>
                                                 </td>
                                             </tr>
@@ -780,7 +780,7 @@
                                     <div class="col-12">
                                         <div class="row other-btns mb-3">
                                             <div class="col-12">
-                                                <a class="btn btn-social btn-instagram mr-4" (click)="showNewPhone = true;">
+                                                <a *ngIf="menuS.hasShowMisGestiones(A.MIS_GESTIONES_ADD_PHONE)" class="btn btn-social btn-instagram mr-4" (click)="showNewPhone = true;">
                                                     <i class="fa fa-phone"></i> Nuevo Teléfono
                                                 </a>
                                             </div>
@@ -899,7 +899,7 @@
                                                         <td>{{ phone.tipoUsoDescripcion }}</td>
                                                         <td>{{ phone.tipoNotificacion }}</td>
                                                         <td>
-                                                          <button class="btn btn-sm btn-danger" (click)="eliminarTelefono(phone)"><i class="fa fa-trash"></i></button>
+                                                          <button *ngIf="menuS.hasShowMisGestiones(A.MIS_GESTIONES_REMOVE_PHONE)" class="btn btn-sm btn-danger" (click)="eliminarTelefono(phone)"><i class="fa fa-trash"></i></button>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -915,7 +915,7 @@
                                     <div class="col-12">
                                         <div class="row other-btns mb-3">
                                             <div class="col-12">
-                                                <a class="btn btn-social btn-instagram mr-4" (click)="showNewEmail = true;">
+                                                <a *ngIf="menuS.hasShowMisGestiones(A.MIS_GESTIONES_NEW_EMAIL)" class="btn btn-social btn-instagram mr-4" (click)="showNewEmail = true;">
                                                     <i class="fa fa-envelope"></i> Nuevo Correo
                                                 </a>
                                             </div>
@@ -1004,7 +1004,7 @@
                                     <div class="col-12">
                                         <div class="row other-btns mb-3">
                                             <div class="col-12">
-                                                <a class="btn btn-social btn-instagram mr-4" (click)="showNewAddress = true;">
+                                                <a *ngIf="menuS.hasShowMisGestiones(A.MIS_GESTIONES_ADD_ADDRESS)" class="btn btn-social btn-instagram mr-4" (click)="showNewAddress = true;">
                                                     <i class="fa fa-map-marker" aria-hidden="true"></i> Nuevo Dirección
                                                 </a>
                                             </div>

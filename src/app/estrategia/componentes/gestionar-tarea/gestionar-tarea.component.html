@@ -13,7 +13,7 @@
             <option value="">Selecione</option>
             <option *ngFor="let item of misTableros" [value]="item.id">{{ item.nombre }}</option>
           </select>
-          <div class="input-group-btn">
+          <div *ngIf="addTablero" class="input-group-btn">
             <button type="button" class="btn btn-success" (click)="crearTablero()"><i class="fa fa-plus"></i></button>
           </div>
         </div>

@@ -6,6 +6,8 @@ import {Subject} from 'rxjs';
 import {DataTableDirective} from 'angular-datatables';
 import {CONST} from '../../../comun/CONST';
 import {FUNC} from '../../../comun/FUNC';
+import {Autorizacion} from '../../../comun/autorzacion';
+import {MenuService} from '../../../servicios/sistema/menu.service';
 
 @Component({
   selector: 'app-mis-gestiones',
@@ -19,18 +21,23 @@ export class MisGestionesComponent implements OnInit {
   isDtInitialized = false;
   @ViewChild(DataTableDirective, {static: false})
   dtElement: DataTableDirective;
+  A = Autorizacion;
 
   FUNC = FUNC;
 
   constructor(
     private gestionAdministrativaService: GestionAdministrativaService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    public menuS: MenuService
   ) {
   }
 
   ngOnInit() {
     this.dtOptions = CONST.DATATABLE_ES();
-    this.listarCreditos();
+    if (this.menuS.hasShowMisGestiones(this.A.MIS_GESTIONES_SHOW)) {
+      this.listarCreditos();
+    }
+
   }
 
   private listarCreditos() {

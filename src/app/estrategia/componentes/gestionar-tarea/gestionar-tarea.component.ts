@@ -24,6 +24,7 @@ export class GestionarTareaComponent implements OnInit {
   @Input() ejecutivoId: any;
   @Input() misTableros: EjecutivoAsignacion[] = [];
   @Input() showNewTask = false;
+  @Input() addTablero = true;
   @Output() tareaEventEmitter = new EventEmitter();
   tipoActividades: TablaMaestra[] = [];
   $horario: any[] = [];
