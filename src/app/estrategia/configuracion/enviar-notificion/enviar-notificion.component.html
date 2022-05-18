@@ -7,13 +7,13 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-4" *ngIf="menuS.hasShowNotificacion(A.NOTIFICACION_SHOW)">
                         <div class="form-group">
                             <label>Seleccionar Cartera</label>
                             <select class="form-control" (change)="cambioCartera()" formControlName="codCartera">
-                <option value="">Seleccione</option>
-                <option *ngFor="let item of carteras" [value]="item.codCartera">{{ item.nombre }}</option>
-              </select>
+                              <option value="">Seleccione</option>
+                              <option *ngFor="let item of carteras" [value]="item.codCartera">{{ item.nombre }}</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-12" *ngIf="gestiones.length > 0">
@@ -45,7 +45,7 @@
                                                                                 </button>
                                                                             </td>
                                                                             <td width="90%" class="text-left">
-                                                                                <button class="btn btn-sm btn-outline-primary" *ngIf="AS.has(A.ENVIAR_NOTIFICACION_CREAR)" (click)="nuevoMensaje(item)">
+                                                                                <button class="btn btn-sm btn-outline-primary" *ngIf="false" (click)="nuevoMensaje(item)">
                                                                                   <i class="fa fa-envelope-o"></i>
                                                                                 </button> Etapa: {{ item.nombre }} - desde: {{item.desde}} a {{item.hasta}}
                                                                             </td>

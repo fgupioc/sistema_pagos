@@ -46,6 +46,13 @@ export class Autorizacion {
   public static ASI_CAR_MENU = 'Estrategia Segmentacion';
   public static ASI_CAR_SUBMENU = 'Asignacion Cartera';
 
+  public static NOTIFICACION_SHOW = 'show';
+  public static NOTIFICACION_MENU = 'Estrategia Segmentacion';
+  public static NOTIFICACION_SUBMENU = 'Notificaciones Automaticas';
+
+  public static CARTERA_ASIG_SHOW = 'show';
+  public static CARTERA_ASIG_MENU = 'Estrategia Segmentacion';
+  public static CARTERA_ASIG_SUBMENU = 'Carteras Asignadas';
 
   // MANTENIMIENTO
   public static TIPO_USUARIO_CODE = '201051';

@@ -36,8 +36,10 @@
                                 <td>
                                    <ng-container *ngIf="menuS.hasShowAsigCartera(A.ASI_CAR_SHOW_CREDITOS)">
                                      <button *ngIf="!role" class="btn btn-sm btn-success mr-2" [routerLink]="'/auth/estrategia/asignacion-cartera/' + item.ejecutivoUuid + '/listado/' + item.asignacioUuid + '/detalle'"><i class="fa fa-eye"></i></button>
-                                     <button *ngIf="role" class="btn btn-sm btn-primary mr-2" [routerLink]="'/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/' + item.asignacioUuid + '/detalle'"><i class="fa fa-eye"></i></button>
                                    </ng-container>
+                                  <ng-container *ngIf="menuS.hasShowMisCarteraAsig(A.CARTERA_ASIG_SHOW)">
+                                  <button *ngIf="role" class="btn btn-sm btn-primary mr-2" [routerLink]="'/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/' + item.asignacioUuid + '/detalle'"><i class="fa fa-eye"></i></button>
+                                  </ng-container>
                                 </td>
                             </tr>
 

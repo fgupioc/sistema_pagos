@@ -10,6 +10,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Cartera} from '../../../interfaces/cartera';
 import {Autorizacion} from '../../../comun/autorzacion';
 import {AuthorityService} from '../../../servicios/authority.service';
+import {MenuService} from '../../../servicios/sistema/menu.service';
 
 declare var $: any;
 
@@ -38,7 +39,7 @@ export class EnviarNotificionComponent implements OnInit {
     private spinner: NgxSpinnerService,
     public modalService: NgbModal,
     public route: ActivatedRoute,
-    public AS: AuthorityService
+    public menuS: MenuService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -46,8 +47,11 @@ export class EnviarNotificionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.listarCartera();
-    this.listarNotificaciones();
+    if (this.menuS.hasShowNotificacion(this.A.NOTIFICACION_SHOW)) {
+      this.listarCartera();
+      this.listarNotificaciones();
+    }
+
     this.formulario = this.formBuilder.group({
       codCartera: ['', Validators.required]
     });
