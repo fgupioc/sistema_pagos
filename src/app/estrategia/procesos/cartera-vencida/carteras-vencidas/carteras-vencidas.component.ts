@@ -10,6 +10,8 @@ import { CONST } from 'src/app/comun/CONST';
 import { ToastrService } from 'ngx-toastr';
 import {Subject} from "rxjs";
 import {DataTableDirective} from "angular-datatables";
+import {Autorizacion} from '../../../../comun/autorzacion';
+import {MenuService} from '../../../../servicios/sistema/menu.service';
 
 @Component({
   selector: 'app-carteras-vencidas',
@@ -26,18 +28,21 @@ export class CarterasVencidasComponent implements OnInit {
 
   dtOptions: DataTables.Settings = CONST.DATATABLE_ES();
   @ViewChild(DataTableDirective, {static: false}) dtElement: DataTableDirective;
+  A = Autorizacion;
 
   constructor(
     private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
     private maestroService: MaestroService,
     private asignacionService: AsignacionCarteraService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public menuS: MenuService
   ) { }
 
   ngOnInit() {
     this.listarEjecutivos();
     this.listarCarteras();
+
     this.formGroup = this.formBuilder.group({
       filtro: ['1'],
       cartera: [''],

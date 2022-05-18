@@ -106,4 +106,8 @@ export class MenuService {
   hasShowMisCarteraAsig(auth: string): boolean {
     return  this.hasShow(Autorizacion.CARTERA_ASIG_MENU, Autorizacion.CARTERA_ASIG_SUBMENU, auth);
   }
+
+  hasShowCargaManual(auth: string): boolean {
+    return  this.hasShow(Autorizacion.CARGA_MANUAL_MENU, Autorizacion.CARGA_MANUAL_SUBMENU, auth);
+  }
 }

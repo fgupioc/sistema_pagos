@@ -54,6 +54,10 @@ export class Autorizacion {
   public static CARTERA_ASIG_MENU = 'Estrategia Segmentacion';
   public static CARTERA_ASIG_SUBMENU = 'Carteras Asignadas';
 
+  public static CARGA_MANUAL_CARGAR = 'ejecutar_carga';
+  public static CARGA_MANUAL_MENU = 'Procesos';
+  public static CARGA_MANUAL_SUBMENU = 'Carga Manual';
+
   // MANTENIMIENTO
   public static TIPO_USUARIO_CODE = '201051';
 

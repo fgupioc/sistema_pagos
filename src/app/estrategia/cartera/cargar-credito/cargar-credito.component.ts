@@ -6,7 +6,8 @@ import { NgxSpinnerService } from "ngx-spinner";
 import Swal from "sweetalert2";
 import { ToastrService } from "ngx-toastr";
 import { CarteraService } from "../../../servicios/estrategia/cartera.service";
-import { S } from '../../../comun/autorzacion';
+import {Autorizacion, S} from '../../../comun/autorzacion';
+import {MenuService} from '../../../servicios/sistema/menu.service';
 
 @Component({
   selector: "app-cargar-credito",
@@ -18,17 +19,21 @@ export class CarteraCargarCreditoComponent implements OnInit {
   cabeceras = [];
   carterasActivas = [];
   carteraId: number;
+  A = Autorizacion;
 
   constructor(
     private modalService: NgbModal,
     private creditoService: CreditoService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private carteraService: CarteraService
+    private carteraService: CarteraService,
+    public menuS: MenuService
   ) {}
 
   ngOnInit() {
-    this.listarCarterasActivas();
+    if (this.menuS.hasShowCargaManual(this.A.CARGA_MANUAL_CARGAR)) {
+      this.listarCarterasActivas();
+    }
   }
 
   listarCargas() {
