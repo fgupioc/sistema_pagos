@@ -56,9 +56,16 @@
                             <span *ngIf="item.socio"> {{ item.socio.alias | slice:0:25 }} {{ item.socio.alias.length > 25 ? '...' : '' }}</span>
                           </small>
                         </div>
-                        <div class="item-tools" *ngIf="menuS.hasShowTarea(A.TAREA_SHOW_TAREA)">
-                          <div class="btn btn-sm btn-outline-primary" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
-                        </div>
+                        <ng-container *ngIf="!role">
+                          <div class="item-tools" *ngIf="menuS.hasShowTarea(A.TAREA_SHOW_TAREA)">
+                            <div class="btn btn-sm btn-outline-primary" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
+                          </div>
+                        </ng-container>
+                        <ng-container *ngIf="role">
+                          <div class="item-tools" *ngIf="menuS.hasShowMisTarea(A.MIS_TAREA_SHOW)">
+                            <div class="btn btn-sm btn-outline-primary" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
+                          </div>
+                        </ng-container>
                       </div>
                     </div>
                     <div class="item-footer">
@@ -76,7 +83,21 @@
               </ng-container>
             </div>
           </div>
-          <ng-container *ngIf="menuS.hasShowTarea(A.TAREA_ADD_TAREA)">
+          <ng-container *ngIf="!role && menuS.hasShowTarea(A.TAREA_ADD_TAREA)">
+            <a *ngIf="!newTask" class="open-card-composer cursor-pointer" (click)="newTask = true;">
+              <i class="fa fa-plus"></i><span class="box-title"> Añada una Tarea</span>
+            </a>
+            <ng-container *ngIf="newTask">
+              <div class="text-center mt-2">
+                <textarea class="form-control" [(ngModel)]="taskName" placeholder="Introduzca un titulo para esta tarea..."></textarea>
+                <div class="mt-2">
+                  <button class="btn btn-sm btn-outline-info mr-2" (click)="nuevaTarea()">Añadir tarea</button>
+                  <button class="btn btn-sm btn-danger" (click)="newTask = false"><i class="fa fa-close"></i></button>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="role && menuS.hasShowMisTarea(A.MIS_TAREA_SHOW)">
             <a *ngIf="!newTask" class="open-card-composer cursor-pointer" (click)="newTask = true;">
               <i class="fa fa-plus"></i><span class="box-title"> Añada una Tarea</span>
             </a>
@@ -126,7 +147,8 @@
                           </small>
                         </div>
                         <div class="item-tools">
-                          <div class="btn btn-sm btn-outline-primary" *ngIf="menuS.hasShowTarea(A.TAREA_SHOW_TAREA)" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
+                          <div class="btn btn-sm btn-outline-primary" *ngIf="!role && menuS.hasShowTarea(A.TAREA_SHOW_TAREA)" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
+                          <div class="btn btn-sm btn-outline-primary" *ngIf="role && menuS.hasShowMisTarea(A.MIS_TAREA_SHOW)" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
                         </div>
                       </div>
                     </div>
@@ -181,7 +203,8 @@
                           </small>
                         </div>
                         <div class="item-tools">
-                          <div class="btn btn-sm btn-outline-success" *ngIf="menuS.hasShowTarea(A.TAREA_SHOW_TAREA)" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
+                          <div class="btn btn-sm btn-outline-primary" *ngIf="!role && menuS.hasShowTarea(A.TAREA_SHOW_TAREA)" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
+                          <div class="btn btn-sm btn-outline-primary" *ngIf="role && menuS.hasShowMisTarea(A.MIS_TAREA_SHOW)" (click)="showDetail(item)"><i class="fa fa-eye"></i></div>
                         </div>
                       </div>
                     </div>

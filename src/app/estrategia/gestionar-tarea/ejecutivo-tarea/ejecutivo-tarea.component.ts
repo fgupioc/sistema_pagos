@@ -5,6 +5,8 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {AsignacionCarteraService} from '../../../servicios/asignacion-cartera.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GestionAdministrativaService} from '../../../servicios/gestion-administrativa.service';
+import {Autorizacion} from '../../../comun/autorzacion';
+import {MenuService} from '../../../servicios/sistema/menu.service';
 
 @Component({
   selector: 'app-ejecutivo-tarea',
@@ -13,6 +15,7 @@ import {GestionAdministrativaService} from '../../../servicios/gestion-administr
 })
 export class EjecutivoTareaComponent implements OnInit {
   asignaciones: EjecutivoAsignacion[] = [];
+  A = Autorizacion;
 
   constructor(
     public modalService: NgbModal,
@@ -21,6 +24,7 @@ export class EjecutivoTareaComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private gestionAdministrativaService: GestionAdministrativaService,
+    public menuS: MenuService
   ) {
   }
 

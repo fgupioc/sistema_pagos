@@ -54,11 +54,13 @@ export class TareaDetalleComponent implements OnInit {
         this.loadTableroTareaPorSlug(slug);
       }
     });
-    activatedRoute.data.subscribe(({role}) => this.role = role);
+    activatedRoute.data.subscribe(({role}) => {
+      this.role = role;
+    });
   }
 
   ngOnInit() {
-
+    console.log(this.role);
   }
 
   onDragStart(event: DragEvent) {
