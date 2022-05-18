@@ -31,6 +31,21 @@ export class Autorizacion {
   public static CARTERA_MENU = 'Estrategia Segmentacion';
   public static CARTERA_SUBMENU = 'Cartera';
 
+  public static ASI_CAR_GESTORES = 'show_gestores';
+  public static ASI_CAR_MIS_ASIGNACIONES = 'mis_asiganaciones';
+  public static ASI_CAR_BUSCAR_SOCIO = 'buscar_socio';
+  public static ASI_CAR_GESTIONAR_ASIGNACIONES = 'gestionar_asignacion';
+  public static ASI_CAR_ASIGNACIONES = 'asignaciones';
+  public static ASI_CAR_CRED_VENCIDOS = 'creditos_vencidos';
+  public static ASI_CAR_SOCIO_OBSERVADOS = 'socios_observados';
+  public static ASI_CAR_SHOW_CREDITOS = 'show_creditos';
+  public static ASI_CAR_DETAIL_CREDITO = 'detail_credito';
+  public static ASI_CAR_ADD_CREDITO = 'agregar_credito';
+  public static ASI_CAR_REMOVE_CREDITO = 'eliminar_creditos';
+  public static ASI_CAR_ASIGN_TAREA = 'asignar_tareas';
+  public static ASI_CAR_MENU = 'Estrategia Segmentacion';
+  public static ASI_CAR_SUBMENU = 'Asignacion Cartera';
+
 
   // MANTENIMIENTO
   public static TIPO_USUARIO_CODE = '201051';

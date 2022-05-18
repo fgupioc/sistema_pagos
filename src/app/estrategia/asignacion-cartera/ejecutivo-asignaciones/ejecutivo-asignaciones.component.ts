@@ -5,6 +5,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import Swal from 'sweetalert2';
 import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
 import * as moment from 'moment';
+import {Autorizacion} from '../../../comun/autorzacion';
+import {MenuService} from '../../../servicios/sistema/menu.service';
 
 export interface EtapaTemp {
   cod: number;
@@ -21,13 +23,15 @@ export class EjecutivoAsignacionesComponent implements OnInit {
   role: string;
   etapas: EtapaTemp[] = [];
   ejecutivoSelected: any;
+  A = Autorizacion;
 
   constructor(
     private spinner: NgxSpinnerService,
     private asignacionService: AsignacionCarteraService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private auth: AutenticacionService
+    private auth: AutenticacionService,
+    public menuS: MenuService
   ) {
     const {role} = activatedRoute.snapshot.data;
     if (!role) {
@@ -57,7 +61,6 @@ export class EjecutivoAsignacionesComponent implements OnInit {
       res => {
         if (res.exito) {
           this.asignaciones = res.objeto as any[];
-          console.log(res.objeto)
           this.spinner.hide();
         } else {
           Swal.fire('Asignación de Cartera', 'EL Asesor de negocio no existe.', 'error');

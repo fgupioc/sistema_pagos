@@ -37,6 +37,8 @@ import {CreditoGestion} from '../../../interfaces/credito-gestion';
 import {ShowImagenComponent} from '../../../componentes/show-imagen/show-imagen.component';
 import {environment} from '../../../../environments/environment';
 import {TareaActividad} from '../../../interfaces/tarea-actividad';
+import {Autorizacion} from '../../../comun/autorzacion';
+import {MenuService} from '../../../servicios/sistema/menu.service';
 
 @Component({
   selector: 'app-credito-socio',
@@ -121,6 +123,7 @@ export class CreditoSocioComponent implements OnInit {
   ejecutivo: any;
   asignacionId: any;
   ejecutivoId: any;
+  A = Autorizacion;
 
   constructor(
     public auth: AutenticacionService,
@@ -137,7 +140,8 @@ export class CreditoSocioComponent implements OnInit {
     private emailService: EmailService,
     private ubigeoService: UbigeoService,
     private direccionService: DireccionService,
-    private eventosService: EventosService
+    private eventosService: EventosService,
+    public menuS: MenuService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -205,12 +209,14 @@ export class CreditoSocioComponent implements OnInit {
     this.loadTipoUsoTelefono();
     this.loadTipoUsoEmail();
 
-    if (this.credito) {
-      this.cragarInformacion();
-    }
+    if (this.menuS.hasShowAsigCartera(this.A.ASI_CAR_DETAIL_CREDITO)) {
+      if (this.credito) {
+        this.cragarInformacion();
+      }
 
-    if (this.ejecutivoUuid) {
-      this.loadEjecutivo();
+      if (this.ejecutivoUuid) {
+        this.loadEjecutivo();
+      }
     }
   }
 

@@ -78,20 +78,6 @@
             </div>
         </div>
         <hr>
-        <div class="row" *ngIf="false">
-            <div class="col-12">
-                <div class="form-group mb-0" *ngIf="conPermiso">
-                    <div class="text-center">
-                        <a class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearEventos(1, 'Gestionar Eventos Socio')"><i class="fa fa-plus"></i></a>
-                        <!--
-            <a [ngbTooltip]="'Crear Recordatorio'" class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearEventos(4, 'Crear Recordatorio')" placement="top" ngbTooltip="Crear Recordatorio"><i
-              class="fa fa-calendar"></i></a>
-            <a [ngbTooltip]="'Crear Acuerdo de Pago'" class="btn btn-sm btn-social-icon btn-linkedin mr-2" (click)="crearEventos(5, 'Crear Acuerdos de Pago')"><i class="fa fa-handshake-o"></i></a>
-            -->
-                    </div>
-                </div>
-            </div>
-        </div>
         <hr>
         <div class="row">
             <div class="col-12">
@@ -780,13 +766,12 @@
                 <ngb-tabset [destroyOnHide]="false">
                     <ngb-tab title="Gestión">
                         <ng-template ngbTabContent>
-                            <section>
+                            <section *ngIf="menuS.hasShowAsigCartera(A.ASI_CAR_ASIGN_TAREA)">
                                 <div class="row other-btns mb-3">
                                     <div class="col-12" *ngIf="conPermiso">
                                         <a class="btn btn-social btn-instagram mr-4 text-white" (click)="showNewTask = true;">
                                             <i class="fa fa-bell-o"></i> Programar Tarea
                                         </a>
-
                                     </div>
                                     <div class="col-12">
                                         <div class="container-works mt-2" *ngIf="showNewTask">

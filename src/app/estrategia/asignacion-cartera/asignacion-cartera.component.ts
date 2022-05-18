@@ -3,6 +3,8 @@ import {AsignacionCarteraService} from '../../servicios/asignacion-cartera.servi
 import {NgxSpinnerService} from 'ngx-spinner';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ModalBuscarSocioAsignacionComponent} from '../componentes/modals/modal-buscar-socio-asignacion/modal-buscar-socio-asignacion.component';
+import {Autorizacion} from '../../comun/autorzacion';
+import {MenuService} from '../../servicios/sistema/menu.service';
 
 @Component({
   selector: 'app-asignacion-carter',
@@ -11,16 +13,19 @@ import {ModalBuscarSocioAsignacionComponent} from '../componentes/modals/modal-b
 })
 export class AsignacionCarteraComponent implements OnInit {
   ejecutivos: any[] = [];
-
+  A = Autorizacion;
   constructor(
     private spinner: NgxSpinnerService,
     private asignacionService: AsignacionCarteraService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    public menuS: MenuService
   ) {
   }
 
   ngOnInit() {
-    this.listarEjecutivos();
+    if (this.menuS.hasShowAsigCartera(this.A.ASI_CAR_GESTORES)) {
+      this.listarEjecutivos();
+    }
   }
 
 

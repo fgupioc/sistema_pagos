@@ -13,6 +13,8 @@ import * as moment from 'moment';
 import {Subject} from 'rxjs';
 import {DataTableDirective} from 'angular-datatables';
 import {FUNC} from '../../../comun/FUNC';
+import {Autorizacion} from '../../../comun/autorzacion';
+import {MenuService} from '../../../servicios/sistema/menu.service';
 
 export interface InfoCampo {
   descripction: string;
@@ -39,6 +41,8 @@ export class EjecutivoCreditosComponent implements OnInit {
   montos: InfoCampo[] = [];
   role: string;
   FUNC = FUNC;
+  A = Autorizacion;
+
   constructor(
     private auth: AutenticacionService,
     private spinner: NgxSpinnerService,
@@ -46,7 +50,9 @@ export class EjecutivoCreditosComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     public config: NgbModalConfig,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    public menuS: MenuService
+  ) {
     config.backdrop = 'static';
     config.keyboard = false;
 

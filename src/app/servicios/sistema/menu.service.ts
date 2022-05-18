@@ -94,4 +94,8 @@ export class MenuService {
   hasShowCartera(auth: string): boolean {
     return  this.hasShow(Autorizacion.CARTERA_MENU, Autorizacion.CARTERA_SUBMENU, auth);
   }
+
+  hasShowAsigCartera(auth: string): boolean {
+    return  this.hasShow(Autorizacion.ASI_CAR_MENU, Autorizacion.ASI_CAR_SUBMENU, auth);
+  }
 }

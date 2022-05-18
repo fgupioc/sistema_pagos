@@ -76,8 +76,8 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-12" *ngIf="!role">
-        <button *ngIf="conPermiso" class="btn btn-primary" (click)="agregarCredito()"><i class="fa fa-plus"></i> Agregar
+      <div class="col-12" *ngIf="!role && conPermiso">
+        <button *ngIf="menuS.hasShowAsigCartera(A.ASI_CAR_ADD_CREDITO)" class="btn btn-primary" (click)="agregarCredito()"><i class="fa fa-plus"></i> Agregar
           Crédito
         </button>
       </div>
@@ -133,10 +133,10 @@
                 <th scope="row">{{ i + 1 }}</th>
                 <td class="text-center">
                   <div class="w-100 d-flex justify-content-center">
-                    <button class="btn btn-sm btn-primary mr-2" (click)="irCliente(credito)"><i class="fa fa-eye"></i>
+                    <button *ngIf="menuS.hasShowAsigCartera(A.ASI_CAR_DETAIL_CREDITO)" class="btn btn-sm btn-primary mr-2" (click)="irCliente(credito)"><i class="fa fa-eye"></i>
                     </button>
-                    <ng-container *ngIf="!role">
-                      <button *ngIf="conPermiso" class="btn btn-sm btn-danger mr-2" (click)="eliminarCredito(credito)">
+                    <ng-container *ngIf="!role && conPermiso">
+                      <button *ngIf="menuS.hasShowAsigCartera(A.ASI_CAR_REMOVE_CREDITO)" class="btn btn-sm btn-danger mr-2" (click)="eliminarCredito(credito)">
                         <i class="fa fa-trash"></i></button>
                     </ng-container>
                   </div>
