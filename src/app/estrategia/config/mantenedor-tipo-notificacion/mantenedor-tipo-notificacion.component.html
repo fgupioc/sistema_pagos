@@ -21,7 +21,7 @@
     </div>
 </div>
 <div class="modal-footer d-flex justify-content-center">
-    <button type="button" *ngIf="create && AS.has(A.TIPO_NOTIFICACION_CREAR)" class="btn btn-info" (click)="created()" [disabled]="form.invalid">Guardar</button>
-    <button type="button" *ngIf="!create && AS.has(A.TIPO_NOTIFICACION_ACTUALIZAR)" class="btn btn-info" (click)="updated()" [disabled]="form.invalid">Editar</button>
+    <button type="button" *ngIf="create" class="btn btn-info" (click)="created()" [disabled]="form.invalid">Guardar</button>
+    <button type="button" *ngIf="!create" class="btn btn-info" (click)="updated()" [disabled]="form.invalid">Editar</button>
     <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Cerrar</button>
 </div>

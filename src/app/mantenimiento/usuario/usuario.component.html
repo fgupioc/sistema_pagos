@@ -4,7 +4,7 @@
             <div class="card-header">
                 <i class="fa fa-align-justify"></i>
                 <span class="card-title text-uppercase font-weight-bold">Lista de usuarios </span>
-                <button class="btn btn-success btn-sm pull-right" style="margin-bottom: 4px" (click)="crear()" *ngIf="AS.has(A.USUARIO_CREAR)">
+                <button class="btn btn-success btn-sm pull-right" style="margin-bottom: 4px" (click)="crear()" >
           <i class="fa fa-plus"></i> Nuevo Usuario
         </button>
             </div>
@@ -37,7 +37,7 @@
                                     </span>
                                 </td>
                                 <td class="text-center">
-                                    <button (click)="editar(usuario.id)" class="btn btn-instagram btn-sm mr-5px" *ngIf="AS.has(A.USUARIO_ACTUALIZAR)" type="button" style="margin-bottom: 4px" placement="bottom" ngbTooltip="Actualizar Usuario">
+                                    <button (click)="editar(usuario.id)" class="btn btn-instagram btn-sm mr-5px" type="button" style="margin-bottom: 4px" placement="bottom" ngbTooltip="Actualizar Usuario">
                                       <i class="fa fa-pencil"></i>
                                     </button>
                                     <button (click)="actualizarContrasenha(usuario)" class="btn btn-warning btn-sm mr-5px" type="button" style="margin-bottom: 4px" placement="bottom" ngbTooltip="Actualizar Contraseña">
