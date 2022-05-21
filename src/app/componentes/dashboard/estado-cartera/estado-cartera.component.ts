@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CONST} from 'src/app/comun/CONST';
-import {GrupoCartera} from '../../../interfaces/dashboard/estados-cartera';
+import {EstadosCartera, GrupoCartera} from '../../../interfaces/dashboard/estados-cartera';
 import {DashboardService} from '../../../servicios/dashboard/dashboard.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {MyCurrencyPipe} from '../../../pipes/mycurrency.pipe';
@@ -13,11 +13,11 @@ import {Cartera} from '../../../interfaces/cartera';
 })
 export class EstadoCarteraComponent implements OnInit {
   $carteras: Cartera[] = [];
-  carteras: GrupoCartera[] = [];
+  carteras: EstadosCartera[] = [];
   sol;
   dolar: any;
   year: number[] = [];
-  selectCartera: any;
+  selectCartera = 0;
 
   constructor(
     private dashboardService: DashboardService,
@@ -27,6 +27,7 @@ export class EstadoCarteraComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loadEstadoCarteras(0);
     this.listarCarteras();
   }
 
@@ -34,26 +35,21 @@ export class EstadoCarteraComponent implements OnInit {
     this.carteras = [];
     this.year = [];
     this.sol = null;
-    this.dolar  = null;
+    this.dolar = null;
     this.spinner.show();
     this.dashboardService.getEstadoLasCarteras(carteraId).subscribe(
       res => {
-        this.carteras = res.carteras;
-        if (this.carteras.length > 0) {
-          const item: GrupoCartera = this.carteras[0];
-          const sol = item.items.find(i => i.codMoneda == CONST.ENUM_MONEDA.SOL);
-          const dolar = item.items.find(i => i.codMoneda == CONST.ENUM_MONEDA.DOLAR);
-          this.year.push(item.year);
-          this.sol = {
-            atraso: sol ? [sol.atraso] : [],
-            dia: sol ? [sol.dia] : [],
-          };
-          this.dolar = {
-            atraso: dolar ? [dolar.atraso] : [],
-            dia: dolar ? [dolar.dia] : [],
-          };
-        }
         this.spinner.hide();
+        this.year.push(res.soles.year);
+        this.sol = {
+          atraso: res.soles ? [res.soles.atraso] : [],
+          dia: res.soles ? [res.soles.dia] : [],
+        };
+
+        this.dolar = {
+          atraso: res.dolares ? [res.dolares.atraso] : [],
+          dia: res.dolares ? [res.dolares.dia] : [],
+        };
       },
       err => {
         this.spinner.hide();
@@ -71,10 +67,6 @@ export class EstadoCarteraComponent implements OnInit {
     this.dashboardService.listarCarteras().subscribe(
       res => {
         this.$carteras = res;
-        if (this.$carteras.length > 0) {
-          this.selectCartera = this.$carteras[0].codCartera;
-          this.loadEstadoCarteras(this.selectCartera);
-        }
       }
     );
   }
