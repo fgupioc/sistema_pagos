@@ -11,7 +11,7 @@ import {NgxSpinnerService} from 'ngx-spinner';
 export class ComportamientoDePagoComponent implements OnInit {
   carteras: Cartera[] = [];
   productos: any[] = [];
-  selectCartera: any;
+  selectCartera = 0;
   constructor(
     private dashboardService: DashboardService,
     private spinner: NgxSpinnerService
@@ -19,6 +19,7 @@ export class ComportamientoDePagoComponent implements OnInit {
 
   ngOnInit() {
     this.listarCarteras();
+    this.listarProductosAbaco(0);
   }
 
   listarProductosAbaco(carteraId: any) {
@@ -42,10 +43,6 @@ export class ComportamientoDePagoComponent implements OnInit {
     this.dashboardService.listarCarteras().subscribe(
       res => {
         this.carteras = res;
-        if (this.carteras.length > 0) {
-          this.selectCartera = this.carteras[0].codCartera;
-          this.listarProductosAbaco(this.selectCartera);
-        }
       }
     );
   }
