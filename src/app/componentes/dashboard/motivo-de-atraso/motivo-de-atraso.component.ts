@@ -15,7 +15,7 @@ export class MotivoDeAtrasoComponent implements OnInit {
   respuestas: any[] = [];
   carteras: Cartera[] = [];
   monedas: TablaMaestra[] = [];
-  selectCartera: any;
+  selectCartera = 0;
   selectMoneda = 'PEN';
   showData = false;
 
@@ -30,6 +30,7 @@ export class MotivoDeAtrasoComponent implements OnInit {
     this.listarMondas();
     this.listarTiposRespuestas();
     this.listarCarteras();
+    this.loadData(0);
   }
 
   listarTiposRespuestas() {
@@ -62,19 +63,15 @@ export class MotivoDeAtrasoComponent implements OnInit {
     this.dashboardService.listarCarteras().subscribe(
       res => {
         this.carteras = res;
-        if (this.carteras.length > 0) {
-          this.selectCartera = this.carteras[0].codCartera;
-          this.loadData(this.selectCartera, this.selectMoneda);
-        }
       }
     );
   }
 
-  loadData(selectCartera: any, selectMoneda: any) {
+  loadData(selectCartera: any) {
     this.showData = false;
     this.respuestas.map(i => i.total = 0);
     this.spinner.show();
-    this.dashboardService.getMotivoAtraso(selectCartera, selectMoneda).subscribe(
+    this.dashboardService.getMotivoAtraso(selectCartera, 0).subscribe(
       res => {
         if (res.exito && res.creditos.length > 0) {
           this.showData = true;

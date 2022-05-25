@@ -30,6 +30,20 @@ export class DashboardService {
     return this.http.get(`${this.apiUrl}cartera-con-atraso`, {params: new HttpParams().set('carteraId', carteraId)});
   }
 
+  getCarteraConAtrasoSectorEconomico(carteraId: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}cartera-con-atraso-sector-economico`, {params: new HttpParams().set('carteraId', carteraId)});
+  }
+
+  getCarteraConAtrasoSectorEconomicoDetalle(monde: any, sector: any, desde: any, hasta: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}cartera-con-atraso-sector-economico/detalle`, {
+      params: new HttpParams()
+        .set('sector', sector)
+        .set('moneda', monde)
+        .set('desde', desde)
+        .set('hasta', hasta)
+    });
+  }
+
   getRecordAtraso(carteraId: any): Observable<any> {
     return this.http.get(`${this.apiUrl}record-de-atraso` , {params: new HttpParams().set('carteraId', carteraId)});
   }

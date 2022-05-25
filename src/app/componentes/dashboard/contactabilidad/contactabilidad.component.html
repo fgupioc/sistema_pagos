@@ -16,8 +16,9 @@
                     <label>Carteras</label>
                     <div class="input-group mb-3">
                         <select class="form-control" [(ngModel)]="selectCartera">
-              <option *ngFor="let item of carteras" [value]="item.codCartera">{{ item.nombre }}</option>
-            </select>
+                          <option [value]="0">Todas</option>
+                          <option *ngFor="let item of carteras" [value]="item.codCartera">{{ item.nombre }}</option>
+                        </select>
                         <div class="input-group-prepend">
                             <button type="button" (click)="loadData(selectCartera, dateDefault)" class="btn btn-info"><i class="fa fa-search"></i></button>
                         </div>

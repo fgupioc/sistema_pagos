@@ -16,7 +16,7 @@ export class Autorizacion {
   public static NOTIFY_AUTO_DETALLE = 'details';
   public static NOTIFY_AUTO_ACTUALIZAR = 'update';
   public static NOTIFY_AUTO_DISABLE = 'disable';
-  public static NOTIFY_AUTO_MENU = 'Configuracion';
+  public static NOTIFY_AUTO_MENU = 'Configuración';
   public static NOTIFY_AUTO_SUBMENU = 'Etapas';
 
 
@@ -28,7 +28,7 @@ export class Autorizacion {
   public static CARTERA_ADD_ETAPAS = 'add_etapas';
   public static CARTERA_SHOW_ETAPAS = 'show_etapas';
   public static CARTERA_UPDATE_ETAPAS = 'update_etapas';
-  public static CARTERA_MENU = 'Estrategia Segmentacion';
+  public static CARTERA_MENU = 'Estrategia Segmentación';
   public static CARTERA_SUBMENU = 'Cartera';
 
   public static ASI_CAR_GESTORES = 'show_gestores';
@@ -43,15 +43,15 @@ export class Autorizacion {
   public static ASI_CAR_ADD_CREDITO = 'agregar_credito';
   public static ASI_CAR_REMOVE_CREDITO = 'eliminar_creditos';
   public static ASI_CAR_ASIGN_TAREA = 'asignar_tareas';
-  public static ASI_CAR_MENU = 'Estrategia Segmentacion';
-  public static ASI_CAR_SUBMENU = 'Asignacion Cartera';
+  public static ASI_CAR_MENU = 'Estrategia Segmentación';
+  public static ASI_CAR_SUBMENU = 'Asignación Cartera';
 
   public static NOTIFICACION_SHOW = 'show';
-  public static NOTIFICACION_MENU = 'Estrategia Segmentacion';
-  public static NOTIFICACION_SUBMENU = 'Notificaciones Automaticas';
+  public static NOTIFICACION_MENU = 'Estrategia Segmentación';
+  public static NOTIFICACION_SUBMENU = 'Notificaciones Automáticas';
 
   public static CARTERA_ASIG_SHOW = 'show';
-  public static CARTERA_ASIG_MENU = 'Estrategia Segmentacion';
+  public static CARTERA_ASIG_MENU = 'Estrategia Segmentación';
   public static CARTERA_ASIG_SUBMENU = 'Carteras Asignadas';
 
   public static CARGA_MANUAL_CARGAR = 'ejecutar_carga';
@@ -68,7 +68,7 @@ export class Autorizacion {
   public static TAREA_SUBMENU = 'Tareas';
 
   public static MIS_TAREA_SHOW = 'show';
-  public static MIS_TAREA_MENU = 'Gestion Administrativa';
+  public static MIS_TAREA_MENU = 'Gestión Administrativa';
   public static MIS_TAREA_SUBMENU = 'Mis Tareas';
 
   public static MIS_GESTIONES_SHOW = 'show';
@@ -86,7 +86,7 @@ export class Autorizacion {
   public static MIS_GESTIONES_ADD_ADDRESS = 'add_address';
   public static MIS_GESTIONES_REMOVE_COMPROMISO = 'remove_compromiso';
   public static MIS_GESTIONES_NEW_COMPROMISO_PAGO = 'new_compromiso_pago';
-  public static MIS_GESTIONES_MENU = 'Gestion Administrativa';
+  public static MIS_GESTIONES_MENU = 'Gestión Administrativa';
   public static MIS_GESTIONES_SUBMENU = 'Mis Gestiones';
 
   // MANTENIMIENTO

@@ -7,6 +7,7 @@
       <label>Carteras</label>
       <div class="input-group mb-3">
         <select class="form-control" [(ngModel)]="selectCartera">
+          <option [value]="0">Todas</option>
           <option *ngFor="let item of carteras" [value]="item.codCartera">{{ item.nombre }}</option>
         </select>
         <div class="input-group-prepend">

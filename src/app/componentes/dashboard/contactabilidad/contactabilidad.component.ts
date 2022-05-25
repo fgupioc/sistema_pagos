@@ -21,7 +21,7 @@ export class ContactabilidadComponent implements OnInit {
   charSolesAtraso: any[] = [];
   charDolarAtraso: any[] = [];
 
-  selectCartera: any;
+  selectCartera = 0;
   carteras: Cartera[] = [];
   dateDefault = moment(new Date()).format('YYYY-MM-DD');
   sumSoles: string;
@@ -38,6 +38,7 @@ export class ContactabilidadComponent implements OnInit {
 
   ngOnInit() {
     this.listarCarteras();
+    this.loadData(this.selectCartera, this.dateDefault);
   }
 
   loadData(carteraId: any, fecha: any) {
@@ -71,10 +72,6 @@ export class ContactabilidadComponent implements OnInit {
     this.dashboardService.listarCarteras().subscribe(
       res => {
         this.carteras = res;
-        if (this.carteras.length > 0) {
-          this.selectCartera = this.carteras[0].codCartera;
-          this.loadData(this.selectCartera, this.dateDefault);
-        }
       }
     );
   }

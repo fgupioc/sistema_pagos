@@ -7,6 +7,7 @@
         <label>Carteras</label>
         <div class="input-group mb-3">
           <select class="form-control" [(ngModel)]="selectCartera">
+            <option [value]="0">Todas</option>
             <option *ngFor="let item of carteras" [value]="item.codCartera">{{ item.nombre }}</option>
           </select>
           <div class="input-group-prepend">
@@ -124,18 +125,26 @@
             </div>
           </div>
           <div class="col-12">
-            <div class="form-group">
-              <div class="lista-sectores">
-                <div class="sector-item" *ngFor="let item of sectores">
-                  <div class="bg-item bg-danger-dark">{{ calcularSector(diasAtrasoCarterasSoles, item, 31, null) }}</div>
-                  <div class="bg-item bg-orange">{{ calcularSector(diasAtrasoCarterasSoles, item, 16, 30) }}</div>
-                  <div class="bg-item bg-yellow">{{ calcularSector(diasAtrasoCarterasSoles, item, 1, 15) }}</div>
-                  <div class="bg-item bg-white text-center">
-                    <span class="font-weight-bold">S{{ item }}</span>
-                  </div>
-                </div>
+              <div *ngIf="$soles.length > 0">
+                <table datatable [dtOptions]="dtOptions"  class="table table-bordered">
+                  <thead>
+                  <tr>
+                    <th scope="col">S. Econ.</th>
+                    <th scope="col" class="bg-yellow">0 - 15 días</th>
+                    <th scope="col" class="bg-orange">16 - 30 días</th>
+                    <th scope="col" class="bg-danger">31 a más</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr class="text-center" *ngFor="let index of $soles; let i = index">
+                    <th scope="row">{{index.codSector}}</th>
+                    <td class="bg-yellow cursor-pointer" (click)="mostrarDetalle('PEN',index,'Y', 0, 15)">{{getCantidad('Y', index)}}</td>
+                    <td class="bg-orange cursor-pointer" (click)="mostrarDetalle('PEN',index,'O', 16, 30)">{{getCantidad('O',index)}}</td>
+                    <td class="bg-danger cursor-pointer" (click)="mostrarDetalle('PEN',index, 'R',31, 20000)">{{getCantidad('R',index)}}</td>
+                  </tr>
+                  </tbody>
+                </table>
               </div>
-            </div>
           </div>
         </div>
       </div>
@@ -151,17 +160,25 @@
             </div>
           </div>
           <div class="col-12">
-            <div class="form-group">
-              <div class="lista-sectores">
-                <div class="sector-item" *ngFor="let item of sectores">
-                  <div class="bg-item bg-danger-dark">{{ calcularSector(diasAtrasoCarterasDolar, item, 31, null) }}</div>
-                  <div class="bg-item bg-orange">{{ calcularSector(diasAtrasoCarterasDolar, item, 16, 30) }}</div>
-                  <div class="bg-item bg-yellow">{{ calcularSector(diasAtrasoCarterasDolar, item, 1, 15) }}</div>
-                  <div class="bg-item bg-white text-center">
-                    <span class="font-weight-bold">S{{ item }}</span>
-                  </div>
-                </div>
-              </div>
+            <div *ngIf="$dolares.length > 0">
+              <table datatable [dtOptions]="dtOptions"  class="table table-bordered">
+                <thead>
+                <tr>
+                  <th scope="col">S. Econ.</th>
+                  <th scope="col" class="bg-yellow">0 - 15 días</th>
+                  <th scope="col" class="bg-orange">16 - 30 días</th>
+                  <th scope="col" class="bg-danger">31 a más</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="text-center" *ngFor="let index of $dolares; let i = index">
+                  <th scope="row">{{index.codSector}}</th>
+                  <td class="bg-yellow cursor-pointer" (click)="mostrarDetalle('USD',index,'Y', 0, 15)">{{getCantidad('Y', index)}}</td>
+                  <td class="bg-orange cursor-pointer" (click)="mostrarDetalle('USD',index,'O', 16, 30)">{{getCantidad('O',index)}}</td>
+                  <td class="bg-danger cursor-pointer" (click)="mostrarDetalle('USD',index, 'R',31, 20000)">{{getCantidad('R',index)}}</td>
+                </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

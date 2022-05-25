@@ -24,6 +24,8 @@ import { MotivoDeAtrasoComponent } from './dashboard/motivo-de-atraso/motivo-de-
 import { RecordDeAtrasoComponent } from './dashboard/record-de-atraso/record-de-atraso.component';
 import { ContactabilidadComponent } from './dashboard/contactabilidad/contactabilidad.component';
 import { ChartContactabilidadComponent } from './dashboard/chart-contactabilidad/chart-contactabilidad.component';
+import {DataTablesModule} from 'angular-datatables';
+import { CarteraConAtrasoDetalleComponent } from './dashboard/modals/cartera-con-atraso-detalle/cartera-con-atraso-detalle.component';
 
 
 @NgModule({
@@ -44,7 +46,8 @@ import { ChartContactabilidadComponent } from './dashboard/chart-contactabilidad
     MotivoDeAtrasoComponent,
     RecordDeAtrasoComponent,
     ContactabilidadComponent,
-    ChartContactabilidadComponent
+    ChartContactabilidadComponent,
+    CarteraConAtrasoDetalleComponent
   ],
     imports: [
         CommonModule,
@@ -56,12 +59,14 @@ import { ChartContactabilidadComponent } from './dashboard/chart-contactabilidad
         ChartsModule,
         ProgressbarModule.forRoot(),
         FormsModule,
+        DataTablesModule,
     ],
   entryComponents: [
     GestionarDireccionComponent,
     GestionarTelefonoComponent,
     GestionarCorreoComponent,
-    ShowImagenComponent
+    ShowImagenComponent,
+    CarteraConAtrasoDetalleComponent
   ],
   exports: [
     ShowImagenComponent,
