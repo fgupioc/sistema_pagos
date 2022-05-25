@@ -34,11 +34,39 @@ export class DashboardService {
     return this.http.get(`${this.apiUrl}cartera-con-atraso-sector-economico`, {params: new HttpParams().set('carteraId', carteraId)});
   }
 
-  getCarteraConAtrasoSectorEconomicoDetalle(monde: any, sector: any, desde: any, hasta: any): Observable<any> {
+  getCarteraConAtrasoSectorEconomicoDetalle(moneda: any, desde: any, hasta: any): Observable<any> {
     return this.http.get(`${this.apiUrl}cartera-con-atraso-sector-economico/detalle`, {
       params: new HttpParams()
+        .set('moneda', moneda)
+        .set('desde', desde)
+        .set('hasta', hasta)
+    });
+  }
+  getCarteraConAtrasoSectorEconomicoDetalleDivision(moneda: any, division: any, desde: any, hasta: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}cartera-con-atraso-sector-economico/detalleDivision`, {
+      params: new HttpParams()
+        .set('division', division)
+        .set('moneda', moneda)
+        .set('desde', desde)
+        .set('hasta', hasta)
+    });
+  }
+  getCarteraConAtrasoSectorEconomicoDetalleDiasAtraso(moneda: any, sector: any, desde: any, hasta: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}cartera-con-atraso-sector-economico/detalleDiasAtraso`, {
+      params: new HttpParams()
         .set('sector', sector)
-        .set('moneda', monde)
+        .set('moneda', moneda)
+        .set('desde', desde)
+        .set('hasta', hasta)
+    });
+  }
+
+  getcarteraConAtrasoSectorEconomicoDetalleSalso(init: any, fin: any, moneda: any, desde: any, hasta: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}cartera-con-atraso-sector-economico/detalleSaldo`, {
+      params: new HttpParams()
+        .set('saldoInit', init)
+        .set('saldoFin', fin)
+        .set('moneda', moneda)
         .set('desde', desde)
         .set('hasta', hasta)
     });

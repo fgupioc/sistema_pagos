@@ -128,21 +128,9 @@ export class CarteraConAtrasoComponent implements OnInit {
     return 0;
   }
 
-  mostrarDetalle(moneda: string, index: any, nivel: string, desde: number, hasta: number) {
-    if (index && nivel == index.nivel && Number(index.cantidad) > 0) {
-      const data = {
-        sector: index.codSector,
-        desde,
-        hasta,
-        moneda
-      };
-      this.obtenerDetalle(data);
-    }
-  }
-
-  obtenerDetalle(data) {
+  mostrarDetalleSaldo(moneda: string, desde: number, hasta: number, item: any) {
     this.spinner.show();
-    this.dashboardService.getCarteraConAtrasoSectorEconomicoDetalle(data.moneda, data.sector, data.desde, data.hasta).subscribe(
+    this.dashboardService.getcarteraConAtrasoSectorEconomicoDetalleSalso(item.desde, item.hasta ? item.hasta : 0 , moneda, desde, hasta).subscribe(
       res => {
         this.spinner.hide();
         const modalRef = this.modalService.open(CarteraConAtrasoDetalleComponent, {size: 'xl'});
@@ -153,4 +141,27 @@ export class CarteraConAtrasoComponent implements OnInit {
       }
     );
   }
+
+  mostrarDetalleSector(moneda: string, index: any, nivel: string, desde: number, hasta: number) {
+    if (index && nivel == index.nivel && Number(index.cantidad) > 0) {
+      const data = {
+        sector: index.codSector,
+        desde,
+        hasta,
+        moneda
+      };
+      this.spinner.show();
+      this.dashboardService.getCarteraConAtrasoSectorEconomicoDetalleDiasAtraso(data.moneda, data.sector, data.desde, data.hasta).subscribe(
+        res => {
+          this.spinner.hide();
+          const modalRef = this.modalService.open(CarteraConAtrasoDetalleComponent, {size: 'xl'});
+          modalRef.componentInstance.creditos = res;
+        },
+        err => {
+          this.spinner.hide();
+        }
+      );
+    }
+  }
+
 }
