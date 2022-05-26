@@ -130,7 +130,7 @@ export class CarteraConAtrasoComponent implements OnInit {
 
   mostrarDetalleSaldo(moneda: string, desde: number, hasta: number, item: any) {
     this.spinner.show();
-    this.dashboardService.getcarteraConAtrasoSectorEconomicoDetalleSalso(item.desde, item.hasta ? item.hasta : 0 , moneda, desde, hasta).subscribe(
+    this.dashboardService.getcarteraConAtrasoSectorEconomicoDetalleSalso(this.selectCartera, item.desde, item.hasta ? item.hasta : 0 , moneda, desde, hasta).subscribe(
       res => {
         this.spinner.hide();
         const modalRef = this.modalService.open(CarteraConAtrasoDetalleComponent, {size: 'xl'});
@@ -151,7 +151,7 @@ export class CarteraConAtrasoComponent implements OnInit {
         moneda
       };
       this.spinner.show();
-      this.dashboardService.getCarteraConAtrasoSectorEconomicoDetalleDiasAtraso(data.moneda, data.sector, data.desde, data.hasta).subscribe(
+      this.dashboardService.getCarteraConAtrasoSectorEconomicoDetalleDiasAtraso(this.selectCartera, data.moneda, data.sector, data.desde, data.hasta).subscribe(
         res => {
           this.spinner.hide();
           const modalRef = this.modalService.open(CarteraConAtrasoDetalleComponent, {size: 'xl'});

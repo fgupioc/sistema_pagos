@@ -34,26 +34,29 @@ export class DashboardService {
     return this.http.get(`${this.apiUrl}cartera-con-atraso-sector-economico`, {params: new HttpParams().set('carteraId', carteraId)});
   }
 
-  getCarteraConAtrasoSectorEconomicoDetalle(moneda: any, desde: any, hasta: any): Observable<any> {
+  getCarteraConAtrasoSectorEconomicoDetalle(carteraId: any, moneda: any, desde: any, hasta: any): Observable<any> {
     return this.http.get(`${this.apiUrl}cartera-con-atraso-sector-economico/detalle`, {
       params: new HttpParams()
+        .set('carteraId', carteraId)
         .set('moneda', moneda)
         .set('desde', desde)
         .set('hasta', hasta)
     });
   }
-  getCarteraConAtrasoSectorEconomicoDetalleDivision(moneda: any, division: any, desde: any, hasta: any): Observable<any> {
+  getCarteraConAtrasoSectorEconomicoDetalleDivision(carteraId: any, moneda: any, division: any, desde: any, hasta: any): Observable<any> {
     return this.http.get(`${this.apiUrl}cartera-con-atraso-sector-economico/detalleDivision`, {
       params: new HttpParams()
+        .set('carteraId', carteraId)
         .set('division', division)
         .set('moneda', moneda)
         .set('desde', desde)
         .set('hasta', hasta)
     });
   }
-  getCarteraConAtrasoSectorEconomicoDetalleDiasAtraso(moneda: any, sector: any, desde: any, hasta: any): Observable<any> {
+  getCarteraConAtrasoSectorEconomicoDetalleDiasAtraso(carteraId: any, moneda: any, sector: any, desde: any, hasta: any): Observable<any> {
     return this.http.get(`${this.apiUrl}cartera-con-atraso-sector-economico/detalleDiasAtraso`, {
       params: new HttpParams()
+        .set('carteraId', carteraId)
         .set('sector', sector)
         .set('moneda', moneda)
         .set('desde', desde)
@@ -61,9 +64,10 @@ export class DashboardService {
     });
   }
 
-  getcarteraConAtrasoSectorEconomicoDetalleSalso(init: any, fin: any, moneda: any, desde: any, hasta: any): Observable<any> {
+  getcarteraConAtrasoSectorEconomicoDetalleSalso(carteraId: any, init: any, fin: any, moneda: any, desde: any, hasta: any): Observable<any> {
     return this.http.get(`${this.apiUrl}cartera-con-atraso-sector-economico/detalleSaldo`, {
       params: new HttpParams()
+        .set('carteraId', carteraId)
         .set('saldoInit', init)
         .set('saldoFin', fin)
         .set('moneda', moneda)

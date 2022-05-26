@@ -10,7 +10,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./chart-cartera-con-atraso.component.css']
 })
 export class ChartCarteraConAtrasoComponent implements OnInit {
-
+  @Input() carteraId = 0;
   @Input() data: any[] = [];
   @Input() divisiones: any[] = [];
   @Input() title = '';
@@ -85,7 +85,7 @@ export class ChartCarteraConAtrasoComponent implements OnInit {
 
   mostrarDetalleDivision(division: any, desde: number, hasta: number) {
     this.spinner.show();
-    this.dashboardService.getCarteraConAtrasoSectorEconomicoDetalleDivision(this.moneda, division.codigoTipoDivision, desde, hasta).subscribe(
+    this.dashboardService.getCarteraConAtrasoSectorEconomicoDetalleDivision(this.carteraId, this.moneda, division.codigoTipoDivision, desde, hasta).subscribe(
       res => {
         this.spinner.hide();
         const modalRef = this.modalService.open(CarteraConAtrasoDetalleComponent, {size: 'xl'});
@@ -99,7 +99,7 @@ export class ChartCarteraConAtrasoComponent implements OnInit {
 
   mostrarDetalle( desde: number, hasta: number) {
     this.spinner.show();
-    this.dashboardService.getCarteraConAtrasoSectorEconomicoDetalle(this.moneda, desde, hasta).subscribe(
+    this.dashboardService.getCarteraConAtrasoSectorEconomicoDetalle(this.carteraId, this.moneda, desde, hasta).subscribe(
       res => {
         this.spinner.hide();
         const modalRef = this.modalService.open(CarteraConAtrasoDetalleComponent, {size: 'xl'});

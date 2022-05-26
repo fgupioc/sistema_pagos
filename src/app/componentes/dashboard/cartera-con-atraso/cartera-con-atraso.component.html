@@ -22,14 +22,14 @@
   <div class="col-12" *ngIf="chartSoles.length > 0">
     <div class="card">
       <div class="card-body">
-        <app-chart-cartera-con-atraso [data]="chartSoles" [divisiones]="divisionSoles" title="Soles" moneda="PEN"></app-chart-cartera-con-atraso>
+        <app-chart-cartera-con-atraso [carteraId]="selectCartera" [data]="chartSoles" [divisiones]="divisionSoles" title="Soles" moneda="PEN"></app-chart-cartera-con-atraso>
       </div>
     </div>
   </div>
   <div class="col-12" *ngIf="chartDolar.length> 0">
     <div class="card">
       <div class="card-body">
-        <app-chart-cartera-con-atraso [data]="chartDolar" [divisiones]="divisionDolar" title="Dolares" moneda="USD"></app-chart-cartera-con-atraso>
+        <app-chart-cartera-con-atraso [carteraId]="selectCartera" [data]="chartDolar" [divisiones]="divisionDolar" title="Dolares" moneda="USD"></app-chart-cartera-con-atraso>
       </div>
     </div>
   </div>
