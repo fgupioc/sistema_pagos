@@ -37,6 +37,8 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ShowImagenComponent} from '../../../componentes/show-imagen/show-imagen.component';
 import {Autorizacion} from '../../../comun/autorzacion';
 import {MenuService} from '../../../servicios/sistema/menu.service';
+import {Comentario} from '../../../models/comentario';
+import {ToastrService} from 'ngx-toastr';
 
 declare var $: any;
 
@@ -66,6 +68,7 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   nroCredito: any;
   credito: Credito;
+  asignacionId: number;
   cartera: Cartera;
   funciones = FUNC;
   socio: Persona;
@@ -141,6 +144,15 @@ export class MisGestionesDetalleComponent implements OnInit {
   tipoContactoDesc = 'llamadas';
   A = Autorizacion;
 
+  $commit: Comentario;
+  comentarios: Comentario[] = [];
+
+  pagina = 1;
+  totalPages = 10;
+  totalElements = 0;
+  $comentarios: Comentario[] = [];
+  loadingComentarios = true;
+
   constructor(
     public auth: AutenticacionService,
     private router: Router,
@@ -157,8 +169,12 @@ export class MisGestionesDetalleComponent implements OnInit {
     private ubigeoService: UbigeoService,
     private direccionService: DireccionService,
     private modalService: NgbModal,
-    public menuS: MenuService
+    public menuS: MenuService,
+    public toastr: ToastrService
   ) {
+    this.$commit = new Comentario();
+    this.$commit.mensaje = '';
+    this.$commit.respuesta = '';
     this.dtOptions = CONST.C_OBJ_DT_OPCIONES();
     this.dtOptions.order = [[0, 'asc']];
     activatedRoute.params.subscribe(
@@ -401,13 +417,17 @@ export class MisGestionesDetalleComponent implements OnInit {
             this.socio = res.socio;
             this.etapa = res.etapa;
             this.campania = res.campania;
+            this.asignacionId = this.credito.asignacionId;
             this.loadAcuerdosPagos(
               this.credito.asignacionId,
               this.auth.loggedUser.id,
               this.credito.socioId,
               this.credito.id
             );
+            this.$commit.numCredito = this.nroCredito;
+            this.$commit.socioId = this.credito.socioId;
             this.listarAcciones(this.credito.id, this.credito.asignacionId);
+            this.obtenerComentarios(this.nroCredito);
           } else {
             Swal.fire('Credito', res.mensaje, 'error');
             this.router.navigateByUrl(
@@ -1589,5 +1609,100 @@ export class MisGestionesDetalleComponent implements OnInit {
     const tipo = this.form.controls.tipoContacto.value;
     const item: TablaMaestra = this.tiposContacto.find(i => i.codItem == tipo);
     this.tipoContactoDesc = item ? item.descripcion || '' : '';
+  }
+
+
+  showRespuestas(index: any) {
+    const etiqueta = $('#response-' + index);
+    const show = $('#show-' + index);
+    const hide = $('#hide-' + index);
+    if (etiqueta.hasClass('show')) {
+      etiqueta.removeClass('show');
+      etiqueta.addClass('hidden');
+      show.removeClass('hidden');
+      show.addClass('show');
+      hide.removeClass('show');
+      hide.addClass('hidden');
+    } else {
+      etiqueta.addClass('show');
+      etiqueta.removeClass('hidden');
+      show.removeClass('show');
+      show.addClass('hidden');
+      hide.removeClass('hidden');
+      hide.addClass('show');
+    }
+  }
+
+  guardarComentario() {
+    this.$commit.asignacionId = this.asignacionId;
+    this.$commit.numCredito = this.nroCredito;
+    this.$commit.padreId = null;
+    this.spinner.show();
+    this.asignacionCarteraService.guardarComentario(this.$commit).subscribe(
+      res => {
+        this.$commit.mensaje = '';
+        this.obtenerComentarios(this.nroCredito);
+        this.refreshComentarios();
+      },
+      err => {
+        console.log(err);
+        this.spinner.hide();
+      }
+    );
+  }
+
+  subComentario(id: number, input: HTMLInputElement) {
+    if (input.value == null || input.value.trim().length == 0) {
+      this.toastr.warning('Debe ingresar un comentario.');
+      return;
+    }
+
+    this.$commit.asignacionId = this.asignacionId;
+    this.$commit.numCredito = this.nroCredito;
+    this.$commit.padreId = id;
+    this.$commit.mensaje = input.value;
+    this.spinner.show();
+    this.asignacionCarteraService.guardarComentario(this.$commit).subscribe(
+      res => {
+        this.$commit.respuesta = '';
+        this.$commit.mensaje = '';
+        this.obtenerComentarios(this.nroCredito);
+        this.refreshComentarios();
+      },
+      err => {
+        console.log(err);
+        this.spinner.hide();
+      }
+    );
+  }
+
+  private obtenerComentarios(nroCredito: any) {
+    this.comentarios = [];
+    this.spinner.show();
+    this.loadingComentarios = true;
+    this.asignacionCarteraService.consultarComentarios(nroCredito).subscribe(
+      res => {
+        this.comentarios = res;
+        this.totalElements = this.comentarios.length;
+        this.refreshComentarios();
+        this.spinner.hide();
+        this.loadingComentarios = false;
+      },
+      err => {
+        console.log(err);
+        this.loadingComentarios = false;
+        this.spinner.hide();
+      }
+    );
+  }
+
+  refreshComentarios() {
+    this.$comentarios = this.comentarios
+      .map((country, i) => ({id: i + 1, ...country}))
+      .slice((this.pagina - 1) * this.totalPages, (this.pagina - 1) * this.totalPages + this.totalPages);
+  }
+
+  getFecha(fecha) {
+    return moment(fecha).fromNow();
   }
 }

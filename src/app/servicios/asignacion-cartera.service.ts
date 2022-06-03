@@ -139,7 +139,7 @@ export class AsignacionCarteraService {
   }
 
   listarTableroTareasPorEjecutivo(ejecutivoId): Observable<EjecutivoAsignacion[]> {
-    return this.http.get<EjecutivoAsignacion[]>(`${urlBase}/listar-asignacion-tarea-por-ejecutivo`,{params: new HttpParams().set('ejecutivoId', ejecutivoId)});
+    return this.http.get<EjecutivoAsignacion[]>(`${urlBase}/listar-asignacion-tarea-por-ejecutivo`, {params: new HttpParams().set('ejecutivoId', ejecutivoId)});
   }
 
   crearAsignacionTarea(tablero: EjecutivoAsignacion): Observable<Respuesta> {
@@ -167,34 +167,43 @@ export class AsignacionCarteraService {
   }
 
   creditosVencidosPorEjecutivo(ejecutivoUuid: any): Observable<any> {
-    return this.http.get<any>(`${urlBase}/creditosVencidosPorEjecutivo`, { params: new HttpParams().set('ejecutivoUuid', ejecutivoUuid) });
+    return this.http.get<any>(`${urlBase}/creditosVencidosPorEjecutivo`, {params: new HttpParams().set('ejecutivoUuid', ejecutivoUuid)});
   }
 
   buscarCreditoVencidosPorEjecutivoUuidAndCredito(ejecutivoUuid: any, numCredito: any): Observable<any> {
-    return this.http.get<any>(`${urlBase}/buscarCreditoVencidosPorEjecutivoUuidAndCredito`, { params: new HttpParams().set('ejecutivoUuid', ejecutivoUuid).set('numCredito', numCredito) });
+    return this.http.get<any>(`${urlBase}/buscarCreditoVencidosPorEjecutivoUuidAndCredito`, {params: new HttpParams().set('ejecutivoUuid', ejecutivoUuid).set('numCredito', numCredito)});
   }
 
   buscarCreditosVencidosPorEjecutivoId(gestor: any): Observable<any> {
-    return this.http.get<any>(`${urlBase}/buscarCreditosVencidosPorEjecutivoId`, { params: new HttpParams().set('gestor', gestor) });
+    return this.http.get<any>(`${urlBase}/buscarCreditosVencidosPorEjecutivoId`, {params: new HttpParams().set('gestor', gestor)});
   }
 
   buscarCreditoVencidosPorNroCredito(nroCredito: any): Observable<any> {
-    return this.http.get<any>(`${urlBase}/buscarCreditoVencidosPorNroCredito`, { params: new HttpParams().set('numCredito', nroCredito) });
+    return this.http.get<any>(`${urlBase}/buscarCreditoVencidosPorNroCredito`, {params: new HttpParams().set('numCredito', nroCredito)});
   }
 
   buscarCreditosVencidosPorCartera(carteraId: any, desde: any, hasta: any): Observable<any> {
     let params = {};
-    if (hasta){
-      params = { params: new HttpParams().set('carteraId', carteraId).set('desde', desde).set('hasta', hasta) };
+    if (hasta) {
+      params = {params: new HttpParams().set('carteraId', carteraId).set('desde', desde).set('hasta', hasta)};
     } else {
-      params = { params: new HttpParams().set('carteraId', carteraId).set('desde', desde)};
+      params = {params: new HttpParams().set('carteraId', carteraId).set('desde', desde)};
     }
 
     return this.http.get<any>(`${urlBase}/buscarCreditosVencidosPorCartera`, params);
   }
 
   buscarSolicitudPorUuid(solicitudUuid: any): Observable<any> {
-    return this.http.get<any>(`${urlBase}/buscarSolicitudPorUuid`, { params: new HttpParams().set('solicitudUuid', solicitudUuid) });
+    return this.http.get<any>(`${urlBase}/buscarSolicitudPorUuid`, {params: new HttpParams().set('solicitudUuid', solicitudUuid)});
   }
+
+  consultarComentarios(numCredito: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/consultarComentarios`, {params: new HttpParams().set('numCredito', numCredito)});
+  }
+
+  guardarComentario(comentario: any): Observable<any> {
+    return this.http.post<any>(`${urlBase}/guardarComentario`, comentario);
+  }
+
 
 }

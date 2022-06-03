@@ -17,7 +17,7 @@ export class Autorizacion {
   public static NOTIFY_AUTO_ACTUALIZAR = 'update';
   public static NOTIFY_AUTO_DISABLE = 'disable';
   public static NOTIFY_AUTO_MENU = 'Configuración';
-  public static NOTIFY_AUTO_SUBMENU = 'Etapas';
+  public static NOTIFY_AUTO_SUBMENU = 'Notificación';
 
 
   public static CARTERA_LISTA = 'list';

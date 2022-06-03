@@ -39,6 +39,10 @@ import {environment} from '../../../../environments/environment';
 import {TareaActividad} from '../../../interfaces/tarea-actividad';
 import {Autorizacion} from '../../../comun/autorzacion';
 import {MenuService} from '../../../servicios/sistema/menu.service';
+import {Comentario} from '../../../models/comentario';
+import {ToastrService} from 'ngx-toastr';
+
+declare const $: any;
 
 @Component({
   selector: 'app-credito-socio',
@@ -125,6 +129,15 @@ export class CreditoSocioComponent implements OnInit {
   ejecutivoId: any;
   A = Autorizacion;
 
+  $commit: Comentario;
+  comentarios: Comentario[] = [];
+
+  pagina = 1;
+  totalPages = 10;
+  totalElements = 0;
+  $comentarios: Comentario[] = [];
+  loadingComentarios = true;
+
   constructor(
     public auth: AutenticacionService,
     private spinner: NgxSpinnerService,
@@ -141,8 +154,12 @@ export class CreditoSocioComponent implements OnInit {
     private ubigeoService: UbigeoService,
     private direccionService: DireccionService,
     private eventosService: EventosService,
-    public menuS: MenuService
+    public menuS: MenuService,
+    public toastr: ToastrService
   ) {
+    this.$commit = new Comentario();
+    this.$commit.mensaje = '';
+    this.$commit.respuesta = '';
     config.backdrop = 'static';
     config.keyboard = false;
     this.userLoggedName = auth.loggedUser.alias;
@@ -161,6 +178,7 @@ export class CreditoSocioComponent implements OnInit {
           const state = this.router.getCurrentNavigation().extras.state;
           this.nroCredito = nroCredito;
           if (this.nroCredito) {
+            this.$commit.numCredito = nroCredito;
             this.cargarCredito();
           } else {
             router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/${this.nroCredito}/detalle`);
@@ -182,6 +200,7 @@ export class CreditoSocioComponent implements OnInit {
           this.nroCredito = nroCredito;
           if (this.nroCredito) {
             this.cargarCredito();
+            this.obtenerComentarios(nroCredito);
           } else {
             router.navigateByUrl(`/auth/estrategia/asignacion-cartera/${ejecutivoUuid}/listado/${asignacionUuid}/detalle`);
           }
@@ -269,22 +288,6 @@ export class CreditoSocioComponent implements OnInit {
     );
   }
 
-  crearEventos(tipo: number, title: string) {
-    this.formRecordatorio.controls.fecha.setValue(this.dateDefault);
-    this.formRecordatorio.controls.tipoActividad.setValue('');
-    this.formRecordatorio.controls.numeroTelefono.setValue('');
-    this.formRecordatorio.controls.correo.setValue('');
-    this.formRecordatorio.controls.tipoMetodo.setValue('');
-    this.formRecordatorio.controls.direccion.setValue('');
-    this.formRecordatorio.controls.comentario.setValue('');
-    this.typeEvent = tipo;
-    this.typeAcuerdo = null;
-    this.selectedAcuerdo = null;
-    this.title = title;
-    this.resetFormTelefono();
-
-  }
-
   public get showPhones(): Telefono[] {
     const phones: Telefono[] = [];
     this.socio.telefonos.forEach(item => {
@@ -326,15 +329,6 @@ export class CreditoSocioComponent implements OnInit {
     return emails;
   }
 
-  public get showAddress(): Direccion[] {
-    return this.socio.direcciones;
-  }
-
-  public get listadoMensaje(): TipoNotificacion[] {
-    const index = [CONST.C_INT_SMS, CONST.C_INT_WHATSAPP, CONST.C_INT_TELEGRAM];
-    return this.tipoNotificaciones.filter(item => index.includes(item.codTipoNotificacion));
-  }
-
   private loadTipoNotificaciones() {
     this.tipoNotificacionService.getAll().subscribe(
       res => this.tipoNotificaciones = res
@@ -346,18 +340,6 @@ export class CreditoSocioComponent implements OnInit {
     this.tablaMaestraService.loadTipoAcuerdos().subscribe(
       res => this.listaAcuerdos = res
     );
-  }
-
-  cambioTipoMetodo(event: any) {
-    this.socio.telefonos.forEach(item => {
-      if (event == item.tipoNotificacion) {
-        const exit = this.$telefonos.find(i => i.numero == item.numero);
-        if (!exit) {
-          this.$telefonos.push(item);
-        }
-      }
-    });
-    return this.$telefonos;
   }
 
   guardarRecordatorio() {
@@ -416,28 +398,6 @@ export class CreditoSocioComponent implements OnInit {
     return item ? item.descripcion : '';
   }
 
-  getDescripcion(item: Recordatorio) {
-    let msj = '';
-    if (item.numeroTelefono) {
-      msj = item.numeroTelefono;
-      if (item.tipoMetodo) {
-        msj += ` - ${item.tipoMetodo}`;
-      }
-    }
-
-    if (item.correo) {
-      msj = item.correo;
-      if (item.tipoMetodo) {
-        msj += ` - ${item.tipoMetodo}`;
-      }
-    }
-
-    if (item.direccion) {
-      msj = item.direccion;
-    }
-    return msj;
-  }
-
   cambiarEstado(item: Recordatorio) {
     const modal = this.modalService.open(ModalAsignarEstadoRecordatorioComponent, {size: 'sm', centered: true});
     modal.result.then(
@@ -462,87 +422,6 @@ export class CreditoSocioComponent implements OnInit {
   getNameTipoAcuerdo(condicion: any) {
     const item = this.listaAcuerdos.find(i => i.codItem == condicion);
     return item ? item.descripcion : '';
-  }
-
-  guardarAcuerdo() {
-    this.errors = [];
-    if (this.formRegistrarAcuerdo.invalid) {
-      this.errors.push('Debe llenar los datos obligatorios.');
-      return;
-    }
-    const data: AcuerdoPago = this.formRegistrarAcuerdo.getRawValue();
-    data.tipoAcuerdo = this.typeAcuerdo;
-    data.descripcion = 'estandar';
-    const list = [data];
-    this.formRegistrarAcuerdo.reset();
-    this.formRegistrarAcuerdo.controls.asignacionId.setValue(this.asignacionId);
-    this.formRegistrarAcuerdo.controls.ejecutivoId.setValue(this.ejecutivoId);
-    this.formRegistrarAcuerdo.controls.socioId.setValue(this.credito.socioId);
-    this.formRegistrarAcuerdo.controls.creditoId.setValue(this.credito.id);
-    this.formRegistrarAcuerdo.controls.fechaInicio.setValue(this.dateDefault);
-    this.spinner.show();
-    this.asignacionCarteraService.crearAcuerdoPorAsignacionYCredito(this.asignacionId, list).subscribe(
-      res => {
-        if (res.exito) {
-          this.typeAcuerdo = null;
-          Swal.fire('Información de Socio', res.mensaje, 'success');
-          this.loadAcuerdosPagos(this.asignacionId, this.ejecutivoId, this.credito.socioId, this.credito.id);
-        } else {
-          Swal.fire('Información de Socio', res.mensaje, 'error');
-        }
-        this.spinner.hide();
-      },
-      err => this.spinner.hide()
-    );
-  }
-
-  guardarPlanPago() {
-    this.errors = [];
-    if (this.formPlanPago.invalid) {
-      this.errors.push('Debe llenar los datos obligatorios.');
-      return;
-    }
-    const data: AcuerdoPago = this.formPlanPago.getRawValue();
-    const list: AcuerdoPago[] = [];
-    let start = data.fechaInicio;
-    for (let i = 1; i <= data.plazo; i++) {
-      const item = {
-        asignacionId: data.asignacionId,
-        creditoId: data.creditoId,
-        cuota: i,
-        descripcion: data.descripcion,
-        ejecutivoId: data.ejecutivoId,
-        fechaInicio: start,
-        intervalo: data.intervalo,
-        montoAcordado: data.montoAcordado,
-        plazo: data.plazo,
-        posibilidadPago: data.posibilidadPago,
-        socioId: data.socioId,
-        tipoAcuerdo: this.typeAcuerdo
-      };
-      list.push(item);
-      start = FUNC.addDays(item.fechaInicio, data.intervalo);
-    }
-    this.formPlanPago.reset();
-    this.formPlanPago.controls.asignacionId.setValue(this.asignacionId);
-    this.formPlanPago.controls.ejecutivoId.setValue(this.ejecutivoId);
-    this.formPlanPago.controls.socioId.setValue(this.credito.socioId);
-    this.formPlanPago.controls.creditoId.setValue(this.credito.id);
-    this.formPlanPago.controls.fechaInicio.setValue(this.dateDefault);
-    this.spinner.show();
-    this.asignacionCarteraService.crearAcuerdoPorAsignacionYCredito(this.asignacionId, list).subscribe(
-      res => {
-        if (res.exito) {
-          this.typeAcuerdo = null;
-          Swal.fire('Información de Socio', res.mensaje, 'success');
-          this.loadAcuerdosPagos(this.asignacionId, this.ejecutivoId, this.credito.socioId, this.credito.id);
-        } else {
-          Swal.fire('Información de Socio', res.mensaje, 'error');
-        }
-        this.spinner.hide();
-      },
-      err => this.spinner.hide()
-    );
   }
 
   eliminarAcuerdoPago(item: AcuerdoPago) {
@@ -585,63 +464,6 @@ export class CreditoSocioComponent implements OnInit {
     this.formCorreo.reset();
   }
 
-  cambioSelectTelefono() {
-    const select = this.formTelefono.controls.codTipoNotificacion.value;
-    if (isNullOrUndefined(select) || select == '') {
-      this.formTelefono.controls.numero.reset();
-      this.formTelefono.controls.codCiudad.reset();
-    }
-  }
-
-  changeTypeTelefono(event: any) {
-    this.typePhone = event;
-    this.formTelefono.controls.numero.reset();
-    this.formTelefono.controls.codCiudad.reset();
-    let flag = null;
-    if (event == this.$movil) {
-      this.max = 9;
-    } else {
-      this.max = 6;
-      flag = Validators.required;
-    }
-    this.formTelefono.controls.numero.setValidators([Validators.required, Validators.minLength(this.max)]);
-    this.formTelefono.controls.codCiudad.setValidators(flag);
-    this.formTelefono.controls.numero.updateValueAndValidity();
-    this.formTelefono.controls.codCiudad.updateValueAndValidity();
-  }
-
-  guardarTetefono() {
-    const phone: Telefono = this.formTelefono.getRawValue();
-    phone.personaId = this.socio.id;
-    const tel = this.socio.telefonos.find(v => v.codTipoNotificacion == phone.codTipoNotificacion && v.numero == phone.numero);
-    if (tel) {
-      Swal.fire('Telefono', 'EL teléfono ya esta asociada a una notificación', 'warning');
-      return;
-    }
-    this.spinner.show();
-    this.telefonoService.guardar(phone).subscribe(
-      res => {
-        if (res.exito) {
-          Swal.fire('Telefono', res.mensaje, 'success');
-          this.resetFormTelefono();
-        } else {
-          Swal.fire('Telefono', res.mensaje, 'error');
-        }
-        this.buscarSocioById(this.credito.socioId);
-        this.spinner.hide();
-      },
-      () => this.spinner.hide()
-    );
-  }
-
-  actualizarTelefono() {
-
-  }
-
-  get tipoNotificacionesTelefono() {
-    return this.tipoNotificaciones.filter(v => [1, 2, 3, 4, 7].includes(v.codTipoNotificacion));
-  }
-
   get tipoNotificacionesEmails() {
     return this.tipoNotificaciones.filter(v => [5, 6].includes(v.codTipoNotificacion));
   }
@@ -667,118 +489,6 @@ export class CreditoSocioComponent implements OnInit {
     this.create = true;
   }
 
-  cambioSelectEmails() {
-    const select = this.formCorreo.controls.codTipoNotificacion.value;
-    if (isNullOrUndefined(select) || select == '') {
-      this.formCorreo.controls.email.setValue('');
-      this.create = true;
-    }
-  }
-
-  guardarEmail() {
-    if (this.formCorreo.invalid) {
-      Swal.fire('Correo', 'Debe ingresar los datos obligatorios', 'warning');
-      return;
-    }
-    const {codTipoNotificacion, email, codUso} = this.formCorreo.getRawValue();
-    const notity = this.tipoNotificaciones.find(v => v.codTipoNotificacion == codTipoNotificacion);
-    const correo = this.socio.correos.find(i => i.email == email && i.codTipoNotificacion == codTipoNotificacion);
-    if (correo) {
-      Swal.fire('Correo', 'El correo ya se encuentra registrado para el tipo de notificación seleccionada.', 'warning');
-      return;
-    }
-    const emailDto: Email = {
-      personaId: this.socio.id,
-      codTipoNotificacion,
-      email,
-      tipoNotificacion: notity.nombre,
-      tipo: codUso
-    };
-    this.spinner.show();
-    this.emailService.crear(emailDto).subscribe(
-      res => {
-        if (res && res.emailId) {
-          Swal.fire('Correo', 'Se registro el correo con éxito.', 'success');
-          this.buscarSocioById(this.credito.socioId);
-          this.formCorreo.reset();
-          this.formCorreo.controls.codTipoNotificacion.setValue('');
-          this.formCorreo.controls.email.setValue('');
-          this.formCorreo.controls.codUso.setValue('');
-        } else {
-          Swal.fire('Correo', 'No se pudo registrar el correo.', 'error');
-        }
-        this.spinner.hide();
-      },
-      () => this.spinner.hide()
-    );
-  }
-
-  cambioManzana(event: any) {
-    const value = event.target.value;
-    if (value.length > 0) {
-      this.formDireccion.controls.lote.setValidators(
-        Validators.compose([
-          Validators.required
-        ]),
-      );
-      this.formDireccion.controls.lote.updateValueAndValidity();
-    } else {
-      this.formDireccion.controls.lote.clearValidators();
-      this.formDireccion.controls.lote.updateValueAndValidity();
-      this.formDireccion.controls.lote.setValue('');
-    }
-  }
-
-  cambioTipoSeccion(event: any) {
-    const value = event.target.value;
-    if (Number(value) !== 0) {
-      this.formDireccion.controls.numeroSeccion.setValidators(
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(CONST.C_STR_EXP_REGULAR_NUMERO)
-        ]),
-      );
-      this.formDireccion.controls.numeroSeccion.updateValueAndValidity();
-      const item = this.tipoSecciones.find(v => v.codItem == value);
-      this.$sectionName = item ? item.descripcion : 'Sección';
-    } else {
-      this.formDireccion.controls.numeroSeccion.clearValidators();
-      this.formDireccion.controls.numeroSeccion.updateValueAndValidity();
-      this.formDireccion.controls.numeroSeccion.setValue('');
-      this.$sectionName = 'Sección';
-    }
-  }
-
-  cambioTipoZona(event: any) {
-    const value = event.target.value;
-    if (Number(value) !== 0) {
-      const item = this.tipoZonas.find(v => v.codItem == value);
-      this.$zoneName = item ? item.descripcion : 'Zona';
-    } else {
-      this.$zoneName = 'Zona';
-    }
-  }
-
-  cambioTipoSector(event: any) {
-    const value = event.target.value;
-    if (Number(value) !== 0) {
-      this.formDireccion.controls.nombreSector.setValidators(
-        Validators.compose([
-          Validators.required
-        ]),
-      );
-      this.formDireccion.controls.nombreSector.updateValueAndValidity();
-      const item = this.tiposSectores.find(v => v.codItem == value);
-      this.$sectorName = item ? item.descripcion : 'Sector';
-    } else {
-      this.formDireccion.controls.nombreSector.clearValidators();
-      this.formDireccion.controls.nombreSector.updateValueAndValidity();
-      this.formDireccion.controls.nombreSector.setValue('');
-      this.$sectorName = 'Sector';
-    }
-  }
-
-
   listarDepartamentos() {
     this.ubigeoService.listarDepartamentos().subscribe(
       response => {
@@ -786,38 +496,6 @@ export class CreditoSocioComponent implements OnInit {
       },
       error => console.log(error)
     );
-  }
-
-  listarProvincias() {
-    this.provincias = [];
-    this.distritos = [];
-    this.formDireccion.controls.provincia.setValue(null);
-    this.formDireccion.controls.distrito.setValue(null);
-
-    const codDepartamento = this.formDireccion.controls.departamento.value;
-    if (codDepartamento) {
-      this.ubigeoService.listarProvincias(codDepartamento).subscribe(
-        response => {
-          this.provincias = response;
-        },
-        error => console.log(error)
-      );
-    }
-  }
-
-  listarDistritos() {
-    this.distritos = [];
-    this.formDireccion.controls.distrito.setValue(null);
-    const codDepartamento = this.formDireccion.controls.departamento.value;
-    const codProvincia = this.formDireccion.controls.provincia.value;
-    if (codDepartamento && codProvincia) {
-      this.ubigeoService.listarDistritos(codDepartamento, codProvincia).subscribe(
-        response => {
-          this.distritos = response;
-        },
-        error => console.log(error)
-      );
-    }
   }
 
   listarTipoDirecciones() {
@@ -963,6 +641,8 @@ export class CreditoSocioComponent implements OnInit {
   }
 
   private cragarInformacion() {
+    this.$commit.asignacionId = this.asignacionId;
+    this.$commit.socioId = this.credito.socioId;
     this.obtenerAsignnacionPorId(this.asignacionUuid);
     this.formRecordatorio = this.formBuilder.group({
       asignacionId: [this.asignacionId],
@@ -1351,5 +1031,98 @@ export class CreditoSocioComponent implements OnInit {
     } else {
       return '';
     }
+  }
+
+  showRespuestas(index: any) {
+    const etiqueta = $('#response-' + index);
+    const show = $('#show-' + index);
+    const hide = $('#hide-' + index);
+    if (etiqueta.hasClass('show')) {
+      etiqueta.removeClass('show');
+      etiqueta.addClass('hidden');
+      show.removeClass('hidden');
+      show.addClass('show');
+      hide.removeClass('show');
+      hide.addClass('hidden');
+    } else {
+      etiqueta.addClass('show');
+      etiqueta.removeClass('hidden');
+      show.removeClass('show');
+      show.addClass('hidden');
+      hide.removeClass('hidden');
+      hide.addClass('show');
+    }
+  }
+
+  guardarComentario() {
+    this.$commit.asignacionId = this.asignacionId;
+    this.$commit.numCredito = this.nroCredito;
+    this.$commit.padreId = null;
+    this.spinner.show();
+    this.asignacionCarteraService.guardarComentario(this.$commit).subscribe(
+      res => {
+        this.$commit.mensaje = '';
+        this.obtenerComentarios(this.nroCredito);
+        this.refreshComentarios();
+      },
+      err => {
+        console.log(err);
+        this.spinner.hide();
+      }
+    );
+  }
+
+  subComentario(id: number, input: HTMLInputElement) {
+    if (input.value == null || input.value.trim().length == 0) {
+      this.toastr.warning('Debe ingresar un comentario.');
+      return;
+    }
+    this.$commit.asignacionId = this.asignacionId;
+    this.$commit.numCredito = this.nroCredito;
+    this.$commit.padreId = id;
+    this.$commit.mensaje = input.value;
+    this.spinner.show();
+    this.asignacionCarteraService.guardarComentario(this.$commit).subscribe(
+      res => {
+        this.$commit.respuesta = '';
+        this.$commit.mensaje = '';
+        this.obtenerComentarios(this.nroCredito);
+        this.refreshComentarios();
+      },
+      err => {
+        console.log(err);
+        this.spinner.hide();
+      }
+    );
+  }
+
+  private obtenerComentarios(nroCredito: any) {
+    this.comentarios = [];
+    this.spinner.show();
+    this.loadingComentarios = true;
+    this.asignacionCarteraService.consultarComentarios(nroCredito).subscribe(
+      res => {
+        this.comentarios = res;
+        this.totalElements = this.comentarios.length;
+        this.refreshComentarios();
+        this.spinner.hide();
+        this.loadingComentarios = false;
+      },
+      err => {
+        console.log(err);
+        this.loadingComentarios = false;
+        this.spinner.hide();
+      }
+    );
+  }
+
+  refreshComentarios() {
+    this.$comentarios = this.comentarios
+      .map((country, i) => ({id: i + 1, ...country}))
+      .slice((this.pagina - 1) * this.totalPages, (this.pagina - 1) * this.totalPages + this.totalPages);
+  }
+
+  getFecha(fecha) {
+    return moment(fecha).fromNow();
   }
 }

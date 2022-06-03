@@ -1259,6 +1259,90 @@
                                 </div>
                             </ng-template>
                         </ngb-tab>
+                      <ngb-tab>
+                        <ng-template ngbTabTitle>Comentarios</ng-template>
+                        <ng-template ngbTabContent>
+                          <div class="row">
+                            <div class="col-12">
+                              <div class="card card-primary card-outline">
+                                <div class="card-body">
+                                  <div class="form-group">
+                        <textarea class="form-control" [(ngModel)]="$commit.mensaje" rows="6"[ngClass]="
+                        {
+                        'is-invalid': $commit.mensaje.length > 1000
+                        }
+                        "></textarea>
+                                  </div>
+                                  <div class="invalid-feedback" style="display: block">
+                                    <span class="d-block" *ngIf="$commit.mensaje.length > 1000"> El campo comentario es muy extenso solo son validos 1000 caractere.</span>
+                                  </div>
+                                </div>
+                                <div class="card-footer d-flex justify-content-end">
+                                  <button type="submit" class="btn btn-primary" (click)="guardarComentario()" [disabled]="$commit.mensaje.length > 1000 || $commit.mensaje.length == 0"><i class="fa fa-comment"></i> Comentar</button>
+                                  <button type="reset" class="btn btn-default"><i class="fa fa-times"></i> Cancelar</button>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12" *ngIf="$comentarios.length > 0">
+                              <div class="post" *ngFor="let comentario of $comentarios">
+                                <div class="user-block">
+                                  <img class="img-circle img-bordered-sm" src="assets/img/avatars/user.svg" alt="User Image">
+                                  <span class="username">
+                      <a href="javascript:;">{{comentario.ejecutivo.alias}}</a>
+                      </span>
+                                  <span class="description"> {{getFecha(comentario.registro)}}</span>
+                                </div>
+                                <p>
+                                  {{ comentario.mensaje }}
+                                </p>
+                                <div class="form-horizontal">
+                                  <div class="input-group input-group-sm mb-0">
+                                    <input #inputmsj class="form-control form-control-sm" placeholder="Respuesta">
+                                    <div class="input-group-append">
+                                      <button type="submit" class="btn btn-success" (click)="subComentario(comentario.id, inputmsj)">Comentar</button>
+                                    </div>
+                                  </div>
+                                </div>
+                                <br>
+                                <p class="show">
+                      <span class="float-right" *ngIf="comentario.comentarios.length > 0">
+                        <a href="javascript:;" class="link-black text-sm" (click)="showRespuestas(comentario.id)">
+                          <i class="fa fa-comments mr-1"></i>
+                          <samp [id]="'show-'+comentario.id" class="show">Mostrar</samp>
+                          <samp [id]="'hide-'+comentario.id" class="hidden">Ocultar</samp>
+                          Comentarios ({{comentario.comentarios.length}})
+                        </a>
+                      </span>
+                                </p>
+                                <div class="mt-4 post-respuesta hidden" [id]="'response-'+comentario.id" *ngIf="comentario.comentarios.length > 0">
+                                  <div class="post" *ngFor="let item of comentario.comentarios">
+                                    <div class="user-block">
+                                      <img class="img-circle img-bordered-sm" src="assets/img/avatars/user.svg" alt="User Image">
+                                      <span class="username">
+                            <a href="javascript:;">{{item.ejecutivo.alias}}</a>
+                          </span>
+                                      <span class="description">{{getFecha(item.registro)}}</span>
+                                    </div>
+                                    <p>
+                                      {{ item.mensaje }}
+                                    </p>
+                                  </div>
+
+                                </div>
+                              </div>
+                              <div class="d-flex justify-content-center p-2">
+                                <ngb-pagination [collectionSize]="totalElements" [(page)]="pagina" [pageSize]="totalPages" (pageChange)="refreshComentarios()">
+                                </ngb-pagination>
+                              </div>
+                            </div>
+                            <div class="col-12" *ngIf="loadingComentarios">
+                              <div class="form-group text-center">
+                                <small>Cargando comentarios...</small>
+                              </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </ngb-tab>
                     </ngb-tabset>
                 </div>
             </div>
