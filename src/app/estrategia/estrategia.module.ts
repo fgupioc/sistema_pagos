@@ -78,6 +78,7 @@ import { GestionarTareaComponent } from './componentes/gestionar-tarea/gestionar
 import {UsuarioUnicoService} from '../validaciones/usuario-unico.directive';
 import {RolUnicoService} from '../validaciones/rol-unico.directive';
 import { ModalBuscarSocioAsignacionComponent } from './componentes/modals/modal-buscar-socio-asignacion/modal-buscar-socio-asignacion.component';
+import { ReasignacionGestoresComponent } from './reasignacion-cartera/reasignacion-gestores/reasignacion-gestores.component';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -141,6 +142,7 @@ const ngWizardConfig: NgWizardConfig = {
     CarteraObservadaComponent,
     GestionarTareaComponent,
     ModalBuscarSocioAsignacionComponent,
+    ReasignacionGestoresComponent,
   ],
   imports: [
     CommonModule,

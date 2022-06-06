@@ -46,6 +46,14 @@ export class Autorizacion {
   public static ASI_CAR_MENU = 'Estrategia Segmentación';
   public static ASI_CAR_SUBMENU = 'Asignación Cartera';
 
+  public static REAS_CAR_GESTORES = 'show_gestores';
+  public static REAS_CAR_ASIGNACIONES = 'asignaciones';
+  public static REAS_CAR_REASIGNAR = 'reasignar';
+  public static REAS_CAR_CAMBIAR_GESTOR = 'cambiar_gestor';
+  public static REAS_CAR_DETALLE_CREDITO = 'detalle_credito';
+  public static REAS_CAR_MENU = 'Estrategia Segmentación';
+  public static REAS_CAR_SUBMENU = 'Reasignación cartera';
+
   public static NOTIFICACION_SHOW = 'show';
   public static NOTIFICACION_MENU = 'Estrategia Segmentación';
   public static NOTIFICACION_SUBMENU = 'Notificaciones Automáticas';

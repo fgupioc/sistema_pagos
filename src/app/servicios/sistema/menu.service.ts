@@ -121,4 +121,8 @@ export class MenuService {
   hasShowMisGestiones(auth: string): boolean {
     return  this.hasShow(Autorizacion.MIS_GESTIONES_MENU, Autorizacion.MIS_GESTIONES_SUBMENU, auth);
   }
+
+  hasShowReasigCartera(auth: string): boolean {
+    return  this.hasShow(Autorizacion.REAS_CAR_MENU, Autorizacion.REAS_CAR_SUBMENU, auth);
+  }
 }
