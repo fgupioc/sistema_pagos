@@ -205,5 +205,19 @@ export class AsignacionCarteraService {
     return this.http.post<any>(`${urlBase}/guardarComentario`, comentario);
   }
 
+  listarCreditoReasignarPorAsignacionUuid(asignacioUuid: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/listarCreditoReasignarPorAsignacion/${asignacioUuid}`);
+  }
 
+  listarCreditoReasignarPorAsignacionId(id: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/listarCreditoReasignarPorAsignacionId`, {params: new HttpParams().set('id', id)});
+  }
+
+  reasignarCreditos(asignacionId: any, campania: any): Observable<any> {
+    return this.http.post<any>(`${urlBase}/reasignar-creditos`, campania, {params: new HttpParams().set('asignacionId', asignacionId)});
+  }
+
+  devolverCreditoGestorOriginal(ejecutivoUuid: any, asignacionUuid: string): Observable<any> {
+    return this.http.post<any>(`${urlBase}/devolverCreditoGestorOriginal`, {}, {params: new HttpParams().set('ejecutivoUuid', ejecutivoUuid).set('asignacionUuid', asignacionUuid)});
+  }
 }

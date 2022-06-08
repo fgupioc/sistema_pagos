@@ -13,8 +13,8 @@
       </button>
     </div>
   </div>
-  <div class="card-body">
-    <div class="row" *ngIf="campania">
+  <div class="card-body" *ngIf="campania">
+    <div class="row" >
       <div class="col-6 col-md-4">
         <div class="form-group">
           <label>Gestor de Cobranza</label>
@@ -84,7 +84,7 @@
       <div class="col-12 mt-4">
         <div class="form-group">
           <div class="">
-            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+            <table datatable [dtOptions]="dtOptions"
                    class="table table-bordered table-striped table-sm table-responsive">
               <caption style="caption-side: top; text-align: center;">Lista de créditos</caption>
               <thead>

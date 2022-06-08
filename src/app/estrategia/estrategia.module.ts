@@ -79,6 +79,8 @@ import {UsuarioUnicoService} from '../validaciones/usuario-unico.directive';
 import {RolUnicoService} from '../validaciones/rol-unico.directive';
 import { ModalBuscarSocioAsignacionComponent } from './componentes/modals/modal-buscar-socio-asignacion/modal-buscar-socio-asignacion.component';
 import { ReasignacionGestoresComponent } from './reasignacion-cartera/reasignacion-gestores/reasignacion-gestores.component';
+import { MisAsignacionesReasignarComponent } from './reasignacion-cartera/mis-asignaciones-reasignar/mis-asignaciones-reasignar.component';
+import { ReasignarCreditosComponent } from './reasignacion-cartera/reasignar-creditos/reasignar-creditos.component';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -143,6 +145,8 @@ const ngWizardConfig: NgWizardConfig = {
     GestionarTareaComponent,
     ModalBuscarSocioAsignacionComponent,
     ReasignacionGestoresComponent,
+    MisAsignacionesReasignarComponent,
+    ReasignarCreditosComponent,
   ],
   imports: [
     CommonModule,

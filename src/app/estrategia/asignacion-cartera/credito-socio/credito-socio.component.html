@@ -184,7 +184,7 @@
         <ngb-tabset [destroyOnHide]="false">
           <ngb-tab title="Gestión">
             <ng-template ngbTabContent>
-              <section *ngIf="menuS.hasShowAsigCartera(A.ASI_CAR_ASIGN_TAREA)">
+              <section *ngIf="menuS.hasShowAsigCartera(A.ASI_CAR_ASIGN_TAREA) && campania.estado == '1'">
                 <div class="row other-btns mb-3">
                   <div class="col-12" *ngIf="conPermiso">
                     <a class="btn btn-social btn-instagram mr-4 text-white" (click)="showNewTask = true;">

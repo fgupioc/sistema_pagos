@@ -1,0 +1,141 @@
+<div class="card">
+  <div class="card-header">
+    <i class="fa fa-align-justify"></i>
+    <span class="card-title text-uppercase font-weight-bold">Información de la Asignación</span>
+    <div class="card-tools float-right">
+      <button type="button" class="btn btn-sm btn-primary"  [routerLink]="'/auth/estrategia/reasigacion-cartera/gestor/'+ejecutivoUuid+'/mis-asignaciones'">
+        <i class="fa fa-arrow-left"></i> Regresar
+      </button>
+
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row" *ngIf="campania && ejecutivo && asgnacion">
+      <div class="col-6 col-md-4">
+        <div class="form-group">
+          <label>Gestor de Cobranza</label>
+          <input class="form-control" [value]="ejecutivo.alias" disabled>
+        </div>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="form-group">
+          <label>Frecuencia</label>
+          <input class="form-control" [value]="campania.frecuencia" disabled>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="form-group">
+          <label>Inicio</label>
+          <input type="date" class="form-control" [value]="campania.startDate| date: 'yyyy-MM-dd'" disabled>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="form-group">
+          <label>Fin</label>
+          <input type="date" class="form-control" [value]="campania.endDate| date: 'yyyy-MM-dd'" disabled>
+        </div>
+      </div>
+      <div class="col-6 col-md-4">
+        <div class="form-group">
+          <label>Fecha Registro</label>
+          <input type="text" class="form-control" [value]="asgnacion.fechaCreacion | date: 'dd/MM/yyyy h:mm a'" disabled>
+        </div>
+      </div>
+      <div class="col-6 col-md-5">
+        <div class="form-group">
+          <label>Usuario Registró</label>
+          <input type="text" class="form-control" [value]="asgnacion.usuarioRegistro" disabled>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="form-group">
+          <label>Etapa: </label>
+          <ul class="lista-etapas">
+            <li *ngFor="let item of campania.etapaItems"> {{ item.nombreEtapa }}
+              [{{ item.desde }} a {{ item.hasta }}]
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4" *ngIf="ejecutivo">
+      <ng-container *ngIf="!asignacionVencida">
+        <ng-container *ngIf="asgnacion.estado == '1'">
+          <div class="col-6" *ngIf="creditos.length > 0">
+            <label> &nbsp;</label>
+            <div class="form-group m-0">
+              <label>
+                <label class="switch">
+                  <input type="checkbox" (change)="seleccionarTodos($event)"
+                         [checked]="$creditosCheched.length == creditos.length">
+                  <span class="slider"></span>
+                </label> Seleccionar Todo
+              </label>
+            </div>
+          </div>
+          <div class="col-12" [className]="creditosAsignadoAOtros ? 'col-md-4' : 'col-md-6'" *ngIf="creditos.length > 0">
+            <label>Gestores</label>
+            <div class="input-group mb-3">
+              <select class="form-control" [(ngModel)]="nuevoGestor">
+                <option value="">Seleccione</option>
+                <option *ngFor="let item of ejecutivos" [value]="item.codUsuario">{{item.alias}}</option>
+              </select>
+              <div class="input-group-prepend">
+                <button type="button" class="btn btn-success" [disabled]="$creditosCheched.length == 0 || nuevoGestor == ''"
+                        (click)="reasignarGestor()"> <i class="fa fa-refresh"></i> Reasignar
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <div class="col-12 col-md-2" *ngIf="asgnacion.id == asgnacion.asignacionOriginal && creditosAsignadoAOtros">
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button class="btn btn-block btn-instagram" (click)="regresarCreditos()"><i class="fa fa-reply-all" aria-hidden="true"></i> Regresar</button>
+          </div>
+        </div>
+      </ng-container>
+      <div class="col-12 ">
+        <div class="form-group">
+          <div class="table-responsive">
+            <table width="100%" datatable [dtOptions]="dtOptions" class="table table-bordered table-striped table-sm ">
+              <thead>
+              <tr>
+              <tr class="text-center">
+                <th *ngIf="asgnacion.estado == '1'" scope="col" width="5%">#</th>
+                <th>Nro Crédito</th>
+                <th>Moneda</th>
+                <th>C. Socio</th>
+                <th>Socio</th>
+                <th>Gestor Actual</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let credito of creditos; let i = index" class="text-center">
+                <th *ngIf="asgnacion.estado == '1'" scope="row">
+                  <label class="container">
+                    <input #inputAll type="checkbox" (change)="changeCheckCreditos($event, credito, inputAll)"
+                           [checked]="isChecked(credito)" [disabled]="!credito.reasignar">
+                    <span class="checkmark"></span>
+                  </label>
+                </th>
+                <td class="text-center">{{ credito.numCredito }}</td>
+                <td class="text-center">{{ credito.moneda }}</td>
+                <td class="text-center">{{ credito.socioId }}</td>
+                <td style="text-align: left">
+                  <span placement="top" [ngbTooltip]="credito.socio"
+                        [title]="credito.socio">{{ FUNC.recortarString(credito.socio, 40) }}</span>
+                </td>
+                <td style="text-align: left">
+                  <span>{{credito.actualEjecutivo}}</span>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner></ngx-spinner>

@@ -200,7 +200,7 @@ export class EjecutivoCreditosComponent implements OnInit {
   }
 
   get conPermiso() {
-    if (this.campania) {
+    if (this.campania && this.campania.estado == '1') {
       return moment().isBetween(this.campania.startDate, this.campania.endDate);
     } else {
       return false;

@@ -1,24 +1,20 @@
 import {Component, OnInit} from '@angular/core';
+import {Autorizacion} from '../../../comun/autorzacion';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AsignacionCarteraService} from '../../../servicios/asignacion-cartera.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import Swal from 'sweetalert2';
 import {AutenticacionService} from '../../../servicios/seguridad/autenticacion.service';
-import * as moment from 'moment';
-import {Autorizacion} from '../../../comun/autorzacion';
 import {MenuService} from '../../../servicios/sistema/menu.service';
-
-export interface EtapaTemp {
-  cod: number;
-  etapas: any[];
-}
+import Swal from 'sweetalert2';
+import * as moment from 'moment';
+import {EtapaTemp} from '../../asignacion-cartera/ejecutivo-asignaciones/ejecutivo-asignaciones.component';
 
 @Component({
-  selector: 'app-ejecutivo-asignaciones',
-  templateUrl: './ejecutivo-asignaciones.component.html',
-  styles: []
+  selector: 'app-mis-asignaciones-reasignar',
+  templateUrl: './mis-asignaciones-reasignar.component.html',
+  styleUrls: ['./mis-asignaciones-reasignar.component.css']
 })
-export class EjecutivoAsignacionesComponent implements OnInit {
+export class MisAsignacionesReasignarComponent implements OnInit {
   asignaciones: any[] = [];
   role: string;
   etapas: EtapaTemp[] = [];
@@ -33,19 +29,10 @@ export class EjecutivoAsignacionesComponent implements OnInit {
     private auth: AutenticacionService,
     public menuS: MenuService
   ) {
-    const {role} = activatedRoute.snapshot.data;
-    if (!role) {
-      activatedRoute.params.subscribe(({ejecutivoUuid}) => {
-        this.buscarEjecutivoByCodUsuario(ejecutivoUuid);
-        this.listaAsignacionCreditoPorEjecutivo(ejecutivoUuid);
-      });
-    } else {
-      const uuid = auth.loggedUser.uuid;
-      this.role = role;
-      if (uuid) {
-        this.misAsignacionCreditoPorEjecutivo(uuid);
-      }
-    }
+    activatedRoute.params.subscribe(({ejecutivoUuid}) => {
+      this.buscarEjecutivoByCodUsuario(ejecutivoUuid);
+      this.listaAsignacionCreditoPorEjecutivo(ejecutivoUuid);
+    });
   }
 
   ngOnInit() {
@@ -101,6 +88,8 @@ export class EjecutivoAsignacionesComponent implements OnInit {
     if (item.estado == 0) {
       return 'table-warning';
     }
+
+    //return !(moment().isBetween(item.startDate, item.endDate)) ? 'table-danger' : '';
   }
 
   buscarEjecutivoByCodUsuario(codUsuario) {

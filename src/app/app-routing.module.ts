@@ -76,6 +76,8 @@ import { CarteraVencidaSocioComponent } from './estrategia/procesos/cartera-venc
 import { CarteraObservadasComponent } from './estrategia/procesos/cartera-vencida/cartera-observadas/cartera-observadas.component';
 import { CarteraObservadaComponent } from './estrategia/procesos/cartera-vencida/cartera-observada/cartera-observada.component';
 import {ReasignacionGestoresComponent} from './estrategia/reasignacion-cartera/reasignacion-gestores/reasignacion-gestores.component';
+import {MisAsignacionesReasignarComponent} from './estrategia/reasignacion-cartera/mis-asignaciones-reasignar/mis-asignaciones-reasignar.component';
+import {ReasignarCreditosComponent} from './estrategia/reasignacion-cartera/reasignar-creditos/reasignar-creditos.component';
 
 
 const A = Autorizacion;
@@ -172,6 +174,8 @@ const routes: Routes = [
               path: 'reasigacion-cartera',
               children: [
                 {path: '', component: ReasignacionGestoresComponent, canActivate: [CanAuthorityGuard]},
+                {path: 'gestor/:ejecutivoUuid/mis-asignaciones', component: MisAsignacionesReasignarComponent},
+                {path: 'gestor/:ejecutivoUuid/mis-asignaciones/:asignacionUuid/detalle', component: ReasignarCreditosComponent},
               ]
             },
           ]

@@ -1,14 +1,18 @@
 export class EjecutivoCredito {
-  id: number;
-  codEjecutivo: number;
+  asignacionAnterior: number;
+  asignacionOriginal: number;
   codCartera: number;
-  startDate: number;
+  codEjecutivo: number;
+  departamento: string;
   endDate: number;
-  frecuencia: string;
-  fechaCreacion: number;
+  estado: string;
   fechaActualizacion: number;
+  fechaCreacion: number;
+  frecuencia: string;
+  id: number;
+  startDate: number;
   userCreate: number;
   userUpdate: number;
-  estado: string;
-  nombreCartera: string;
+  uuid: string;
+  usuarioRegistro?: string;
 }
