@@ -23,7 +23,7 @@
     <div class="card">
       <div class="card-body">
         <div class="position-relative mb-4">
-          <app-chart-estado-cartera title="Soles (Miles)" [dataChart]="sol" [year]="year"></app-chart-estado-cartera>
+          <app-chart-estado-cartera title="Soles (Miles)" [dataChart]="sol" [year]="year" [cartera]="cartera" moneda="PEN" [codCartera]="selectCartera"></app-chart-estado-cartera>
         </div>
       </div>
     </div>
@@ -32,7 +32,7 @@
     <div class="card">
       <div class="card-body">
         <div class="position-relative mb-4">
-          <app-chart-estado-cartera title="Dolares (Miles)" [dataChart]="dolar" [year]="year"></app-chart-estado-cartera>
+          <app-chart-estado-cartera title="Dolares (Miles)" [dataChart]="dolar" [year]="year" [cartera]="cartera" moneda="USD" [codCartera]="selectCartera"></app-chart-estado-cartera>
         </div>
       </div>
     </div>

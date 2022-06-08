@@ -1,0 +1,52 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="div">
+      <span class="modal-title font-weight-bold" style="font-size: 18px">{{titulo}}</span> <br>
+      <span class="card-subtitle"  style="font-size: 15px">{{subtitulo}}</span>
+    </div>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">X</button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive" *ngIf="creditos.length > 0">
+          <table datatable [dtOptions]="dtOptions" class="tabletable-bordered ">
+            <thead>
+            <tr class="text-center">
+              <th>#</th>
+              <th>Nro Crédito</th>
+              <th>Socio</th>
+              <th>Moneda</th>
+              <th>Cap. Vig.</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let o of creditos; index as i; ">
+              <td class="text-center">{{ i + 1 }}</td>
+              <td class="text-center">{{ o.nroCredito }}</td>
+
+              <td class="text-center">
+                <span placement="top" [ngbTooltip]="o.alias" [title]="o.alias">{{ FUNC.recortarString(o.alias, 40) }}</span>
+              </td>
+              <td class="text-center">{{ o.codMoneda }}</td>
+              <td class="text-center">{{ o.creditoVigente | currency : ' ' }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="creditos.length == 0" class="text-center">
+          <h6>No hay datos para mostrar</h6>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="float-right">
+          <small class="font-weight-bold" style="font-size: 20px">Total: {{ calcularTotal | currency : ' ' }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cerrar</button>
+  </div>
+</div>

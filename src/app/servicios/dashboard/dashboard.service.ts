@@ -91,4 +91,12 @@ export class DashboardService {
   getMotivoAtraso(carteraId: any, codMoneda: any): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}motivo-de-atraso`, {params: new HttpParams().set('carteraId', carteraId).set('codMoneda', codMoneda)});
   }
+
+  listarDetalleCreditosAldia(carteraId: any, moneda: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}estado-carteras-creditos-al-dia` , {params: new HttpParams().set('carteraId', carteraId).set('moneda', moneda)});
+  }
+
+  listarDetalleCreditosConAtraso(carteraId: any, moneda: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}estado-carteras-creditos-con-atraso` , {params: new HttpParams().set('carteraId', carteraId).set('moneda', moneda)});
+  }
 }

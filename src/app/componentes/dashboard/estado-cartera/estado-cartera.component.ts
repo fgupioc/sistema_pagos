@@ -18,6 +18,7 @@ export class EstadoCarteraComponent implements OnInit {
   dolar: any;
   year: number[] = [];
   selectCartera = 0;
+  cartera: Cartera;
 
   constructor(
     private dashboardService: DashboardService,
@@ -36,6 +37,7 @@ export class EstadoCarteraComponent implements OnInit {
     this.year = [];
     this.sol = null;
     this.dolar = null;
+    this.cartera = this.$carteras.find(i => i.codCartera == carteraId);
     this.spinner.show();
     this.dashboardService.getEstadoLasCarteras(carteraId).subscribe(
       res => {
