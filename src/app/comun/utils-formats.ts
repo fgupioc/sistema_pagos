@@ -74,11 +74,11 @@ export class UtilsFormats {
 
   private static simplificaNumero(numero: number): number {
     if (numero >= 1000 && numero < 1000000) {
-      return (numero / 1000);
+      return Number((numero / 1000).toFixed(2));
     }
 
     if (numero >= 1000000) {
-      return (numero / 1000000);
+      return Number((numero / 1000000).toFixed(2));
     }
 
     return 0;

@@ -20,4 +20,10 @@ export class CarteraConAtrasoDetalleComponent implements OnInit {
     this.dtOptions = CONST.DATATABLE_ES();
   }
 
+  get calcularTotal() {
+    if (this.creditos.length == 0) {
+      return 0.0;
+    }
+    return  Object.values(this.creditos).reduce((t, {montoCredito}) => t + montoCredito, 0);
+  }
 }

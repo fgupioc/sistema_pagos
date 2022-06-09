@@ -34,20 +34,20 @@
             <tbody>
             <tr>
               <td scope="row">Soles</td>
-              <td *ngFor="let item of alDia">
-                <div class="progress" style="height: 25px;">
+              <td *ngFor="let item of alDia" class="cursor-pointer" (click)="mostrarDetalle('PEN', item)">
+                <div class="progress" style="height: 25px;" placement="top" [ngbTooltip]=" calcularInfoHover(pagosDiaSoles, item)" >
                   <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" class="progress-bar  bg-primary" role="progressbar" style="width: 100%;">
-                    {{ calcularInfo(pagosDiaSoles, item)| currency: ' ' }}
+                    {{ calcularInfo(pagosDiaSoles, item) }}
                   </div>
                 </div>
               </td>
             </tr>
             <tr>
               <td scope="row">Dolares</td>
-              <td *ngFor="let item of alDia">
-                <div class="progress" style="height: 25px;">
+              <td *ngFor="let item of alDia" class="cursor-pointer" (click)="mostrarDetalle('USD', item)">
+                <div class="progress" style="height: 25px;" placement="top" [ngbTooltip]=" calcularInfoHover(pagosDiaDolar, item)">
                   <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" class="progress-bar  bg-info-ligth" role="progressbar" style="width: 100%;">
-                    {{ calcularInfo(pagosDiaDolar, item)| currency: ' ' }}
+                    {{ calcularInfo(pagosDiaDolar, item) }}
                   </div>
                 </div>
               </td>
@@ -73,20 +73,20 @@
             <tbody>
             <tr>
               <td scope="row">Soles</td>
-              <td *ngFor="let item of atraso">
-                <div class="progress" style="height: 25px;">
+              <td *ngFor="let item of atraso"  class="cursor-pointer" (click)="mostrarDetalle('PEN', item)">
+                <div class="progress" style="height: 25px;" placement="top" [ngbTooltip]="calcularInfoHover(pagosAtrasoSoles, item)">
                   <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" class="progress-bar bg-brown" role="progressbar" style="width: 100%;">
-                    {{ calcularInfo(pagosAtrasoSoles, item) | currency: ' '}}
+                    {{ calcularInfo(pagosAtrasoSoles, item) }}
                   </div>
                 </div>
               </td>
             </tr>
             <tr>
               <td scope="row">Dolares</td>
-              <td *ngFor="let item of atraso">
-                <div class="progress" style="height: 25px;">
+              <td *ngFor="let item of atraso" class="cursor-pointer" (click)="mostrarDetalle('USD', item)">
+                <div class="progress" style="height: 25px;" placement="top" [ngbTooltip]=" calcularInfoHover(pagosAtrasoDolar, item)">
                   <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" class="progress-bar bg-brown-ligth" role="progressbar" style="width: 100%;">
-                    {{ calcularInfo(pagosAtrasoDolar, item) | currency: ' ' }}
+                    {{ calcularInfo(pagosAtrasoDolar, item)  }}
                   </div>
                 </div>
               </td>

@@ -111,5 +111,14 @@ export class DashboardService {
         .set('hasta', hasta)
     });
   }
+  getRecorAtrasoCreditos(carteraId: any, moneda: any, desde: any, hasta: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}record-atraso-creditos`, {
+      params: new HttpParams()
+        .set('carteraId', carteraId)
+        .set('moneda', moneda)
+        .set('desde', desde)
+        .set('hasta', hasta)
+    });
+  }
 
 }
