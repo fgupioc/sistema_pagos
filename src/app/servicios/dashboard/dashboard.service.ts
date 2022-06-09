@@ -1,7 +1,7 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {environment} from 'src/environments/environment';
 import {Cartera} from '../../interfaces/cartera';
 
 @Injectable({
@@ -43,6 +43,7 @@ export class DashboardService {
         .set('hasta', hasta)
     });
   }
+
   getCarteraConAtrasoSectorEconomicoDetalleDivision(carteraId: any, moneda: any, division: any, desde: any, hasta: any): Observable<any> {
     return this.http.get(`${this.apiUrl}cartera-con-atraso-sector-economico/detalleDivision`, {
       params: new HttpParams()
@@ -53,6 +54,7 @@ export class DashboardService {
         .set('hasta', hasta)
     });
   }
+
   getCarteraConAtrasoSectorEconomicoDetalleDiasAtraso(carteraId: any, moneda: any, sector: any, desde: any, hasta: any): Observable<any> {
     return this.http.get(`${this.apiUrl}cartera-con-atraso-sector-economico/detalleDiasAtraso`, {
       params: new HttpParams()
@@ -77,7 +79,7 @@ export class DashboardService {
   }
 
   getRecordAtraso(carteraId: any): Observable<any> {
-    return this.http.get(`${this.apiUrl}record-de-atraso` , {params: new HttpParams().set('carteraId', carteraId)});
+    return this.http.get(`${this.apiUrl}record-de-atraso`, {params: new HttpParams().set('carteraId', carteraId)});
   }
 
   getContactabilidad(carteraId: any, fecha: any): Observable<any> {
@@ -93,10 +95,21 @@ export class DashboardService {
   }
 
   listarDetalleCreditosAldia(carteraId: any, moneda: any): Observable<any> {
-    return this.http.get(`${this.apiUrl}estado-carteras-creditos-al-dia` , {params: new HttpParams().set('carteraId', carteraId).set('moneda', moneda)});
+    return this.http.get(`${this.apiUrl}estado-carteras-creditos-al-dia`, {params: new HttpParams().set('carteraId', carteraId).set('moneda', moneda)});
   }
 
   listarDetalleCreditosConAtraso(carteraId: any, moneda: any): Observable<any> {
-    return this.http.get(`${this.apiUrl}estado-carteras-creditos-con-atraso` , {params: new HttpParams().set('carteraId', carteraId).set('moneda', moneda)});
+    return this.http.get(`${this.apiUrl}estado-carteras-creditos-con-atraso`, {params: new HttpParams().set('carteraId', carteraId).set('moneda', moneda)});
   }
+
+  getComportamientoPagoCreditos(carteraId: any, productoAbaco: any, desde: any, hasta: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}comportamiento-pago-creditos`, {
+      params: new HttpParams()
+        .set('carteraId', carteraId)
+        .set('codProducto', productoAbaco)
+        .set('desde', desde)
+        .set('hasta', hasta)
+    });
+  }
+
 }

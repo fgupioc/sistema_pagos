@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DashboardService} from '../../../servicios/dashboard/dashboard.service';
 import {Cartera} from '../../../interfaces/cartera';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {CarteraConAtrasoDetalleComponent} from '../modals/cartera-con-atraso-detalle/cartera-con-atraso-detalle.component';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-comportamiento-de-pago',
@@ -12,10 +14,13 @@ export class ComportamientoDePagoComponent implements OnInit {
   carteras: Cartera[] = [];
   productos: any[] = [];
   selectCartera = 0;
+
   constructor(
     private dashboardService: DashboardService,
-    private spinner: NgxSpinnerService
-  ) { }
+    private spinner: NgxSpinnerService,
+    private modalService: NgbModal
+  ) {
+  }
 
   ngOnInit() {
     this.listarCarteras();
@@ -44,6 +49,18 @@ export class ComportamientoDePagoComponent implements OnInit {
       res => {
         this.carteras = res;
       }
+    );
+  }
+
+  mostrarDetalle(desde: number, hasta: number, item: any) {
+    this.spinner.show();
+    this.dashboardService.getComportamientoPagoCreditos(this.selectCartera, item.codigoProducto, desde, hasta).subscribe(
+      res => {
+        const modalRef = this.modalService.open(CarteraConAtrasoDetalleComponent, {size: 'xl'});
+        modalRef.componentInstance.creditos = res;
+        this.spinner.hide();
+      },
+      err => this.spinner.show()
     );
   }
 }
