@@ -1,0 +1,54 @@
+<div class="modal-content" *ngIf="respuesta">
+  <div class="modal-header">
+    <h4 class="modal-title">{{respuesta.descripcion}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">X</button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div *ngIf="creditos.length > 0" class="table-responsive">
+          <table datatable [dtOptions]="dtOptions" class="table table-bordered ">
+            <thead>
+            <tr class="text-center">
+              <th>#</th>
+              <th>Nro Crédito</th>
+              <th>Moneda</th>
+              <th>C. Socio</th>
+              <th>Socio</th>
+              <th>Gestor</th>
+              <th>Comentario</th>
+              <th>Fec. Regsitro</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let o of creditos; index as i; ">
+              <td class="text-center">{{ i + 1 }}</td>
+              <td class="text-center">{{ o.creditoId }}</td>
+              <td class="text-center">{{ o.codigoMoneda }}</td>
+              <td class="text-center">{{ o.socioId }}</td>
+              <td class="text-center">
+                <span placement="top" [ngbTooltip]="o.socio" [title]="o.socio">{{ FUNC.recortarString(o.socio, 10) }}</span>
+              </td>
+              <td class="text-center">
+                <span placement="top" [ngbTooltip]="o.gestor" [title]="o.gestor">{{ FUNC.recortarString(o.gestor, 10) }}</span>
+              </td>
+              <td class="text-center">
+                <span placement="top" [ngbTooltip]="o.comentario" [title]="o.comentario">{{ FUNC.recortarString(o.comentario, 10) }}</span>
+              </td>
+              <td class="text-center">{{ o.fechaCreacion | date: 'dd/MM/yyyy' }}</td>
+
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="creditos.length == 0" class="text-center">
+          <h6>No hay datos para mostrar</h6>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cerrar</button>
+  </div>
+</div>

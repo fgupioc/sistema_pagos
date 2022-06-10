@@ -5,6 +5,9 @@ import {FUNC} from '../../../comun/FUNC';
 import {Cartera} from '../../../interfaces/cartera';
 import {DashboardService} from '../../../servicios/dashboard/dashboard.service';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CarteraConAtrasoDetalleComponent} from '../modals/cartera-con-atraso-detalle/cartera-con-atraso-detalle.component';
+import {ModalMotivoDeAtrasoDetalleComponent} from './modal-motivo-de-atraso-detalle/modal-motivo-de-atraso-detalle.component';
 
 @Component({
   selector: 'app-motivo-de-atraso',
@@ -22,7 +25,8 @@ export class MotivoDeAtrasoComponent implements OnInit {
   constructor(
     private tablaMaestraService: MaestroService,
     private dashboardService: DashboardService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private modalService: NgbModal
   ) {
   }
 
@@ -78,13 +82,28 @@ export class MotivoDeAtrasoComponent implements OnInit {
           for (const item of res.creditos) {
             const index = this.respuestas.findIndex(i => i.codItem == item.codigoRespuesta);
             if (index >= 0) {
-              this.respuestas[index].total += this.respuestas[index].total + 1;
+              this.respuestas[index].total = item.cantidad;
             }
           }
         }
         this.spinner.hide();
       },
       err => this.spinner.hide()
+    );
+  }
+
+  mostrarDetalle(item: any) {
+    this.spinner.show();
+    this.dashboardService.getMorivosAtrasoCreditos(this.selectCartera, item.codItem).subscribe(
+      res => {
+        const modalRef = this.modalService.open(ModalMotivoDeAtrasoDetalleComponent, {size: 'xl'});
+        modalRef.componentInstance.creditos = res;
+        modalRef.componentInstance.respuesta = item;
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
+      }
     );
   }
 }

@@ -111,6 +111,7 @@ export class DashboardService {
         .set('hasta', hasta)
     });
   }
+
   getRecorAtrasoCreditos(carteraId: any, moneda: any, desde: any, hasta: any): Observable<any> {
     return this.http.get(`${this.apiUrl}record-atraso-creditos`, {
       params: new HttpParams()
@@ -121,4 +122,11 @@ export class DashboardService {
     });
   }
 
+  getMorivosAtrasoCreditos(carteraId: any, codRespuesta: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}motivos-atraso-creditos`, {
+      params: new HttpParams()
+        .set('carteraId', carteraId)
+        .set('codRespuesta', codRespuesta)
+    });
+  }
 }

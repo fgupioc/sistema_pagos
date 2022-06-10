@@ -27,6 +27,7 @@ import { ChartContactabilidadComponent } from './dashboard/chart-contactabilidad
 import {DataTablesModule} from 'angular-datatables';
 import { CarteraConAtrasoDetalleComponent } from './dashboard/modals/cartera-con-atraso-detalle/cartera-con-atraso-detalle.component';
 import { CreditosEstadoCarteraComponent } from './dashboard/estado-cartera/creditos-estado-cartera/creditos-estado-cartera.component';
+import { ModalMotivoDeAtrasoDetalleComponent } from './dashboard/motivo-de-atraso/modal-motivo-de-atraso-detalle/modal-motivo-de-atraso-detalle.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { CreditosEstadoCarteraComponent } from './dashboard/estado-cartera/credi
     ContactabilidadComponent,
     ChartContactabilidadComponent,
     CarteraConAtrasoDetalleComponent,
-    CreditosEstadoCarteraComponent
+    CreditosEstadoCarteraComponent,
+    ModalMotivoDeAtrasoDetalleComponent
   ],
     imports: [
         CommonModule,
@@ -69,7 +71,8 @@ import { CreditosEstadoCarteraComponent } from './dashboard/estado-cartera/credi
     GestionarCorreoComponent,
     ShowImagenComponent,
     CarteraConAtrasoDetalleComponent,
-    CreditosEstadoCarteraComponent
+    CreditosEstadoCarteraComponent,
+    ModalMotivoDeAtrasoDetalleComponent
   ],
   exports: [
     ShowImagenComponent,
