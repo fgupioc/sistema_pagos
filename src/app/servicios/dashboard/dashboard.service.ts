@@ -129,4 +129,14 @@ export class DashboardService {
         .set('codRespuesta', codRespuesta)
     });
   }
+
+  getContactabilidadCreditos(carteraId: any, fecha: any, moneda: any, tipo: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}contactabilidad-creditos`, {
+      params: new HttpParams()
+        .set('carteraId', carteraId)
+        .set('fecha', fecha)
+        .set('moneda', moneda)
+        .set('tipo', tipo)
+    });
+  }
 }

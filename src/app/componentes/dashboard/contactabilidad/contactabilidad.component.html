@@ -41,14 +41,14 @@
                 <div class="row" *ngIf="true">
                     <div class="col-12" *ngIf="sumSolesAtraso">
                         <div class="form-group text-center font-weight-bold">
-                            <label>{{sumSolesAtraso + ' Soles  (Miles)'}}</label>
-                            <app-chart-contactabilidad [pieChartData]="charSolesAtraso" [title]=""></app-chart-contactabilidad>
+                            <label>{{sumSolesAtraso + ' Soles'}}</label>
+                            <app-chart-contactabilidad [carteraId]="selectCartera" moneda="PEN" [fecha]="dateDefault" [pieChartData]="charSolesAtraso" [title]=""></app-chart-contactabilidad>
                         </div>
                     </div>
                     <div class="col-12" *ngIf="sumDolaresAtraso">
                         <div class="form-group text-center font-weight-bold">
-                            <label>{{ sumDolaresAtraso + ' Dolar  (Miles)' }}</label>
-                            <app-chart-contactabilidad [pieChartData]="charDolarAtraso" [title]=""></app-chart-contactabilidad>
+                            <label>{{ sumDolaresAtraso + ' Dolar' }}</label>
+                            <app-chart-contactabilidad [carteraId]="selectCartera" moneda="USD" [fecha]="dateDefault" [pieChartData]="charDolarAtraso" [title]=""></app-chart-contactabilidad>
                         </div>
                     </div>
                 </div>

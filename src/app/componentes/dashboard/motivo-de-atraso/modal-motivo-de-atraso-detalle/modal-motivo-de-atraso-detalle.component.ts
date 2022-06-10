@@ -12,6 +12,7 @@ export class ModalMotivoDeAtrasoDetalleComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   @Input() creditos: any[] = [];
   @Input() respuesta: any;
+  @Input() columns: any;
   FUNC = FUNC;
 
   constructor(public activeModal: NgbActiveModal) {

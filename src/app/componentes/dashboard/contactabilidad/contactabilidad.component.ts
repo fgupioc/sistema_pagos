@@ -4,6 +4,8 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {Cartera} from '../../../interfaces/cartera';
 import * as moment from 'moment';
 import { MyCurrencyPipe } from '../../../pipes/mycurrency.pipe';
+import {FUNC} from '../../../comun/FUNC';
+import {UtilsFormats} from '../../../comun/utils-formats';
 
 @Component({
   selector: 'app-contactabilidad',
@@ -65,7 +67,7 @@ export class ContactabilidadComponent implements OnInit {
   calcularSumaMonto(items: any[] = []) {
     if (!items) return '0.00';
     const res = items.length == 0 ? 0 : Object.values(items).reduce((t, {montoCuota}) => t + montoCuota, 0);
-    return this.fmt.transform(String(res));
+    return UtilsFormats.mostrarNumeroSimplificado(res);
   }
 
   private listarCarteras() {

@@ -99,6 +99,7 @@ export class MotivoDeAtrasoComponent implements OnInit {
         const modalRef = this.modalService.open(ModalMotivoDeAtrasoDetalleComponent, {size: 'xl'});
         modalRef.componentInstance.creditos = res;
         modalRef.componentInstance.respuesta = item;
+        modalRef.componentInstance.columns = {comentarios: true, fecha: true};
         this.spinner.hide();
       },
       err => {
