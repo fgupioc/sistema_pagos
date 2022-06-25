@@ -910,6 +910,7 @@ export class SupervisorCreditoSocioComponent implements OnInit {
       res => {
         if (res.exito) {
           this.credito = res.objeto;
+          console.log(this.credito);
           this.cragarInformacion();
         } else {
           this.router.navigateByUrl(`/auth/estrategia/asignacion-cartera/mis-asignaciones/${this.nroCredito}/detalle`);

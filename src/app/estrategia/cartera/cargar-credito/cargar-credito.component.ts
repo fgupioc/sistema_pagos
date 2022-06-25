@@ -1,18 +1,18 @@
-import { Component, OnInit } from "@angular/core";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { CarteraCargarCreditoFileComponent } from "./file/file.component";
-import { CreditoService } from "../../../servicios/estrategia/credito.service";
-import { NgxSpinnerService } from "ngx-spinner";
-import Swal from "sweetalert2";
-import { ToastrService } from "ngx-toastr";
-import { CarteraService } from "../../../servicios/estrategia/cartera.service";
+import {Component, OnInit} from '@angular/core';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CarteraCargarCreditoFileComponent} from './file/file.component';
+import {CreditoService} from '../../../servicios/estrategia/credito.service';
+import {NgxSpinnerService} from 'ngx-spinner';
+import Swal from 'sweetalert2';
+import {ToastrService} from 'ngx-toastr';
+import {CarteraService} from '../../../servicios/estrategia/cartera.service';
 import {Autorizacion, S} from '../../../comun/autorzacion';
 import {MenuService} from '../../../servicios/sistema/menu.service';
 
 @Component({
-  selector: "app-cargar-credito",
-  templateUrl: "./cargar-credito.component.html",
-  styleUrls: ["./cargar-credito.component.css"],
+  selector: 'app-cargar-credito',
+  templateUrl: './cargar-credito.component.html',
+  styleUrls: ['./cargar-credito.component.css'],
 })
 export class CarteraCargarCreditoComponent implements OnInit {
   cargas = [];
@@ -28,7 +28,8 @@ export class CarteraCargarCreditoComponent implements OnInit {
     private toastr: ToastrService,
     private carteraService: CarteraService,
     public menuS: MenuService
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     if (this.menuS.hasShowCargaManual(this.A.CARGA_MANUAL_CARGAR)) {
@@ -48,12 +49,12 @@ export class CarteraCargarCreditoComponent implements OnInit {
 
   quieresResetear() {
     Swal.fire({
-      text: "Quieres Resetear",
-      icon: "warning",
+      text: 'Quieres Resetear',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "btn-primary",
-      confirmButtonText: "Si, Resetear!",
-      cancelButtonText: "Cancelar",
+      confirmButtonColor: 'btn-primary',
+      confirmButtonText: 'Si, Resetear!',
+      cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
         this.resetear();
@@ -82,7 +83,7 @@ export class CarteraCargarCreditoComponent implements OnInit {
         this.toastr.success(result.mensaje);
         this.listarCargas();
       } else {
-        Swal.fire("", result.mensaje, "error");
+        Swal.fire('', result.mensaje, 'error');
       }
     });
   }
@@ -102,12 +103,12 @@ export class CarteraCargarCreditoComponent implements OnInit {
 
   quieresEjecutarCarga() {
     Swal.fire({
-      text: "Quieres Ejecutar la Carga",
-      icon: "warning",
+      text: 'Quieres Ejecutar la Carga',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "btn-primary",
-      confirmButtonText: "Si, Ejecutar Carga!",
-      cancelButtonText: "Cancelar",
+      confirmButtonColor: 'btn-primary',
+      confirmButtonText: 'Si, Ejecutar Carga!',
+      cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
         this.ejecutarCarga();
@@ -121,15 +122,15 @@ export class CarteraCargarCreditoComponent implements OnInit {
     if (carteraId) {
       this.carteraService.cargarCreditosCartera(carteraId).subscribe(
         res => {
-          console.log(res);
           this.spinner.hide();
-          Swal.fire('Cargar Créditos',`<b>Total de Créditos: </b> ${res.creditos} </br> <b>Créditos Nuevos: </b> ${res.creditosNew} </br> <b>Créditos Actualizados: </b> ${res.creditosUpdate} </br>`, 'success')
+          Swal.fire('Cargar Créditos', `<b>Total de Créditos: </b> ${res.creditos} </br> <b>Créditos Nuevos: </b> ${res.creditosNew} </br> <b>Créditos Actualizados: </b> ${res.creditosUpdate} </br>`, 'success');
+          this.carteraService.cargarSociosSinDatos();
         },
         err => {
           this.spinner.hide();
           Swal.fire('', 'Ocurrio un error en el proceso de carga...', 'error');
         }
-      )
+      );
     }
 
   }

@@ -97,6 +97,10 @@ export class CarteraService {
    * @returns
    */
    cargarCreditosCartera(carteraId: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}cargarCreditosCartera`, [], { params: new HttpParams().set('carteraId', carteraId) })
+    return this.http.post<any>(`${this.apiUrl}cargarCreditosCartera`, [], { params: new HttpParams().set('carteraId', carteraId) });
+  }
+
+  cargarSociosSinDatos(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}buscarSociosSinDatos`);
   }
 }
