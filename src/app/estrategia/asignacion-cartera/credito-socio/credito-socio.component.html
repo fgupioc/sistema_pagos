@@ -568,6 +568,7 @@
                     <p>
                      {{ comentario.mensaje }}
                     </p>
+                  <ng-container *ngIf="false">
                     <div class="form-horizontal">
                       <div class="input-group input-group-sm mb-0">
                         <input #inputmsj class="form-control form-control-sm" placeholder="Respuesta">
@@ -602,6 +603,7 @@
                       </div>
 
                     </div>
+                  </ng-container>
                   </div>
                   <div class="d-flex justify-content-center p-2">
                     <ngb-pagination [collectionSize]="totalElements" [(page)]="pagina" [pageSize]="totalPages" (pageChange)="refreshComentarios()">
