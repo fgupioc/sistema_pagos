@@ -1705,4 +1705,113 @@ export class MisGestionesDetalleComponent implements OnInit {
   getFecha(fecha) {
     return moment(fecha).fromNow();
   }
+
+
+  showBotonesAcuerdo(acuerdosPagoTemp: AcuerdoPago[]): boolean {
+    const item = acuerdosPagoTemp.find(i => i.condicion == '6');
+    return !!item;
+  }
+
+  aceptarCompromiso(item: any) {
+    Swal.fire({
+      title: '¿Estas seguro?',
+      text: 'Aceptar el compromiso de pago.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Aceptar!',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.value) {
+        this.spinner.show();
+        this.asignacionCarteraService.confirmarAcuerdoPago(item.keyResp).subscribe(
+          res => {
+            if (res && res.success) {
+              this.listarAcciones(this.credito.id, this.credito.asignacionId);
+              this.loadAcuerdosPagos(
+                this.credito.asignacionId,
+                this.auth.loggedUser.id,
+                this.credito.socioId,
+                this.credito.id
+              );
+              Swal.fire(
+                'Aceptado!',
+                res.message,
+                'success'
+              );
+            } else {
+              Swal.fire(
+                'Oops!',
+                res.mensaje,
+                'error'
+              );
+            }
+            this.spinner.hide();
+
+          },
+          err => {
+            this.spinner.hide();
+            Swal.fire(
+              'Oops!',
+              'Ocurrio un error en el proceso, Intente más tarde.',
+              'error'
+            );
+          }
+        );
+      }
+    });
+  }
+
+  cancelarCancelar(item: any) {
+    Swal.fire({
+      title: '¿Estas seguro?',
+      text: 'Rechazar el compromiso de pago.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Aceptar!',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.value) {
+        this.spinner.show();
+        this.asignacionCarteraService.cancelarAcuerdoPago(item.keyResp).subscribe(
+          res => {
+            if (res && res.success) {
+              this.listarAcciones(this.credito.id, this.credito.asignacionId);
+              this.loadAcuerdosPagos(
+                this.credito.asignacionId,
+                this.auth.loggedUser.id,
+                this.credito.socioId,
+                this.credito.id
+              );
+              Swal.fire(
+                'Aceptado!',
+                res.message,
+                'success'
+              );
+            } else {
+              Swal.fire(
+                'Oops!',
+                res.mensaje,
+                'error'
+              );
+            }
+            this.spinner.hide();
+
+          },
+          err => {
+            this.spinner.hide();
+            Swal.fire(
+              'Oops!',
+              'Ocurrio un error en el proceso, Intente más tarde.',
+              'error'
+            );
+          }
+        );
+      }
+    });
+  }
+
 }

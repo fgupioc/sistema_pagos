@@ -637,6 +637,14 @@
                                               </div>
                                             </ng-container>
                                           </ng-container>
+                                          <ng-container *ngIf="item.codRespuesta == '009' && acuerdosPagoTemp.length > 0">
+                                            <div *ngIf="showBotonesAcuerdo(acuerdosPagoTemp)">
+                                              <div class="d-flex justify-content-center">
+                                                <button class="btn btn-primary mr-2" (click)="aceptarCompromiso(item)">Aceptar Compromiso</button>
+                                                <button class="btn btn-outline-dark" (click)="cancelarCancelar(item)">Rechazar Compromiso</button>
+                                              </div>
+                                            </div>
+                                          </ng-container>
                                         </td>
                                       </tr>
                                       <ng-container *ngIf="cargandoImagenes">
@@ -742,7 +750,7 @@
                                           <td>{{ item.cuota }}</td>
                                           <td>{{ item.plazo }}</td>
                                           <td>
-                                            <ng-container *ngIf="item.condicion != '5'">
+                                            <ng-container *ngIf="item.condicion == '1' || item.condicion == '6'">
                                               <button *ngIf="conPermiso" [disabled]="isAfter(item.fechaInicio)"
                                                       class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item)">
                                                 <i class="fa fa-trash"></i></button>
@@ -833,7 +841,7 @@
                       <td>{{ item.cuota }}</td>
                       <td>{{ item.plazo }}</td>
                       <td>
-                        <ng-container *ngIf="item.condicion != '5'">
+                        <ng-container *ngIf="item.condicion == '1' || item.condicion == '6'">
                           <button *ngIf="conPermiso && menuS.hasShowMisGestiones(A.MIS_GESTIONES_REMOVE_COMPROMISO)"
                                   [disabled]="isAfter(item.fechaInicio)" class="btn btn-sm btn-danger"
                                   (click)="eliminarAcuerdoPago(item)"><i class="fa fa-trash"></i></button>

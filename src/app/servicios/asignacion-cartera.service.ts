@@ -110,10 +110,6 @@ export class AsignacionCarteraService {
     return this.http.get<Respuesta>(`${urlBase}/${asignacionId}/listarAcuerdosPorAsignacionYCredito`, {params: new HttpParams().set('ejecutivoId', ejecutivoId).set('socioId', socioId).set('creditoId', creditoId)});
   }
 
-  crearAcuerdoPorAsignacionYCredito(asignacionId: any, data: any): Observable<Respuesta> {
-    return this.http.post<Respuesta>(`${urlBase}/${asignacionId}/crearAcuerdoPorAsignacionYCredito`, data);
-  }
-
   eliminarAcuerdoPorAsignacionYCredito(acuerdoPagoId: any): Observable<Respuesta> {
     return this.http.delete<Respuesta>(`${urlBase}/eliminarAcuerdoPorAsignacionYCredito`, {params: new HttpParams().set('acuerdoPagoId', acuerdoPagoId)});
   }
@@ -219,5 +215,13 @@ export class AsignacionCarteraService {
 
   devolverCreditoGestorOriginal(ejecutivoUuid: any, asignacionUuid: string): Observable<any> {
     return this.http.post<any>(`${urlBase}/devolverCreditoGestorOriginal`, {}, {params: new HttpParams().set('ejecutivoUuid', ejecutivoUuid).set('asignacionUuid', asignacionUuid)});
+  }
+
+  confirmarAcuerdoPago(keyResp: any): Observable<any> {
+    return this.http.post<any>(`${urlBase}/confirmarAcuerdoPago`, {}, {params: new HttpParams().set('keyResp', keyResp)});
+  }
+
+  cancelarAcuerdoPago(keyResp: any): Observable<any> {
+    return this.http.post<any>(`${urlBase}/cancelarAcuerdoPago`, {}, {params: new HttpParams().set('keyResp', keyResp)});
   }
 }
