@@ -8,7 +8,7 @@ export class Autorizacion {
   public static ETAPA_DETALLE = 'details';
   public static ETAPA_ACTUALIZAR = 'update';
   public static ETAPA_DISABLE = 'disable';
-  public static ETAPA_MENU = 'Configuracion';
+  public static ETAPA_MENU = 'Configuración';
   public static ETAPA_SUBMENU = 'Etapas';
 
   public static NOTIFY_AUTO_LISTA = 'list';

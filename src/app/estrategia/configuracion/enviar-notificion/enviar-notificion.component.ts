@@ -47,14 +47,13 @@ export class EnviarNotificionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.formulario = this.formBuilder.group({
+      codCartera: ['', Validators.required]
+    });
     if (this.menuS.hasShowNotificacion(this.A.NOTIFICACION_SHOW)) {
       this.listarCartera();
       this.listarNotificaciones();
     }
-
-    this.formulario = this.formBuilder.group({
-      codCartera: ['', Validators.required]
-    });
   }
 
   listarNotificaciones() {
@@ -70,6 +69,10 @@ export class EnviarNotificionComponent implements OnInit {
     this.carteraService.obtenerCarterasActivas().subscribe(
       ({objeto}) => {
         this.carteras = objeto;
+        if (this.carteras.length > 0) {
+          this.formulario.controls.codCartera.setValue(this.carteras[0].codCartera);
+          this.obtenerNotificaciones(this.carteras[0].codCartera);
+        }
         this.spinner.hide();
       },
       err => this.spinner.hide()
@@ -77,17 +80,23 @@ export class EnviarNotificionComponent implements OnInit {
   }
 
   cambioCartera() {
-    this.spinner.show();
     const codCartera = this.formulario.controls.codCartera.value;
     this.cartera = this.carteras.find(v => v.codCartera == codCartera);
+    if (this.cartera) {
+      this.obtenerNotificaciones(codCartera);
+    }
+  }
+
+  obtenerNotificaciones(codCartera: any) {
+    setTimeout(() => this.spinner.show('notificaciones'), 100);
     this.carteraService.getGestionesPorCartera(codCartera).subscribe(
       response => {
         if (response.exito) {
           this.gestiones = response.objeto;
         }
-        this.spinner.hide();
+        this.spinner.hide('notificaciones');
       },
-      err => this.spinner.hide()
+      err => this.spinner.hide('notificaciones')
     );
   }
 
