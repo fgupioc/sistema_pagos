@@ -82,7 +82,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   respuestas: TablaMaestra[] = [];
   tiposContacto: TablaMaestra[] = [];
   tipoDirecciones: TablaMaestra[] = [];
-  typeAcuerdo = 1;
+  typeAcuerdo = 3;
   errors: string[] = [];
   dateDefault = moment(new Date()).format('YYYY-MM-DD');
   hourDefault = moment().format('LT');
@@ -686,6 +686,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       }
     }
     accion.acuerdosPago = listAcuerdo;
+
     this.spinner.show();
     this.gestionAdministrativaService
       .registrarCreditoAsignacionAccion(accion)
@@ -724,6 +725,7 @@ export class MisGestionesDetalleComponent implements OnInit {
           this.spinner.hide();
         }
       );
+
   }
 
   get showAcuerdoPago() {
@@ -1523,6 +1525,11 @@ export class MisGestionesDetalleComponent implements OnInit {
     this.$detalles = [];
     const res = this.respuestas.find((i) => i.codItem == event);
     this.$detalles = res ? res.strValor.split(',') : [];
+
+    if (event == '009') {
+      this.formRegistrarAcuerdo.controls.montoAcordado.setValue(this.credito.montoAtrasado);
+      this.formRegistrarAcuerdo.controls.montoAcordado.disable();
+    }
   }
 
   updateNotifications(data: any) {
@@ -1812,6 +1819,37 @@ export class MisGestionesDetalleComponent implements OnInit {
         );
       }
     });
+  }
+
+  cambiarTipoAcuerdo(tipo: number) {
+    if (tipo == 2) {
+      this.formPlanPago.controls.plazo.setValue(1);
+      this.formPlanPago.controls.montoAcordado.setValue(this.credito.montoAtrasado);
+      this.formPlanPago.controls.montoAcordado.disable();
+      this.formPlanPago.controls.intervalo.setValue(30);
+    } else if (tipo == 3) {
+      this.formRegistrarAcuerdo.controls.montoAcordado.setValue(this.credito.montoAtrasado);
+      this.formRegistrarAcuerdo.controls.montoAcordado.disable();
+    }
+    this.typeAcuerdo = tipo;
+  }
+
+  cambioPaso(event: any) {
+    const monto = this.credito.montoAtrasado;
+    const cuotas = Number(event);
+    this.formPlanPago.controls.montoAcordado.setValue((monto / cuotas).toFixed(4));
+
+
+  }
+
+  cambioIntervalo(event: any) {
+    const intervalo = Number(event);
+    if (intervalo >30) {
+      Swal.fire('', 'La cantidad ingresada no es valida.', 'warning');
+      this.formPlanPago.controls.intervalo.setValue(30);
+      return;
+    }
+
   }
 
 }

@@ -72,7 +72,7 @@ export class Autorizacion {
   public static TAREA_SHOW_TAREA = 'show_tarea';
   public static TAREA_ADD_FILE = 'add_files';
   public static TAREA_ADD_COMMITS = 'add_commits';
-  public static TAREA_MENU = 'Gestion Administrativa';
+  public static TAREA_MENU = 'Gestión Administrativa';
   public static TAREA_SUBMENU = 'Tareas';
 
   public static MIS_TAREA_SHOW = 'show';

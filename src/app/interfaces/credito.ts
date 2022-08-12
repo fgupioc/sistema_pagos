@@ -103,4 +103,5 @@ export interface Credito {
   zonaCobranza?: string;
   asignacionId?: number;
   cronogramas?: any[];
+  montoAtrasado?: number;
 }
