@@ -101,8 +101,8 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   typePhone = '01';
   max = 9;
-  $fijo = 2;
-  $movil = 1;
+  $fijo = '2';
+  $movil = '1';
   $sectionName = 'Sección';
   $zoneName = 'Zona';
   $sectorName = 'Sector';
@@ -1834,7 +1834,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     this.typeAcuerdo = tipo;
   }
 
-  cambioPaso(event: any) {
+  cambioPlaso(event: any) {
     const monto = this.credito.montoAtrasado;
     const cuotas = Number(event);
     this.formPlanPago.controls.montoAcordado.setValue((monto / cuotas).toFixed(4));
