@@ -152,6 +152,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   totalElements = 0;
   $comentarios: Comentario[] = [];
   loadingComentarios = true;
+  tieneAcuerdos = false;
 
   constructor(
     public auth: AutenticacionService,
@@ -645,6 +646,11 @@ export class MisGestionesDetalleComponent implements OnInit {
       this.showAcuerdoPago &&
       [1, 3, 4].includes(this.typeAcuerdo)
     ) {
+      if (this.tieneAcuerdos) {
+        Swal.fire('', 'El socio ya cuenta con un acuerdo de pago activo.', 'warning');
+        return;
+      }
+
       const acuerdoPago: AcuerdoPago = this.formRegistrarAcuerdo.getRawValue();
       acuerdoPago.asignacionId = this.credito.asignacionId;
       acuerdoPago.creditoId = this.credito.id;
@@ -660,6 +666,10 @@ export class MisGestionesDetalleComponent implements OnInit {
       this.showAcuerdoPago &&
       this.typeAcuerdo == 2
     ) {
+      if (this.tieneAcuerdos) {
+        Swal.fire('', 'El socio ya cuenta con un acuerdo de pago activo.', 'warning');
+        return;
+      }
       const acuerdoPago: AcuerdoPago = this.formPlanPago.getRawValue();
       acuerdoPago.asignacionId = this.credito.asignacionId;
       acuerdoPago.creditoId = this.credito.id;
@@ -1529,6 +1539,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     if (event == '009') {
       this.formRegistrarAcuerdo.controls.montoAcordado.setValue(this.credito.montoAtrasado);
       this.formRegistrarAcuerdo.controls.montoAcordado.disable();
+      this.tieneAcuerdoPagosPendiente();
     }
   }
 
@@ -1837,7 +1848,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   cambioPlaso(event: any) {
     const monto = this.credito.montoAtrasado;
     const cuotas = Number(event);
-    this.formPlanPago.controls.montoAcordado.setValue((monto / cuotas).toFixed(4));
+    this.formPlanPago.controls.montoAcordado.setValue((monto / cuotas).toFixed(2));
 
 
   }
@@ -1852,4 +1863,77 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   }
 
+  generarCronogramaSIAF() {
+    let acuerdoPago = this.formPlanPago.getRawValue();
+    if (this.typeAcuerdo == 3) {
+      acuerdoPago = this.formRegistrarAcuerdo.getRawValue();
+    }
+    const d = new Date(acuerdoPago.fechaInicio);
+    // const fecha = moment(d).format('MM/DD/YYYY'); 2022-08-16
+    const fecha = moment(acuerdoPago.fechaInicio).format("MM/DD/YYYY");
+    const monto = acuerdoPago.montoAcordado;
+    const plazo = acuerdoPago.plazo ? acuerdoPago.plazo : 1;
+    const moneda = 1;
+    const fechaProceso = fecha;
+    const fechaDesembolso = fecha;
+    this.spinner.show();
+    this.gestionAdministrativaService
+      .generarCronograma(
+        this.credito.montoAtrasado,
+        plazo,
+        moneda,
+        fechaProceso,
+        fechaDesembolso
+      )
+      .subscribe(
+        (res) => {
+          if (res && res.rsp.mensaje == "EXITOSO") {
+            this.convertirCronograma(res.rsp.cuotas.cuotas, plazo);
+          }
+          this.spinner.hide();
+        },
+        (err) => {
+          this.spinner.hide();
+          console.log(err);
+        }
+      );
+  }
+
+  convertirCronograma(items: any[], plazo: any): AcuerdoPago[] {
+    return items.map(item => {
+      return {
+        asignacionId: 0,
+        creditoId: 0,
+        cuota: item.numeroCuota,
+        descripcion: "",
+        ejecutivoId: 0,
+        fechaInicio: moment(item.fechaVencimiento, "DDMMYYYY").format(
+          "YYYY-MM-DD"
+        ),
+        intervalo: item.numeroDias,
+        montoAcordado: item.montoCuota,
+        plazo,
+        posibilidadPago: "",
+        socioId: 0,
+        tipoAcuerdo: 2,
+      };
+    });
+  }
+
+  tieneAcuerdoPagosPendiente() {
+    this.tieneAcuerdos = false;
+    this.spinner.show();
+    this.gestionAdministrativaService.tieneAcuerdosPagoPendientesPorSocioId(this.socio.id).subscribe(
+      res => {
+        if (res && res.exito && res.object) {
+          this.tieneAcuerdos = true;
+          Swal.fire('', 'El socio ya cuenta con un acuerdo de pago activo.', 'warning');
+        }
+        this.spinner.hide();
+      },
+      err => {
+        this.spinner.hide();
+      }
+    );
+  }
 }

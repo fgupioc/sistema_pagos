@@ -148,4 +148,18 @@ export class GestionAdministrativaService {
   onteberCreditosDeAsignacionesPorEjecutivo(ejecutivoId: string): Observable<Respuesta> {
     return this.http.get<Respuesta>(`${urlBase}/onteberCreditosDeAsignacionesPorEjecutivo`, {params: new HttpParams().set('ejecutivoId', ejecutivoId)});
   }
+
+  generarCronograma(monto: any, plazo: any, moneda: any, proceso: any, desembolso: any) {
+    return this.http.post<any>(`${urlBase}generarCronograma`, {}, {params: new HttpParams()
+        .set('monto', monto)
+        .set('plazo', plazo)
+        .set('moneda', moneda)
+        .set('proceso', proceso)
+        .set('desembolso', desembolso)
+    });
+  }
+
+  tieneAcuerdosPagoPendientesPorSocioId(socioId: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/tieneAcuerdosPagoPendientesPorSocioId`, {params: new HttpParams().set('socioId', socioId)});
+  }
 }
