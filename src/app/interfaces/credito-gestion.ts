@@ -21,4 +21,5 @@ export interface CreditoGestion {
   tipo?: number;
   keyResp?: string;
   condicion?: string;
+  condicionCompromiso?: string;
 }

@@ -407,7 +407,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   }
 
   loadCredito() {
-    this.spinner.show();
+    setTimeout(() => this.spinner.show('cargar-credito'), 10);
     this.gestionAdministrativaService
       .buscarCreditoPorNroCredito(this.nroCredito)
       .subscribe(
@@ -429,16 +429,17 @@ export class MisGestionesDetalleComponent implements OnInit {
             this.$commit.socioId = this.credito.socioId;
             this.listarAcciones(this.credito.id, this.credito.asignacionId);
             this.obtenerComentarios(this.nroCredito);
+            this.spinner.hide('cargar-credito');
           } else {
             Swal.fire('Credito', res.mensaje, 'error');
             this.router.navigateByUrl(
               '/auth/gestion-administrativa/mis-gestiones'
             );
-            this.spinner.hide();
+            this.spinner.hide('cargar-credito');
           }
         },
         (err) => {
-          this.spinner.hide();
+          this.spinner.hide('cargar-credito');
           Swal.fire('Credito', 'Ocurrio un error', 'error');
           this.router.navigateByUrl(
             '/auth/gestion-administrativa/mis-gestiones'
@@ -1855,7 +1856,7 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   cambioIntervalo(event: any) {
     const intervalo = Number(event);
-    if (intervalo >30) {
+    if (intervalo > 30) {
       Swal.fire('', 'La cantidad ingresada no es valida.', 'warning');
       this.formPlanPago.controls.intervalo.setValue(30);
       return;
@@ -1870,7 +1871,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     }
     const d = new Date(acuerdoPago.fechaInicio);
     // const fecha = moment(d).format('MM/DD/YYYY'); 2022-08-16
-    const fecha = moment(acuerdoPago.fechaInicio).format("MM/DD/YYYY");
+    const fecha = moment(acuerdoPago.fechaInicio).format('MM/DD/YYYY');
     const monto = acuerdoPago.montoAcordado;
     const plazo = acuerdoPago.plazo ? acuerdoPago.plazo : 1;
     const moneda = 1;
@@ -1887,7 +1888,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          if (res && res.rsp.mensaje == "EXITOSO") {
+          if (res && res.rsp.mensaje == 'EXITOSO') {
             this.convertirCronograma(res.rsp.cuotas.cuotas, plazo);
           }
           this.spinner.hide();
@@ -1905,15 +1906,15 @@ export class MisGestionesDetalleComponent implements OnInit {
         asignacionId: 0,
         creditoId: 0,
         cuota: item.numeroCuota,
-        descripcion: "",
+        descripcion: '',
         ejecutivoId: 0,
-        fechaInicio: moment(item.fechaVencimiento, "DDMMYYYY").format(
-          "YYYY-MM-DD"
+        fechaInicio: moment(item.fechaVencimiento, 'DDMMYYYY').format(
+          'YYYY-MM-DD'
         ),
         intervalo: item.numeroDias,
         montoAcordado: item.montoCuota,
         plazo,
-        posibilidadPago: "",
+        posibilidadPago: '',
         socioId: 0,
         tipoAcuerdo: 2,
       };
@@ -1935,5 +1936,12 @@ export class MisGestionesDetalleComponent implements OnInit {
         this.spinner.hide();
       }
     );
+  }
+
+  mostrarEstadoCompromiso(item: CreditoGestion): boolean {
+    if (item.codRespuesta == '009') {
+      return true;
+    }
+    return false;
   }
 }

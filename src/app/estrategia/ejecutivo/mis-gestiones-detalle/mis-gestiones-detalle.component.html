@@ -441,7 +441,16 @@
                                                                 </ng-container>
                                                             </td>
                                                             <td>{{ item.target }}</td>
-                                                            <td>{{ item.respuestaDescripcion }}</td>
+                                                            <td>
+                                                              <p>
+                                                                {{ item.respuestaDescripcion }}
+                                                               <ng-container *ngIf="item.codRespuesta == '009'">
+                                                                 <span *ngIf="item.condicionCompromiso == '6'" class="right badge badge-info">Pendiente</span>
+                                                                 <span *ngIf="item.condicionCompromiso == '7'" class="right badge badge-success">Aceptada</span>
+                                                                 <span *ngIf="item.condicionCompromiso == '8'" class="right badge badge-danger">Rechazada</span>
+                                                               </ng-container>
+                                                              </p>
+                                                            </td>
                                                             <td>
                                                                 <ng-container *ngIf="item.comentario">
                                                                     {{item.comentario | slice: 0 : 20}} {{item.comentario.length > 20 ? '...' : ''}}
@@ -692,7 +701,7 @@
                                                                                             <td>
                                                                                                 <ng-container *ngIf="item.condicion == '1' || item.condicion == '6'">
                                                                                                     <button *ngIf="conPermiso" [disabled]="isAfter(item.fechaInicio)" class="btn btn-sm btn-danger" (click)="eliminarAcuerdoPago(item)">
-                                                <i class="fa fa-trash"></i></button>
+                                                                                                    <i class="fa fa-trash"></i></button>
                                                                                                 </ng-container>
                                                                                             </td>
                                                                                         </tr>
@@ -1416,3 +1425,6 @@
     </div>
 </div>
 <app-loading></app-loading>
+<ngx-spinner name="cargar-credito"  type="timer">
+  <p class="loading">Espere un momento...</p>
+</ngx-spinner>
