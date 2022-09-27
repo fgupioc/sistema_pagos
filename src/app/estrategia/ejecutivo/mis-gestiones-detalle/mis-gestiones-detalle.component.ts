@@ -153,6 +153,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   $comentarios: Comentario[] = [];
   loadingComentarios = true;
   tieneAcuerdos = false;
+  pagoCuotas: { cuota: number, monto: number }[] = [];
 
   constructor(
     public auth: AutenticacionService,
@@ -248,6 +249,9 @@ export class MisGestionesDetalleComponent implements OnInit {
       intervalo: [null, [Validators.required]],
       fechaInicio: [this.dateDefault, [Validators.required]],
       posibilidadPago: ['', [Validators.required]],
+      montoAtrasado: [0],
+      montoNegociar: [0],
+      montoRestante: [0],
     });
 
     this.formTarea = this.formBuilder.group({
@@ -1538,8 +1542,11 @@ export class MisGestionesDetalleComponent implements OnInit {
     this.$detalles = res ? res.strValor.split(',') : [];
 
     if (event == '009') {
-      this.formRegistrarAcuerdo.controls.montoAcordado.setValue(this.credito.montoAtrasado);
-      this.formRegistrarAcuerdo.controls.montoAcordado.disable();
+      this.formPlanPago.controls.montoAtrasado.setValue(this.credito.montoAtrasado);
+      this.formPlanPago.controls.montoAtrasado.disable();
+      this.formPlanPago.controls.montoNegociar.setValue(this.credito.montoAtrasado);
+      this.formPlanPago.controls.montoRestante.setValue(0);
+      this.formPlanPago.controls.montoRestante.disable();
       this.tieneAcuerdoPagosPendiente();
     }
   }
@@ -1835,22 +1842,26 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   cambiarTipoAcuerdo(tipo: number) {
     if (tipo == 2) {
-      this.formPlanPago.controls.plazo.setValue(1);
+      this.formPlanPago.controls.plazo.setValue(0);
       this.formPlanPago.controls.montoAcordado.setValue(this.credito.montoAtrasado);
       this.formPlanPago.controls.montoAcordado.disable();
       this.formPlanPago.controls.intervalo.setValue(30);
     } else if (tipo == 3) {
+      this.formPlanPago.controls.plazo.setValue(1);
       this.formRegistrarAcuerdo.controls.montoAcordado.setValue(this.credito.montoAtrasado);
       this.formRegistrarAcuerdo.controls.montoAcordado.disable();
     }
     this.typeAcuerdo = tipo;
   }
 
-  cambioPlaso(event: any) {
-    const monto = this.credito.montoAtrasado;
-    const cuotas = Number(event);
-    this.formPlanPago.controls.montoAcordado.setValue((monto / cuotas).toFixed(2));
-
+  cambioPlazo() {
+    const monto = Number(this.formPlanPago.controls.montoNegociar.value);
+    const cuotas = Number(this.formPlanPago.controls.plazo.value);
+    // this.formPlanPago.controls.montoAcordado.setValue((monto / cuotas).toFixed(2));
+    this.pagoCuotas = [];
+    for (let i = 1; i <= cuotas; i++) {
+      this.pagoCuotas.push({cuota: i, monto: Number((monto / cuotas).toFixed(2))});
+    }
 
   }
 
@@ -1943,5 +1954,63 @@ export class MisGestionesDetalleComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  cabioMontoNegociar() {
+    const montoNegociar = Number(this.formPlanPago.controls.montoNegociar.value);
+    const montoAtrasado = Number(this.credito.montoAtrasado);
+    if (montoNegociar > montoAtrasado) {
+      this.formPlanPago.controls.montoNegociar.setValue(this.credito.montoAtrasado);
+      this.formPlanPago.controls.montoRestante.setValue(0);
+      this.toastr.warning('El monto a negociar no puede ser mayor al monto atrasado.');
+      this.cambioPlazo();
+      return;
+    }
+    const montoRestante = (montoAtrasado - montoNegociar).toFixed(2);
+    this.formPlanPago.controls.montoRestante.setValue(montoRestante);
+    this.cambioPlazo();
+  }
+
+  cambioValorCuota(item: { cuota: number; monto: number }, event: any) {
+    const montoAtrasado = Number(this.credito.montoAtrasado);
+    const montoNegociar = Number(this.formPlanPago.controls.montoNegociar.value);
+    const cuotaInit = item.cuota;
+    const montoCuotaActual = Number(event.target.value);
+    item.monto = montoCuotaActual;
+    const montoAnterior = this.montoAnteriores(item);
+    const montoActual = montoAnterior + montoCuotaActual;
+    const montoRestante = montoNegociar - montoActual;
+    this.ajustarMontoCuotas(cuotaInit, montoRestante);
+
+  }
+
+  private montoAnteriores(item: { cuota: number; monto: number }): number {
+    const totalCuotas = this.pagoCuotas.length;
+    const index = this.pagoCuotas.findIndex(c => c.cuota == item.cuota);
+    let suma = 0;
+    if (index > 0) {
+      for (let i = 0; i < index; i++) {
+        suma += this.pagoCuotas[i].monto;
+      }
+    }
+
+    return suma;
+  }
+
+  private ajustarMontoCuotas(cuota: number, montoRestante: number) {
+    const totalCuotas = this.pagoCuotas.length;
+    const cuotasRestantes = this.pagoCuotas.length - cuota;
+    if (cuotasRestantes > 0) {
+      for (let i = cuota; i < totalCuotas; i++) {
+        this.pagoCuotas[i].monto = Number((montoRestante / cuotasRestantes).toFixed(2));
+      }
+    }
+  }
+
+  calcularMonto(): number {
+    if (this.pagoCuotas.length == 0) {
+      return 0.0;
+    }
+    return Number(Object.values(this.pagoCuotas).reduce((t, {monto}) => t + monto, 0).toFixed(2));
   }
 }
