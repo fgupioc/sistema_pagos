@@ -153,7 +153,8 @@ export class MisGestionesDetalleComponent implements OnInit {
   $comentarios: Comentario[] = [];
   loadingComentarios = true;
   tieneAcuerdos = false;
-  pagoCuotas: { cuota: number, monto: number }[] = [];
+  pagoCuotas: { cuota: number, monto: number, fecha: string }[] = [];
+  diasPorVencer = 0;
 
   constructor(
     public auth: AutenticacionService,
@@ -235,7 +236,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       montoAcordado: ['', [Validators.required]],
       posibilidadPago: ['', [Validators.required]],
       fechaInicio: [this.dateDefault, [Validators.required]],
-      horaIncio: ['', [Validators.required]],
+      horaIncio: ['10:00'],
     });
 
     this.formPlanPago = this.formBuilder.group({
@@ -248,6 +249,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       montoAcordado: [null, [Validators.required]],
       intervalo: [null, [Validators.required]],
       fechaInicio: [this.dateDefault, [Validators.required]],
+      fechaProximoVencimiento: [this.dateDefault],
       posibilidadPago: ['', [Validators.required]],
       montoAtrasado: [0],
       montoNegociar: [0],
@@ -593,7 +595,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       [1, 3, 4].includes(this.typeAcuerdo)
     ) {
       this.errors.push(
-        'Debe llenar los datos obligatorios de acuerdo de pago. 1'
+        'Debe llenar los datos obligatorios de acuerdo de pago.'
       );
       return;
     }
@@ -604,7 +606,7 @@ export class MisGestionesDetalleComponent implements OnInit {
       this.typeAcuerdo == 2
     ) {
       this.errors.push(
-        'Debe llenar los datos obligatorios de acuerdo de pago. 2'
+        'Debe llenar los datos obligatorios de acuerdo de pago.'
       );
       return;
     }
@@ -680,28 +682,26 @@ export class MisGestionesDetalleComponent implements OnInit {
       acuerdoPago.creditoId = this.credito.id;
       acuerdoPago.ejecutivoId = this.auth.loggedUser.id;
       acuerdoPago.socioId = this.credito.socioId;
-      let start = acuerdoPago.fechaInicio;
-      for (let i = 1; i <= acuerdoPago.plazo; i++) {
-        const item = {
-          asignacionId: acuerdoPago.asignacionId,
-          creditoId: acuerdoPago.creditoId,
-          cuota: i,
-          descripcion: acuerdoPago.descripcion,
-          ejecutivoId: acuerdoPago.ejecutivoId,
-          fechaInicio: start,
-          intervalo: acuerdoPago.intervalo,
-          montoAcordado: acuerdoPago.montoAcordado,
-          plazo: acuerdoPago.plazo,
-          posibilidadPago: acuerdoPago.posibilidadPago,
-          socioId: acuerdoPago.socioId,
-          tipoAcuerdo: this.typeAcuerdo,
-        };
-        listAcuerdo.push(item);
-        start = FUNC.addDays(item.fechaInicio, acuerdoPago.intervalo);
+      if (this.pagoCuotas.length > 0) {
+        for (const item of this.pagoCuotas) {
+          listAcuerdo.push({
+            asignacionId: acuerdoPago.asignacionId,
+            creditoId: acuerdoPago.creditoId,
+            cuota: item.cuota,
+            descripcion: acuerdoPago.descripcion,
+            ejecutivoId: acuerdoPago.ejecutivoId,
+            fechaInicio: item.fecha,
+            intervalo: acuerdoPago.intervalo,
+            montoAcordado: item.monto,
+            plazo: acuerdoPago.plazo,
+            posibilidadPago: acuerdoPago.posibilidadPago,
+            socioId: acuerdoPago.socioId,
+            tipoAcuerdo: this.typeAcuerdo,
+          });
+        }
       }
     }
     accion.acuerdosPago = listAcuerdo;
-
     this.spinner.show();
     this.gestionAdministrativaService
       .registrarCreditoAsignacionAccion(accion)
@@ -1536,12 +1536,16 @@ export class MisGestionesDetalleComponent implements OnInit {
     this.$detalles = [];
   }
 
-  respuestaSeleccionada(event: any) {
+  respuestaSeleccionada() {
+    const codRes = this.form.controls.codRespuesta.value;
+    console.log(codRes);
     this.$detalles = [];
-    const res = this.respuestas.find((i) => i.codItem == event);
+    const res = this.respuestas.find((i) => i.codItem == codRes);
     this.$detalles = res ? res.strValor.split(',') : [];
 
-    if (event == '009') {
+    if (codRes == '009') {
+      this.formRegistrarAcuerdo.controls.montoAcordado.setValue(this.credito.montoAtrasado);
+      this.formRegistrarAcuerdo.controls.montoAcordado.disable();
       this.formPlanPago.controls.montoAtrasado.setValue(this.credito.montoAtrasado);
       this.formPlanPago.controls.montoAtrasado.disable();
       this.formPlanPago.controls.montoNegociar.setValue(this.credito.montoAtrasado);
@@ -1845,7 +1849,14 @@ export class MisGestionesDetalleComponent implements OnInit {
       this.formPlanPago.controls.plazo.setValue(0);
       this.formPlanPago.controls.montoAcordado.setValue(this.credito.montoAtrasado);
       this.formPlanPago.controls.montoAcordado.disable();
-      this.formPlanPago.controls.intervalo.setValue(30);
+      this.formPlanPago.controls.fechaProximoVencimiento.setValue(moment(this.credito.fechaProximoVencimiento).format('YYYY-MM-DD'));
+      this.formPlanPago.controls.fechaProximoVencimiento.disable();
+      this.formPlanPago.controls.intervalo.setValue(0);
+      this.formPlanPago.controls.intervalo.disable();
+      const a = moment(this.credito.fechaProximoVencimiento);
+      const b = moment();
+      this.diasPorVencer = a.diff(b, 'days');
+      console.log(this.diasPorVencer);
     } else if (tipo == 3) {
       this.formPlanPago.controls.plazo.setValue(1);
       this.formRegistrarAcuerdo.controls.montoAcordado.setValue(this.credito.montoAtrasado);
@@ -1857,18 +1868,24 @@ export class MisGestionesDetalleComponent implements OnInit {
   cambioPlazo() {
     const monto = Number(this.formPlanPago.controls.montoNegociar.value);
     const cuotas = Number(this.formPlanPago.controls.plazo.value);
-    // this.formPlanPago.controls.montoAcordado.setValue((monto / cuotas).toFixed(2));
     this.pagoCuotas = [];
+    let start = this.formPlanPago.controls.fechaInicio.value;
+    const intervalo = this.diasPorVencer / cuotas;
+    this.formPlanPago.controls.intervalo.setValue(Math.floor(intervalo));
+    this.formPlanPago.controls.intervalo.disable();
     for (let i = 1; i <= cuotas; i++) {
-      this.pagoCuotas.push({cuota: i, monto: Number((monto / cuotas).toFixed(2))});
+      this.pagoCuotas.push({
+        cuota: i, monto: Number((monto / cuotas).toFixed(2)),
+        fecha: start
+      });
+      start = FUNC.addDays(start, Math.floor(intervalo));
     }
-
   }
 
   cambioIntervalo(event: any) {
     const intervalo = Number(event);
     if (intervalo > 30) {
-      Swal.fire('', 'La cantidad ingresada no es valida.', 'warning');
+      Swal.fire('', 'La cantidad del intervalo como máximo son 30 días.', 'warning');
       this.formPlanPago.controls.intervalo.setValue(30);
       return;
     }
@@ -2012,5 +2029,14 @@ export class MisGestionesDetalleComponent implements OnInit {
       return 0.0;
     }
     return Number(Object.values(this.pagoCuotas).reduce((t, {monto}) => t + monto, 0).toFixed(2));
+  }
+
+  canbiarFechaPagar() {
+    const fechaPagar = moment(this.formPlanPago.controls.fechaInicio.value);
+    const fechaProxVenc = moment(this.credito.fechaProximoVencimiento);
+    this.diasPorVencer = fechaProxVenc.diff(fechaPagar, 'days');
+    this.formPlanPago.controls.plazo.setValue(0);
+    this.formPlanPago.controls.intervalo.setValue(0);
+    this.pagoCuotas = [];
   }
 }

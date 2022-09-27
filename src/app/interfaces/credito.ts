@@ -104,4 +104,5 @@ export interface Credito {
   asignacionId?: number;
   cronogramas?: any[];
   montoAtrasado?: number;
+  fechaProximoVencimiento?: string;
 }

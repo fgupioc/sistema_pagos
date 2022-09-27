@@ -270,7 +270,7 @@
                       <div class="form-group">
                         <label>Respuesta</label>
                         <select class="form-control" formControlName="codRespuesta"
-                                (ngModelChange)="respuestaSeleccionada($event)">
+                                (ngModelChange)="respuestaSeleccionada()">
                           <option *ngFor="let item of respuestas" [value]="item.codItem">{{ item.descripcion }}</option>
                         </select>
                       </div>
@@ -283,7 +283,7 @@
                     <ng-container
                       *ngIf="showAcuerdoPago && menuS.hasShowMisGestiones(A.MIS_GESTIONES_NEW_COMPROMISO_PAGO)">
                       <div class="col-12"></div>
-                      <div class="col-12 col-md-4">
+                      <div class="col-12 col-md-3">
                         <ul class="list-group list-acuerdos">
                           <li *ngIf="false" class="list-group-item" [ngClass]="{'active': typeAcuerdo == 1}"
                               (click)="typeAcuerdo = 1">AL DÍA
@@ -310,14 +310,14 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-12 col-md-7">
+                            <div class="col-6 col-md-4">
                               <div class="form-group">
                                 <label>Monto Acordado</label>
                                 <input CustomizeCurrency type="text" class="form-control"
                                        formControlName="montoAcordado">
                               </div>
                             </div>
-                            <div class="col-12 col-md-5">
+                            <div class="col-6 col-md-4">
                               <div class="form-group">
                                 <label>Posibilidad Pagar</label>
                                 <select class="form-control" formControlName="posibilidadPago">
@@ -328,13 +328,13 @@
                                 </select>
                               </div>
                             </div>
-                            <div class="col-12 col-md-7">
+                            <div class="col-6 col-md-4">
                               <div class="form-group">
                                 <label>Fecha</label>
                                 <input type="date" class="form-control" formControlName="fechaInicio">
                               </div>
                             </div>
-                            <div class="col-12 col-md-5">
+                            <div class="col-12 col-md-5" *ngIf="false">
                               <div class="form-group">
                                 <label>Hora</label>
                                 <input type="time" class="form-control" min="07:00" max="20:00"
@@ -345,7 +345,7 @@
                         </div>
                       </ng-container>
                       <ng-container *ngIf="typeAcuerdo == 2" [formGroup]="formPlanPago">
-                        <div class="col-12 col-md-8">
+                        <div class="col-12 col-md-9">
                           <div class="row">
                             <div class="col-12" *ngIf="errors.length > 0">
                               <div class="form-group">
@@ -375,14 +375,14 @@
                                        formControlName="montoRestante">
                               </div>
                             </div>
-                            <div class="col-8">
+                            <div class="col-9">
                               <div class="form-group">
                                 <label>Nombre del plan</label>
                                 <input SoloLetras Uppercase type="text" class="form-control"
                                        formControlName="descripcion">
                               </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-3">
                               <div class="form-group">
                                 <label>Posibilidad Pagar</label>
                                 <select class="form-control" formControlName="posibilidadPago">
@@ -393,32 +393,29 @@
                                 </select>
                               </div>
                             </div>
-                            <div class="col-6 col-md-4">
+                            <div class="col-6 col-md-3">
                               <div class="form-group">
-                                <label>Número de cuotas</label>
-                                <input Number type="text" class="form-control" formControlName="plazo"
-                                       (change)="cambioPlazo()">
+                                <label>F. Prox. Venc</label>
+                                <input type="date" class="form-control" formControlName="fechaProximoVencimiento">
                               </div>
                             </div>
-                            <!--
-                              <div class="col-12 col-md-6">
-                                  <div class="form-group">
-                                      <label>Valor de cuotas</label>
-                                      <input CustomizeCurrency type="text" class="form-control" formControlName="montoAcordado">
-                                  </div>
-                              </div>
-                            -->
-                            <div class="col-6 col-md-4">
-                              <div class="form-group">
-                                <label>Intervalo cuotas (Días)</label>
-                                <input Number type="text" class="form-control" formControlName="intervalo"
-                                       (ngModelChange)="cambioIntervalo($event)">
-                              </div>
-                            </div>
-                            <div class="col-6 col-md-4">
+                            <div class="col-6 col-md-3">
                               <div class="form-group">
                                 <label>Fecha inicio</label>
-                                <input type="date" class="form-control" formControlName="fechaInicio">
+                                <input type="date" class="form-control" formControlName="fechaInicio" (change)="canbiarFechaPagar()">
+                                <small class="form-text text-info">Número de días para el próximo vencimiento: {{diasPorVencer}}</small>
+                              </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                              <div class="form-group">
+                                <label>Número de cuotas</label>
+                                <input Number type="text" class="form-control" formControlName="plazo" (change)="cambioPlazo()">
+                              </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                              <div class="form-group">
+                                <label>Intervalo cuotas (Días)</label>
+                                <input Number type="text" class="form-control" formControlName="intervalo" (ngModelChange)="cambioIntervalo($event)">
                               </div>
                             </div>
                             <div class="col-12" *ngIf="pagoCuotas.length > 0">
@@ -426,9 +423,12 @@
                             </div>
                             <div class="col-12" *ngFor="let item of pagoCuotas; let i = index">
                               <div class="form-group row">
-                                <label class="col-6 col-md-2 col-form-label" style="text-align: right">Cuota: {{ item.cuota }}</label>
-                                <div class="col-6 col-md-2">
+                                <label class="col-4 col-md-2 col-form-label" style="text-align: right">Cuota: {{ item.cuota }}</label>
+                                <div class="col-4 col-md-2">
                                   <input CustomizeCurrency type="text" class="form-control"  [value]="item.monto" (change)="cambioValorCuota(item, $event)">
+                                </div>
+                                <div class="col-4 col-md-4">
+                                  <label class="col-form-label" style="text-align: right">f. Pago: {{ item.fecha | date: 'MM/dd/yyyy'}}</label>
                                 </div>
                               </div>
                             </div>
@@ -455,7 +455,7 @@
                     </div>
                   </div>
                 </section>
-                <div class="row">
+                <div class="row mt-4">
                   <div class="col-12">
                     <div class="form-group">
                       <h6>Historial de Gestión</h6>
