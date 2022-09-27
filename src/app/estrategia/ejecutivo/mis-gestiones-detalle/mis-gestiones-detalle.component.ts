@@ -1855,8 +1855,9 @@ export class MisGestionesDetalleComponent implements OnInit {
       this.formPlanPago.controls.intervalo.disable();
       const a = moment(this.credito.fechaProximoVencimiento);
       const b = moment();
+      console.log(a.format('YYYY-MM-DD'));
+      console.log(b.format('YYYY-MM-DD'));
       this.diasPorVencer = a.diff(b, 'days');
-      console.log(this.diasPorVencer);
     } else if (tipo == 3) {
       this.formPlanPago.controls.plazo.setValue(1);
       this.formRegistrarAcuerdo.controls.montoAcordado.setValue(this.credito.montoAtrasado);

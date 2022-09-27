@@ -288,11 +288,11 @@
                           <li *ngIf="false" class="list-group-item" [ngClass]="{'active': typeAcuerdo == 1}"
                               (click)="typeAcuerdo = 1">AL DÍA
                           </li>
-                          <li class="list-group-item" [ngClass]="{'active': typeAcuerdo == 2}"
-                              (click)="cambiarTipoAcuerdo(2)">PLAN DE PAGO
-                          </li>
                           <li class="list-group-item" [ngClass]="{'active': typeAcuerdo == 3}"
                               (click)="cambiarTipoAcuerdo(3)">TOTAL DE LA MORA
+                          </li>
+                          <li class="list-group-item" [ngClass]="{'active': typeAcuerdo == 2}"
+                              (click)="cambiarTipoAcuerdo(2)">PLAN DE PAGO
                           </li>
                           <li *ngIf="false" class="list-group-item" [ngClass]="{'active': typeAcuerdo == 4}"
                               (click)="typeAcuerdo = 4">ABONO
@@ -442,7 +442,7 @@
                         </div>
                       </ng-container>
                     </ng-container>
-                    <div class="col-8">
+                    <div class="col-8 mt-4">
                       <label>Comentario</label>
                       <div class="input-group">
                         <input type="text" class="form-control" formControlName="comentario">
