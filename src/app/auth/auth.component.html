@@ -1,8 +1,8 @@
 <app-header
   [navbarBrandRouterLink]="['/dashboard']"
   [fixed]="true"
-  [navbarBrandFull]="{src: 'assets/img/brand/logo.png', width: 89, height: 45, alt: 'Abaco Logo'}"
-  [navbarBrandMinimized]="{src: 'assets/img/brand/sygnet.jpg', width: 30, height: 30, alt: 'Abaco Logo'}"
+  [navbarBrandFull]="{src: '/assets/img/brand/logo.png', width: 89, height: 45, alt: 'Abaco Logo'}"
+  [navbarBrandMinimized]="{src: '/assets/img/brand/sygnet.jpg', width: 30, height: 30, alt: 'Abaco Logo'}"
   [sidebarToggler]="'lg'"
   [asideMenuToggler]=false
   [mobileAsideMenuToggler]="false">
@@ -32,7 +32,7 @@
     <li class="nav-item dropdown" dropdown placement="bottom right">
       <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
          dropdownToggle (click)="false">
-        <img src="assets/img/avatars/user.svg" class="img-avatar" alt="admin@cognitivesoft.tech"/>
+        <img src="/assets/img/avatars/user.svg" class="img-avatar" alt="admin@cognitivesoft.tech"/>
       </a>
       <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
         <div class="dropdown-header text-center"><strong>Ajustes</strong></div>
