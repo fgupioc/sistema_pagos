@@ -18,6 +18,7 @@ declare const $: any;
   styleUrls: ['./crear-etapa-notificion.component.css']
 })
 export class CrearEtapaNotificionComponent implements OnInit {
+  show: false;
   cartera: Cartera;
   form: FormGroup;
   notificaciones: any[] = [];
@@ -43,6 +44,7 @@ export class CrearEtapaNotificionComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.form = this.formBuilder.group({
       codTipoNotificacion: ['', Validators.required],
       codEnvio: [''],
@@ -53,7 +55,6 @@ export class CrearEtapaNotificionComponent implements OnInit {
       nombre: ['', Validators.required],
       titulo: [''],
     });
-
     if (this.cartera) {
       for (let i = this.cartera.horaInicio; i <= this.cartera.horaFin; i++) {
         this.horas.push(i);

@@ -89,8 +89,10 @@
         </div>
     </div>
     <div class="modal-footer d-flex justify-content-center">
-        <button type="button" *ngIf="menuService.hasShowNotifyAuto(A.ETAPA_NUEVO) && create" class="btn btn-outline-info mr-4" (click)="guardar()" [disabled]="form.invalid">Guardar</button>
-        <button type="button" *ngIf="!create && menuService.hasShowNotifyAuto(A.ETAPA_ACTUALIZAR)" class="btn btn-outline-info mr-4" (click)="guardar()" [disabled]="form.invalid">Actualizar</button>
+        <ng-container *ngIf="!show">
+          <button type="button" *ngIf="menuService.hasShowNotifyAuto(A.ETAPA_NUEVO) && create" class="btn btn-outline-info mr-4" (click)="guardar()" [disabled]="form.invalid">Guardar</button>
+          <button type="button" *ngIf="!create && menuService.hasShowNotifyAuto(A.ETAPA_ACTUALIZAR)" class="btn btn-outline-info mr-4" (click)="guardar()" [disabled]="form.invalid">Actualizar</button>
+        </ng-container>
         <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Cancelar</button>
     </div>
 </div>

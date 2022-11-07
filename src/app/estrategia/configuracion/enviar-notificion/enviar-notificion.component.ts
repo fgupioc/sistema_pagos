@@ -70,6 +70,7 @@ export class EnviarNotificionComponent implements OnInit {
       ({objeto}) => {
         this.carteras = objeto;
         if (this.carteras.length > 0) {
+          this.cartera = this.carteras[0];
           this.formulario.controls.codCartera.setValue(this.carteras[0].codCartera);
           this.obtenerNotificaciones(this.carteras[0].codCartera);
         }
@@ -203,6 +204,7 @@ export class EnviarNotificionComponent implements OnInit {
         modal.componentInstance.send = this.send;
         modal.componentInstance.cartera = this.cartera;
         modal.componentInstance.day = day;
+        modal.componentInstance.show = true;
         this.spinner.hide();
       }
     );
