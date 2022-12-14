@@ -16,8 +16,8 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Etapa</th>
                                 <th scope="col">Área</th>
-                                <th scope="col">Días Desde</th>
-                                <th scope="col">Días Hasta</th>
+<!--                                <th scope="col">Días Desde</th>-->
+<!--                                <th scope="col">Días Hasta</th>-->
                                 <th scope="col">Estado</th>
                                 <th scope="col">Opciones</th>
                             </tr>
@@ -28,8 +28,8 @@
                                     <th scope="row">{{ i + 1 }}</th>
                                     <td>{{ item.nombre }}</td>
                                     <td>{{ item.nombreArea }}</td>
-                                    <td>{{ item.desde }}</td>
-                                    <td>{{ item.hasta }}</td>
+<!--                                    <td>{{ item.desde }}</td>-->
+<!--                                    <td>{{ item.hasta }}</td>-->
                                     <td>
                                         <span *ngIf="item.estado == '1'" class="badge badge-info">Activo</span>
                                         <span *ngIf="item.estado == '0'" class="badge badge-danger">Inactivo</span>

@@ -55,8 +55,8 @@ export class CrearGestionComponent implements OnInit {
     this.formGestion = this.formBuilder.group({
       codArea: ['', [Validators.required]],
       nombre: ['', [Validators.required]],
-      desde: ['', [Validators.required]],
-      hasta: ['', [Validators.required]],
+      desde: [''],
+      hasta: [''],
       fechaCreacion: [{value: '', disabled: true}],
       fechaActualizacion: [{value: '', disabled: true}],
       userCreate: [{value: '', disabled: true}],
@@ -117,6 +117,11 @@ export class CrearGestionComponent implements OnInit {
 
 
   addEtapa() {
+    if (this.codEtapaTemp.value.length == 0) {
+      this.toastr.warning('Debe ingresar un nombre de la subetapa.');
+      return;
+    }
+    /*
     if (isNullOrUndefined(this.formGestion.controls.desdeTemp.value) || isNullOrUndefined(this.formGestion.controls.hastaTemp.value)) {
       this.toastr.warning('Debe ingresar el intervalo de días de la subetapa.');
       return;
@@ -144,7 +149,7 @@ export class CrearGestionComponent implements OnInit {
         return;
       }
     }
-
+    */
     const index = this.$etapas.findIndex(i => i.nombre == this.formGestion.controls.codEtapaTemp.value);
     if (index >= 0) {
       this.toastr.warning('El nombre de la subetapa ya existe.');
@@ -155,21 +160,21 @@ export class CrearGestionComponent implements OnInit {
         nombre: this.formGestion.controls.codEtapaTemp.value,
         codigo: FUNC.slugGenerate(this.formGestion.controls.codEtapaTemp.value),
         color: null,
-        desde: this.formGestion.controls.desdeTemp.value,
+        desde: 0,
         estado: '1',
-        hasta: this.formGestion.controls.hastaTemp.value,
+        hasta: 0,
         fechaActualizacion: null,
         fechaCreacion: null,
         userCreate: null,
         userUpdate: null
       });
-      this.$etapas = this.$etapas.sort((a, b) => (a.desde > b.desde) ? 1 : ((b.desde > a.desde) ? -1 : 0));
+     // this.$etapas = this.$etapas.sort((a, b) => (a.desde > b.desde) ? 1 : ((b.desde > a.desde) ? -1 : 0));
       this.formGestion.controls.codEtapaTemp.setValue('');
       this.desdeTemp.setValue('');
       this.desdeTemp.enable();
-      this.formGestion.controls.hastaTemp.setValue('');
+      // this.formGestion.controls.hastaTemp.setValue('');
       this.disbleCampoHasta();
-      this.calcularValoresTemp();
+      // this.calcularValoresTemp();
     }
   }
 
@@ -179,7 +184,7 @@ export class CrearGestionComponent implements OnInit {
       this.$etapas.splice(index, 1);
       this.hastaTemp.enable();
       this.disbleCampoHasta();
-      this.calcularValoresTemp();
+      // this.calcularValoresTemp();
     } else {
       Swal.fire('', 'Debe eliminar el ultimo de la lista.', 'warning');
     }
@@ -195,17 +200,17 @@ export class CrearGestionComponent implements OnInit {
       return;
     }
     const etapas = this.$etapas;
-    const ultima = this.$etapas[this.$etapas.length - 1];
-    if (Number(ultima.hasta) < Number(this.hasta.value)) {
-      Swal.fire('', `Debe ocupar todos los días disponible de la etapa [${this.desde.value} - ${this.hasta.value}], se quedo en : ${ultima.hasta}.`, 'warning');
-      return;
-    }
+    // const ultima = this.$etapas[this.$etapas.length - 1];
+    // if (Number(ultima.hasta) < Number(this.hasta.value)) {
+    //   Swal.fire('', `Debe ocupar todos los días disponible de la etapa [${this.desde.value} - ${this.hasta.value}], se quedo en : ${ultima.hasta}.`, 'warning');
+    //   return;
+    // }
 
     const gestion = {
       codArea: this.formGestion.controls.codArea.value,
       nombre: this.formGestion.controls.nombre.value,
-      desde: Number(this.formGestion.controls.desde.value),
-      hasta: Number(this.formGestion.controls.hasta.value),
+      desde: 0,
+      hasta: 0,
       etapas,
     };
 
@@ -232,13 +237,13 @@ export class CrearGestionComponent implements OnInit {
       res => {
         if (res.exito) {
           this.$gestiones = res.objeto as any[];
-          if (this.$gestiones.length > 0) {
-            const ultima = this.$gestiones[this.$gestiones.length - 1];
-            if (ultima) {
-              this.desde.setValue(Number(ultima.hasta) + 1);
-              this.desde.disable();
-            }
-          }
+          // if (this.$gestiones.length > 0) {
+          //   const ultima = this.$gestiones[this.$gestiones.length - 1];
+          //   if (ultima) {
+          //     this.desde.setValue(Number(ultima.hasta) + 1);
+          //     this.desde.disable();
+          //   }
+          // }
         }
       },
       err => {

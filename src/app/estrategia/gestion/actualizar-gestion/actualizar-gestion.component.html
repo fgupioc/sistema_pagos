@@ -21,6 +21,7 @@
               </select>
             </div>
           </div>
+          <!--
           <div class="col-6 col-md-3">
             <div class="form-group">
               <label>Días Desde</label>
@@ -53,14 +54,20 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="row">
+          -->
           <div class="col-12 col-md-6">
-            <div class="form-group">
-              <label>Sub Etapas</label>
+            <label>Sub Etapas</label>
+            <div class="input-group">
               <input Uppercase type="text" class="form-control" formControlName="codEtapaTemp">
+              <div class="input-group-prepend">
+                <button type="button" *ngIf="menuService.hasShowEtapa(A.ETAPA_NUEVO)" class="btn btn-success" [disabled]="isDisable()" (click)="addEtapa()">
+                  <i *ngIf="!etapaEdit" class="fa fa-plus"></i>
+                  <i *ngIf="etapaEdit" class="fa fa-edit"></i>
+                </button>
+              </div>
             </div>
           </div>
+          <!--
           <div class="col-6 col-md-3">
             <div class="form-group">
               <label>Días Desde</label>
@@ -79,6 +86,7 @@
               </div>
             </div>
           </div>
+          -->
           <div class="col-12" *ngIf="$etapas.length > 0">
             <div class="form-group table-responsive">
               <table class="table table-bordered">
@@ -86,8 +94,8 @@
                 <tr class="text-center">
                   <th scope="col">#</th>
                   <th scope="col">Sub Etapa</th>
-                  <th scope="col">Días Desde</th>
-                  <th scope="col">Días Hasta</th>
+<!--                  <th scope="col">Días Desde</th>-->
+<!--                  <th scope="col">Días Hasta</th>-->
                   <th scope="col">Estado</th>
                   <th scope="col">Opción</th>
                 </tr>
@@ -96,8 +104,8 @@
                 <tr *ngFor="let item of $etapas; let i = index" class="text-center">
                   <th scope="row">{{ i + 1 }}</th>
                   <td>{{ item.nombre }}</td>
-                  <td>{{ item.desde }}</td>
-                  <td>{{ item.hasta }}</td>
+<!--                  <td>{{ item.desde }}</td>-->
+<!--                  <td>{{ item.hasta }}</td>-->
                   <td>
                     <span *ngIf="item.estado == '1'" class="badge badge-info">Activo</span>
                     <span *ngIf="item.estado == '0'" class="badge badge-danger">Inactivo</span>

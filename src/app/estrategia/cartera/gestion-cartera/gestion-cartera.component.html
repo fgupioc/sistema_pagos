@@ -11,23 +11,6 @@
             </div>
             <div class="card-body" [formGroup]="formGestion">
                 <div class="row">
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label>Etapas</label>
-                            <select name="codArea" class="form-control" formControlName="codGestion" (ngModelChange)="selectedGestion($event)" [ngClass]="
-                                    {
-                                    'is-invalid': formGestion.controls['codGestion'].touched && formGestion.controls['codGestion'].errors,
-                                    'is-valid': formGestion.controls['codGestion'].touched && !formGestion.controls['codGestion'].errors
-                                    }
-                                    ">
-                                    <option value="">Seleccione</option>
-                                    <option *ngFor="let item of gestiones" [value]="item.codGestion">{{ item.nombre }}</option>
-                                  </select>
-                            <div class="invalid-feedback">
-                                <span class="d-block" *ngIf="formGestion.get('codGestion').hasError('required')"> La gestion es obligatorio.</span>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-6 col-md-3">
                         <div class="form-group">
                             <label>Días Desde</label>
@@ -58,6 +41,23 @@
                             </div>
                         </div>
                     </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label>Etapas</label>
+                      <select name="codArea" class="form-control" formControlName="codGestion" (ngModelChange)="selectedGestion($event)" [ngClass]="
+                                    {
+                                    'is-invalid': formGestion.controls['codGestion'].touched && formGestion.controls['codGestion'].errors,
+                                    'is-valid': formGestion.controls['codGestion'].touched && !formGestion.controls['codGestion'].errors
+                                    }
+                                    ">
+                        <option value="">Seleccione</option>
+                        <option *ngFor="let item of gestiones" [value]="item.codGestion">{{ item.nombre }}</option>
+                      </select>
+                      <div class="invalid-feedback">
+                        <span class="d-block" *ngIf="formGestion.get('codGestion').hasError('required')"> La gestion es obligatorio.</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="row" *ngIf="gestion">
                     <div class="col-12 col-md-6">

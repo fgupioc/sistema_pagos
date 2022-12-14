@@ -44,8 +44,8 @@ export class GestionCarteraComponent implements OnInit {
     this.listarGestiones();
     this.formGestion = this.formBuilder.group({
       codGestion: [''],
-      desde: [{value: '', disabled: true}, [Validators.required]],
-      hasta: [{value: '', disabled: true}, [Validators.required]],
+      desde: [0, [Validators.required]],
+      hasta: [0, [Validators.required]],
       fechaCreacion: [{value: '', disabled: true}],
       fechaActualizacion: [{value: '', disabled: true}],
       userCreate: [{value: '', disabled: true}],
@@ -55,11 +55,6 @@ export class GestionCarteraComponent implements OnInit {
       desdeTemp: [],
       hastaTemp: [],
     });
-
-    if (!this.gestion) {
-      this.formGestion.controls.desde.disable();
-      this.formGestion.controls.hasta.disable();
-    }
   }
 
 
@@ -110,7 +105,7 @@ export class GestionCarteraComponent implements OnInit {
       }
       if (this.$etapas.length == 0) {
         this.desdeTemp.setValue(desde);
-        this.desdeTemp.disable();
+        // this.desdeTemp.disable();
         this.hastaTemp.setValue(desde + 1);
       }
     } else {
@@ -145,8 +140,8 @@ export class GestionCarteraComponent implements OnInit {
       const gestion = this.gestiones.find(i => i.codGestion == event);
       if (gestion) {
         this.gestion = Object.assign({}, gestion);
-        this.formGestion.controls.desde.setValue(this.gestion.desde);
-        this.formGestion.controls.hasta.setValue(this.gestion.hasta);
+        // this.formGestion.controls.desde.setValue(this.gestion.desde);
+        // this.formGestion.controls.hasta.setValue(this.gestion.hasta);
       }
     }
   }
@@ -156,16 +151,15 @@ export class GestionCarteraComponent implements OnInit {
     this.$etapa = null;
     if (val) {
       const etapa = this.gestion.etapas.find(i => i.codEtapa == val);
+      console.log(etapa);
       this.$etapa = etapa;
       if (this.$etapas.length == 0) {
         this.formGestion.controls.desdeTemp.setValue(etapa.desde);
         this.formGestion.controls.hastaTemp.setValue(etapa.hasta);
-        this.desdeTemp.disable();
       } else {
         const ultimo = this.$etapas[this.$etapas.length - 1];
         this.formGestion.controls.desdeTemp.setValue(Number(ultimo.hasta) + 1);
         this.formGestion.controls.hastaTemp.setValue(etapa.hasta);
-        this.desdeTemp.disable();
       }
     }
   }
@@ -194,7 +188,7 @@ export class GestionCarteraComponent implements OnInit {
       if (Number(last.hasta) == ultimoTemp) {
         Swal.fire('', 'No hay días disponibles', 'warning');
         this.hastaTemp.setValue(ultimo);
-        this.hastaTemp.disable();
+        // this.hastaTemp.disable();
         return;
       }
     }
@@ -218,7 +212,7 @@ export class GestionCarteraComponent implements OnInit {
     this.$etapas = this.$etapas.sort((a, b) => (a.codEtapa > b.codEtapa) ? 1 : ((b.codEtapa > a.codEtapa) ? -1 : 0));
     this.formGestion.controls.codEtapaTemp.setValue(null);
     this.desdeTemp.setValue('');
-    this.desdeTemp.enable();
+    // this.desdeTemp.enable();
     this.formGestion.controls.hastaTemp.setValue('');
     this.disbleCampoHasta();
     this.calcularValoresTemp();
@@ -268,6 +262,7 @@ export class GestionCarteraComponent implements OnInit {
       res => {
         if (res.exito) {
           Swal.fire('', res.mensaje, 'success');
+          this.router.navigateByUrl('/auth/estrategia/carteras/detalle', {state: {cartera: this.cartera}});
         } else {
           Swal.fire('', res.mensaje, 'warning');
         }
@@ -329,18 +324,18 @@ export class GestionCarteraComponent implements OnInit {
     if (this.$etapas.length == 0) {
       this.desdeTemp.setValue(Number(this.desde.value));
       this.hastaTemp.setValue(Number(this.desde.value) + 1);
-      this.desdeTemp.disable();
+      // this.desdeTemp.disable();
     } else {
       const ultimo = this.$etapas[this.$etapas.length - 1];
       const desde = Number(ultimo.hasta) + 1;
       if (desde <= Number(this.hasta.value)) {
         this.desdeTemp.setValue(desde);
-        this.desdeTemp.disable();
+        // this.desdeTemp.disable();
       } else {
         this.desdeTemp.setValue(Number(this.hasta.value));
         this.hastaTemp.setValue(Number(this.hasta.value));
-        this.desdeTemp.disable();
-        this.hastaTemp.disable();
+        // this.desdeTemp.disable();
+        // this.hastaTemp.disable();
       }
     }
   }
