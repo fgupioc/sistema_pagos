@@ -22,6 +22,7 @@
                                 <th scope="col">Frecuencia</th>
                                 <th scope="col">Inicio</th>
                                 <th scope="col">Fin</th>
+                                <th scope="col">Estado</th>
                                 <th scope="col">Opción</th>
                             </tr>
                         </thead>
@@ -33,18 +34,22 @@
                                 <td>{{ item.frecuencia }}</td>
                                 <td> {{ item.startDate | date: 'dd/MM/yyyy'}}</td>
                                 <td> {{ item.endDate | date: 'dd/MM/yyyy'}}</td>
+                                <td>{{ getEstado(item.estado)}}</td>
                                 <td>
                                    <ng-container *ngIf="menuS.hasShowAsigCartera(A.ASI_CAR_SHOW_CREDITOS)">
-                                     <button *ngIf="!role" class="btn btn-sm btn-success mr-2" [routerLink]="'/auth/estrategia/asignacion-cartera/' + item.ejecutivoUuid + '/listado/' + item.asignacioUuid + '/detalle'"><i class="fa fa-eye"></i></button>
+                                     <button placement="top" ngbTooltip="Detalle" *ngIf="!role" class="btn btn-sm btn-success mr-2" [routerLink]="'/auth/estrategia/asignacion-cartera/' + item.ejecutivoUuid + '/listado/' + item.asignacioUuid + '/detalle'"><i class="fa fa-eye"></i></button>
                                    </ng-container>
                                   <ng-container *ngIf="menuS.hasShowMisCarteraAsig(A.CARTERA_ASIG_SHOW)">
-                                  <button *ngIf="role" class="btn btn-sm btn-primary mr-2" [routerLink]="'/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/' + item.asignacioUuid + '/detalle'"><i class="fa fa-eye"></i></button>
+                                  <button placement="top" ngbTooltip="Detalle" *ngIf="role" class="btn btn-sm btn-primary mr-2" [routerLink]="'/auth/estrategia/asignacion-cartera/mis-cartera-asignadas/' + item.asignacioUuid + '/detalle'"><i class="fa fa-eye"></i></button>
+                                  </ng-container>
+                                  <ng-container *ngIf="item.estado == '1'">
+                                    <button placement="top" ngbTooltip="Cancelar Asignación" *ngIf="!role" class="btn btn-sm btn-danger mr-2" (click)="cancelarAsignacion(item.asignacioUuid)" ><i class="fa fa-trash"></i></button>
                                   </ng-container>
                                 </td>
                             </tr>
 
                             <tr class="text-center" *ngIf="asignaciones.length == 0">
-                                <th scope="row" colspan="7"><small>No tiene carteras asignadas</small></th>
+                                <th scope="row" colspan="8"><small>No tiene carteras asignadas</small></th>
                             </tr>
                         </tbody>
                     </table>
@@ -54,3 +59,7 @@
     </div>
 </div>
 <ngx-spinner></ngx-spinner>
+<ngx-spinner name="anular" type="ball-clip-rotate-multiple" >
+  <p class="mt-4 loading">cargando...</p>
+</ngx-spinner>
+

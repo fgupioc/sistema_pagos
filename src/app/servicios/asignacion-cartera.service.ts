@@ -224,4 +224,8 @@ export class AsignacionCarteraService {
   cancelarAcuerdoPago(keyResp: any): Observable<any> {
     return this.http.post<any>(`${urlBase}/cancelarAcuerdoPago`, {}, {params: new HttpParams().set('keyResp', keyResp)});
   }
+
+  anularAsignacion(asigancioUuid: any): Observable<any> {
+    return this.http.put<any>(`${urlBase}/anular-asignacion`, {}, {params: new HttpParams().set('asigancioUuid', asigancioUuid)});
+  }
 }
