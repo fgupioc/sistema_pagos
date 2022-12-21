@@ -8,6 +8,8 @@ import {CONST} from '../../../comun/CONST';
 import {FUNC} from '../../../comun/FUNC';
 import {Autorizacion} from '../../../comun/autorzacion';
 import {MenuService} from '../../../servicios/sistema/menu.service';
+import {ModalBuscarSocioAsignacionComponent} from '../../componentes/modals/modal-buscar-socio-asignacion/modal-buscar-socio-asignacion.component';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-mis-gestiones',
@@ -28,7 +30,8 @@ export class MisGestionesComponent implements OnInit {
   constructor(
     private gestionAdministrativaService: GestionAdministrativaService,
     private spinner: NgxSpinnerService,
-    public menuS: MenuService
+    public menuS: MenuService,
+    private modalService: NgbModal
   ) {
   }
 
@@ -52,4 +55,8 @@ export class MisGestionesComponent implements OnInit {
       });
   }
 
+  findSocio() {
+    const modal = this.modalService.open(ModalBuscarSocioAsignacionComponent, {scrollable: true, size: 'lg'});
+    modal.componentInstance.origen = 'E';
+  }
 }

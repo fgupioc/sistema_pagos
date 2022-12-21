@@ -65,7 +65,6 @@ export class AuthComponent implements OnInit, OnDestroy {
     //   this.navItems = navItems.filter(i => i.children.length > 0 );
     //   this.spinner.hide();
     // }, error => this.spinner.hide());
-    console.log(this.authService.loggedUser.email);
     this.menuService.findMenuByUserEmail().subscribe(
       res => {
         this.navItems = res;

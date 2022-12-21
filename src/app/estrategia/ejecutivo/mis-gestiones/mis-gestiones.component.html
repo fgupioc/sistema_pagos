@@ -1,6 +1,16 @@
 <div class="card">
   <div class="card-header">
-    <h4>Lista de créditos</h4>
+    <div class="d-flex justify-content-between">
+      <div>
+        <h4 class="card-title mb-0">Lista de créditos</h4>
+<!--        <div class="small text-medium-emphasis">January - July 2022</div>-->
+      </div>
+      <div class="btn-toolbar d-none d-md-block" role="toolbar" aria-label="Toolbar with buttons">
+        <div class="btn-group btn-group-toggle mx-3" data-coreui-toggle="buttons">
+          <button class="btn btn-primary" (click)="findSocio()"><i class="fa fa-search-plus"></i> Buscar Socio</button>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="card-body">
     <div class="row">

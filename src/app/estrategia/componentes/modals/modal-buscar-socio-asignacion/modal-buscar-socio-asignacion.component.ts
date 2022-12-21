@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import {DataTableDirective} from 'angular-datatables';
@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CreditoService} from '../../../../servicios/estrategia/credito.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {Router} from '@angular/router';
+import {AutenticacionService} from '../../../../servicios/seguridad/autenticacion.service';
 
 @Component({
   selector: 'app-modal-buscar-socio-asignacion',
@@ -18,7 +19,6 @@ export class ModalBuscarSocioAsignacionComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   @ViewChild(DataTableDirective, {static: false})
   dtElement: DataTableDirective;
-
   dtTrigger: Subject<any> = new Subject();
 
   socios: {
@@ -33,6 +33,7 @@ export class ModalBuscarSocioAsignacionComponent implements OnInit {
     fin: string
   }[] = [];
   form: FormGroup;
+  @Input() origen = 'S';
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -40,6 +41,7 @@ export class ModalBuscarSocioAsignacionComponent implements OnInit {
     private creditoService: CreditoService,
     private spinner: NgxSpinnerService,
     private router: Router,
+    public auth: AutenticacionService
   ) {
   }
 
@@ -82,7 +84,10 @@ export class ModalBuscarSocioAsignacionComponent implements OnInit {
 
   ir(socio: any) {
     this.activeModal.close();
-    const url = `/auth/estrategia/asignacion-cartera/${socio.ejecutivoUuid}/listado/${socio.asignacionUuid}/detalle/${socio.numeroCredito}/socio`;
+    let url = `/auth/estrategia/asignacion-cartera/${socio.ejecutivoUuid}/listado/${socio.asignacionUuid}/detalle/${socio.numeroCredito}/socio`;
+    if (this.origen == 'E') {
+      url = `/auth/gestion-administrativa/mis-gestiones/${socio.numeroCredito}/detalle`;
+    }
     this.router.navigateByUrl(url);
   }
 }

@@ -48,7 +48,7 @@ export class UbigeoService {
   }
 
   getIpAddress() {
-    this.http.get<{ ip: string }>('https://jsonip.com').subscribe(({ip}) => this.info.ipAddress = ip);
+    // this.http.get<{ ip: string }>('https://jsonip.com').subscribe(({ip}) => this.info.ipAddress = ip);
   }
 
 

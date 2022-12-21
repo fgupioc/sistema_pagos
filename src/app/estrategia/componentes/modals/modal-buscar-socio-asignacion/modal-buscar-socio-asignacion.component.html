@@ -47,8 +47,9 @@
               <td class="text-center">{{ socio.numeroCredito}}</td>
               <td class="text-center">{{ socio.ejecutivo}}</td>
               <td class="text-center">{{ socio.inicio}} a {{ socio.fin}}</td>
-              <td class="text-center">
-                <button class="btn btn-sm btn-primary" placement="top" ngbTooltip="ir" (click)="ir(socio)"><i class="fa fa-arrow-right"></i></button>
+              <td class="text-center" >
+                <button *ngIf="origen == 'S' || origen == 'E' && socio.ejecutivoUuid == this.auth.loggedUser.uuid" class="btn btn-sm btn-primary" placement="top" ngbTooltip="ir" (click)="ir(socio)"><i class="fa fa-arrow-right"></i></button>
+
               </td>
             </tr>
             </tbody>
