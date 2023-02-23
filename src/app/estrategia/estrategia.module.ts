@@ -81,6 +81,7 @@ import { ModalBuscarSocioAsignacionComponent } from './componentes/modals/modal-
 import { ReasignacionGestoresComponent } from './reasignacion-cartera/reasignacion-gestores/reasignacion-gestores.component';
 import { MisAsignacionesReasignarComponent } from './reasignacion-cartera/mis-asignaciones-reasignar/mis-asignaciones-reasignar.component';
 import { ReasignarCreditosComponent } from './reasignacion-cartera/reasignar-creditos/reasignar-creditos.component';
+import { ModalProyectarPagoFechaComponent } from './ejecutivo/modal-proyectar-pago-fecha/modal-proyectar-pago-fecha.component';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -147,6 +148,7 @@ const ngWizardConfig: NgWizardConfig = {
     ReasignacionGestoresComponent,
     MisAsignacionesReasignarComponent,
     ReasignarCreditosComponent,
+    ModalProyectarPagoFechaComponent,
   ],
   imports: [
     CommonModule,
@@ -190,7 +192,8 @@ const ngWizardConfig: NgWizardConfig = {
     ModalAsignarEstadoRecordatorioComponent,
     ModalNuevaTareasComponent,
     ModalTableroNuevaTareaComponent,
-    ModalBuscarSocioAsignacionComponent
+    ModalBuscarSocioAsignacionComponent,
+    ModalProyectarPagoFechaComponent
   ],
   providers: [
     AsignacionCarteraService,

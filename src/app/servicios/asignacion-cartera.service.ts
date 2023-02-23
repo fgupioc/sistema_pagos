@@ -228,4 +228,8 @@ export class AsignacionCarteraService {
   anularAsignacion(asigancioUuid: any): Observable<any> {
     return this.http.put<any>(`${urlBase}/anular-asignacion`, {}, {params: new HttpParams().set('asigancioUuid', asigancioUuid)});
   }
+
+  simulacionPagoCuotas(nroCredito: any, fecha: any, monto: any): Observable<any> {
+    return this.http.get<any>(`${urlBase}/simulacion-pago-cuotas-por-fecha`, {params: new HttpParams().set('nroCredito', nroCredito).set('fecha', fecha).set('monto', monto)});
+  }
 }

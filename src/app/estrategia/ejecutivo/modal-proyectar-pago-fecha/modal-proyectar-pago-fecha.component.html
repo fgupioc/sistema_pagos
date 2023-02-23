@@ -1,0 +1,61 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title">Simulación de Pago</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()">X</button>
+  </div>
+  <div class="modal-body" [formGroup]="formGroup">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label>Deuda a la Fecha:</label>
+          <input CustomizeCurrency type="text" class="form-control" placeholder="0.00" formControlName="monto">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <label>Fecha Pago:</label>
+        <div class="input-group mb-3">
+          <input type="date" class="form-control" formControlName="fecha">
+          <div class="input-group-prepend">
+            <button [disabled]="formGroup.invalid" (click)="calcular()" type="button" class="btn btn-primary"><i
+              class="fa fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="cuotas.length > 0">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+            <tr class="text-center">
+              <th width="10%" scope="col">#</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Amortización</th>
+              <th scope="col">Interés</th>
+              <th scope="col">Desgrvamen</th>
+              <th scope="col">Cuota Pagar</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of cuotas; let i = index" class="text-center cursor-pointer" (click)="selectedItem(item, i)" [ngClass]="i == 0 ? 'table-info' : ''">
+              <th scope="row">{{i + 1}}</th>
+              <td>{{item.fecha | date : 'dd/MM/yyyy'}}</td>
+              <td>{{item.amortizacion | currency: ' '}}</td>
+              <td>{{item.interes | currency: ' '}}</td>
+              <td>{{item.desgravamen | currency: ' '}}</td>
+              <td>{{item.monto | currency: ' '}}</td>
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Cerrar</button>
+  </div>
+</div>
+<ngx-spinner name="loading" type="timer">
+  <p class="loading">Espere un momento...</p>
+</ngx-spinner>

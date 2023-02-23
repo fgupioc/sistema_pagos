@@ -39,6 +39,8 @@ import {Autorizacion} from '../../../comun/autorzacion';
 import {MenuService} from '../../../servicios/sistema/menu.service';
 import {Comentario} from '../../../models/comentario';
 import {ToastrService} from 'ngx-toastr';
+import {ModalProyectarPagoFechaComponent} from '../modal-proyectar-pago-fecha/modal-proyectar-pago-fecha.component';
+import {MontoProyectado} from '../../../models/monto-proyectado';
 
 declare var $: any;
 
@@ -1538,7 +1540,6 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   respuestaSeleccionada() {
     const codRes = this.form.controls.codRespuesta.value;
-    console.log(codRes);
     this.$detalles = [];
     const res = this.respuestas.find((i) => i.codItem == codRes);
     this.$detalles = res ? res.strValor.split(',') : [];
@@ -1855,8 +1856,6 @@ export class MisGestionesDetalleComponent implements OnInit {
       this.formPlanPago.controls.intervalo.disable();
       const a = moment(this.credito.fechaProximoVencimiento);
       const b = moment();
-      console.log(a.format('YYYY-MM-DD'));
-      console.log(b.format('YYYY-MM-DD'));
       this.diasPorVencer = a.diff(b, 'days');
     } else if (tipo == 3) {
       this.formPlanPago.controls.plazo.setValue(1);
@@ -2039,5 +2038,23 @@ export class MisGestionesDetalleComponent implements OnInit {
     this.formPlanPago.controls.plazo.setValue(0);
     this.formPlanPago.controls.intervalo.setValue(0);
     this.pagoCuotas = [];
+  }
+
+  proyectarPago() {
+    const modal = this.modalService.open(ModalProyectarPagoFechaComponent, {size: 'lg', centered: true});
+
+    modal.componentInstance.nroCredito = this.nroCredito;
+    modal.componentInstance.montoAtrasado = this.credito.montoAtrasado;
+
+    modal.result.then(
+      this.closeModalProyectarPago.bind(this),
+      this.closeModalProyectarPago.bind(this)
+    );
+  }
+
+  closeModalProyectarPago(data: any) {
+    if (data instanceof MontoProyectado) {
+      console.log(data);
+    }
   }
 }

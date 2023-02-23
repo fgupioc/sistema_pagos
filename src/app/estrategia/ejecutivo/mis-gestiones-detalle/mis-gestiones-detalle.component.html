@@ -355,10 +355,13 @@
                               </div>
                             </div>
                             <div class="col-4">
-                              <div class="form-group">
-                                <label>M. Atrasado</label>
+                              <label>M. Atrasado</label>
+                              <div class="input-group mb-3">
                                 <input CustomizeCurrency Uppercase type="text" class="form-control"
                                        formControlName="montoAtrasado">
+                                <div class="input-group-prepend">
+                                  <button (click)="proyectarPago()" type="button" class="btn btn-sm bg-success"  placement="top" ngbTooltip="Proyectar pago"><i class="fa fa-calendar"></i></button>
+                                </div>
                               </div>
                             </div>
                             <div class="col-4">

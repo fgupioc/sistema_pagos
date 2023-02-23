@@ -556,6 +556,7 @@ export class ModalNuevaTareasComponent implements OnInit {
   }
 
   getUrlDownload(file) {
+    // http://192.169.1.130/icollect/upload/123/download/documento1.pdf
     return `${urlBaseFotos}${this.tarea.id}/download/${file.url}`;
   }
 

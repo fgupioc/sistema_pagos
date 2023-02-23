@@ -293,7 +293,7 @@
                                 </div>
                             </div>
                             <div class="col-12" *ngIf="$creditos.length > 0">
-                                <label *ngIf="$creditos.length > 0">Se encontro {{ $creditos.length }} creditos.</label>
+                                <label *ngIf="$creditos.length > 0">Se encontro {{ $creditos.length }} créditos.</label>
                                 <div>
                                     <table datatable [dtOptions]="dtOptions" class="table table-responsive-sm table-bordered table-responsive">
                                         <thead>
@@ -396,7 +396,12 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="col-12 text-center mt-4">
+                          <div class="col-12">
+                            <div class="form-group text-center">
+                              <small class="font-weight-bold" style="font-size: 20px">No se encontraron créditos disponibles</small>
+                            </div>
+                          </div>
+                            <div class="col-12 text-center mt-4" *ngIf="$creditosCheched.length > 0">
                                 <button class="btn btn-primary" [disabled]="$creditosCheched.length == 0 || !$startDate " (click)="nextFinished()">Guardad <i class="fa fa-save"></i></button>
                             </div>
                         </div>
