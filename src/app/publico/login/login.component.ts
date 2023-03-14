@@ -19,13 +19,13 @@ export class LoginComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private autenticacionService: AutenticacionService, private router: Router,
               private spinner: NgxSpinnerService) {
     this.formGroup = this.formBuilder.group({
-      email: ['erikah', {
+      email: ['', {
         validators: [
           Validators.required,
           // Validators.pattern(AppConstante.C_STR_EXP_REGULAR_EMAIL)
         ]
       }],
-      password: ['Koop$20201', {
+      password: ['', {
         validators: [
           Validators.required,
           Validators.minLength(8),

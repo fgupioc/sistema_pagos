@@ -10,6 +10,9 @@ import {CONST} from '../comun/CONST';
 import {Recordatorio} from '../interfaces/recordatorio';
 import {EjecutivoAsignacion} from '../interfaces/ejecutivo-asignacion';
 import {Tarea} from '../interfaces/tarea';
+import {map} from 'rxjs/operators';
+import {PagosRealizadosPorDia} from '../models/reportes/pagos-realizados-por-dia';
+import {MontoProyectado} from '../models/monto-proyectado';
 
 const urlBase = environment.serverUrl + 'asignacio-cartera';
 const urlMaestro = `${environment.serverUrl}maestro/`;
@@ -229,7 +232,8 @@ export class AsignacionCarteraService {
     return this.http.put<any>(`${urlBase}/anular-asignacion`, {}, {params: new HttpParams().set('asigancioUuid', asigancioUuid)});
   }
 
-  simulacionPagoCuotas(nroCredito: any, fecha: any, monto: any): Observable<any> {
-    return this.http.get<any>(`${urlBase}/simulacion-pago-cuotas-por-fecha`, {params: new HttpParams().set('nroCredito', nroCredito).set('fecha', fecha).set('monto', monto)});
+  simulacionPagoCuotas(nroCredito: any, fecha: any, monto: any): Observable<any[]> {
+    return this.http.get<any[]>(`${urlBase}/simulacion-pago-cuotas-por-fecha`, {params: new HttpParams().set('nroCredito', nroCredito)
+        .set('fecha', fecha).set('monto', monto)}).pipe(map(res => res.map(i => new MontoProyectado(i))));
   }
 }

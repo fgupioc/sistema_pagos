@@ -283,12 +283,12 @@
                     <ng-container
                       *ngIf="showAcuerdoPago && menuS.hasShowMisGestiones(A.MIS_GESTIONES_NEW_COMPROMISO_PAGO)">
                       <div class="col-12"></div>
-                      <div class="col-12 col-md-3">
+                      <div *ngIf="false"  class="col-12 col-md-3">
                         <ul class="list-group list-acuerdos">
                           <li *ngIf="false" class="list-group-item" [ngClass]="{'active': typeAcuerdo == 1}"
                               (click)="typeAcuerdo = 1">AL DÍA
                           </li>
-                          <li class="list-group-item" [ngClass]="{'active': typeAcuerdo == 3}"
+                          <li *ngIf="false" class="list-group-item" [ngClass]="{'active': typeAcuerdo == 3}"
                               (click)="cambiarTipoAcuerdo(3)">TOTAL DE LA MORA
                           </li>
                           <li class="list-group-item" [ngClass]="{'active': typeAcuerdo == 2}"
@@ -301,7 +301,7 @@
                       </div>
                       <ng-container *ngIf="typeAcuerdo == 1  || typeAcuerdo == 3 || typeAcuerdo == 4"
                                     [formGroup]="formRegistrarAcuerdo">
-                        <div class="col-12 col-md-8">
+                        <div class="col-12">
                           <div class="row">
                             <div class="col-12" *ngIf="errors.length > 0">
                               <div class="form-group">
@@ -345,7 +345,7 @@
                         </div>
                       </ng-container>
                       <ng-container *ngIf="typeAcuerdo == 2" [formGroup]="formPlanPago">
-                        <div class="col-12 col-md-9">
+                        <div class="col-12">
                           <div class="row">
                             <div class="col-12" *ngIf="errors.length > 0">
                               <div class="form-group">
@@ -360,7 +360,7 @@
                                 <input CustomizeCurrency Uppercase type="text" class="form-control"
                                        formControlName="montoAtrasado">
                                 <div class="input-group-prepend">
-                                  <button (click)="proyectarPago()" type="button" class="btn btn-sm bg-success"  placement="top" ngbTooltip="Proyectar pago"><i class="fa fa-calendar"></i></button>
+                                  <button (click)="proyectarPago()" type="button" class="btn bg-success"  placement="top" ngbTooltip="Proyectar pago"><i class="fa fa-calendar"></i></button>
                                 </div>
                               </div>
                             </div>
@@ -368,7 +368,7 @@
                               <div class="form-group">
                                 <label>M. Negociar</label>
                                 <input CustomizeCurrency type="text" class="form-control"
-                                       formControlName="montoNegociar" (change)="cabioMontoNegociar()">
+                                       formControlName="montoNegociar">
                               </div>
                             </div>
                             <div class="col-4">
@@ -428,16 +428,16 @@
                               <div class="form-group row">
                                 <label class="col-4 col-md-2 col-form-label" style="text-align: right">Cuota: {{ item.cuota }}</label>
                                 <div class="col-4 col-md-2">
-                                  <input CustomizeCurrency type="text" class="form-control"  [value]="item.monto" (change)="cambioValorCuota(item, $event)">
+                                  <input type="text" class="form-control"  [value]="item.monto | currency: ' '" (change)="cambioValorCuota(item, $event)">
                                 </div>
                                 <div class="col-4 col-md-4">
-                                  <label class="col-form-label" style="text-align: right">f. Pago: {{ item.fecha | date: 'MM/dd/yyyy'}}</label>
+                                  <label class="col-form-label" style="text-align: right">f. Pago: {{ item.fecha | date: 'dd/MM/yyyy'}}</label>
                                 </div>
                               </div>
                             </div>
                             <div class="col-12" *ngIf="pagoCuotas.length > 0">
                               <div class="form-group row">
-                                <label class="col-12 col-md-4 col-form-label" style="text-align: right; border-top: 1px solid #e4e7ea;">Monto Total: {{ calcularMonto() }}</label>
+                                <label class="col-12 col-md-4 col-form-label" style="text-align: right; border-top: 1px solid #e4e7ea;">Monto Total: {{ calcularMonto() | currency: ' ' }}</label>
 
                               </div>
                             </div>
@@ -445,7 +445,7 @@
                         </div>
                       </ng-container>
                     </ng-container>
-                    <div class="col-8 mt-4">
+                    <div class="col-8">
                       <label>Comentario</label>
                       <div class="input-group">
                         <input type="text" class="form-control" formControlName="comentario">

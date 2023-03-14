@@ -8,6 +8,7 @@ import {ToastrService} from 'ngx-toastr';
 import {CarteraService} from '../../../servicios/estrategia/cartera.service';
 import {Autorizacion, S} from '../../../comun/autorzacion';
 import {MenuService} from '../../../servicios/sistema/menu.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-cargar-credito',
@@ -19,6 +20,7 @@ export class CarteraCargarCreditoComponent implements OnInit {
   cabeceras = [];
   carterasActivas = [];
   carteraId: number;
+  fechaCarga: string;
   A = Autorizacion;
 
   constructor(
@@ -35,31 +37,7 @@ export class CarteraCargarCreditoComponent implements OnInit {
     if (this.menuS.hasShowCargaManual(this.A.CARGA_MANUAL_CARGAR)) {
       this.listarCarterasActivas();
     }
-  }
-
-  listarCargas() {
-    this.spinner.show();
-    this.creditoService.listarCargas(this.carteraId).subscribe((res) => {
-      this.spinner.hide();
-      this.cabeceras = [];
-
-      this.cargas = res.cargas;
-    });
-  }
-
-  quieresResetear() {
-    Swal.fire({
-      text: 'Quieres Resetear',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: 'btn-primary',
-      confirmButtonText: 'Si, Resetear!',
-      cancelButtonText: 'Cancelar',
-    }).then((result) => {
-      if (result.value) {
-        this.resetear();
-      }
-    });
+    this.getUltimoDiaMesAnterior();
   }
 
   private listarCarterasActivas() {
@@ -73,32 +51,6 @@ export class CarteraCargarCreditoComponent implements OnInit {
 
   actualizar() {
 
-  }
-
-  resetear() {
-    this.spinner.show();
-    this.creditoService.resetear().subscribe((result) => {
-      this.spinner.hide();
-      if (result.exito) {
-        this.toastr.success(result.mensaje);
-        this.listarCargas();
-      } else {
-        Swal.fire('', result.mensaje, 'error');
-      }
-    });
-  }
-
-  cargarArchivo() {
-    const modal = this.modalService.open(CarteraCargarCreditoFileComponent, {
-      centered: true,
-    });
-    modal.result.then(this.modalClose.bind(this), this.modalClose.bind(this));
-  }
-
-  modalClose(response) {
-    if (response) {
-      this.listarCargas();
-    }
   }
 
   quieresEjecutarCarga() {
@@ -120,18 +72,23 @@ export class CarteraCargarCreditoComponent implements OnInit {
     const carteraId = this.carteraId;
     this.spinner.show();
     if (carteraId) {
-      this.carteraService.cargarCreditosCartera(carteraId).subscribe(
+      this.carteraService.cargarCreditosCartera(carteraId, moment(this.fechaCarga).format('DD/MM/YYYY')).subscribe(
         res => {
           this.spinner.hide();
           Swal.fire('Cargar Créditos', `<b>Total de Créditos: </b> ${res.creditos} </br> <b>Créditos Nuevos: </b> ${res.creditosNew} </br> <b>Créditos Actualizados: </b> ${res.creditosUpdate} </br>`, 'success');
           this.carteraService.cargarSociosSinDatos();
         },
-        err => {
+        ({error: {message}}) => {
           this.spinner.hide();
-          Swal.fire('', 'Ocurrio un error en el proceso de carga...', 'error');
+          Swal.fire('Cargar Créditos', message ? message : 'Ocurrió un error en el proceso de carga...', 'error');
         }
       );
     }
 
+  }
+
+  getUltimoDiaMesAnterior() {
+    const date = moment().subtract(1, 'month');
+    this.fechaCarga = date.endOf('month').format('YYYY-MM-DD');
   }
 }

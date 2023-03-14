@@ -90,14 +90,8 @@ export class CarteraService {
   listarEtapasPorcarteraGestion(codGestion: any) {
     return this.http.get<any>(`${this.apiUrl}listarEtapasPorcarteraGestion`, {params: new HttpParams().set('id', codGestion)});
   }
-
-  /**
-   *
-   * @param carteraId
-   * @returns
-   */
-   cargarCreditosCartera(carteraId: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}cargarCreditosCartera`, [], { params: new HttpParams().set('carteraId', carteraId) });
+   cargarCreditosCartera(carteraId: any, fecha: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}cargarCreditosCartera`, [], { params: new HttpParams().set('carteraId', carteraId).set('fecha', fecha) });
   }
 
   cargarSociosSinDatos(): Observable<any> {

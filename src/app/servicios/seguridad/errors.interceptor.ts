@@ -22,7 +22,7 @@ export class ErrorsInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError(error => {
         if (error.status == 401) {
-          Swal.fire('', 'No tiene autorización para este servicio.', 'warning');
+          // Swal.fire('', 'No tiene autorización para este servicio.', 'warning');
           this.router.navigateByUrl('/auth/dashboard');
         }
         this.spinner.hide();

@@ -8,15 +8,24 @@
             <div class="card-body">
                 <form class="form-horizontal ng-untouched ng-pristine ng-valid">
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label" style="text-align: right" for="carteraId">Cartera *</label>
-                        <div class="col-md-10">
-                            <select id="carteraId" class="form-control" (change)="actualizar()" [(ngModel)]="carteraId" name="carteraId">
-                              <option *ngFor="let o of carterasActivas" [value]="o.codCartera">{{o.nombre}}</option>
-                            </select>
+                        <div class="col-6 col-md-8">
+                          <div class="form-group">
+                            <label for="carteraId">Cartera *</label>
+                              <select id="carteraId" class="form-control" (change)="actualizar()" [(ngModel)]="carteraId" name="carteraId">
+                                <option *ngFor="let o of carterasActivas" [value]="o.codCartera">{{o.nombre}}</option>
+                              </select>
+                          </div>
                         </div>
+                      <div class="col-6 col-md-4">
+                        <div class="form-group">
+                          <label for="fechaCarga">Fecha carga*</label>
+                          <input class="form-control" type="date" [(ngModel)]="fechaCarga" name="fechaCarga" id="fechaCarga">
+                          <small class="form-text text-muted">Seleccione el último día del mes anterior.</small>
+                        </div>
+                      </div>
                     </div>
                 </form>
-                <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                <table *ngIf="false" class="table table-responsive-sm table-bordered table-striped table-sm">
                     <thead>
                         <tr class="text-center">
                             <th>#</th>
@@ -52,7 +61,7 @@
                 </table>
             </div>
             <div class="card-footer" *ngIf="menuS.hasShowCargaManual(A.CARGA_MANUAL_CARGAR)">
-                <button *ngIf="carteraId" class="btn btn-success mr-5px" (click)="quieresEjecutarCarga()">
+                <button *ngIf="carteraId && fechaCarga" class="btn btn-success mr-5px" (click)="quieresEjecutarCarga()">
                   Ejecutar Carga
                 </button>
             </div>

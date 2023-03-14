@@ -41,6 +41,8 @@ import {Comentario} from '../../../models/comentario';
 import {ToastrService} from 'ngx-toastr';
 import {ModalProyectarPagoFechaComponent} from '../modal-proyectar-pago-fecha/modal-proyectar-pago-fecha.component';
 import {MontoProyectado} from '../../../models/monto-proyectado';
+import {CurrencyPipe} from '@angular/common';
+import {MyCurrencyPipe} from '../../../pipes/mycurrency.pipe';
 
 declare var $: any;
 
@@ -84,7 +86,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   respuestas: TablaMaestra[] = [];
   tiposContacto: TablaMaestra[] = [];
   tipoDirecciones: TablaMaestra[] = [];
-  typeAcuerdo = 3;
+  typeAcuerdo = 2;
   errors: string[] = [];
   dateDefault = moment(new Date()).format('YYYY-MM-DD');
   hourDefault = moment().format('LT');
@@ -175,7 +177,8 @@ export class MisGestionesDetalleComponent implements OnInit {
     private direccionService: DireccionService,
     private modalService: NgbModal,
     public menuS: MenuService,
-    public toastr: ToastrService
+    public toastr: ToastrService,
+    private currencyPipe: MyCurrencyPipe
   ) {
     this.$commit = new Comentario();
     this.$commit.mensaje = '';
@@ -257,6 +260,9 @@ export class MisGestionesDetalleComponent implements OnInit {
       montoNegociar: [0],
       montoRestante: [0],
     });
+
+    this.formPlanPago.controls.descripcion.setValue(`Mi plan de pago ${this.dateDefault}`);
+
 
     this.formTarea = this.formBuilder.group({
       tableroTareaId: ['', [Validators.required]],
@@ -437,6 +443,7 @@ export class MisGestionesDetalleComponent implements OnInit {
             this.$commit.socioId = this.credito.socioId;
             this.listarAcciones(this.credito.id, this.credito.asignacionId);
             this.obtenerComentarios(this.nroCredito);
+            this.cambiarTipoAcuerdo(2);
             this.spinner.hide('cargar-credito');
           } else {
             Swal.fire('Credito', res.mensaje, 'error');
@@ -1866,7 +1873,7 @@ export class MisGestionesDetalleComponent implements OnInit {
   }
 
   cambioPlazo() {
-    const monto = Number(this.formPlanPago.controls.montoNegociar.value);
+    const monto = Number(this.formPlanPago.controls.montoNegociar.value.replace(',', '')); // aqui
     const cuotas = Number(this.formPlanPago.controls.plazo.value);
     this.pagoCuotas = [];
     let start = this.formPlanPago.controls.fechaInicio.value;
@@ -1973,24 +1980,9 @@ export class MisGestionesDetalleComponent implements OnInit {
     return false;
   }
 
-  cabioMontoNegociar() {
-    const montoNegociar = Number(this.formPlanPago.controls.montoNegociar.value);
-    const montoAtrasado = Number(this.credito.montoAtrasado);
-    if (montoNegociar > montoAtrasado) {
-      this.formPlanPago.controls.montoNegociar.setValue(this.credito.montoAtrasado);
-      this.formPlanPago.controls.montoRestante.setValue(0);
-      this.toastr.warning('El monto a negociar no puede ser mayor al monto atrasado.');
-      this.cambioPlazo();
-      return;
-    }
-    const montoRestante = (montoAtrasado - montoNegociar).toFixed(2);
-    this.formPlanPago.controls.montoRestante.setValue(montoRestante);
-    this.cambioPlazo();
-  }
-
   cambioValorCuota(item: { cuota: number; monto: number }, event: any) {
     const montoAtrasado = Number(this.credito.montoAtrasado);
-    const montoNegociar = Number(this.formPlanPago.controls.montoNegociar.value);
+    const montoNegociar = Number(this.formPlanPago.controls.montoNegociar.value.replace(',', '')); // aqui
     const cuotaInit = item.cuota;
     const montoCuotaActual = Number(event.target.value);
     item.monto = montoCuotaActual;
@@ -2045,6 +2037,7 @@ export class MisGestionesDetalleComponent implements OnInit {
 
     modal.componentInstance.nroCredito = this.nroCredito;
     modal.componentInstance.montoAtrasado = this.credito.montoAtrasado;
+    modal.componentInstance.fechaProximoVencimiento = this.credito.fechaProximoVencimiento;
 
     modal.result.then(
       this.closeModalProyectarPago.bind(this),
@@ -2054,7 +2047,14 @@ export class MisGestionesDetalleComponent implements OnInit {
 
   closeModalProyectarPago(data: any) {
     if (data instanceof MontoProyectado) {
-      console.log(data);
+      const monto = data.calcularAmortizacion + data.interesPrestamoSaldo + data.seguroDesgravamen;
+      this.formPlanPago.controls.montoNegociar.setValue(this.formatMoney(monto));
+      this.formPlanPago.controls.montoNegociar.disable();
     }
+  }
+
+  formatMoney(value) {
+    const temp = `${value}`.replace(/\,/g, '');
+    return this.currencyPipe.transform(temp).replace('$', '');
   }
 }

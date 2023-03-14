@@ -22,6 +22,10 @@ export class ModalProyectarPagoFechaComponent implements OnInit {
   @Input() montoAtrasado = 0.0;
   formGroup: FormGroup;
   cuotas: MontoProyectado[] = [];
+  saldoFecha = 0.00;
+  montoCuotaProxima = 0.00;
+  fechaProximoVencimiento: any;
+  $fechaProximoVencimiento: any;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -40,6 +44,11 @@ export class ModalProyectarPagoFechaComponent implements OnInit {
       monto: [this.montoAtrasado, [Validators.required]],
       fecha: ['', [Validators.required]],
     });
+
+    if (this.fechaProximoVencimiento) {
+      this.$fechaProximoVencimiento = moment(this.fechaProximoVencimiento).format('YYYY-MM-DD');
+      this.formGroup.controls.fecha.setValue(this.$fechaProximoVencimiento);
+    }
   }
 
   public get monto(): AbstractControl {
@@ -55,8 +64,12 @@ export class ModalProyectarPagoFechaComponent implements OnInit {
     this.spinner.show('loading');
     this.asignacionCarteraService.simulacionPagoCuotas(this.nroCredito, moment(data.fecha).format('DD/MM/YYYY'), data.monto).subscribe(
       res => {
+        if (res.length) {
+          this.saldoFecha = res[0].saldoFecha;
+          this.montoCuotaProxima = res[0].montoCuotaProxima;
+          this.cuotas = res;
+        }
         this.spinner.hide('loading');
-        this.cuotas = res;
       },
       err => {
         this.spinner.hide('loading');
@@ -64,20 +77,36 @@ export class ModalProyectarPagoFechaComponent implements OnInit {
     );
   }
 
-  selectedItem(cuota: MontoProyectado, index: any) {
-    Swal.fire({
-      title: '¿Esta Seguro?',
-      text: 'Se seleccionó el item número' + index,
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, Seleccionar!',
-      cancelButtonText: 'cancelar!'
-    }).then(({value}) => {
-      if (value) {
-        this.activeModal.dismiss(new MontoProyectado(cuota));
-      }
-    });
+  selectedItem(index: any) {
+    const cuota = this.cuotas[index];
+    if (cuota) {
+      Swal.fire({
+        title: '¿Esta Seguro?',
+        text: 'Se proyectara el monto a la fecha selecionada.',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Seleccionar!',
+        cancelButtonText: 'Cancelar!'
+      }).then(({value}) => {
+        if (value) {
+          this.activeModal.dismiss(new MontoProyectado(cuota));
+        }
+      });
+    }
+  }
+
+  verificarFecha() {
+    if (this.validarFecha()) {
+      Swal.fire('Proyectar Fecha', 'La fecha seleccionada no es valida. La fecha no debe ser mayor a la próxima fecha de vencimiento.', 'warning');
+      this.fecha.setValue(this.$fechaProximoVencimiento);
+    }
+  }
+
+  validarFecha(): boolean {
+    const now = moment(this.fecha.value).format('YYYY-MM-DD');
+    const old = moment(this.$fechaProximoVencimiento).format('YYYY-MM-DD');
+    return moment(now).isAfter(moment(old));
   }
 }
