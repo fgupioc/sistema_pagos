@@ -452,7 +452,7 @@ export class ModalNuevaTareasComponent implements OnInit {
 
   guardarCometario() {
     if (this.comentario.trim().length == 0) {
-      Swal.fire('Crear Comentario', 'Debe ingresar un comentario valido.', 'warning');
+      Swal.fire('Crear Comentario', 'Debe ingresar un comentario válido.', 'warning');
       return;
     }
     const comment: TareaActividad = {

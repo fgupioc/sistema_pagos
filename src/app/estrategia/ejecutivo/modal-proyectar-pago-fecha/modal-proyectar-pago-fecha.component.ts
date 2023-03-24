@@ -82,7 +82,7 @@ export class ModalProyectarPagoFechaComponent implements OnInit {
     if (cuota) {
       Swal.fire({
         title: '¿Esta Seguro?',
-        text: 'Se proyectara el monto a la fecha selecionada.',
+        text: 'Se proyectará el monto a la fecha selecionada.',
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',

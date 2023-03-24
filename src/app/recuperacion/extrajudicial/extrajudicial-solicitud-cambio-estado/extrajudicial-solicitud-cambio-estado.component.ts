@@ -128,7 +128,7 @@ export class ExtrajudicialSolicitudCambioEstadoComponent implements OnInit {
     }
 
     if (tipoBusqueda == '3' && !init.isValid() || tipoBusqueda == '3' && inicio.trim().length > 10) {
-      this.formGroupMsj = 'El campo fecha de inico no es valido.';
+      this.formGroupMsj = 'El campo fecha de inico no es válido.';
       this.formGroupInvalid = true;
       return;
     }

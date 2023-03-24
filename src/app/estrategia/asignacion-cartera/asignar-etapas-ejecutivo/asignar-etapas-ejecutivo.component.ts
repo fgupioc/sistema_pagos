@@ -487,7 +487,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     const desde = Number(event);
     const hasta = Number(to.value);
     if (desde < 0) {
-      this.errorMonto = 'El monto desde no es valido.';
+      this.errorMonto = 'El monto desde no es válido.';
     } else {
       if (desde > hasta && hasta > 0) {
         this.errorMonto = 'El monto desde no puede ser inferior al mondo hasta.';
@@ -503,7 +503,7 @@ export class AsignarEtapasEjecutivoComponent implements OnInit {
     const desde = Number(from.value);
     const hasta = Number(event);
     if (hasta < 0) {
-      this.errorMonto = 'El monto desde no es valido.';
+      this.errorMonto = 'El monto desde no es válido.';
     } else {
       if (hasta < desde) {
         this.errorMonto = 'El monto hasta no puede ser inferior al mondo desde.';

@@ -223,7 +223,7 @@
                     <ng-container
                       *ngIf="(form.controls.tipoContacto.value == '1' || form.controls.tipoContacto.value == '3') && showRespuesta">
                       <div class="col-12 col-md-4">
-                        <label>Número telefonico</label>
+                        <label>Número telefónico</label>
                         <div class="input-group">
                           <select class="form-control" formControlName="telefono">
                             <option value="">Seleccione</option>
@@ -373,7 +373,7 @@
                             </div>
                             <div class="col-4">
                               <div class="form-group">
-                                <label>M. Retante</label>
+                                <label>M. Restante</label>
                                 <input CustomizeCurrency Uppercase type="text" class="form-control"
                                        formControlName="montoRestante">
                               </div>
@@ -431,7 +431,7 @@
                                   <input type="text" class="form-control"  [value]="item.monto | currency: ' '" (change)="cambioValorCuota(item, $event)">
                                 </div>
                                 <div class="col-4 col-md-4">
-                                  <label class="col-form-label" style="text-align: right">f. Pago: {{ item.fecha | date: 'dd/MM/yyyy'}}</label>
+                                  <label class="col-form-label" style="text-align: right">Fecha Pago: {{ item.fecha | date: 'dd/MM/yyyy'}}</label>
                                 </div>
                               </div>
                             </div>
@@ -642,7 +642,7 @@
                                                     </div>
                                                   </div>
                                                   <div class="col-12 col-md-6" *ngIf="item.tipoContacto == '1'">
-                                                    <label>Número telefonico</label>
+                                                    <label>Número telefónico</label>
                                                     <div class="input-group">
                                                       <select class="form-control" [(ngModel)]="$target">
                                                         <option value="">Seleccione</option>
@@ -920,15 +920,15 @@
                   <table datatable [dtOptions]="dtOptions" class="table table-bordered ">
                     <thead>
                     <tr class="text-center">
-                      <th>Num. Cuota</th>
+                      <th>Núm. Cuota</th>
                       <th>Monto Cuota</th>
-                      <th>Interes</th>
+                      <th>Interés</th>
                       <th>Fecha Vencimiento</th>
                       <th>Fecha Pago</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let item of credito.cronogramas" [class]="isPay(item)"
+                    <tr *ngFor="let item of credito.cronogramas"
                         style="font-size: 12px; text-align: center">
 
                       <td>{{ item.nroCuota }} </td>

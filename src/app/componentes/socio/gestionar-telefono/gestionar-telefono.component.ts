@@ -162,7 +162,7 @@ export class GestionarTelefonoComponent implements OnInit {
     if (codigo.length == 2) {
       if (codLima != codigo) {
         this.formulario.controls.codCiudad.setValue('');
-        Swal.fire('Telefono', 'El código no es valido.', 'error');
+        Swal.fire('Telefono', 'El código no es válido.', 'error');
         return;
       } else {
         this.max = 7;
@@ -171,7 +171,7 @@ export class GestionarTelefonoComponent implements OnInit {
     } else if (codigo.length == 3) {
       if (codigos.indexOf(codigo) == -1) {
         this.formulario.controls.codCiudad.setValue('');
-        Swal.fire('Telefono', 'El código no es valido.', 'error');
+        Swal.fire('Telefono', 'El código no es válido.', 'error');
         return;
       } else {
         this.max = 6;
@@ -179,7 +179,7 @@ export class GestionarTelefonoComponent implements OnInit {
       }
     } else {
       this.formulario.controls.codCiudad.setValue('');
-      Swal.fire('Telefono', 'El código no es valido.', 'error');
+      Swal.fire('Telefono', 'El código no es válido.', 'error');
       return;
     }
   }

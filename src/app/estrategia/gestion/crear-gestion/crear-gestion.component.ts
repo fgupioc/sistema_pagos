@@ -80,7 +80,7 @@ export class CrearGestionComponent implements OnInit {
         }
       });
       if (!flag) {
-        Swal.fire('Crear Etapa', 'La cantidad del campo desde no es valido.', 'error');
+        Swal.fire('Crear Etapa', 'La cantidad del campo desde no es válido.', 'error');
         this.formGestion.controls.desde.setValue(0);
         return;
       }
@@ -91,7 +91,7 @@ export class CrearGestionComponent implements OnInit {
     const hasta = Number(this.formGestion.controls.hasta.value);
     const desde = Number(this.formGestion.controls.desde.value);
     if (hasta <= desde) {
-      Swal.fire('Crear Etapa', 'La cantidad del campo hasta no es valido.', 'error');
+      Swal.fire('Crear Etapa', 'La cantidad del campo hasta no es válido.', 'error');
       this.formGestion.controls.hasta.setValue(0);
       return;
     }
@@ -289,7 +289,7 @@ export class CrearGestionComponent implements OnInit {
     }
 
     if (hasta <= desde) {
-      Swal.fire('Crear sub-Etapa', 'La cantidad del campo hasta no es valido.', 'error');
+      Swal.fire('Crear sub-Etapa', 'La cantidad del campo hasta no es válido.', 'error');
       this.hastaTemp.setValue(desde + 1);
       return;
     }

@@ -1377,7 +1377,7 @@ export class MisGestionesDetalleComponent implements OnInit {
     if (this.comentario.trim().length == 0) {
       Swal.fire(
         'Crear Comentario',
-        'Debe ingresar un comentario valido.',
+        'Debe ingresar un comentario válido.',
         'warning'
       );
       return;

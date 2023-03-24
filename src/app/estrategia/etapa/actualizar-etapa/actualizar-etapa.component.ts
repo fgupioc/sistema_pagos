@@ -92,7 +92,7 @@ export class ActualizarEtapaComponent implements OnInit {
     const desde = Number(this.formEtapa.controls.desde.value);
 
     if (desde < this.gestion.desde || desde > this.gestion.hasta) {
-      Swal.fire('Actualizar Etapa', 'El valor del  campo desde no es valido.', 'error');
+      Swal.fire('Actualizar Etapa', 'El valor del  campo desde no es válido.', 'error');
       this.formEtapa.controls.desde.setValue(0);
       return;
     }
@@ -106,7 +106,7 @@ export class ActualizarEtapaComponent implements OnInit {
           }
         });
         if (!flag) {
-          Swal.fire('Actualizar Etapa', 'La cantidad del campo desde no es valido.', 'error');
+          Swal.fire('Actualizar Etapa', 'La cantidad del campo desde no es válido.', 'error');
           this.formEtapa.controls.desde.setValue(0);
           return;
         }
@@ -121,7 +121,7 @@ export class ActualizarEtapaComponent implements OnInit {
           }
         });
         if (!flag) {
-          Swal.fire('Actualizar Etapa', 'La cantidad del campo desde no es valido.', 'error');
+          Swal.fire('Actualizar Etapa', 'La cantidad del campo desde no es válido.', 'error');
           this.formEtapa.controls.desde.setValue(this.gestion.desde);
           return;
         }
@@ -134,20 +134,20 @@ export class ActualizarEtapaComponent implements OnInit {
     const hasta = Number(this.formEtapa.controls.hasta.value);
 
     if (hasta < this.gestion.desde || hasta > this.gestion.hasta) {
-      Swal.fire('Actualizar Etapa', 'El valor del  campo hasta no es valido.', 'error');
+      Swal.fire('Actualizar Etapa', 'El valor del  campo hasta no es válido.', 'error');
       this.formEtapa.controls.hasta.setValue(0);
       return;
     }
 
     if (this.create) {
       if (hasta <= desde) {
-        Swal.fire('Actualizar Etapa', 'La cantidad del campo hasta no es valido.', 'error');
+        Swal.fire('Actualizar Etapa', 'La cantidad del campo hasta no es válido.', 'error');
         this.formEtapa.controls.hasta.setValue(0);
         return;
       }
     } else {
       if (hasta <= desde) {
-        Swal.fire('Actualizar Etapa', 'La cantidad del campo hasta no es valido.', 'error');
+        Swal.fire('Actualizar Etapa', 'La cantidad del campo hasta no es válido.', 'error');
         this.formEtapa.controls.hasta.setValue(this.etapas[this.index].hasta);
         return;
       }
