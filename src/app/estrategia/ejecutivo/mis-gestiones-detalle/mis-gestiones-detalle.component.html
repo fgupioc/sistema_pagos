@@ -4,6 +4,9 @@
       class="card-title text-uppercase font-weight-bold">Bitacora de Gestión del Crédito : {{ credito.nroCredito }} </span>
     <span *ngIf="credito.fechaUltimoPago" style="font-size: 15px"
           class="badge badge-success">El socio realizó el pago: {{ funciones.formatDate(credito.fechaUltimoPago, 'DD/MM/YYYY')}}</span>
+    <div class="card-tools">
+      <a class="btn btn-sm btn-primary" routerLink="/auth/gestion-administrativa/mis-gestiones"><i class="fa fa-arrow-left"></i> Regresar</a>
+    </div>
   </div>
   <div class="card-body">
     <section *ngIf="cartera && socio">

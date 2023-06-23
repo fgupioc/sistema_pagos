@@ -229,3 +229,8 @@ textarea {
 .cont-time select::-ms-expand {
     display: none;
 }
+
+.card-header>.card-tools {
+  float: right;
+  margin-right: -0.625rem;
+}

@@ -178,7 +178,7 @@ export class GestionCarteraComponent implements OnInit {
     const ultimo = Number(this.hasta.value);
     const ultimoTemp = Number(this.desdeTemp.value);
     if (ultimoTemp > ultimo) {
-      Swal.fire('', 'La cantidad no es valida.', 'warning');
+      Swal.fire('', 'La cantidad no es válida.', 'warning');
       this.hastaTemp.setValue(ultimo);
       return;
     }

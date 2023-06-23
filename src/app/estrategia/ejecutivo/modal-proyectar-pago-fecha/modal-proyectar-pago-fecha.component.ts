@@ -99,7 +99,7 @@ export class ModalProyectarPagoFechaComponent implements OnInit {
 
   verificarFecha() {
     if (this.validarFecha()) {
-      Swal.fire('Proyectar Fecha', 'La fecha seleccionada no es valida. La fecha no debe ser mayor a la próxima fecha de vencimiento.', 'warning');
+      Swal.fire('Proyectar Fecha', 'La fecha seleccionada no es válida. La fecha no debe ser mayor a la próxima fecha de vencimiento.', 'warning');
       this.fecha.setValue(this.$fechaProximoVencimiento);
     }
   }
