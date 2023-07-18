@@ -72,7 +72,7 @@ export class CarteraCargarCreditoComponent implements OnInit {
     const carteraId = this.carteraId;
     this.spinner.show();
     if (carteraId) {
-      this.carteraService.cargarCreditosCartera(carteraId, moment(this.fechaCarga).format('DD/MM/YYYY')).subscribe(
+      this.carteraService.cargarCreditosCartera(carteraId).subscribe(
         res => {
           this.spinner.hide();
           Swal.fire('Cargar Créditos', `<b>Total de Créditos: </b> ${res.creditos} </br> <b>Créditos Nuevos: </b> ${res.creditosNew} </br> <b>Créditos Actualizados: </b> ${res.creditosUpdate} </br>`, 'success');
@@ -90,5 +90,20 @@ export class CarteraCargarCreditoComponent implements OnInit {
   getUltimoDiaMesAnterior() {
     const date = moment().subtract(1, 'month');
     this.fechaCarga = date.endOf('month').format('YYYY-MM-DD');
+  }
+
+  llenarTabla() {
+    this.spinner.show();
+    this.carteraService.cargarCreditosTablaMaster().subscribe(
+      res => {
+        this.spinner.hide();
+        Swal.fire('Procesar tablas', 'procesado...', 'success');
+        this.carteraService.cargarSociosSinDatos();
+      },
+      ({error: {message}}) => {
+        this.spinner.hide();
+        Swal.fire('Procesar tablas', message ? message : 'Ocurrió un error en el proceso de carga...', 'error');
+      }
+    );
   }
 }

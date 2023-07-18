@@ -4,11 +4,14 @@
             <div class="card-header">
                 <i class="fa fa-align-justify"></i>
                 <span class="card-title text-uppercase font-weight-bold">Importación de cartera</span>
+              <div class="box-tools float-right">
+                <button class="btn btn-sm btn-primary" (click)="llenarTabla()"><i class="fa fa-refresh"></i> Ejecutar</button>
+              </div>
             </div>
             <div class="card-body">
                 <form class="form-horizontal ng-untouched ng-pristine ng-valid">
                     <div class="form-group row">
-                        <div class="col-6 col-md-8">
+                        <div class="col-12 col-md-6">
                           <div class="form-group">
                             <label for="carteraId">Cartera *</label>
                               <select id="carteraId" class="form-control" (change)="actualizar()" [(ngModel)]="carteraId" name="carteraId">
@@ -16,6 +19,7 @@
                               </select>
                           </div>
                         </div>
+                      <!--
                       <div class="col-6 col-md-4">
                         <div class="form-group">
                           <label for="fechaCarga">Fecha carga*</label>
@@ -23,6 +27,7 @@
                           <small class="form-text text-muted">Seleccione el último día del mes anterior.</small>
                         </div>
                       </div>
+                      -->
                     </div>
                 </form>
                 <table *ngIf="false" class="table table-responsive-sm table-bordered table-striped table-sm">
